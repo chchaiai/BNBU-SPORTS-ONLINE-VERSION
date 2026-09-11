@@ -1,0 +1,66 @@
+CONTAINER ID   NAME                               CPU %     MEM USAGE / LIMIT     MEM %     NET I/O          BLOCK I/O         PIDS
+4d2eedabfef6   bnbu-perf-monitor                  11.80%    39.16MiB / 256MiB     15.30%    0B / 0B          77.8kB / 1.97MB   18
+6b6218063172   bnbu-sports-production-portal-1    0.00%     130.2MiB / 512MiB     25.43%    658kB / 30.9MB   19.5MB / 0B       24
+a81a4781b1b0   bnbu-sports-production-backend-1   0.21%     368.7MiB / 1.172GiB   30.72%    229MB / 300MB    101MB / 17.1MB    11
+{
+  "time": "2026-09-11T07:01:45Z",
+  "hostname": "VM-0-13-ubuntu",
+  "cpus": "2",
+  "memory": "total        used        free      shared  buff/cache   available\nMem:            3655        1966         278           2        1410        1398\nSwap:              0           0           0",
+  "disk": "Filesystem      Size  Used Avail Use% Mounted on\n/dev/vda2        59G   18G   39G  32% /",
+  "release": "/opt/bnbu-sports-production/releases/3957d4249031-continuity",
+  "dockerVersion": "Docker version 29.8.0, build 88096ef",
+  "nginx": {
+    "/etc/nginx/nginx.conf": "user www-data;\nworker_processes auto;\npid /run/nginx.pid;\ninclude /etc/nginx/modules-enabled/*.conf;\n\nevents {\n\tworker_connections 768;\n\t# multi_accept on;\n}\n\nhttp {\n\n\t##\n\t# Basic Settings\n\t##\n\n\tsendfile on;\n\ttcp_nopush on;\n\ttypes_hash_max_size 2048;\n\t# server_tokens off;\n\n\t# server_names_hash_bucket_size 64;\n\t# server_name_in_redirect off;\n\n\tinclude /etc/nginx/mime.types;\n\tdefault_type application/octet-stream;\n\n\t##\n\t# SSL Settings\n\t##\n\n\tssl_protocols TLSv1 TLSv1.1 TLSv1.2 TLSv1.3; # Dropping SSLv3, ref: POODLE\n\tssl_prefer_server_ciphers on;\n\n\t##\n\t# Logging Settings\n\t##\n\n\taccess_log /var/log/nginx/access.log;\n\terror_log /var/log/nginx/error.log;\n\n\t##\n\t# Gzip Settings\n\t##\n\n\tgzip on;\n\n\t# gzip_vary on;\n\t# gzip_proxied any;\n\t# gzip_comp_level 6;\n\t# gzip_buffers 16 8k;\n\t# gzip_http_version 1.1;\n\t# gzip_types text/plain text/css application/json application/javascript text/xml application/xml application/xml+rss text/javascript;\n\n\t##\n\t# Virtual Host Configs\n\t##\n\n\tinclude /etc/nginx/conf.d/*.conf;\n\tinclude /etc/nginx/sites-enabled/*;\n}\n\n\n#mail {\n#\t# See sample authentication script at:\n#\t# http://wiki.nginx.org/ImapAuthenticateWithApachePhpScript\n#\n#\t# auth_http localhost/auth.php;\n#\t# pop3_capabilities \"TOP\" \"USER\";\n#\t# imap_capabilities \"IMAP4rev1\" \"UIDPLUS\";\n#\n#\tserver {\n#\t\tlisten     localhost:110;\n#\t\tprotocol   pop3;\n#\t\tproxy      on;\n#\t}\n#\n#\tserver {\n#\t\tlisten     localhost:143;\n#\t\tprotocol   imap;\n#\t\tproxy      on;\n#\t}\n#}\n",
+    "/etc/nginx/sites-available/bnbu-staging-hk.conf": "server {\n    listen 80;\n    listen [::]:80;\n    server_name www.student.bnbusports.cn www.teacher.bnbusports.cn;\n    location ^~ /.well-known/acme-challenge/ { root /var/lib/letsencrypt; try_files $uri =404; }\n    location / { return 308 https://$host$request_uri; }\n}\nserver {\n    listen 443 ssl http2;\n    listen [::]:443 ssl http2;\n    server_name www.student.bnbusports.cn;\n    ssl_certificate /etc/letsencrypt/live/bnbu-staging-hk/fullchain.pem;\n    ssl_certificate_key /etc/letsencrypt/live/bnbu-staging-hk/privkey.pem;\n    ssl_protocols TLSv1.2 TLSv1.3;\n    server_tokens off;\n    add_header X-Content-Type-Options nosniff always;\n    add_header Referrer-Policy strict-origin-when-cross-origin always;\n    add_header Cache-Control no-store always;\n    root /opt/bnbu-sports-production/current/web;\n    location = /runtime-config.js { try_files $uri =404; }\n    location = / { return 302 /student/; }\n    location /student/ { try_files $uri $uri/ =404; }\n    location /api/v1/ {\n        proxy_pass http://127.0.0.1:3000;\n        proxy_set_header Host $host;\n        proxy_set_header X-Forwarded-Proto $scheme;\n        proxy_set_header X-Forwarded-For $remote_addr;\n        client_max_body_size 2m;\n        proxy_read_timeout 65s;\n        access_log off;\n    }\n    location / { return 404; }\n}\nserver {\n    listen 443 ssl http2;\n    listen [::]:443 ssl http2;\n    server_name www.teacher.bnbusports.cn;\n    ssl_certificate /etc/letsencrypt/live/bnbu-staging-hk/fullchain.pem;\n    ssl_certificate_key /etc/letsencrypt/live/bnbu-staging-hk/privkey.pem;\n    ssl_protocols TLSv1.2 TLSv1.3;\n    server_tokens off;\n    add_header X-Content-Type-Options nosniff always;\n    add_header Referrer-Policy strict-origin-when-cross-origin always;\n    add_header Cache-Control no-store always;\n    location /api/v1/ {\n        proxy_pass http://127.0.0.1:3000;\n        proxy_set_header Host $host;\n        proxy_set_header X-Forwarded-Proto $scheme;\n        proxy_set_header X-Forwarded-For $remote_addr;\n        client_max_body_size 2m;\n        proxy_read_timeout 65s;\n        access_log off;\n    }\n    location / {\n        proxy_pass http://127.0.0.1:3100;\n        proxy_set_header Host $host;\n        proxy_set_header X-Forwarded-Proto $scheme;\n        proxy_set_header X-Forwarded-For $remote_addr;\n    }\n}\n"
+  },
+  "dockerConfig": "{\n  \"log-driver\": \"json-file\",\n  \"log-opts\": {\n    \"max-size\": \"10m\",\n    \"max-file\": \"5\"\n  }\n}\n",
+  "containers": [
+    {
+      "name": "bnbu-sports-production-backend-1",
+      "image": "sha256:c332feb284f338de37fd59f7771a03cabd79a0c2cdf7f2c6b6bf7abf67ccd953",
+      "configImage": "bnbu-backend-production:27f9f25a-round2",
+      "startedAt": "2026-09-10T16:15:08.819795522Z",
+      "restartCount": 0,
+      "oomKilled": false,
+      "health": "healthy",
+      "memory": 1258291200,
+      "nanoCpus": 0,
+      "pidsLimit": 256,
+      "env": {
+        "APP_VERSION": "bugfix-20260910",
+        "APP_ENV": "production",
+        "REQUEST_TIMEOUT_MS": "10000",
+        "AUTH_RATE_LIMIT_WINDOW_SECONDS": "60",
+        "AUTH_RATE_LIMIT_MAX_ATTEMPTS": "20",
+        "MEDIA_WORKER_POLL_MS": "500",
+        "MEDIA_WORKER_ENABLED": "true",
+        "OCR_WORKER_ENABLED": "false",
+        "OCR_PROVIDER": "DISABLED"
+      },
+      "fdCount": 22
+    },
+    {
+      "name": "bnbu-sports-production-portal-1",
+      "image": "sha256:612b35637ce1bf2774b4d7a60b933b8410087041d33409b4bf783a495e218dcb",
+      "configImage": "bnbu-portal-production:2d4a49ca-round2",
+      "startedAt": "2026-09-10T17:36:51.826333961Z",
+      "restartCount": 0,
+      "oomKilled": false,
+      "health": "healthy",
+      "memory": 536870912,
+      "nanoCpus": 0,
+      "pidsLimit": 128,
+      "env": {},
+      "fdCount": 18
+    }
+  ],
+  "tcpSummary": "Total: 241\nTCP:   1796 (estab 6, closed 1781, orphaned 0, timewait 1774)\n\nTransport Total     IP        IPv6\nRAW\t  1         0         1        \nUDP\t  6         4         2        \nTCP\t  15        12        3        \nINET\t  22        16        6        \nFRAG\t  0         0         0",
+  "tcpCounters": "Ip: Forwarding DefaultTTL InReceives InHdrErrors InAddrErrors ForwDatagrams InUnknownProtos InDiscards InDelivers OutRequests OutDiscards OutNoRoutes ReasmTimeout ReasmReqds ReasmOKs ReasmFails FragOKs FragFails FragCreates\nIp: 1 64 7968740 0 2 3443869 0 0 4521556 7808783 0 0 0 0 0 0 0 0 0\nIcmp: InMsgs InErrors InCsumErrors InDestUnreachs InTimeExcds InParmProbs InSrcQuenchs InRedirects InEchos InEchoReps InTimestamps InTimestampReps InAddrMasks InAddrMaskReps OutMsgs OutErrors OutDestUnreachs OutTimeExcds OutParmProbs OutSrcQuenchs OutRedirects OutEchos OutEchoReps OutTimestamps OutTimestampReps OutAddrMasks OutAddrMaskReps\nIcmp: 383136 51 0 113 9 0 0 0 382999 15 0 0 0 0 385715 0 2716 0 0 0 0 0 382999 0 0 0 0\nIcmpMsg: InType0 InType3 InType8 InType11 OutType0 OutType3\nIcmpMsg: 15 113 382999 9 382999 2716\nTcp: RtoAlgorithm RtoMin RtoMax MaxConn ActiveOpens PassiveOpens AttemptFails EstabResets CurrEstab InSegs OutSegs RetransSegs InErrs OutRsts InCsumErrors\nTcp: 1 200 120000 -1 339322 48241 7527 8575 6 3841444 4064597 169328 503 14472 499\nUdp: InDatagrams NoPorts InErrors OutDatagrams RcvbufErrors SndbufErrors InCsumErrors IgnoredMulti MemErrors\nUdp: 289395 0 0 289395 0 0 0 0 0\nUdpLite: InDatagrams NoPorts InErrors OutDatagrams RcvbufErrors SndbufErrors InCsumErrors IgnoredMulti MemErrors\nUdpLite: 0 0 0 0 0 0 0 0 0\n",
+  "scanner": [
+    "MaxThreads 2",
+    "MaxQueue 4",
+    "MaxFileSize 512M",
+    "MaxScanSize 600M"
+  ]
+}

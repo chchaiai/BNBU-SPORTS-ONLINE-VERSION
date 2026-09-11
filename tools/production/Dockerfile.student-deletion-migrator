@@ -1,0 +1,4 @@
+FROM bnbu-migrator-production:27f9f25a-round2
+ARG SOURCE_COMMIT
+COPY --chown=node:node backend/prisma/migrations/0061_admin_student_erasure/ /app/prisma/migrations/0061_admin_student_erasure/
+LABEL org.opencontainers.image.revision="${SOURCE_COMMIT}"

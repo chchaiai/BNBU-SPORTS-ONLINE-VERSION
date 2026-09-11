@@ -38,6 +38,7 @@ import {
 } from "./api-client";
 import { ErrorPanel, localUserFacingError } from "./error-panel";
 import { TeacherMediaPreview } from './teacher-media-preview';
+import { TeacherMediaThumbnail } from './teacher-media-thumbnail';
 import { appendFinalGrade, correctRecord, decideRecord, fetchRecordWorkflow, revokeCertification, adjustRecognition } from "./v81-data";
 import {
   formatInviteExpiry,
@@ -1218,9 +1219,11 @@ function materialTypeLabel(_file: string) {
 
 function EvidenceMaterials({
   files,
+  mediaIds,
   onPreview,
 }: {
   files: string[];
+  mediaIds?: string[];
   onPreview: (file: string) => void;
 }) {
   return (
@@ -1237,13 +1240,13 @@ function EvidenceMaterials({
           const image = isImageMaterial(file);
           return (
             <button
-              className={`evidence-thumbnail ${image ? "evidence-thumbnail-image" : "evidence-thumbnail-document"} evidence-thumbnail-tone-${index % 4}`}
+              className={`evidence-thumbnail ${image ? "evidence-thumbnail-image" : "evidence-thumbnail-document"} evidence-thumbnail-real`}
               type="button"
               key={file}
               aria-label={`预览 ${file}`}
               onClick={() => onPreview(file)}
             >
-              <span>{materialTypeLabel(file)}</span>
+              <TeacherMediaThumbnail mediaId={mediaIds?.[index]} label={file}/><span className="media-type-label">{materialTypeLabel(file)}</span>
               <small>{file}</small>
             </button>
           );
@@ -3319,9 +3322,9 @@ export function TeacherWorkspace({
       student,
       ...getRosterProgress(student),
     }));
-    const activeStudents = rosterOverview.filter(
-      ({ student }) => student.status === "active",
-    );
+    const isCurrentMember = (student: Student) => student.status === "active" &&
+      !["CLOSED", "ARCHIVED"].includes(courses.find(course => course.id === student.courseId)?.status ?? "");
+    const activeStudents = rosterOverview.filter(({ student }) => isCurrentMember(student));
     const belowTargetCount = activeStudents.filter(
       (item) => item.totalPercent < 100,
     ).length;
@@ -3333,11 +3336,11 @@ export function TeacherWorkspace({
     const visible = rosterOverview
       .filter((item) => {
         if (rosterView === "needs_attention")
-          return item.student.status === "active" && item.totalPercent < 100;
+          return isCurrentMember(item.student) && item.totalPercent < 100;
         if (rosterView === "complete")
-          return item.student.status === "active" && item.totalPercent >= 100;
-        if (rosterView === "inactive") return item.student.status !== "active";
-        return true;
+          return isCurrentMember(item.student) && item.totalPercent >= 100;
+        if (rosterView === "inactive") return !isCurrentMember(item.student);
+        return isCurrentMember(item.student);
       })
       .filter(
         ({ student }) =>
@@ -3370,7 +3373,7 @@ export function TeacherWorkspace({
             <PageSummaryMetrics
               ariaLabel="学生管理核心统计"
               items={[
-                { label: "学生总数", value: students.length },
+                { label: "学生总数", value: activeStudents.length },
                 {
                   label: "未达标人数",
                   value: belowTargetCount,
@@ -3386,7 +3389,7 @@ export function TeacherWorkspace({
             value={rosterView}
             onChange={setRosterView}
             options={[
-              { value: "all", label: "全部", count: students.length },
+              { value: "all", label: "在课成员", count: activeStudents.length },
               {
                 value: "needs_attention",
                 label: "待跟进",
@@ -3478,7 +3481,7 @@ export function TeacherWorkspace({
                         <div>
                           {studentIdentity(
                             student,
-                            student.status === "active"
+                            isCurrentMember(student)
                               ? [
                                   ...(mode === "real" ? [{
                                     label: "授权补练",
@@ -3533,13 +3536,13 @@ export function TeacherWorkspace({
                         <div className="roster-status">
                           <Badge
                             tone={
-                              student.status === "active" ? "green" : "gray"
+                              isCurrentMember(student) ? "green" : "gray"
                             }
                           >
                             {membershipStatusLabel(student.status)}
                           </Badge>
                           <small>
-                            {student.status === "active"
+                            {isCurrentMember(student)
                               ? (mode !== "demo" && !student.progressAvailable ? "进度暂不可用" : `总完成率 ${totalPercent}%`)
                               : "历史只读"}
                           </small>
@@ -3547,7 +3550,7 @@ export function TeacherWorkspace({
                       </td>
                       <td className="action-column">
                         <div className="horizontal-actions roster-row-action">
-                          {student.status === "active" ? (
+                          {isCurrentMember(student) ? (
                             <button
                               className="row-primary-action danger-link roster-remove-action"
                               type="button"
@@ -3997,7 +4000,7 @@ export function TeacherWorkspace({
                             openCheckinDetail(record, index);
                           }}
                         >
-                          <span>{isVideoMaterial(proof) ? "▶" : "图"}</span>
+                          <TeacherMediaThumbnail mediaId={record.mediaIds?.[index]} label={`凭证 ${index+1}`}/>
                           <span className="record-proof-copy">
                             <b>{proofMaterialLabel(proof)}</b>
                             <small>凭证 {index + 1}</small>
@@ -4071,16 +4074,14 @@ export function TeacherWorkspace({
                             record.proof.map((proof, index) => (
                               <button
                                 type="button"
-                                className={`proof-thumbnail proof-thumbnail-${(record.id.length + index) % 5}`}
+                                className="proof-thumbnail proof-thumbnail-real"
                                 key={proof}
                                 title={`查看 ${proof}`}
                                 onClick={() => {
                                   openCheckinDetail(record, index);
                                 }}
                               >
-                                <span>
-                                  {isVideoMaterial(proof) ? "▶" : "图"}
-                                </span>
+                                <TeacherMediaThumbnail mediaId={record.mediaIds?.[index]} label={`凭证 ${index+1}`}/>
                                 <small>
                                   {proofMaterialLabel(proof)} {" · "}凭证{" "}
                                   {index + 1}
@@ -4226,14 +4227,7 @@ export function TeacherWorkspace({
               <p className="admin-planned-banner">
                 本页显示教师手填的最终成绩，保存与发布均保留服务端历史版本。
               </p>
-              <button
-                className="secondary-button"
-                type="button"
-                disabled
-                title="当前接口不能把换算分发给学生，发布仍只形成内部成绩版本。"
-              >
-                向学生披露换算分、等级或排名
-              </button>
+
               <p className="record-audit-hint">当前接口不能把换算分发给学生，发布仍只形成内部成绩版本。</p>
             </div>
           }
@@ -4373,14 +4367,7 @@ export function TeacherWorkspace({
                 { value: "exception", label: "缺考", count: absentCount },
               ]}
             />
-            <button
-              className="secondary-button"
-              type="button"
-              disabled
-              title="当前接口不能把换算分发给学生，发布仍只形成内部成绩版本。"
-            >
-              向学生披露换算分、等级或排名
-            </button>
+
             <p className="record-audit-hint">当前接口不能把换算分发给学生，发布仍只形成内部成绩版本。</p>
           </div>
         }
@@ -4694,7 +4681,7 @@ export function TeacherWorkspace({
                               } else openMaterialPreview(file,student?.name ?? '该学生');
                             }}
                           >
-                            <span>{materialTypeLabel(file)}</span>
+                            <TeacherMediaThumbnail mediaId={item.mediaIds?.[index]} label={file}/><span className="media-type-label">{materialTypeLabel(file)}</span>
                           </button>
                         ))}
                         {item.material.length > 2 && (
@@ -6111,6 +6098,7 @@ export function TeacherWorkspace({
                 {recognitionHistoryError&&<p role="alert">{recognitionHistoryError}</p>}
                 {recognitionHistory.map(revision=><p key={revision.id}>认可历史 v{revision.revisionNumber}：课程运动 {revision.courseSeconds/60} 分钟，其他运动 {revision.generalSeconds/60} 分钟 · {revision.active?'有效':'已撤销'} · {revision.reason}</p>)}
                 <EvidenceMaterials
+                  mediaIds={mode === 'demo' ? undefined : selectedExemption.mediaIds}
                   files={selectedExemption.material}
                   onPreview={(file) => {
                     if (mode === "demo") {

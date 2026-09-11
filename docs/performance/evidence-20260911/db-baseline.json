@@ -1,0 +1,189 @@
+{
+  "time": "2026-09-11T06:46:18.161Z",
+  "version": [
+    {
+      "version": "PostgreSQL 18.6 on x86_64-pc-linux-gnu, compiled by gcc (GCC) 10.2.0, 64-bit",
+      "database_bytes": "23410367"
+    }
+  ],
+  "tables": [
+    {
+      "relname": "exemption_review_records",
+      "n_live_tup": "9",
+      "n_dead_tup": "0",
+      "seq_scan": "14",
+      "seq_tup_read": "1",
+      "idx_scan": "13"
+    },
+    {
+      "relname": "v81_admin_subjects",
+      "n_live_tup": "8",
+      "n_dead_tup": "0",
+      "seq_scan": "6",
+      "seq_tup_read": "8",
+      "idx_scan": "0"
+    },
+    {
+      "relname": "exemption_applications",
+      "n_live_tup": "8",
+      "n_dead_tup": "14",
+      "seq_scan": "24",
+      "seq_tup_read": "39",
+      "idx_scan": "2095"
+    },
+    {
+      "relname": "enrollment_status_events",
+      "n_live_tup": "8",
+      "n_dead_tup": "0",
+      "seq_scan": "13",
+      "seq_tup_read": "24",
+      "idx_scan": "0"
+    },
+    {
+      "relname": "email_verification_challenges",
+      "n_live_tup": "8",
+      "n_dead_tup": "15",
+      "seq_scan": "9",
+      "seq_tup_read": "24",
+      "idx_scan": "37"
+    },
+    {
+      "relname": "join_capabilities",
+      "n_live_tup": "8",
+      "n_dead_tup": "8",
+      "seq_scan": "17",
+      "seq_tup_read": "24",
+      "idx_scan": "48"
+    },
+    {
+      "relname": "admin_profiles",
+      "n_live_tup": "8",
+      "n_dead_tup": "0",
+      "seq_scan": "11",
+      "seq_tup_read": "8",
+      "idx_scan": "755"
+    },
+    {
+      "relname": "exercise_records",
+      "n_live_tup": "8",
+      "n_dead_tup": "10",
+      "seq_scan": "174",
+      "seq_tup_read": "806",
+      "idx_scan": "2958"
+    },
+    {
+      "relname": "notifications",
+      "n_live_tup": "73",
+      "n_dead_tup": "4",
+      "seq_scan": "12",
+      "seq_tup_read": "41",
+      "idx_scan": "1354"
+    },
+    {
+      "relname": "v81_application_materials",
+      "n_live_tup": "7",
+      "n_dead_tup": "0",
+      "seq_scan": "4",
+      "seq_tup_read": "1",
+      "idx_scan": "38"
+    },
+    {
+      "relname": "course_invites",
+      "n_live_tup": "7",
+      "n_dead_tup": "3",
+      "seq_scan": "21",
+      "seq_tup_read": "12",
+      "idx_scan": "82"
+    },
+    {
+      "relname": "exemption_application_media",
+      "n_live_tup": "7",
+      "n_dead_tup": "2",
+      "seq_scan": "9",
+      "seq_tup_read": "1",
+      "idx_scan": "539"
+    },
+    {
+      "relname": "v81_course_rules",
+      "n_live_tup": "7",
+      "n_dead_tup": "0",
+      "seq_scan": "44",
+      "seq_tup_read": "94",
+      "idx_scan": "392921"
+    },
+    {
+      "relname": "v81_admin_access",
+      "n_live_tup": "7",
+      "n_dead_tup": "2",
+      "seq_scan": "33",
+      "seq_tup_read": "110",
+      "idx_scan": "8617"
+    },
+    {
+      "relname": "idempotency_records",
+      "n_live_tup": "699",
+      "n_dead_tup": "788",
+      "seq_scan": "11",
+      "seq_tup_read": "1184",
+      "idx_scan": "1636"
+    },
+    {
+      "relname": "v81_events",
+      "n_live_tup": "68",
+      "n_dead_tup": "0",
+      "seq_scan": "10",
+      "seq_tup_read": "74",
+      "idx_scan": "6772"
+    },
+    {
+      "relname": "audit_logs",
+      "n_live_tup": "679",
+      "n_dead_tup": "3",
+      "seq_scan": "21",
+      "seq_tup_read": "1854",
+      "idx_scan": "26"
+    },
+    {
+      "relname": "_prisma_migrations",
+      "n_live_tup": "60",
+      "n_dead_tup": "11",
+      "seq_scan": "5428",
+      "seq_tup_read": "323254",
+      "idx_scan": "120"
+    },
+    {
+      "relname": "v81_material_versions",
+      "n_live_tup": "6",
+      "n_dead_tup": "0",
+      "seq_scan": "4",
+      "seq_tup_read": "3",
+      "idx_scan": "20"
+    },
+    {
+      "relname": "v81_record_workflows",
+      "n_live_tup": "6",
+      "n_dead_tup": "6",
+      "seq_scan": "29117",
+      "seq_tup_read": "62458",
+      "idx_scan": "285"
+    }
+  ],
+  "extensions": [
+    {
+      "extname": "plpgsql"
+    }
+  ],
+  "stats": {
+    "error": "42P01"
+  },
+  "fixture": [
+    {
+      "users": 203,
+      "active_users": 203,
+      "enrollments": 200,
+      "sessions": 1,
+      "open_sessions": 0,
+      "records": 0
+    }
+  ]
+}

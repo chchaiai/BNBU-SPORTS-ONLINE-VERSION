@@ -1,0 +1,45 @@
+{
+  "time": "2026-09-11T07:14:03Z",
+  "checks": {
+    "releaseUnchanged": true,
+    "nginxUnchanged": true,
+    "dockerConfigUnchanged": true,
+    "bnbu-sports-production-backend-1/name": true,
+    "bnbu-sports-production-backend-1/image": true,
+    "bnbu-sports-production-backend-1/startedAt": true,
+    "bnbu-sports-production-backend-1/restartCount": true,
+    "bnbu-sports-production-backend-1/oomKilled": true,
+    "bnbu-sports-production-backend-1/health": true,
+    "bnbu-sports-production-backend-1/memory": true,
+    "bnbu-sports-production-backend-1/nanoCpus": true,
+    "bnbu-sports-production-backend-1/pidsLimit": true,
+    "bnbu-sports-production-backend-1/env": true,
+    "bnbu-sports-production-portal-1/name": true,
+    "bnbu-sports-production-portal-1/image": true,
+    "bnbu-sports-production-portal-1/startedAt": true,
+    "bnbu-sports-production-portal-1/restartCount": true,
+    "bnbu-sports-production-portal-1/oomKilled": true,
+    "bnbu-sports-production-portal-1/health": true,
+    "bnbu-sports-production-portal-1/memory": true,
+    "bnbu-sports-production-portal-1/nanoCpus": true,
+    "bnbu-sports-production-portal-1/pidsLimit": true,
+    "bnbu-sports-production-portal-1/env": true,
+    "fixtureAccountsInactive": true,
+    "fixtureNoOpenSessions": true,
+    "historyPreserved": true,
+    "publicRecovery": true
+  },
+  "result": "PASS",
+  "finalMemory": "total        used        free      shared  buff/cache   available\nMem:            3655        1902         328           2        1424        1463\nSwap:              0           0           0",
+  "finalDisk": "Filesystem      Size  Used Avail Use% Mounted on\n/dev/vda2        59G   18G   39G  32% /",
+  "databaseFixture": [
+    {
+      "users": 203,
+      "active_users": 0,
+      "enrollments": 200,
+      "sessions": 2096,
+      "open_sessions": 0,
+      "records": 2000
+    }
+  ]
+}

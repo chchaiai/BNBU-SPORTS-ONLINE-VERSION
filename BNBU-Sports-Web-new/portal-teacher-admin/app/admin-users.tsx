@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { confirmTeacherAccounts, previewTeacherAccounts } from './teacher-import-api';
+import { AdminStudentDeletion } from './admin-student-deletion';
 import { AppSelect } from "./app-select";
 import { pageItems } from "./admin-domain";
 import { adminCopy, adminErrorCopy } from "./admin-i18n";
@@ -65,6 +66,7 @@ export function AdminUsers({ locale }: { locale: AdminLocale }) {
   const [college, setCollege] = useState("all");
   const [page, setPage] = useState(1);
   const [studentDetail, setStudentDetail] = useState<StudentProfileProjection | null>(null);
+  const [studentDeleteTarget, setStudentDeleteTarget] = useState<StudentProfileProjection | null>(null);
   const [teacherDetail, setTeacherDetail] = useState<TeacherProfileProjection | null>(null);
   const [importOpen, setImportOpen] = useState(false);
   const [csvText, setCsvText] = useState(teacherCsvTemplate);
@@ -82,8 +84,9 @@ export function AdminUsers({ locale }: { locale: AdminLocale }) {
   const [deleteTarget, setDeleteTarget] = useState<{ teacher: TeacherProfileProjection; assignedCourseCount: number } | null>(null);
   const [deleteReason, setDeleteReason] = useState("");
   const [deletingTeacher,setDeletingTeacher]=useState(false);
+  const [teacherDeletePending,setTeacherDeletePending]=useState(false);
   const [teacherDeleteError,setTeacherDeleteError]=useState<UserFacingError|null>(null);
-  const teacherDeleteIntent=useRef<{key:string;id:string;body:{expectedVersion:number;confirmationEmployeeNumber:string;reason:string}}|null>(null);
+  const teacherDeleteIntent=useRef<{key:string;id:string;body:{expectedVersion:number;confirmationEmployeeNumber:string;reason:string;confirmStudentErasure:true}}|null>(null);
   const [deleteConfirmation, setDeleteConfirmation] = useState("");
 
   const load = useCallback(async () => {
@@ -128,8 +131,8 @@ export function AdminUsers({ locale }: { locale: AdminLocale }) {
   const studentTitle = locale === "zh" ? "学生账户" : "Student accounts";
   const teacherTitle = locale === "zh" ? "教师账户" : "Teacher accounts";
   const studentDescription = locale === "zh"
-    ? "仅查看学生资料与当前状态：ACTIVE 表示已进班，PENDING 表示已绑定邮箱但已退班。"
-    : "View student profiles and current status only: ACTIVE means enrolled; PENDING means email-bound but withdrawn.";
+    ? "查看学生资料与当前状态，可在详情中删除学生账号及历史记录。"
+    : "View student profiles and current status. Delete an account and its history from the details panel.";
   const teacherDescription = locale === "zh"
     ? "批量建立教师账号；删除功能暂时无法实现，敬请期待。"
     : "Create teacher accounts in batches. Account deletion is not available yet. Please stay tuned.";
@@ -241,16 +244,15 @@ export function AdminUsers({ locale }: { locale: AdminLocale }) {
   async function confirmTeacherDelete() {
     if (!deleteTarget || deletingTeacher) return;
     if(mode==='real'){
-      teacherDeleteIntent.current??={key:crypto.randomUUID(),id:deleteTarget.teacher.id,body:{expectedVersion:deleteTarget.teacher.version,confirmationEmployeeNumber:deleteConfirmation.trim(),reason:deleteReason.trim()}};
-      const intent=teacherDeleteIntent.current;setDeletingTeacher(true);setTeacherDeleteError(null);
+      teacherDeleteIntent.current??={key:crypto.randomUUID(),id:deleteTarget.teacher.id,body:{expectedVersion:deleteTarget.teacher.version,confirmationEmployeeNumber:deleteConfirmation.trim(),reason:deleteReason.trim(),confirmStudentErasure:true}};
+      const intent=teacherDeleteIntent.current;setTeacherDeletePending(true);setDeletingTeacher(true);setTeacherDeleteError(null);
       try{
         const result=await request<{id:string;deleted:boolean}>(`/admin/teachers/${encodeURIComponent(intent.id)}/delete`,{method:'POST',headers:{'Idempotency-Key':intent.key},body:intent.body});
         if(result.id!==intent.id||result.deleted!==true)throw new Error('Deletion receipt unavailable');
-        teacherDeleteIntent.current=null;setTeacherDetail(null);setDeleteTarget(null);setDeleteReason('');setDeleteConfirmation('');await load();
+        teacherDeleteIntent.current=null;setTeacherDeletePending(false);setTeacherDetail(null);setDeleteTarget(null);setDeleteReason('');setDeleteConfirmation('');await load();
       }catch(failure){
-        if(failure instanceof ApiError&&failure.status>=400&&failure.status<500)teacherDeleteIntent.current=null;
+        if(failure instanceof ApiError&&failure.status>=400&&failure.status<500){teacherDeleteIntent.current=null;setTeacherDeletePending(false);}
         const projected=toUserFacingError(failure,locale);
-        if(failure instanceof ApiError&&Array.isArray(failure.details.fieldErrors)&&failure.details.fieldErrors.some((field:unknown)=>field&&typeof field==='object'&&'code' in field&&field.code==='TEACHER_RESPONSIBILITY_INCOMPLETE')) projected.message=locale==='zh'?'该教师尚未完成本学期教学、课程关闭或收尾结算，请由原责任教师完成后再删除。':'This teacher must finish teaching, close the courses and complete settlement before deletion.';
         setTeacherDeleteError(projected);
       }finally{setDeletingTeacher(false);}
       return;
@@ -309,12 +311,13 @@ export function AdminUsers({ locale }: { locale: AdminLocale }) {
             description={teacherDescription}
             action={<div className="admin-heading-actions"><button className="text-button" type="button" onClick={() => void load()}>{adminCopy(locale, "refresh_data")}</button><button className="primary-button" type="button" disabled={Boolean(busyKey)} onClick={openTeacherImport}>{locale === "zh" ? "批量建立教师" : "Create teachers"}</button></div>}
           />
-          {mode !== "demo" && <aside className="admin-readonly-banner admin-teacher-api-note" role="note">{locale === "zh" ? "教师完成教学与课程结算后可删除账号，历史记录保留。" : "Teacher accounts can be deleted after teaching and course settlement are complete. Historical records are retained."}</aside>}
+          {mode !== "demo" && <aside className="admin-readonly-banner admin-teacher-api-note" role="note">{locale === "zh" ? "核对后可直接删除教师，同时关闭其课程并彻底删除课程当前学生账号及全部业务记录。" : "Deleting a teacher closes their courses and permanently deletes current students and all their business records."}</aside>}
           {teachers.length === 0 ? <AdminEmpty locale={locale} /> : <div className="table-wrap"><table className="admin-table"><thead><tr><th>{adminCopy(locale, "employee_number")}</th><th>{adminCopy(locale, "name")}</th><th>{adminCopy(locale, "college")}</th><th>{adminCopy(locale, "department")}</th><th>{adminCopy(locale, "status")}</th><th>{locale === "zh" ? "账号管理" : "Account management"}</th></tr></thead><tbody>{teachers.map((teacher) => <tr key={teacher.id}><td><code>{teacher.employeeNumber}</code></td><td><b>{teacher.fullName}</b><small className="table-sub">{teacher.title ?? adminCopy(locale, "not_available")}</small></td><td>{teacher.collegeName ?? adminCopy(locale, "not_available")}</td><td>{teacher.departmentName ?? adminCopy(locale, "not_available")}</td><td><AdminBadge tone={teacher.status === "ACTIVE" ? "green" : "gray"}>{teacher.status}</AdminBadge></td><td><button className="text-button" type="button" onClick={() => setTeacherDetail(teacher)}>{locale === "zh" ? "管理账号" : "Manage"} →</button></td></tr>)}</tbody></table></div>}
         </section>
       )}
 
-      {studentDetail && <StudentDrawer locale={locale} student={studentDetail} close={() => setStudentDetail(null)} />}
+      {studentDetail && <StudentDrawer locale={locale} student={studentDetail} close={() => setStudentDetail(null)} onDelete={mode === "real" ? () => { setStudentDeleteTarget(studentDetail); setStudentDetail(null); } : undefined} />}
+      {studentDeleteTarget && <AdminStudentDeletion student={studentDeleteTarget} locale={locale} close={() => setStudentDeleteTarget(null)} completed={async () => { setStudentDeleteTarget(null); setStudentDetail(null); await load(); }} />}
       {teacherDetail && <TeacherDrawer locale={locale} teacher={teacherDetail} mode={mode} assignedCourseCount={state?.users.find((user) => user.id === teacherDetail.userId && user.role === "teacher")?.assignedCourseCount ?? 0} close={() => setTeacherDetail(null)} onDelete={() => beginTeacherDelete(teacherDetail)} />}
 
       {importOpen && (
@@ -355,15 +358,15 @@ export function AdminUsers({ locale }: { locale: AdminLocale }) {
           description={`${deleteTarget.teacher.fullName} · ${deleteTarget.teacher.employeeNumber}`}
           close={() => { if(deletingTeacher||teacherDeleteIntent.current)return;setDeleteTarget(null); setDeleteReason(""); setDeleteConfirmation(""); clearError(); }}
           dirty={Boolean(deleteReason || deleteConfirmation)}
-          footer={<><button className="secondary-button" type="button" disabled={deletingTeacher||Boolean(teacherDeleteIntent.current)} onClick={() => { setDeleteTarget(null); setDeleteReason(""); setDeleteConfirmation(""); clearError(); }}>{adminCopy(locale, "cancel")}</button><button className="danger-button" type="button" disabled={deletingTeacher || Boolean(busyKey) || (mode==='demo'&&deleteTarget.assignedCourseCount > 0) || !deleteReason.trim() || deleteConfirmation.trim() !== deleteTarget.teacher.employeeNumber} onClick={() => void confirmTeacherDelete()}>{deletingTeacher||busyKey?.startsWith("teacher-delete-") ? (locale === "zh" ? "删除中…" : "Deleting…") : (locale === "zh" ? "确认删除账号" : "Delete account")}</button></>}
+          footer={<><button className="secondary-button" type="button" disabled={deletingTeacher||teacherDeletePending} onClick={() => { setDeleteTarget(null); setDeleteReason(""); setDeleteConfirmation(""); clearError(); }}>{adminCopy(locale, "cancel")}</button><button className="danger-button" type="button" disabled={deletingTeacher || Boolean(busyKey) || (mode==='demo'&&deleteTarget.assignedCourseCount > 0) || !deleteReason.trim() || deleteConfirmation.trim() !== deleteTarget.teacher.employeeNumber} onClick={() => void confirmTeacherDelete()}>{deletingTeacher||busyKey?.startsWith("teacher-delete-") ? (locale === "zh" ? "删除中…" : "Deleting…") : (locale === "zh" ? "确认删除账号" : "Delete account")}</button></>}
         >
           <div className="admin-teacher-delete-form">
-            <p>{locale==='zh'?'仅在本学期教学及本人课程收尾结算完成、不再承担当前教学责任后删除；系统会再次核查。':'Deletion requires completed teaching and settlement with no remaining teaching responsibility. The server checks these conditions again.'}</p>
+            <p>{locale==='zh'?'确认后立即删除教师账号并关闭其全部未关闭课程，无需等待教学或结算完成。':'Confirmation deletes the teacher and closes all open courses without waiting for teaching or settlement.'}</p>
             {teacherDeleteError&&<ErrorPanel error={teacherDeleteError} locale={locale}/>}
-            {teacherDeleteIntent.current&&!deletingTeacher&&<p role="status">{locale==='zh'?'上次删除结果尚未确认，请按原内容重试核对结果。':'The previous result is unconfirmed. Retry the same request to check it.'}</p>}
-            {deleteTarget.assignedCourseCount > 0 ? <aside className="admin-cascade-warning" role="alert"><b>{locale === "zh" ? `该教师仍负责 ${deleteTarget.assignedCourseCount} 门课程，须由本人完成教学与结算后再删除。` : `This teacher still owns ${deleteTarget.assignedCourseCount} classes and must complete teaching and settlement first.`}</b></aside> : <aside className="admin-cascade-warning" role="note"><b>{locale === "zh" ? "删除后教师不能登录，账号不会出现在教师列表中。课程、学生关系、打卡、审核和审计历史继续保留。" : "After deletion, the teacher cannot sign in and the account leaves the teacher list. Courses, enrollments, check-ins, reviews, and audit history remain."}</b></aside>}
-            <AdminField locale={locale} label={locale === "zh" ? "删除原因" : "Deletion reason"} required errorCode={mutationError?.fieldErrors.reason}><textarea disabled={deletingTeacher||Boolean(teacherDeleteIntent.current)} value={deleteReason} placeholder={locale === "zh" ? "说明删除教师账号的原因" : "Explain why this teacher account is being deleted"} onChange={(event) => { setDeleteReason(event.target.value); clearError(); }} /></AdminField>
-            <AdminField locale={locale} label={locale === "zh" ? `输入工号 ${deleteTarget.teacher.employeeNumber} 确认` : `Enter ${deleteTarget.teacher.employeeNumber} to confirm`} required errorCode={mutationError?.fieldErrors.confirmationAccount}><input disabled={deletingTeacher||Boolean(teacherDeleteIntent.current)} value={deleteConfirmation} autoComplete="off" onChange={(event) => { setDeleteConfirmation(event.target.value); clearError(); }} /></AdminField>
+            {teacherDeletePending&&!deletingTeacher&&<p role="status">{locale==='zh'?'上次删除结果尚未确认，请按原内容重试核对结果。':'The previous result is unconfirmed. Retry the same request to check it.'}</p>}
+            <aside className="admin-cascade-warning" role="alert"><b>{locale === "zh" ? "此操作不可恢复：该教师课程中当前学生的账号将全部删除，包括他们在其他教师课程中的关系、打卡、审核、学时、申请、成绩及照片视频。其他学生和其他教师课程本身保留。" : "Irreversible: current students in this teacher's courses will lose their accounts and all enrollments, check-ins, reviews, credits, applications, grades, photos and videos, including those in other teachers' courses. Other students and the other courses remain."}</b></aside>
+            <AdminField locale={locale} label={locale === "zh" ? "删除原因" : "Deletion reason"} required errorCode={mutationError?.fieldErrors.reason}><textarea disabled={deletingTeacher||teacherDeletePending} value={deleteReason} placeholder={locale === "zh" ? "说明删除教师账号的原因" : "Explain why this teacher account is being deleted"} onChange={(event) => { setDeleteReason(event.target.value); clearError(); }} /></AdminField>
+            <AdminField locale={locale} label={locale === "zh" ? `输入工号 ${deleteTarget.teacher.employeeNumber} 确认` : `Enter ${deleteTarget.teacher.employeeNumber} to confirm`} required errorCode={mutationError?.fieldErrors.confirmationAccount}><input disabled={deletingTeacher||teacherDeletePending} value={deleteConfirmation} autoComplete="off" onChange={(event) => { setDeleteConfirmation(event.target.value); clearError(); }} /></AdminField>
             {mutationError && <p className="admin-inline-error" role="alert">{adminErrorCopy(locale, mutationError.message)}</p>}
           </div>
         </AdminDialog>
@@ -372,9 +375,9 @@ export function AdminUsers({ locale }: { locale: AdminLocale }) {
   );
 }
 
-function StudentDrawer({ locale, student, close }: { locale: AdminLocale; student: StudentProfileProjection; close: () => void }) {
+function StudentDrawer({ locale, student, close, onDelete }: { locale: AdminLocale; student: StudentProfileProjection; close: () => void; onDelete?: () => void }) {
   return (
-    <AdminDrawer locale={locale} title={student.fullName} description={student.studentNumber} close={close}>
+    <AdminDrawer locale={locale} title={student.fullName} description={student.studentNumber} close={close} footer={onDelete ? <button className="danger-button" type="button" onClick={onDelete}>{locale === "zh" ? "删除学生账号" : "Delete student account"}</button> : undefined}>
       <div className="admin-detail-list">
         <Detail label={adminCopy(locale, "user_id")} value={student.userId} />
         <Detail label={adminCopy(locale, "organization")} value={student.organizationId} />
@@ -393,7 +396,7 @@ function StudentDrawer({ locale, student, close }: { locale: AdminLocale; studen
 
 function TeacherDrawer({ locale, teacher, mode, assignedCourseCount, close, onDelete }: { locale: AdminLocale; teacher: TeacherProfileProjection; mode: "demo" | "real"; assignedCourseCount: number; close: () => void; onDelete: () => void }) {
   const deletionBlocked = assignedCourseCount > 0;
-  return <AdminDrawer locale={locale} title={teacher.fullName} description={teacher.employeeNumber} close={close} footer={<div className="admin-drawer-actions admin-teacher-drawer-actions"><span>{locale === "zh" ? "完成教学与结算后可核对删除，历史记录保留。" : "Deletion requires completed teaching and settlement; history is retained."}</span><button className="danger-button" type="button" disabled={mode==='demo'&&deletionBlocked} onClick={onDelete}>{locale === "zh" ? "删除教师账号" : "Delete account"}</button></div>}>
+  return <AdminDrawer locale={locale} title={teacher.fullName} description={teacher.employeeNumber} close={close} footer={<div className="admin-drawer-actions admin-teacher-drawer-actions"><span>{locale === "zh" ? "删除将关闭课程，并彻底删除当前学生账号及其全部课程数据。" : "Deletion closes courses and permanently erases current students and all their course data."}</span><button className="danger-button" type="button" disabled={mode==='demo'&&deletionBlocked} onClick={onDelete}>{locale === "zh" ? "删除教师账号" : "Delete account"}</button></div>}>
     <div className="admin-detail-list">
       <Detail label={adminCopy(locale, "user_id")} value={teacher.userId} />
       <Detail label={adminCopy(locale, "organization")} value={teacher.organizationId} />

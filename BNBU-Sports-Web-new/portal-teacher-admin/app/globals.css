@@ -1,5 +1,10 @@
 @import "tailwindcss";
 
+/* The login form supplies its own accessible visibility button. */
+#login-password::-ms-reveal {
+  display: none;
+}
+
 :root,
 :root[data-theme="light"] {
   --color-primary: #007aff;

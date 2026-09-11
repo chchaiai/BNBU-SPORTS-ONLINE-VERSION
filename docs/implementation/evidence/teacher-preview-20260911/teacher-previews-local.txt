@@ -1,0 +1,1 @@
+{"check":"TEACHER_REAL_MEDIA_AND_NOTIFICATION_UI","environment":"local","result":"PASS","listImageAndVideoDecoded":true,"albumImageAndVideoDecoded":true,"applicationImageDecoded":true,"decorativePatternsRemoved":true,"gradeDisclosureButtonRemoved":true,"notificationFilterAndResponsiveLayout":true}

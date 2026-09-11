@@ -2658,7 +2658,7 @@ function Modal({
     >
       <section
         ref={dialogRef}
-        className={`modal account-modal ${view === "password" ? "account-modal-security" : ""}`}
+        className={`modal account-modal ${notifications ? "account-modal-notifications" : ""} ${view === "password" ? "account-modal-security" : ""}`}
         role="dialog"
         aria-modal="true"
         aria-labelledby="modal-title"

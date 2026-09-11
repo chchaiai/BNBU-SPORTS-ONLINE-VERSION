@@ -1,0 +1,17 @@
+{
+  "status": "PASS",
+  "sourceCommit": "f87dba74f39dc2ad7198a79d037e47ab8831c1d7",
+  "images": {
+    "backend": "sha256:703bc487f714366e2a0d23c6d79be366d529090f4615c55fe26ca2cbaec01119",
+    "portal": "sha256:28cc41be4a6501826b18654bd76a8efe7dc4469ba328942044a87ecb3a5d37a4"
+  },
+  "deltaSha256": "9cb711b39d355ed922cc4a4b523afae477c62ce4ba9e80c01256b2a395f3ec3c",
+  "studentSha256": "5cc75f48f830c2b76fa5d2a2cd6f47f2b567e27ef46306096e3b5e96e6ae3396",
+  "localChecks": [
+    "HTTP+PostgreSQL membership transitions and idempotency",
+    "real camera API with synthetic device; closed course submission, supplement and review",
+    "roster after two logins and two reloads",
+    "backend typecheck and portal typecheck/build",
+    "unit boundaries and i18n tests"
+  ]
+}

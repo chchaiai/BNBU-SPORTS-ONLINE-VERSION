@@ -14,6 +14,10 @@ type LanguageToggleProps = {
 // display boundary lets the existing forms retain their Chinese status values and
 // validation logic while presenting a complete English teacher experience.
 const englishText: Record<string, string> = {
+  "在课成员": "Current members",
+  "历史成员": "Former member",
+  "关闭后自动移出全部在课学生，停止新入班、新运动和新申请。关闭前合法业务继续按原期限处理，审核、补证及结算仍需完成。": "Closing removes all current members and stops new enrollments, exercise sessions and applications. Existing work continues within its original deadlines; reviews, supplements and settlement remain available.",
+  "课程已关闭，全部在课学生已移出，关闭前合法业务仍可继续处理。": "Course closed and all current members removed. Previously admitted work can still be completed.",
   "等待审核服务": "Waiting for review service",
   "AI 审核功能敬请期待，请联系总管理员为本课程开启人工审核。": "AI review is coming soon. Ask the super administrator to enable manual review for this course.",
   "公开说明：": "Public comment:",

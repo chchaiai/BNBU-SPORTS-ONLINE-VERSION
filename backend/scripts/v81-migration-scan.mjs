@@ -32,6 +32,13 @@ export function maskSql(source,maskStrings=false){
 }
 
 export function prepareV81MigrationScan(migrationId,sql){
+  if(migrationId==='0061_admin_student_erasure') {
+    // Installing this explicitly authorized runtime command does not execute its DELETEs.
+    // Leave every statement outside the one named function subject to the normal scan.
+    const declaration=/CREATE FUNCTION erase_v81_student\(target_organization uuid,target_student uuid,target_actor uuid\)\s+RETURNS jsonb LANGUAGE plpgsql AS \$\$[\s\S]*?\$\$;/g;
+    if([...sql.matchAll(declaration)].length!==1)throw new Error('Student erasure command declaration must occur exactly once');
+    sql=sql.replace(declaration,'-- Reviewed runtime student erasure function definition.');
+  }
   let scan=maskSql(sql),code=maskSql(sql,true);
   const normalize=value=>value.replaceAll('"','').replace(/\s+/g,' ').trim().toLowerCase();
   const normalized=normalize(code);

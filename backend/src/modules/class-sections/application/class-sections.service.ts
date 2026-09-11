@@ -1,3 +1,4 @@
+import { endCourseMemberships } from '../../enrollments/application/course-closure-memberships.js';
 import { Injectable } from '@nestjs/common';
 
 import { AuditService } from '../../../common/audit/audit.service.js';
@@ -390,6 +391,7 @@ export class ClassSectionsService {
         requestId: facts.requestId,
       },
       async (transaction) => {
+        await transaction.$queryRaw`SELECT id FROM organizations WHERE id=${principal.organizationId}::uuid FOR NO KEY UPDATE`;
         const teacher = await this.requirePrincipalTeacher(principal, transaction);
         const section = await this.repository.findById(
           principal.organizationId,
@@ -437,6 +439,7 @@ export class ClassSectionsService {
         if (closed === null) {
           return this.idempotency.failure(new ApplicationError('CONFLICT_VERSION_MISMATCH', 409));
         }
+        const removedMemberCount = await endCourseMemberships(transaction, closed, principal.userId, facts.requestId, this.keyReference(facts.idempotencyKey), this.ids, this.audit, this.outbox);
         await this.audit.append(transaction, {
           organizationId: principal.organizationId,
           actorUserId: principal.userId,
@@ -448,7 +451,7 @@ export class ClassSectionsService {
           requestId: facts.requestId,
           idempotencyKeyReference: this.keyReference(facts.idempotencyKey),
           outcome: 'SUCCEEDED',
-          safeMetadata: { changedFields, previousStatus, nextStatus: closed.status },
+          safeMetadata: { changedFields, previousStatus, nextStatus: closed.status, removedMemberCount },
         });
         await this.outbox.append(transaction, {
           organizationId: principal.organizationId,

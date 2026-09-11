@@ -1,0 +1,5 @@
+{"time":"2026-09-11T06:41:15.716Z","label":"student_me","method":"GET","status":200,"ok":true,"ms":515.11,"bytes":818}
+{"time":"2026-09-11T06:41:15.861Z","label":"student_enrollments","method":"GET","status":200,"ok":true,"ms":144.16,"bytes":663}
+{"time":"2026-09-11T06:41:16.005Z","label":"student_records","method":"GET","status":200,"ok":true,"ms":144.12,"bytes":131}
+{"time":"2026-09-11T06:41:16.151Z","label":"student_active","method":"GET","status":200,"ok":true,"ms":145.68,"bytes":73}
+{"time":"2026-09-11T06:41:16.294Z","label":"student_progress","method":"GET","status":404,"ok":false,"ms":142.16,"bytes":193,"code":"PERMISSION_RESOURCE_NOT_FOUND"}

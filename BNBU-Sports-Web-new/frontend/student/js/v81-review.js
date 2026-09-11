@@ -85,6 +85,13 @@ export const REVIEW_STAGES = {
 };
 
 export function reviewStageFromRecord(record = {}) {
+  switch (record.workflowStage) {
+    case "PENDING_AI": return REVIEW_STAGES.PendingAiCheck;
+    case "PENDING_TEACHER": return Number(record.materialVersion) > 1
+      ? REVIEW_STAGES.SupplementReceivedPendingTeacherReview : REVIEW_STAGES.PendingTeacherReview;
+    case "AWAITING_SUPPLEMENT": return REVIEW_STAGES.PendingStudentSupplement;
+    case "TECHNICAL": return REVIEW_STAGES.TechnicalProcessing;
+  }
   const raw = String(record.reviewResult || record.reviewStatus || "").trim().toUpperCase();
   const credited = Number(record.hours) > 0 || Number(record.creditedWholeMinutes) > 0;
   switch (raw) {

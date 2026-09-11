@@ -4,7 +4,7 @@
 
 ## 当前状态
 
-本地真实 Docker、HTTP/数据库和网页回归通过，已部署腾讯云。当前发布目录为 `/opt/bnbu-sports-production/releases/3957d4249031-continuity`：Backend/Migrator 来自 `27f9f25abe884ab438acbe433179f8ff8b38acea`，Portal 来自 `2d4a49cabd79a9d7b40eef1984334152e07b70c8`，学生端包含 `481f163a` 的进度加载、`2d4a49ca` 的详情时间修复及 `0bc25975` 的按钮删除与每日时段展示，后续三项验收见 `STUDENT-UI-20260911.md`；免测申请加载时序修复及完整验收见 `EXEMPTION-ACCEPTANCE-20260911.md`。学生邀请流程刷新宽限按钮删除及验收见 `JOIN-GRACE-20260911.md`。基础功能及后台连续性修复验收见 `BASIC-CONTINUITY-20260911.md`。七项缺陷及追加独立学生、教师的1814秒腾讯云打卡整链验收均已完成。新增显示问题已修复并通过本地及线上复测，临时测试账号已停用，测试记录保留。本地存档不推送。
+本地真实 Docker、HTTP/数据库和网页回归通过，已部署腾讯云。当前发布目录为 `/opt/bnbu-sports-production/releases/f87dba74f39d-closure`：Backend/Portal 来自 `f87dba74f39dc2ad7198a79d037e47ab8831c1d7`，Migrator 保持 `27f9f25abe884ab438acbe433179f8ff8b38acea`，学生端包含 `481f163a` 的进度加载、`2d4a49ca` 的详情时间修复及 `0bc25975` 的按钮删除与每日时段展示，后续三项验收见 `STUDENT-UI-20260911.md`；免测申请加载时序修复及完整验收见 `EXEMPTION-ACCEPTANCE-20260911.md`。学生邀请流程刷新宽限按钮删除及验收见 `JOIN-GRACE-20260911.md`。基础功能及后台连续性修复验收见 `BASIC-CONTINUITY-20260911.md`。课程关闭自动移出、历史名单修复及存量修复见 `COURSE-CLOSURE-20260911.md`。七项缺陷及追加独立学生、教师的1814秒腾讯云打卡整链验收均已完成。新增显示问题已修复并通过本地及线上复测，临时测试账号已停用，测试记录保留。本地存档不推送。
 
 | Bug | 已定位事实 / 根因 | 修复与验收 |
 | --- | --- | --- |
@@ -120,9 +120,9 @@
 
 首次整链媒体截图保留了教师端“异常”和错误12:00，属于发现缺陷的原始证据；最终应以 `*-record-teacher-corrected.png` 和 `*-record-student-corrected.png` 为显示修复证据。学生开始/结束时间取自同一证据上下文，未把提交时间推算为开始或结束。
 
-### 最终运行与交接
+### 本阶段运行与交接（后续发布以本文当前状态及专项报告为准）
 
-- 当前 Portal 镜像 `bnbu-portal-production:2d4a49ca-round2`，ID `sha256:612b35637ce1bf2774b4d7a60b933b8410087041d33409b4bf783a495e218dcb`；Backend ID `sha256:c332feb284f338de37fd59f7771a03cabd79a0c2cdf7f2c6b6bf7abf67ccd953`。两者最终均healthy，系统NORMAL、版本7。
+- 本阶段 Portal 镜像 `bnbu-portal-production:2d4a49ca-round2`，ID `sha256:612b35637ce1bf2774b4d7a60b933b8410087041d33409b4bf783a495e218dcb`；Backend ID `sha256:c332feb284f338de37fd59f7771a03cabd79a0c2cdf7f2c6b6bf7abf67ccd953`。两者最终均healthy，系统NORMAL、版本7。
 - 本次详情发布可回退到 `/opt/bnbu-sports-production/releases/481f163a959e-round2`：用该目录固定Portal镜像恢复服务并原子切回current；数据库不回退。该目录仍有教师旧显示问题，但包含进度加载修复。更早版本与数据库备份见上文。
 - 长流程隔离组织及配对隔离组织最初5个账号全部停用；发现详情问题后仅重开原测试学生、教师用于只读复测，完成后再次停用两者并增加tokenVersion。记录数量始终1；旧测试学生会话访问 `/me` 返回401，访问撤销验证通过。未审核既有真实学生记录。
 - 两条真实打卡仍为PENDING_TEACHER，对应课程已开启人工审核；由原责任教师查看材料并作结论。这是正常业务交接，不是本轮测试失败。AI审核按用户决定保持“敬请期待”。

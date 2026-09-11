@@ -60,4 +60,5 @@ export const migrationIds = [
   '0058_client_diagnostics_rate_limit',
   '0059_v81_recognition_adjustment',
   '0060_subadmin_contact_email_scope',
+  '0061_admin_student_erasure',
 ];

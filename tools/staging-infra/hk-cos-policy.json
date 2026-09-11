@@ -18,6 +18,11 @@
       "effect": "allow",
       "action": ["name/cos:AbortMultipartUpload", "name/cos:CompleteMultipartUpload", "name/cos:DeleteObject", "name/cos:InitiateMultipartUpload", "name/cos:ListMultipartUploads", "name/cos:ListParts", "name/cos:UploadPart"],
       "resource": ["qcs::cos:ap-hongkong:uid/1443273655:bnbu-sports-prod-hk-1443273655/roster-sources/*"]
+    },
+    {
+      "effect": "allow",
+      "action": ["name/cos:DeleteObject"],
+      "resource": ["qcs::cos:ap-hongkong:uid/1443273655:bnbu-sports-prod-hk-1443273655/media/*"]
     }
   ]
 }

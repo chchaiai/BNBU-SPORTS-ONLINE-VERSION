@@ -3,6 +3,7 @@
 // session controller. States: Idle → Active ↔ Paused → Finished → Submitted.
 // Drafts remain local until explicit discard or successful server submission.
 
+import { normalizeRecordedVideo } from "../recorded-video.js";
 import { saveProofDraft, loadProofDrafts, removeProofDraft, clearProofDrafts } from "../checkin-drafts.js";
 import { tx, currentLocale, getLanguage } from "../i18n.js";
 import { icon } from "../icons.js";
@@ -10,7 +11,7 @@ import { formatMediaSize } from "../media-size.js";
 import { esc, spinner, emptyPlaceholder, validationPanel, sectionTitle, statusBadge, userFacingErrorPanel, fieldLabel, fieldControlAttrs, fieldSupport } from "../ui.js";
 import { hourText } from "../data.js";
 import { resolvePublicReasonModel, reviewStageFromRecord, reviewStageLabel } from "../v81-review.js";
-import { canNormalizeCapturedImage, validateProofFile } from "../proofs.js";
+import { canNormalizeCapturedImage, validateProofFile, PROOF_VIDEO_MAX_BYTES } from "../proofs.js";
 import {
   canStartExercise, hasSubmittedCheckInToday, loadSession, saveSession, clearSession,
   startSession, restoreServerSession, pauseSession, resumeSession, sessionDurationMs,
@@ -191,6 +192,7 @@ export async function restoreCheckinContinuity(app) {
     }
     const ids = new Set(ui.drafts.map(draft => draft.id));
     for (const draft of drafts) if (!ids.has(draft.id)) ui.drafts.push(draft); else URL.revokeObjectURL(draft.url);
+    for (const draft of drafts.filter(d=>d.normalizationPending)) await addDraftFromFile(app,draft.blob,"video",draft.capturedDurationSeconds,draft.id);
   } catch {
     ui.captureError = tx("无法读取本机保存的凭证，请保持此页面并重试。", "Cannot read saved proof on this device. Keep this page open and retry.");
     ui.draftScope = null;
@@ -388,6 +390,7 @@ function renderPreparation(app) {
         <div style="height:4px"></div>
         <button class="text-btn pressable" data-action="checkin.noop" style="width:100%;min-height:48px">${icon("text-fields", 18)}<span class="label-large">${tx("输入邀请码", "Enter invitation code")}</span></button>
       </div>
+      ${selectedProofTodo(app) ? `<div class="swiss-panel">${proofSubmitPanel(app)}</div>` : ""}
     </div>`;
   }
 
@@ -634,6 +637,7 @@ function captureButtonsHtml(app, { allowVideo }) {
   }
   return `
     ${ui.captureError ? validationPanel(ui.captureError) : ""}
+    ${ui.normalizingVideo ? `<div role="status">${tx("正在处理视频，请稍候…", "Processing video, please wait…")}</div>` : ui.drafts.some(d=>d.normalizationPending) ? `<button class="outlined-btn" data-action="checkin.retryVideo">${tx("重试视频处理", "Retry video processing")}</button>` : ""}
     <div class="row" style="gap:10px">
       <button class="capture-btn pressable" data-action="checkin.capturePhoto" ${photoLimit ? "disabled" : ""}>${icon("camera-alt", 20)}<span>${tx("现场拍照", "Take photo")}</span></button>
       ${allowVideo ? `<button class="capture-btn pressable" data-action="checkin.captureVideo" ${videoLimit ? "disabled" : ""}>${icon("videocam", 20)}<span>${tx("现场录像", "Record video")}</span></button>` : ""}
@@ -1450,8 +1454,8 @@ async function openLiveCamera(app, mode, facingMode = 'environment') {
 }
 
 function preferredRecorderMimeType() {
-  // V8.1 submission requires MP4 with audio. Use the browser's native encoder.
-  const candidates = ["video/mp4;codecs=avc1.42001E,mp4a.40.2", "video/mp4"];
+  // Prefer native MP4; browsers recording WebM use local normalization before upload.
+  const candidates = ["video/mp4;codecs=avc1.42001E,mp4a.40.2", "video/mp4", "video/webm;codecs=vp8,opus", "video/webm"];
   return candidates.find((type) => globalThis.MediaRecorder?.isTypeSupported?.(type)) || "";
 }
 
@@ -1513,6 +1517,12 @@ function captureVideoThumbnail(video) {
   }
 }
 
+export function resolveRecordedVideoDuration(previewDuration, capturedDuration) {
+  if (Number.isFinite(previewDuration) && previewDuration > 0) return previewDuration;
+  return Number.isFinite(capturedDuration) && capturedDuration > 0 &&
+    capturedDuration <= MAX_PROOF_VIDEO_SECONDS ? capturedDuration : null;
+}
+
 export async function readVideoPreview(url) {
   return new Promise((resolve) => {
     const video = document.createElement("video");
@@ -1568,7 +1578,16 @@ export function capturedRecordingDurationSeconds(startedAt, endedAt = Date.now()
   return Math.min(MAX_PROOF_VIDEO_SECONDS, Math.max(0.1, elapsedSeconds));
 }
 
-async function addDraftFromFile(app, file, type, capturedDurationSeconds = null) {
+async function addDraftFromFile(app, file, type, capturedDurationSeconds = null, existingDraftId = null) {
+  const ui = checkinState(app);
+  const converting = type === "video" && !file.type.toLowerCase().startsWith("video/mp4") && capturedDurationSeconds !== null;
+  if (converting && ui.normalizingVideo) return;
+  if (converting) ui.normalizingVideo = true;
+  try { await addDraftFromFileImpl(app, file, type, capturedDurationSeconds, existingDraftId, converting); }
+  finally { if (converting) { ui.normalizingVideo = false; app.render(); } }
+}
+
+async function addDraftFromFileImpl(app, file, type, capturedDurationSeconds, existingDraftId, converting) {
   const ui = checkinState(app), owner = accountId(app), scope = draftScope(app);
   ui.captureError = null;
   const name = capturedDurationSeconds !== null ? tx('刚录制的视频', 'Recorded video')
@@ -1578,7 +1597,25 @@ async function addDraftFromFile(app, file, type, capturedDurationSeconds = null)
     app.render();
   };
 
+  const draftId = existingDraftId || `draft-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
   let uploadFile = file;
+  if (converting) {
+    if (file.size < 1 || file.size > PROOF_VIDEO_MAX_BYTES) { rejectWith(tx("视频为空或超过 100MB，请重新录制。", "The video is empty or exceeds 100MB. Record it again.")); return; }
+    let originalSaved = false;
+    try {
+      const pending = {id:draftId,type,blob:file,url:URL.createObjectURL(file),byteCount:file.size,mimeType:file.type,
+        durationSeconds:capturedDurationSeconds,capturedDurationSeconds,normalizationPending:true};
+      await saveProofDraft(owner,scope,pending);
+      originalSaved = true;
+      if (accountId(app) !== owner || app.ui.checkin !== ui) { URL.revokeObjectURL(pending.url); await removeProofDraft(owner,scope,draftId); return; }
+      if (!ui.drafts.some(d=>d.id===draftId)) ui.drafts.push(pending); else URL.revokeObjectURL(pending.url);
+      app.render();
+      uploadFile = await normalizeRecordedVideo(file);
+    } catch {
+      rejectWith(originalSaved ? tx("视频原件已保存在本机，暂未完成格式处理。请重试，或重新打开网页继续处理。", "The original video is saved on this device. Retry or reopen the page to finish processing.") : tx("无法保存视频原件，请释放设备存储空间后重新录制。", "Cannot save the original video. Free device storage and record again."));
+      return;
+    }
+  }
   if (type === "image") {
     try {
       uploadFile = await normalizeCapturedPhoto(file);
@@ -1606,19 +1643,16 @@ async function addDraftFromFile(app, file, type, capturedDurationSeconds = null)
     }
     return;
   }
+  if (converting && !ui.drafts.some(d=>d.id===draftId)) return;
   const url = URL.createObjectURL(uploadFile);
   let durationSeconds = null;
   let thumbnailUrl = null;
   let verdict = preVerdict;
   if (type === "video") {
     const preview = await readVideoPreview(url);
-    // Some mobile decoders expose Infinity for a playable fragmented MP4.
-    // Only an in-app recording with a decoded frame may use its measured
-    // active recording time for upload metadata. The server independently
-    // reads the actual samples and enforces duration, audio and integrity.
-    durationSeconds = preview.durationSeconds ?? (preview.thumbnailUrl &&
-      Number.isFinite(capturedDurationSeconds) && capturedDurationSeconds > 0 &&
-      capturedDurationSeconds <= MAX_PROOF_VIDEO_SECONDS ? capturedDurationSeconds : null);
+    // Preview decoding is optional on mobile. An in-app recorder already measured
+    // active recording time; the server independently validates the media bytes.
+    durationSeconds = resolveRecordedVideoDuration(preview.durationSeconds, capturedDurationSeconds);
     thumbnailUrl = preview.thumbnailUrl;
     // The backend caps exercise videos at 15 recorded seconds; catching it here
     // saves the student an upload that would be rejected anyway.
@@ -1635,7 +1669,7 @@ async function addDraftFromFile(app, file, type, capturedDurationSeconds = null)
     }
   }
   const draft = {
-    id: `draft-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
+    id: draftId,
     type,
     fileName: `proof_${type === "image" ? "photo" : "video"}_${Date.now()}.${verdict.extension}`,
     byteCount: uploadFile.size,
@@ -1647,11 +1681,15 @@ async function addDraftFromFile(app, file, type, capturedDurationSeconds = null)
   };
   try {
     if (accountId(app) !== owner || app.ui.checkin !== ui) { URL.revokeObjectURL(url); return; }
+    if (converting && !ui.drafts.some(d=>d.id===draftId)) { URL.revokeObjectURL(url); return; }
     await saveProofDraft(owner, scope, draft);
   } catch {
     ui.captureError = tx("凭证尚未保存到本机，请勿关闭页面；请释放存储空间后重新拍摄。", "Proof is not saved on this device. Keep this page open and free storage before capturing again.");
   }
   if (accountId(app) !== owner || app.ui.checkin !== ui) { URL.revokeObjectURL(url); return; }
+  if (converting && !ui.drafts.some(d=>d.id===draftId)) { URL.revokeObjectURL(url); await removeProofDraft(owner,scope,draftId); return; }
+  for (const previous of ui.drafts.filter(d=>d.id===draftId)) URL.revokeObjectURL(previous.url);
+  ui.drafts = ui.drafts.filter(d=>d.id!==draftId);
   ui.drafts.push(draft);
   ui.mediaNotice = type === "image" ? tx("已添加现场照片。", "On-site photo added.") : tx("已添加现场视频。", "On-site video added.");
   app.render();
@@ -1661,6 +1699,9 @@ function submitCheckIn(app, session) {
   const ui = checkinState(app);
   const details = session.details;
   const retained = [...ui.drafts];
+  if (retained.some(d=>d.normalizationPending)) {
+    app.showDialog({title:tx("视频仍在处理", "Video processing"),body:tx("视频原件已保存在本机，请完成视频处理后再提交。", "The original video is saved. Finish processing before submitting."),buttons:[{label:tx("确定", "OK"),action:"dialog.close"}]});return;
+  }
   if (retained.length === 0) {
     app.showDialog({ title: tx("凭证检查", "Proof check"), body: tx("请至少保留 1 项现场凭证", "Keep at least one on-site proof item."), buttons: [{ label: tx("确定", "OK"), action: "dialog.close" }] });
     return;
@@ -2018,6 +2059,9 @@ export const checkinActions = {
       void addDraftFromFile(app, file, "image");
     }, "image/jpeg", 0.9);
   },
+  "checkin.retryVideo": async (app) => {
+    for (const draft of checkinState(app).drafts.filter(d=>d.normalizationPending)) await addDraftFromFile(app,draft.blob,"video",draft.capturedDurationSeconds,draft.id);
+  },
   "checkin.cameraStartVideo": (app) => {
     const ui = checkinState(app);
     const camera = ui.liveCamera;
@@ -2166,6 +2210,7 @@ export const checkinActions = {
     const ui = checkinState(app);
     const drafts = (ui.drafts || []).filter((draft) => draft.url);
     if (!todo?.recordId || ui.finish.submitting) return;
+    if (drafts.some(d=>d.normalizationPending)) { ui.captureError=tx("请完成视频处理后再提交补证。", "Finish processing the video before submitting proof.");app.render();return; }
     if (!drafts.length) { await openLiveCamera(app,"photo"); return; }
     if (!app.isApiMode()) {
       apiFailureDialog(app, new ApiError(409, { code: "PROOF_PREVIEW_NOT_SUBMITTED" }), tx("未提交补证", "Proof not submitted"));

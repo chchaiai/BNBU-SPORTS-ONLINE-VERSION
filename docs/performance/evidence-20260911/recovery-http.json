@@ -1,0 +1,62 @@
+[
+  {
+    "time": "2026-09-11T07:13:40.789Z",
+    "hostname": "www.student.bnbusports.cn",
+    "path": "/student/",
+    "expected": 200,
+    "status": 200,
+    "bytes": 946,
+    "ms": 514,
+    "pass": true
+  },
+  {
+    "time": "2026-09-11T07:13:41.285Z",
+    "hostname": "www.teacher.bnbusports.cn",
+    "path": "/",
+    "expected": 200,
+    "status": 200,
+    "bytes": 5396,
+    "ms": 495,
+    "pass": true
+  },
+  {
+    "time": "2026-09-11T07:13:41.917Z",
+    "hostname": "bnbusports.cn",
+    "path": "/",
+    "expected": 200,
+    "status": 200,
+    "bytes": 58554,
+    "ms": 632,
+    "pass": true
+  },
+  {
+    "time": "2026-09-11T07:13:42.082Z",
+    "hostname": "www.student.bnbusports.cn",
+    "path": "/api/v1/health/ready",
+    "expected": 200,
+    "status": 200,
+    "bytes": 138,
+    "ms": 165,
+    "pass": true
+  },
+  {
+    "time": "2026-09-11T07:13:42.244Z",
+    "hostname": "www.teacher.bnbusports.cn",
+    "path": "/api/v1/health/ready",
+    "expected": 200,
+    "status": 200,
+    "bytes": 138,
+    "ms": 161,
+    "pass": true
+  },
+  {
+    "time": "2026-09-11T07:13:42.392Z",
+    "hostname": "www.student.bnbusports.cn",
+    "path": "/api/v1/me",
+    "expected": 401,
+    "status": 401,
+    "bytes": 194,
+    "ms": 148,
+    "pass": true
+  }
+]

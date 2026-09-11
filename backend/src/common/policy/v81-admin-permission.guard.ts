@@ -60,6 +60,7 @@ const operations: Record<string, AdminPermission | 'SUPER' | 'ANY'> = {
   confirmV81TeacherImport: 'USER_ACCOUNTS',
   listV81TeacherAccounts: 'USER_ACCOUNTS',
   deleteV81TeacherAccount: 'USER_ACCOUNTS',
+  deleteV81StudentAccount: 'USER_ACCOUNTS',
   listStudents: 'USER_ACCOUNTS',
   getStudent: 'USER_ACCOUNTS',
   getTeacher: 'USER_ACCOUNTS',

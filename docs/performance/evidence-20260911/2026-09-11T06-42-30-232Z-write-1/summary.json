@@ -1,0 +1,54 @@
+{
+  "runId": "2026-09-11T06-42-30-232Z-write-1",
+  "started": "2026-09-11T06:42:30.244Z",
+  "ended": "2026-09-11T06:42:35.951Z",
+  "mode": "write",
+  "vus": 1,
+  "seconds": 20,
+  "thinkMs": 5000,
+  "elapsed": 1.0226986999999998,
+  "stopped": null,
+  "peakInflight": 1,
+  "issued": 4,
+  "requests": 4,
+  "errors": 0,
+  "p50": 156.77,
+  "p95": 531.18,
+  "p99": 531.18,
+  "maxMs": 531.18,
+  "rps": 3.9112203819169817,
+  "byRoute": {
+    "session_start": {
+      "requests": 1,
+      "errors": 0,
+      "p50": 531.18,
+      "p95": 531.18,
+      "p99": 531.18,
+      "maxMs": 531.18
+    },
+    "session_pause": {
+      "requests": 1,
+      "errors": 0,
+      "p50": 162.37,
+      "p95": 162.37,
+      "p99": 162.37,
+      "maxMs": 162.37
+    },
+    "session_resume": {
+      "requests": 1,
+      "errors": 0,
+      "p50": 156.77,
+      "p95": 156.77,
+      "p99": 156.77,
+      "maxMs": 156.77
+    },
+    "session_cancel": {
+      "requests": 1,
+      "errors": 0,
+      "p50": 154.76,
+      "p95": 154.76,
+      "p99": 154.76,
+      "maxMs": 154.76
+    }
+  }
+}

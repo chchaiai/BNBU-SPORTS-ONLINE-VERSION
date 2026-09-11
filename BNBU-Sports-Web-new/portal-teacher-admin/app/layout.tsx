@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { headers } from "next/headers";
 import "./globals.css";
+import "./teacher-preview-notifications.css";
 import "./teacher-workspace.css";
 import "./admin-workspace.css";
 import "./typography.css";

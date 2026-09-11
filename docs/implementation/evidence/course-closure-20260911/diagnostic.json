@@ -1,0 +1,23 @@
+{
+  "check": "ENROLLMENT_DIAGNOSTIC",
+  "rows": [
+    {
+      "action_type": "CLIENT_ERROR_REPORTED",
+      "code": "USER_NOT_FOUND",
+      "operation": "getStudent",
+      "route": "/students/{studentId}",
+      "status": "404",
+      "related_request_id": "01a08f87-d71b-71a0-b8b9-3bea4dba7e4e",
+      "request_id": "01a08f87-d738-7355-b552-a9bbec1bfbdd",
+      "occurred_at": "2026-09-11T08:13:59.492Z"
+    }
+  ],
+  "memberships": [
+    {
+      "status": "REMOVED",
+      "course_status": "CLOSED",
+      "count": 3,
+      "existing_profiles": 3
+    }
+  ]
+}

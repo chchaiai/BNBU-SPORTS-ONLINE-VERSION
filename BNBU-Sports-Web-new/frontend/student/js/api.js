@@ -1608,7 +1608,9 @@ export function mapServerRecord(record, { courseIdBySection = {} } = {}) {
           : record.workflowStage === "TECHNICAL"
             ? tx("材料技术处理中。", "Evidence is being processed.")
             : tx("材料已受理，等待审核。", "Evidence received; awaiting review.")
-    : tx("记录缺少有效审核状态。", "The record has no valid review state.");
+    : record.status === "SUBMITTED"
+      ? tx("材料已受理，等待审核。", "Evidence received; awaiting review.")
+      : tx("记录缺少有效审核状态。", "The record has no valid review state.");
   const label = record.sportName || (SERVER_SPORT_LABELS[record.sportType] ? tx(...SERVER_SPORT_LABELS[record.sportType]) : record.sportType);
   const proofs = readRecordProofs(record.id);
   return {
@@ -1655,6 +1657,11 @@ export function mapServerRecord(record, { courseIdBySection = {} } = {}) {
     endTime: null,
     actualDurationSeconds: record.actualDurationSeconds ?? null,
   };
+}
+
+export function mapSubmittedRecords(records, options = {}) {
+  return records.filter(record => ["SUBMITTED", "REVIEWED"].includes(record.status))
+    .map(record => mapServerRecord(record, options));
 }
 
 /** Student membership has only two user-visible states. */
@@ -2058,12 +2065,9 @@ export async function loadApiWorkspace(preloadedIdentity = null) {
     };
   });
 
-  // Only submitted work counts as a check-in record. DRAFT (never submitted)
-  // and CANCELLED rows stay out of the list so the record page and the
-  // dashboard progress can never disagree.
-  const mappedRecords = records
-    .filter((r) => r.status === "REVIEWED" && ["VALID", "INVALID"].includes(r.currentReview?.result))
-    .map((r) => mapServerRecord(r, { courseIdBySection }));
+  // Submitted work stays visible throughout review and supplementation. Only
+  // VALID results contribute to the separate credited-progress calculation.
+  const mappedRecords = mapSubmittedRecords(records, { courseIdBySection });
   // Check-in window from the first ACTIVE enrolled section.
   const activeSection = sections.find((s) => activeEnrollments.some((e) => e.classSectionId === s.id) && s.status === "ACTIVE");
   const timeWindow = activeSection

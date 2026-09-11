@@ -1,3 +1,5 @@
+import { V81StudentMediaErasureWorker } from './v81-student-media-erasure.js';
+import { V81StudentDeletionController, V81StudentDeletionService } from './v81-student-deletion.js';
 import { V81MakeupWindowsController, V81MakeupWindowsService } from './v81-makeup-windows.js';
 import {V81TeacherCoursesController} from './v81-teacher-courses.js';
 import {V81TeacherDeletionController,V81TeacherDeletionService} from './v81-teacher-deletion.js';
@@ -52,7 +54,7 @@ import { V81FinalGradesController, V81FinalGradesService } from './v81-final-gra
 import { V81SettlementCheckController, V81SettlementCheckService } from './v81-settlement-check.js';
 @Module({
   imports: [ObjectStorageModule, AuthModule, ClientCapabilitiesModule],
-  controllers: [V81TeacherDeletionController,V81InviteRevocationController,V81TeacherCoursesController,
+  controllers: [V81StudentDeletionController,V81TeacherDeletionController,V81InviteRevocationController,V81TeacherCoursesController,
     V81OcrGovernanceController,
     V81AccountDeletionController,
     V81RuntimeArchivesController,
@@ -96,7 +98,7 @@ import { V81SettlementCheckController, V81SettlementCheckService } from './v81-s
     V81FinalGradesController,
     V81SettlementCheckController,
   ],
-  providers: [
+  providers: [V81StudentMediaErasureWorker,V81StudentDeletionService,
     V81TeacherDeletionService,
     V81OcrGovernanceService,
     V81AccountDeletionService,
