@@ -1,0 +1,106 @@
+ Image bnbu-v81-local-validation-domain-tests Building 
+#1 [internal] load local bake definitions
+#1 reading from stdin 624B 0.0s done
+#1 DONE 0.0s
+
+#2 [internal] load build definition from Dockerfile.v81-test
+#2 transferring dockerfile: 628B done
+#2 DONE 0.0s
+
+#3 [auth] library/node:pull token for registry-1.docker.io
+#3 DONE 0.0s
+
+#4 [internal] load metadata for docker.io/library/node:24.18.0-bookworm-slim
+#4 DONE 1.6s
+
+#5 [internal] load .dockerignore
+#5 transferring context: 153B done
+#5 DONE 0.0s
+
+#6 [1/9] FROM docker.io/library/node:24.18.0-bookworm-slim@sha256:6f7b03f7c2c8e2e784dcf9295400527b9b1270fd37b7e9a7285cf83b6951452d
+#6 resolve docker.io/library/node:24.18.0-bookworm-slim@sha256:6f7b03f7c2c8e2e784dcf9295400527b9b1270fd37b7e9a7285cf83b6951452d 0.0s done
+#6 DONE 0.0s
+
+#7 [internal] load build context
+#7 transferring context: 96.36kB 0.1s done
+#7 DONE 0.1s
+
+#8 [2/9] RUN apt-get update && apt-get install -y --no-install-recommends openssl ca-certificates && rm -rf /var/lib/apt/lists/*
+#8 CACHED
+
+#9 [3/9] WORKDIR /workspace/backend
+#9 CACHED
+
+#10 [4/9] COPY backend/package.json backend/package-lock.json ./
+#10 CACHED
+
+#11 [5/9] RUN npm ci --ignore-scripts --no-audit --no-fund
+#11 CACHED
+
+#12 [6/9] COPY backend/ ./
+#12 DONE 1.0s
+
+#13 [7/9] COPY docs/backend-contracts/ /workspace/docs/backend-contracts/
+#13 DONE 0.1s
+
+#14 [8/9] COPY tools/ /workspace/tools/
+#14 DONE 0.1s
+
+#15 [9/9] RUN npm run db:generate
+#15 0.343 
+#15 0.343 > @bnbu/sports-backend@0.1.0 db:generate
+#15 0.343 > prisma generate
+#15 0.343 
+#15 0.964 Loaded Prisma config from prisma.config.ts.
+#15 0.964 
+#15 2.808 Prisma schema loaded from prisma/schema.prisma.
+#15 4.267 
+#15 4.267 ✔ Generated Prisma Client (7.9.1) to ./src/generated/prisma in 884ms
+#15 4.267 
+#15 DONE 4.4s
+
+#16 exporting to image
+#16 exporting layers
+#16 exporting layers 1.6s done
+#16 exporting manifest sha256:320fa03c1844372ad9c7cee0803c455bf463b85940c50597ee8e1ae0dd29248a 0.0s done
+#16 exporting config sha256:d5495b79177d31bc3556cd60c32973518d95f7595c07f9c05bf46459c53d5394 0.0s done
+#16 exporting attestation manifest sha256:f353b2eecb94aa725c4f972291623d6b27b2ed7acd4593c2e47c2ba83561e86d 0.0s done
+#16 exporting manifest list sha256:0e936cf6740ec45c790080f73c5b1942862dd7b10d1a1a22ba3595ed08712abe
+#16 exporting manifest list sha256:0e936cf6740ec45c790080f73c5b1942862dd7b10d1a1a22ba3595ed08712abe 0.0s done
+#16 naming to docker.io/library/bnbu-v81-local-validation-domain-tests:latest done
+#16 unpacking to docker.io/library/bnbu-v81-local-validation-domain-tests:latest
+#16 unpacking to docker.io/library/bnbu-v81-local-validation-domain-tests:latest 0.6s done
+#16 DONE 2.4s
+
+#17 resolving provenance for metadata file
+#17 DONE 0.0s
+ Image bnbu-v81-local-validation-domain-tests Built 
+ Container bnbu-v81-local-validation-domain-tests-run-bfb5365eb58a Creating 
+ Container bnbu-v81-local-validation-domain-tests-run-bfb5365eb58a Created 
+✔ accepts WebP declarations for certification images but not exercise evidence (0.62565ms)
+✔ reads actual certification WebP dimensions: sample-lossy.webp (13.575778ms)
+✔ rejects truncated certification WebP even with matching transport digest: sample-lossy.webp (1.018098ms)
+✔ reads actual certification WebP dimensions: sample-lossless.webp (8.302665ms)
+✔ rejects truncated certification WebP even with matching transport digest: sample-lossless.webp (0.394132ms)
+✔ rejects WebP with valid container lengths and image dimensions but missing compressed pixels (1.712769ms)
+▶ MediaEvidence validation core
+  ✔ separates declarations from verified image facts and computes SHA-256 from bytes (8.593165ms)
+  ✔ accepts JPEG comment bytes that resemble a GPS tag but rejects a real GPS IFD (9.415871ms)
+  ✔ rejects MIME spoofing, byte-size mismatches, location metadata, and the test signature (1.187347ms)
+  ✔ keeps image limits while replacing exercise-video size rules with a fixed 15-second cap (0.414732ms)
+  ✔ streams video verification and enforces the trusted duration at the exact boundary (1.376322ms)
+  ✔ accepts a 15-second audible WebM and verifies its actual tracks and duration (1.08063ms)
+  ✔ rejects WebM duration overflow, missing audio, and location tags (1.081429ms)
+  ✔ rejects an exercise video without a trusted audio track (0.640509ms)
+  ✔ rejects an audio-only ISO media container even when it has a trusted audio handler (0.534724ms)
+  ✔ rejects ISO location metadata without scanning random media payload bytes (0.523542ms)
+✔ MediaEvidence validation core (25.347374ms)
+ℹ tests 16
+ℹ suites 1
+ℹ pass 16
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 380.906935
+Docker exit code: 0

@@ -1,0 +1,4 @@
+ semester_status | course_status | count 
+-----------------+---------------+-------
+(0 rows)
+

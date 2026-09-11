@@ -1,0 +1,1 @@
+{"check":"PHYSICAL_CORRECTION_BROWSER","result":"FAIL","stage":"REASON_REQUIRED","type":"TimeoutError","message":"locator.waitFor: Timeout 45000ms exceeded.\nCall log:\n\u001b[2m  - waiting for getByRole('region', { name: '原始体测资料' }).getByRole('alert').filter({ hasText: '结算后的体测更正必须填写原因' }) to be visible\u001b[22m\n"}

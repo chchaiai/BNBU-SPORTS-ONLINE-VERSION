@@ -1,0 +1,74 @@
+ Image bnbu-v81-local-validation-domain-tests Building 
+#1 [internal] load local bake definitions
+#1 reading from stdin 624B 0.0s done
+#1 DONE 0.0s
+
+#2 [internal] load build definition from Dockerfile.v81-test
+#2 transferring dockerfile: 628B done
+#2 DONE 0.0s
+
+#3 [internal] load metadata for docker.io/library/node:24.18.0-bookworm-slim
+#3 DONE 1.0s
+
+#4 [internal] load .dockerignore
+#4 transferring context: 153B done
+#4 DONE 0.0s
+
+#5 [1/9] FROM docker.io/library/node:24.18.0-bookworm-slim@sha256:6f7b03f7c2c8e2e784dcf9295400527b9b1270fd37b7e9a7285cf83b6951452d
+#5 resolve docker.io/library/node:24.18.0-bookworm-slim@sha256:6f7b03f7c2c8e2e784dcf9295400527b9b1270fd37b7e9a7285cf83b6951452d 0.0s done
+#5 DONE 0.0s
+
+#6 [internal] load build context
+#6 transferring context: 1.22MB 0.1s done
+#6 DONE 0.1s
+
+#7 [3/9] WORKDIR /workspace/backend
+#7 CACHED
+
+#8 [4/9] COPY backend/package.json backend/package-lock.json ./
+#8 CACHED
+
+#9 [2/9] RUN apt-get update && apt-get install -y --no-install-recommends openssl ca-certificates && rm -rf /var/lib/apt/lists/*
+#9 CACHED
+
+#10 [5/9] RUN npm ci --ignore-scripts --no-audit --no-fund
+#10 CACHED
+
+#11 [6/9] COPY backend/ ./
+#11 DONE 0.3s
+
+#12 [7/9] COPY docs/backend-contracts/ /workspace/docs/backend-contracts/
+#12 DONE 0.2s
+
+#13 [8/9] COPY tools/ /workspace/tools/
+#13 DONE 0.1s
+
+#14 [9/9] RUN npm run db:generate
+#14 0.351 
+#14 0.351 > @bnbu/sports-backend@0.1.0 db:generate
+#14 0.351 > prisma generate
+#14 0.351 
+#14 0.994 Loaded Prisma config from prisma.config.ts.
+#14 0.994 
+#14 3.139 Prisma schema loaded from prisma/schema.prisma.
+#14 4.641 
+#14 4.641 ✔ Generated Prisma Client (7.9.1) to ./src/generated/prisma in 932ms
+#14 4.641 
+#14 DONE 4.8s
+
+#15 exporting to image
+#15 exporting layers
+#15 exporting layers 1.7s done
+#15 exporting manifest sha256:87d9daf3c26d73e092e516c02c571770f4a815cd4b8a75db800225c41131fb15 0.0s done
+#15 exporting config sha256:314d2869a554b6a64f286b78ea8e5f9454905e1ba99120e0d0142cb12255dd1a 0.0s done
+#15 exporting attestation manifest sha256:9fe11b31d9dfcb25c003d06a1b6f72385ab7f8f112460110067d2268fbb443c1 0.0s done
+#15 exporting manifest list sha256:73f777f08788870117e797e2e7bd940246103b6bf8b2fc62c62d975d26b0faad
+#15 exporting manifest list sha256:73f777f08788870117e797e2e7bd940246103b6bf8b2fc62c62d975d26b0faad 0.0s done
+#15 naming to docker.io/library/bnbu-v81-local-validation-domain-tests:latest done
+#15 unpacking to docker.io/library/bnbu-v81-local-validation-domain-tests:latest
+#15 unpacking to docker.io/library/bnbu-v81-local-validation-domain-tests:latest 0.6s done
+#15 DONE 2.4s
+
+#16 resolving provenance for metadata file
+#16 DONE 0.0s
+ Image bnbu-v81-local-validation-domain-tests Built 

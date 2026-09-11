@@ -1,0 +1,15 @@
+
+> @bnbu/sports-backend@0.1.0 openapi:check
+> node ./scripts/generate-openapi.mjs --check
+
+file:///C:/Users/23328/Desktop/new_version/backend/scripts/generate-openapi.mjs:70
+    throw new Error(`Generated OpenAPI artifacts are stale or missing: ${stale.join(', ')}`);
+          ^
+
+Error: Generated OpenAPI artifacts are stale or missing: backend\src\generated\openapi.document.generated.json, backend\src\generated\openapi.manifest.generated.json
+    at file:///C:/Users/23328/Desktop/new_version/backend/scripts/generate-openapi.mjs:70:11
+    at ModuleJob.run (node:internal/modules/esm/module_job:430:25)
+    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:661:26)
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5)
+
+Node.js v24.13.1

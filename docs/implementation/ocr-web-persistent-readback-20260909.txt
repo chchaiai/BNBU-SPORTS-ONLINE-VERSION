@@ -1,0 +1,1 @@
+{"check":"OCR_WEB_PERSISTENT_READBACK","result":"PASS","providerDisabled":true,"rosterConfirmed":true,"physicalPending":0}

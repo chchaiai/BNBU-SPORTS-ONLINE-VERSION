@@ -1,0 +1,5 @@
+{
+  "sha256": "030d81f760c847792cf2c4553b6cca622af507978292e1c689a4dfa38fa7af33",
+  "destructive": false,
+  "migrationId": "0049_v81_session_history_subjects"
+}

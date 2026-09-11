@@ -1,0 +1,4 @@
+{"check":"MANUAL_MODE_DELAYED_READ_INPUT_GUARD","result":"PASS"}
+stage FIRST_EXERCISE
+stage REPEAT_EXERCISE
+{"result":"PASS","check":"WEB_INVALID_THEN_NEW_CAMERA_SESSION_SUBMIT_VALID","distinctSessions":true,"distinctRecords":true,"historyRetained":true,"syntheticCamera":true,"shortSessionsNoCredit":true}

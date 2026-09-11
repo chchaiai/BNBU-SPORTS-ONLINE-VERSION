@@ -1,0 +1,4 @@
+{
+  "check": "PERSISTENT_BACKEND_READY_AFTER_ROSTER_REPAIR",
+  "status": 200
+}

@@ -1,0 +1,1 @@
+{"check":"TEACHER_BROWSER_ROSTER_WRITE","result":"FAIL","format":"csv","stage":"CREATE_COURSE","type":"TimeoutError","message":"locator.click: Timeout 20000ms exceeded.\nCall log:\n\u001b[2m  - waiting for getByRole('button', { name: /新建课程/ })\u001b[22m\n","failures":[{"path":"/api/v1/auth/password-login","status":502}]}

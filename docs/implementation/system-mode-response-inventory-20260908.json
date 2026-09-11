@@ -1,0 +1,261 @@
+{
+  "note": "Parsed YAML inventory; declaration missing is not proof that each endpoint is blocked during maintenance. Review actual guards and allowed-mode exemptions.",
+  "missingCount": 51,
+  "operations": [
+    {
+      "operationId": "saveV81CourseRules",
+      "path": "/class-sections/{classSectionId}/v81-rules",
+      "method": "POST"
+    },
+    {
+      "operationId": "setV81ManualMode",
+      "path": "/admin/review-services/manual-mode",
+      "method": "POST"
+    },
+    {
+      "operationId": "reviewV81Record",
+      "path": "/exercise-records/{recordId}/v81-reviews",
+      "method": "POST"
+    },
+    {
+      "operationId": "submitV81Supplement",
+      "path": "/exercise-records/{recordId}/supplements",
+      "method": "POST"
+    },
+    {
+      "operationId": "correctV81Record",
+      "path": "/exercise-records/{recordId}/corrections",
+      "method": "POST"
+    },
+    {
+      "operationId": "changeV81SystemMode",
+      "path": "/system-mode/changes",
+      "method": "POST"
+    },
+    {
+      "operationId": "createV81VerifiedSubadmin",
+      "path": "/admin/subadmins",
+      "method": "POST"
+    },
+    {
+      "operationId": "setV81SubadminStatus",
+      "path": "/admin/subadmins/{id}/status",
+      "method": "POST"
+    },
+    {
+      "operationId": "revokeV81Certification",
+      "path": "/activity-certification-applications/{id}/revoke",
+      "method": "POST"
+    },
+    {
+      "operationId": "acceptV81SwimIntake",
+      "path": "/exercise-records/{recordId}/swim-intake",
+      "method": "POST"
+    },
+    {
+      "operationId": "appendV81FinalGrade",
+      "path": "/enrollments/{enrollmentId}/final-grades",
+      "method": "POST"
+    },
+    {
+      "operationId": "handleV81Feedback",
+      "path": "/admin/feedback/{feedbackId}/handling",
+      "method": "POST"
+    },
+    {
+      "operationId": "createV81HelpArticle",
+      "path": "/admin/help-articles",
+      "method": "POST"
+    },
+    {
+      "operationId": "saveV81HelpArticle",
+      "path": "/admin/help-articles/{articleId}",
+      "method": "POST"
+    },
+    {
+      "operationId": "createV81EnduranceRule",
+      "path": "/admin/endurance-tables/rules",
+      "method": "POST"
+    },
+    {
+      "operationId": "updateV81EnduranceRule",
+      "path": "/admin/endurance-tables/rules/{ruleId}",
+      "method": "POST"
+    },
+    {
+      "operationId": "deleteV81EnduranceRule",
+      "path": "/admin/endurance-tables/rules/{ruleId}/delete",
+      "method": "POST"
+    },
+    {
+      "operationId": "appendV81PhysicalResult",
+      "path": "/enrollments/{enrollmentId}/physical-results",
+      "method": "POST"
+    },
+    {
+      "operationId": "createV81PhysicalImport",
+      "path": "/class-sections/{classSectionId}/physical-imports",
+      "method": "POST"
+    },
+    {
+      "operationId": "reviseV81PhysicalImport",
+      "path": "/physical-imports/{importId}/revisions",
+      "method": "POST"
+    },
+    {
+      "operationId": "confirmV81PhysicalImport",
+      "path": "/physical-imports/{importId}/confirm",
+      "method": "POST"
+    },
+    {
+      "operationId": "createV81PhysicalXlsxImport",
+      "path": "/class-sections/{classSectionId}/physical-imports/xlsx",
+      "method": "POST"
+    },
+    {
+      "operationId": "previewV81TeacherImport",
+      "path": "/admin/teacher-imports/preview",
+      "method": "POST"
+    },
+    {
+      "operationId": "confirmV81TeacherImport",
+      "path": "/admin/teacher-imports/confirm",
+      "method": "POST"
+    },
+    {
+      "operationId": "createV81Semester",
+      "path": "/admin/semesters",
+      "method": "POST"
+    },
+    {
+      "operationId": "updateV81Semester",
+      "path": "/admin/semesters/{id}",
+      "method": "POST"
+    },
+    {
+      "operationId": "confirmV81Roster",
+      "path": "/roster-imports/{rosterImportId}/confirmation",
+      "method": "POST"
+    },
+    {
+      "operationId": "createV81OcrRosterBatch",
+      "path": "/class-sections/{classSectionId}/ocr-roster-batches",
+      "method": "POST"
+    },
+    {
+      "operationId": "createV81OcrPhysicalBatch",
+      "path": "/class-sections/{classSectionId}/ocr-physical-batches",
+      "method": "POST"
+    },
+    {
+      "operationId": "createV81OcrJob",
+      "path": "/ocr-batches/{batchId}/pages/{pageId}/recognition",
+      "method": "POST"
+    },
+    {
+      "operationId": "createV81OcrDraft",
+      "path": "/ocr-batches/{batchId}/draft",
+      "method": "POST"
+    },
+    {
+      "operationId": "reviseV81OcrDraft",
+      "path": "/ocr-batches/{batchId}/draft/revisions",
+      "method": "POST"
+    },
+    {
+      "operationId": "confirmV81OcrPhysicalRows",
+      "path": "/ocr-batches/{batchId}/physical-confirmations",
+      "method": "POST"
+    },
+    {
+      "operationId": "confirmV81OcrRoster",
+      "path": "/ocr-batches/{batchId}/roster-confirmation",
+      "method": "POST"
+    },
+    {
+      "operationId": "selectV81RosterBasis",
+      "path": "/class-sections/{classSectionId}/roster-basis",
+      "method": "POST"
+    },
+    {
+      "operationId": "createV81MakeupWindow",
+      "path": "/class-sections/{classSectionId}/makeup-windows",
+      "method": "POST"
+    },
+    {
+      "operationId": "revokeV81MakeupWindow",
+      "path": "/makeup-windows/{windowId}/revocation",
+      "method": "POST"
+    },
+    {
+      "operationId": "publishV81RuleTemplate",
+      "path": "/rule-templates",
+      "method": "POST"
+    },
+    {
+      "operationId": "createV81RuntimeArchive",
+      "path": "/admin/runtime-archives",
+      "method": "POST"
+    },
+    {
+      "operationId": "cancelV81RuntimeArchive",
+      "path": "/admin/runtime-archives/{id}/cancellation",
+      "method": "POST"
+    },
+    {
+      "operationId": "createV81RuntimeArchiveDownload",
+      "path": "/admin/runtime-archives/{id}/download-url",
+      "method": "POST"
+    },
+    {
+      "operationId": "setV81SubadminPermissions",
+      "path": "/admin/subadmins/{id}/permissions",
+      "method": "POST"
+    },
+    {
+      "operationId": "saveV81OcrService",
+      "path": "/admin/review-services/ocr/revisions",
+      "method": "POST"
+    },
+    {
+      "operationId": "requestV81SubadminIdentity",
+      "path": "/admin/subadmin-identity-challenges",
+      "method": "POST"
+    },
+    {
+      "operationId": "verifyV81SubadminIdentity",
+      "path": "/admin/subadmin-identity-challenges/{id}/verify",
+      "method": "POST"
+    },
+    {
+      "operationId": "updateV81VerifiedSubadmin",
+      "path": "/admin/subadmins/{id}/profile",
+      "method": "POST"
+    },
+    {
+      "operationId": "deleteV81Subadmin",
+      "path": "/admin/subadmins/{id}/delete",
+      "method": "POST"
+    },
+    {
+      "operationId": "revokeV81CourseInvite",
+      "path": "/class-sections/{classSectionId}/course-invites/revocations",
+      "method": "POST"
+    },
+    {
+      "operationId": "confirmV81Settlement",
+      "path": "/class-sections/{classSectionId}/settlement-reports",
+      "method": "POST"
+    },
+    {
+      "operationId": "correctV81FinalGrade",
+      "path": "/enrollments/{enrollmentId}/final-grades/corrections",
+      "method": "POST"
+    },
+    {
+      "operationId": "correctV81PhysicalResult",
+      "path": "/enrollments/{enrollmentId}/physical-results/corrections",
+      "method": "POST"
+    }
+  ]
+}

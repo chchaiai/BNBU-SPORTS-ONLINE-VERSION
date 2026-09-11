@@ -1,0 +1,67 @@
+ Image bnbu-v81-local-validation-sql-tests Building 
+#1 [internal] load local bake definitions
+#1 reading from stdin 612B 0.0s done
+#1 DONE 0.0s
+
+#2 [internal] load build definition from Dockerfile.v81-test
+#2 DONE 0.0s
+
+#2 [internal] load build definition from Dockerfile.v81-test
+#2 transferring dockerfile: 484B done
+#2 DONE 0.0s
+
+#3 [internal] load metadata for docker.io/library/node:24.18.0-bookworm-slim
+#3 ...
+
+#4 [auth] library/node:pull token for registry-1.docker.io
+#4 DONE 0.0s
+
+#3 [internal] load metadata for docker.io/library/node:24.18.0-bookworm-slim
+#3 DONE 1.8s
+
+#5 [internal] load .dockerignore
+#5 transferring context: 153B done
+#5 DONE 0.0s
+
+#6 [1/7] FROM docker.io/library/node:24.18.0-bookworm-slim@sha256:6f7b03f7c2c8e2e784dcf9295400527b9b1270fd37b7e9a7285cf83b6951452d
+#6 resolve docker.io/library/node:24.18.0-bookworm-slim@sha256:6f7b03f7c2c8e2e784dcf9295400527b9b1270fd37b7e9a7285cf83b6951452d 0.0s done
+#6 DONE 0.0s
+
+#7 [internal] load build context
+#7 transferring context: 1.34MB 0.1s done
+#7 DONE 0.1s
+
+#8 [2/7] WORKDIR /workspace/backend
+#8 CACHED
+
+#9 [3/7] COPY backend/package.json backend/package-lock.json ./
+#9 CACHED
+
+#10 [4/7] RUN npm ci --ignore-scripts --no-audit --no-fund
+#10 CACHED
+
+#11 [5/7] COPY backend/ ./
+#11 DONE 0.3s
+
+#12 [6/7] COPY docs/backend-contracts/ /workspace/docs/backend-contracts/
+#12 DONE 0.2s
+
+#13 [7/7] COPY tools/ /workspace/tools/
+#13 DONE 0.1s
+
+#14 exporting to image
+#14 exporting layers
+#14 exporting layers 0.3s done
+#14 exporting manifest sha256:e649c9402903889147fbf7ade0a9cc6307ea337d9bab095093007f484eefa22b 0.0s done
+#14 exporting config sha256:0d2c84a6886a1df9f35de35407aa5a4bc5ef6f52794a0ab80ff9d571ce3c760c 0.0s done
+#14 exporting attestation manifest sha256:8239b497162bf949658f2dadc4e98f50ec59fe93de83bdf2b72e84066455286a 0.0s done
+#14 exporting manifest list sha256:8af387c386ff2100c8d12a4d9d84f25f1bd23d5d1dc90c18bd09ca47ded6aaff 0.0s done
+#14 naming to docker.io/library/bnbu-v81-local-validation-sql-tests:latest done
+#14 unpacking to docker.io/library/bnbu-v81-local-validation-sql-tests:latest
+#14 unpacking to docker.io/library/bnbu-v81-local-validation-sql-tests:latest 0.3s done
+#14 DONE 0.7s
+
+#15 resolving provenance for metadata file
+#15 DONE 0.0s
+ Image bnbu-v81-local-validation-sql-tests Built 
+Docker exit code: 0

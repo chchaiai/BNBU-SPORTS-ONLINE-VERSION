@@ -1,0 +1,20 @@
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: Published snapshot digest mismatch
++ actual - expected
+
++ 'de265902bb49cab177f471cd50b09ac7d5909de35e5f9671abe934e68dc8d4c0'
+- '916461bed7c2fd14f28f0d750b7f414fd12f31db1ade09dc52777208fc3790d6'
+
+    at file:///C:/Users/23328/Desktop/new_version/tools/local-integration/audit-v81-local-contract.mjs:3:266 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: 'de265902bb49cab177f471cd50b09ac7d5909de35e5f9671abe934e68dc8d4c0',
+  expected: '916461bed7c2fd14f28f0d750b7f414fd12f31db1ade09dc52777208fc3790d6',
+  operator: 'strictEqual',
+  diff: 'simple'
+}
+
+Node.js v24.13.1

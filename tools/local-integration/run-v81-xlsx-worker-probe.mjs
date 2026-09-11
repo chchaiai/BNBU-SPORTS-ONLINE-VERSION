@@ -1,0 +1,21 @@
+import assert from 'node:assert/strict';
+import { createRequire } from 'node:module';
+import { readPhysicalXlsxIsolated } from '../../backend/dist/modules/v8/domain/physical-xlsx-isolated.js';
+const require = createRequire(new URL('../../backend/package.json', import.meta.url));
+const { utils, write } = require('xlsx');
+const book = utils.book_new();
+utils.book_append_sheet(book, utils.aoa_to_sheet([['学号', '姓名', '项目', '用时', '测试日期'],
+  ['001', 'A', '1000m', '4.30', '2026-09-07']]), '体测');
+const bytes = write(book, { type: 'buffer', bookType: 'xlsx' });
+const limits = { maxBytes: 1000000, maxRows: 100, timeoutMs: 5000 };
+const parsed = await readPhysicalXlsxIsolated(bytes, '体测', limits);
+assert.equal(parsed[0].studentNumber, '001');
+assert.equal(parsed[0].elapsed, '4.30');
+await assert.rejects(readPhysicalXlsxIsolated(bytes, 'missing', limits), /SHEET_NOT_FOUND/);
+await assert.rejects(readPhysicalXlsxIsolated(bytes, '体测', { ...limits, timeoutMs: 1 }), /TIMEOUT/);
+const first = readPhysicalXlsxIsolated(bytes, '体测', limits);
+const second = readPhysicalXlsxIsolated(bytes, '体测', limits);
+await assert.rejects(readPhysicalXlsxIsolated(bytes, '体测', limits), /BUSY/);
+await Promise.all([first, second]);
+assert.equal((await readPhysicalXlsxIsolated(bytes, '体测', limits)).length, 1);
+console.log(JSON.stringify({ check: 'XLSX_COMPILED_WORKER_PARSE_TIMEOUT_CONCURRENCY_SLOT_RELEASE', result: 'PASS' }));

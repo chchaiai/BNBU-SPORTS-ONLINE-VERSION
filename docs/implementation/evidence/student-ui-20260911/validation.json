@@ -1,0 +1,9 @@
+{
+  "sourceCommit": "0bc259757f2d51288d4bde22fabc5551efcf66e9",
+  "localResult": "PASS",
+  "files": {
+    "checkin.js": "6b403817412669804b239f252d124155935e102ecb5ab29a91132c3a4cc7967d",
+    "courses.js": "2c2ab7ed300e6c5168ac677ed5d221e958233981c1ebdcba6273b0e1685ad16e",
+    "notifications.js": "2d71bd794518971fab15e965b534cc58e1ff36c807ce984c70360aaf03904b85"
+  }
+}

@@ -1,0 +1,2 @@
+{"check":"PORTAL_NOTIFICATION_LIST_BROWSER","result":"PASS","role":"teacher","pagination":true,"recipientScope":true,"lostReadReplay":true,"readReload":true,"unreadFilter":true,"networkRecovery":true,"businessSectionNavigation":true}
+{"check":"PORTAL_NOTIFICATION_LIST_BROWSER","result":"PASS","role":"admin","pagination":true,"recipientScope":true,"lostReadReplay":true,"readReload":true,"unreadFilter":true,"networkRecovery":true,"businessSectionNavigation":true}

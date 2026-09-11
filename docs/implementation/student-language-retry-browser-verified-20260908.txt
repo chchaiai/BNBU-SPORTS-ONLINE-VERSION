@@ -1,0 +1,5 @@
+{"check":"STUDENT_BROWSER_SMTP_LOGIN","result":"PASS"}
+{"check":"STUDENT_HOME_CONTENT","hasCourse":true,"hasProgress":true,"hasLoginForm":false}
+{"check":"PREFERENCE_COMMITTED_RESPONSE_ABORT","version":10}
+{"check":"STUDENT_LANGUAGE_LOST_RESPONSE_SAME_VERSION","result":"PASS","version":10}
+{"check":"STUDENT_LANGUAGE_SERVER_SAVE_RELOAD_RESTORE","result":"PASS","englishVersion":10,"chineseVersion":11,"communicationFlagsPreserved":true}

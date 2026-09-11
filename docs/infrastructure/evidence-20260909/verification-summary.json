@@ -1,0 +1,72 @@
+{
+  "date": "2026-09-09",
+  "type": "summary_transcribed_from_actual_tool_outputs",
+  "environment": "staging-hongkong",
+  "cvm": "ins-kfitq8i6",
+  "postgres": "postgres-entm7byh",
+  "cosRunUtc": "2026-09-09T14:13:17Z",
+  "cos": {
+    "temporaryCredentials": "PASS",
+    "headBucket": "PASS",
+    "privateDns": "169.254.0.47",
+    "presignedPutHttp": 200,
+    "presignedGetHttp": 200,
+    "sha256Roundtrip": "PASS",
+    "defaultEncryption": "AES256",
+    "anonymousObjectHttp": 403,
+    "studentOriginPreflightHttp": 200,
+    "teacherOriginPreflightHttp": 200,
+    "unknownOriginPreflightHttp": 403,
+    "oldOriginPreflightHttp": 403,
+    "httpOriginPreflightHttp": 403,
+    "mediaPutGet": "PASS",
+    "mediaDeleteHttp": 403,
+    "bucketListHttp": 403,
+    "outsidePrefixPutHttp": 403,
+    "multipartRoundtrip": "PASS",
+    "rosterCleanupHeadHttp": 404,
+    "retainedSyntheticMediaKey": "media/infra-verification/fda9a1f1fde5446193bdf5015e63c7f7.txt",
+    "retainedSyntheticMediaBytes": 73
+  },
+  "containerRunUtc": "2026-09-09T14:17:22.140Z",
+  "container": {
+    "image": "node:24.18.0-bookworm-slim",
+    "imageDigest": "sha256:6f7b03f7c2c8e2e784dcf9295400527b9b1270fd37b7e9a7285cf83b6951452d",
+    "uid": 10001,
+    "backendCaLoader": "PASS",
+    "postgresStrictTls": "TLSv1.3",
+    "wrongHostnameRejected": "ERR_TLS_CERT_ALTNAME_INVALID",
+    "temporaryCredentials": "PASS",
+    "cosDns": "169.254.0.47",
+    "cosAnonymousHttps": 403
+  },
+  "postgres": {
+    "bothAccountsVerifyFullLogin": "PASS",
+    "appCreatePublicTable": "DENIED",
+    "wrongHostnameVerifyFull": "DENIED",
+    "probeTransactionDml": "PASS",
+    "probeTransactionRollback": "PASS",
+    "publicBusinessTables": 0,
+    "automaticBackup": "SUCCESS",
+    "backupDataRetentionDays": 7,
+    "backupLogRetentionDays": 7
+  },
+  "certbot": {
+    "version": "1.21.0",
+    "renewalSimulation": "PASS",
+    "nginxDeployHookSeparateExecution": "PASS",
+    "timer": "enabled_active",
+    "certificateExpires": "2026-12-08"
+  },
+  "docker": {
+    "version": "29.8.0",
+    "compose": "5.5.1",
+    "buildx": "0.37.0",
+    "helloWorld": "PASS",
+    "effectiveLogDriver": "json-file",
+    "effectiveLogOptions": {"max-file": "5", "max-size": "10m"},
+    "remainingContainers": 0
+  },
+  "browserPageAcceptance": "PENDING_CLIENT_BLOCKED",
+  "backendBusinessDeployment": "NOT_PERFORMED"
+}

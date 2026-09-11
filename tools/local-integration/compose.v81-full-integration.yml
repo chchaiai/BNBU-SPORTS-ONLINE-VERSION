@@ -1,0 +1,60 @@
+name: bnbu-v81-full-integration
+services:
+  integration-media:
+    image: minio/minio:RELEASE.2025-09-07T16-13-09Z-cpuv1
+    command: server /data
+    environment:
+      MINIO_ROOT_USER: v81-integration-media
+      MINIO_ROOT_PASSWORD: ${V81_SQL_PROBE_PASSWORD:?Initialize the ignored local probe environment}
+    tmpfs: [/data]
+    networks: [integration-isolated]
+    healthcheck:
+      test: [CMD, curl, -f, http://127.0.0.1:9000/minio/health/live]
+      interval: 3s
+      timeout: 3s
+      retries: 20
+  mailpit:
+    image: axllent/mailpit:v1.30.0
+    networks: [integration-isolated]
+    healthcheck:
+      test: [CMD, /mailpit, readyz]
+      interval: 3s
+      timeout: 3s
+      retries: 20
+  integration-postgres:
+    image: postgres:18.4-alpine3.24
+    environment:
+      POSTGRES_DB: bnbu_sports_test
+      POSTGRES_USER: bnbu_test
+      POSTGRES_PASSWORD: ${V81_SQL_PROBE_PASSWORD:?Initialize the ignored local probe environment}
+    tmpfs:
+      - /var/lib/postgresql
+    networks: [integration-isolated]
+    healthcheck:
+      test: [CMD-SHELL, pg_isready -U bnbu_test -d bnbu_sports_test]
+      interval: 2s
+      timeout: 3s
+      retries: 30
+  integration-tests:
+    build:
+      context: ../..
+      dockerfile: tools/local-integration/Dockerfile.v81-test
+    network_mode: service:integration-postgres
+    environment:
+      TEST_DATABASE_URL: postgresql://bnbu_test:${V81_SQL_PROBE_PASSWORD}@127.0.0.1:5432/bnbu_sports_test?schema=public
+      MIGRATION_DATABASE_URL: postgresql://bnbu_test:${V81_SQL_PROBE_PASSWORD}@127.0.0.1:5432/bnbu_sports_test?schema=public
+      TEST_DATABASE_RESET_CONFIRMATION: BNBU_SPORTS_EPHEMERAL_TEST_DATABASE_V1
+      TEST_MEDIA_ENDPOINT: http://integration-media:9000
+      TEST_MEDIA_ACCESS_KEY: v81-integration-media
+      TEST_MEDIA_SECRET_KEY: ${V81_SQL_PROBE_PASSWORD}
+    depends_on:
+      integration-media:
+        condition: service_healthy
+      mailpit:
+        condition: service_healthy
+      integration-postgres:
+        condition: service_healthy
+    command: [sh, -ec, 'npm run build && node node_modules/prisma/build/index.js migrate deploy && npm run test:integration']
+networks:
+  integration-isolated:
+    internal: true

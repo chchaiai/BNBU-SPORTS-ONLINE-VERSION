@@ -1,0 +1,5 @@
+{"check":"STUDENT_BROWSER_SMTP_LOGIN","result":"PASS"}
+{"check":"STUDENT_HOME_CONTENT","hasCourse":true,"hasProgress":true,"hasLoginForm":false}
+{"check":"STUDENT_AUTOMATIC_CLIENT_DIAGNOSTICS","result":"PASS"}
+{"check":"TEACHER_AUTOMATIC_CLIENT_DIAGNOSTICS","result":"PASS"}
+{"check":"ADMIN_AUTOMATIC_CLIENT_DIAGNOSTICS","result":"PASS"}

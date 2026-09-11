@@ -1,0 +1,5 @@
+{
+  "destructive": false,
+  "sha256": "da973fb7910e539d72b44278b5b734e4ccc70c9ad5fddd91086115687b6bc0b5",
+  "migrationId": "0060_subadmin_contact_email_scope"
+}

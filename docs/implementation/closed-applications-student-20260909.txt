@@ -1,0 +1,1 @@
+{"check":"CLOSED_APPLICATIONS_STUDENT","result":"PASS","approvedOwnApplications":2,"newApplicationDenied":409}

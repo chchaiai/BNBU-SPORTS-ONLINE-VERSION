@@ -1,0 +1,17 @@
+ Container bnbu-v81-local-validation-sql-tests-run-dfd1aebf90f4 Creating 
+ Container bnbu-v81-local-validation-sql-tests-run-dfd1aebf90f4 Created 
+✔ seven calendar weeks allow 21 slots even when each start window is one minute (31.307609ms)
+✔ a passed local start window is not counted at publication (0.383243ms)
+✔ deadline before local daily opening excludes that day (0.250586ms)
+✔ daily and shared weekly limits include exclusions and partial weeks (0.303528ms)
+✔ category targets may require separate slots even when their total is unchanged (0.334228ms)
+✔ semester dates cap nominal course dates and expired plans have no capacity (0.285053ms)
+ℹ tests 6
+ℹ suites 0
+ℹ pass 6
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 241.469224
+Docker exit code: 0

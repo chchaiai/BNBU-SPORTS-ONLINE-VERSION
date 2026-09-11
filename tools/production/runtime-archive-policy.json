@@ -1,0 +1,12 @@
+{
+  "version": "2.0",
+  "statement": [{
+    "effect": "allow",
+    "action": [
+      "name/cos:GetObject", "name/cos:HeadObject", "name/cos:PutObject", "name/cos:DeleteObject",
+      "name/cos:InitiateMultipartUpload", "name/cos:UploadPart", "name/cos:CompleteMultipartUpload",
+      "name/cos:AbortMultipartUpload", "name/cos:ListParts"
+    ],
+    "resource": ["qcs::cos:ap-hongkong:uid/1443273655:bnbu-sports-prod-hk-1443273655/runtime-archives/*"]
+  }]
+}

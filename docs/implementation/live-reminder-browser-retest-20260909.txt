@@ -1,0 +1,2 @@
+{"check":"ACTUAL_WORKER_STUDENT_NOTICE_WEB_READ","result":"PASS","remainingMinutes":1200}
+{"check":"ACTUAL_WORKER_TEACHER_NOTICE_WEB_EXACT_COURSE","result":"PASS","syntheticSchedule":true}

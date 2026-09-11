@@ -1,0 +1,2 @@
+{"check":"OCR_ROSTER_WEB","result":"PASS","provider":"explicit-synthetic-substitute","realHttpAndMinio":true}
+{"check":"OCR_PHYSICAL_WEB","result":"PASS","ambiguousTimeBlocked":true,"partialConfirmationPreserved":true,"provider":"explicit-synthetic-substitute"}

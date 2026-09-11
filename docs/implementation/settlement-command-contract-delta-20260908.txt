@@ -1,0 +1,1 @@
+PASS: all 391 diagnostics match prior baseline after registry-total normalization. Current 131/244; prior 129/242; both missing 113. No new diagnostics.

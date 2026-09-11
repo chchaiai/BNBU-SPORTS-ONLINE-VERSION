@@ -1,0 +1,93 @@
+ Image bnbu-v81-local-validation-domain-tests Building 
+#1 [internal] load local bake definitions
+#1 reading from stdin 624B 0.0s done
+#1 DONE 0.0s
+
+#2 [internal] load build definition from Dockerfile.v81-test
+#2 transferring dockerfile: 720B done
+#2 DONE 0.0s
+
+#3 [auth] library/node:pull token for registry-1.docker.io
+#3 DONE 0.0s
+
+#4 [internal] load metadata for docker.io/library/node:24.18.0-bookworm-slim
+#4 DONE 1.5s
+
+#5 [internal] load .dockerignore
+#5 transferring context: 153B done
+#5 DONE 0.0s
+
+#6 [ 1/10] FROM docker.io/library/node:24.18.0-bookworm-slim@sha256:6f7b03f7c2c8e2e784dcf9295400527b9b1270fd37b7e9a7285cf83b6951452d
+#6 resolve docker.io/library/node:24.18.0-bookworm-slim@sha256:6f7b03f7c2c8e2e784dcf9295400527b9b1270fd37b7e9a7285cf83b6951452d 0.0s done
+#6 DONE 0.0s
+
+#7 [internal] load build context
+#7 transferring context: 86.12kB 0.1s done
+#7 DONE 0.1s
+
+#8 [ 4/10] COPY backend/package.json backend/package-lock.json ./
+#8 CACHED
+
+#9 [ 2/10] RUN apt-get update && apt-get install -y --no-install-recommends openssl ca-certificates && rm -rf /var/lib/apt/lists/*
+#9 CACHED
+
+#10 [ 3/10] WORKDIR /workspace/backend
+#10 CACHED
+
+#11 [ 5/10] RUN npm ci --ignore-scripts --no-audit --no-fund
+#11 CACHED
+
+#12 [ 6/10] COPY backend/ ./
+#12 DONE 0.2s
+
+#13 [ 7/10] COPY docs/backend-contracts/ /workspace/docs/backend-contracts/
+#13 DONE 0.1s
+
+#14 [ 8/10] COPY tools/ /workspace/tools/
+#14 DONE 0.1s
+
+#15 [ 9/10] COPY BNBU-Sports-Web-new/frontend/student/ /workspace/BNBU-Sports-Web-new/frontend/student/
+#15 DONE 0.2s
+
+#16 [10/10] RUN npm run db:generate
+#16 0.332 
+#16 0.332 > @bnbu/sports-backend@0.1.0 db:generate
+#16 0.332 > prisma generate
+#16 0.332 
+#16 0.887 Loaded Prisma config from prisma.config.ts.
+#16 0.887 
+#16 2.721 Prisma schema loaded from prisma/schema.prisma.
+#16 4.105 
+#16 4.105 ✔ Generated Prisma Client (7.9.1) to ./src/generated/prisma in 834ms
+#16 4.105 
+#16 DONE 4.3s
+
+#17 exporting to image
+#17 exporting layers
+#17 exporting layers 1.6s done
+#17 exporting manifest sha256:45923f10feed6695a996cb90866ba8750c6a8923d21ab3451d597ea1e1ea696f 0.0s done
+#17 exporting config sha256:539b104039af6b35c7cd2fc8cb7a19848e96b2e7541a204febec85a115fed2fb 0.0s done
+#17 exporting attestation manifest sha256:7fece095cdd06a0ba077c197b4fb91b1a4af203e97cef99df42d7bd9468eeca2 0.0s done
+#17 exporting manifest list sha256:3d19a69dccb3a6ff08deeee9d83b2e3089414cac27ad788dcfe7b27ecf1aee4f
+#17 exporting manifest list sha256:3d19a69dccb3a6ff08deeee9d83b2e3089414cac27ad788dcfe7b27ecf1aee4f 0.0s done
+#17 naming to docker.io/library/bnbu-v81-local-validation-domain-tests:latest done
+#17 unpacking to docker.io/library/bnbu-v81-local-validation-domain-tests:latest
+#17 unpacking to docker.io/library/bnbu-v81-local-validation-domain-tests:latest 0.6s done
+#17 DONE 2.4s
+
+#18 resolving provenance for metadata file
+#18 DONE 0.0s
+ Image bnbu-v81-local-validation-domain-tests Built 
+ Container bnbu-v81-local-validation-domain-tests-run-77ee5e469461 Creating 
+ Container bnbu-v81-local-validation-domain-tests-run-77ee5e469461 Created 
+✔ creates all four documented 101-row tables and matches every integer second uniquely (31.146398ms)
+✔ rejects invalid edits and deletions, including grades and increasing scores (0.750839ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 2
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 161.837174
+Docker exit code: 0

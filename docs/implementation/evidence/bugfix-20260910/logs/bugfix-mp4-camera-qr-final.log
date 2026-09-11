@@ -1,0 +1,1 @@
+{"scope":"local-browser-UI-with-synthetic-camera","status":"PASS","checks":["photo-front-back-switch-releases-previous-stream","12-second-video-survives-unchanged-system-polls-without-navigation-overlay","teacher-qrcode-library-to-bundled-student-decoder-roundtrip"]}

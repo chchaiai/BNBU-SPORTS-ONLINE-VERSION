@@ -1,0 +1,3776 @@
+{
+  "description": "Explicit current wire enum definitions and field bindings; no UI labels generated.",
+  "definitions": {
+    "V81AdminKind": {
+      "type": "string",
+      "enum": [
+        "SUPER",
+        "SUB"
+      ],
+      "description": "管理员身份类别"
+    },
+    "V81AdminPermission": {
+      "type": "string",
+      "enum": [
+        "COURSE_VIEW",
+        "SEMESTER_MANAGE",
+        "USER_ACCOUNTS",
+        "STUDENT_FEEDBACK",
+        "GLOBAL_RULES",
+        "SYSTEM_MODE",
+        "HELP_CENTER",
+        "AUDIT_QUERY"
+      ],
+      "description": "分管理员八项权限"
+    },
+    "V81CreatedAccountStatus": {
+      "type": "string",
+      "enum": [
+        "ACTIVE"
+      ],
+      "description": "建号成功账户状态"
+    },
+    "V81SwimIntakeKind": {
+      "type": "string",
+      "enum": [
+        "ON_TIME",
+        "OFFLINE_DELAYED"
+      ],
+      "description": "游泳材料受理类型"
+    },
+    "V81EvidencePhase": {
+      "type": "string",
+      "enum": [
+        "BEFORE",
+        "AFTER",
+        "OTHER"
+      ],
+      "description": "运动材料阶段"
+    },
+    "V81SettlementCheckStatus": {
+      "type": "string",
+      "enum": [
+        "CLEAR",
+        "BLOCKED",
+        "UNAVAILABLE"
+      ],
+      "description": "结算检查状态"
+    },
+    "V81FeedbackCategory": {
+      "type": "string",
+      "enum": [
+        "BUG",
+        "SUGGESTION",
+        "ACCESSIBILITY",
+        "PRIVACY",
+        "OTHER"
+      ],
+      "description": "反馈分类"
+    },
+    "V81FeedbackStatus": {
+      "type": "string",
+      "enum": [
+        "OPEN",
+        "IN_PROGRESS",
+        "WAITING_TECH",
+        "RESOLVED",
+        "CLOSED"
+      ],
+      "description": "反馈处理状态"
+    },
+    "V81HelpCategory": {
+      "type": "string",
+      "enum": [
+        "login",
+        "enrollment",
+        "checkin",
+        "evidence",
+        "course",
+        "exemption",
+        "organization",
+        "notification",
+        "maintenance",
+        "feedback"
+      ],
+      "description": "帮助主题分类"
+    },
+    "V81HelpStatus": {
+      "type": "string",
+      "enum": [
+        "draft",
+        "published",
+        "archived"
+      ],
+      "description": "帮助发布状态"
+    },
+    "V81EnduranceGender": {
+      "type": "string",
+      "enum": [
+        "male",
+        "female"
+      ],
+      "description": "换算表性别"
+    },
+    "V81EnduranceCohort": {
+      "type": "string",
+      "enum": [
+        "freshman_sophomore",
+        "junior_senior"
+      ],
+      "description": "换算表年级组"
+    },
+    "V81RunType": {
+      "type": "string",
+      "enum": [
+        "800m",
+        "1000m"
+      ],
+      "description": "原始体测项目"
+    },
+    "V81EnduranceTier": {
+      "type": "string",
+      "enum": [
+        "excellent",
+        "good",
+        "pass",
+        "fail"
+      ],
+      "description": "换算表档位"
+    },
+    "V81MissingPhysicalStatus": {
+      "type": "string",
+      "enum": [
+        "NOT_RECORDED",
+        "EXEMPT"
+      ],
+      "description": "未录入数值体测状态"
+    },
+    "V81RegistrationStatus": {
+      "type": "string",
+      "enum": [
+        "MATCHED",
+        "PENDING_REGISTRATION",
+        "IDENTITY_CONFLICT",
+        "EXTRA_IN_PLATFORM"
+      ],
+      "description": "名单注册对应状态"
+    },
+    "V81RosterRowStatus": {
+      "type": "string",
+      "enum": [
+        "VALID",
+        "DUPLICATED"
+      ],
+      "description": "名单源行状态"
+    },
+    "V81RosterSourceKind": {
+      "type": "string",
+      "enum": [
+        "ELECTRONIC",
+        "OCR"
+      ],
+      "description": "名单依据来源"
+    },
+    "V81PhysicalStatus": {
+      "type": "string",
+      "enum": [
+        "EXEMPT",
+        "RECORDED",
+        "NOT_RECORDED"
+      ],
+      "description": "体测事实状态"
+    },
+    "V81JoinableSectionStatus": {
+      "type": "string",
+      "enum": [
+        "UPCOMING",
+        "ACTIVE"
+      ],
+      "description": "可入班教学班状态"
+    },
+    "V81OcrPurpose": {
+      "type": "string",
+      "enum": [
+        "ROSTER",
+        "PHYSICAL"
+      ],
+      "description": "OCR用途"
+    },
+    "V81OcrAttemptStatus": {
+      "type": "string",
+      "enum": [
+        "SUCCEEDED",
+        "FAILED"
+      ],
+      "description": "OCR尝试结果"
+    },
+    "V81OcrJobStatus": {
+      "type": "string",
+      "enum": [
+        "QUEUED",
+        "RUNNING",
+        "SUCCEEDED",
+        "FAILED"
+      ],
+      "description": "OCR任务状态"
+    },
+    "V81OcrField": {
+      "type": "string",
+      "enum": [
+        "studentNumber",
+        "name",
+        "runType",
+        "elapsed",
+        "testedOn"
+      ],
+      "description": "OCR草稿字段"
+    },
+    "V81MaterialVersion": {
+      "type": "integer",
+      "enum": [
+        1,
+        2
+      ],
+      "description": "材料版本"
+    },
+    "V81MakeupStatus": {
+      "type": "string",
+      "enum": [
+        "SCHEDULED",
+        "OPEN",
+        "ENDED",
+        "REVOKED"
+      ],
+      "description": "补练授权状态"
+    },
+    "V81SemesterStatus": {
+      "type": "string",
+      "enum": [
+        "UPCOMING",
+        "CURRENT",
+        "ARCHIVED"
+      ],
+      "description": "学期状态"
+    },
+    "V81AuditSource": {
+      "type": "string",
+      "enum": [
+        "FOUNDATION",
+        "V81"
+      ],
+      "description": "审计存储来源"
+    },
+    "V81RuntimeArchiveStatus": {
+      "type": "string",
+      "enum": [
+        "QUEUED",
+        "RUNNING",
+        "SUCCEEDED",
+        "FAILED",
+        "CANCELLED",
+        "EXPIRED"
+      ],
+      "description": "运行归档状态"
+    },
+    "V81OcrConfigSource": {
+      "type": "string",
+      "enum": [
+        "ADMIN_REVISION",
+        "DEPLOYMENT_ENVIRONMENT"
+      ],
+      "description": "OCR配置来源"
+    },
+    "V81OcrProvider": {
+      "type": "string",
+      "enum": [
+        "DISABLED",
+        "TENCENT_TABLE_V3"
+      ],
+      "description": "OCR提供方"
+    },
+    "V81IdentityVerificationStatus": {
+      "type": "string",
+      "enum": [
+        "VERIFIED"
+      ],
+      "description": "邮箱核验成功状态"
+    },
+    "V81ManagedAccountStatus": {
+      "type": "string",
+      "enum": [
+        "ACTIVE",
+        "DISABLED"
+      ],
+      "description": "受管理账户状态"
+    },
+    "V81RecordWorkflowStage": {
+      "type": "string",
+      "enum": [
+        "PENDING_AI",
+        "TECHNICAL",
+        "PENDING_TEACHER",
+        "AWAITING_SUPPLEMENT",
+        "VALID",
+        "INVALID"
+      ],
+      "description": "运动审核阶段"
+    },
+    "V81RosterAlignmentRule": {
+      "type": "string",
+      "enum": [
+        "ROSTER_ALIGNMENT_V1",
+        "ROSTER_ALIGNMENT_V2"
+      ],
+      "description": "名单核对规则版本"
+    },
+    "V81ExerciseMinimumMinutes": {
+      "type": "integer",
+      "enum": [
+        30,
+        45,
+        60
+      ],
+      "description": "课程单次最低分钟"
+    },
+    "V81WeeklyRecordLimit": {
+      "type": "integer",
+      "enum": [
+        2,
+        3,
+        4
+      ],
+      "description": "课程每周计入条数"
+    },
+    "V81TeacherReviewAction": {
+      "type": "string",
+      "enum": [
+        "VALID",
+        "INVALID",
+        "RETURN_FOR_SUPPLEMENT"
+      ],
+      "description": "教师审核动作"
+    },
+    "V81SupplementHours": {
+      "type": "integer",
+      "enum": [
+        24,
+        72
+      ],
+      "description": "补证时限小时数"
+    },
+    "V81ProgressStatus": {
+      "type": "string",
+      "enum": [
+        "COMPLETED",
+        "IN_PROGRESS"
+      ],
+      "description": "学生目标完成状态"
+    },
+    "V81CertificationType": {
+      "type": "string",
+      "enum": [
+        "SCHOOL_TEAM",
+        "STUDENT_CLUB"
+      ],
+      "description": "认证类型"
+    },
+    "V81CertificationStatus": {
+      "type": "string",
+      "enum": [
+        "DRAFT",
+        "SUBMITTED",
+        "SUPPLEMENT_REQUIRED",
+        "APPROVED",
+        "REJECTED",
+        "REVOKED"
+      ],
+      "description": "认证申请状态"
+    },
+    "V81SemesterTerm": {
+      "type": "string",
+      "enum": [
+        "FIRST",
+        "SECOND",
+        "SUMMER"
+      ],
+      "description": "学期学段"
+    }
+  },
+  "bindings": [
+    {
+      "path": [
+        "paths",
+        "/auth/account-security",
+        "get",
+        "responses",
+        "200",
+        "content",
+        "application/json",
+        "schema",
+        "properties",
+        "data",
+        "properties",
+        "adminKind"
+      ],
+      "enum": [
+        "SUPER",
+        "SUB",
+        null
+      ],
+      "definition": "V81AdminKind"
+    },
+    {
+      "path": [
+        "paths",
+        "/admin/subadmins",
+        "post",
+        "responses",
+        "201",
+        "content",
+        "application/json",
+        "schema",
+        "properties",
+        "data",
+        "properties",
+        "permissions",
+        "items"
+      ],
+      "enum": [
+        "COURSE_VIEW",
+        "SEMESTER_MANAGE",
+        "USER_ACCOUNTS",
+        "STUDENT_FEEDBACK",
+        "GLOBAL_RULES",
+        "SYSTEM_MODE",
+        "HELP_CENTER",
+        "AUDIT_QUERY"
+      ],
+      "definition": "V81AdminPermission"
+    },
+    {
+      "path": [
+        "paths",
+        "/admin/subadmins",
+        "post",
+        "responses",
+        "201",
+        "content",
+        "application/json",
+        "schema",
+        "properties",
+        "data",
+        "properties",
+        "status"
+      ],
+      "enum": [
+        "ACTIVE"
+      ],
+      "definition": "V81CreatedAccountStatus"
+    },
+    {
+      "path": [
+        "paths",
+        "/exercise-records/{recordId}/swim-intake",
+        "post",
+        "responses",
+        "201",
+        "content",
+        "application/json",
+        "schema",
+        "properties",
+        "data",
+        "properties",
+        "intakeKind"
+      ],
+      "enum": [
+        "ON_TIME",
+        "OFFLINE_DELAYED"
+      ],
+      "definition": "V81SwimIntakeKind"
+    },
+    {
+      "path": [
+        "paths",
+        "/exercise-records/{recordId}/swim-intake",
+        "get",
+        "responses",
+        "200",
+        "content",
+        "application/json",
+        "schema",
+        "properties",
+        "data",
+        "properties",
+        "intakeKind"
+      ],
+      "enum": [
+        "ON_TIME",
+        "OFFLINE_DELAYED"
+      ],
+      "definition": "V81SwimIntakeKind"
+    },
+    {
+      "path": [
+        "paths",
+        "/exercise-records/{recordId}/swim-intake",
+        "get",
+        "responses",
+        "200",
+        "content",
+        "application/json",
+        "schema",
+        "properties",
+        "data",
+        "properties",
+        "items",
+        "items",
+        "properties",
+        "phase"
+      ],
+      "enum": [
+        "BEFORE",
+        "AFTER",
+        "OTHER"
+      ],
+      "definition": "V81EvidencePhase"
+    },
+    {
+      "path": [
+        "paths",
+        "/class-sections/{classSectionId}/settlement-check",
+        "get",
+        "responses",
+        "200",
+        "content",
+        "application/json",
+        "schema",
+        "properties",
+        "data",
+        "properties",
+        "checks",
+        "items",
+        "properties",
+        "status"
+      ],
+      "enum": [
+        "CLEAR",
+        "BLOCKED",
+        "UNAVAILABLE"
+      ],
+      "definition": "V81SettlementCheckStatus"
+    },
+    {
+      "path": [
+        "paths",
+        "/admin/feedback/{feedbackId}",
+        "get",
+        "responses",
+        "200",
+        "content",
+        "application/json",
+        "schema",
+        "properties",
+        "data",
+        "properties",
+        "category"
+      ],
+      "enum": [
+        "BUG",
+        "SUGGESTION",
+        "ACCESSIBILITY",
+        "PRIVACY",
+        "OTHER"
+      ],
+      "definition": "V81FeedbackCategory"
+    },
+    {
+      "path": [
+        "paths",
+        "/admin/feedback/{feedbackId}",
+        "get",
+        "responses",
+        "200",
+        "content",
+        "application/json",
+        "schema",
+        "properties",
+        "data",
+        "properties",
+        "status"
+      ],
+      "enum": [
+        "OPEN",
+        "IN_PROGRESS",
+        "WAITING_TECH",
+        "RESOLVED",
+        "CLOSED"
+      ],
+      "definition": "V81FeedbackStatus"
+    },
+    {
+      "path": [
+        "paths",
+        "/admin/feedback/{feedbackId}",
+        "get",
+        "responses",
+        "200",
+        "content",
+        "application/json",
+        "schema",
+        "properties",
+        "data",
+        "properties",
+        "history",
+        "items",
+        "properties",
+        "previousStatus"
+      ],
+      "enum": [
+        "OPEN",
+        "IN_PROGRESS",
+        "WAITING_TECH",
+        "RESOLVED",
+        "CLOSED"
+      ],
+      "definition": "V81FeedbackStatus"
+    },
+    {
+      "path": [
+        "paths",
+        "/admin/feedback/{feedbackId}",
+        "get",
+        "responses",
+        "200",
+        "content",
+        "application/json",
+        "schema",
+        "properties",
+        "data",
+        "properties",
+        "history",
+        "items",
+        "properties",
+        "nextStatus"
+      ],
+      "enum": [
+        "OPEN",
+        "IN_PROGRESS",
+        "WAITING_TECH",
+        "RESOLVED",
+        "CLOSED"
+      ],
+      "definition": "V81FeedbackStatus"
+    },
+    {
+      "path": [
+        "paths",
+        "/admin/feedback/{feedbackId}/handling",
+        "post",
+        "responses",
+        "201",
+        "content",
+        "application/json",
+        "schema",
+        "properties",
+        "data",
+        "properties",
+        "status"
+      ],
+      "enum": [
+        "OPEN",
+        "IN_PROGRESS",
+        "WAITING_TECH",
+        "RESOLVED",
+        "CLOSED"
+      ],
+      "definition": "V81FeedbackStatus"
+    },
+    {
+      "path": [
+        "paths",
+        "/admin/feedback",
+        "get",
+        "parameters",
+        "3",
+        "schema"
+      ],
+      "enum": [
+        "BUG",
+        "SUGGESTION",
+        "ACCESSIBILITY",
+        "PRIVACY",
+        "OTHER"
+      ],
+      "definition": "V81FeedbackCategory"
+    },
+    {
+      "path": [
+        "paths",
+        "/admin/feedback",
+        "get",
+        "parameters",
+        "4",
+        "schema"
+      ],
+      "enum": [
+        "OPEN",
+        "IN_PROGRESS",
+        "WAITING_TECH",
+        "RESOLVED",
+        "CLOSED"
+      ],
+      "definition": "V81FeedbackStatus"
+    },
+    {
+      "path": [
+        "paths",
+        "/admin/feedback",
+        "get",
+        "responses",
+        "200",
+        "content",
+        "application/json",
+        "schema",
+        "properties",
+        "data",
+        "properties",
+        "items",
+        "items",
+        "properties",
+        "category"
+      ],
+      "enum": [
+        "BUG",
+        "SUGGESTION",
+        "ACCESSIBILITY",
+        "PRIVACY",
+        "OTHER"
+      ],
+      "definition": "V81FeedbackCategory"
+    },
+    {
+      "path": [
+        "paths",
+        "/admin/feedback",
+        "get",
+        "responses",
+        "200",
+        "content",
+        "application/json",
+        "schema",
+        "properties",
+        "data",
+        "properties",
+        "items",
+        "items",
+        "properties",
+        "status"
+      ],
+      "enum": [
+        "OPEN",
+        "IN_PROGRESS",
+        "WAITING_TECH",
+        "RESOLVED",
+        "CLOSED"
+      ],
+      "definition": "V81FeedbackStatus"
+    },
+    {
+      "path": [
+        "paths",
+        "/student/feedback/{feedbackId}/history",
+        "get",
+        "responses",
+        "200",
+        "content",
+        "application/json",
+        "schema",
+        "properties",
+        "data",
+        "properties",
+        "status"
+      ],
+      "enum": [
+        "OPEN",
+        "IN_PROGRESS",
+        "WAITING_TECH",
+        "RESOLVED",
+        "CLOSED"
+      ],
+      "definition": "V81FeedbackStatus"
+    },
+    {
+      "path": [
+        "paths",
+        "/student/feedback/{feedbackId}/history",
+        "get",
+        "responses",
+        "200",
+        "content",
+        "application/json",
+        "schema",
+        "properties",
+        "data",
+        "properties",
+        "items",
+        "items",
+        "properties",
+        "status"
+      ],
+      "enum": [
+        "OPEN",
+        "IN_PROGRESS",
+        "WAITING_TECH",
+        "RESOLVED",
+        "CLOSED"
+      ],
+      "definition": "V81FeedbackStatus"
+    },
+    {
+      "path": [
+        "paths",
+        "/admin/help-articles",
+        "post",
+        "responses",
+        "201",
+        "content",
+        "application/json",
+        "schema",
+        "properties",
+        "data",
+        "properties",
+        "category"
+      ],
+      "enum": [
+        "login",
+        "enrollment",
+        "checkin",
+        "evidence",
+        "course",
+        "exemption",
+        "organization",
+        "notification",
+        "maintenance",
+        "feedback"
+      ],
+      "definition": "V81HelpCategory"
+    },
+    {
+      "path": [
+        "paths",
+        "/admin/help-articles",
+        "post",
+        "responses",
+        "201",
+        "content",
+        "application/json",
+        "schema",
+        "properties",
+        "data",
+        "properties",
+        "status"
+      ],
+      "enum": [
+        "draft",
+        "published",
+        "archived"
+      ],
+      "definition": "V81HelpStatus"
+    },
+    {
+      "path": [
+        "paths",
+        "/admin/help-articles",
+        "get",
+        "parameters",
+        "3",
+        "schema"
+      ],
+      "enum": [
+        "login",
+        "enrollment",
+        "checkin",
+        "evidence",
+        "course",
+        "exemption",
+        "organization",
+        "notification",
+        "maintenance",
+        "feedback"
+      ],
+      "definition": "V81HelpCategory"
+    },
+    {
+      "path": [
+        "paths",
+        "/admin/help-articles",
+        "get",
+        "parameters",
+        "4",
+        "schema"
+      ],
+      "enum": [
+        "draft",
+        "published",
+        "archived"
+      ],
+      "definition": "V81HelpStatus"
+    },
+    {
+      "path": [
+        "paths",
+        "/admin/help-articles",
+        "get",
+        "responses",
+        "200",
+        "content",
+        "application/json",
+        "schema",
+        "properties",
+        "data",
+        "properties",
+        "items",
+        "items",
+        "properties",
+        "category"
+      ],
+      "enum": [
+        "login",
+        "enrollment",
+        "checkin",
+        "evidence",
+        "course",
+        "exemption",
+        "organization",
+        "notification",
+        "maintenance",
+        "feedback"
+      ],
+      "definition": "V81HelpCategory"
+    },
+    {
+      "path": [
+        "paths",
+        "/admin/help-articles",
+        "get",
+        "responses",
+        "200",
+        "content",
+        "application/json",
+        "schema",
+        "properties",
+        "data",
+        "properties",
+        "items",
+        "items",
+        "properties",
+        "status"
+      ],
+      "enum": [
+        "draft",
+        "published",
+        "archived"
+      ],
+      "definition": "V81HelpStatus"
+    },
+    {
+      "path": [
+        "paths",
+        "/admin/help-articles/{articleId}",
+        "post",
+        "responses",
+        "201",
+        "content",
+        "application/json",
+        "schema",
+        "properties",
+        "data",
+        "properties",
+        "category"
+      ],
+      "enum": [
+        "login",
+        "enrollment",
+        "checkin",
+        "evidence",
+        "course",
+        "exemption",
+        "organization",
+        "notification",
+        "maintenance",
+        "feedback"
+      ],
+      "definition": "V81HelpCategory"
+    },
+    {
+      "path": [
+        "paths",
+        "/admin/help-articles/{articleId}",
+        "post",
+        "responses",
+        "201",
+        "content",
+        "application/json",
+        "schema",
+        "properties",
+        "data",
+        "properties",
+        "status"
+      ],
+      "enum": [
+        "draft",
+        "published",
+        "archived"
+      ],
+      "definition": "V81HelpStatus"
+    },
+    {
+      "path": [
+        "paths",
+        "/admin/help-articles/{articleId}",
+        "get",
+        "responses",
+        "200",
+        "content",
+        "application/json",
+        "schema",
+        "properties",
+        "data",
+        "properties",
+        "category"
+      ],
+      "enum": [
+        "login",
+        "enrollment",
+        "checkin",
+        "evidence",
+        "course",
+        "exemption",
+        "organization",
+        "notification",
+        "maintenance",
+        "feedback"
+      ],
+      "definition": "V81HelpCategory"
+    },
+    {
+      "path": [
+        "paths",
+        "/admin/help-articles/{articleId}",
+        "get",
+        "responses",
+        "200",
+        "content",
+        "application/json",
+        "schema",
+        "properties",
+        "data",
+        "properties",
+        "status"
+      ],
+      "enum": [
+        "draft",
+        "published",
+        "archived"
+      ],
+      "definition": "V81HelpStatus"
+    },
+    {
+      "path": [
+        "paths",
+        "/student/help-articles",
+        "get",
+        "parameters",
+        "1",
+        "schema"
+      ],
+      "enum": [
+        "zh-CN",
+        "en"
+      ],
+      "transportReason": "Supported locale identifiers for message selection"
+    },
+    {
+      "path": [
+        "paths",
+        "/student/help-articles",
+        "get",
+        "responses",
+        "200",
+        "content",
+        "application/json",
+        "schema",
+        "properties",
+        "data",
+        "items",
+        "properties",
+        "category"
+      ],
+      "enum": [
+        "login",
+        "enrollment",
+        "checkin",
+        "evidence",
+        "course",
+        "exemption",
+        "organization",
+        "notification",
+        "maintenance",
+        "feedback"
+      ],
+      "definition": "V81HelpCategory"
+    },
+    {
+      "path": [
+        "paths",
+        "/student/help-articles",
+        "get",
+        "responses",
+        "200",
+        "content",
+        "application/json",
+        "schema",
+        "properties",
+        "data",
+        "items",
+        "properties",
+        "locale"
+      ],
+      "enum": [
+        "zh-CN",
+        "en"
+      ],
+      "transportReason": "Supported locale identifiers for message selection"
+    },
+    {
+      "path": [
+        "paths",
+        "/student/help-articles/{articleId}",
+        "get",
+        "parameters",
+        "1",
+        "schema"
+      ],
+      "enum": [
+        "zh-CN",
+        "en"
+      ],
+      "transportReason": "Supported locale identifiers for message selection"
+    },
+    {
+      "path": [
+        "paths",
+        "/student/help-articles/{articleId}",
+        "get",
+        "responses",
+        "200",
+        "content",
+        "application/json",
+        "schema",
+        "properties",
+        "data",
+        "properties",
+        "category"
+      ],
+      "enum": [
+        "login",
+        "enrollment",
+        "checkin",
+        "evidence",
+        "course",
+        "exemption",
+        "organization",
+        "notification",
+        "maintenance",
+        "feedback"
+      ],
+      "definition": "V81HelpCategory"
+    },
+    {
+      "path": [
+        "paths",
+        "/student/help-articles/{articleId}",
+        "get",
+        "responses",
+        "200",
+        "content",
+        "application/json",
+        "schema",
+        "properties",
+        "data",
+        "properties",
+        "locale"
+      ],
+      "enum": [
+        "zh-CN",
+        "en"
+      ],
+      "transportReason": "Supported locale identifiers for message selection"
+    },
+    {
+      "path": [
+        "paths",
+        "/admin/endurance-tables",
+        "get",
+        "responses",
+        "200",
+        "content",
+        "application/json",
+        "schema",
+        "properties",
+        "data",
+        "items",
+        "properties",
+        "gender"
+      ],
+      "enum": [
+        "male",
+        "female"
+      ],
+      "definition": "V81EnduranceGender"
+    },
+    {
+      "path": [
+        "paths",
+        "/admin/endurance-tables",
+        "get",
+        "responses",
+        "200",
+        "content",
+        "application/json",
+        "schema",
+        "properties",
+        "data",
+        "items",
+        "properties",
+        "gradeGroup"
+      ],
+      "enum": [
+        "freshman_sophomore",
+        "junior_senior"
+      ],
+      "definition": "V81EnduranceCohort"
+    },
+    {
+      "path": [
+        "paths",
+        "/admin/endurance-tables",
+        "get",
+        "responses",
+        "200",
+        "content",
+        "application/json",
+        "schema",
+        "properties",
+        "data",
+        "items",
+        "properties",
+        "runType"
+      ],
+      "enum": [
+        "800m",
+        "1000m"
+      ],
+      "definition": "V81RunType"
+    },
+    {
+      "path": [
+        "paths",
+        "/admin/endurance-tables",
+        "get",
+        "responses",
+        "200",
+        "content",
+        "application/json",
+        "schema",
+        "properties",
+        "data",
+        "items",
+        "properties",
+        "bands",
+        "items",
+        "properties",
+        "tier"
+      ],
+      "enum": [
+        "excellent",
+        "good",
+        "pass",
+        "fail"
+      ],
+      "definition": "V81EnduranceTier"
+    },
+    {
+      "path": [
+        "paths",
+        "/admin/endurance-tables/rules",
+        "post",
+        "responses",
+        "201",
+        "content",
+        "application/json",
+        "schema",
+        "properties",
+        "data",
+        "properties",
+        "gender"
+      ],
+      "enum": [
+        "male",
+        "female"
+      ],
+      "definition": "V81EnduranceGender"
+    },
+    {
+      "path": [
+        "paths",
+        "/admin/endurance-tables/rules",
+        "post",
+        "responses",
+        "201",
+        "content",
+        "application/json",
+        "schema",
+        "properties",
+        "data",
+        "properties",
+        "gradeGroup"
+      ],
+      "enum": [
+        "freshman_sophomore",
+        "junior_senior"
+      ],
+      "definition": "V81EnduranceCohort"
+    },
+    {
+      "path": [
+        "paths",
+        "/admin/endurance-tables/rules",
+        "post",
+        "responses",
+        "201",
+        "content",
+        "application/json",
+        "schema",
+        "properties",
+        "data",
+        "properties",
+        "runType"
+      ],
+      "enum": [
+        "800m",
+        "1000m"
+      ],
+      "definition": "V81RunType"
+    },
+    {
+      "path": [
+        "paths",
+        "/admin/endurance-tables/rules",
+        "post",
+        "responses",
+        "201",
+        "content",
+        "application/json",
+        "schema",
+        "properties",
+        "data",
+        "properties",
+        "bands",
+        "items",
+        "properties",
+        "tier"
+      ],
+      "enum": [
+        "excellent",
+        "good",
+        "pass",
+        "fail"
+      ],
+      "definition": "V81EnduranceTier"
+    },
+    {
+      "path": [
+        "paths",
+        "/admin/endurance-tables/rules/{ruleId}",
+        "post",
+        "responses",
+        "201",
+        "content",
+        "application/json",
+        "schema",
+        "properties",
+        "data",
+        "properties",
+        "gender"
+      ],
+      "enum": [
+        "male",
+        "female"
+      ],
+      "definition": "V81EnduranceGender"
+    },
+    {
+      "path": [
+        "paths",
+        "/admin/endurance-tables/rules/{ruleId}",
+        "post",
+        "responses",
+        "201",
+        "content",
+        "application/json",
+        "schema",
+        "properties",
+        "data",
+        "properties",
+        "gradeGroup"
+      ],
+      "enum": [
+        "freshman_sophomore",
+        "junior_senior"
+      ],
+      "definition": "V81EnduranceCohort"
+    },
+    {
+      "path": [
+        "paths",
+        "/admin/endurance-tables/rules/{ruleId}",
+        "post",
+        "responses",
+        "201",
+        "content",
+        "application/json",
+        "schema",
+        "properties",
+        "data",
+        "properties",
+        "runType"
+      ],
+      "enum": [
+        "800m",
+        "1000m"
+      ],
+      "definition": "V81RunType"
+    },
+    {
+      "path": [
+        "paths",
+        "/admin/endurance-tables/rules/{ruleId}",
+        "post",
+        "responses",
+        "201",
+        "content",
+        "application/json",
+        "schema",
+        "properties",
+        "data",
+        "properties",
+        "bands",
+        "items",
+        "properties",
+        "tier"
+      ],
+      "enum": [
+        "excellent",
+        "good",
+        "pass",
+        "fail"
+      ],
+      "definition": "V81EnduranceTier"
+    },
+    {
+      "path": [
+        "paths",
+        "/admin/endurance-tables/rules/{ruleId}/delete",
+        "post",
+        "responses",
+        "201",
+        "content",
+        "application/json",
+        "schema",
+        "properties",
+        "data",
+        "properties",
+        "gender"
+      ],
+      "enum": [
+        "male",
+        "female"
+      ],
+      "definition": "V81EnduranceGender"
+    },
+    {
+      "path": [
+        "paths",
+        "/admin/endurance-tables/rules/{ruleId}/delete",
+        "post",
+        "responses",
+        "201",
+        "content",
+        "application/json",
+        "schema",
+        "properties",
+        "data",
+        "properties",
+        "gradeGroup"
+      ],
+      "enum": [
+        "freshman_sophomore",
+        "junior_senior"
+      ],
+      "definition": "V81EnduranceCohort"
+    },
+    {
+      "path": [
+        "paths",
+        "/admin/endurance-tables/rules/{ruleId}/delete",
+        "post",
+        "responses",
+        "201",
+        "content",
+        "application/json",
+        "schema",
+        "properties",
+        "data",
+        "properties",
+        "runType"
+      ],
+      "enum": [
+        "800m",
+        "1000m"
+      ],
+      "definition": "V81RunType"
+    },
+    {
+      "path": [
+        "paths",
+        "/admin/endurance-tables/rules/{ruleId}/delete",
+        "post",
+        "responses",
+        "201",
+        "content",
+        "application/json",
+        "schema",
+        "properties",
+        "data",
+        "properties",
+        "bands",
+        "items",
+        "properties",
+        "tier"
+      ],
+      "enum": [
+        "excellent",
+        "good",
+        "pass",
+        "fail"
+      ],
+      "definition": "V81EnduranceTier"
+    },
+    {
+      "path": [
+        "paths",
+        "/enrollments/{enrollmentId}/physical-results",
+        "get",
+        "responses",
+        "200",
+        "content",
+        "application/json",
+        "schema",
+        "properties",
+        "data",
+        "properties",
+        "items",
+        "items",
+        "properties",
+        "runType"
+      ],
+      "enum": [
+        "800m",
+        "1000m"
+      ],
+      "definition": "V81RunType"
+    },
+    {
+      "path": [
+        "paths",
+        "/enrollments/{enrollmentId}/physical-results",
+        "post",
+        "responses",
+        "201",
+        "content",
+        "application/json",
+        "schema",
+        "properties",
+        "data",
+        "properties",
+        "runType"
+      ],
+      "enum": [
+        "800m",
+        "1000m"
+      ],
+      "definition": "V81RunType"
+    },
+    {
+      "path": [
+        "paths",
+        "/student/enrollments/{enrollmentId}/physical-result",
+        "get",
+        "responses",
+        "200",
+        "content",
+        "application/json",
+        "schema",
+        "properties",
+        "data",
+        "oneOf",
+        "0",
+        "properties",
+        "result",
+        "properties",
+        "runType"
+      ],
+      "enum": [
+        "800m",
+        "1000m"
+      ],
+      "definition": "V81RunType"
+    },
+    {
+      "path": [
+        "paths",
+        "/student/enrollments/{enrollmentId}/physical-result",
+        "get",
+        "responses",
+        "200",
+        "content",
+        "application/json",
+        "schema",
+        "properties",
+        "data",
+        "oneOf",
+        "1",
+        "properties",
+        "status"
+      ],
+      "enum": [
+        "NOT_RECORDED",
+        "EXEMPT"
+      ],
+      "definition": "V81MissingPhysicalStatus"
+    },
+    {
+      "path": [
+        "paths",
+        "/roster-imports/{rosterImportId}/registration-preview",
+        "get",
+        "responses",
+        "200",
+        "content",
+        "application/json",
+        "schema",
+        "properties",
+        "data",
+        "properties",
+        "rows",
+        "items",
+        "properties",
+        "status"
+      ],
+      "enum": [
+        "MATCHED",
+        "PENDING_REGISTRATION",
+        "IDENTITY_CONFLICT",
+        "EXTRA_IN_PLATFORM"
+      ],
+      "definition": "V81RegistrationStatus"
+    },
+    {
+      "path": [
+        "paths",
+        "/roster-imports/{rosterImportId}/registration-preview",
+        "get",
+        "responses",
+        "200",
+        "content",
+        "application/json",
+        "schema",
+        "properties",
+        "data",
+        "properties",
+        "extras",
+        "items",
+        "properties",
+        "status"
+      ],
+      "enum": [
+        "MATCHED",
+        "PENDING_REGISTRATION",
+        "IDENTITY_CONFLICT",
+        "EXTRA_IN_PLATFORM"
+      ],
+      "definition": "V81RegistrationStatus"
+    },
+    {
+      "path": [
+        "paths",
+        "/roster-imports/{rosterImportId}/confirmation",
+        "get",
+        "responses",
+        "200",
+        "content",
+        "application/json",
+        "schema",
+        "properties",
+        "data",
+        "properties",
+        "sourceRows",
+        "items",
+        "properties",
+        "validationStatus"
+      ],
+      "enum": [
+        "VALID",
+        "DUPLICATED"
+      ],
+      "definition": "V81RosterRowStatus"
+    },
+    {
+      "path": [
+        "paths",
+        "/roster-imports/{rosterImportId}/confirmation",
+        "post",
+        "responses",
+        "201",
+        "content",
+        "application/json",
+        "schema",
+        "properties",
+        "data",
+        "properties",
+        "sourceRows",
+        "items",
+        "properties",
+        "validationStatus"
+      ],
+      "enum": [
+        "VALID",
+        "DUPLICATED"
+      ],
+      "definition": "V81RosterRowStatus"
+    },
+    {
+      "path": [
+        "paths",
+        "/class-sections/{classSectionId}/composite-roster",
+        "get",
+        "responses",
+        "200",
+        "content",
+        "application/json",
+        "schema",
+        "properties",
+        "data",
+        "properties",
+        "sourceKind"
+      ],
+      "enum": [
+        "ELECTRONIC",
+        "OCR"
+      ],
+      "definition": "V81RosterSourceKind"
+    },
+    {
+      "path": [
+        "paths",
+        "/class-sections/{classSectionId}/composite-roster",
+        "get",
+        "responses",
+        "200",
+        "content",
+        "application/json",
+        "schema",
+        "properties",
+        "data",
+        "properties",
+        "rows",
+        "items",
+        "properties",
+        "status"
+      ],
+      "enum": [
+        "MATCHED",
+        "PENDING_REGISTRATION",
+        "IDENTITY_CONFLICT",
+        "EXTRA_IN_PLATFORM"
+      ],
+      "definition": "V81RegistrationStatus"
+    },
+    {
+      "path": [
+        "paths",
+        "/class-sections/{classSectionId}/composite-roster",
+        "get",
+        "responses",
+        "200",
+        "content",
+        "application/json",
+        "schema",
+        "properties",
+        "data",
+        "properties",
+        "rows",
+        "items",
+        "properties",
+        "physical",
+        "properties",
+        "status"
+      ],
+      "enum": [
+        "EXEMPT",
+        "RECORDED",
+        "NOT_RECORDED"
+      ],
+      "definition": "V81PhysicalStatus"
+    },
+    {
+      "path": [
+        "paths",
+        "/class-sections/{classSectionId}/composite-roster",
+        "get",
+        "responses",
+        "200",
+        "content",
+        "application/json",
+        "schema",
+        "properties",
+        "data",
+        "properties",
+        "rows",
+        "items",
+        "properties",
+        "physical",
+        "properties",
+        "result",
+        "properties",
+        "runType"
+      ],
+      "enum": [
+        "1000m",
+        "800m"
+      ],
+      "definition": "V81RunType"
+    },
+    {
+      "path": [
+        "paths",
+        "/class-sections/{classSectionId}/composite-roster",
+        "get",
+        "responses",
+        "200",
+        "content",
+        "application/json",
+        "schema",
+        "properties",
+        "data",
+        "properties",
+        "extras",
+        "items",
+        "properties",
+        "status"
+      ],
+      "enum": [
+        "MATCHED",
+        "PENDING_REGISTRATION",
+        "IDENTITY_CONFLICT",
+        "EXTRA_IN_PLATFORM"
+      ],
+      "definition": "V81RegistrationStatus"
+    },
+    {
+      "path": [
+        "paths",
+        "/class-sections/{classSectionId}/composite-roster",
+        "get",
+        "responses",
+        "200",
+        "content",
+        "application/json",
+        "schema",
+        "properties",
+        "data",
+        "properties",
+        "extras",
+        "items",
+        "properties",
+        "physical",
+        "properties",
+        "status"
+      ],
+      "enum": [
+        "EXEMPT",
+        "RECORDED",
+        "NOT_RECORDED"
+      ],
+      "definition": "V81PhysicalStatus"
+    },
+    {
+      "path": [
+        "paths",
+        "/class-sections/{classSectionId}/composite-roster",
+        "get",
+        "responses",
+        "200",
+        "content",
+        "application/json",
+        "schema",
+        "properties",
+        "data",
+        "properties",
+        "extras",
+        "items",
+        "properties",
+        "physical",
+        "properties",
+        "result",
+        "properties",
+        "runType"
+      ],
+      "enum": [
+        "1000m",
+        "800m"
+      ],
+      "definition": "V81RunType"
+    },
+    {
+      "path": [
+        "paths",
+        "/roster-imports/{rosterImportId}/source",
+        "get",
+        "responses",
+        "200",
+        "content",
+        "application/json",
+        "schema",
+        "properties",
+        "data",
+        "properties",
+        "fileFormat"
+      ],
+      "enum": [
+        "CSV",
+        "XLSX"
+      ],
+      "definition": "RosterFileFormat"
+    },
+    {
+      "path": [
+        "paths",
+        "/enrollments/{enrollmentId}/roster-status",
+        "get",
+        "responses",
+        "200",
+        "content",
+        "application/json",
+        "schema",
+        "properties",
+        "data",
+        "properties",
+        "status"
+      ],
+      "enum": [
+        "MATCHED",
+        "PENDING_REGISTRATION",
+        "IDENTITY_CONFLICT",
+        "EXTRA_IN_PLATFORM",
+        null
+      ],
+      "definition": "V81RegistrationStatus"
+    },
+    {
+      "path": [
+        "paths",
+        "/admin/course-directory",
+        "get",
+        "responses",
+        "200",
+        "content",
+        "application/json",
+        "schema",
+        "properties",
+        "data",
+        "properties",
+        "rows",
+        "items",
+        "properties",
+        "status"
+      ],
+      "enum": [
+        "UPCOMING",
+        "ACTIVE"
+      ],
+      "definition": "V81JoinableSectionStatus"
+    },
+    {
+      "path": [
+        "paths",
+        "/class-sections/{classSectionId}/ocr-roster-batches",
+        "post",
+        "responses",
+        "201",
+        "content",
+        "application/json",
+        "schema",
+        "properties",
+        "data",
+        "properties",
+        "pages",
+        "items",
+        "properties",
+        "mimeType"
+      ],
+      "enum": [
+        "image/png",
+        "image/jpeg",
+        "image/webp"
+      ],
+      "transportReason": "Accepted image MIME types for uploaded binary transport"
+    },
+    {
+      "path": [
+        "paths",
+        "/class-sections/{classSectionId}/ocr-physical-batches",
+        "post",
+        "responses",
+        "201",
+        "content",
+        "application/json",
+        "schema",
+        "properties",
+        "data",
+        "properties",
+        "pages",
+        "items",
+        "properties",
+        "mimeType"
+      ],
+      "enum": [
+        "image/png",
+        "image/jpeg",
+        "image/webp"
+      ],
+      "transportReason": "Accepted image MIME types for uploaded binary transport"
+    },
+    {
+      "path": [
+        "paths",
+        "/class-sections/{classSectionId}/ocr-batches",
+        "get",
+        "responses",
+        "200",
+        "content",
+        "application/json",
+        "schema",
+        "properties",
+        "data",
+        "properties",
+        "items",
+        "items",
+        "properties",
+        "purpose"
+      ],
+      "enum": [
+        "ROSTER",
+        "PHYSICAL"
+      ],
+      "definition": "V81OcrPurpose"
+    },
+    {
+      "path": [
+        "paths",
+        "/ocr-batches/{batchId}",
+        "get",
+        "responses",
+        "200",
+        "content",
+        "application/json",
+        "schema",
+        "properties",
+        "data",
+        "properties",
+        "purpose"
+      ],
+      "enum": [
+        "ROSTER",
+        "PHYSICAL"
+      ],
+      "definition": "V81OcrPurpose"
+    },
+    {
+      "path": [
+        "paths",
+        "/ocr-batches/{batchId}",
+        "get",
+        "responses",
+        "200",
+        "content",
+        "application/json",
+        "schema",
+        "properties",
+        "data",
+        "properties",
+        "pages",
+        "items",
+        "properties",
+        "mimeType"
+      ],
+      "enum": [
+        "image/png",
+        "image/jpeg",
+        "image/webp"
+      ],
+      "transportReason": "Accepted image MIME types for uploaded binary transport"
+    },
+    {
+      "path": [
+        "paths",
+        "/ocr-batches/{batchId}",
+        "get",
+        "responses",
+        "200",
+        "content",
+        "application/json",
+        "schema",
+        "properties",
+        "data",
+        "properties",
+        "pages",
+        "items",
+        "properties",
+        "latestAttempt",
+        "properties",
+        "outcome"
+      ],
+      "enum": [
+        "SUCCEEDED",
+        "FAILED"
+      ],
+      "definition": "V81OcrAttemptStatus"
+    },
+    {
+      "path": [
+        "paths",
+        "/ocr-batches/{batchId}/pages/{pageId}/source",
+        "get",
+        "responses",
+        "200",
+        "content",
+        "application/json",
+        "schema",
+        "properties",
+        "data",
+        "properties",
+        "mimeType"
+      ],
+      "enum": [
+        "image/png",
+        "image/jpeg",
+        "image/webp"
+      ],
+      "transportReason": "Accepted image MIME types for uploaded binary transport"
+    },
+    {
+      "path": [
+        "paths",
+        "/ocr-batches/{batchId}/pages/{pageId}/recognition",
+        "get",
+        "responses",
+        "200",
+        "content",
+        "application/json",
+        "schema",
+        "properties",
+        "data",
+        "properties",
+        "latestAttempt",
+        "properties",
+        "outcome"
+      ],
+      "enum": [
+        "SUCCEEDED",
+        "FAILED"
+      ],
+      "definition": "V81OcrAttemptStatus"
+    },
+    {
+      "path": [
+        "paths",
+        "/ocr-batches/{batchId}/pages/{pageId}/recognition",
+        "post",
+        "responses",
+        "201",
+        "content",
+        "application/json",
+        "schema",
+        "properties",
+        "data",
+        "properties",
+        "status"
+      ],
+      "enum": [
+        "QUEUED",
+        "RUNNING",
+        "SUCCEEDED",
+        "FAILED"
+      ],
+      "definition": "V81OcrJobStatus"
+    },
+    {
+      "path": [
+        "paths",
+        "/ocr-jobs/{jobId}",
+        "get",
+        "responses",
+        "200",
+        "content",
+        "application/json",
+        "schema",
+        "properties",
+        "data",
+        "properties",
+        "status"
+      ],
+      "enum": [
+        "QUEUED",
+        "RUNNING",
+        "SUCCEEDED",
+        "FAILED"
+      ],
+      "definition": "V81OcrJobStatus"
+    },
+    {
+      "path": [
+        "paths",
+        "/ocr-batches/{batchId}/draft",
+        "get",
+        "responses",
+        "200",
+        "content",
+        "application/json",
+        "schema",
+        "properties",
+        "data",
+        "properties",
+        "purpose"
+      ],
+      "enum": [
+        "ROSTER",
+        "PHYSICAL"
+      ],
+      "definition": "V81OcrPurpose"
+    },
+    {
+      "path": [
+        "paths",
+        "/ocr-batches/{batchId}/draft",
+        "get",
+        "responses",
+        "200",
+        "content",
+        "application/json",
+        "schema",
+        "properties",
+        "data",
+        "properties",
+        "rows",
+        "items",
+        "properties",
+        "ocrIssues",
+        "items",
+        "properties",
+        "field"
+      ],
+      "enum": [
+        "studentNumber",
+        "name",
+        "runType",
+        "elapsed",
+        "testedOn"
+      ],
+      "definition": "V81OcrField"
+    },
+    {
+      "path": [
+        "paths",
+        "/ocr-batches/{batchId}/draft",
+        "post",
+        "responses",
+        "201",
+        "content",
+        "application/json",
+        "schema",
+        "properties",
+        "data",
+        "properties",
+        "purpose"
+      ],
+      "enum": [
+        "ROSTER",
+        "PHYSICAL"
+      ],
+      "definition": "V81OcrPurpose"
+    },
+    {
+      "path": [
+        "paths",
+        "/ocr-batches/{batchId}/draft",
+        "post",
+        "responses",
+        "201",
+        "content",
+        "application/json",
+        "schema",
+        "properties",
+        "data",
+        "properties",
+        "rows",
+        "items",
+        "properties",
+        "ocrIssues",
+        "items",
+        "properties",
+        "field"
+      ],
+      "enum": [
+        "studentNumber",
+        "name",
+        "runType",
+        "elapsed",
+        "testedOn"
+      ],
+      "definition": "V81OcrField"
+    },
+    {
+      "path": [
+        "paths",
+        "/ocr-batches/{batchId}/draft/revisions",
+        "post",
+        "responses",
+        "201",
+        "content",
+        "application/json",
+        "schema",
+        "properties",
+        "data",
+        "properties",
+        "purpose"
+      ],
+      "enum": [
+        "ROSTER",
+        "PHYSICAL"
+      ],
+      "definition": "V81OcrPurpose"
+    },
+    {
+      "path": [
+        "paths",
+        "/ocr-batches/{batchId}/draft/revisions",
+        "post",
+        "responses",
+        "201",
+        "content",
+        "application/json",
+        "schema",
+        "properties",
+        "data",
+        "properties",
+        "rows",
+        "items",
+        "properties",
+        "ocrIssues",
+        "items",
+        "properties",
+        "field"
+      ],
+      "enum": [
+        "studentNumber",
+        "name",
+        "runType",
+        "elapsed",
+        "testedOn"
+      ],
+      "definition": "V81OcrField"
+    },
+    {
+      "path": [
+        "paths",
+        "/ocr-batches/{batchId}/roster-confirmation",
+        "get",
+        "responses",
+        "200",
+        "content",
+        "application/json",
+        "schema",
+        "properties",
+        "data",
+        "properties",
+        "sourceRows",
+        "items",
+        "properties",
+        "ocrIssues",
+        "items",
+        "properties",
+        "field"
+      ],
+      "enum": [
+        "studentNumber",
+        "name",
+        "runType",
+        "elapsed",
+        "testedOn"
+      ],
+      "definition": "V81OcrField"
+    },
+    {
+      "path": [
+        "paths",
+        "/ocr-batches/{batchId}/roster-confirmation",
+        "post",
+        "responses",
+        "201",
+        "content",
+        "application/json",
+        "schema",
+        "properties",
+        "data",
+        "properties",
+        "sourceRows",
+        "items",
+        "properties",
+        "ocrIssues",
+        "items",
+        "properties",
+        "field"
+      ],
+      "enum": [
+        "studentNumber",
+        "name",
+        "runType",
+        "elapsed",
+        "testedOn"
+      ],
+      "definition": "V81OcrField"
+    },
+    {
+      "path": [
+        "paths",
+        "/class-sections/{classSectionId}/roster-basis",
+        "get",
+        "responses",
+        "200",
+        "content",
+        "application/json",
+        "schema",
+        "properties",
+        "data",
+        "properties",
+        "sourceKind"
+      ],
+      "enum": [
+        "ELECTRONIC",
+        "OCR",
+        null
+      ],
+      "definition": "V81RosterSourceKind"
+    },
+    {
+      "path": [
+        "paths",
+        "/class-sections/{classSectionId}/roster-basis",
+        "post",
+        "responses",
+        "201",
+        "content",
+        "application/json",
+        "schema",
+        "properties",
+        "data",
+        "properties",
+        "sourceKind"
+      ],
+      "enum": [
+        "ELECTRONIC",
+        "OCR",
+        null
+      ],
+      "definition": "V81RosterSourceKind"
+    },
+    {
+      "path": [
+        "paths",
+        "/class-sections/{classSectionId}/roster-basis/snapshots",
+        "get",
+        "responses",
+        "200",
+        "content",
+        "application/json",
+        "schema",
+        "properties",
+        "data",
+        "properties",
+        "items",
+        "items",
+        "properties",
+        "sourceKind"
+      ],
+      "enum": [
+        "ELECTRONIC",
+        "OCR"
+      ],
+      "definition": "V81RosterSourceKind"
+    },
+    {
+      "path": [
+        "paths",
+        "/class-sections/{classSectionId}/makeup-windows",
+        "get",
+        "responses",
+        "200",
+        "content",
+        "application/json",
+        "schema",
+        "properties",
+        "data",
+        "properties",
+        "items",
+        "items",
+        "properties",
+        "version"
+      ],
+      "enum": [
+        1,
+        2
+      ],
+      "definition": "V81MaterialVersion"
+    },
+    {
+      "path": [
+        "paths",
+        "/class-sections/{classSectionId}/makeup-windows",
+        "get",
+        "responses",
+        "200",
+        "content",
+        "application/json",
+        "schema",
+        "properties",
+        "data",
+        "properties",
+        "items",
+        "items",
+        "properties",
+        "windowState"
+      ],
+      "enum": [
+        "SCHEDULED",
+        "OPEN",
+        "ENDED",
+        "REVOKED"
+      ],
+      "definition": "V81MakeupStatus"
+    },
+    {
+      "path": [
+        "paths",
+        "/class-sections/{classSectionId}/makeup-windows",
+        "post",
+        "responses",
+        "201",
+        "content",
+        "application/json",
+        "schema",
+        "properties",
+        "data",
+        "properties",
+        "version"
+      ],
+      "enum": [
+        1,
+        2
+      ],
+      "definition": "V81MaterialVersion"
+    },
+    {
+      "path": [
+        "paths",
+        "/class-sections/{classSectionId}/makeup-windows",
+        "post",
+        "responses",
+        "201",
+        "content",
+        "application/json",
+        "schema",
+        "properties",
+        "data",
+        "properties",
+        "windowState"
+      ],
+      "enum": [
+        "SCHEDULED",
+        "OPEN",
+        "ENDED",
+        "REVOKED"
+      ],
+      "definition": "V81MakeupStatus"
+    },
+    {
+      "path": [
+        "paths",
+        "/makeup-windows/{windowId}/revocation",
+        "post",
+        "responses",
+        "201",
+        "content",
+        "application/json",
+        "schema",
+        "properties",
+        "data",
+        "properties",
+        "version"
+      ],
+      "enum": [
+        1,
+        2
+      ],
+      "definition": "V81MaterialVersion"
+    },
+    {
+      "path": [
+        "paths",
+        "/makeup-windows/{windowId}/revocation",
+        "post",
+        "responses",
+        "201",
+        "content",
+        "application/json",
+        "schema",
+        "properties",
+        "data",
+        "properties",
+        "windowState"
+      ],
+      "enum": [
+        "SCHEDULED",
+        "OPEN",
+        "ENDED",
+        "REVOKED"
+      ],
+      "definition": "V81MakeupStatus"
+    },
+    {
+      "path": [
+        "paths",
+        "/enrollments/{enrollmentId}/makeup-windows",
+        "get",
+        "responses",
+        "200",
+        "content",
+        "application/json",
+        "schema",
+        "properties",
+        "data",
+        "properties",
+        "items",
+        "items",
+        "properties",
+        "version"
+      ],
+      "enum": [
+        1,
+        2
+      ],
+      "definition": "V81MaterialVersion"
+    },
+    {
+      "path": [
+        "paths",
+        "/enrollments/{enrollmentId}/makeup-windows",
+        "get",
+        "responses",
+        "200",
+        "content",
+        "application/json",
+        "schema",
+        "properties",
+        "data",
+        "properties",
+        "items",
+        "items",
+        "properties",
+        "windowState"
+      ],
+      "enum": [
+        "SCHEDULED",
+        "OPEN",
+        "ENDED",
+        "REVOKED"
+      ],
+      "definition": "V81MakeupStatus"
+    },
+    {
+      "path": [
+        "paths",
+        "/admin/semesters/{id}/switch-check",
+        "get",
+        "responses",
+        "200",
+        "content",
+        "application/json",
+        "schema",
+        "properties",
+        "data",
+        "properties",
+        "target",
+        "properties",
+        "status"
+      ],
+      "enum": [
+        "UPCOMING",
+        "CURRENT",
+        "ARCHIVED"
+      ],
+      "definition": "V81SemesterStatus"
+    },
+    {
+      "path": [
+        "paths",
+        "/admin/semesters/{id}/switch-check",
+        "get",
+        "responses",
+        "200",
+        "content",
+        "application/json",
+        "schema",
+        "properties",
+        "data",
+        "properties",
+        "current",
+        "properties",
+        "status"
+      ],
+      "enum": [
+        "UPCOMING",
+        "CURRENT",
+        "ARCHIVED"
+      ],
+      "definition": "V81SemesterStatus"
+    },
+    {
+      "path": [
+        "paths",
+        "/admin/semesters/{id}/switch-check",
+        "get",
+        "responses",
+        "200",
+        "content",
+        "application/json",
+        "schema",
+        "properties",
+        "data",
+        "properties",
+        "checks",
+        "items",
+        "properties",
+        "status"
+      ],
+      "enum": [
+        "CLEAR",
+        "BLOCKED",
+        "UNAVAILABLE"
+      ],
+      "definition": "V81SettlementCheckStatus"
+    },
+    {
+      "path": [
+        "paths",
+        "/admin/semesters/{id}/switch-check",
+        "get",
+        "responses",
+        "200",
+        "content",
+        "application/json",
+        "schema",
+        "properties",
+        "data",
+        "properties",
+        "courses",
+        "items",
+        "properties",
+        "checks",
+        "items",
+        "properties",
+        "status"
+      ],
+      "enum": [
+        "CLEAR",
+        "BLOCKED",
+        "UNAVAILABLE"
+      ],
+      "definition": "V81SettlementCheckStatus"
+    },
+    {
+      "path": [
+        "paths",
+        "/admin/audit-events",
+        "get",
+        "parameters",
+        "2",
+        "schema"
+      ],
+      "enum": [
+        "FOUNDATION",
+        "V81"
+      ],
+      "definition": "V81AuditSource"
+    },
+    {
+      "path": [
+        "paths",
+        "/admin/audit-events",
+        "get",
+        "responses",
+        "200",
+        "content",
+        "application/json",
+        "schema",
+        "properties",
+        "data",
+        "properties",
+        "items",
+        "items",
+        "properties",
+        "source"
+      ],
+      "enum": [
+        "FOUNDATION",
+        "V81"
+      ],
+      "definition": "V81AuditSource"
+    },
+    {
+      "path": [
+        "paths",
+        "/admin/audit-events/{source}/{eventId}",
+        "get",
+        "parameters",
+        "1",
+        "schema"
+      ],
+      "enum": [
+        "FOUNDATION",
+        "V81"
+      ],
+      "definition": "V81AuditSource"
+    },
+    {
+      "path": [
+        "paths",
+        "/admin/audit-events/{source}/{eventId}",
+        "get",
+        "responses",
+        "200",
+        "content",
+        "application/json",
+        "schema",
+        "properties",
+        "data",
+        "properties",
+        "source"
+      ],
+      "enum": [
+        "FOUNDATION",
+        "V81"
+      ],
+      "definition": "V81AuditSource"
+    },
+    {
+      "path": [
+        "paths",
+        "/admin/runtime-archives",
+        "post",
+        "responses",
+        "202",
+        "content",
+        "application/json",
+        "schema",
+        "properties",
+        "data",
+        "properties",
+        "status"
+      ],
+      "enum": [
+        "QUEUED",
+        "RUNNING",
+        "SUCCEEDED",
+        "FAILED",
+        "CANCELLED",
+        "EXPIRED"
+      ],
+      "definition": "V81RuntimeArchiveStatus"
+    },
+    {
+      "path": [
+        "paths",
+        "/admin/runtime-archives/{id}",
+        "get",
+        "responses",
+        "200",
+        "content",
+        "application/json",
+        "schema",
+        "properties",
+        "data",
+        "properties",
+        "status"
+      ],
+      "enum": [
+        "QUEUED",
+        "RUNNING",
+        "SUCCEEDED",
+        "FAILED",
+        "CANCELLED",
+        "EXPIRED"
+      ],
+      "definition": "V81RuntimeArchiveStatus"
+    },
+    {
+      "path": [
+        "paths",
+        "/admin/runtime-archives/{id}/cancellation",
+        "post",
+        "responses",
+        "201",
+        "content",
+        "application/json",
+        "schema",
+        "properties",
+        "data",
+        "properties",
+        "status"
+      ],
+      "enum": [
+        "QUEUED",
+        "RUNNING",
+        "SUCCEEDED",
+        "FAILED",
+        "CANCELLED",
+        "EXPIRED"
+      ],
+      "definition": "V81RuntimeArchiveStatus"
+    },
+    {
+      "path": [
+        "paths",
+        "/admin/subadmins/{id}/permissions",
+        "post",
+        "responses",
+        "201",
+        "content",
+        "application/json",
+        "schema",
+        "properties",
+        "data",
+        "properties",
+        "permissions",
+        "items"
+      ],
+      "enum": [
+        "COURSE_VIEW",
+        "SEMESTER_MANAGE",
+        "USER_ACCOUNTS",
+        "STUDENT_FEEDBACK",
+        "GLOBAL_RULES",
+        "SYSTEM_MODE",
+        "HELP_CENTER",
+        "AUDIT_QUERY"
+      ],
+      "definition": "V81AdminPermission"
+    },
+    {
+      "path": [
+        "paths",
+        "/admin/review-services/ocr",
+        "get",
+        "responses",
+        "200",
+        "content",
+        "application/json",
+        "schema",
+        "properties",
+        "data",
+        "properties",
+        "configurationSource"
+      ],
+      "enum": [
+        "ADMIN_REVISION",
+        "DEPLOYMENT_ENVIRONMENT"
+      ],
+      "definition": "V81OcrConfigSource"
+    },
+    {
+      "path": [
+        "paths",
+        "/admin/review-services/ocr",
+        "get",
+        "responses",
+        "200",
+        "content",
+        "application/json",
+        "schema",
+        "properties",
+        "data",
+        "properties",
+        "configuration",
+        "properties",
+        "provider"
+      ],
+      "enum": [
+        "DISABLED",
+        "TENCENT_TABLE_V3"
+      ],
+      "definition": "V81OcrProvider"
+    },
+    {
+      "path": [
+        "paths",
+        "/admin/review-services/ocr",
+        "get",
+        "responses",
+        "200",
+        "content",
+        "application/json",
+        "schema",
+        "properties",
+        "data",
+        "properties",
+        "systemMode"
+      ],
+      "enum": [
+        "NORMAL",
+        "MAINTENANCE"
+      ],
+      "definition": "SystemMode"
+    },
+    {
+      "path": [
+        "paths",
+        "/admin/review-services/ocr/revisions",
+        "get",
+        "responses",
+        "200",
+        "content",
+        "application/json",
+        "schema",
+        "properties",
+        "data",
+        "properties",
+        "items",
+        "items",
+        "properties",
+        "provider"
+      ],
+      "enum": [
+        "DISABLED",
+        "TENCENT_TABLE_V3"
+      ],
+      "definition": "V81OcrProvider"
+    },
+    {
+      "path": [
+        "paths",
+        "/admin/review-services/ocr/revisions",
+        "post",
+        "responses",
+        "201",
+        "content",
+        "application/json",
+        "schema",
+        "properties",
+        "data",
+        "properties",
+        "provider"
+      ],
+      "enum": [
+        "DISABLED",
+        "TENCENT_TABLE_V3"
+      ],
+      "definition": "V81OcrProvider"
+    },
+    {
+      "path": [
+        "paths",
+        "/admin/subadmin-identity-challenges",
+        "post",
+        "responses",
+        "201",
+        "content",
+        "application/json",
+        "schema",
+        "properties",
+        "data",
+        "properties",
+        "status"
+      ],
+      "enum": [
+        "ACTIVE"
+      ],
+      "definition": "V81CreatedAccountStatus"
+    },
+    {
+      "path": [
+        "paths",
+        "/admin/subadmin-identity-challenges/{id}/verify",
+        "post",
+        "responses",
+        "201",
+        "content",
+        "application/json",
+        "schema",
+        "properties",
+        "data",
+        "properties",
+        "status"
+      ],
+      "enum": [
+        "VERIFIED"
+      ],
+      "definition": "V81IdentityVerificationStatus"
+    },
+    {
+      "path": [
+        "paths",
+        "/admin/subadmins/{id}/profile",
+        "post",
+        "responses",
+        "201",
+        "content",
+        "application/json",
+        "schema",
+        "properties",
+        "data",
+        "properties",
+        "permissions",
+        "items"
+      ],
+      "enum": [
+        "COURSE_VIEW",
+        "SEMESTER_MANAGE",
+        "USER_ACCOUNTS",
+        "STUDENT_FEEDBACK",
+        "GLOBAL_RULES",
+        "SYSTEM_MODE",
+        "HELP_CENTER",
+        "AUDIT_QUERY"
+      ],
+      "definition": "V81AdminPermission"
+    },
+    {
+      "path": [
+        "paths",
+        "/admin/subadmins/{id}/profile",
+        "post",
+        "responses",
+        "201",
+        "content",
+        "application/json",
+        "schema",
+        "properties",
+        "data",
+        "properties",
+        "status"
+      ],
+      "enum": [
+        "ACTIVE",
+        "DISABLED"
+      ],
+      "definition": "V81ManagedAccountStatus"
+    },
+    {
+      "path": [
+        "components",
+        "schemas",
+        "ExerciseRecord",
+        "properties",
+        "workflowStage"
+      ],
+      "enum": [
+        "PENDING_AI",
+        "TECHNICAL",
+        "PENDING_TEACHER",
+        "AWAITING_SUPPLEMENT",
+        "VALID",
+        "INVALID"
+      ],
+      "definition": "V81RecordWorkflowStage"
+    },
+    {
+      "path": [
+        "components",
+        "schemas",
+        "ExerciseRecord",
+        "properties",
+        "materialVersion"
+      ],
+      "enum": [
+        1,
+        2
+      ],
+      "definition": "V81MaterialVersion"
+    },
+    {
+      "path": [
+        "components",
+        "schemas",
+        "AlignmentRun",
+        "properties",
+        "algorithmVersion"
+      ],
+      "enum": [
+        "ROSTER_ALIGNMENT_V1",
+        "ROSTER_ALIGNMENT_V2"
+      ],
+      "definition": "V81RosterAlignmentRule"
+    },
+    {
+      "path": [
+        "components",
+        "schemas",
+        "V81CourseRulesInput",
+        "properties",
+        "minimumMinutes"
+      ],
+      "enum": [
+        30,
+        45,
+        60
+      ],
+      "definition": "V81ExerciseMinimumMinutes"
+    },
+    {
+      "path": [
+        "components",
+        "schemas",
+        "V81CourseRulesInput",
+        "properties",
+        "weeklyLimit"
+      ],
+      "enum": [
+        2,
+        3,
+        4
+      ],
+      "definition": "V81WeeklyRecordLimit"
+    },
+    {
+      "path": [
+        "components",
+        "schemas",
+        "V81ReviewInput",
+        "properties",
+        "action"
+      ],
+      "enum": [
+        "VALID",
+        "INVALID",
+        "RETURN_FOR_SUPPLEMENT"
+      ],
+      "definition": "V81TeacherReviewAction"
+    },
+    {
+      "path": [
+        "components",
+        "schemas",
+        "V81ReviewInput",
+        "properties",
+        "reasonCode"
+      ],
+      "enum": [
+        "UNCLEAR_EVIDENCE",
+        "MISSING_REQUIRED_EVIDENCE",
+        "SESSION_MISMATCH",
+        "INCONSISTENT_EVIDENCE",
+        "AUTHENTICITY_REQUIRES_CLARIFICATION",
+        "CONFIRMED_REUSE_OR_MISUSE"
+      ],
+      "definition": "ReviewReasonCode"
+    },
+    {
+      "path": [
+        "components",
+        "schemas",
+        "V81ReviewInput",
+        "properties",
+        "supplementHours"
+      ],
+      "enum": [
+        24,
+        72
+      ],
+      "definition": "V81SupplementHours"
+    },
+    {
+      "path": [
+        "components",
+        "schemas",
+        "V81CorrectionInput",
+        "properties",
+        "action"
+      ],
+      "enum": [
+        "VALID",
+        "INVALID"
+      ],
+      "definition": "ReviewResult"
+    },
+    {
+      "path": [
+        "components",
+        "schemas",
+        "V81CorrectionInput",
+        "properties",
+        "reasonCode"
+      ],
+      "enum": [
+        "UNCLEAR_EVIDENCE",
+        "MISSING_REQUIRED_EVIDENCE",
+        "SESSION_MISMATCH",
+        "INCONSISTENT_EVIDENCE",
+        "AUTHENTICITY_REQUIRES_CLARIFICATION",
+        "CONFIRMED_REUSE_OR_MISUSE"
+      ],
+      "definition": "ReviewReasonCode"
+    },
+    {
+      "path": [
+        "components",
+        "schemas",
+        "ChangeV81SystemModeInput",
+        "properties",
+        "mode"
+      ],
+      "enum": [
+        "NORMAL",
+        "MAINTENANCE"
+      ],
+      "definition": "SystemMode"
+    },
+    {
+      "path": [
+        "components",
+        "schemas",
+        "V81SubadminStatusInput",
+        "properties",
+        "status"
+      ],
+      "enum": [
+        "ACTIVE",
+        "DISABLED"
+      ],
+      "definition": "V81ManagedAccountStatus"
+    },
+    {
+      "path": [
+        "components",
+        "schemas",
+        "V81StudentProgress",
+        "properties",
+        "minimumMinutes"
+      ],
+      "enum": [
+        30,
+        45,
+        60
+      ],
+      "definition": "V81ExerciseMinimumMinutes"
+    },
+    {
+      "path": [
+        "components",
+        "schemas",
+        "V81StudentProgress",
+        "properties",
+        "weeklyLimit"
+      ],
+      "enum": [
+        2,
+        3,
+        4
+      ],
+      "definition": "V81WeeklyRecordLimit"
+    },
+    {
+      "path": [
+        "components",
+        "schemas",
+        "V81StudentProgress",
+        "properties",
+        "status"
+      ],
+      "enum": [
+        "COMPLETED",
+        "IN_PROGRESS"
+      ],
+      "definition": "V81ProgressStatus"
+    },
+    {
+      "path": [
+        "components",
+        "schemas",
+        "V81Certification",
+        "properties",
+        "certificationType"
+      ],
+      "enum": [
+        "SCHOOL_TEAM",
+        "STUDENT_CLUB"
+      ],
+      "definition": "V81CertificationType"
+    },
+    {
+      "path": [
+        "components",
+        "schemas",
+        "V81Certification",
+        "properties",
+        "status"
+      ],
+      "enum": [
+        "DRAFT",
+        "SUBMITTED",
+        "SUPPLEMENT_REQUIRED",
+        "APPROVED",
+        "REJECTED",
+        "REVOKED"
+      ],
+      "definition": "V81CertificationStatus"
+    },
+    {
+      "path": [
+        "components",
+        "schemas",
+        "V81SwimIntakeItem",
+        "properties",
+        "phase"
+      ],
+      "enum": [
+        "BEFORE",
+        "AFTER",
+        "OTHER"
+      ],
+      "definition": "V81EvidencePhase"
+    },
+    {
+      "path": [
+        "components",
+        "schemas",
+        "V81HandleFeedbackInput",
+        "properties",
+        "status"
+      ],
+      "enum": [
+        "IN_PROGRESS",
+        "WAITING_TECH",
+        "RESOLVED",
+        "CLOSED"
+      ],
+      "definition": "V81FeedbackStatus"
+    },
+    {
+      "path": [
+        "components",
+        "schemas",
+        "V81SaveHelpInput",
+        "properties",
+        "category"
+      ],
+      "enum": [
+        "login",
+        "enrollment",
+        "checkin",
+        "evidence",
+        "course",
+        "exemption",
+        "organization",
+        "notification",
+        "maintenance",
+        "feedback"
+      ],
+      "definition": "V81HelpCategory"
+    },
+    {
+      "path": [
+        "components",
+        "schemas",
+        "V81SaveHelpInput",
+        "properties",
+        "status"
+      ],
+      "enum": [
+        "draft",
+        "published",
+        "archived"
+      ],
+      "definition": "V81HelpStatus"
+    },
+    {
+      "path": [
+        "components",
+        "schemas",
+        "V81EnduranceTableInput",
+        "properties",
+        "gender"
+      ],
+      "enum": [
+        "male",
+        "female"
+      ],
+      "definition": "V81EnduranceGender"
+    },
+    {
+      "path": [
+        "components",
+        "schemas",
+        "V81EnduranceTableInput",
+        "properties",
+        "gradeGroup"
+      ],
+      "enum": [
+        "freshman_sophomore",
+        "junior_senior"
+      ],
+      "definition": "V81EnduranceCohort"
+    },
+    {
+      "path": [
+        "components",
+        "schemas",
+        "V81EnduranceTableInput",
+        "properties",
+        "runType"
+      ],
+      "enum": [
+        "800m",
+        "1000m"
+      ],
+      "definition": "V81RunType"
+    },
+    {
+      "path": [
+        "components",
+        "schemas",
+        "V81EnduranceBandInput",
+        "properties",
+        "gender"
+      ],
+      "enum": [
+        "male",
+        "female"
+      ],
+      "definition": "V81EnduranceGender"
+    },
+    {
+      "path": [
+        "components",
+        "schemas",
+        "V81EnduranceBandInput",
+        "properties",
+        "gradeGroup"
+      ],
+      "enum": [
+        "freshman_sophomore",
+        "junior_senior"
+      ],
+      "definition": "V81EnduranceCohort"
+    },
+    {
+      "path": [
+        "components",
+        "schemas",
+        "V81EnduranceBandInput",
+        "properties",
+        "runType"
+      ],
+      "enum": [
+        "800m",
+        "1000m"
+      ],
+      "definition": "V81RunType"
+    },
+    {
+      "path": [
+        "components",
+        "schemas",
+        "V81EnduranceBandInput",
+        "properties",
+        "tier"
+      ],
+      "enum": [
+        "excellent",
+        "good",
+        "pass",
+        "fail"
+      ],
+      "definition": "V81EnduranceTier"
+    },
+    {
+      "path": [
+        "components",
+        "schemas",
+        "V81PhysicalResultInput",
+        "properties",
+        "runType"
+      ],
+      "enum": [
+        "800m",
+        "1000m"
+      ],
+      "definition": "V81RunType"
+    },
+    {
+      "path": [
+        "components",
+        "schemas",
+        "V81SemesterInput",
+        "properties",
+        "termCode"
+      ],
+      "enum": [
+        "FIRST",
+        "SECOND",
+        "SUMMER"
+      ],
+      "definition": "V81SemesterTerm"
+    },
+    {
+      "path": [
+        "components",
+        "schemas",
+        "V81SemesterUpdateInput",
+        "properties",
+        "termCode"
+      ],
+      "enum": [
+        "FIRST",
+        "SECOND",
+        "SUMMER"
+      ],
+      "definition": "V81SemesterTerm"
+    },
+    {
+      "path": [
+        "components",
+        "schemas",
+        "V81SubadminPermissionsInput",
+        "properties",
+        "permissions",
+        "items"
+      ],
+      "enum": [
+        "COURSE_VIEW",
+        "SEMESTER_MANAGE",
+        "USER_ACCOUNTS",
+        "STUDENT_FEEDBACK",
+        "GLOBAL_RULES",
+        "SYSTEM_MODE",
+        "HELP_CENTER",
+        "AUDIT_QUERY"
+      ],
+      "definition": "V81AdminPermission"
+    },
+    {
+      "path": [
+        "components",
+        "schemas",
+        "V81DeletionChallengeInput",
+        "properties",
+        "locale"
+      ],
+      "enum": [
+        "zh-CN",
+        "en"
+      ],
+      "transportReason": "Supported locale identifiers for message selection"
+    },
+    {
+      "path": [
+        "components",
+        "schemas",
+        "V81OcrServiceInput",
+        "properties",
+        "provider"
+      ],
+      "enum": [
+        "DISABLED",
+        "TENCENT_TABLE_V3"
+      ],
+      "definition": "V81OcrProvider"
+    },
+    {
+      "path": [
+        "components",
+        "schemas",
+        "SubadminIdentityInput",
+        "properties",
+        "locale"
+      ],
+      "enum": [
+        "zh-CN",
+        "en"
+      ],
+      "transportReason": "Supported locale identifiers for message selection"
+    },
+    {
+      "path": [
+        "components",
+        "schemas",
+        "CreateVerifiedSubadminInput",
+        "properties",
+        "permissions",
+        "items"
+      ],
+      "enum": [
+        "COURSE_VIEW",
+        "SEMESTER_MANAGE",
+        "USER_ACCOUNTS",
+        "STUDENT_FEEDBACK",
+        "GLOBAL_RULES",
+        "SYSTEM_MODE",
+        "HELP_CENTER",
+        "AUDIT_QUERY"
+      ],
+      "definition": "V81AdminPermission"
+    },
+    {
+      "path": [
+        "components",
+        "schemas",
+        "UpdateVerifiedSubadminInput",
+        "properties",
+        "permissions",
+        "items"
+      ],
+      "enum": [
+        "COURSE_VIEW",
+        "SEMESTER_MANAGE",
+        "USER_ACCOUNTS",
+        "STUDENT_FEEDBACK",
+        "GLOBAL_RULES",
+        "SYSTEM_MODE",
+        "HELP_CENTER",
+        "AUDIT_QUERY"
+      ],
+      "definition": "V81AdminPermission"
+    }
+  ]
+}

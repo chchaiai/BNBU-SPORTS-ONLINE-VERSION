@@ -1,0 +1,21 @@
+ Container bnbu-v81-local-validation-portal-tests-run-52fb3fb9e9cb Creating 
+ Container bnbu-v81-local-validation-portal-tests-run-52fb3fb9e9cb Created 
+✔ Mock 名单服务可以生成完整对齐结果并保留处理状态 (364.530712ms)
+✔ Mock 名单导入创建本地版本并自动运行一次核对 (412.011523ms)
+✔ 模式路由只在 Mock 预览中选择本地名单服务 (91.238387ms)
+✔ maps every authoritative Backend reconciliation status without reclassifying it in the browser (1.126789ms)
+✔ uses the latest server resolution version and note instead of browser-persisted state (0.118679ms)
+✔ student numbers remain strings with leading zeros and duplicate rows are excluded (0.392339ms)
+✔ the import adapter parses xlsx, legacy xls, and csv rosters (117.934734ms)
+✔ statistics keep official members, platform members, and resolution state separate (0.278699ms)
+✔ teacher roster flow keeps authoritative API and synthetic Mock adapters separated (7.623306ms)
+✔ encodes every roster API identifier before building the API path (0.214255ms)
+ℹ tests 10
+ℹ suites 0
+ℹ pass 10
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1105.544811
+Docker exit code: 0

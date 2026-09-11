@@ -1,0 +1,4 @@
+{"check":"STUDENT_BROWSER_SMTP_LOGIN","result":"PASS"}
+{"check":"STUDENT_COURSE_TEACHER_SERVER_NAME","result":"PASS"}
+{"check":"STUDENT_OWN_ROSTER_REAL_API_CLOSED_PROJECTION","result":"PASS","enrollmentCount":1,"statuses":[{"available":false,"status":null,"registrationComplete":false}]}
+{"check":"STUDENT_COURSE_PAGE_ROSTER_WIRING","result":"REQUESTED","automaticRosterRequestCount":1,"syntheticIdentity":true}

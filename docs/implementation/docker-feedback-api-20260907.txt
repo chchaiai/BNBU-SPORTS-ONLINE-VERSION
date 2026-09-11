@@ -1,0 +1,157 @@
+ Container bnbu-v81-local-validation-media-minio-1 Starting 
+ Container bnbu-v81-local-validation-sql-postgres-1 Starting 
+ Container bnbu-v81-local-validation-mailpit-1 Starting 
+ Container bnbu-v81-local-validation-mailpit-1 Started 
+ Container bnbu-v81-local-validation-sql-postgres-1 Started 
+ Container bnbu-v81-local-validation-media-minio-1 Started 
+ Image bnbu-v81-local-validation-backend-startup Building 
+#1 [internal] load local bake definitions
+#1 reading from stdin 636B 0.0s done
+#1 DONE 0.0s
+
+#2 [internal] load build definition from Dockerfile.v81-test
+#2 transferring dockerfile: 628B done
+#2 DONE 0.0s
+
+#3 [auth] library/node:pull token for registry-1.docker.io
+#3 DONE 0.0s
+
+#4 [internal] load metadata for docker.io/library/node:24.18.0-bookworm-slim
+#4 DONE 1.6s
+
+#5 [internal] load .dockerignore
+#5 transferring context: 153B done
+#5 DONE 0.0s
+
+#6 [internal] load build context
+#6 DONE 0.0s
+
+#7 [1/9] FROM docker.io/library/node:24.18.0-bookworm-slim@sha256:6f7b03f7c2c8e2e784dcf9295400527b9b1270fd37b7e9a7285cf83b6951452d
+#7 resolve docker.io/library/node:24.18.0-bookworm-slim@sha256:6f7b03f7c2c8e2e784dcf9295400527b9b1270fd37b7e9a7285cf83b6951452d 0.1s done
+#7 DONE 0.1s
+
+#6 [internal] load build context
+#6 transferring context: 1.22MB 0.1s done
+#6 DONE 0.1s
+
+#8 [2/9] RUN apt-get update && apt-get install -y --no-install-recommends openssl ca-certificates && rm -rf /var/lib/apt/lists/*
+#8 CACHED
+
+#9 [3/9] WORKDIR /workspace/backend
+#9 CACHED
+
+#10 [4/9] COPY backend/package.json backend/package-lock.json ./
+#10 CACHED
+
+#11 [5/9] RUN npm ci --ignore-scripts --no-audit --no-fund
+#11 CACHED
+
+#12 [6/9] COPY backend/ ./
+#12 DONE 0.2s
+
+#13 [7/9] COPY docs/backend-contracts/ /workspace/docs/backend-contracts/
+#13 DONE 0.2s
+
+#14 [8/9] COPY tools/ /workspace/tools/
+#14 DONE 0.1s
+
+#15 [9/9] RUN npm run db:generate
+#15 0.339 
+#15 0.339 > @bnbu/sports-backend@0.1.0 db:generate
+#15 0.339 > prisma generate
+#15 0.339 
+#15 0.971 Loaded Prisma config from prisma.config.ts.
+#15 0.971 
+#15 2.688 Prisma schema loaded from prisma/schema.prisma.
+#15 4.174 
+#15 4.174 ✔ Generated Prisma Client (7.9.1) to ./src/generated/prisma in 899ms
+#15 4.174 
+#15 DONE 4.3s
+
+#16 exporting to image
+#16 exporting layers
+#16 exporting layers 1.6s done
+#16 exporting manifest sha256:8e7a4f25483aa7896192fba7c4ee161a68a5012b535f3ff39cc07b5ed3c6f154 0.0s done
+#16 exporting config sha256:fa70b6e37bc40268ff37046b9b4e74d29ba63fa8dce3e6e4c60243609b99b21e 0.0s done
+#16 exporting attestation manifest sha256:a910c3bb826df736ac766bec7aba143e25ea1e39f47b269d18650bb36cce334d 0.0s done
+#16 exporting manifest list sha256:09431ab40bc91a042b2882260f8c3759095525a6b26ebbd2de3039d348b3ce41
+#16 exporting manifest list sha256:09431ab40bc91a042b2882260f8c3759095525a6b26ebbd2de3039d348b3ce41 0.0s done
+#16 naming to docker.io/library/bnbu-v81-local-validation-backend-startup:latest done
+#16 unpacking to docker.io/library/bnbu-v81-local-validation-backend-startup:latest
+#16 unpacking to docker.io/library/bnbu-v81-local-validation-backend-startup:latest 0.6s done
+#16 DONE 2.3s
+
+#17 resolving provenance for metadata file
+#17 DONE 0.0s
+ Image bnbu-v81-local-validation-backend-startup Built 
+ Container bnbu-v81-local-validation-sql-postgres-1 Waiting 
+ Container bnbu-v81-local-validation-mailpit-1 Waiting 
+ Container bnbu-v81-local-validation-media-minio-1 Waiting 
+ Container bnbu-v81-local-validation-mailpit-1 Healthy 
+ Container bnbu-v81-local-validation-media-minio-1 Healthy 
+ Container bnbu-v81-local-validation-sql-postgres-1 Healthy 
+ Container bnbu-v81-local-validation-backend-startup-run-dc2a64a2265c Creating 
+ Container bnbu-v81-local-validation-backend-startup-run-dc2a64a2265c Created 
+
+> @bnbu/sports-backend@0.1.0 prebuild
+> npm run db:generate && npm run generate
+
+
+> @bnbu/sports-backend@0.1.0 db:generate
+> prisma generate
+
+Loaded Prisma config from prisma.config.ts.
+
+Prisma schema loaded from prisma/schema.prisma.
+
+✔ Generated Prisma Client (7.9.1) to ./src/generated/prisma in 917ms
+
+┌─────────────────────────────────────────────────────────┐
+│  Update available 7.9.1 -> 8.0.0-rc.13                  │
+│                                                         │
+│  This is a major update - please follow the guide at    │
+│  https://pris.ly/d/major-version-upgrade                │
+│                                                         │
+│  Run the following to update                            │
+│    npm i --save-dev prisma@latest                       │
+│    npm i @prisma/client@latest                          │
+└─────────────────────────────────────────────────────────┘
+
+> @bnbu/sports-backend@0.1.0 generate
+> npm run openapi:generate && npm run db:manifest:generate
+
+
+> @bnbu/sports-backend@0.1.0 openapi:generate
+> node ./scripts/generate-openapi.mjs
+
+Generated 3 OpenAPI artifacts from 155 operations.
+
+> @bnbu/sports-backend@0.1.0 db:manifest:generate
+> node ./scripts/generate-migration-manifest.mjs
+
+Generated migration manifest updated.
+
+> @bnbu/sports-backend@0.1.0 build
+> nest build
+
+{"check":"LOCAL_OBJECT_STORAGE_ROUNDTRIP","result":"PASS"}
+Loaded Prisma config from prisma.config.ts.
+
+Prisma schema loaded from prisma/schema.prisma.
+Datasource "db": PostgreSQL database "v81_runtime_test", schema "public" at "sql-postgres:5432"
+
+27 migrations found in prisma/migrations
+
+
+No pending migrations to apply.
+{"live":200,"ready":200,"businessValidated":false}
+{"check":"LOGIN_AND_FIRST_PASSWORD_CHANGE","role":"ADMIN","result":"PASS"}
+{"check":"LOGIN_AND_FIRST_PASSWORD_CHANGE","role":"TEACHER","result":"PASS"}
+{"check":"LOGIN_AND_FIRST_PASSWORD_CHANGE","role":"OTHER_TEACHER","result":"PASS"}
+{"check":"LOGIN_AND_FIRST_PASSWORD_CHANGE","role":"OTHER_ORGANIZATION","result":"PASS"}
+{"check":"SUPER_ENABLE_MANUAL_MODE","result":"PASS"}
+{"check":"STUDENT_SMTP_CODE_LOGIN","result":"PASS"}
+/admin/feedback/01a07b84-5982-779f-85fb-efc4d5664007/handling: HTTP 500 SYSTEM_INTERNAL_ERROR {}
+
+
+Docker exit code: 1

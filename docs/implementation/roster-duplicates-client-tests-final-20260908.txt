@@ -1,0 +1,25 @@
+Codepage tables are not loaded.  Non-ASCII characters may not give expected results
+Codepage tables are not loaded.  Non-ASCII characters may not give expected results
+✔ a replaced reconciliation result rejects confirmation instead of silently reporting success (14.8292ms)
+Codepage tables are not loaded.  Non-ASCII characters may not give expected results
+Codepage tables are not loaded.  Non-ASCII characters may not give expected results
+Codepage tables are not loaded.  Non-ASCII characters may not give expected results
+Codepage tables are not loaded.  Non-ASCII characters may not give expected results
+Codepage tables are not loaded.  Non-ASCII characters may not give expected results
+Codepage tables are not loaded.  Non-ASCII characters may not give expected results
+✔ original CSV and XLSX bytes reach multipart and confirmation retries reuse the uploaded source (26.9937ms)
+✔ maps every authoritative Backend reconciliation status without reclassifying it in the browser (1.155ms)
+✔ uses the latest server resolution version and note instead of browser-persisted state (0.1827ms)
+✔ student numbers remain strings with leading zeros and duplicate rows are excluded (0.4273ms)
+✔ the import adapter parses xlsx, legacy xls, and csv rosters (82.1983ms)
+✔ statistics keep official members, platform members, and resolution state separate (0.2652ms)
+✔ teacher roster flow keeps authoritative API and synthetic Mock adapters separated (4.7532ms)
+✔ encodes every roster API identifier before building the API path (0.1262ms)
+ℹ tests 9
+ℹ suites 0
+ℹ pass 9
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 286.5207

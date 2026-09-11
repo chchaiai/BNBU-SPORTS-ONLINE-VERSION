@@ -1,0 +1,127 @@
+{
+  "generatedAt": "2026-09-07T19:39:34.917Z",
+  "contractOperationCount": 228,
+  "scope": "Static explicit denial and named student deletion actions only; not a complete route or UI acceptance test",
+  "explicitDenials": [
+    {
+      "operationId": "appendExerciseLocationSamples",
+      "method": "POST",
+      "route": "/exercise-sessions/{sessionId}/location-samples",
+      "file": "backend/src/modules/client-capabilities/client-capabilities.controller.ts",
+      "line": 391,
+      "observation": "HANDLER_DELEGATES_TO_EXPLICIT_DENIAL"
+    },
+    {
+      "operationId": "createExport",
+      "method": "POST",
+      "route": "/exports",
+      "file": "backend/src/modules/exports/exports.controller.ts",
+      "line": 28,
+      "observation": "HANDLER_DELEGATES_TO_EXPLICIT_DENIAL"
+    },
+    {
+      "operationId": "createExportDownloadUrl",
+      "method": "POST",
+      "route": "/exports/{exportId}/download-url",
+      "file": "backend/src/modules/exports/exports.controller.ts",
+      "line": 48,
+      "observation": "HANDLER_DELEGATES_TO_EXPLICIT_DENIAL"
+    },
+    {
+      "operationId": "finalizeExerciseLocationTrack",
+      "method": "POST",
+      "route": "/exercise-sessions/{sessionId}/location-track/finalize",
+      "file": "backend/src/modules/client-capabilities/client-capabilities.controller.ts",
+      "line": 406,
+      "observation": "HANDLER_DELEGATES_TO_EXPLICIT_DENIAL"
+    },
+    {
+      "operationId": "getActivityConversionRules",
+      "method": "GET",
+      "route": "/activity-conversion-rules",
+      "file": "backend/src/modules/client-capabilities/client-capabilities.controller.ts",
+      "line": 371,
+      "observation": "HANDLER_DELEGATES_TO_EXPLICIT_DENIAL"
+    },
+    {
+      "operationId": "getExerciseRecordLocationSummary",
+      "method": "GET",
+      "route": "/exercise-records/{recordId}/location-summary",
+      "file": "backend/src/modules/client-capabilities/client-capabilities.controller.ts",
+      "line": 421,
+      "observation": "HANDLER_DELEGATES_TO_EXPLICIT_DENIAL"
+    },
+    {
+      "operationId": "getExport",
+      "method": "GET",
+      "route": "/exports/{exportId}",
+      "file": "backend/src/modules/exports/exports.controller.ts",
+      "line": 41,
+      "observation": "HANDLER_DELEGATES_TO_EXPLICIT_DENIAL"
+    },
+    {
+      "operationId": "getLocationPrivacyPolicy",
+      "method": "GET",
+      "route": "/location-privacy-policy",
+      "file": "backend/src/modules/client-capabilities/client-capabilities.controller.ts",
+      "line": 431,
+      "observation": "HANDLER_DELEGATES_TO_EXPLICIT_DENIAL"
+    },
+    {
+      "operationId": "getSportCatalog",
+      "method": "GET",
+      "route": "/sport-catalog",
+      "file": "backend/src/modules/client-capabilities/client-capabilities.controller.ts",
+      "line": 365,
+      "observation": "HANDLER_DELEGATES_TO_EXPLICIT_DENIAL"
+    },
+    {
+      "operationId": "listExports",
+      "method": "GET",
+      "route": "/exports",
+      "file": "backend/src/modules/exports/exports.controller.ts",
+      "line": 18,
+      "observation": "HANDLER_DELEGATES_TO_EXPLICIT_DENIAL"
+    },
+    {
+      "operationId": "startExerciseLocationTrack",
+      "method": "POST",
+      "route": "/exercise-sessions/{sessionId}/location-track",
+      "file": "backend/src/modules/client-capabilities/client-capabilities.controller.ts",
+      "line": 377,
+      "observation": "HANDLER_DELEGATES_TO_EXPLICIT_DENIAL"
+    },
+    {
+      "operationId": "updateLocationPrivacyPolicy",
+      "method": "PATCH",
+      "route": "/location-privacy-policy",
+      "file": "backend/src/modules/client-capabilities/client-capabilities.controller.ts",
+      "line": 437,
+      "observation": "HANDLER_DELEGATES_TO_EXPLICIT_DENIAL"
+    },
+    {
+      "operationId": "updateStudent",
+      "method": "PATCH",
+      "route": "/students/{studentId}",
+      "file": "backend/src/modules/users/profiles.controller.ts",
+      "line": 38,
+      "observation": "HANDLER_DELEGATES_TO_EXPLICIT_DENIAL"
+    }
+  ],
+  "studentDeletion": [
+    {
+      "method": "POST",
+      "route": "/me/account-deletion-challenges",
+      "clientFunction": "requestCurrentUserAccountDeletionChallenge",
+      "clientPresent": true,
+      "contractPresent": false
+    },
+    {
+      "method": "POST",
+      "route": "/me/account-deletion-challenges/{challengeId}/confirm",
+      "clientFunction": "confirmCurrentUserAccountDeletion",
+      "clientPresent": true,
+      "contractPresent": false
+    }
+  ]
+}

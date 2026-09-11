@@ -1,0 +1,13 @@
+FROM node:24.18.0-bookworm-slim
+RUN apt-get update && apt-get install -y --no-install-recommends openssl ca-certificates && rm -rf /var/lib/apt/lists/*
+WORKDIR /workspace/backend
+COPY backend/package.json backend/package-lock.json ./
+RUN npm ci --ignore-scripts --no-audit --no-fund
+COPY backend/ ./
+COPY docs/backend-contracts/ /workspace/docs/backend-contracts/
+COPY tools/ /workspace/tools/
+COPY BNBU-Sports-Web-new/frontend/student/ /workspace/BNBU-Sports-Web-new/frontend/student/
+COPY BNBU-Sports-Web-new/portal-teacher-admin/app/ /workspace/BNBU-Sports-Web-new/portal-teacher-admin/app/
+ENV MIGRATION_DATABASE_URL=postgresql://schema_only:schema_only@127.0.0.1:1/schema_only
+RUN npm run db:generate
+CMD ["node", "--import", "tsx", "--test", "test/unit/v81-domain.test.ts"]

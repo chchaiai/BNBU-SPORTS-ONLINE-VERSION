@@ -1,0 +1,16 @@
+
+> @bnbu/sports-backend@0.1.0 backend-release-policy:check
+> node --test ../tools/repository/check-backend-release-policy.test.mjs && node ../tools/repository/check-backend-release-policy.mjs
+
+✔ uses the parent commit on authoritative and mirror default branches (0.822ms)
+✔ parses and compares contract semantic versions (0.4033ms)
+✔ recognizes authoritative Backend release scope (0.177ms)
+ℹ tests 3
+ℹ suites 0
+ℹ pass 3
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 75.9689
+Backend release policy: FAIL (Release config version 2.0.12-contract does not match OpenAPI 3.0.0-v81-local-draft).

@@ -1,0 +1,5 @@
+
+> @bnbu/sports-backend@0.1.0 db:manifest:check
+> node ./scripts/generate-migration-manifest.mjs --check
+
+Generated migration manifest: PASS

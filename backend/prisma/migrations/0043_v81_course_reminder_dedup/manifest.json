@@ -1,0 +1,5 @@
+{
+  "migrationId": "0043_v81_course_reminder_dedup",
+  "sha256": "e1d8784e724c07c2e495e75638141ca1d4efe1f971dd8ec01e8ce9ec113ec772",
+  "destructive": false
+}

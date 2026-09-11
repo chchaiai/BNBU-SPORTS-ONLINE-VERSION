@@ -1,0 +1,1 @@
+{"check":"APPLICATION_REAL_UPLOAD_SUPPLEMENT","result":"PASS","readbackOnly":true,"formats":["PNG","WEBP"],"actualUploadedImages":3,"oldMediaPreserved":true,"fourthSelectionRejected":true,"closedCourseContinuation":true,"loadedThumbnails":3}

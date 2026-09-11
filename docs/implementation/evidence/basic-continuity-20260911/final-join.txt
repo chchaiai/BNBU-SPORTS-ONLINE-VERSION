@@ -1,0 +1,4 @@
+using existing open course; creation gap remains
+stage STUDENT_JOIN
+stage INITIAL_EMAIL
+{"check":"NEW_STUDENT_WEB_TEACHER_INVITE_JOIN_INITIAL_SMTP_EMAIL_REFRESH_ROSTER","result":"PASS","syntheticStudent":true,"realDockerBackend":true,"existingPublishedCourse":true}

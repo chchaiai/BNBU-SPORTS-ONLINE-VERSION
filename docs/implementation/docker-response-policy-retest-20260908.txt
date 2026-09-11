@@ -1,0 +1,93 @@
+time="2026-09-08T21:19:03+08:00" level=warning msg="Found orphan containers (bnbu-v81-e2e-eleventh-20260908, bnbu-v81-e2e-tenth-20260908, bnbu-v81-e2e-ninth-20260908, bnbu-v81-e2e-eighth-20260908, bnbu-v81-e2e-seventh-20260908, bnbu-v81-e2e-sixth-20260908, bnbu-v81-e2e-fifth-20260908, bnbu-v81-e2e-report-20260908) for this project. If you removed or renamed this service in your compose file, you can run this command with the --remove-orphans flag to clean it up."
+ Container bnbu-v81-full-integration-integration-tests-run-080098b66a3c Creating 
+ Container bnbu-v81-full-integration-integration-tests-run-080098b66a3c Created 
+✔ normal operations require both success and error responses (1.246884ms)
+✔ unavailable operations require an explicit reason and disabled registration (0.209745ms)
+✔ unavailable operations cannot declare successes or omit their actual denial status (0.182592ms)
+ℹ tests 3
+ℹ suites 0
+ℹ pass 3
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 53.5106
+
+> @bnbu/sports-backend@0.1.0 prebuild
+> npm run db:generate && npm run generate
+
+
+> @bnbu/sports-backend@0.1.0 db:generate
+> prisma generate
+
+Loaded Prisma config from prisma.config.ts.
+
+Prisma schema loaded from prisma/schema.prisma.
+
+┌─────────────────────────────────────────────────────────┐
+│  Update available 7.9.1 -> 8.0.0-rc.13                  │
+│                                                         │
+│  This is a major update - please follow the guide at    │
+│  https://pris.ly/d/major-version-upgrade                │
+│                                                         │
+│  Run the following to update                            │
+│    npm i --save-dev prisma@latest                       │
+│    npm i @prisma/client@latest                          │
+└─────────────────────────────────────────────────────────┘
+✔ Generated Prisma Client (7.9.1) to ./src/generated/prisma in 871ms
+
+
+> @bnbu/sports-backend@0.1.0 generate
+> npm run openapi:generate && npm run db:manifest:generate
+
+
+> @bnbu/sports-backend@0.1.0 openapi:generate
+> node ./scripts/generate-openapi.mjs
+
+Generated 3 OpenAPI artifacts from 249 operations.
+
+> @bnbu/sports-backend@0.1.0 db:manifest:generate
+> node ./scripts/generate-migration-manifest.mjs
+
+Generated migration manifest updated.
+
+> @bnbu/sports-backend@0.1.0 build
+> nest build
+
+▶ Stage 21 client capabilities with real PostgreSQL
+  ✔ keeps student account deletion deferred with no challenge or account mutation (703.40163ms)
+  ✔ accepts an organization-scoped student challenge without exposing its code and keeps an empty release policy fail-closed (383.316964ms)
+  ✔ rejects PHONE without creating a challenge and activates a pending student through first email binding (486.633327ms)
+  ✔ requires both current and new mailbox codes for email rebinding (440.829686ms)
+  ✔ uses the numeric iOS build number for enforcement and keeps marketing version display-only (329.921975ms)
+  ✔ establishes a student OTP session and completes the private exemption-media review flow (693.445123ms)
+  ✔ completes recovery only for a teacher and revokes prior sessions (469.227357ms)
+  ✔ lists and marks only the authenticated user notification with durable evidence (478.916654ms)
+  ✔ registers and revokes an IOS push token without exposing plaintext or ciphertext (610.85809ms)
+  ✔ persists preferences and feedback while exposing only published help content (484.365629ms)
+  ✔ keeps all location and conversion capabilities explicitly fail-closed (647.061529ms)
+✔ Stage 21 client capabilities with real PostgreSQL (7262.501698ms)
+▶ Current internal final grade HTTP E2E
+  ✔ preserves teacher draft and publication history with replay and student privacy (922.384806ms)
+  ✔ serializes competing revisions and rejects stale writes, notes and unauthorized actors (772.536387ms)
+  ✔ denies obsolete administrator score governance without creating score rules (478.065193ms)
+  ✔ denies every retired score endpoint for authenticated teachers and administrators (590.530603ms)
+✔ Current internal final grade HTTP E2E (3677.93293ms)
+▶ Course and ClassSection HTTP E2E
+  ✔ applies role-scoped Course reads and stable bound cursor pagination (689.838007ms)
+  ✔ creates and updates the teacher course with replay while administrators remain read-only (624.149492ms)
+  ✔ derives the responsible teacher and replaces excluded dates atomically (471.189142ms)
+  ✔ closes a ClassSection idempotently and preserves the historical projection (407.293704ms)
+  ✔ enforces teacher ownership, administrator read-only governance, and organization isolation (648.511378ms)
+  ✔ keeps archived Semester and inactive Course creation failures free of side effects (392.9108ms)
+  ✔ returns an empty student projection without ACTIVE Enrollment and rejects writes (414.087552ms)
+  ✔ rejects unsupported mode values and maintenance mutations without side effects (396.635801ms)
+✔ Course and ClassSection HTTP E2E (5458.707328ms)
+ℹ tests 23
+ℹ suites 3
+ℹ pass 23
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 18037.35546

@@ -1,0 +1,176 @@
+
+> @bnbu/backend-contract-checks@0.0.0 contract:check
+> npm run check && npm run lint:openapi && npm run contract:compatibility:check && npm run contract:release:check
+
+
+> @bnbu/backend-contract-checks@0.0.0 check
+> node ./generate-permission-registry.mjs && node --test ./operation-response-policy.test.mjs && node ./check-contract.mjs && node ./check-system-mode-responses.mjs && node ./apply-contract-errata.mjs
+
+Permission registry checked: 249 operations
+✔ normal operations require both success and error responses (0.8791ms)
+✔ unavailable operations require an explicit reason and disabled registration (0.1857ms)
+✔ unavailable operations cannot declare successes or omit their actual denial status (0.1215ms)
+ℹ tests 3
+ℹ suites 0
+ℹ pass 3
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 61.0923
+Contract checks failed (155):
+1. Inline enum at paths./auth/account-security.get.responses.200.content.application/json.schema.properties.data.properties.adminKind must declare x-enum-subset-of or x-transport-constraint
+2. Inline enum at paths./admin/subadmins.post.responses.201.content.application/json.schema.properties.data.properties.permissions.items must declare x-enum-subset-of or x-transport-constraint
+3. Inline enum at paths./admin/subadmins.post.responses.201.content.application/json.schema.properties.data.properties.status must declare x-enum-subset-of or x-transport-constraint
+4. Inline enum at paths./exercise-records/{recordId}/swim-intake.post.responses.201.content.application/json.schema.properties.data.properties.intakeKind must declare x-enum-subset-of or x-transport-constraint
+5. Inline enum at paths./exercise-records/{recordId}/swim-intake.get.responses.200.content.application/json.schema.properties.data.properties.intakeKind must declare x-enum-subset-of or x-transport-constraint
+6. Inline enum at paths./exercise-records/{recordId}/swim-intake.get.responses.200.content.application/json.schema.properties.data.properties.items.items.properties.phase must declare x-enum-subset-of or x-transport-constraint
+7. Inline enum at paths./class-sections/{classSectionId}/settlement-check.get.responses.200.content.application/json.schema.properties.data.properties.checks.items.properties.status must declare x-enum-subset-of or x-transport-constraint
+8. Inline enum at paths./admin/feedback/{feedbackId}.get.responses.200.content.application/json.schema.properties.data.properties.category must declare x-enum-subset-of or x-transport-constraint
+9. Inline enum at paths./admin/feedback/{feedbackId}.get.responses.200.content.application/json.schema.properties.data.properties.status must declare x-enum-subset-of or x-transport-constraint
+10. Inline enum at paths./admin/feedback/{feedbackId}.get.responses.200.content.application/json.schema.properties.data.properties.history.items.properties.previousStatus must declare x-enum-subset-of or x-transport-constraint
+11. Inline enum at paths./admin/feedback/{feedbackId}.get.responses.200.content.application/json.schema.properties.data.properties.history.items.properties.nextStatus must declare x-enum-subset-of or x-transport-constraint
+12. Inline enum at paths./admin/feedback/{feedbackId}/handling.post.responses.201.content.application/json.schema.properties.data.properties.status must declare x-enum-subset-of or x-transport-constraint
+13. Inline enum at paths./admin/feedback.get.parameters.3.schema must declare x-enum-subset-of or x-transport-constraint
+14. Inline enum at paths./admin/feedback.get.parameters.4.schema must declare x-enum-subset-of or x-transport-constraint
+15. Inline enum at paths./admin/feedback.get.responses.200.content.application/json.schema.properties.data.properties.items.items.properties.category must declare x-enum-subset-of or x-transport-constraint
+16. Inline enum at paths./admin/feedback.get.responses.200.content.application/json.schema.properties.data.properties.items.items.properties.status must declare x-enum-subset-of or x-transport-constraint
+17. Inline enum at paths./student/feedback/{feedbackId}/history.get.responses.200.content.application/json.schema.properties.data.properties.status must declare x-enum-subset-of or x-transport-constraint
+18. Inline enum at paths./student/feedback/{feedbackId}/history.get.responses.200.content.application/json.schema.properties.data.properties.items.items.properties.status must declare x-enum-subset-of or x-transport-constraint
+19. Inline enum at paths./admin/help-articles.post.responses.201.content.application/json.schema.properties.data.properties.category must declare x-enum-subset-of or x-transport-constraint
+20. Inline enum at paths./admin/help-articles.post.responses.201.content.application/json.schema.properties.data.properties.status must declare x-enum-subset-of or x-transport-constraint
+21. Inline enum at paths./admin/help-articles.get.parameters.3.schema must declare x-enum-subset-of or x-transport-constraint
+22. Inline enum at paths./admin/help-articles.get.parameters.4.schema must declare x-enum-subset-of or x-transport-constraint
+23. Inline enum at paths./admin/help-articles.get.responses.200.content.application/json.schema.properties.data.properties.items.items.properties.category must declare x-enum-subset-of or x-transport-constraint
+24. Inline enum at paths./admin/help-articles.get.responses.200.content.application/json.schema.properties.data.properties.items.items.properties.status must declare x-enum-subset-of or x-transport-constraint
+25. Inline enum at paths./admin/help-articles/{articleId}.post.responses.201.content.application/json.schema.properties.data.properties.category must declare x-enum-subset-of or x-transport-constraint
+26. Inline enum at paths./admin/help-articles/{articleId}.post.responses.201.content.application/json.schema.properties.data.properties.status must declare x-enum-subset-of or x-transport-constraint
+27. Inline enum at paths./admin/help-articles/{articleId}.get.responses.200.content.application/json.schema.properties.data.properties.category must declare x-enum-subset-of or x-transport-constraint
+28. Inline enum at paths./admin/help-articles/{articleId}.get.responses.200.content.application/json.schema.properties.data.properties.status must declare x-enum-subset-of or x-transport-constraint
+29. Inline enum at paths./student/help-articles.get.parameters.1.schema must declare x-enum-subset-of or x-transport-constraint
+30. Inline enum at paths./student/help-articles.get.responses.200.content.application/json.schema.properties.data.items.properties.category must declare x-enum-subset-of or x-transport-constraint
+31. Inline enum at paths./student/help-articles.get.responses.200.content.application/json.schema.properties.data.items.properties.locale must declare x-enum-subset-of or x-transport-constraint
+32. Inline enum at paths./student/help-articles/{articleId}.get.parameters.1.schema must declare x-enum-subset-of or x-transport-constraint
+33. Inline enum at paths./student/help-articles/{articleId}.get.responses.200.content.application/json.schema.properties.data.properties.category must declare x-enum-subset-of or x-transport-constraint
+34. Inline enum at paths./student/help-articles/{articleId}.get.responses.200.content.application/json.schema.properties.data.properties.locale must declare x-enum-subset-of or x-transport-constraint
+35. Inline enum at paths./admin/endurance-tables.get.responses.200.content.application/json.schema.properties.data.items.properties.gender must declare x-enum-subset-of or x-transport-constraint
+36. Inline enum at paths./admin/endurance-tables.get.responses.200.content.application/json.schema.properties.data.items.properties.gradeGroup must declare x-enum-subset-of or x-transport-constraint
+37. Inline enum at paths./admin/endurance-tables.get.responses.200.content.application/json.schema.properties.data.items.properties.runType must declare x-enum-subset-of or x-transport-constraint
+38. Inline enum at paths./admin/endurance-tables.get.responses.200.content.application/json.schema.properties.data.items.properties.bands.items.properties.tier must declare x-enum-subset-of or x-transport-constraint
+39. Inline enum at paths./admin/endurance-tables/rules.post.responses.201.content.application/json.schema.properties.data.properties.gender must declare x-enum-subset-of or x-transport-constraint
+40. Inline enum at paths./admin/endurance-tables/rules.post.responses.201.content.application/json.schema.properties.data.properties.gradeGroup must declare x-enum-subset-of or x-transport-constraint
+41. Inline enum at paths./admin/endurance-tables/rules.post.responses.201.content.application/json.schema.properties.data.properties.runType must declare x-enum-subset-of or x-transport-constraint
+42. Inline enum at paths./admin/endurance-tables/rules.post.responses.201.content.application/json.schema.properties.data.properties.bands.items.properties.tier must declare x-enum-subset-of or x-transport-constraint
+43. Inline enum at paths./admin/endurance-tables/rules/{ruleId}.post.responses.201.content.application/json.schema.properties.data.properties.gender must declare x-enum-subset-of or x-transport-constraint
+44. Inline enum at paths./admin/endurance-tables/rules/{ruleId}.post.responses.201.content.application/json.schema.properties.data.properties.gradeGroup must declare x-enum-subset-of or x-transport-constraint
+45. Inline enum at paths./admin/endurance-tables/rules/{ruleId}.post.responses.201.content.application/json.schema.properties.data.properties.runType must declare x-enum-subset-of or x-transport-constraint
+46. Inline enum at paths./admin/endurance-tables/rules/{ruleId}.post.responses.201.content.application/json.schema.properties.data.properties.bands.items.properties.tier must declare x-enum-subset-of or x-transport-constraint
+47. Inline enum at paths./admin/endurance-tables/rules/{ruleId}/delete.post.responses.201.content.application/json.schema.properties.data.properties.gender must declare x-enum-subset-of or x-transport-constraint
+48. Inline enum at paths./admin/endurance-tables/rules/{ruleId}/delete.post.responses.201.content.application/json.schema.properties.data.properties.gradeGroup must declare x-enum-subset-of or x-transport-constraint
+49. Inline enum at paths./admin/endurance-tables/rules/{ruleId}/delete.post.responses.201.content.application/json.schema.properties.data.properties.runType must declare x-enum-subset-of or x-transport-constraint
+50. Inline enum at paths./admin/endurance-tables/rules/{ruleId}/delete.post.responses.201.content.application/json.schema.properties.data.properties.bands.items.properties.tier must declare x-enum-subset-of or x-transport-constraint
+51. Inline enum at paths./enrollments/{enrollmentId}/physical-results.get.responses.200.content.application/json.schema.properties.data.properties.items.items.properties.runType must declare x-enum-subset-of or x-transport-constraint
+52. Inline enum at paths./enrollments/{enrollmentId}/physical-results.post.responses.201.content.application/json.schema.properties.data.properties.runType must declare x-enum-subset-of or x-transport-constraint
+53. Inline enum at paths./student/enrollments/{enrollmentId}/physical-result.get.responses.200.content.application/json.schema.properties.data.oneOf.0.properties.result.properties.runType must declare x-enum-subset-of or x-transport-constraint
+54. Inline enum at paths./student/enrollments/{enrollmentId}/physical-result.get.responses.200.content.application/json.schema.properties.data.oneOf.1.properties.status must declare x-enum-subset-of or x-transport-constraint
+55. Inline enum at paths./roster-imports/{rosterImportId}/registration-preview.get.responses.200.content.application/json.schema.properties.data.properties.rows.items.properties.status must declare x-enum-subset-of or x-transport-constraint
+56. Inline enum at paths./roster-imports/{rosterImportId}/registration-preview.get.responses.200.content.application/json.schema.properties.data.properties.extras.items.properties.status must declare x-enum-subset-of or x-transport-constraint
+57. Inline enum at paths./roster-imports/{rosterImportId}/confirmation.get.responses.200.content.application/json.schema.properties.data.properties.sourceRows.items.properties.validationStatus must declare x-enum-subset-of or x-transport-constraint
+58. Inline enum at paths./roster-imports/{rosterImportId}/confirmation.post.responses.201.content.application/json.schema.properties.data.properties.sourceRows.items.properties.validationStatus must declare x-enum-subset-of or x-transport-constraint
+59. Inline enum at paths./class-sections/{classSectionId}/composite-roster.get.responses.200.content.application/json.schema.properties.data.properties.sourceKind must declare x-enum-subset-of or x-transport-constraint
+60. Inline enum at paths./class-sections/{classSectionId}/composite-roster.get.responses.200.content.application/json.schema.properties.data.properties.rows.items.properties.status must declare x-enum-subset-of or x-transport-constraint
+61. Inline enum at paths./class-sections/{classSectionId}/composite-roster.get.responses.200.content.application/json.schema.properties.data.properties.rows.items.properties.physical.properties.status must declare x-enum-subset-of or x-transport-constraint
+62. Inline enum at paths./class-sections/{classSectionId}/composite-roster.get.responses.200.content.application/json.schema.properties.data.properties.rows.items.properties.physical.properties.result.properties.runType must declare x-enum-subset-of or x-transport-constraint
+63. Inline enum at paths./class-sections/{classSectionId}/composite-roster.get.responses.200.content.application/json.schema.properties.data.properties.extras.items.properties.status must declare x-enum-subset-of or x-transport-constraint
+64. Inline enum at paths./class-sections/{classSectionId}/composite-roster.get.responses.200.content.application/json.schema.properties.data.properties.extras.items.properties.physical.properties.status must declare x-enum-subset-of or x-transport-constraint
+65. Inline enum at paths./class-sections/{classSectionId}/composite-roster.get.responses.200.content.application/json.schema.properties.data.properties.extras.items.properties.physical.properties.result.properties.runType must declare x-enum-subset-of or x-transport-constraint
+66. Inline enum at paths./roster-imports/{rosterImportId}/source.get.responses.200.content.application/json.schema.properties.data.properties.fileFormat must declare x-enum-subset-of or x-transport-constraint
+67. Inline enum at paths./enrollments/{enrollmentId}/roster-status.get.responses.200.content.application/json.schema.properties.data.properties.status must declare x-enum-subset-of or x-transport-constraint
+68. Inline enum at paths./admin/course-directory.get.responses.200.content.application/json.schema.properties.data.properties.rows.items.properties.status must declare x-enum-subset-of or x-transport-constraint
+69. Inline enum at paths./class-sections/{classSectionId}/ocr-roster-batches.post.responses.201.content.application/json.schema.properties.data.properties.pages.items.properties.mimeType must declare x-enum-subset-of or x-transport-constraint
+70. Inline enum at paths./class-sections/{classSectionId}/ocr-physical-batches.post.responses.201.content.application/json.schema.properties.data.properties.pages.items.properties.mimeType must declare x-enum-subset-of or x-transport-constraint
+71. Inline enum at paths./class-sections/{classSectionId}/ocr-batches.get.responses.200.content.application/json.schema.properties.data.properties.items.items.properties.purpose must declare x-enum-subset-of or x-transport-constraint
+72. Inline enum at paths./ocr-batches/{batchId}.get.responses.200.content.application/json.schema.properties.data.properties.purpose must declare x-enum-subset-of or x-transport-constraint
+73. Inline enum at paths./ocr-batches/{batchId}.get.responses.200.content.application/json.schema.properties.data.properties.pages.items.properties.mimeType must declare x-enum-subset-of or x-transport-constraint
+74. Inline enum at paths./ocr-batches/{batchId}.get.responses.200.content.application/json.schema.properties.data.properties.pages.items.properties.latestAttempt.properties.outcome must declare x-enum-subset-of or x-transport-constraint
+75. Inline enum at paths./ocr-batches/{batchId}/pages/{pageId}/source.get.responses.200.content.application/json.schema.properties.data.properties.mimeType must declare x-enum-subset-of or x-transport-constraint
+76. Inline enum at paths./ocr-batches/{batchId}/pages/{pageId}/recognition.get.responses.200.content.application/json.schema.properties.data.properties.latestAttempt.properties.outcome must declare x-enum-subset-of or x-transport-constraint
+77. Inline enum at paths./ocr-batches/{batchId}/pages/{pageId}/recognition.post.responses.201.content.application/json.schema.properties.data.properties.status must declare x-enum-subset-of or x-transport-constraint
+78. Inline enum at paths./ocr-jobs/{jobId}.get.responses.200.content.application/json.schema.properties.data.properties.status must declare x-enum-subset-of or x-transport-constraint
+79. Inline enum at paths./ocr-batches/{batchId}/draft.get.responses.200.content.application/json.schema.properties.data.properties.purpose must declare x-enum-subset-of or x-transport-constraint
+80. Inline enum at paths./ocr-batches/{batchId}/draft.get.responses.200.content.application/json.schema.properties.data.properties.rows.items.properties.ocrIssues.items.properties.field must declare x-enum-subset-of or x-transport-constraint
+81. Inline enum at paths./ocr-batches/{batchId}/draft.post.responses.201.content.application/json.schema.properties.data.properties.purpose must declare x-enum-subset-of or x-transport-constraint
+82. Inline enum at paths./ocr-batches/{batchId}/draft.post.responses.201.content.application/json.schema.properties.data.properties.rows.items.properties.ocrIssues.items.properties.field must declare x-enum-subset-of or x-transport-constraint
+83. Inline enum at paths./ocr-batches/{batchId}/draft/revisions.post.responses.201.content.application/json.schema.properties.data.properties.purpose must declare x-enum-subset-of or x-transport-constraint
+84. Inline enum at paths./ocr-batches/{batchId}/draft/revisions.post.responses.201.content.application/json.schema.properties.data.properties.rows.items.properties.ocrIssues.items.properties.field must declare x-enum-subset-of or x-transport-constraint
+85. Inline enum at paths./ocr-batches/{batchId}/roster-confirmation.get.responses.200.content.application/json.schema.properties.data.properties.sourceRows.items.properties.ocrIssues.items.properties.field must declare x-enum-subset-of or x-transport-constraint
+86. Inline enum at paths./ocr-batches/{batchId}/roster-confirmation.post.responses.201.content.application/json.schema.properties.data.properties.sourceRows.items.properties.ocrIssues.items.properties.field must declare x-enum-subset-of or x-transport-constraint
+87. Inline enum at paths./class-sections/{classSectionId}/roster-basis.get.responses.200.content.application/json.schema.properties.data.properties.sourceKind must declare x-enum-subset-of or x-transport-constraint
+88. Inline enum at paths./class-sections/{classSectionId}/roster-basis.post.responses.201.content.application/json.schema.properties.data.properties.sourceKind must declare x-enum-subset-of or x-transport-constraint
+89. Inline enum at paths./class-sections/{classSectionId}/roster-basis/snapshots.get.responses.200.content.application/json.schema.properties.data.properties.items.items.properties.sourceKind must declare x-enum-subset-of or x-transport-constraint
+90. Inline enum at paths./class-sections/{classSectionId}/makeup-windows.get.responses.200.content.application/json.schema.properties.data.properties.items.items.properties.version must declare x-enum-subset-of or x-transport-constraint
+91. Inline enum at paths./class-sections/{classSectionId}/makeup-windows.get.responses.200.content.application/json.schema.properties.data.properties.items.items.properties.windowState must declare x-enum-subset-of or x-transport-constraint
+92. Inline enum at paths./class-sections/{classSectionId}/makeup-windows.post.responses.201.content.application/json.schema.properties.data.properties.version must declare x-enum-subset-of or x-transport-constraint
+93. Inline enum at paths./class-sections/{classSectionId}/makeup-windows.post.responses.201.content.application/json.schema.properties.data.properties.windowState must declare x-enum-subset-of or x-transport-constraint
+94. Inline enum at paths./makeup-windows/{windowId}/revocation.post.responses.201.content.application/json.schema.properties.data.properties.version must declare x-enum-subset-of or x-transport-constraint
+95. Inline enum at paths./makeup-windows/{windowId}/revocation.post.responses.201.content.application/json.schema.properties.data.properties.windowState must declare x-enum-subset-of or x-transport-constraint
+96. Inline enum at paths./enrollments/{enrollmentId}/makeup-windows.get.responses.200.content.application/json.schema.properties.data.properties.items.items.properties.version must declare x-enum-subset-of or x-transport-constraint
+97. Inline enum at paths./enrollments/{enrollmentId}/makeup-windows.get.responses.200.content.application/json.schema.properties.data.properties.items.items.properties.windowState must declare x-enum-subset-of or x-transport-constraint
+98. Inline enum at paths./admin/semesters/{id}/switch-check.get.responses.200.content.application/json.schema.properties.data.properties.target.properties.status must declare x-enum-subset-of or x-transport-constraint
+99. Inline enum at paths./admin/semesters/{id}/switch-check.get.responses.200.content.application/json.schema.properties.data.properties.current.properties.status must declare x-enum-subset-of or x-transport-constraint
+100. Inline enum at paths./admin/semesters/{id}/switch-check.get.responses.200.content.application/json.schema.properties.data.properties.checks.items.properties.status must declare x-enum-subset-of or x-transport-constraint
+101. Inline enum at paths./admin/semesters/{id}/switch-check.get.responses.200.content.application/json.schema.properties.data.properties.courses.items.properties.checks.items.properties.status must declare x-enum-subset-of or x-transport-constraint
+102. Inline enum at paths./admin/audit-events.get.parameters.2.schema must declare x-enum-subset-of or x-transport-constraint
+103. Inline enum at paths./admin/audit-events.get.responses.200.content.application/json.schema.properties.data.properties.items.items.properties.source must declare x-enum-subset-of or x-transport-constraint
+104. Inline enum at paths./admin/audit-events/{source}/{eventId}.get.parameters.1.schema must declare x-enum-subset-of or x-transport-constraint
+105. Inline enum at paths./admin/audit-events/{source}/{eventId}.get.responses.200.content.application/json.schema.properties.data.properties.source must declare x-enum-subset-of or x-transport-constraint
+106. Inline enum at paths./admin/runtime-archives.post.responses.202.content.application/json.schema.properties.data.properties.status must declare x-enum-subset-of or x-transport-constraint
+107. Inline enum at paths./admin/runtime-archives/{id}.get.responses.200.content.application/json.schema.properties.data.properties.status must declare x-enum-subset-of or x-transport-constraint
+108. Inline enum at paths./admin/runtime-archives/{id}/cancellation.post.responses.201.content.application/json.schema.properties.data.properties.status must declare x-enum-subset-of or x-transport-constraint
+109. Inline enum at paths./admin/subadmins/{id}/permissions.post.responses.201.content.application/json.schema.properties.data.properties.permissions.items must declare x-enum-subset-of or x-transport-constraint
+110. Inline enum at paths./admin/review-services/ocr.get.responses.200.content.application/json.schema.properties.data.properties.configurationSource must declare x-enum-subset-of or x-transport-constraint
+111. Inline enum at paths./admin/review-services/ocr.get.responses.200.content.application/json.schema.properties.data.properties.configuration.properties.provider must declare x-enum-subset-of or x-transport-constraint
+112. Inline enum at paths./admin/review-services/ocr.get.responses.200.content.application/json.schema.properties.data.properties.systemMode must declare x-enum-subset-of or x-transport-constraint
+113. Inline enum at paths./admin/review-services/ocr/revisions.get.responses.200.content.application/json.schema.properties.data.properties.items.items.properties.provider must declare x-enum-subset-of or x-transport-constraint
+114. Inline enum at paths./admin/review-services/ocr/revisions.post.responses.201.content.application/json.schema.properties.data.properties.provider must declare x-enum-subset-of or x-transport-constraint
+115. Inline enum at paths./admin/subadmin-identity-challenges.post.responses.201.content.application/json.schema.properties.data.properties.status must declare x-enum-subset-of or x-transport-constraint
+116. Inline enum at paths./admin/subadmin-identity-challenges/{id}/verify.post.responses.201.content.application/json.schema.properties.data.properties.status must declare x-enum-subset-of or x-transport-constraint
+117. Inline enum at paths./admin/subadmins/{id}/profile.post.responses.201.content.application/json.schema.properties.data.properties.permissions.items must declare x-enum-subset-of or x-transport-constraint
+118. Inline enum at paths./admin/subadmins/{id}/profile.post.responses.201.content.application/json.schema.properties.data.properties.status must declare x-enum-subset-of or x-transport-constraint
+119. Inline enum at components.schemas.ExerciseRecord.properties.workflowStage must declare x-enum-subset-of or x-transport-constraint
+120. Inline enum at components.schemas.ExerciseRecord.properties.materialVersion must declare x-enum-subset-of or x-transport-constraint
+121. Inline enum at components.schemas.AlignmentRun.properties.algorithmVersion must declare x-enum-subset-of or x-transport-constraint
+122. Inline enum at components.schemas.V81CourseRulesInput.properties.minimumMinutes must declare x-enum-subset-of or x-transport-constraint
+123. Inline enum at components.schemas.V81CourseRulesInput.properties.weeklyLimit must declare x-enum-subset-of or x-transport-constraint
+124. Inline enum at components.schemas.V81ReviewInput.properties.action must declare x-enum-subset-of or x-transport-constraint
+125. Inline enum at components.schemas.V81ReviewInput.properties.reasonCode must declare x-enum-subset-of or x-transport-constraint
+126. Inline enum at components.schemas.V81ReviewInput.properties.supplementHours must declare x-enum-subset-of or x-transport-constraint
+127. Inline enum at components.schemas.V81CorrectionInput.properties.action must declare x-enum-subset-of or x-transport-constraint
+128. Inline enum at components.schemas.V81CorrectionInput.properties.reasonCode must declare x-enum-subset-of or x-transport-constraint
+129. Inline enum at components.schemas.ChangeV81SystemModeInput.properties.mode must declare x-enum-subset-of or x-transport-constraint
+130. Inline enum at components.schemas.V81SubadminStatusInput.properties.status must declare x-enum-subset-of or x-transport-constraint
+131. Inline enum at components.schemas.V81StudentProgress.properties.minimumMinutes must declare x-enum-subset-of or x-transport-constraint
+132. Inline enum at components.schemas.V81StudentProgress.properties.weeklyLimit must declare x-enum-subset-of or x-transport-constraint
+133. Inline enum at components.schemas.V81StudentProgress.properties.status must declare x-enum-subset-of or x-transport-constraint
+134. Inline enum at components.schemas.V81Certification.properties.certificationType must declare x-enum-subset-of or x-transport-constraint
+135. Inline enum at components.schemas.V81Certification.properties.status must declare x-enum-subset-of or x-transport-constraint
+136. Inline enum at components.schemas.V81SwimIntakeItem.properties.phase must declare x-enum-subset-of or x-transport-constraint
+137. Inline enum at components.schemas.V81HandleFeedbackInput.properties.status must declare x-enum-subset-of or x-transport-constraint
+138. Inline enum at components.schemas.V81SaveHelpInput.properties.category must declare x-enum-subset-of or x-transport-constraint
+139. Inline enum at components.schemas.V81SaveHelpInput.properties.status must declare x-enum-subset-of or x-transport-constraint
+140. Inline enum at components.schemas.V81EnduranceTableInput.properties.gender must declare x-enum-subset-of or x-transport-constraint
+141. Inline enum at components.schemas.V81EnduranceTableInput.properties.gradeGroup must declare x-enum-subset-of or x-transport-constraint
+142. Inline enum at components.schemas.V81EnduranceTableInput.properties.runType must declare x-enum-subset-of or x-transport-constraint
+143. Inline enum at components.schemas.V81EnduranceBandInput.properties.gender must declare x-enum-subset-of or x-transport-constraint
+144. Inline enum at components.schemas.V81EnduranceBandInput.properties.gradeGroup must declare x-enum-subset-of or x-transport-constraint
+145. Inline enum at components.schemas.V81EnduranceBandInput.properties.runType must declare x-enum-subset-of or x-transport-constraint
+146. Inline enum at components.schemas.V81EnduranceBandInput.properties.tier must declare x-enum-subset-of or x-transport-constraint
+147. Inline enum at components.schemas.V81PhysicalResultInput.properties.runType must declare x-enum-subset-of or x-transport-constraint
+148. Inline enum at components.schemas.V81SemesterInput.properties.termCode must declare x-enum-subset-of or x-transport-constraint
+149. Inline enum at components.schemas.V81SemesterUpdateInput.properties.termCode must declare x-enum-subset-of or x-transport-constraint
+150. Inline enum at components.schemas.V81SubadminPermissionsInput.properties.permissions.items must declare x-enum-subset-of or x-transport-constraint
+151. Inline enum at components.schemas.V81DeletionChallengeInput.properties.locale must declare x-enum-subset-of or x-transport-constraint
+152. Inline enum at components.schemas.V81OcrServiceInput.properties.provider must declare x-enum-subset-of or x-transport-constraint
+153. Inline enum at components.schemas.SubadminIdentityInput.properties.locale must declare x-enum-subset-of or x-transport-constraint
+154. Inline enum at components.schemas.CreateVerifiedSubadminInput.properties.permissions.items must declare x-enum-subset-of or x-transport-constraint
+155. Inline enum at components.schemas.UpdateVerifiedSubadminInput.properties.permissions.items must declare x-enum-subset-of or x-transport-constraint

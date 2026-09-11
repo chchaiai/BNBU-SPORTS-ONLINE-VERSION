@@ -1,0 +1,9 @@
+# 静态覆盖状态准确性修正（2026-09-08）
+
+依据a3b8b467的逐操作清点，将expectedOperationCount从旧126改为当前249；implemented登记仍126条，未虚构其余123条证据。严格运行报告仍检查登记总量与249是否一致，缺项不会因此通过。
+
+check-runtime-coverage.mjs把静态文件检查结果改为EVIDENCE_REGISTERED、DENIAL_EVIDENCE_REGISTERED、NOT_REGISTERED、UNREGISTERED_WITH_ADR。生成路线图明确该检查只说明控制器绑定和引用文件存在，不能证明运行、业务或部署完成。目前95项普通登记、31项停用登记、123项未登记。旧IMPLEMENTED_VERIFIED/NOT_IMPLEMENTED不再用于静态推断。
+
+本地生成记录static-runtime-registration-first-20260908.txt；Docker重建后静态生成一致性检查通过，严格运行报告准确性单元5/5通过，日志docker-static-runtime-registration-first-20260908.txt。未重跑业务全量，最新仍第九轮90/90；新的登记和停用分类须后续全量报告汇总。
+
+后续补齐123条登记的具体用例、仓储、迁移及测试引用；日志归档和结算后更正仍需统一HTTP成功证据；三端浏览器、剩余依赖和最终交接继续。未修改UI。

@@ -1,0 +1,6 @@
+                  id                  | stage | supplement_used | material_version | credited_duration_seconds | original_items | supplemented_items 
+--------------------------------------+-------+-----------------+------------------+---------------------------+----------------+--------------------
+ 01a07efe-3bc9-706d-b751-586216956b0e | VALID | t               |                2 |                         0 |              1 |                  2
+ 01a07f02-e18f-70af-8d07-c2a6995d957f | VALID | t               |                2 |                         0 |              1 |                  2
+(2 rows)
+

@@ -1,0 +1,10 @@
+✔ teacher raw time projection preserves the source version without reusing a legacy aggregate score (0.4729ms)
+✔ approved exemption suppresses historical time and absent raw data is not recorded (0.132ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 2
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 323.2433

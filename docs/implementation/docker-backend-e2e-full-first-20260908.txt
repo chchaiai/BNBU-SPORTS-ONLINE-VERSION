@@ -1,0 +1,1007 @@
+ Container bnbu-v81-full-integration-integration-tests-run-12da60f6d678 Creating 
+ Container bnbu-v81-full-integration-integration-tests-run-12da60f6d678 Created 
+
+> @bnbu/sports-backend@0.1.0 pretest:e2e
+> npm run build
+
+
+> @bnbu/sports-backend@0.1.0 prebuild
+> npm run db:generate && npm run generate
+
+
+> @bnbu/sports-backend@0.1.0 db:generate
+> prisma generate
+
+Loaded Prisma config from prisma.config.ts.
+
+Prisma schema loaded from prisma/schema.prisma.
+
+✔ Generated Prisma Client (7.9.1) to ./src/generated/prisma in 860ms
+
+┌─────────────────────────────────────────────────────────┐
+│  Update available 7.9.1 -> 8.0.0-rc.13                  │
+│                                                         │
+│  This is a major update - please follow the guide at    │
+│  https://pris.ly/d/major-version-upgrade                │
+│                                                         │
+│  Run the following to update                            │
+│    npm i --save-dev prisma@latest                       │
+│    npm i @prisma/client@latest                          │
+└─────────────────────────────────────────────────────────┘
+
+> @bnbu/sports-backend@0.1.0 generate
+> npm run openapi:generate && npm run db:manifest:generate
+
+
+> @bnbu/sports-backend@0.1.0 openapi:generate
+> node ./scripts/generate-openapi.mjs
+
+Generated 3 OpenAPI artifacts from 249 operations.
+
+> @bnbu/sports-backend@0.1.0 db:manifest:generate
+> node ./scripts/generate-migration-manifest.mjs
+
+Generated migration manifest updated.
+
+> @bnbu/sports-backend@0.1.0 build
+> nest build
+
+
+> @bnbu/sports-backend@0.1.0 test:e2e
+> node ./scripts/run-test-layer.mjs e2e
+
+▶ Foundation HTTP E2E with real PostgreSQL
+  ✖ serves public probes and restricts dependency health to administrators (700.143591ms)
+  ✖ logs in only with the seeded password and returns a safe /me projection (404.948511ms)
+  ✖ validates unauthenticated access responses for every secured operation (313.502014ms)
+  ✔ validates error responses for public operations with request input (343.524428ms)
+  ✔ returns stable generic errors for wrong passwords and a specific disabled-account result (457.647684ms)
+  ✔ rejects expired, tampered, and cross-organization access tokens (425.619802ms)
+  ✔ rotates refresh tokens atomically and revokes the family on reuse (431.388061ms)
+  ✔ revokes logout sessions and makes the operation safely replayable (417.0327ms)
+  ✔ reserves concurrent idempotency keys without creating duplicate sessions (504.305396ms)
+  ✖ enforces mode allowlists, strict validation, request IDs, CORS, and body limits (354.727244ms)
+✖ Foundation HTTP E2E with real PostgreSQL (5858.613751ms)
+▶ Stage 21 client capabilities with real PostgreSQL
+  ✔ accepts an organization-scoped student challenge without exposing its code and keeps an empty release policy fail-closed (542.824271ms)
+  ✔ rejects PHONE without creating a challenge and activates a pending student through first email binding (517.601095ms)
+  ✔ requires both current and new mailbox codes for email rebinding (422.910806ms)
+  ✔ uses the numeric iOS build number for enforcement and keeps marketing version display-only (310.817989ms)
+  ✖ establishes a student OTP session and completes the private exemption-media review flow (652.198347ms)
+  ✔ completes recovery only for a teacher and revokes prior sessions (454.451599ms)
+  ✖ lists and marks only the authenticated user notification with durable evidence (384.702372ms)
+  ✖ registers and revokes an IOS push token without exposing plaintext or ciphertext (396.224894ms)
+  ✖ persists preferences and feedback while exposing only published help content (418.394666ms)
+  ✖ keeps all location and conversion capabilities explicitly fail-closed (446.281948ms)
+✖ Stage 21 client capabilities with real PostgreSQL (5937.590466ms)
+▶ Student identity, Enrollment, and QR Join HTTP E2E
+  ✖ rotates digest-only invites and issues one replayable capability without creating identity (610.359358ms)
+  ✖ rejects non-binary QR join genders and malformed cohort years before issuing a capability (392.722766ms)
+  ✖ joins atomically, replays the exact encrypted result, and grants only Enrollment projections (384.782767ms)
+  ✖ manually enrolls an existing student and enforces remove, restore, read, and withdraw scopes (529.594441ms)
+  ✖ rolls back a second same-semester join and refuses self rejoin after teacher removal (443.640001ms)
+✖ Student identity, Enrollment, and QR Join HTTP E2E (3756.606056ms)
+▶ ExerciseRecord HTTP E2E
+  ✖ creates, edits, lists, submits, and replays one immutable evidence chain (729.554306ms)
+  ✖ requires the exact complete set of available session media (394.977375ms)
+  ✖ does not let an unselected processing upload block valid evidence submission (390.819199ms)
+  ✖ returns a stable conflict when a second draft is created for one session (385.972682ms)
+  ✖ discards a draft atomically with append-only evidence (377.74439ms)
+  ✖ routes withdrawal to stable default deny with zero domain side effects (370.174466ms)
+  ✖ keeps sub-hour drafts non-creditable and rolls submission back completely (398.173779ms)
+  ✖ reserves one successful submission per enrollment business date (397.286225ms)
+✖ ExerciseRecord HTTP E2E (4330.395668ms)
+▶ ExerciseReview HTTP E2E
+  ✖ lets the responsible teacher append INVALID to a system-valid submission (780.350113ms)
+  ✖ appends VALID, lists history, reopens, and appends INVALID without changing duration facts (503.512733ms)
+  ✖ replays one decision and permits only one concurrent stale decision (521.657774ms)
+  ✖ returns ordered partial batch outcomes and exact replay (537.390365ms)
+  ✖ denies STUDENT and ADMIN review operations before business mutation (565.330961ms)
+✖ ExerciseReview HTTP E2E (3742.68196ms)
+▶ ExerciseSession HTTP E2E
+  ✖ runs start, active recovery, pause, resume, conservative reconcile, and finish atomically (809.79627ms)
+  ✖ cancels without deleting history and rejects stale, duplicate-active, foreign-role, removed, and unknown input (401.285427ms)
+  ✖ fails closed outside the configured window and rejects unverified offline intervals (380.898699ms)
+  ✖ rejects a new session after latest VALID reviews reach 20 hours (447.753363ms)
+✖ ExerciseSession HTTP E2E (2938.897536ms)
+▶ Stage 19 Export, Audit Read, and governance HTTP E2E
+  ✖ enforces role and organization scope for Student and Teacher projections (885.959403ms)
+  ✖ returns exact student-profile default-deny errors without mutation side effects (450.218092ms)
+  ✖ routes all four Export operations to exact no-persistence default deny (434.167436ms)
+  ✖ allows only organization ADMIN audit read, redacts recursively, and audits each read (503.009809ms)
+✖ Stage 19 Export, Audit Read, and governance HTTP E2E (3091.9625ms)
+▶ MediaEvidence HTTP E2E
+  ✖ runs idempotent initiate, verified confirm, same-Session bind, worker, and private access (796.807106ms)
+  ✔ accepts a byte-verified 15-second audible WebM upload (464.820392ms)
+  ✔ fails spoofed MIME without partial verified facts and rejects cross-Session binding (434.475948ms)
+  ✔ rejects new or newly bound evidence after the session record is submitted (408.098308ms)
+✖ MediaEvidence HTTP E2E (2945.985149ms)
+▶ Official Roster Import and Alignment HTTP E2E
+  ✖ uploads private immutable versions and enforces Teacher/Admin/Student projections and scope (830.719828ms)
+  ✖ aligns a frozen current snapshot and appends confirm/resolve/reopen while ignore is side-effect free (485.042459ms)
+✖ Official Roster Import and Alignment HTTP E2E (2128.940919ms)
+▶ Public system endpoint error conformance
+  ✔ validates documented liveness, readiness, and system-mode failures over HTTP (46.336481ms)
+✔ Public system endpoint error conformance (952.402167ms)
+▶ Stage 18 Score HTTP E2E
+  ✖ closes dual approval, auto-recalculation, publication, review replay, adjustment, and default deny (961.2156ms)
+✖ Stage 18 Score HTTP E2E (1777.342463ms)
+▶ Course and ClassSection HTTP E2E
+  ✖ applies role-scoped Course reads and stable bound cursor pagination (639.162286ms)
+  ✖ creates and updates Course through ADMIN with idempotency, audit, and outbox (480.53288ms)
+  ✖ derives the responsible teacher and replaces excluded dates atomically (398.811824ms)
+  ✖ closes a ClassSection idempotently and preserves the historical projection (401.893714ms)
+  ✖ enforces teacher ownership, administrator read-only governance, and organization isolation (560.020169ms)
+  ✖ keeps archived Semester and inactive Course creation failures free of side effects (385.319391ms)
+  ✖ returns an empty student projection without ACTIVE Enrollment and rejects writes (450.359452ms)
+  ✖ rejects teaching mutations in READ_ONLY and MAINTENANCE without side effects (382.15345ms)
+✖ Course and ClassSection HTTP E2E (5104.767258ms)
+ℹ tests 62
+ℹ suites 12
+ℹ pass 15
+ℹ fail 47
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 48763.103988
+
+✖ failing tests:
+
+test at test/e2e/auth.e2e.test.ts:1:3222
+✖ serves public probes and restricts dependency health to administrators (700.143591ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  403 !== 200
+  
+      at TestContext.<anonymous> (/workspace/backend/test/e2e/auth.e2e.test.ts:172:12)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async Test.run (node:internal/test_runner/test:1332:7)
+      at async Promise.all (index 0)
+      at async Suite.run (node:internal/test_runner/test:1794:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:385:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 403,
+    expected: 200,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at test/e2e/auth.e2e.test.ts:1:5072
+✖ logs in only with the seeded password and returns a safe /me projection (404.948511ms)
+  Error: response status 403 is not documented
+      at validateResponse (file:///workspace/backend/scripts/runtime-conformance-hook.mjs:225:11)
+      at conformanceFetch (file:///workspace/backend/scripts/runtime-conformance-hook.mjs:286:11)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async request (/workspace/backend/test/e2e/auth.e2e.test.ts:71:22)
+      at async TestContext.<anonymous> (/workspace/backend/test/e2e/auth.e2e.test.ts:197:16)
+      at async Test.run (node:internal/test_runner/test:1332:7)
+      at async Suite.processPendingSubtests (node:internal/test_runner/test:911:7)
+
+test at test/e2e/auth.e2e.test.ts:1:7003
+✖ validates unauthenticated access responses for every secured operation (313.502014ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  235 !== 112
+  
+      at TestContext.<anonymous> (/workspace/backend/test/e2e/auth.e2e.test.ts:266:12)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1325:25)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async Suite.processPendingSubtests (node:internal/test_runner/test:911:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 235,
+    expected: 112,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at test/e2e/auth.e2e.test.ts:1:14829
+✖ enforces mode allowlists, strict validation, request IDs, CORS, and body limits (354.727244ms)
+  PrismaClientKnownRequestError: 
+  Invalid `prisma.systemPolicy.updateMany()` invocation in
+  /workspace/backend/test/e2e/auth.e2e.test.ts:501:31
+  
+    498 });
+    499 
+    500 it('enforces mode allowlists, strict validation, request IDs, CORS, and body limits', async () => {
+  → 501   await prisma.systemPolicy.updateMany(
+  Database error. Code: `23514`. Message: `new row for relation "system_policies" violates check constraint "system_policies_mode_check"`
+      at Jr.handleRequestError (/workspace/backend/node_modules/@prisma/client/src/runtime/RequestHandler.ts:237:13)
+      at Jr.handleAndLogRequestError (/workspace/backend/node_modules/@prisma/client/src/runtime/RequestHandler.ts:183:12)
+      at Jr.request (/workspace/backend/node_modules/@prisma/client/src/runtime/RequestHandler.ts:152:12)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async a (/workspace/backend/node_modules/@prisma/client/src/runtime/getPrismaClient.ts:1014:24)
+      at async TestContext.<anonymous> (/workspace/backend/test/e2e/auth.e2e.test.ts:501:5)
+      at async Test.run (node:internal/test_runner/test:1332:7)
+      at async Suite.processPendingSubtests (node:internal/test_runner/test:911:7)
+
+test at test/e2e/client-capabilities.e2e.test.ts:2:6970
+✖ establishes a student OTP session and completes the private exemption-media review flow (652.198347ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  403 !== 200
+  
+      at TestContext.<anonymous> (/workspace/backend/test/e2e/client-capabilities.e2e.test.ts:594:12)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async Test.run (node:internal/test_runner/test:1332:7)
+      at async Suite.processPendingSubtests (node:internal/test_runner/test:911:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 403,
+    expected: 200,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at test/e2e/client-capabilities.e2e.test.ts:2:15095
+✖ lists and marks only the authenticated user notification with durable evidence (384.702372ms)
+  Error: response status 403 is not documented
+      at validateResponse (file:///workspace/backend/scripts/runtime-conformance-hook.mjs:225:11)
+      at conformanceFetch (file:///workspace/backend/scripts/runtime-conformance-hook.mjs:286:11)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async request (/workspace/backend/test/e2e/client-capabilities.e2e.test.ts:71:22)
+      at async TestContext.<anonymous> (/workspace/backend/test/e2e/client-capabilities.e2e.test.ts:736:20)
+      at async Test.run (node:internal/test_runner/test:1332:7)
+      at async Suite.processPendingSubtests (node:internal/test_runner/test:911:7)
+
+test at test/e2e/client-capabilities.e2e.test.ts:2:17526
+✖ registers and revokes an IOS push token without exposing plaintext or ciphertext (396.224894ms)
+  Error: response status 403 is not documented
+      at validateResponse (file:///workspace/backend/scripts/runtime-conformance-hook.mjs:225:11)
+      at conformanceFetch (file:///workspace/backend/scripts/runtime-conformance-hook.mjs:286:11)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async request (/workspace/backend/test/e2e/client-capabilities.e2e.test.ts:71:22)
+      at async TestContext.<anonymous> (/workspace/backend/test/e2e/client-capabilities.e2e.test.ts:811:24)
+      at async Test.run (node:internal/test_runner/test:1332:7)
+      at async Suite.processPendingSubtests (node:internal/test_runner/test:911:7)
+
+test at test/e2e/client-capabilities.e2e.test.ts:3:1680
+✖ persists preferences and feedback while exposing only published help content (418.394666ms)
+  Error: response status 403 is not documented
+      at validateResponse (file:///workspace/backend/scripts/runtime-conformance-hook.mjs:225:11)
+      at conformanceFetch (file:///workspace/backend/scripts/runtime-conformance-hook.mjs:286:11)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async request (/workspace/backend/test/e2e/client-capabilities.e2e.test.ts:71:22)
+      at async TestContext.<anonymous> (/workspace/backend/test/e2e/client-capabilities.e2e.test.ts:868:21)
+      at async Test.run (node:internal/test_runner/test:1332:7)
+      at async Suite.processPendingSubtests (node:internal/test_runner/test:911:7)
+
+test at test/e2e/client-capabilities.e2e.test.ts:4:3452
+✖ keeps all location and conversion capabilities explicitly fail-closed (446.281948ms)
+  Error: response status 403 is not documented
+      at validateResponse (file:///workspace/backend/scripts/runtime-conformance-hook.mjs:225:11)
+      at conformanceFetch (file:///workspace/backend/scripts/runtime-conformance-hook.mjs:286:11)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async request (/workspace/backend/test/e2e/client-capabilities.e2e.test.ts:71:22)
+      at async TestContext.<anonymous> (/workspace/backend/test/e2e/client-capabilities.e2e.test.ts:1095:24)
+      at async Test.run (node:internal/test_runner/test:1332:7)
+      at async Suite.processPendingSubtests (node:internal/test_runner/test:911:7)
+
+test at test/e2e/enrollment-qr-join.e2e.test.ts:1:5796
+✖ rotates digest-only invites and issues one replayable capability without creating identity (610.359358ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  403 !== 201
+  
+      at TestContext.<anonymous> (/workspace/backend/test/e2e/enrollment-qr-join.e2e.test.ts:265:12)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async Test.run (node:internal/test_runner/test:1332:7)
+      at async Promise.all (index 0)
+      at async Suite.run (node:internal/test_runner/test:1794:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:385:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 403,
+    expected: 201,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at test/e2e/enrollment-qr-join.e2e.test.ts:1:8456
+✖ rejects non-binary QR join genders and malformed cohort years before issuing a capability (392.722766ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'undefined'
+  - 'object'
+  
+      at object (/workspace/backend/test/e2e/enrollment-qr-join.e2e.test.ts:44:10)
+      at TestContext.<anonymous> (/workspace/backend/test/e2e/enrollment-qr-join.e2e.test.ts:325:32)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async Test.run (node:internal/test_runner/test:1332:7)
+      at async Suite.processPendingSubtests (node:internal/test_runner/test:911:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'undefined',
+    expected: 'object',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at test/e2e/enrollment-qr-join.e2e.test.ts:1:9185
+✖ joins atomically, replays the exact encrypted result, and grants only Enrollment projections (384.782767ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'undefined'
+  - 'object'
+  
+      at object (/workspace/backend/test/e2e/enrollment-qr-join.e2e.test.ts:44:10)
+      at TestContext.<anonymous> (/workspace/backend/test/e2e/enrollment-qr-join.e2e.test.ts:351:32)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async Test.run (node:internal/test_runner/test:1332:7)
+      at async Suite.processPendingSubtests (node:internal/test_runner/test:911:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'undefined',
+    expected: 'object',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at test/e2e/enrollment-qr-join.e2e.test.ts:1:11867
+✖ manually enrolls an existing student and enforces remove, restore, read, and withdraw scopes (529.594441ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  403 !== 201
+  
+      at TestContext.<anonymous> (/workspace/backend/test/e2e/enrollment-qr-join.e2e.test.ts:415:12)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async Test.run (node:internal/test_runner/test:1332:7)
+      at async Suite.processPendingSubtests (node:internal/test_runner/test:911:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 403,
+    expected: 201,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at test/e2e/enrollment-qr-join.e2e.test.ts:1:14642
+✖ rolls back a second same-semester join and refuses self rejoin after teacher removal (443.640001ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'undefined'
+  - 'object'
+  
+      at object (/workspace/backend/test/e2e/enrollment-qr-join.e2e.test.ts:44:10)
+      at TestContext.<anonymous> (/workspace/backend/test/e2e/enrollment-qr-join.e2e.test.ts:499:28)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async Test.run (node:internal/test_runner/test:1332:7)
+      at async Suite.processPendingSubtests (node:internal/test_runner/test:911:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'undefined',
+    expected: 'object',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at test/e2e/exercise-record.e2e.test.ts:1:7413
+✖ creates, edits, lists, submits, and replays one immutable evidence chain (729.554306ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  409 !== 201
+  
+      at TestContext.<anonymous> (/workspace/backend/test/e2e/exercise-record.e2e.test.ts:296:12)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async Test.run (node:internal/test_runner/test:1332:7)
+      at async Promise.all (index 0)
+      at async Suite.run (node:internal/test_runner/test:1794:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:385:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 409,
+    expected: 201,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at test/e2e/exercise-record.e2e.test.ts:1:10041
+✖ requires the exact complete set of available session media (394.977375ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  409 !== 201
+  
+      at TestContext.<anonymous> (/workspace/backend/test/e2e/exercise-record.e2e.test.ts:400:12)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async Test.run (node:internal/test_runner/test:1332:7)
+      at async Suite.processPendingSubtests (node:internal/test_runner/test:911:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 409,
+    expected: 201,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at test/e2e/exercise-record.e2e.test.ts:1:11952
+✖ does not let an unselected processing upload block valid evidence submission (390.819199ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  409 !== 201
+  
+      at TestContext.<anonymous> (/workspace/backend/test/e2e/exercise-record.e2e.test.ts:474:12)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async Test.run (node:internal/test_runner/test:1332:7)
+      at async Suite.processPendingSubtests (node:internal/test_runner/test:911:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 409,
+    expected: 201,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at test/e2e/exercise-record.e2e.test.ts:1:13555
+✖ returns a stable conflict when a second draft is created for one session (385.972682ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  409 !== 201
+  
+      at TestContext.<anonymous> (/workspace/backend/test/e2e/exercise-record.e2e.test.ts:509:12)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async Test.run (node:internal/test_runner/test:1332:7)
+      at async Suite.processPendingSubtests (node:internal/test_runner/test:911:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 409,
+    expected: 201,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at test/e2e/exercise-record.e2e.test.ts:1:14204
+✖ discards a draft atomically with append-only evidence (377.74439ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  409 !== 201
+  
+      at TestContext.<anonymous> (/workspace/backend/test/e2e/exercise-record.e2e.test.ts:535:12)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async Test.run (node:internal/test_runner/test:1332:7)
+      at async Suite.processPendingSubtests (node:internal/test_runner/test:911:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 409,
+    expected: 201,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at test/e2e/exercise-record.e2e.test.ts:1:15150
+✖ routes withdrawal to stable default deny with zero domain side effects (370.174466ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'undefined'
+  - 'object'
+  
+      at object (/workspace/backend/test/e2e/exercise-record.e2e.test.ts:41:10)
+      at TestContext.<anonymous> (/workspace/backend/test/e2e/exercise-record.e2e.test.ts:578:19)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async Test.run (node:internal/test_runner/test:1332:7)
+      at async Suite.processPendingSubtests (node:internal/test_runner/test:911:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'undefined',
+    expected: 'object',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at test/e2e/exercise-record.e2e.test.ts:1:16444
+✖ keeps sub-hour drafts non-creditable and rolls submission back completely (398.173779ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  409 !== 201
+  
+      at TestContext.<anonymous> (/workspace/backend/test/e2e/exercise-record.e2e.test.ts:622:12)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async Test.run (node:internal/test_runner/test:1332:7)
+      at async Suite.processPendingSubtests (node:internal/test_runner/test:911:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 409,
+    expected: 201,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at test/e2e/exercise-record.e2e.test.ts:1:17415
+✖ reserves one successful submission per enrollment business date (397.286225ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  409 !== 201
+  
+      at createDraft (/workspace/backend/test/e2e/exercise-record.e2e.test.ts:654:14)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async TestContext.<anonymous> (/workspace/backend/test/e2e/exercise-record.e2e.test.ts:669:19)
+      at async Test.run (node:internal/test_runner/test:1332:7)
+      at async Suite.processPendingSubtests (node:internal/test_runner/test:911:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 409,
+    expected: 201,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at test/e2e/exercise-review.e2e.test.ts:1:4985
+✖ lets the responsible teacher append INVALID to a system-valid submission (780.350113ms)
+  AssertionError [ERR_ASSERTION]: {"code":"PERMISSION_RESOURCE_SCOPE_DENIED","message":"The requested action is outside the authorized resource scope.","details":{},"requestId":"01a0803c-c6f1-70d2-8b16-5b6618c605e7","timestamp":"2026-09-08T08:57:41.888Z"}
+  
+  403 !== 201
+  
+      at TestContext.<anonymous> (/workspace/backend/test/e2e/exercise-review.e2e.test.ts:199:12)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async Test.run (node:internal/test_runner/test:1332:7)
+      at async Promise.all (index 0)
+      at async Suite.run (node:internal/test_runner/test:1794:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:385:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 403,
+    expected: 201,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at test/e2e/exercise-review.e2e.test.ts:1:6114
+✖ appends VALID, lists history, reopens, and appends INVALID without changing duration facts (503.512733ms)
+  AssertionError [ERR_ASSERTION]: {"code":"PERMISSION_RESOURCE_SCOPE_DENIED","message":"The requested action is outside the authorized resource scope.","details":{},"requestId":"01a0803c-c8fd-7525-bd59-ba95abb0a0b9","timestamp":"2026-09-08T08:57:42.405Z"}
+  
+  403 !== 200
+  
+      at TestContext.<anonymous> (/workspace/backend/test/e2e/exercise-review.e2e.test.ts:290:12)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async Test.run (node:internal/test_runner/test:1332:7)
+      at async Suite.processPendingSubtests (node:internal/test_runner/test:911:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 403,
+    expected: 200,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at test/e2e/exercise-review.e2e.test.ts:1:10604
+✖ replays one decision and permits only one concurrent stale decision (521.657774ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+    [
+  +   403,
+  +   403
+  -   201,
+  -   409
+    ]
+  
+      at TestContext.<anonymous> (/workspace/backend/test/e2e/exercise-review.e2e.test.ts:413:12)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async Test.run (node:internal/test_runner/test:1332:7)
+      at async Suite.processPendingSubtests (node:internal/test_runner/test:911:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: [ 403, 403 ],
+    expected: [ 201, 409 ],
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }
+
+test at test/e2e/exercise-review.e2e.test.ts:1:11709
+✖ returns ordered partial batch outcomes and exact replay (537.390365ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  403 !== 200
+  
+      at TestContext.<anonymous> (/workspace/backend/test/e2e/exercise-review.e2e.test.ts:445:12)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async Test.run (node:internal/test_runner/test:1332:7)
+      at async Suite.processPendingSubtests (node:internal/test_runner/test:911:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 403,
+    expected: 200,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at test/e2e/exercise-review.e2e.test.ts:1:12920
+✖ denies STUDENT and ADMIN review operations before business mutation (565.330961ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  403 !== 404
+  
+      at TestContext.<anonymous> (/workspace/backend/test/e2e/exercise-review.e2e.test.ts:480:14)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async Test.run (node:internal/test_runner/test:1332:7)
+      at async Suite.processPendingSubtests (node:internal/test_runner/test:911:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 403,
+    expected: 404,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at test/e2e/exercise-session.e2e.test.ts:1:3731
+✖ runs start, active recovery, pause, resume, conservative reconcile, and finish atomically (809.79627ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  409 !== 201
+  
+      at TestContext.<anonymous> (/workspace/backend/test/e2e/exercise-session.e2e.test.ts:173:12)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async Test.run (node:internal/test_runner/test:1332:7)
+      at async Promise.all (index 0)
+      at async Suite.run (node:internal/test_runner/test:1794:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:385:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 409,
+    expected: 201,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at test/e2e/exercise-session.e2e.test.ts:1:7063
+✖ cancels without deleting history and rejects stale, duplicate-active, foreign-role, removed, and unknown input (401.285427ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'undefined'
+  - 'object'
+  
+      at object (/workspace/backend/test/e2e/exercise-session.e2e.test.ts:34:10)
+      at TestContext.<anonymous> (/workspace/backend/test/e2e/exercise-session.e2e.test.ts:276:30)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async Test.run (node:internal/test_runner/test:1332:7)
+      at async Suite.processPendingSubtests (node:internal/test_runner/test:911:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'undefined',
+    expected: 'object',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at test/e2e/exercise-session.e2e.test.ts:1:9245
+✖ fails closed outside the configured window and rejects unverified offline intervals (380.898699ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'CONFLICT_STATE_TRANSITION'
+  - 'SESSION_OUTSIDE_TIME_WINDOW'
+  
+      at TestContext.<anonymous> (/workspace/backend/test/e2e/exercise-session.e2e.test.ts:366:12)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async Test.run (node:internal/test_runner/test:1332:7)
+      at async Suite.processPendingSubtests (node:internal/test_runner/test:911:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'CONFLICT_STATE_TRANSITION',
+    expected: 'SESSION_OUTSIDE_TIME_WINDOW',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at test/e2e/exercise-session.e2e.test.ts:1:10590
+✖ rejects a new session after latest VALID reviews reach 20 hours (447.753363ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'CONFLICT_STATE_TRANSITION'
+  - 'SESSION_ALREADY_COMPLETED'
+  
+      at TestContext.<anonymous> (/workspace/backend/test/e2e/exercise-session.e2e.test.ts:500:12)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async Test.run (node:internal/test_runner/test:1332:7)
+      at async Suite.processPendingSubtests (node:internal/test_runner/test:911:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'CONFLICT_STATE_TRANSITION',
+    expected: 'SESSION_ALREADY_COMPLETED',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at test/e2e/export-audit-governance.e2e.test.ts:1:5099
+✖ enforces role and organization scope for Student and Teacher projections (885.959403ms)
+  AssertionError [ERR_ASSERTION]: {"code":"PERMISSION_RESOURCE_SCOPE_DENIED","message":"The requested action is outside the authorized resource scope.","details":{},"requestId":"01a0803c-e544-71df-8bfe-3e2b72b41a77","timestamp":"2026-09-08T08:57:49.650Z"}
+  
+  403 !== 200
+  
+      at TestContext.<anonymous> (/workspace/backend/test/e2e/export-audit-governance.e2e.test.ts:187:14)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async Test.run (node:internal/test_runner/test:1332:7)
+      at async Promise.all (index 0)
+      at async Suite.run (node:internal/test_runner/test:1794:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:385:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 403,
+    expected: 200,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at test/e2e/export-audit-governance.e2e.test.ts:1:6279
+✖ returns exact student-profile default-deny errors without mutation side effects (450.218092ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  403 !== 503
+  
+      at TestContext.<anonymous> (/workspace/backend/test/e2e/export-audit-governance.e2e.test.ts:235:12)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async Test.run (node:internal/test_runner/test:1332:7)
+      at async Suite.processPendingSubtests (node:internal/test_runner/test:911:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 403,
+    expected: 503,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at test/e2e/export-audit-governance.e2e.test.ts:1:7090
+✖ routes all four Export operations to exact no-persistence default deny (434.167436ms)
+  AssertionError [ERR_ASSERTION]: {"code":"PERMISSION_RESOURCE_SCOPE_DENIED","message":"The requested action is outside the authorized resource scope.","details":{},"requestId":"01a0803c-e8cb-7351-8bb3-9ca83933a290","timestamp":"2026-09-08T08:57:50.545Z"}
+  
+  403 !== 503
+  
+      at TestContext.<anonymous> (/workspace/backend/test/e2e/export-audit-governance.e2e.test.ts:271:14)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async Test.run (node:internal/test_runner/test:1332:7)
+      at async Suite.processPendingSubtests (node:internal/test_runner/test:911:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 403,
+    expected: 503,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at test/e2e/export-audit-governance.e2e.test.ts:4:43
+✖ allows only organization ADMIN audit read, redacts recursively, and audits each read (503.009809ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'PERMISSION_RESOURCE_SCOPE_DENIED'
+  - 'PERMISSION_AUDIT_SCOPE_DENIED'
+                ^
+  
+      at TestContext.<anonymous> (/workspace/backend/test/e2e/export-audit-governance.e2e.test.ts:327:12)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async Test.run (node:internal/test_runner/test:1332:7)
+      at async Suite.processPendingSubtests (node:internal/test_runner/test:911:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'PERMISSION_RESOURCE_SCOPE_DENIED',
+    expected: 'PERMISSION_AUDIT_SCOPE_DENIED',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at test/e2e/media-evidence.e2e.test.ts:1:9055
+✖ runs idempotent initiate, verified confirm, same-Session bind, worker, and private access (796.807106ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  422 !== 200
+  
+      at TestContext.<anonymous> (/workspace/backend/test/e2e/media-evidence.e2e.test.ts:361:12)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async Test.run (node:internal/test_runner/test:1332:7)
+      at async Promise.all (index 0)
+      at async Suite.run (node:internal/test_runner/test:1794:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:385:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 422,
+    expected: 200,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at test/e2e/official-roster-alignment.e2e.test.ts:1:8616
+✖ uploads private immutable versions and enforces Teacher/Admin/Student projections and scope (830.719828ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  403 !== 409
+  
+      at TestContext.<anonymous> (/workspace/backend/test/e2e/official-roster-alignment.e2e.test.ts:378:12)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async Test.run (node:internal/test_runner/test:1332:7)
+      at async Promise.all (index 0)
+      at async Suite.run (node:internal/test_runner/test:1794:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:385:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 403,
+    expected: 409,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at test/e2e/official-roster-alignment.e2e.test.ts:1:14820
+✖ aligns a frozen current snapshot and appends confirm/resolve/reopen while ignore is side-effect free (485.042459ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  403 !== 201
+  
+      at TestContext.<anonymous> (/workspace/backend/test/e2e/official-roster-alignment.e2e.test.ts:586:12)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async Test.run (node:internal/test_runner/test:1332:7)
+      at async Suite.processPendingSubtests (node:internal/test_runner/test:911:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 403,
+    expected: 201,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at test/e2e/score.e2e.test.ts:1:6094
+✖ closes dual approval, auto-recalculation, publication, review replay, adjustment, and default deny (961.2156ms)
+  AssertionError [ERR_ASSERTION]: {"code":"PERMISSION_RESOURCE_SCOPE_DENIED","message":"The requested action is outside the authorized resource scope.","details":{},"requestId":"01a0803d-11d0-7549-990b-54e7bb4183ae","timestamp":"2026-09-08T08:58:01.056Z"}
+  
+  403 !== 201
+  
+      at TestContext.<anonymous> (/workspace/backend/test/e2e/score.e2e.test.ts:242:12)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async Test.run (node:internal/test_runner/test:1332:7)
+      at async Promise.all (index 0)
+      at async Suite.run (node:internal/test_runner/test:1794:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:385:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 403,
+    expected: 201,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at test/e2e/teaching-structure.e2e.test.ts:1:4549
+✖ applies role-scoped Course reads and stable bound cursor pagination (639.162286ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  403 !== 200
+  
+      at TestContext.<anonymous> (/workspace/backend/test/e2e/teaching-structure.e2e.test.ts:204:12)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async Test.run (node:internal/test_runner/test:1332:7)
+      at async Promise.all (index 0)
+      at async Suite.run (node:internal/test_runner/test:1794:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:385:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 403,
+    expected: 200,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at test/e2e/teaching-structure.e2e.test.ts:1:5860
+✖ creates and updates Course through ADMIN with idempotency, audit, and outbox (480.53288ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  403 !== 201
+  
+      at TestContext.<anonymous> (/workspace/backend/test/e2e/teaching-structure.e2e.test.ts:264:12)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async Test.run (node:internal/test_runner/test:1332:7)
+      at async Suite.processPendingSubtests (node:internal/test_runner/test:911:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 403,
+    expected: 201,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at test/e2e/teaching-structure.e2e.test.ts:1:8298
+✖ derives the responsible teacher and replaces excluded dates atomically (398.811824ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  403 !== 422
+  
+      at TestContext.<anonymous> (/workspace/backend/test/e2e/teaching-structure.e2e.test.ts:342:12)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async Test.run (node:internal/test_runner/test:1332:7)
+      at async Suite.processPendingSubtests (node:internal/test_runner/test:911:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 403,
+    expected: 422,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at test/e2e/teaching-structure.e2e.test.ts:1:10639
+✖ closes a ClassSection idempotently and preserves the historical projection (401.893714ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  403 !== 200
+  
+      at TestContext.<anonymous> (/workspace/backend/test/e2e/teaching-structure.e2e.test.ts:445:12)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async Test.run (node:internal/test_runner/test:1332:7)
+      at async Suite.processPendingSubtests (node:internal/test_runner/test:911:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 403,
+    expected: 200,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at test/e2e/teaching-structure.e2e.test.ts:1:11663
+✖ enforces teacher ownership, administrator read-only governance, and organization isolation (560.020169ms)
+  Error: response status 403 is not documented
+      at validateResponse (file:///workspace/backend/scripts/runtime-conformance-hook.mjs:225:11)
+      at conformanceFetch (file:///workspace/backend/scripts/runtime-conformance-hook.mjs:286:11)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async request (/workspace/backend/test/e2e/teaching-structure.e2e.test.ts:64:22)
+      at async TestContext.<anonymous> (/workspace/backend/test/e2e/teaching-structure.e2e.test.ts:478:9)
+      at async Test.run (node:internal/test_runner/test:1332:7)
+      at async Suite.processPendingSubtests (node:internal/test_runner/test:911:7)
+
+test at test/e2e/teaching-structure.e2e.test.ts:1:14441
+✖ keeps archived Semester and inactive Course creation failures free of side effects (385.319391ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  403 !== 409
+  
+      at TestContext.<anonymous> (/workspace/backend/test/e2e/teaching-structure.e2e.test.ts:630:12)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async Test.run (node:internal/test_runner/test:1332:7)
+      at async Suite.processPendingSubtests (node:internal/test_runner/test:911:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 403,
+    expected: 409,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at test/e2e/teaching-structure.e2e.test.ts:1:15504
+✖ returns an empty student projection without ACTIVE Enrollment and rejects writes (450.359452ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  403 !== 422
+  
+      at TestContext.<anonymous> (/workspace/backend/test/e2e/teaching-structure.e2e.test.ts:681:12)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async Test.run (node:internal/test_runner/test:1332:7)
+      at async Suite.processPendingSubtests (node:internal/test_runner/test:911:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 403,
+    expected: 422,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at test/e2e/teaching-structure.e2e.test.ts:1:16388
+✖ rejects teaching mutations in READ_ONLY and MAINTENANCE without side effects (382.15345ms)
+  PrismaClientKnownRequestError: 
+  Invalid `prisma.systemPolicy.updateMany()` invocation in
+  /workspace/backend/test/e2e/teaching-structure.e2e.test.ts:701:31
+  
+    698   classCode: 'SYNTH-MODE-DENIED',
+    699   displayName: 'Synthetic Mode Denied Section',
+    700 };
+  → 701 await prisma.systemPolicy.updateMany(
+  Database error. Code: `23514`. Message: `new row for relation "system_policies" violates check constraint "system_policies_mode_check"`
+      at Jr.handleRequestError (/workspace/backend/node_modules/@prisma/client/src/runtime/RequestHandler.ts:237:13)
+      at Jr.handleAndLogRequestError (/workspace/backend/node_modules/@prisma/client/src/runtime/RequestHandler.ts:183:12)
+      at Jr.request (/workspace/backend/node_modules/@prisma/client/src/runtime/RequestHandler.ts:152:12)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async a (/workspace/backend/node_modules/@prisma/client/src/runtime/getPrismaClient.ts:1014:24)
+      at async TestContext.<anonymous> (/workspace/backend/test/e2e/teaching-structure.e2e.test.ts:701:5)
+      at async Test.run (node:internal/test_runner/test:1332:7)
+      at async Suite.processPendingSubtests (node:internal/test_runner/test:911:7)
+

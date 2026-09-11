@@ -1,0 +1,7 @@
+node_modules/
+dist/
+coverage/
+package-lock.json
+src/generated/operation-policies.generated.ts
+src/generated/openapi.document.generated.json
+src/generated/prisma/

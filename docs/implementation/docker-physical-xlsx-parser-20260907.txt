@@ -1,0 +1,102 @@
+ Image bnbu-v81-local-validation-domain-tests Building 
+#1 [internal] load local bake definitions
+#1 reading from stdin 624B 0.0s done
+#1 DONE 0.0s
+
+#2 [internal] load build definition from Dockerfile.v81-test
+#2 transferring dockerfile: 828B done
+#2 DONE 0.0s
+
+#3 [internal] load metadata for docker.io/library/node:24.18.0-bookworm-slim
+#3 DONE 1.0s
+
+#4 [internal] load .dockerignore
+#4 transferring context: 153B done
+#4 DONE 0.0s
+
+#5 [ 1/11] FROM docker.io/library/node:24.18.0-bookworm-slim@sha256:6f7b03f7c2c8e2e784dcf9295400527b9b1270fd37b7e9a7285cf83b6951452d
+#5 resolve docker.io/library/node:24.18.0-bookworm-slim@sha256:6f7b03f7c2c8e2e784dcf9295400527b9b1270fd37b7e9a7285cf83b6951452d 0.0s done
+#5 DONE 0.0s
+
+#6 [internal] load build context
+#6 transferring context: 447.52kB 0.1s done
+#6 DONE 0.1s
+
+#7 [ 2/11] RUN apt-get update && apt-get install -y --no-install-recommends openssl ca-certificates && rm -rf /var/lib/apt/lists/*
+#7 CACHED
+
+#8 [ 3/11] WORKDIR /workspace/backend
+#8 CACHED
+
+#9 [ 4/11] COPY backend/package.json backend/package-lock.json ./
+#9 DONE 0.1s
+
+#10 [ 5/11] RUN npm ci --ignore-scripts --no-audit --no-fund
+#10 18.82 
+#10 18.82 added 645 packages in 18s
+#10 18.82 npm notice
+#10 18.82 npm notice New major version of npm available! 11.16.0 -> 12.0.2
+#10 18.82 npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.0.2
+#10 18.82 npm notice To update run: npm install -g npm@12.0.2
+#10 18.82 npm notice
+#10 DONE 19.7s
+
+#11 [ 6/11] COPY backend/ ./
+#11 DONE 0.5s
+
+#12 [ 7/11] COPY docs/backend-contracts/ /workspace/docs/backend-contracts/
+#12 DONE 0.2s
+
+#13 [ 8/11] COPY tools/ /workspace/tools/
+#13 DONE 0.1s
+
+#14 [ 9/11] COPY BNBU-Sports-Web-new/frontend/student/ /workspace/BNBU-Sports-Web-new/frontend/student/
+#14 DONE 0.1s
+
+#15 [10/11] COPY BNBU-Sports-Web-new/portal-teacher-admin/app/ /workspace/BNBU-Sports-Web-new/portal-teacher-admin/app/
+#15 DONE 0.1s
+
+#16 [11/11] RUN npm run db:generate
+#16 0.366 
+#16 0.366 > @bnbu/sports-backend@0.1.0 db:generate
+#16 0.366 > prisma generate
+#16 0.366 
+#16 1.107 Loaded Prisma config from prisma.config.ts.
+#16 1.107 
+#16 3.015 Prisma schema loaded from prisma/schema.prisma.
+#16 4.492 
+#16 4.492 ✔ Generated Prisma Client (7.9.1) to ./src/generated/prisma in 903ms
+#16 4.492 
+#16 DONE 4.6s
+
+#17 exporting to image
+#17 exporting layers
+#17 exporting layers 16.7s done
+#17 exporting manifest sha256:06914006c02835c7e5ee9eb63e248bfefe2b6a92d267585a02d3ade45cbb8b8b 0.0s done
+#17 exporting config sha256:eda73a7067371afb7c7a8ac22c85e8335a3d259f98a48a653eb7adf55235c20f 0.0s done
+#17 exporting attestation manifest sha256:71bf44f25cd63a04ab877d2da8d686328e78e4fba69bd8fd0619d460b39dfa3d 0.0s done
+#17 exporting manifest list sha256:276670f8f7b09d5624260eeaaff8c31b4739f381384eaad521ae282741cb50c5
+#17 exporting manifest list sha256:276670f8f7b09d5624260eeaaff8c31b4739f381384eaad521ae282741cb50c5 0.0s done
+#17 naming to docker.io/library/bnbu-v81-local-validation-domain-tests:latest done
+#17 unpacking to docker.io/library/bnbu-v81-local-validation-domain-tests:latest
+#17 unpacking to docker.io/library/bnbu-v81-local-validation-domain-tests:latest 10.8s done
+#17 DONE 27.7s
+
+#18 resolving provenance for metadata file
+#18 DONE 0.0s
+ Image bnbu-v81-local-validation-domain-tests Built 
+ Container bnbu-v81-local-validation-domain-tests-run-fe0a18eb0843 Creating 
+ Container bnbu-v81-local-validation-domain-tests-run-fe0a18eb0843 Created 
+✔ preserves student-number zeros, quoted cells and ambiguous time in the review draft (3.239973ms)
+✔ rejects missing or duplicate columns, invalid UTF-8, broken CSV and configured resource limits (1.815182ms)
+✔ reads XLSX draft with displayed student zeros, ambiguous time and explicit date formats (12.292309ms)
+✔ rejects formula results, merged cells, absent sheets and oversized row ranges (9.062886ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 4
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 218.115692
+Docker exit code: 0

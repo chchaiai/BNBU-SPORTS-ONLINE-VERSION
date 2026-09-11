@@ -1,0 +1,1 @@
+{"check":"CLOSED_COURSE_EXISTING_WEB_CHAIN","result":"PASS","serverSessionIdPreserved":true,"finishAndFirstMaterial":true,"teacherReturnAndStudentSupplement":true,"newSessionDenied":true,"actualDurationSeconds":8,"camera":"synthetic","positiveCreditVerified":false}

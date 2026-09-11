@@ -1,0 +1,2 @@
+{"stage":"SAVE_RESPONSE_LOST","error":"page.waitForFunction: Timeout 25000ms exceeded."}
+RESTORED_SYNTHETIC_NOTE

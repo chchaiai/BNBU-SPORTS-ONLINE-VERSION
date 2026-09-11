@@ -1,0 +1,392 @@
+Contract checks failed (391):
+1. GET /class-sections/{classSectionId}/v81-rules (getV81CourseRules) has invalid policyId getV81CourseRules
+2. POST /class-sections/{classSectionId}/v81-rules (saveV81CourseRules) has invalid policyId saveV81CourseRules
+3. POST /admin/review-services/manual-mode (setV81ManualMode) has invalid policyId setV81ManualMode
+4. POST /exercise-records/{recordId}/v81-reviews (reviewV81Record) has invalid policyId reviewV81Record
+5. GET /exercise-records/{recordId}/workflow (getV81RecordWorkflow) has invalid policyId getV81RecordWorkflow
+6. POST /exercise-records/{recordId}/supplements (submitV81Supplement) has invalid policyId submitV81Supplement
+7. POST /exercise-records/{recordId}/corrections (correctV81Record) has invalid policyId correctV81Record
+8. GET /system-mode/announcement (getV81MaintenanceAnnouncement) has invalid policyId getV81MaintenanceAnnouncement
+9. GET /system-mode/announcement (getV81MaintenanceAnnouncement) PUBLIC operation must explicitly set security: []
+10. GET /system-mode/history (getV81SystemModeHistory) has invalid policyId getV81SystemModeHistory
+11. POST /system-mode/changes (changeV81SystemMode) has invalid policyId changeV81SystemMode
+12. GET /exercise-records/{recordId}/supplement-clock (getV81SupplementClock) has invalid policyId getV81SupplementClock
+13. GET /auth/account-security (getV81AccountSecurity) has invalid policyId getV81AccountSecurity
+14. POST /auth/own-password (changeOwnV81Password) has invalid policyId changeOwnV81Password
+15. GET /admin/subadmins (listV81Subadmins) has invalid policyId listV81Subadmins
+16. POST /admin/subadmins (createV81VerifiedSubadmin) has invalid policyId createV81VerifiedSubadmin
+17. POST /admin/subadmins/{id}/status (setV81SubadminStatus) has invalid policyId setV81SubadminStatus
+18. GET /student-progress (listV81StudentProgress) has invalid policyId listV81StudentProgress
+19. GET /class-sections/{id}/progress-target (getV81ProgressTarget) has invalid policyId getV81ProgressTarget
+20. GET /activity-certification-applications (listV81Certifications) has invalid policyId listV81Certifications
+21. GET /activity-certification-applications/{id}/recognition-allocation-revisions (listV81RecognitionRevisions) has invalid policyId listV81RecognitionRevisions
+22. POST /activity-certification-applications/{id}/revoke (revokeV81Certification) has invalid policyId revokeV81Certification
+23. GET /admin/review-services/manual-mode/{classSectionId} (getV81ManualMode) has invalid policyId getV81ManualMode
+24. GET /exercise-records/{recordId}/swim-intake (getV81SwimIntake) has invalid policyId getV81SwimIntake
+25. POST /exercise-records/{recordId}/swim-intake (acceptV81SwimIntake) has invalid policyId acceptV81SwimIntake
+26. GET /student/proof-todos (listV81ProofTodos) has invalid policyId listV81ProofTodos
+27. GET /enrollments/{enrollmentId}/final-grades (listV81FinalGrades) has invalid policyId listV81FinalGrades
+28. POST /enrollments/{enrollmentId}/final-grades (appendV81FinalGrade) has invalid policyId appendV81FinalGrade
+29. GET /class-sections/{classSectionId}/settlement-check (getV81SettlementCheck) has invalid policyId getV81SettlementCheck
+30. GET /admin/feedback/{feedbackId} (getV81FeedbackDetail) has invalid policyId getV81FeedbackDetail
+31. POST /admin/feedback/{feedbackId}/handling (handleV81Feedback) has invalid policyId handleV81Feedback
+32. GET /admin/feedback (listV81Feedback) has invalid policyId listV81Feedback
+33. GET /student/feedback/{feedbackId}/history (getV81StudentFeedbackHistory) has invalid policyId getV81StudentFeedbackHistory
+34. GET /admin/help-articles (listV81HelpArticles) has invalid policyId listV81HelpArticles
+35. POST /admin/help-articles (createV81HelpArticle) has invalid policyId createV81HelpArticle
+36. GET /admin/help-articles/{articleId} (getV81HelpArticle) has invalid policyId getV81HelpArticle
+37. POST /admin/help-articles/{articleId} (saveV81HelpArticle) has invalid policyId saveV81HelpArticle
+38. GET /student/help-articles (listV81StudentHelpArticles) has invalid policyId listV81StudentHelpArticles
+39. GET /student/help-articles/{articleId} (getV81StudentHelpArticle) has invalid policyId getV81StudentHelpArticle
+40. GET /admin/endurance-tables (listV81EnduranceTables) has invalid policyId listV81EnduranceTables
+41. POST /admin/endurance-tables/rules (createV81EnduranceRule) has invalid policyId createV81EnduranceRule
+42. POST /admin/endurance-tables/rules/{ruleId} (updateV81EnduranceRule) has invalid policyId updateV81EnduranceRule
+43. POST /admin/endurance-tables/rules/{ruleId}/delete (deleteV81EnduranceRule) has invalid policyId deleteV81EnduranceRule
+44. GET /enrollments/{enrollmentId}/physical-results (listV81PhysicalResults) has invalid policyId listV81PhysicalResults
+45. POST /enrollments/{enrollmentId}/physical-results (appendV81PhysicalResult) has invalid policyId appendV81PhysicalResult
+46. GET /student/enrollments/{enrollmentId}/physical-result (getV81StudentPhysicalResult) has invalid policyId getV81StudentPhysicalResult
+47. GET /class-sections/{classSectionId}/physical-imports (listV81PhysicalImports) has invalid policyId listV81PhysicalImports
+48. POST /class-sections/{classSectionId}/physical-imports (createV81PhysicalImport) has invalid policyId createV81PhysicalImport
+49. GET /physical-imports/{importId} (getV81PhysicalImport) has invalid policyId getV81PhysicalImport
+50. GET /physical-imports/{importId}/revisions (listV81PhysicalImportRevisions) has invalid policyId listV81PhysicalImportRevisions
+51. POST /physical-imports/{importId}/revisions (reviseV81PhysicalImport) has invalid policyId reviseV81PhysicalImport
+52. POST /physical-imports/{importId}/confirm (confirmV81PhysicalImport) has invalid policyId confirmV81PhysicalImport
+53. GET /physical-imports/{importId}/source (getV81PhysicalImportSource) has invalid policyId getV81PhysicalImportSource
+54. POST /class-sections/{classSectionId}/physical-imports/xlsx (createV81PhysicalXlsxImport) has invalid policyId createV81PhysicalXlsxImport
+55. POST /admin/teacher-imports/preview (previewV81TeacherImport) has invalid policyId previewV81TeacherImport
+56. POST /admin/teacher-imports/confirm (confirmV81TeacherImport) has invalid policyId confirmV81TeacherImport
+57. GET /admin/teacher-accounts (listV81TeacherAccounts) has invalid policyId listV81TeacherAccounts
+58. GET /admin/semesters (listV81Semesters) has invalid policyId listV81Semesters
+59. POST /admin/semesters (createV81Semester) has invalid policyId createV81Semester
+60. POST /admin/semesters/{id} (updateV81Semester) has invalid policyId updateV81Semester
+61. GET /roster-imports/{rosterImportId}/registration-preview (previewV81RosterRegistration) has invalid policyId previewV81RosterRegistration
+62. GET /roster-imports/{rosterImportId}/confirmation (getV81RosterConfirmation) has invalid policyId getV81RosterConfirmation
+63. POST /roster-imports/{rosterImportId}/confirmation (confirmV81Roster) has invalid policyId confirmV81Roster
+64. GET /class-sections/{classSectionId}/composite-roster (previewV81CompositeRoster) has invalid policyId previewV81CompositeRoster
+65. GET /class-sections/{classSectionId}/composite-roster/export (exportV81CompositeRosterPreview) has invalid policyId exportV81CompositeRosterPreview
+66. GET /roster-imports/{rosterImportId}/source (getV81RosterSource) has invalid policyId getV81RosterSource
+67. GET /enrollments/{enrollmentId}/roster-status (getV81OwnRosterStatus) has invalid policyId getV81OwnRosterStatus
+68. GET /admin/class-sections/{classSectionId}/roster-summary (getV81AdminRosterSummary) has invalid policyId getV81AdminRosterSummary
+69. GET /admin/course-directory (getV81AdminCourseDirectory) has invalid policyId getV81AdminCourseDirectory
+70. GET /admin/class-sections/{classSectionId}/physical-summary (getV81AdminPhysicalSummary) has invalid policyId getV81AdminPhysicalSummary
+71. POST /class-sections/{classSectionId}/ocr-roster-batches (createV81OcrRosterBatch) has invalid policyId createV81OcrRosterBatch
+72. POST /class-sections/{classSectionId}/ocr-physical-batches (createV81OcrPhysicalBatch) has invalid policyId createV81OcrPhysicalBatch
+73. GET /class-sections/{classSectionId}/ocr-batches (listV81OcrBatches) has invalid policyId listV81OcrBatches
+74. GET /ocr-batches/{batchId} (getV81OcrBatch) has invalid policyId getV81OcrBatch
+75. GET /ocr-batches/{batchId}/pages/{pageId}/source (getV81OcrPageSource) has invalid policyId getV81OcrPageSource
+76. GET /ocr-batches/{batchId}/pages/{pageId}/recognition (getV81OcrPageRecognition) has invalid policyId getV81OcrPageRecognition
+77. POST /ocr-batches/{batchId}/pages/{pageId}/recognition (createV81OcrJob) has invalid policyId createV81OcrJob
+78. GET /ocr-jobs/{jobId} (getV81OcrJob) has invalid policyId getV81OcrJob
+79. GET /ocr-batches/{batchId}/draft (getV81OcrDraft) has invalid policyId getV81OcrDraft
+80. POST /ocr-batches/{batchId}/draft (createV81OcrDraft) has invalid policyId createV81OcrDraft
+81. POST /ocr-batches/{batchId}/draft/revisions (reviseV81OcrDraft) has invalid policyId reviseV81OcrDraft
+82. GET /ocr-batches/{batchId}/physical-confirmations (getV81OcrPhysicalConfirmation) has invalid policyId getV81OcrPhysicalConfirmation
+83. POST /ocr-batches/{batchId}/physical-confirmations (confirmV81OcrPhysicalRows) has invalid policyId confirmV81OcrPhysicalRows
+84. GET /ocr-batches/{batchId}/roster-confirmation (getV81OcrRosterConfirmation) has invalid policyId getV81OcrRosterConfirmation
+85. POST /ocr-batches/{batchId}/roster-confirmation (confirmV81OcrRoster) has invalid policyId confirmV81OcrRoster
+86. GET /class-sections/{classSectionId}/roster-basis (getV81RosterBasis) has invalid policyId getV81RosterBasis
+87. POST /class-sections/{classSectionId}/roster-basis (selectV81RosterBasis) has invalid policyId selectV81RosterBasis
+88. GET /class-sections/{classSectionId}/roster-basis/snapshots (listV81ConfirmedRosterSnapshots) has invalid policyId listV81ConfirmedRosterSnapshots
+89. GET /class-sections/{classSectionId}/makeup-windows (listV81MakeupWindows) has invalid policyId listV81MakeupWindows
+90. POST /class-sections/{classSectionId}/makeup-windows (createV81MakeupWindow) has invalid policyId createV81MakeupWindow
+91. POST /makeup-windows/{windowId}/revocation (revokeV81MakeupWindow) has invalid policyId revokeV81MakeupWindow
+92. GET /enrollments/{enrollmentId}/makeup-windows (listV81OwnMakeupWindows) has invalid policyId listV81OwnMakeupWindows
+93. GET /admin/semesters/{id}/switch-check (getV81SemesterSwitchCheck) has invalid policyId getV81SemesterSwitchCheck
+94. GET /rule-templates (listV81RuleTemplates) has invalid policyId listV81RuleTemplates
+95. POST /rule-templates (publishV81RuleTemplate) has invalid policyId publishV81RuleTemplate
+96. GET /rule-templates/{id} (getV81RuleTemplate) has invalid policyId getV81RuleTemplate
+97. GET /admin/audit-events (listV81AuditEvents) has invalid policyId listV81AuditEvents
+98. GET /admin/audit-events/{source}/{eventId} (getV81AuditEvent) has invalid policyId getV81AuditEvent
+99. POST /admin/runtime-archives (createV81RuntimeArchive) has invalid policyId createV81RuntimeArchive
+100. GET /admin/runtime-archives/{id} (getV81RuntimeArchive) has invalid policyId getV81RuntimeArchive
+101. POST /admin/runtime-archives/{id}/cancellation (cancelV81RuntimeArchive) has invalid policyId cancelV81RuntimeArchive
+102. POST /admin/runtime-archives/{id}/download-url (createV81RuntimeArchiveDownload) has invalid policyId createV81RuntimeArchiveDownload
+103. GET /admin/runtime-archives/{id}/content (downloadV81RuntimeArchive) has invalid policyId downloadV81RuntimeArchive
+104. POST /admin/subadmins/{id}/permissions (setV81SubadminPermissions) has invalid policyId setV81SubadminPermissions
+105. POST /me/account-deletion-challenges (requestCurrentUserAccountDeletionChallenge) has invalid policyId requestCurrentUserAccountDeletionChallenge
+106. GET /admin/review-services/ocr (getV81OcrService) has invalid policyId getV81OcrService
+107. GET /admin/review-services/ocr/revisions (listV81OcrServiceRevisions) has invalid policyId listV81OcrServiceRevisions
+108. POST /admin/review-services/ocr/revisions (saveV81OcrService) has invalid policyId saveV81OcrService
+109. POST /admin/subadmin-identity-challenges (requestV81SubadminIdentity) has invalid policyId requestV81SubadminIdentity
+110. POST /admin/subadmin-identity-challenges/{id}/verify (verifyV81SubadminIdentity) has invalid policyId verifyV81SubadminIdentity
+111. POST /admin/subadmins/{id}/profile (updateV81VerifiedSubadmin) has invalid policyId updateV81VerifiedSubadmin
+112. POST /admin/subadmins/{id}/delete (deleteV81Subadmin) has invalid policyId deleteV81Subadmin
+113. POST /teacher/courses (createV81TeacherCourse) has invalid policyId createV81TeacherCourse
+114. POST /class-sections/{classSectionId}/course-invites/revocations (revokeV81CourseInvite) has invalid policyId revokeV81CourseInvite
+115. Permission registry mismatch for initiateMediaUpload.resourceResolver: EXERCISE_SESSION_FROM_REQUEST != MEDIA_TARGET_FROM_REQUEST
+116. Permission registry role mismatch for listStudentScores
+117. Permission registry role mismatch for getStudentScore
+118. Permission registry role mismatch for getActivityConversionRules
+119. OpenAPI operation getV81CourseRules is missing from permission registry
+120. OpenAPI operation saveV81CourseRules is missing from permission registry
+121. OpenAPI operation setV81ManualMode is missing from permission registry
+122. OpenAPI operation reviewV81Record is missing from permission registry
+123. OpenAPI operation getV81RecordWorkflow is missing from permission registry
+124. OpenAPI operation submitV81Supplement is missing from permission registry
+125. OpenAPI operation correctV81Record is missing from permission registry
+126. OpenAPI operation getV81MaintenanceAnnouncement is missing from permission registry
+127. OpenAPI operation getV81SystemModeHistory is missing from permission registry
+128. OpenAPI operation changeV81SystemMode is missing from permission registry
+129. OpenAPI operation getV81SupplementClock is missing from permission registry
+130. OpenAPI operation getV81AccountSecurity is missing from permission registry
+131. OpenAPI operation changeOwnV81Password is missing from permission registry
+132. OpenAPI operation listV81Subadmins is missing from permission registry
+133. OpenAPI operation createV81VerifiedSubadmin is missing from permission registry
+134. OpenAPI operation setV81SubadminStatus is missing from permission registry
+135. OpenAPI operation listV81StudentProgress is missing from permission registry
+136. OpenAPI operation getV81ProgressTarget is missing from permission registry
+137. OpenAPI operation listV81Certifications is missing from permission registry
+138. OpenAPI operation listV81RecognitionRevisions is missing from permission registry
+139. OpenAPI operation revokeV81Certification is missing from permission registry
+140. OpenAPI operation getV81ManualMode is missing from permission registry
+141. OpenAPI operation getV81SwimIntake is missing from permission registry
+142. OpenAPI operation acceptV81SwimIntake is missing from permission registry
+143. OpenAPI operation listV81ProofTodos is missing from permission registry
+144. OpenAPI operation listV81FinalGrades is missing from permission registry
+145. OpenAPI operation appendV81FinalGrade is missing from permission registry
+146. OpenAPI operation getV81SettlementCheck is missing from permission registry
+147. OpenAPI operation getV81FeedbackDetail is missing from permission registry
+148. OpenAPI operation handleV81Feedback is missing from permission registry
+149. OpenAPI operation listV81Feedback is missing from permission registry
+150. OpenAPI operation getV81StudentFeedbackHistory is missing from permission registry
+151. OpenAPI operation listV81HelpArticles is missing from permission registry
+152. OpenAPI operation createV81HelpArticle is missing from permission registry
+153. OpenAPI operation getV81HelpArticle is missing from permission registry
+154. OpenAPI operation saveV81HelpArticle is missing from permission registry
+155. OpenAPI operation listV81StudentHelpArticles is missing from permission registry
+156. OpenAPI operation getV81StudentHelpArticle is missing from permission registry
+157. OpenAPI operation listV81EnduranceTables is missing from permission registry
+158. OpenAPI operation createV81EnduranceRule is missing from permission registry
+159. OpenAPI operation updateV81EnduranceRule is missing from permission registry
+160. OpenAPI operation deleteV81EnduranceRule is missing from permission registry
+161. OpenAPI operation listV81PhysicalResults is missing from permission registry
+162. OpenAPI operation appendV81PhysicalResult is missing from permission registry
+163. OpenAPI operation getV81StudentPhysicalResult is missing from permission registry
+164. OpenAPI operation listV81PhysicalImports is missing from permission registry
+165. OpenAPI operation createV81PhysicalImport is missing from permission registry
+166. OpenAPI operation getV81PhysicalImport is missing from permission registry
+167. OpenAPI operation listV81PhysicalImportRevisions is missing from permission registry
+168. OpenAPI operation reviseV81PhysicalImport is missing from permission registry
+169. OpenAPI operation confirmV81PhysicalImport is missing from permission registry
+170. OpenAPI operation getV81PhysicalImportSource is missing from permission registry
+171. OpenAPI operation createV81PhysicalXlsxImport is missing from permission registry
+172. OpenAPI operation previewV81TeacherImport is missing from permission registry
+173. OpenAPI operation confirmV81TeacherImport is missing from permission registry
+174. OpenAPI operation listV81TeacherAccounts is missing from permission registry
+175. OpenAPI operation listV81Semesters is missing from permission registry
+176. OpenAPI operation createV81Semester is missing from permission registry
+177. OpenAPI operation updateV81Semester is missing from permission registry
+178. OpenAPI operation previewV81RosterRegistration is missing from permission registry
+179. OpenAPI operation getV81RosterConfirmation is missing from permission registry
+180. OpenAPI operation confirmV81Roster is missing from permission registry
+181. OpenAPI operation previewV81CompositeRoster is missing from permission registry
+182. OpenAPI operation exportV81CompositeRosterPreview is missing from permission registry
+183. OpenAPI operation getV81RosterSource is missing from permission registry
+184. OpenAPI operation getV81OwnRosterStatus is missing from permission registry
+185. OpenAPI operation getV81AdminRosterSummary is missing from permission registry
+186. OpenAPI operation getV81AdminCourseDirectory is missing from permission registry
+187. OpenAPI operation getV81AdminPhysicalSummary is missing from permission registry
+188. OpenAPI operation createV81OcrRosterBatch is missing from permission registry
+189. OpenAPI operation createV81OcrPhysicalBatch is missing from permission registry
+190. OpenAPI operation listV81OcrBatches is missing from permission registry
+191. OpenAPI operation getV81OcrBatch is missing from permission registry
+192. OpenAPI operation getV81OcrPageSource is missing from permission registry
+193. OpenAPI operation getV81OcrPageRecognition is missing from permission registry
+194. OpenAPI operation createV81OcrJob is missing from permission registry
+195. OpenAPI operation getV81OcrJob is missing from permission registry
+196. OpenAPI operation getV81OcrDraft is missing from permission registry
+197. OpenAPI operation createV81OcrDraft is missing from permission registry
+198. OpenAPI operation reviseV81OcrDraft is missing from permission registry
+199. OpenAPI operation getV81OcrPhysicalConfirmation is missing from permission registry
+200. OpenAPI operation confirmV81OcrPhysicalRows is missing from permission registry
+201. OpenAPI operation getV81OcrRosterConfirmation is missing from permission registry
+202. OpenAPI operation confirmV81OcrRoster is missing from permission registry
+203. OpenAPI operation getV81RosterBasis is missing from permission registry
+204. OpenAPI operation selectV81RosterBasis is missing from permission registry
+205. OpenAPI operation listV81ConfirmedRosterSnapshots is missing from permission registry
+206. OpenAPI operation listV81MakeupWindows is missing from permission registry
+207. OpenAPI operation createV81MakeupWindow is missing from permission registry
+208. OpenAPI operation revokeV81MakeupWindow is missing from permission registry
+209. OpenAPI operation listV81OwnMakeupWindows is missing from permission registry
+210. OpenAPI operation getV81SemesterSwitchCheck is missing from permission registry
+211. OpenAPI operation listV81RuleTemplates is missing from permission registry
+212. OpenAPI operation publishV81RuleTemplate is missing from permission registry
+213. OpenAPI operation getV81RuleTemplate is missing from permission registry
+214. OpenAPI operation listV81AuditEvents is missing from permission registry
+215. OpenAPI operation getV81AuditEvent is missing from permission registry
+216. OpenAPI operation createV81RuntimeArchive is missing from permission registry
+217. OpenAPI operation getV81RuntimeArchive is missing from permission registry
+218. OpenAPI operation cancelV81RuntimeArchive is missing from permission registry
+219. OpenAPI operation createV81RuntimeArchiveDownload is missing from permission registry
+220. OpenAPI operation downloadV81RuntimeArchive is missing from permission registry
+221. OpenAPI operation setV81SubadminPermissions is missing from permission registry
+222. OpenAPI operation requestCurrentUserAccountDeletionChallenge is missing from permission registry
+223. OpenAPI operation getV81OcrService is missing from permission registry
+224. OpenAPI operation listV81OcrServiceRevisions is missing from permission registry
+225. OpenAPI operation saveV81OcrService is missing from permission registry
+226. OpenAPI operation requestV81SubadminIdentity is missing from permission registry
+227. OpenAPI operation verifyV81SubadminIdentity is missing from permission registry
+228. OpenAPI operation updateV81VerifiedSubadmin is missing from permission registry
+229. OpenAPI operation deleteV81Subadmin is missing from permission registry
+230. OpenAPI operation createV81TeacherCourse is missing from permission registry
+231. OpenAPI operation revokeV81CourseInvite is missing from permission registry
+232. Permission registry rows 129 != operations 242
+233. Named enum mismatch for RosterFileFormat: OpenAPI=CSV,XLSX docs=CSV
+234. Named enum mismatch for ReviewReasonCode: OpenAPI=INSUFFICIENT_EVIDENCE,INVALID_MEDIA,DURATION_INCONSISTENT,IDENTITY_MISMATCH,DUPLICATE_SUBMISSION,OUTSIDE_ALLOWED_SCOPE,OTHER,UNCLEAR_EVIDENCE,MISSING_REQUIRED_EVIDENCE,SESSION_MISMATCH,INCONSISTENT_EVIDENCE,AUTHENTICITY_REQUIRES_CLARIFICATION,CONFIRMED_REUSE_OR_MISUSE docs=INSUFFICIENT_EVIDENCE,INVALID_MEDIA,DURATION_INCONSISTENT,IDENTITY_MISMATCH,DUPLICATE_SUBMISSION,OUTSIDE_ALLOWED_SCOPE,OTHER
+235. Named enum mismatch for SystemMode: OpenAPI=NORMAL,MAINTENANCE docs=NORMAL,READ_ONLY,MAINTENANCE
+236. Inline enum at paths./auth/account-security.get.responses.200.content.application/json.schema.properties.data.properties.adminKind must declare x-enum-subset-of or x-transport-constraint
+237. Inline enum at paths./admin/subadmins.post.responses.201.content.application/json.schema.properties.data.properties.permissions.items must declare x-enum-subset-of or x-transport-constraint
+238. Inline enum at paths./admin/subadmins.post.responses.201.content.application/json.schema.properties.data.properties.status must declare x-enum-subset-of or x-transport-constraint
+239. Inline enum at paths./exercise-records/{recordId}/swim-intake.post.responses.201.content.application/json.schema.properties.data.properties.intakeKind must declare x-enum-subset-of or x-transport-constraint
+240. Inline enum at paths./exercise-records/{recordId}/swim-intake.get.responses.200.content.application/json.schema.properties.data.properties.intakeKind must declare x-enum-subset-of or x-transport-constraint
+241. Inline enum at paths./exercise-records/{recordId}/swim-intake.get.responses.200.content.application/json.schema.properties.data.properties.items.items.properties.phase must declare x-enum-subset-of or x-transport-constraint
+242. Inline enum at paths./class-sections/{classSectionId}/settlement-check.get.responses.200.content.application/json.schema.properties.data.properties.checks.items.properties.status must declare x-enum-subset-of or x-transport-constraint
+243. Inline enum at paths./admin/feedback/{feedbackId}.get.responses.200.content.application/json.schema.properties.data.properties.category must declare x-enum-subset-of or x-transport-constraint
+244. Inline enum at paths./admin/feedback/{feedbackId}.get.responses.200.content.application/json.schema.properties.data.properties.status must declare x-enum-subset-of or x-transport-constraint
+245. Inline enum at paths./admin/feedback/{feedbackId}.get.responses.200.content.application/json.schema.properties.data.properties.history.items.properties.previousStatus must declare x-enum-subset-of or x-transport-constraint
+246. Inline enum at paths./admin/feedback/{feedbackId}.get.responses.200.content.application/json.schema.properties.data.properties.history.items.properties.nextStatus must declare x-enum-subset-of or x-transport-constraint
+247. Inline enum at paths./admin/feedback/{feedbackId}/handling.post.responses.201.content.application/json.schema.properties.data.properties.status must declare x-enum-subset-of or x-transport-constraint
+248. Inline enum at paths./admin/feedback.get.parameters.3.schema must declare x-enum-subset-of or x-transport-constraint
+249. Inline enum at paths./admin/feedback.get.parameters.4.schema must declare x-enum-subset-of or x-transport-constraint
+250. Inline enum at paths./admin/feedback.get.responses.200.content.application/json.schema.properties.data.properties.items.items.properties.category must declare x-enum-subset-of or x-transport-constraint
+251. Inline enum at paths./admin/feedback.get.responses.200.content.application/json.schema.properties.data.properties.items.items.properties.status must declare x-enum-subset-of or x-transport-constraint
+252. Inline enum at paths./student/feedback/{feedbackId}/history.get.responses.200.content.application/json.schema.properties.data.properties.status must declare x-enum-subset-of or x-transport-constraint
+253. Inline enum at paths./student/feedback/{feedbackId}/history.get.responses.200.content.application/json.schema.properties.data.properties.items.items.properties.status must declare x-enum-subset-of or x-transport-constraint
+254. Inline enum at paths./admin/help-articles.post.responses.201.content.application/json.schema.properties.data.properties.category must declare x-enum-subset-of or x-transport-constraint
+255. Inline enum at paths./admin/help-articles.post.responses.201.content.application/json.schema.properties.data.properties.status must declare x-enum-subset-of or x-transport-constraint
+256. Inline enum at paths./admin/help-articles.get.parameters.3.schema must declare x-enum-subset-of or x-transport-constraint
+257. Inline enum at paths./admin/help-articles.get.parameters.4.schema must declare x-enum-subset-of or x-transport-constraint
+258. Inline enum at paths./admin/help-articles.get.responses.200.content.application/json.schema.properties.data.properties.items.items.properties.category must declare x-enum-subset-of or x-transport-constraint
+259. Inline enum at paths./admin/help-articles.get.responses.200.content.application/json.schema.properties.data.properties.items.items.properties.status must declare x-enum-subset-of or x-transport-constraint
+260. Inline enum at paths./admin/help-articles/{articleId}.post.responses.201.content.application/json.schema.properties.data.properties.category must declare x-enum-subset-of or x-transport-constraint
+261. Inline enum at paths./admin/help-articles/{articleId}.post.responses.201.content.application/json.schema.properties.data.properties.status must declare x-enum-subset-of or x-transport-constraint
+262. Inline enum at paths./admin/help-articles/{articleId}.get.responses.200.content.application/json.schema.properties.data.properties.category must declare x-enum-subset-of or x-transport-constraint
+263. Inline enum at paths./admin/help-articles/{articleId}.get.responses.200.content.application/json.schema.properties.data.properties.status must declare x-enum-subset-of or x-transport-constraint
+264. Inline enum at paths./student/help-articles.get.parameters.1.schema must declare x-enum-subset-of or x-transport-constraint
+265. Inline enum at paths./student/help-articles.get.responses.200.content.application/json.schema.properties.data.items.properties.category must declare x-enum-subset-of or x-transport-constraint
+266. Inline enum at paths./student/help-articles.get.responses.200.content.application/json.schema.properties.data.items.properties.locale must declare x-enum-subset-of or x-transport-constraint
+267. Inline enum at paths./student/help-articles/{articleId}.get.parameters.1.schema must declare x-enum-subset-of or x-transport-constraint
+268. Inline enum at paths./student/help-articles/{articleId}.get.responses.200.content.application/json.schema.properties.data.properties.category must declare x-enum-subset-of or x-transport-constraint
+269. Inline enum at paths./student/help-articles/{articleId}.get.responses.200.content.application/json.schema.properties.data.properties.locale must declare x-enum-subset-of or x-transport-constraint
+270. Inline enum at paths./admin/endurance-tables.get.responses.200.content.application/json.schema.properties.data.items.properties.gender must declare x-enum-subset-of or x-transport-constraint
+271. Inline enum at paths./admin/endurance-tables.get.responses.200.content.application/json.schema.properties.data.items.properties.gradeGroup must declare x-enum-subset-of or x-transport-constraint
+272. Inline enum at paths./admin/endurance-tables.get.responses.200.content.application/json.schema.properties.data.items.properties.runType must declare x-enum-subset-of or x-transport-constraint
+273. Inline enum at paths./admin/endurance-tables.get.responses.200.content.application/json.schema.properties.data.items.properties.bands.items.properties.tier must declare x-enum-subset-of or x-transport-constraint
+274. Inline enum at paths./admin/endurance-tables/rules.post.responses.201.content.application/json.schema.properties.data.properties.gender must declare x-enum-subset-of or x-transport-constraint
+275. Inline enum at paths./admin/endurance-tables/rules.post.responses.201.content.application/json.schema.properties.data.properties.gradeGroup must declare x-enum-subset-of or x-transport-constraint
+276. Inline enum at paths./admin/endurance-tables/rules.post.responses.201.content.application/json.schema.properties.data.properties.runType must declare x-enum-subset-of or x-transport-constraint
+277. Inline enum at paths./admin/endurance-tables/rules.post.responses.201.content.application/json.schema.properties.data.properties.bands.items.properties.tier must declare x-enum-subset-of or x-transport-constraint
+278. Inline enum at paths./admin/endurance-tables/rules/{ruleId}.post.responses.201.content.application/json.schema.properties.data.properties.gender must declare x-enum-subset-of or x-transport-constraint
+279. Inline enum at paths./admin/endurance-tables/rules/{ruleId}.post.responses.201.content.application/json.schema.properties.data.properties.gradeGroup must declare x-enum-subset-of or x-transport-constraint
+280. Inline enum at paths./admin/endurance-tables/rules/{ruleId}.post.responses.201.content.application/json.schema.properties.data.properties.runType must declare x-enum-subset-of or x-transport-constraint
+281. Inline enum at paths./admin/endurance-tables/rules/{ruleId}.post.responses.201.content.application/json.schema.properties.data.properties.bands.items.properties.tier must declare x-enum-subset-of or x-transport-constraint
+282. Inline enum at paths./admin/endurance-tables/rules/{ruleId}/delete.post.responses.201.content.application/json.schema.properties.data.properties.gender must declare x-enum-subset-of or x-transport-constraint
+283. Inline enum at paths./admin/endurance-tables/rules/{ruleId}/delete.post.responses.201.content.application/json.schema.properties.data.properties.gradeGroup must declare x-enum-subset-of or x-transport-constraint
+284. Inline enum at paths./admin/endurance-tables/rules/{ruleId}/delete.post.responses.201.content.application/json.schema.properties.data.properties.runType must declare x-enum-subset-of or x-transport-constraint
+285. Inline enum at paths./admin/endurance-tables/rules/{ruleId}/delete.post.responses.201.content.application/json.schema.properties.data.properties.bands.items.properties.tier must declare x-enum-subset-of or x-transport-constraint
+286. Inline enum at paths./enrollments/{enrollmentId}/physical-results.get.responses.200.content.application/json.schema.properties.data.properties.items.items.properties.runType must declare x-enum-subset-of or x-transport-constraint
+287. Inline enum at paths./enrollments/{enrollmentId}/physical-results.post.responses.201.content.application/json.schema.properties.data.properties.runType must declare x-enum-subset-of or x-transport-constraint
+288. Inline enum at paths./student/enrollments/{enrollmentId}/physical-result.get.responses.200.content.application/json.schema.properties.data.oneOf.0.properties.result.properties.runType must declare x-enum-subset-of or x-transport-constraint
+289. Inline enum at paths./student/enrollments/{enrollmentId}/physical-result.get.responses.200.content.application/json.schema.properties.data.oneOf.1.properties.status must declare x-enum-subset-of or x-transport-constraint
+290. Inline enum at paths./roster-imports/{rosterImportId}/registration-preview.get.responses.200.content.application/json.schema.properties.data.properties.rows.items.properties.status must declare x-enum-subset-of or x-transport-constraint
+291. Inline enum at paths./roster-imports/{rosterImportId}/registration-preview.get.responses.200.content.application/json.schema.properties.data.properties.extras.items.properties.status must declare x-enum-subset-of or x-transport-constraint
+292. Inline enum at paths./roster-imports/{rosterImportId}/confirmation.get.responses.200.content.application/json.schema.properties.data.properties.sourceRows.items.properties.validationStatus must declare x-enum-subset-of or x-transport-constraint
+293. Inline enum at paths./roster-imports/{rosterImportId}/confirmation.post.responses.201.content.application/json.schema.properties.data.properties.sourceRows.items.properties.validationStatus must declare x-enum-subset-of or x-transport-constraint
+294. Inline enum at paths./class-sections/{classSectionId}/composite-roster.get.responses.200.content.application/json.schema.properties.data.properties.sourceKind must declare x-enum-subset-of or x-transport-constraint
+295. Inline enum at paths./class-sections/{classSectionId}/composite-roster.get.responses.200.content.application/json.schema.properties.data.properties.rows.items.properties.status must declare x-enum-subset-of or x-transport-constraint
+296. Inline enum at paths./class-sections/{classSectionId}/composite-roster.get.responses.200.content.application/json.schema.properties.data.properties.rows.items.properties.physical.properties.status must declare x-enum-subset-of or x-transport-constraint
+297. Inline enum at paths./class-sections/{classSectionId}/composite-roster.get.responses.200.content.application/json.schema.properties.data.properties.rows.items.properties.physical.properties.result.properties.runType must declare x-enum-subset-of or x-transport-constraint
+298. Inline enum at paths./class-sections/{classSectionId}/composite-roster.get.responses.200.content.application/json.schema.properties.data.properties.extras.items.properties.status must declare x-enum-subset-of or x-transport-constraint
+299. Inline enum at paths./class-sections/{classSectionId}/composite-roster.get.responses.200.content.application/json.schema.properties.data.properties.extras.items.properties.physical.properties.status must declare x-enum-subset-of or x-transport-constraint
+300. Inline enum at paths./class-sections/{classSectionId}/composite-roster.get.responses.200.content.application/json.schema.properties.data.properties.extras.items.properties.physical.properties.result.properties.runType must declare x-enum-subset-of or x-transport-constraint
+301. Inline enum at paths./roster-imports/{rosterImportId}/source.get.responses.200.content.application/json.schema.properties.data.properties.fileFormat must declare x-enum-subset-of or x-transport-constraint
+302. Inline enum at paths./enrollments/{enrollmentId}/roster-status.get.responses.200.content.application/json.schema.properties.data.properties.status must declare x-enum-subset-of or x-transport-constraint
+303. Inline enum at paths./admin/course-directory.get.responses.200.content.application/json.schema.properties.data.properties.rows.items.properties.status must declare x-enum-subset-of or x-transport-constraint
+304. Inline enum at paths./class-sections/{classSectionId}/ocr-roster-batches.post.responses.201.content.application/json.schema.properties.data.properties.pages.items.properties.mimeType must declare x-enum-subset-of or x-transport-constraint
+305. Inline enum at paths./class-sections/{classSectionId}/ocr-physical-batches.post.responses.201.content.application/json.schema.properties.data.properties.pages.items.properties.mimeType must declare x-enum-subset-of or x-transport-constraint
+306. Inline enum at paths./class-sections/{classSectionId}/ocr-batches.get.responses.200.content.application/json.schema.properties.data.properties.items.items.properties.purpose must declare x-enum-subset-of or x-transport-constraint
+307. Inline enum at paths./ocr-batches/{batchId}.get.responses.200.content.application/json.schema.properties.data.properties.purpose must declare x-enum-subset-of or x-transport-constraint
+308. Inline enum at paths./ocr-batches/{batchId}.get.responses.200.content.application/json.schema.properties.data.properties.pages.items.properties.mimeType must declare x-enum-subset-of or x-transport-constraint
+309. Inline enum at paths./ocr-batches/{batchId}.get.responses.200.content.application/json.schema.properties.data.properties.pages.items.properties.latestAttempt.properties.outcome must declare x-enum-subset-of or x-transport-constraint
+310. Inline enum at paths./ocr-batches/{batchId}/pages/{pageId}/source.get.responses.200.content.application/json.schema.properties.data.properties.mimeType must declare x-enum-subset-of or x-transport-constraint
+311. Inline enum at paths./ocr-batches/{batchId}/pages/{pageId}/recognition.get.responses.200.content.application/json.schema.properties.data.properties.latestAttempt.properties.outcome must declare x-enum-subset-of or x-transport-constraint
+312. Inline enum at paths./ocr-batches/{batchId}/pages/{pageId}/recognition.post.responses.201.content.application/json.schema.properties.data.properties.status must declare x-enum-subset-of or x-transport-constraint
+313. Inline enum at paths./ocr-jobs/{jobId}.get.responses.200.content.application/json.schema.properties.data.properties.status must declare x-enum-subset-of or x-transport-constraint
+314. Inline enum at paths./ocr-batches/{batchId}/draft.get.responses.200.content.application/json.schema.properties.data.properties.purpose must declare x-enum-subset-of or x-transport-constraint
+315. Inline enum at paths./ocr-batches/{batchId}/draft.get.responses.200.content.application/json.schema.properties.data.properties.rows.items.properties.ocrIssues.items.properties.field must declare x-enum-subset-of or x-transport-constraint
+316. Inline enum at paths./ocr-batches/{batchId}/draft.post.responses.201.content.application/json.schema.properties.data.properties.purpose must declare x-enum-subset-of or x-transport-constraint
+317. Inline enum at paths./ocr-batches/{batchId}/draft.post.responses.201.content.application/json.schema.properties.data.properties.rows.items.properties.ocrIssues.items.properties.field must declare x-enum-subset-of or x-transport-constraint
+318. Inline enum at paths./ocr-batches/{batchId}/draft/revisions.post.responses.201.content.application/json.schema.properties.data.properties.purpose must declare x-enum-subset-of or x-transport-constraint
+319. Inline enum at paths./ocr-batches/{batchId}/draft/revisions.post.responses.201.content.application/json.schema.properties.data.properties.rows.items.properties.ocrIssues.items.properties.field must declare x-enum-subset-of or x-transport-constraint
+320. Inline enum at paths./ocr-batches/{batchId}/roster-confirmation.get.responses.200.content.application/json.schema.properties.data.properties.sourceRows.items.properties.ocrIssues.items.properties.field must declare x-enum-subset-of or x-transport-constraint
+321. Inline enum at paths./ocr-batches/{batchId}/roster-confirmation.post.responses.201.content.application/json.schema.properties.data.properties.sourceRows.items.properties.ocrIssues.items.properties.field must declare x-enum-subset-of or x-transport-constraint
+322. Inline enum at paths./class-sections/{classSectionId}/roster-basis.get.responses.200.content.application/json.schema.properties.data.properties.sourceKind must declare x-enum-subset-of or x-transport-constraint
+323. Inline enum at paths./class-sections/{classSectionId}/roster-basis.post.responses.201.content.application/json.schema.properties.data.properties.sourceKind must declare x-enum-subset-of or x-transport-constraint
+324. Inline enum at paths./class-sections/{classSectionId}/roster-basis/snapshots.get.responses.200.content.application/json.schema.properties.data.properties.items.items.properties.sourceKind must declare x-enum-subset-of or x-transport-constraint
+325. Inline enum at paths./class-sections/{classSectionId}/makeup-windows.get.responses.200.content.application/json.schema.properties.data.properties.items.items.properties.version must declare x-enum-subset-of or x-transport-constraint
+326. Inline enum at paths./class-sections/{classSectionId}/makeup-windows.get.responses.200.content.application/json.schema.properties.data.properties.items.items.properties.windowState must declare x-enum-subset-of or x-transport-constraint
+327. Inline enum at paths./class-sections/{classSectionId}/makeup-windows.post.responses.201.content.application/json.schema.properties.data.properties.version must declare x-enum-subset-of or x-transport-constraint
+328. Inline enum at paths./class-sections/{classSectionId}/makeup-windows.post.responses.201.content.application/json.schema.properties.data.properties.windowState must declare x-enum-subset-of or x-transport-constraint
+329. Inline enum at paths./makeup-windows/{windowId}/revocation.post.responses.201.content.application/json.schema.properties.data.properties.version must declare x-enum-subset-of or x-transport-constraint
+330. Inline enum at paths./makeup-windows/{windowId}/revocation.post.responses.201.content.application/json.schema.properties.data.properties.windowState must declare x-enum-subset-of or x-transport-constraint
+331. Inline enum at paths./enrollments/{enrollmentId}/makeup-windows.get.responses.200.content.application/json.schema.properties.data.properties.items.items.properties.version must declare x-enum-subset-of or x-transport-constraint
+332. Inline enum at paths./enrollments/{enrollmentId}/makeup-windows.get.responses.200.content.application/json.schema.properties.data.properties.items.items.properties.windowState must declare x-enum-subset-of or x-transport-constraint
+333. Inline enum at paths./admin/semesters/{id}/switch-check.get.responses.200.content.application/json.schema.properties.data.properties.target.properties.status must declare x-enum-subset-of or x-transport-constraint
+334. Inline enum at paths./admin/semesters/{id}/switch-check.get.responses.200.content.application/json.schema.properties.data.properties.current.properties.status must declare x-enum-subset-of or x-transport-constraint
+335. Inline enum at paths./admin/semesters/{id}/switch-check.get.responses.200.content.application/json.schema.properties.data.properties.checks.items.properties.status must declare x-enum-subset-of or x-transport-constraint
+336. Inline enum at paths./admin/semesters/{id}/switch-check.get.responses.200.content.application/json.schema.properties.data.properties.courses.items.properties.checks.items.properties.status must declare x-enum-subset-of or x-transport-constraint
+337. Inline enum at paths./admin/audit-events.get.parameters.2.schema must declare x-enum-subset-of or x-transport-constraint
+338. Inline enum at paths./admin/audit-events.get.responses.200.content.application/json.schema.properties.data.properties.items.items.properties.source must declare x-enum-subset-of or x-transport-constraint
+339. Inline enum at paths./admin/audit-events/{source}/{eventId}.get.parameters.1.schema must declare x-enum-subset-of or x-transport-constraint
+340. Inline enum at paths./admin/audit-events/{source}/{eventId}.get.responses.200.content.application/json.schema.properties.data.properties.source must declare x-enum-subset-of or x-transport-constraint
+341. Inline enum at paths./admin/runtime-archives.post.responses.202.content.application/json.schema.properties.data.properties.status must declare x-enum-subset-of or x-transport-constraint
+342. Inline enum at paths./admin/runtime-archives/{id}.get.responses.200.content.application/json.schema.properties.data.properties.status must declare x-enum-subset-of or x-transport-constraint
+343. Inline enum at paths./admin/runtime-archives/{id}/cancellation.post.responses.201.content.application/json.schema.properties.data.properties.status must declare x-enum-subset-of or x-transport-constraint
+344. Inline enum at paths./admin/subadmins/{id}/permissions.post.responses.201.content.application/json.schema.properties.data.properties.permissions.items must declare x-enum-subset-of or x-transport-constraint
+345. Inline enum at paths./admin/review-services/ocr.get.responses.200.content.application/json.schema.properties.data.properties.configurationSource must declare x-enum-subset-of or x-transport-constraint
+346. Inline enum at paths./admin/review-services/ocr.get.responses.200.content.application/json.schema.properties.data.properties.configuration.properties.provider must declare x-enum-subset-of or x-transport-constraint
+347. Inline enum at paths./admin/review-services/ocr.get.responses.200.content.application/json.schema.properties.data.properties.systemMode must declare x-enum-subset-of or x-transport-constraint
+348. Inline enum at paths./admin/review-services/ocr/revisions.get.responses.200.content.application/json.schema.properties.data.properties.items.items.properties.provider must declare x-enum-subset-of or x-transport-constraint
+349. Inline enum at paths./admin/review-services/ocr/revisions.post.responses.201.content.application/json.schema.properties.data.properties.provider must declare x-enum-subset-of or x-transport-constraint
+350. Inline enum at paths./admin/subadmin-identity-challenges.post.responses.201.content.application/json.schema.properties.data.properties.status must declare x-enum-subset-of or x-transport-constraint
+351. Inline enum at paths./admin/subadmin-identity-challenges/{id}/verify.post.responses.201.content.application/json.schema.properties.data.properties.status must declare x-enum-subset-of or x-transport-constraint
+352. Inline enum at paths./admin/subadmins/{id}/profile.post.responses.201.content.application/json.schema.properties.data.properties.permissions.items must declare x-enum-subset-of or x-transport-constraint
+353. Inline enum at paths./admin/subadmins/{id}/profile.post.responses.201.content.application/json.schema.properties.data.properties.status must declare x-enum-subset-of or x-transport-constraint
+354. Inline enum at components.schemas.ExerciseRecord.properties.workflowStage must declare x-enum-subset-of or x-transport-constraint
+355. Inline enum at components.schemas.ExerciseRecord.properties.materialVersion must declare x-enum-subset-of or x-transport-constraint
+356. Inline enum at components.schemas.AlignmentRun.properties.algorithmVersion must declare x-enum-subset-of or x-transport-constraint
+357. Inline enum at components.schemas.V81CourseRulesInput.properties.minimumMinutes must declare x-enum-subset-of or x-transport-constraint
+358. Inline enum at components.schemas.V81CourseRulesInput.properties.weeklyLimit must declare x-enum-subset-of or x-transport-constraint
+359. Inline enum at components.schemas.V81ReviewInput.properties.action must declare x-enum-subset-of or x-transport-constraint
+360. Inline enum at components.schemas.V81ReviewInput.properties.reasonCode must declare x-enum-subset-of or x-transport-constraint
+361. Inline enum at components.schemas.V81ReviewInput.properties.supplementHours must declare x-enum-subset-of or x-transport-constraint
+362. Inline enum at components.schemas.V81CorrectionInput.properties.action must declare x-enum-subset-of or x-transport-constraint
+363. Inline enum at components.schemas.V81CorrectionInput.properties.reasonCode must declare x-enum-subset-of or x-transport-constraint
+364. Inline enum at components.schemas.ChangeV81SystemModeInput.properties.mode must declare x-enum-subset-of or x-transport-constraint
+365. Inline enum at components.schemas.V81SubadminStatusInput.properties.status must declare x-enum-subset-of or x-transport-constraint
+366. Inline enum at components.schemas.V81StudentProgress.properties.minimumMinutes must declare x-enum-subset-of or x-transport-constraint
+367. Inline enum at components.schemas.V81StudentProgress.properties.weeklyLimit must declare x-enum-subset-of or x-transport-constraint
+368. Inline enum at components.schemas.V81StudentProgress.properties.status must declare x-enum-subset-of or x-transport-constraint
+369. Inline enum at components.schemas.V81Certification.properties.certificationType must declare x-enum-subset-of or x-transport-constraint
+370. Inline enum at components.schemas.V81Certification.properties.status must declare x-enum-subset-of or x-transport-constraint
+371. Inline enum at components.schemas.V81SwimIntakeItem.properties.phase must declare x-enum-subset-of or x-transport-constraint
+372. Inline enum at components.schemas.V81HandleFeedbackInput.properties.status must declare x-enum-subset-of or x-transport-constraint
+373. Inline enum at components.schemas.V81SaveHelpInput.properties.category must declare x-enum-subset-of or x-transport-constraint
+374. Inline enum at components.schemas.V81SaveHelpInput.properties.status must declare x-enum-subset-of or x-transport-constraint
+375. Inline enum at components.schemas.V81EnduranceTableInput.properties.gender must declare x-enum-subset-of or x-transport-constraint
+376. Inline enum at components.schemas.V81EnduranceTableInput.properties.gradeGroup must declare x-enum-subset-of or x-transport-constraint
+377. Inline enum at components.schemas.V81EnduranceTableInput.properties.runType must declare x-enum-subset-of or x-transport-constraint
+378. Inline enum at components.schemas.V81EnduranceBandInput.properties.gender must declare x-enum-subset-of or x-transport-constraint
+379. Inline enum at components.schemas.V81EnduranceBandInput.properties.gradeGroup must declare x-enum-subset-of or x-transport-constraint
+380. Inline enum at components.schemas.V81EnduranceBandInput.properties.runType must declare x-enum-subset-of or x-transport-constraint
+381. Inline enum at components.schemas.V81EnduranceBandInput.properties.tier must declare x-enum-subset-of or x-transport-constraint
+382. Inline enum at components.schemas.V81PhysicalResultInput.properties.runType must declare x-enum-subset-of or x-transport-constraint
+383. Inline enum at components.schemas.V81SemesterInput.properties.termCode must declare x-enum-subset-of or x-transport-constraint
+384. Inline enum at components.schemas.V81SemesterUpdateInput.properties.termCode must declare x-enum-subset-of or x-transport-constraint
+385. Inline enum at components.schemas.V81SubadminPermissionsInput.properties.permissions.items must declare x-enum-subset-of or x-transport-constraint
+386. Inline enum at components.schemas.V81DeletionChallengeInput.properties.locale must declare x-enum-subset-of or x-transport-constraint
+387. Inline enum at components.schemas.V81OcrServiceInput.properties.provider must declare x-enum-subset-of or x-transport-constraint
+388. Inline enum at components.schemas.SubadminIdentityInput.properties.locale must declare x-enum-subset-of or x-transport-constraint
+389. Inline enum at components.schemas.CreateVerifiedSubadminInput.properties.permissions.items must declare x-enum-subset-of or x-transport-constraint
+390. Inline enum at components.schemas.UpdateVerifiedSubadminInput.properties.permissions.items must declare x-enum-subset-of or x-transport-constraint
+391. ExerciseRecord daily unique key must be enrollmentId,businessDate

@@ -1,0 +1,51 @@
+/workspace/backend/node_modules/@prisma/client/src/runtime/core/errorRendering/throwValidationException.ts:46
+  throw new PrismaClientValidationError(messageWithContext, { clientVersion })
+        ^
+
+PrismaClientValidationError: 
+Invalid `prisma.classSection.create()` invocation:
+
+{
+  data: {
+    id: "01a083eb-880a-72ee-841f-c20e9ab2b3b0",
+    organizationId: "01a07e71-e996-75ea-954d-84a6a185b623",
+    courseId: "01a07e71-e996-75ea-954d-b7cc3f58a87e",
+    semesterId: "01a083eb-880a-72ee-841f-bbddfeae5474",
+    teacherId: "01a07e71-e996-75ea-954d-972f21b28c7e",
+    classCode: "SYNTHETIC-HISTORY",
+    displayName: "Synthetic archived semester class",
+    status: "ACTIVE",
+    isEnrollmentOpen: false,
+    checkInWindowMode: "UNAVAILABLE",
+    checkInStartDate: null,
+    checkInEndDate: null,
+    dailyStartTime: null,
+    dailyEndTime: null,
+    submissionDeadlineAt: null,
+    createdBy: "01a07e71-e996-75ea-954d-9084d612cabe",
+    updatedBy: "01a07e71-e996-75ea-954d-9084d612cabe",
+    createdAt: new Date("2026-09-09T02:07:26.218Z"),
+    updatedAt: new Date("2026-09-09T02:07:26.218Z"),
+    version: 1,
+    closedAt: null,
+    closedBy: null,
+    closeReason: null,
+    excludedDates: []
+                   ~~
+  }
+}
+
+Argument `excludedDates`: Invalid value provided. Expected ClassSectionExcludedDateUncheckedCreateNestedManyWithoutClassSectionInput, provided ().
+    at throwValidationException (/workspace/backend/node_modules/@prisma/client/src/runtime/core/errorRendering/throwValidationException.ts:46:9)
+    at Jr.handleRequestError (/workspace/backend/node_modules/@prisma/client/src/runtime/RequestHandler.ts:211:7)
+    at Jr.handleAndLogRequestError (/workspace/backend/node_modules/@prisma/client/src/runtime/RequestHandler.ts:183:12)
+    at Jr.request (/workspace/backend/node_modules/@prisma/client/src/runtime/RequestHandler.ts:152:12)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async a (/workspace/backend/node_modules/@prisma/client/src/runtime/getPrismaClient.ts:1014:24)
+    at async file:///workspace/tools/local-integration/seed-v81-teacher-semesters.mjs:14:4
+    at async Proxy._transactionWithCallback (/workspace/backend/node_modules/@prisma/client/src/runtime/getPrismaClient.ts:861:18)
+    at async file:///workspace/tools/local-integration/seed-v81-teacher-semesters.mjs:12:3 {
+  clientVersion: '7.9.1'
+}
+
+Node.js v24.18.0

@@ -1,0 +1,51 @@
+ Container bnbu-v81-local-validation-sql-postgres-1 Starting 
+ Container bnbu-v81-local-validation-sql-postgres-1 Started 
+ Container bnbu-v81-local-validation-sql-postgres-1 Waiting 
+ Container bnbu-v81-local-validation-sql-postgres-1 Healthy 
+ Container bnbu-v81-local-validation-backend-startup-run-89fd4b474e3c Creating 
+ Container bnbu-v81-local-validation-backend-startup-run-89fd4b474e3c Created 
+
+> @bnbu/sports-backend@0.1.0 prebuild
+> npm run db:generate && npm run generate
+
+
+> @bnbu/sports-backend@0.1.0 db:generate
+> prisma generate
+
+Loaded Prisma config from prisma.config.ts.
+
+Prisma schema loaded from prisma/schema.prisma.
+
+┌─────────────────────────────────────────────────────────┐
+✔ Generated Prisma Client (7.9.1) to ./src/generated/prisma in 853ms
+
+│  Update available 7.9.1 -> 8.0.0-rc.13                  │
+│                                                         │
+│  This is a major update - please follow the guide at    │
+│  https://pris.ly/d/major-version-upgrade                │
+│                                                         │
+│  Run the following to update                            │
+│    npm i --save-dev prisma@latest                       │
+│    npm i @prisma/client@latest                          │
+└─────────────────────────────────────────────────────────┘
+
+> @bnbu/sports-backend@0.1.0 generate
+> npm run openapi:generate && npm run db:manifest:generate
+
+
+> @bnbu/sports-backend@0.1.0 openapi:generate
+> node ./scripts/generate-openapi.mjs
+
+Generated 3 OpenAPI artifacts from 153 operations.
+
+> @bnbu/sports-backend@0.1.0 db:manifest:generate
+> node ./scripts/generate-migration-manifest.mjs
+
+Generated migration manifest updated.
+
+> @bnbu/sports-backend@0.1.0 build
+> nest build
+
+{"live":200,"ready":503,"businessValidated":false}
+
+Docker exit code: 1

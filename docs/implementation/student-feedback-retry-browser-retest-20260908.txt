@@ -1,0 +1,4 @@
+{"check":"STUDENT_BROWSER_SMTP_LOGIN","result":"PASS"}
+{"check":"STUDENT_HOME_CONTENT","hasCourse":true,"hasProgress":true,"hasLoginForm":false}
+{"check":"FEEDBACK_RETRY_IDENTITY","sameId":true,"sameKey":true}
+{"check":"STUDENT_FEEDBACK_LOST_RESPONSE_REPLAY","result":"PASS"}

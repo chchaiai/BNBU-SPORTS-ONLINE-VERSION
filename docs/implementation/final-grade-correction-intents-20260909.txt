@@ -1,0 +1,12 @@
+✔ correction reason and publication state survive refresh and malformed correction is blocked (1.0723ms)
+✔ refresh and same-user reentry restore exact intent, other actor cannot read it (0.1661ms)
+✔ malformed pending state is retained and blocks writes (0.2426ms)
+✔ unavailable storage or identity cannot silently discard retry state (0.2176ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 4
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 84.6297

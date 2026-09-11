@@ -1,0 +1,2 @@
+{"check":"TEACHER_NOTIFICATION_EXACT_TARGET","result":"PASS","targetType":"CLASS_SECTION","targetId":"01a083fc-9ee3-73cf-80bd-fd46e2af0a86","existingClosedCourse":true}
+{"check":"TEACHER_NOTIFICATION_EXACT_TARGET","result":"FAIL","stage":"EXERCISE_RECORD","message":"locator.waitFor: Timeout 60000ms exceeded.\nCall log:\n\u001b[2m  - waiting for getByRole('dialog', { name: /打卡详情/ }).getByText('Synthetic camera after course closure, short elapsed time', { exact: true }) to be visible\u001b[22m\n"}

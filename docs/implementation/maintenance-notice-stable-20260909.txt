@@ -1,0 +1,14 @@
+{"check":"TEACHER_NOTICE_HTTP","status":200,"body":{"data":{"mode":"NORMAL","policyVersion":21,"updatedAt":"2026-09-08T17:17:17.667Z","announcement":null},"meta":{"requestId":"01a08207-18d4-77d0-961b-d85ccc92f738"}}}
+{"check":"STUDENT_NOTICE_HTTP","status":200,"body":{"data":{"mode":"NORMAL","policyVersion":21,"updatedAt":"2026-09-08T17:17:17.667Z","announcement":null},"meta":{"requestId":"01a08207-19f3-73f8-a14a-884b43d08701"}}}
+node:internal/process/promises:394
+    triggerUncaughtException(err, true /* fromPromise */);
+    ^
+
+response.json: Protocol error (Network.getResponseBody): No resource with given identifier found
+Response body is not available for a response that was navigated away from. Read response.body() before triggering any navigation.
+    at _Page.<anonymous> (C:\Users\23328\Desktop\new_version\tools\local-integration\v81-maintenance-notice-browser-probe.mjs:12:279) {
+  log: [],
+  name: 'Error'
+}
+
+Node.js v24.13.1

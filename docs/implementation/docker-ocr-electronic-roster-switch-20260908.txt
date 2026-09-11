@@ -1,0 +1,161 @@
+ Container bnbu-v81-local-validation-media-minio-1 Starting 
+ Container bnbu-v81-local-validation-mailpit-1 Starting 
+ Container bnbu-v81-local-validation-sql-postgres-1 Starting 
+ Container bnbu-v81-local-validation-mailpit-1 Started 
+ Container bnbu-v81-local-validation-sql-postgres-1 Started 
+ Container bnbu-v81-local-validation-media-minio-1 Started 
+ Image bnbu-v81-local-validation-backend-startup Building 
+#1 [internal] load local bake definitions
+#1 reading from stdin 636B 0.0s done
+#1 DONE 0.0s
+
+#2 [internal] load build definition from Dockerfile.v81-test
+#2 transferring dockerfile: 828B done
+#2 DONE 0.0s
+
+#3 [internal] load metadata for docker.io/library/node:24.18.0-bookworm-slim
+#3 DONE 1.0s
+
+#4 [internal] load .dockerignore
+#4 transferring context: 153B done
+#4 DONE 0.0s
+
+#5 [ 1/11] FROM docker.io/library/node:24.18.0-bookworm-slim@sha256:6f7b03f7c2c8e2e784dcf9295400527b9b1270fd37b7e9a7285cf83b6951452d
+#5 resolve docker.io/library/node:24.18.0-bookworm-slim@sha256:6f7b03f7c2c8e2e784dcf9295400527b9b1270fd37b7e9a7285cf83b6951452d 0.0s done
+#5 DONE 0.0s
+
+#6 [internal] load build context
+#6 transferring context: 104.07kB 0.1s done
+#6 DONE 0.1s
+
+#7 [ 6/11] COPY backend/ ./
+#7 CACHED
+
+#8 [ 2/11] RUN apt-get update && apt-get install -y --no-install-recommends openssl ca-certificates && rm -rf /var/lib/apt/lists/*
+#8 CACHED
+
+#9 [ 3/11] WORKDIR /workspace/backend
+#9 CACHED
+
+#10 [ 4/11] COPY backend/package.json backend/package-lock.json ./
+#10 CACHED
+
+#11 [ 5/11] RUN npm ci --ignore-scripts --no-audit --no-fund
+#11 CACHED
+
+#12 [ 7/11] COPY docs/backend-contracts/ /workspace/docs/backend-contracts/
+#12 CACHED
+
+#13 [ 8/11] COPY tools/ /workspace/tools/
+#13 DONE 0.1s
+
+#14 [ 9/11] COPY BNBU-Sports-Web-new/frontend/student/ /workspace/BNBU-Sports-Web-new/frontend/student/
+#14 DONE 0.1s
+
+#15 [10/11] COPY BNBU-Sports-Web-new/portal-teacher-admin/app/ /workspace/BNBU-Sports-Web-new/portal-teacher-admin/app/
+#15 DONE 0.1s
+
+#16 [11/11] RUN npm run db:generate
+#16 0.334 
+#16 0.334 > @bnbu/sports-backend@0.1.0 db:generate
+#16 0.334 > prisma generate
+#16 0.334 
+#16 0.939 Loaded Prisma config from prisma.config.ts.
+#16 0.939 
+#16 3.830 Prisma schema loaded from prisma/schema.prisma.
+#16 5.225 
+#16 5.225 ✔ Generated Prisma Client (7.9.1) to ./src/generated/prisma in 846ms
+#16 5.225 
+#16 DONE 5.3s
+
+#17 exporting to image
+#17 exporting layers
+#17 exporting layers 1.6s done
+#17 exporting manifest sha256:becc9ec81f2320beba2baaf0055c83c74103825d3a31137e744ab65a53c12940 0.0s done
+#17 exporting config sha256:291d10a76b1320a9d14727a5b8af137469160e12e15eb0b4ad4e705192a1ac2a 0.0s done
+#17 exporting attestation manifest sha256:c1ecc1985ed8609ca0509ff278df4528dd95fc6b27a419cb60a63790e8937141 0.0s done
+#17 exporting manifest list sha256:afbf0e2c9058413b65d84de168cb229c25460bf0868a25dec566cafe45a6a85f
+#17 exporting manifest list sha256:afbf0e2c9058413b65d84de168cb229c25460bf0868a25dec566cafe45a6a85f 0.0s done
+#17 naming to docker.io/library/bnbu-v81-local-validation-backend-startup:latest done
+#17 unpacking to docker.io/library/bnbu-v81-local-validation-backend-startup:latest
+#17 unpacking to docker.io/library/bnbu-v81-local-validation-backend-startup:latest 0.4s done
+#17 DONE 2.2s
+
+#18 resolving provenance for metadata file
+#18 DONE 0.0s
+ Image bnbu-v81-local-validation-backend-startup Built 
+ Container bnbu-v81-local-validation-sql-postgres-1 Waiting 
+ Container bnbu-v81-local-validation-mailpit-1 Waiting 
+ Container bnbu-v81-local-validation-media-minio-1 Waiting 
+ Container bnbu-v81-local-validation-sql-postgres-1 Healthy 
+ Container bnbu-v81-local-validation-media-minio-1 Healthy 
+ Container bnbu-v81-local-validation-mailpit-1 Healthy 
+ Container bnbu-v81-local-validation-backend-startup-run-325f4c74e058 Creating 
+ Container bnbu-v81-local-validation-backend-startup-run-325f4c74e058 Created 
+
+> @bnbu/sports-backend@0.1.0 prebuild
+> npm run db:generate && npm run generate
+
+
+> @bnbu/sports-backend@0.1.0 db:generate
+> prisma generate
+
+Loaded Prisma config from prisma.config.ts.
+
+Prisma schema loaded from prisma/schema.prisma.
+
+✔ Generated Prisma Client (7.9.1) to ./src/generated/prisma in 852ms
+
+┌─────────────────────────────────────────────────────────┐
+│  Update available 7.9.1 -> 8.0.0-rc.13                  │
+│                                                         │
+│  This is a major update - please follow the guide at    │
+│  https://pris.ly/d/major-version-upgrade                │
+│                                                         │
+│  Run the following to update                            │
+│    npm i --save-dev prisma@latest                       │
+│    npm i @prisma/client@latest                          │
+└─────────────────────────────────────────────────────────┘
+
+> @bnbu/sports-backend@0.1.0 generate
+> npm run openapi:generate && npm run db:manifest:generate
+
+
+> @bnbu/sports-backend@0.1.0 openapi:generate
+> node ./scripts/generate-openapi.mjs
+
+Generated 3 OpenAPI artifacts from 209 operations.
+
+> @bnbu/sports-backend@0.1.0 db:manifest:generate
+> node ./scripts/generate-migration-manifest.mjs
+
+Generated migration manifest updated.
+
+> @bnbu/sports-backend@0.1.0 build
+> nest build
+
+{"check":"LOCAL_OBJECT_STORAGE_ROUNDTRIP","result":"PASS"}
+Loaded Prisma config from prisma.config.ts.
+
+Prisma schema loaded from prisma/schema.prisma.
+Datasource "db": PostgreSQL database "v81_runtime_test", schema "public" at "sql-postgres:5432"
+
+40 migrations found in prisma/migrations
+
+
+No pending migrations to apply.
+{"live":200,"ready":200,"businessValidated":false}
+{"check":"LOGIN_AND_FIRST_PASSWORD_CHANGE","role":"ADMIN","result":"PASS"}
+{"check":"LOGIN_AND_FIRST_PASSWORD_CHANGE","role":"TEACHER","result":"PASS"}
+{"check":"LOGIN_AND_FIRST_PASSWORD_CHANGE","role":"OTHER_TEACHER","result":"PASS"}
+{"check":"LOGIN_AND_FIRST_PASSWORD_CHANGE","role":"OTHER_ORGANIZATION","result":"PASS"}
+{"check":"OCR_JOB_HTTP_QUEUE_REPLAY_CONCURRENT_EXCLUSION_EXPECTED_ATTEMPT_SCOPE_SINGLE_AUDIT","result":"PASS","workerDisabled":true}
+{"check":"OCR_DRAFT_HTTP_MAPPING_SCOPE_VALIDATION_REPLAY_CONCURRENT_REVISION_HISTORY_SOURCE_RETAINED","result":"PASS","providerSimulated":true,"formalConfirmation":false}
+{"check":"OCR_SETTLEMENT_PENDING_BATCHES_UNIFIED_SOURCE_UNRESOLVED_REGISTRATION_STILL_BLOCKED","result":"PASS"}
+{"check":"OCR_CONFIRMED_ROSTER_ADMIN_SUMMARIES_USE_UNIFIED_BASIS_NO_PERSONAL_SOURCE_DATA","result":"PASS"}
+{"check":"OCR_ROSTER_HTTP_CONFIRM_CONCURRENT_SINGLE_SNAPSHOT_BASIS_REPLAY_SCOPE_HISTORY_NO_ENROLLMENT","result":"PASS","providerSimulated":true}
+{"check":"OCR_TO_REAL_CSV_CONFIRM_REPLACE_ROLLBACK_SHARED_VERSION_SOURCE_BYTES_HISTORY_NO_MEMBERSHIP","result":"PASS","providerSimulated":true}
+{"check":"OCR_WORKER_PRIVATE_SOURCE_PROVIDER_TIMEOUT_HISTORY_RETRY_CONCURRENT_SINGLE_CLAIM_HTTP_READBACK","result":"PASS","providerSimulated":true}
+{"check":"OCR_READ_LIST_PAGINATION_PRIVATE_SOURCE_HASH_TAMPER_RESTORE_SCOPE_CLOSED_EXISTING","result":"PASS"}
+{"check":"OCR_HTTP_PRIVATE_ORIGINAL_MULTIPART_REPLAY_CLEANUP_ROLE_CLOSED_SCOPE","result":"PASS"}
+Docker exit code: 0

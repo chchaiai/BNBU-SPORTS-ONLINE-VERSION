@@ -1,0 +1,145 @@
+{
+  "schemaVersion": 1,
+  "project": "BNBU Sports Greenfield Backend",
+  "generatedDate": "2026-08-03",
+  "businessBaselineBranch": "backend/enrollment-qr-join",
+  "businessBaselineCommit": "b472ffc28b1fb6fbd7557090a15f45c4c0206272",
+  "backupBranch": "backup/stage12-complete-b472ffc",
+  "handoffBranch": "chore/stage12-account-handoff",
+  "androidGitlink": "e4cd2e5a623261cd19cddbd59d5cda7627bf7e98",
+  "webGitlink": "a602280b4aa46d3e944671d341a7bf12bacb17cb",
+  "runtimeCoverage": {
+    "openApiOperations": 86,
+    "implementedVerified": 28,
+    "implementedDefaultDeny": 1,
+    "notImplemented": 51,
+    "blockedByAdr": 6,
+    "defaultDenyOperationIds": [
+      "withdrawEnrollment"
+    ]
+  },
+  "gates": {
+    "greenfieldFoundation": "YES",
+    "courseCatalog": "YES",
+    "classSectionManagement": "YES",
+    "teachingStructure": "YES",
+    "studentIdentityCreation": "YES",
+    "courseInvite": "YES",
+    "joinCapability": "YES",
+    "qrJoinAtomicity": "YES",
+    "enrollmentCore": "YES",
+    "studentTeachingProjection": "YES",
+    "enrollmentQrJoinCore": "YES",
+    "enrollmentWithdrawalRejoin": "NO_DEFAULT_DENY",
+    "roster": "NO",
+    "session": "NO",
+    "media": "NO",
+    "record": "NO",
+    "review": "NO",
+    "score": "NO",
+    "export": "NO",
+    "fullProduction": "NO"
+  },
+  "migrations": [
+    {
+      "id": "0001_greenfield_foundation",
+      "path": "backend/prisma/migrations/0001_greenfield_foundation/migration.sql",
+      "sha256": "0573e3d13018e0db103ef4b605eb35278723174507b37379425a489b10e1462d"
+    },
+    {
+      "id": "0002_teaching_structure",
+      "path": "backend/prisma/migrations/0002_teaching_structure/migration.sql",
+      "sha256": "bc62c8cc42989da02eb5be92c7c68f64a72b90e6a41b3913c169333d5fbfbc41"
+    },
+    {
+      "id": "0003_identity_enrollment_qr_join",
+      "path": "backend/prisma/migrations/0003_identity_enrollment_qr_join/migration.sql",
+      "sha256": "032b2f001638de63495bdb8d9bd3979ab54679eaaa7802d7526c6e5e24aaa5b7"
+    }
+  ],
+  "criticalFiles": [
+    {
+      "path": "AGENTS.md",
+      "sha256": "3ac24956ce68664762164e7e0e25f952d92659e51f1840f6da2d6881c2c1584f"
+    },
+    {
+      "path": "docs/backend-contracts/openapi.yaml",
+      "sha256": "7c46304de312f694b8fef6269f72c6b9d6d34d191ae3d5e3882df66cf534f1ca"
+    },
+    {
+      "path": "docs/backend-contracts/decision-log.md",
+      "sha256": "17f17460dd444c394b96a5494bf92116fe5b513e03dc34304b8a6c114cecf4d7"
+    },
+    {
+      "path": "docs/backend-contracts/05-permission-matrix.md",
+      "sha256": "202eeb9985d7e77be44438e13187b56e95ebdc8624c6e7eaad6e26ef1bbbd99e"
+    },
+    {
+      "path": "backend/prisma/schema.prisma",
+      "sha256": "31be8e94564621f6015976506dddd934decf73aef779e65f1f94eca9b2110409"
+    },
+    {
+      "path": "backend/package-lock.json",
+      "sha256": "b49dda9c479d0b315bdb3e84ffab42fc5d373199620186fa30ec64dd9519fa5c"
+    },
+    {
+      "path": "backend/runtime-coverage.manifest.json",
+      "sha256": "9e1590072075702330ccb3ac36d45f1098581ec9ca25482c07127fe61457cf7d"
+    },
+    {
+      "path": "backend/src/generated/operation-policies.generated.ts",
+      "sha256": "c12868874cdae00253d62a6f824e74bd3cb036718e8ad0b43e765d4653def074"
+    },
+    {
+      "path": "backend/prisma/migrations/0001_greenfield_foundation/migration.sql",
+      "sha256": "0573e3d13018e0db103ef4b605eb35278723174507b37379425a489b10e1462d"
+    },
+    {
+      "path": "backend/prisma/migrations/0002_teaching_structure/migration.sql",
+      "sha256": "bc62c8cc42989da02eb5be92c7c68f64a72b90e6a41b3913c169333d5fbfbc41"
+    },
+    {
+      "path": "backend/prisma/migrations/0003_identity_enrollment_qr_join/migration.sql",
+      "sha256": "032b2f001638de63495bdb8d9bd3979ab54679eaaa7802d7526c6e5e24aaa5b7"
+    },
+    {
+      "path": "docs/backend-contracts/12-identity-enrollment-qr-join-implementation-report.md",
+      "sha256": "14ac78a3b9467f743773da845ea1ff4ec076a780f1e64ce449513e2b36bcd087"
+    },
+    {
+      "path": "docs/backend-contracts/CURRENT-HANDOFF.md",
+      "sha256": "71d39afd42c65b7513ada4120c7cbbf9b53169af55eb936461b7f26825b53193"
+    },
+    {
+      "path": "docs/backend-contracts/NEXT-CODEX-PROMPT.md",
+      "sha256": "15a22f414c1eaaacbf07783ef9e2d7f62cf2d707feb1608f581b5b11af79543a"
+    },
+    {
+      "path": "docs/backend-contracts/ACCOUNT-SWITCH-CHECKLIST.md",
+      "sha256": "6d4d6c654f4d0a7f56260ec327cd4be6de95f1cfdd57938f3e5a85cf09face1b"
+    }
+  ],
+  "offlineBundles": [
+    {
+      "repository": "root",
+      "path": "C:\\Users\\23328\\Desktop\\new_version-stage12-handoff-backup\\new_version-root-stage12.bundle",
+      "sizeBytes": 1114308,
+      "sha256": "5b1f832d2b5abc173b3fd4c74b53ebc9397804ed1ccdc4d06433f66f0664d27c",
+      "verify": "PASS"
+    },
+    {
+      "repository": "android-submodule",
+      "path": "C:\\Users\\23328\\Desktop\\new_version-stage12-handoff-backup\\android-stage12.bundle",
+      "sizeBytes": 359538,
+      "sha256": "0a493c1afec9ed6ef0db6ca882f7b1fbd522f66132290ddd2d276b36ffe9d189",
+      "verify": "PASS"
+    },
+    {
+      "repository": "web-submodule",
+      "path": "C:\\Users\\23328\\Desktop\\new_version-stage12-handoff-backup\\web-stage12.bundle",
+      "sizeBytes": 1488353,
+      "sha256": "a239ab3659fded42af7d2147350c9b3298a2917c2117dea4fe61cef69f1b7e94",
+      "verify": "PASS"
+    }
+  ]
+}

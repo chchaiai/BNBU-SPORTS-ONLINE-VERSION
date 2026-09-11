@@ -1,0 +1,20 @@
+node:internal/modules/esm/resolve:271
+    throw new ERR_MODULE_NOT_FOUND(
+          ^
+
+Error [ERR_MODULE_NOT_FOUND]: Cannot find module '/workspace/tools/local-integration/seed-v81-closed-applications-browser.mjs' imported from /workspace/backend/
+    at finalizeResolution (node:internal/modules/esm/resolve:271:11)
+    at moduleResolve (node:internal/modules/esm/resolve:865:10)
+    at defaultResolve (node:internal/modules/esm/resolve:992:11)
+    at #cachedDefaultResolve (node:internal/modules/esm/loader:701:20)
+    at #resolveAndMaybeBlockOnLoaderThread (node:internal/modules/esm/loader:721:38)
+    at nextStep (node:internal/modules/customization_hooks:189:26)
+    at resolveBaseSync (file:///workspace/backend/node_modules/tsx/dist/register-B_kKY3fL.mjs:2:9102)
+    at resolveDirectorySync (file:///workspace/backend/node_modules/tsx/dist/register-B_kKY3fL.mjs:2:10315)
+    at resolveTsPathsSync (file:///workspace/backend/node_modules/tsx/dist/register-B_kKY3fL.mjs:2:11547)
+    at resolve (file:///workspace/backend/node_modules/tsx/dist/register-B_kKY3fL.mjs:2:13365) {
+  code: 'ERR_MODULE_NOT_FOUND',
+  url: 'file:///workspace/tools/local-integration/seed-v81-closed-applications-browser.mjs'
+}
+
+Node.js v24.18.0

@@ -1,0 +1,16 @@
+# Stage 14 ExerciseSession operation inventory
+
+Generated from the authoritative `openapi.yaml` before implementation. The contract contains exactly eight ExerciseSession operations and no list operation. The OpenAPI operation total remains 88.
+
+| operationId | method | path | policyId | allowedRoles | organizationScope | resourceScope | resolver | requestSchema | successSchema | errors | current status | target status |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| `startExerciseSession` | POST | `/exercise-sessions` | `EXERCISE-SESSION-START` | `STUDENT` | `PRINCIPAL_ORGANIZATION` | `SELF` | `ENROLLMENT_FROM_REQUEST` | `StartSessionRequest` plus `Idempotency-Key` | `SessionResponse` (201) | 401, 403, 409, 422; including enrollment/window/active/idempotency failures | `NOT_IMPLEMENTED` | `IMPLEMENTED_VERIFIED` |
+| `getActiveExerciseSession` | GET | `/exercise-sessions/active` | `EXERCISE-SESSION-ACTIVE-READ` | `STUDENT` | `PRINCIPAL_ORGANIZATION` | `SELF` | `PRINCIPAL_STUDENT` | optional `enrollmentId` query | `NullableSessionResponse` (200) | 401, 403 | `NOT_IMPLEMENTED` | `IMPLEMENTED_VERIFIED` |
+| `getExerciseSession` | GET | `/exercise-sessions/{sessionId}` | `EXERCISE-SESSION-READ` | `STUDENT` | `PRINCIPAL_ORGANIZATION` | `SELF` | `EXERCISE_SESSION_FROM_PATH` | `sessionId` path | `SessionResponse` (200) | 401, 403, 404 | `NOT_IMPLEMENTED` | `IMPLEMENTED_VERIFIED` |
+| `pauseExerciseSession` | POST | `/exercise-sessions/{sessionId}/pause` | `EXERCISE-SESSION-PAUSE` | `STUDENT` | `PRINCIPAL_ORGANIZATION` | `SELF` | `EXERCISE_SESSION_FROM_PATH` | `SessionControlRequest` plus `Idempotency-Key` | `SessionResponse` (200) | 401, 403, 404, 409 | `NOT_IMPLEMENTED` | `IMPLEMENTED_VERIFIED` |
+| `resumeExerciseSession` | POST | `/exercise-sessions/{sessionId}/resume` | `EXERCISE-SESSION-RESUME` | `STUDENT` | `PRINCIPAL_ORGANIZATION` | `SELF` | `EXERCISE_SESSION_FROM_PATH` | `SessionControlRequest` plus `Idempotency-Key` | `SessionResponse` (200) | 401, 403, 404, 409 | `NOT_IMPLEMENTED` | `IMPLEMENTED_VERIFIED` |
+| `finishExerciseSession` | POST | `/exercise-sessions/{sessionId}/finish` | `EXERCISE-SESSION-FINISH` | `STUDENT` | `PRINCIPAL_ORGANIZATION` | `SELF` | `EXERCISE_SESSION_FROM_PATH` | `SessionControlRequest` plus `Idempotency-Key` | `SessionResponse` (200) | 401, 403, 404, 409, 422 | `NOT_IMPLEMENTED` | `IMPLEMENTED_VERIFIED` |
+| `cancelExerciseSession` | POST | `/exercise-sessions/{sessionId}/cancel` | `EXERCISE-SESSION-CANCEL` | `STUDENT` | `PRINCIPAL_ORGANIZATION` | `SELF` | `EXERCISE_SESSION_FROM_PATH` | `VersionedReasonRequest` plus `Idempotency-Key` | `SessionResponse` (200) | 401, 403, 404, 409 | `NOT_IMPLEMENTED` | `IMPLEMENTED_VERIFIED` |
+| `reconcileExerciseSession` | POST | `/exercise-sessions/{sessionId}/reconcile` | `EXERCISE-SESSION-RECONCILE` | `STUDENT` | `PRINCIPAL_ORGANIZATION` | `SELF` | `EXERCISE_SESSION_FROM_PATH` | `ReconcileSessionRequest` plus `Idempotency-Key` | `SessionResponse` (200) | 401, 403, 404, 409, 422 | `NOT_IMPLEMENTED` | `IMPLEMENTED_VERIFIED` |
+
+All eight policies use `defaultDeny: true`. There is intentionally no `GET /exercise-sessions` route, list schema, cursor, or fake empty-array response.

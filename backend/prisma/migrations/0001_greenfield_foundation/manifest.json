@@ -1,0 +1,6 @@
+{
+  "migrationId": "0001_greenfield_foundation",
+  "sha256": "0573e3d13018e0db103ef4b605eb35278723174507b37379425a489b10e1462d",
+  "destructive": false,
+  "scope": "Greenfield Foundation only; no legacy schema or data migration"
+}

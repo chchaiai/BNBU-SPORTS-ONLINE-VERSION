@@ -1,0 +1,24 @@
+ Container bnbu-v81-local-validation-domain-tests-run-49639bad112b Creating 
+ Container bnbu-v81-local-validation-domain-tests-run-49639bad112b Created 
+✔ accepts WebP declarations for certification images but not exercise evidence (0.785269ms)
+▶ MediaEvidence validation core
+  ✔ separates declarations from verified image facts and computes SHA-256 from bytes (2.626481ms)
+  ✔ accepts JPEG entropy bytes that resemble a GPS tag but rejects a real GPS IFD (1.260368ms)
+  ✔ rejects MIME spoofing, byte-size mismatches, location metadata, and the test signature (1.592558ms)
+  ✔ keeps image limits while replacing exercise-video size rules with a fixed 15-second cap (0.256256ms)
+  ✔ streams video verification and enforces the trusted duration at the exact boundary (2.070377ms)
+  ✔ accepts a 15-second audible WebM and verifies its actual tracks and duration (0.895032ms)
+  ✔ rejects WebM duration overflow, missing audio, and location tags (1.197207ms)
+  ✔ rejects an exercise video without a trusted audio track (1.03897ms)
+  ✔ rejects an audio-only ISO media container even when it has a trusted audio handler (0.458226ms)
+  ✔ rejects ISO location metadata without scanning random media payload bytes (0.638415ms)
+✔ MediaEvidence validation core (12.533846ms)
+ℹ tests 11
+ℹ suites 1
+ℹ pass 11
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 319.294795
+Docker exit code: 0

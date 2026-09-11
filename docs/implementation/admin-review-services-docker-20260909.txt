@@ -1,0 +1,191 @@
+time="2026-09-09T14:39:25+08:00" level=warning msg="Found orphan containers (bnbu-v81-e2e-fortieth-20260909, bnbu-v81-ocr-image-20260909, bnbu-v81-e2e-thirtyninth-20260909, bnbu-v81-recovery-audit-20260909, bnbu-v81-admin-recovery-20260909, bnbu-v81-e2e-thirtyeighth-20260909, bnbu-v81-unsubmitted-session-first-20260909, bnbu-v81-e2e-thirtyseventh-20260909, bnbu-v81-electronic-closed-retest-20260909, bnbu-v81-electronic-closed-20260909, bnbu-v81-e2e-thirtysixth-20260909, bnbu-v81-ocr-closed-sixth-20260909, bnbu-v81-ocr-closed-fifth-20260909, bnbu-v81-ocr-closed-fourth-20260909, bnbu-v81-ocr-closed-third-20260909, bnbu-v81-ocr-closed-second-20260909, bnbu-v81-ocr-closed-first-20260909, bnbu-v81-e2e-thirtyfifth-20260909, bnbu-v81-e2e-thirtyfourth-20260909, bnbu-v81-e2e-thirtythird-20260909, bnbu-v81-e2e-thirtysecond-20260909, bnbu-v81-e2e-thirtyfirst-20260909, bnbu-v81-e2e-thirtieth-20260909, bnbu-v81-e2e-twentyninth-20260909, bnbu-v81-e2e-twentyeighth-20260909, bnbu-v81-e2e-twentyseventh-20260909, bnbu-v81-e2e-twentysixth-20260909, bnbu-v81-e2e-twentyfifth-20260909, bnbu-v81-e2e-twentyfourth-20260909, bnbu-v81-e2e-twentythird-20260909, bnbu-v81-e2e-twentysecond-20260909, bnbu-v81-e2e-twentyfirst-20260909, bnbu-v81-e2e-twentieth-20260909, bnbu-v81-e2e-nineteenth-20260909, bnbu-v81-e2e-eighteenth-20260909, bnbu-v81-e2e-seventeenth-20260909, bnbu-v81-e2e-sixteenth-20260908, bnbu-v81-e2e-fifteenth-20260908, bnbu-v81-e2e-fourteenth-20260908, bnbu-v81-e2e-thirteenth-20260908, bnbu-v81-e2e-twelfth-20260908, bnbu-v81-e2e-eleventh-20260908, bnbu-v81-e2e-tenth-20260908, bnbu-v81-e2e-ninth-20260908, bnbu-v81-e2e-eighth-20260908, bnbu-v81-e2e-seventh-20260908, bnbu-v81-e2e-sixth-20260908, bnbu-v81-e2e-fifth-20260908, bnbu-v81-e2e-report-20260908) for this project. If you removed or renamed this service in your compose file, you can run this command with the --remove-orphans flag to clean it up."
+ Image bnbu-v81-full-integration-integration-tests Building 
+#1 [internal] load local bake definitions
+#1 reading from stdin 644B 0.0s done
+#1 DONE 0.0s
+
+#2 [internal] load build definition from Dockerfile.v81-test
+#2 transferring dockerfile: 828B done
+#2 DONE 0.0s
+
+#3 [internal] load metadata for docker.io/library/node:24.18.0-bookworm-slim
+#3 ...
+
+#4 [auth] library/node:pull token for registry-1.docker.io
+#4 DONE 0.0s
+
+#3 [internal] load metadata for docker.io/library/node:24.18.0-bookworm-slim
+#3 DONE 1.8s
+
+#5 [internal] load .dockerignore
+#5 transferring context: 153B done
+#5 DONE 0.0s
+
+#6 [ 1/11] FROM docker.io/library/node:24.18.0-bookworm-slim@sha256:6f7b03f7c2c8e2e784dcf9295400527b9b1270fd37b7e9a7285cf83b6951452d
+#6 resolve docker.io/library/node:24.18.0-bookworm-slim@sha256:6f7b03f7c2c8e2e784dcf9295400527b9b1270fd37b7e9a7285cf83b6951452d 0.0s done
+#6 DONE 0.0s
+
+#7 [internal] load build context
+#7 transferring context: 1.58MB 0.2s done
+#7 DONE 0.2s
+
+#8 [ 2/11] RUN apt-get update && apt-get install -y --no-install-recommends openssl ca-certificates && rm -rf /var/lib/apt/lists/*
+#8 CACHED
+
+#9 [ 3/11] WORKDIR /workspace/backend
+#9 CACHED
+
+#10 [ 4/11] COPY backend/package.json backend/package-lock.json ./
+#10 CACHED
+
+#11 [ 5/11] RUN npm ci --ignore-scripts --no-audit --no-fund
+#11 CACHED
+
+#12 [ 6/11] COPY backend/ ./
+#12 DONE 0.3s
+
+#13 [ 7/11] COPY docs/backend-contracts/ /workspace/docs/backend-contracts/
+#13 DONE 0.2s
+
+#14 [ 8/11] COPY tools/ /workspace/tools/
+#14 DONE 0.1s
+
+#15 [ 9/11] COPY BNBU-Sports-Web-new/frontend/student/ /workspace/BNBU-Sports-Web-new/frontend/student/
+#15 DONE 0.1s
+
+#16 [10/11] COPY BNBU-Sports-Web-new/portal-teacher-admin/app/ /workspace/BNBU-Sports-Web-new/portal-teacher-admin/app/
+#16 DONE 0.1s
+
+#17 [11/11] RUN npm run db:generate
+#17 0.379 
+#17 0.379 > @bnbu/sports-backend@0.1.0 db:generate
+#17 0.379 > prisma generate
+#17 0.379 
+#17 1.032 Loaded Prisma config from prisma.config.ts.
+#17 1.032 
+#17 3.056 Prisma schema loaded from prisma/schema.prisma.
+#17 4.516 
+#17 4.516 ✔ Generated Prisma Client (7.9.1) to ./src/generated/prisma in 860ms
+#17 4.516 
+#17 DONE 4.7s
+
+#18 exporting to image
+#18 exporting layers
+#18 exporting layers 1.7s done
+#18 exporting manifest sha256:4c06a1508a442dac49e5c7f958efed93649f86af37c220de167f50912c69a814 0.0s done
+#18 exporting config sha256:688b682548bcfd51dfcd22a2a7cbdd67ece75928efbf521bf19b855582a9a46d 0.0s done
+#18 exporting attestation manifest sha256:57d59b0800c8080a26b6c0a656a3c04359e01d29959f764f0ebd362abd308bdb 0.0s done
+#18 exporting manifest list sha256:69a94c1018db6ceaed28d5be67c5ea22518f9771943906d830c48594c53b6fd1
+#18 exporting manifest list sha256:69a94c1018db6ceaed28d5be67c5ea22518f9771943906d830c48594c53b6fd1 0.0s done
+#18 naming to docker.io/library/bnbu-v81-full-integration-integration-tests:latest done
+#18 unpacking to docker.io/library/bnbu-v81-full-integration-integration-tests:latest
+#18 unpacking to docker.io/library/bnbu-v81-full-integration-integration-tests:latest 0.8s done
+#18 DONE 2.7s
+
+#19 resolving provenance for metadata file
+#19 DONE 0.0s
+ Image bnbu-v81-full-integration-integration-tests Built 
+ Container bnbu-v81-admin-governance-web-20260909 Creating 
+ Container bnbu-v81-admin-governance-web-20260909 Created 
+Loaded Prisma config from prisma.config.ts.
+
+Prisma schema loaded from prisma/schema.prisma.
+Datasource "db": PostgreSQL database "bnbu_sports_test", schema "public" at "127.0.0.1:5432"
+
+59 migrations found in prisma/migrations
+
+
+No pending migrations to apply.
+
+> @bnbu/sports-backend@0.1.0 typecheck
+> tsc --noEmit -p tsconfig.json
+
+▶ V81 OCR governance HTTP E2E
+  ✖ governs OCR configuration with super-admin scope, immutable history and versioned replay
+✖ V81 OCR governance HTTP E2E (41.209824ms)
+▶ V81 system management HTTP E2E
+  ✖ changes maintenance mode with replay, durable history, public announcement and recovery
+  ✖ scopes public mode and announcement to the configured school while another school stays normal
+  ✖ reads all mode history across stable version pages without exposing another school
+  ✖ changes teacher and administrator passwords while retaining only the current session
+  ✖ allows administrator security access in maintenance and rejects teacher and student password operations
+  ✖ publishes immutable approved templates and freezes the teacher course selection
+  ✖ queries immutable audit events with date boundaries, pagination, redaction and tenant isolation
+✖ V81 system management HTTP E2E (44.423167ms)
+ℹ tests 8
+ℹ suites 2
+ℹ pass 0
+ℹ fail 0
+ℹ cancelled 8
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1515.228794
+
+✖ failing tests:
+
+test at test/e2e/v81-ocr-governance.e2e.test.ts:1:5657
+✖ governs OCR configuration with super-admin scope, immutable history and versioned replay
+  'test did not finish before its parent and was cancelled'
+
+test at test/e2e/v81-ocr-governance.e2e.test.ts:1:1546
+✖ V81 OCR governance HTTP E2E (41.209824ms)
+  Error [ERR_MODULE_NOT_FOUND]: Cannot find module '/workspace/backend/dist/app.module.js' imported from /workspace/backend/test/e2e/v81-ocr-governance.e2e.test.ts
+      at finalizeResolution (node:internal/modules/esm/resolve:271:11)
+      at moduleResolve (node:internal/modules/esm/resolve:865:10)
+      at defaultResolve (node:internal/modules/esm/resolve:992:11)
+      at #cachedDefaultResolve (node:internal/modules/esm/loader:701:20)
+      at #resolveAndMaybeBlockOnLoaderThread (node:internal/modules/esm/loader:721:38)
+      at nextStep (node:internal/modules/customization_hooks:189:26)
+      at resolveBaseSync (file:///workspace/backend/node_modules/tsx/dist/register-B_kKY3fL.mjs:2:9102)
+      at resolveDirectorySync (file:///workspace/backend/node_modules/tsx/dist/register-B_kKY3fL.mjs:2:10315)
+      at resolveTsPathsSync (file:///workspace/backend/node_modules/tsx/dist/register-B_kKY3fL.mjs:2:11547)
+      at resolve (file:///workspace/backend/node_modules/tsx/dist/register-B_kKY3fL.mjs:2:13365) {
+    code: 'ERR_MODULE_NOT_FOUND',
+    url: 'file:///workspace/backend/dist/app.module.js'
+  }
+
+test at test/e2e/v81-system-management.e2e.test.ts:1:5719
+✖ changes maintenance mode with replay, durable history, public announcement and recovery
+  'test did not finish before its parent and was cancelled'
+
+test at test/e2e/v81-system-management.e2e.test.ts:2:423
+✖ scopes public mode and announcement to the configured school while another school stays normal
+  'test did not finish before its parent and was cancelled'
+
+test at test/e2e/v81-system-management.e2e.test.ts:2:2437
+✖ reads all mode history across stable version pages without exposing another school
+  'test did not finish before its parent and was cancelled'
+
+test at test/e2e/v81-system-management.e2e.test.ts:7:984
+✖ changes teacher and administrator passwords while retaining only the current session
+  'test did not finish before its parent and was cancelled'
+
+test at test/e2e/v81-system-management.e2e.test.ts:8:154
+✖ allows administrator security access in maintenance and rejects teacher and student password operations
+  'test did not finish before its parent and was cancelled'
+
+test at test/e2e/v81-system-management.e2e.test.ts:8:1509
+✖ publishes immutable approved templates and freezes the teacher course selection
+  'test did not finish before its parent and was cancelled'
+
+test at test/e2e/v81-system-management.e2e.test.ts:8:2828
+✖ queries immutable audit events with date boundaries, pagination, redaction and tenant isolation
+  'test did not finish before its parent and was cancelled'
+
+test at test/e2e/v81-system-management.e2e.test.ts:1:1555
+✖ V81 system management HTTP E2E (44.423167ms)
+  Error [ERR_MODULE_NOT_FOUND]: Cannot find module '/workspace/backend/dist/app.module.js' imported from /workspace/backend/test/e2e/v81-system-management.e2e.test.ts
+      at finalizeResolution (node:internal/modules/esm/resolve:271:11)
+      at moduleResolve (node:internal/modules/esm/resolve:865:10)
+      at defaultResolve (node:internal/modules/esm/resolve:992:11)
+      at #cachedDefaultResolve (node:internal/modules/esm/loader:701:20)
+      at #resolveAndMaybeBlockOnLoaderThread (node:internal/modules/esm/loader:721:38)
+      at nextStep (node:internal/modules/customization_hooks:189:26)
+      at resolveBaseSync (file:///workspace/backend/node_modules/tsx/dist/register-B_kKY3fL.mjs:2:9102)
+      at resolveDirectorySync (file:///workspace/backend/node_modules/tsx/dist/register-B_kKY3fL.mjs:2:10315)
+      at resolveTsPathsSync (file:///workspace/backend/node_modules/tsx/dist/register-B_kKY3fL.mjs:2:11547)
+      at resolve (file:///workspace/backend/node_modules/tsx/dist/register-B_kKY3fL.mjs:2:13365) {
+    code: 'ERR_MODULE_NOT_FOUND',
+    url: 'file:///workspace/backend/dist/app.module.js'
+  }
+

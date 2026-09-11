@@ -1,0 +1,643 @@
+[
+  {
+    "values": [
+      "SUPER",
+      "SUB",
+      null
+    ],
+    "locations": [
+      "paths./auth/account-security.get.responses.200.content.application/json.schema.properties.data.properties.adminKind"
+    ]
+  },
+  {
+    "values": [
+      "COURSE_VIEW",
+      "SEMESTER_MANAGE",
+      "USER_ACCOUNTS",
+      "STUDENT_FEEDBACK",
+      "GLOBAL_RULES",
+      "SYSTEM_MODE",
+      "HELP_CENTER",
+      "AUDIT_QUERY"
+    ],
+    "locations": [
+      "paths./admin/subadmins.post.responses.201.content.application/json.schema.properties.data.properties.permissions.items",
+      "paths./admin/subadmins/{id}/permissions.post.responses.201.content.application/json.schema.properties.data.properties.permissions.items",
+      "paths./admin/subadmins/{id}/profile.post.responses.201.content.application/json.schema.properties.data.properties.permissions.items",
+      "components.schemas.V81SubadminPermissionsInput.properties.permissions.items",
+      "components.schemas.CreateVerifiedSubadminInput.properties.permissions.items",
+      "components.schemas.UpdateVerifiedSubadminInput.properties.permissions.items"
+    ]
+  },
+  {
+    "values": [
+      "ACTIVE"
+    ],
+    "locations": [
+      "paths./admin/subadmins.post.responses.201.content.application/json.schema.properties.data.properties.status",
+      "paths./admin/subadmin-identity-challenges.post.responses.201.content.application/json.schema.properties.data.properties.status"
+    ]
+  },
+  {
+    "values": [
+      "ON_TIME",
+      "OFFLINE_DELAYED"
+    ],
+    "locations": [
+      "paths./exercise-records/{recordId}/swim-intake.post.responses.201.content.application/json.schema.properties.data.properties.intakeKind",
+      "paths./exercise-records/{recordId}/swim-intake.get.responses.200.content.application/json.schema.properties.data.properties.intakeKind"
+    ]
+  },
+  {
+    "values": [
+      "BEFORE",
+      "AFTER",
+      "OTHER"
+    ],
+    "locations": [
+      "paths./exercise-records/{recordId}/swim-intake.get.responses.200.content.application/json.schema.properties.data.properties.items.items.properties.phase",
+      "components.schemas.V81SwimIntakeItem.properties.phase"
+    ]
+  },
+  {
+    "values": [
+      "CLEAR",
+      "BLOCKED",
+      "UNAVAILABLE"
+    ],
+    "locations": [
+      "paths./class-sections/{classSectionId}/settlement-check.get.responses.200.content.application/json.schema.properties.data.properties.checks.items.properties.status",
+      "paths./admin/semesters/{id}/switch-check.get.responses.200.content.application/json.schema.properties.data.properties.checks.items.properties.status",
+      "paths./admin/semesters/{id}/switch-check.get.responses.200.content.application/json.schema.properties.data.properties.courses.items.properties.checks.items.properties.status"
+    ]
+  },
+  {
+    "values": [
+      "BUG",
+      "SUGGESTION",
+      "ACCESSIBILITY",
+      "PRIVACY",
+      "OTHER"
+    ],
+    "locations": [
+      "paths./admin/feedback/{feedbackId}.get.responses.200.content.application/json.schema.properties.data.properties.category",
+      "paths./admin/feedback.get.parameters.3.schema",
+      "paths./admin/feedback.get.responses.200.content.application/json.schema.properties.data.properties.items.items.properties.category"
+    ]
+  },
+  {
+    "values": [
+      "OPEN",
+      "IN_PROGRESS",
+      "WAITING_TECH",
+      "RESOLVED",
+      "CLOSED"
+    ],
+    "locations": [
+      "paths./admin/feedback/{feedbackId}.get.responses.200.content.application/json.schema.properties.data.properties.status",
+      "paths./admin/feedback/{feedbackId}.get.responses.200.content.application/json.schema.properties.data.properties.history.items.properties.previousStatus",
+      "paths./admin/feedback/{feedbackId}.get.responses.200.content.application/json.schema.properties.data.properties.history.items.properties.nextStatus",
+      "paths./admin/feedback/{feedbackId}/handling.post.responses.201.content.application/json.schema.properties.data.properties.status",
+      "paths./admin/feedback.get.parameters.4.schema",
+      "paths./admin/feedback.get.responses.200.content.application/json.schema.properties.data.properties.items.items.properties.status",
+      "paths./student/feedback/{feedbackId}/history.get.responses.200.content.application/json.schema.properties.data.properties.status",
+      "paths./student/feedback/{feedbackId}/history.get.responses.200.content.application/json.schema.properties.data.properties.items.items.properties.status"
+    ]
+  },
+  {
+    "values": [
+      "login",
+      "enrollment",
+      "checkin",
+      "evidence",
+      "course",
+      "exemption",
+      "organization",
+      "notification",
+      "maintenance",
+      "feedback"
+    ],
+    "locations": [
+      "paths./admin/help-articles.post.responses.201.content.application/json.schema.properties.data.properties.category",
+      "paths./admin/help-articles.get.parameters.3.schema",
+      "paths./admin/help-articles.get.responses.200.content.application/json.schema.properties.data.properties.items.items.properties.category",
+      "paths./admin/help-articles/{articleId}.post.responses.201.content.application/json.schema.properties.data.properties.category",
+      "paths./admin/help-articles/{articleId}.get.responses.200.content.application/json.schema.properties.data.properties.category",
+      "paths./student/help-articles.get.responses.200.content.application/json.schema.properties.data.items.properties.category",
+      "paths./student/help-articles/{articleId}.get.responses.200.content.application/json.schema.properties.data.properties.category",
+      "components.schemas.V81SaveHelpInput.properties.category"
+    ]
+  },
+  {
+    "values": [
+      "draft",
+      "published",
+      "archived"
+    ],
+    "locations": [
+      "paths./admin/help-articles.post.responses.201.content.application/json.schema.properties.data.properties.status",
+      "paths./admin/help-articles.get.parameters.4.schema",
+      "paths./admin/help-articles.get.responses.200.content.application/json.schema.properties.data.properties.items.items.properties.status",
+      "paths./admin/help-articles/{articleId}.post.responses.201.content.application/json.schema.properties.data.properties.status",
+      "paths./admin/help-articles/{articleId}.get.responses.200.content.application/json.schema.properties.data.properties.status",
+      "components.schemas.V81SaveHelpInput.properties.status"
+    ]
+  },
+  {
+    "values": [
+      "zh-CN",
+      "en"
+    ],
+    "locations": [
+      "paths./student/help-articles.get.parameters.1.schema",
+      "paths./student/help-articles.get.responses.200.content.application/json.schema.properties.data.items.properties.locale",
+      "paths./student/help-articles/{articleId}.get.parameters.1.schema",
+      "paths./student/help-articles/{articleId}.get.responses.200.content.application/json.schema.properties.data.properties.locale",
+      "components.schemas.V81DeletionChallengeInput.properties.locale",
+      "components.schemas.SubadminIdentityInput.properties.locale"
+    ]
+  },
+  {
+    "values": [
+      "male",
+      "female"
+    ],
+    "locations": [
+      "paths./admin/endurance-tables.get.responses.200.content.application/json.schema.properties.data.items.properties.gender",
+      "paths./admin/endurance-tables/rules.post.responses.201.content.application/json.schema.properties.data.properties.gender",
+      "paths./admin/endurance-tables/rules/{ruleId}.post.responses.201.content.application/json.schema.properties.data.properties.gender",
+      "paths./admin/endurance-tables/rules/{ruleId}/delete.post.responses.201.content.application/json.schema.properties.data.properties.gender",
+      "components.schemas.V81EnduranceTableInput.properties.gender",
+      "components.schemas.V81EnduranceBandInput.properties.gender"
+    ]
+  },
+  {
+    "values": [
+      "freshman_sophomore",
+      "junior_senior"
+    ],
+    "locations": [
+      "paths./admin/endurance-tables.get.responses.200.content.application/json.schema.properties.data.items.properties.gradeGroup",
+      "paths./admin/endurance-tables/rules.post.responses.201.content.application/json.schema.properties.data.properties.gradeGroup",
+      "paths./admin/endurance-tables/rules/{ruleId}.post.responses.201.content.application/json.schema.properties.data.properties.gradeGroup",
+      "paths./admin/endurance-tables/rules/{ruleId}/delete.post.responses.201.content.application/json.schema.properties.data.properties.gradeGroup",
+      "components.schemas.V81EnduranceTableInput.properties.gradeGroup",
+      "components.schemas.V81EnduranceBandInput.properties.gradeGroup"
+    ]
+  },
+  {
+    "values": [
+      "800m",
+      "1000m"
+    ],
+    "locations": [
+      "paths./admin/endurance-tables.get.responses.200.content.application/json.schema.properties.data.items.properties.runType",
+      "paths./admin/endurance-tables/rules.post.responses.201.content.application/json.schema.properties.data.properties.runType",
+      "paths./admin/endurance-tables/rules/{ruleId}.post.responses.201.content.application/json.schema.properties.data.properties.runType",
+      "paths./admin/endurance-tables/rules/{ruleId}/delete.post.responses.201.content.application/json.schema.properties.data.properties.runType",
+      "paths./enrollments/{enrollmentId}/physical-results.get.responses.200.content.application/json.schema.properties.data.properties.items.items.properties.runType",
+      "paths./enrollments/{enrollmentId}/physical-results.post.responses.201.content.application/json.schema.properties.data.properties.runType",
+      "paths./student/enrollments/{enrollmentId}/physical-result.get.responses.200.content.application/json.schema.properties.data.oneOf.0.properties.result.properties.runType",
+      "components.schemas.V81EnduranceTableInput.properties.runType",
+      "components.schemas.V81EnduranceBandInput.properties.runType",
+      "components.schemas.V81PhysicalResultInput.properties.runType"
+    ]
+  },
+  {
+    "values": [
+      "excellent",
+      "good",
+      "pass",
+      "fail"
+    ],
+    "locations": [
+      "paths./admin/endurance-tables.get.responses.200.content.application/json.schema.properties.data.items.properties.bands.items.properties.tier",
+      "paths./admin/endurance-tables/rules.post.responses.201.content.application/json.schema.properties.data.properties.bands.items.properties.tier",
+      "paths./admin/endurance-tables/rules/{ruleId}.post.responses.201.content.application/json.schema.properties.data.properties.bands.items.properties.tier",
+      "paths./admin/endurance-tables/rules/{ruleId}/delete.post.responses.201.content.application/json.schema.properties.data.properties.bands.items.properties.tier",
+      "components.schemas.V81EnduranceBandInput.properties.tier"
+    ]
+  },
+  {
+    "values": [
+      "NOT_RECORDED",
+      "EXEMPT"
+    ],
+    "locations": [
+      "paths./student/enrollments/{enrollmentId}/physical-result.get.responses.200.content.application/json.schema.properties.data.oneOf.1.properties.status"
+    ]
+  },
+  {
+    "values": [
+      "MATCHED",
+      "PENDING_REGISTRATION",
+      "IDENTITY_CONFLICT",
+      "EXTRA_IN_PLATFORM"
+    ],
+    "locations": [
+      "paths./roster-imports/{rosterImportId}/registration-preview.get.responses.200.content.application/json.schema.properties.data.properties.rows.items.properties.status",
+      "paths./roster-imports/{rosterImportId}/registration-preview.get.responses.200.content.application/json.schema.properties.data.properties.extras.items.properties.status",
+      "paths./class-sections/{classSectionId}/composite-roster.get.responses.200.content.application/json.schema.properties.data.properties.rows.items.properties.status",
+      "paths./class-sections/{classSectionId}/composite-roster.get.responses.200.content.application/json.schema.properties.data.properties.extras.items.properties.status"
+    ]
+  },
+  {
+    "values": [
+      "VALID",
+      "DUPLICATED"
+    ],
+    "locations": [
+      "paths./roster-imports/{rosterImportId}/confirmation.get.responses.200.content.application/json.schema.properties.data.properties.sourceRows.items.properties.validationStatus",
+      "paths./roster-imports/{rosterImportId}/confirmation.post.responses.201.content.application/json.schema.properties.data.properties.sourceRows.items.properties.validationStatus"
+    ]
+  },
+  {
+    "values": [
+      "ELECTRONIC",
+      "OCR"
+    ],
+    "locations": [
+      "paths./class-sections/{classSectionId}/composite-roster.get.responses.200.content.application/json.schema.properties.data.properties.sourceKind",
+      "paths./class-sections/{classSectionId}/roster-basis/snapshots.get.responses.200.content.application/json.schema.properties.data.properties.items.items.properties.sourceKind"
+    ]
+  },
+  {
+    "values": [
+      "EXEMPT",
+      "RECORDED",
+      "NOT_RECORDED"
+    ],
+    "locations": [
+      "paths./class-sections/{classSectionId}/composite-roster.get.responses.200.content.application/json.schema.properties.data.properties.rows.items.properties.physical.properties.status",
+      "paths./class-sections/{classSectionId}/composite-roster.get.responses.200.content.application/json.schema.properties.data.properties.extras.items.properties.physical.properties.status"
+    ]
+  },
+  {
+    "values": [
+      "1000m",
+      "800m"
+    ],
+    "locations": [
+      "paths./class-sections/{classSectionId}/composite-roster.get.responses.200.content.application/json.schema.properties.data.properties.rows.items.properties.physical.properties.result.properties.runType",
+      "paths./class-sections/{classSectionId}/composite-roster.get.responses.200.content.application/json.schema.properties.data.properties.extras.items.properties.physical.properties.result.properties.runType"
+    ]
+  },
+  {
+    "values": [
+      "CSV",
+      "XLSX"
+    ],
+    "locations": [
+      "paths./roster-imports/{rosterImportId}/source.get.responses.200.content.application/json.schema.properties.data.properties.fileFormat"
+    ]
+  },
+  {
+    "values": [
+      "MATCHED",
+      "PENDING_REGISTRATION",
+      "IDENTITY_CONFLICT",
+      "EXTRA_IN_PLATFORM",
+      null
+    ],
+    "locations": [
+      "paths./enrollments/{enrollmentId}/roster-status.get.responses.200.content.application/json.schema.properties.data.properties.status"
+    ]
+  },
+  {
+    "values": [
+      "UPCOMING",
+      "ACTIVE"
+    ],
+    "locations": [
+      "paths./admin/course-directory.get.responses.200.content.application/json.schema.properties.data.properties.rows.items.properties.status"
+    ]
+  },
+  {
+    "values": [
+      "image/png",
+      "image/jpeg",
+      "image/webp"
+    ],
+    "locations": [
+      "paths./class-sections/{classSectionId}/ocr-roster-batches.post.responses.201.content.application/json.schema.properties.data.properties.pages.items.properties.mimeType",
+      "paths./class-sections/{classSectionId}/ocr-physical-batches.post.responses.201.content.application/json.schema.properties.data.properties.pages.items.properties.mimeType",
+      "paths./ocr-batches/{batchId}.get.responses.200.content.application/json.schema.properties.data.properties.pages.items.properties.mimeType",
+      "paths./ocr-batches/{batchId}/pages/{pageId}/source.get.responses.200.content.application/json.schema.properties.data.properties.mimeType"
+    ]
+  },
+  {
+    "values": [
+      "ROSTER",
+      "PHYSICAL"
+    ],
+    "locations": [
+      "paths./class-sections/{classSectionId}/ocr-batches.get.responses.200.content.application/json.schema.properties.data.properties.items.items.properties.purpose",
+      "paths./ocr-batches/{batchId}.get.responses.200.content.application/json.schema.properties.data.properties.purpose",
+      "paths./ocr-batches/{batchId}/draft.get.responses.200.content.application/json.schema.properties.data.properties.purpose",
+      "paths./ocr-batches/{batchId}/draft.post.responses.201.content.application/json.schema.properties.data.properties.purpose",
+      "paths./ocr-batches/{batchId}/draft/revisions.post.responses.201.content.application/json.schema.properties.data.properties.purpose"
+    ]
+  },
+  {
+    "values": [
+      "SUCCEEDED",
+      "FAILED"
+    ],
+    "locations": [
+      "paths./ocr-batches/{batchId}.get.responses.200.content.application/json.schema.properties.data.properties.pages.items.properties.latestAttempt.properties.outcome",
+      "paths./ocr-batches/{batchId}/pages/{pageId}/recognition.get.responses.200.content.application/json.schema.properties.data.properties.latestAttempt.properties.outcome"
+    ]
+  },
+  {
+    "values": [
+      "QUEUED",
+      "RUNNING",
+      "SUCCEEDED",
+      "FAILED"
+    ],
+    "locations": [
+      "paths./ocr-batches/{batchId}/pages/{pageId}/recognition.post.responses.201.content.application/json.schema.properties.data.properties.status",
+      "paths./ocr-jobs/{jobId}.get.responses.200.content.application/json.schema.properties.data.properties.status"
+    ]
+  },
+  {
+    "values": [
+      "studentNumber",
+      "name",
+      "runType",
+      "elapsed",
+      "testedOn"
+    ],
+    "locations": [
+      "paths./ocr-batches/{batchId}/draft.get.responses.200.content.application/json.schema.properties.data.properties.rows.items.properties.ocrIssues.items.properties.field",
+      "paths./ocr-batches/{batchId}/draft.post.responses.201.content.application/json.schema.properties.data.properties.rows.items.properties.ocrIssues.items.properties.field",
+      "paths./ocr-batches/{batchId}/draft/revisions.post.responses.201.content.application/json.schema.properties.data.properties.rows.items.properties.ocrIssues.items.properties.field",
+      "paths./ocr-batches/{batchId}/roster-confirmation.get.responses.200.content.application/json.schema.properties.data.properties.sourceRows.items.properties.ocrIssues.items.properties.field",
+      "paths./ocr-batches/{batchId}/roster-confirmation.post.responses.201.content.application/json.schema.properties.data.properties.sourceRows.items.properties.ocrIssues.items.properties.field"
+    ]
+  },
+  {
+    "values": [
+      "ELECTRONIC",
+      "OCR",
+      null
+    ],
+    "locations": [
+      "paths./class-sections/{classSectionId}/roster-basis.get.responses.200.content.application/json.schema.properties.data.properties.sourceKind",
+      "paths./class-sections/{classSectionId}/roster-basis.post.responses.201.content.application/json.schema.properties.data.properties.sourceKind"
+    ]
+  },
+  {
+    "values": [
+      1,
+      2
+    ],
+    "locations": [
+      "paths./class-sections/{classSectionId}/makeup-windows.get.responses.200.content.application/json.schema.properties.data.properties.items.items.properties.version",
+      "paths./class-sections/{classSectionId}/makeup-windows.post.responses.201.content.application/json.schema.properties.data.properties.version",
+      "paths./makeup-windows/{windowId}/revocation.post.responses.201.content.application/json.schema.properties.data.properties.version",
+      "paths./enrollments/{enrollmentId}/makeup-windows.get.responses.200.content.application/json.schema.properties.data.properties.items.items.properties.version",
+      "components.schemas.ExerciseRecord.properties.materialVersion"
+    ]
+  },
+  {
+    "values": [
+      "SCHEDULED",
+      "OPEN",
+      "ENDED",
+      "REVOKED"
+    ],
+    "locations": [
+      "paths./class-sections/{classSectionId}/makeup-windows.get.responses.200.content.application/json.schema.properties.data.properties.items.items.properties.windowState",
+      "paths./class-sections/{classSectionId}/makeup-windows.post.responses.201.content.application/json.schema.properties.data.properties.windowState",
+      "paths./makeup-windows/{windowId}/revocation.post.responses.201.content.application/json.schema.properties.data.properties.windowState",
+      "paths./enrollments/{enrollmentId}/makeup-windows.get.responses.200.content.application/json.schema.properties.data.properties.items.items.properties.windowState"
+    ]
+  },
+  {
+    "values": [
+      "UPCOMING",
+      "CURRENT",
+      "ARCHIVED"
+    ],
+    "locations": [
+      "paths./admin/semesters/{id}/switch-check.get.responses.200.content.application/json.schema.properties.data.properties.target.properties.status",
+      "paths./admin/semesters/{id}/switch-check.get.responses.200.content.application/json.schema.properties.data.properties.current.properties.status"
+    ]
+  },
+  {
+    "values": [
+      "FOUNDATION",
+      "V81"
+    ],
+    "locations": [
+      "paths./admin/audit-events.get.parameters.2.schema",
+      "paths./admin/audit-events.get.responses.200.content.application/json.schema.properties.data.properties.items.items.properties.source",
+      "paths./admin/audit-events/{source}/{eventId}.get.parameters.1.schema",
+      "paths./admin/audit-events/{source}/{eventId}.get.responses.200.content.application/json.schema.properties.data.properties.source"
+    ]
+  },
+  {
+    "values": [
+      "QUEUED",
+      "RUNNING",
+      "SUCCEEDED",
+      "FAILED",
+      "CANCELLED",
+      "EXPIRED"
+    ],
+    "locations": [
+      "paths./admin/runtime-archives.post.responses.202.content.application/json.schema.properties.data.properties.status",
+      "paths./admin/runtime-archives/{id}.get.responses.200.content.application/json.schema.properties.data.properties.status",
+      "paths./admin/runtime-archives/{id}/cancellation.post.responses.201.content.application/json.schema.properties.data.properties.status"
+    ]
+  },
+  {
+    "values": [
+      "ADMIN_REVISION",
+      "DEPLOYMENT_ENVIRONMENT"
+    ],
+    "locations": [
+      "paths./admin/review-services/ocr.get.responses.200.content.application/json.schema.properties.data.properties.configurationSource"
+    ]
+  },
+  {
+    "values": [
+      "DISABLED",
+      "TENCENT_TABLE_V3"
+    ],
+    "locations": [
+      "paths./admin/review-services/ocr.get.responses.200.content.application/json.schema.properties.data.properties.configuration.properties.provider",
+      "paths./admin/review-services/ocr/revisions.get.responses.200.content.application/json.schema.properties.data.properties.items.items.properties.provider",
+      "paths./admin/review-services/ocr/revisions.post.responses.201.content.application/json.schema.properties.data.properties.provider",
+      "components.schemas.V81OcrServiceInput.properties.provider"
+    ]
+  },
+  {
+    "values": [
+      "NORMAL",
+      "MAINTENANCE"
+    ],
+    "locations": [
+      "paths./admin/review-services/ocr.get.responses.200.content.application/json.schema.properties.data.properties.systemMode",
+      "components.schemas.ChangeV81SystemModeInput.properties.mode"
+    ]
+  },
+  {
+    "values": [
+      "VERIFIED"
+    ],
+    "locations": [
+      "paths./admin/subadmin-identity-challenges/{id}/verify.post.responses.201.content.application/json.schema.properties.data.properties.status"
+    ]
+  },
+  {
+    "values": [
+      "ACTIVE",
+      "DISABLED"
+    ],
+    "locations": [
+      "paths./admin/subadmins/{id}/profile.post.responses.201.content.application/json.schema.properties.data.properties.status",
+      "components.schemas.V81SubadminStatusInput.properties.status"
+    ]
+  },
+  {
+    "values": [
+      "PENDING_AI",
+      "TECHNICAL",
+      "PENDING_TEACHER",
+      "AWAITING_SUPPLEMENT",
+      "VALID",
+      "INVALID"
+    ],
+    "locations": [
+      "components.schemas.ExerciseRecord.properties.workflowStage"
+    ]
+  },
+  {
+    "values": [
+      "ROSTER_ALIGNMENT_V1",
+      "ROSTER_ALIGNMENT_V2"
+    ],
+    "locations": [
+      "components.schemas.AlignmentRun.properties.algorithmVersion"
+    ]
+  },
+  {
+    "values": [
+      30,
+      45,
+      60
+    ],
+    "locations": [
+      "components.schemas.V81CourseRulesInput.properties.minimumMinutes",
+      "components.schemas.V81StudentProgress.properties.minimumMinutes"
+    ]
+  },
+  {
+    "values": [
+      2,
+      3,
+      4
+    ],
+    "locations": [
+      "components.schemas.V81CourseRulesInput.properties.weeklyLimit",
+      "components.schemas.V81StudentProgress.properties.weeklyLimit"
+    ]
+  },
+  {
+    "values": [
+      "VALID",
+      "INVALID",
+      "RETURN_FOR_SUPPLEMENT"
+    ],
+    "locations": [
+      "components.schemas.V81ReviewInput.properties.action"
+    ]
+  },
+  {
+    "values": [
+      "UNCLEAR_EVIDENCE",
+      "MISSING_REQUIRED_EVIDENCE",
+      "SESSION_MISMATCH",
+      "INCONSISTENT_EVIDENCE",
+      "AUTHENTICITY_REQUIRES_CLARIFICATION",
+      "CONFIRMED_REUSE_OR_MISUSE"
+    ],
+    "locations": [
+      "components.schemas.V81ReviewInput.properties.reasonCode",
+      "components.schemas.V81CorrectionInput.properties.reasonCode"
+    ]
+  },
+  {
+    "values": [
+      24,
+      72
+    ],
+    "locations": [
+      "components.schemas.V81ReviewInput.properties.supplementHours"
+    ]
+  },
+  {
+    "values": [
+      "VALID",
+      "INVALID"
+    ],
+    "locations": [
+      "components.schemas.V81CorrectionInput.properties.action"
+    ]
+  },
+  {
+    "values": [
+      "COMPLETED",
+      "IN_PROGRESS"
+    ],
+    "locations": [
+      "components.schemas.V81StudentProgress.properties.status"
+    ]
+  },
+  {
+    "values": [
+      "SCHOOL_TEAM",
+      "STUDENT_CLUB"
+    ],
+    "locations": [
+      "components.schemas.V81Certification.properties.certificationType"
+    ]
+  },
+  {
+    "values": [
+      "DRAFT",
+      "SUBMITTED",
+      "SUPPLEMENT_REQUIRED",
+      "APPROVED",
+      "REJECTED",
+      "REVOKED"
+    ],
+    "locations": [
+      "components.schemas.V81Certification.properties.status"
+    ]
+  },
+  {
+    "values": [
+      "IN_PROGRESS",
+      "WAITING_TECH",
+      "RESOLVED",
+      "CLOSED"
+    ],
+    "locations": [
+      "components.schemas.V81HandleFeedbackInput.properties.status"
+    ]
+  },
+  {
+    "values": [
+      "FIRST",
+      "SECOND",
+      "SUMMER"
+    ],
+    "locations": [
+      "components.schemas.V81SemesterInput.properties.termCode",
+      "components.schemas.V81SemesterUpdateInput.properties.termCode"
+    ]
+  }
+]

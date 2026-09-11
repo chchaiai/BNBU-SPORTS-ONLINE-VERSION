@@ -1,0 +1,42 @@
+{
+  "schemaVersion": 1,
+  "project": "BNBU Sports Greenfield",
+  "approvedBy": "PROJECT_OWNER",
+  "approvedAt": "2026-08-05",
+  "approvalEvidence": "Explicit approval to implement the proposed client-capability plan with GPS and Android/Web/backend traceability",
+  "sourceBaselineCommit": "c1543734c3ec12a19c972757a4ffbee4f33c28a5",
+  "api": {
+    "prefix": "/api/v1",
+    "openapiPath": "docs/backend-contracts/openapi.yaml",
+    "openapiVersion": "1.1.0-contract",
+    "openapiSha256": "fb040b671e3f25c48279ad6b173ced5f633de1b1a1a9db0cc0f23a11e3fde4d1",
+    "operationCount": 122,
+    "implementedVerified": 82,
+    "implementedDefaultDeny": 40,
+    "notImplemented": 0,
+    "blockedByAdr": 0
+  },
+  "addedOperations": {
+    "authenticationAndRecovery": 4,
+    "notificationsAndPush": 4,
+    "preferences": 2,
+    "help": 2,
+    "feedback": 3,
+    "exemptionApplications": 6,
+    "releaseCatalogAndConversion": 3,
+    "gpsAndLocationPrivacy": 6
+  },
+  "runtimeDisposition": "IMPLEMENTED_DEFAULT_DENY",
+  "defaultDenyError": "SYSTEM_MODE_UNSUPPORTED",
+  "persistenceAdded": false,
+  "migrationAdded": false,
+  "gpsCollectionEnabled": false,
+  "clientSourceModified": false,
+  "gates": {
+    "operationContractCoverage": true,
+    "clientIntegrationExecution": false,
+    "gpsBusinessApproval": false,
+    "gpsPrivacyApproval": false,
+    "productionApproval": false
+  }
+}

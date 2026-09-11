@@ -1,0 +1,9 @@
+file:///C:/Users/23328/Desktop/new_version/backend/scripts/check-runtime-coverage.mjs:197
+  throw new Error('Runtime coverage roadmap is stale; run npm run runtime-coverage:generate');
+        ^
+
+Error: Runtime coverage roadmap is stale; run npm run runtime-coverage:generate
+    at file:///C:/Users/23328/Desktop/new_version/backend/scripts/check-runtime-coverage.mjs:197:9
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+
+Node.js v24.13.1

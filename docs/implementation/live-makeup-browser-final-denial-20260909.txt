@@ -1,0 +1,2 @@
+stage OUTSIDE_WINDOW
+{"check":"LIVE_MAKEUP_REVOKED_NEW_START_WEB","result":"PASS"}

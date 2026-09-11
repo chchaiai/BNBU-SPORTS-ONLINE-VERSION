@@ -1,0 +1,1 @@
+{"check":"REAL_SHARED_EMAIL_ACCOUNTS_REMAIN_SEPARATE","accounts":[{"role":"STUDENT","status":"ACTIVE","email_identity_scope":"PRIMARY","email_verified":true,"must_change_password":null},{"role":"ADMIN","status":"DISABLED","email_identity_scope":"SUBADMIN","email_verified":false,"must_change_password":true}]}

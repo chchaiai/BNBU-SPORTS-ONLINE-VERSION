@@ -1,0 +1,11 @@
+✔ restore original request for same identity, isolate others and clear confirmed download (1.472692ms)
+✔ corrupt state is retained and blocks replacement (0.261562ms)
+✔ missing identity and storage write failure prevent a new intent (0.287051ms)
+ℹ tests 3
+ℹ suites 0
+ℹ pass 3
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 169.410687

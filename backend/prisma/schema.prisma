@@ -1,0 +1,2442 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Organization {
+  v81FinalGrades V81FinalGradeRevision[]
+  v81SwimIntakes V81SwimIntake[]
+  v81ApplicationMaterials V81ApplicationMaterial[] @relation("V81ApplicationMaterialOrganization")
+  v81AccountSecurity V81AccountSecurity[] @relation("V81AccountSecurityOrganization")
+  v81CourseRule_organization V81CourseRule[] @relation("V81CourseRule_organization")
+  v81RecordWorkflow_organization V81RecordWorkflow[] @relation("V81RecordWorkflow_organization")
+  v81Event_organization V81Event[] @relation("V81Event_organization")
+  v81MaterialVersion_organization V81MaterialVersion[] @relation("V81MaterialVersion_organization")
+  v81Interruption_organization V81Interruption[] @relation("V81Interruption_organization")
+  v81AdminAccess_organization V81AdminAccess[] @relation("V81AdminAccess_organization")
+  v81ManualMode_organization V81ManualMode[] @relation("V81ManualMode_organization")
+  v81CreditProjection_organization V81CreditProjection[] @relation("V81CreditProjection_organization")
+  v81CertificationCredit_organization V81CertificationCredit[] @relation("V81CertificationCredit_organization")
+  id               String   @id @db.Uuid
+  organizationCode String   @unique(map: "organizations_organization_code_key") @map("organization_code") @db.VarChar(32)
+  legalName        String   @map("legal_name") @db.VarChar(300)
+  displayName      String   @map("display_name") @db.VarChar(200)
+  timezone         String   @db.VarChar(64)
+  defaultLocale    String   @map("default_locale") @db.VarChar(35)
+  status           String   @db.VarChar(32)
+  version          Int      @default(1)
+  createdAt        DateTime @map("created_at") @db.Timestamptz(6)
+  updatedAt        DateTime @map("updated_at") @db.Timestamptz(6)
+
+  systemPolicy                   SystemPolicy?
+  users                          User[]
+  studentProfiles                StudentProfile[]
+  teacherProfiles                TeacherProfile[]
+  adminProfiles                  AdminProfile[]
+  authSessions                   AuthSession[]
+  refreshTokens                  RefreshToken[]
+  semesters                      Semester[]
+  courses                        Course[]
+  classSections                  ClassSection[]
+  excludedDates                  ClassSectionExcludedDate[]
+  courseInvites                  CourseInvite[]
+  joinCapabilities               JoinCapability[]
+  enrollments                    Enrollment[]
+  enrollmentEvents               EnrollmentStatusEvent[]
+  officialRosterImports          OfficialRosterImport[]
+  officialRosterEntries          OfficialRosterEntry[]
+  rosterAlignmentRuns            RosterAlignmentRun[]
+  rosterAlignmentPlatformEntries RosterAlignmentPlatformEntry[]
+  rosterAlignmentResults         RosterAlignmentResult[]
+  rosterResolutionEvents         RosterResolutionEvent[]
+  exerciseSessions               ExerciseSession[]
+  exerciseSessionSegments        ExerciseSessionSegment[]
+  exerciseSessionEvents          ExerciseSessionEvent[]
+  mediaEvidence                  MediaEvidence[]
+  exerciseRecords                ExerciseRecord[]
+  exerciseRecordMedia            ExerciseRecordMedia[]
+  exerciseRecordEvents           ExerciseRecordEvent[]
+  exerciseRecordDailySlots       ExerciseRecordDailySlot[]
+  reviewRecords                  ReviewRecord[]
+  scoreRules                     ScoreRule[]
+  scoreRuleApprovalEvents        ScoreRuleApprovalEvent[]
+  studentScores                  StudentScore[]
+  studentScoreRevisions          StudentScoreRevision[]
+  scoreContributions             ScoreContribution[]
+  scoreAdjustments               ScoreAdjustment[]
+  scoreAdjustmentApprovalEvents  ScoreAdjustmentApprovalEvent[]
+  scorePublicationEvents         ScorePublicationEvent[]
+  scoreRecalculationAttempts     ScoreRecalculationAttempt[]
+  mediaUploadSessions            MediaUploadSession[]
+  mediaStatusEvents              MediaStatusEvent[]
+  mediaProcessingAttempts        MediaProcessingAttempt[]
+  idempotencyRecords             IdempotencyRecord[]
+  auditLogs                      AuditLog[]
+  outboxEvents                   OutboxEvent[]
+  studentSignInChallenges        StudentSignInChallenge[]
+  accountRecoveryChallenges      AccountRecoveryChallenge[]
+  emailVerificationChallenges    EmailVerificationChallenge[]
+  authRateLimitFacts             AuthRateLimitFact[]
+  notifications                  Notification[]
+  pushDevices                    PushDevice[]
+  userPreferences                UserPreference[]
+  feedback                       Feedback[]
+  exemptionApplications          ExemptionApplication[]
+  sportCatalogItems              SportCatalogItem[]
+  locationPrivacyPolicies        LocationPrivacyPolicy[]
+  locationConsents               LocationConsent[]
+  locationTracks                 LocationTrack[]
+  locationSamples                LocationSample[]
+  locationSummaries              LocationSummary[]
+  locationRetentionEvents        LocationRetentionEvent[]
+
+  @@map("organizations")
+}
+
+model SystemPolicy {
+  organizationId String   @id @map("organization_id") @db.Uuid
+  systemMode     String   @map("system_mode") @db.VarChar(32)
+  version        Int      @default(1)
+  changedBy      String   @map("changed_by") @db.Uuid
+  changeReason   String   @map("change_reason") @db.VarChar(500)
+  updatedAt      DateTime @map("updated_at") @db.Timestamptz(6)
+
+  organization  Organization @relation(fields: [organizationId], references: [id], onDelete: Restrict)
+  changedByUser User         @relation("SystemPolicyChangedBy", fields: [changedBy, organizationId], references: [id, organizationId], onDelete: Restrict)
+
+  @@index([changedBy], map: "system_policies_changed_by_idx")
+  @@map("system_policies")
+}
+
+model User {
+  v81FinalGrades V81FinalGradeRevision[]
+  v81AccountSecurity V81AccountSecurity? @relation("V81AccountSecurityUser")
+  v81AccountSecurityScoped V81AccountSecurity[] @relation("V81AccountSecurityScopedUser")
+  v81AdminAccess_user V81AdminAccess? @relation("V81AdminAccess_user")
+  v81AdminAccess_scopedUser V81AdminAccess[] @relation("V81AdminAccess_scopedUser")
+  id                            String    @id @db.Uuid
+  organizationId                String    @map("organization_id") @db.Uuid
+  role                          String    @db.VarChar(32)
+  status                        String    @db.VarChar(32)
+  primaryEmail                  String?   @map("primary_email") @db.VarChar(254)
+  primaryEmailNormalized        String?   @map("primary_email_normalized") @db.VarChar(254)
+  emailIdentityScope            String    @default("PRIMARY") @map("email_identity_scope") @db.VarChar(16)
+  emailVerifiedAt               DateTime? @map("email_verified_at") @db.Timestamptz(6)
+  retiredPrimaryPhone           String?   @map("primary_phone") @ignore @db.VarChar(32)
+  retiredPrimaryPhoneNormalized String?   @map("primary_phone_normalized") @ignore @db.VarChar(32)
+  retiredPhoneVerifiedAt        DateTime? @map("phone_verified_at") @ignore @db.Timestamptz(6)
+  passwordHash                  String?   @map("password_hash") @db.VarChar(255)
+  tokenVersion                  Int       @default(0) @map("token_version")
+  lastAuthenticatedAt           DateTime? @map("last_authenticated_at") @db.Timestamptz(6)
+  version                       Int       @default(1)
+  createdAt                     DateTime  @map("created_at") @db.Timestamptz(6)
+  updatedAt                     DateTime  @map("updated_at") @db.Timestamptz(6)
+  deletedAt                     DateTime? @map("deleted_at") @db.Timestamptz(6)
+
+  organization                Organization                   @relation(fields: [organizationId], references: [id], onDelete: Restrict)
+  studentProfile              StudentProfile?
+  teacherProfile              TeacherProfile?
+  adminProfile                AdminProfile?
+  authSessions                AuthSession[]
+  idempotencyRecords          IdempotencyRecord[]            @relation("IdempotencyPrincipal")
+  auditLogs                   AuditLog[]                     @relation("AuditActor")
+  systemPolicyChanges         SystemPolicy[]                 @relation("SystemPolicyChangedBy")
+  createdSemesters            Semester[]                     @relation("SemesterCreatedBy")
+  createdCourses              Course[]                       @relation("CourseCreatedBy")
+  updatedCourses              Course[]                       @relation("CourseUpdatedBy")
+  deletedCourses              Course[]                       @relation("CourseDeletedBy")
+  createdClassSections        ClassSection[]                 @relation("ClassSectionCreatedBy")
+  updatedClassSections        ClassSection[]                 @relation("ClassSectionUpdatedBy")
+  closedClassSections         ClassSection[]                 @relation("ClassSectionClosedBy")
+  createdExcludedDates        ClassSectionExcludedDate[]     @relation("ClassSectionExcludedDateCreatedBy")
+  createdCourseInvites        CourseInvite[]                 @relation("CourseInviteCreatedBy")
+  revokedCourseInvites        CourseInvite[]                 @relation("CourseInviteRevokedBy")
+  consumedCapabilities        JoinCapability[]               @relation("JoinCapabilityConsumedBy")
+  createdEnrollments          Enrollment[]                   @relation("EnrollmentCreatedBy")
+  updatedEnrollments          Enrollment[]                   @relation("EnrollmentUpdatedBy")
+  enrollmentEvents            EnrollmentStatusEvent[]        @relation("EnrollmentStatusEventActor")
+  importedOfficialRosters     OfficialRosterImport[]         @relation("OfficialRosterImportImportedBy")
+  startedRosterAlignments     RosterAlignmentRun[]           @relation("RosterAlignmentRunStartedBy")
+  resolvedRosterResults       RosterAlignmentResult[]        @relation("RosterAlignmentResultResolvedBy")
+  rosterResolutionEvents      RosterResolutionEvent[]        @relation("RosterResolutionEventActor")
+  exerciseSessionEvents       ExerciseSessionEvent[]         @relation("ExerciseSessionEventActor")
+  initiatedMediaEvidence      MediaEvidence[]                @relation("MediaEvidenceInitiatedBy")
+  exerciseRecordEvents        ExerciseRecordEvent[]          @relation("ExerciseRecordEventActor")
+  createdScoreRules           ScoreRule[]                    @relation("ScoreRuleCreatedBy")
+  scoreRuleApprovals          ScoreRuleApprovalEvent[]       @relation("ScoreRuleApprovalActor")
+  requestedScoreAdjustments   ScoreAdjustment[]              @relation("ScoreAdjustmentRequestedBy")
+  scoreAdjustmentApprovals    ScoreAdjustmentApprovalEvent[] @relation("ScoreAdjustmentApprovalActor")
+  scorePublicationEvents      ScorePublicationEvent[]        @relation("ScorePublicationActor")
+  studentSignInChallenges     StudentSignInChallenge[]
+  accountRecoveryChallenges   AccountRecoveryChallenge[]
+  emailVerificationChallenges EmailVerificationChallenge[]
+  notifications               Notification[]                 @relation("NotificationRecipient")
+  notificationEvents          NotificationEvent[]            @relation("NotificationEventActor")
+  pushDevices                 PushDevice[]                   @relation("PushDeviceOwner")
+  pushDeviceEvents            PushDeviceEvent[]              @relation("PushDeviceEventActor")
+  userPreference              UserPreference?
+  userPreferenceEvents        UserPreferenceEvent[]          @relation("UserPreferenceEventActor")
+  createdFeedback             Feedback[]                     @relation("FeedbackCreator")
+  feedbackEvents              FeedbackEvent[]                @relation("FeedbackEventActor")
+  exemptionEvents             ExemptionApplicationEvent[]    @relation("ExemptionEventActor")
+  locationPoliciesCreated     LocationPrivacyPolicy[]        @relation("LocationPolicyCreator")
+  locationConsentEvents       LocationConsentEvent[]         @relation("LocationConsentEventActor")
+  locationTrackEvents         LocationTrackEvent[]           @relation("LocationTrackEventActor")
+
+  @@unique([id, organizationId], map: "users_id_organization_id_key")
+  @@unique([organizationId, emailIdentityScope, primaryEmailNormalized], name: "organizationId_primaryEmailNormalized", map: "users_organization_email_scope_normalized_key")
+  @@unique([organizationId, retiredPrimaryPhoneNormalized], map: "users_organization_phone_normalized_key")
+  @@index([organizationId, role, status], map: "users_organization_role_status_idx")
+  @@map("users")
+}
+
+model StudentProfile {
+  id                      String    @id @db.Uuid
+  organizationId          String    @map("organization_id") @db.Uuid
+  userId                  String    @unique(map: "student_profiles_user_id_key") @map("user_id") @db.Uuid
+  studentNumber           String    @map("student_number") @db.VarChar(32)
+  fullName                String    @map("full_name") @db.VarChar(100)
+  gender                  String    @db.VarChar(32)
+  gradeYear               Int       @map("grade_year")
+  collegeName             String?   @map("college_name") @db.VarChar(200)
+  majorName               String?   @map("major_name") @db.VarChar(200)
+  administrativeClassName String?   @map("administrative_class_name") @db.VarChar(200)
+  status                  String    @db.VarChar(32)
+  version                 Int       @default(1)
+  createdAt               DateTime  @map("created_at") @db.Timestamptz(6)
+  updatedAt               DateTime  @map("updated_at") @db.Timestamptz(6)
+  deletedAt               DateTime? @map("deleted_at") @db.Timestamptz(6)
+
+  organization                   Organization                   @relation(fields: [organizationId], references: [id], onDelete: Restrict)
+  user                           User                           @relation(fields: [userId, organizationId], references: [id, organizationId], onDelete: Restrict)
+  enrollments                    Enrollment[]
+  rosterAlignmentPlatformEntries RosterAlignmentPlatformEntry[]
+  exerciseSessions               ExerciseSession[]
+  mediaEvidence                  MediaEvidence[]
+  exerciseRecords                ExerciseRecord[]
+  studentScores                  StudentScore[]
+  scoreAdjustments               ScoreAdjustment[]
+  exemptionApplications          ExemptionApplication[]
+  locationConsents               LocationConsent[]
+  locationTracks                 LocationTrack[]
+
+  @@unique([id, organizationId], map: "student_profiles_id_organization_id_key")
+  @@unique([organizationId, studentNumber], map: "student_profiles_organization_student_number_key")
+  @@unique([userId, organizationId], map: "student_profiles_user_id_organization_id_key")
+  @@index([organizationId, fullName], map: "student_profiles_organization_full_name_idx")
+  @@map("student_profiles")
+}
+
+model TeacherProfile {
+  id             String    @id @db.Uuid
+  organizationId String    @map("organization_id") @db.Uuid
+  userId         String    @unique(map: "teacher_profiles_user_id_key") @map("user_id") @db.Uuid
+  employeeNumber String    @map("employee_number") @db.VarChar(32)
+  fullName       String    @map("full_name") @db.VarChar(100)
+  collegeName    String?   @map("college_name") @db.VarChar(200)
+  departmentName String?   @map("department_name") @db.VarChar(200)
+  title          String?   @db.VarChar(100)
+  status         String    @db.VarChar(32)
+  version        Int       @default(1)
+  createdAt      DateTime  @map("created_at") @db.Timestamptz(6)
+  updatedAt      DateTime  @map("updated_at") @db.Timestamptz(6)
+  deletedAt      DateTime? @map("deleted_at") @db.Timestamptz(6)
+
+  organization     Organization            @relation(fields: [organizationId], references: [id], onDelete: Restrict)
+  user             User                    @relation(fields: [userId, organizationId], references: [id, organizationId], onDelete: Restrict)
+  classSections    ClassSection[]
+  exerciseRecords  ExerciseRecord[]        @relation("ExerciseRecordResponsibleTeacher")
+  reviewRecords    ReviewRecord[]          @relation("ReviewRecordTeacher")
+  exemptionReviews ExemptionReviewRecord[]
+
+  @@unique([id, organizationId], map: "teacher_profiles_id_organization_id_key")
+  @@unique([organizationId, employeeNumber], map: "teacher_profiles_organization_employee_number_key")
+  @@unique([userId, organizationId], map: "teacher_profiles_user_id_organization_id_key")
+  @@map("teacher_profiles")
+}
+
+model AdminProfile {
+  id             String    @id @db.Uuid
+  organizationId String    @map("organization_id") @db.Uuid
+  userId         String    @unique(map: "admin_profiles_user_id_key") @map("user_id") @db.Uuid
+  employeeNumber String    @map("employee_number") @db.VarChar(32)
+  fullName       String    @map("full_name") @db.VarChar(100)
+  departmentName String?   @map("department_name") @db.VarChar(200)
+  status         String    @db.VarChar(32)
+  version        Int       @default(1)
+  createdAt      DateTime  @map("created_at") @db.Timestamptz(6)
+  updatedAt      DateTime  @map("updated_at") @db.Timestamptz(6)
+  deletedAt      DateTime? @map("deleted_at") @db.Timestamptz(6)
+
+  organization Organization @relation(fields: [organizationId], references: [id], onDelete: Restrict)
+  user         User         @relation(fields: [userId, organizationId], references: [id, organizationId], onDelete: Restrict)
+
+  @@unique([organizationId, employeeNumber], map: "admin_profiles_organization_employee_number_key")
+  @@unique([userId, organizationId], map: "admin_profiles_user_id_organization_id_key")
+  @@map("admin_profiles")
+}
+
+model AuthSession {
+  id                String    @id @db.Uuid
+  organizationId    String    @map("organization_id") @db.Uuid
+  userId            String    @map("user_id") @db.Uuid
+  deviceIdHash      String?   @map("device_id_hash") @db.Char(64)
+  status            String    @db.VarChar(32)
+  tokenFamilyId     String    @unique(map: "auth_sessions_token_family_id_key") @map("token_family_id") @db.Uuid
+  createdAt         DateTime  @map("created_at") @db.Timestamptz(6)
+  lastSeenAt        DateTime  @map("last_seen_at") @db.Timestamptz(6)
+  absoluteExpiresAt DateTime  @map("absolute_expires_at") @db.Timestamptz(6)
+  idleExpiresAt     DateTime  @map("idle_expires_at") @db.Timestamptz(6)
+  revokedAt         DateTime? @map("revoked_at") @db.Timestamptz(6)
+  revokeReasonCode  String?   @map("revoke_reason_code") @db.VarChar(64)
+  version           Int       @default(1)
+
+  organization            Organization                @relation(fields: [organizationId], references: [id], onDelete: Restrict)
+  user                    User                        @relation(fields: [userId, organizationId], references: [id, organizationId], onDelete: Restrict)
+  refreshTokens           RefreshToken[]
+  idempotencyRecords      IdempotencyRecord[]
+  joinCapabilities        JoinCapability[]
+  startedExerciseSessions ExerciseSession[]           @relation("ExerciseSessionStartedByAuthSession")
+  exerciseSessionEvents   ExerciseSessionEvent[]      @relation("ExerciseSessionEventAuthSession")
+  exerciseRecordEvents    ExerciseRecordEvent[]       @relation("ExerciseRecordEventAuthSession")
+  pushDevices             PushDevice[]
+  notificationEvents      NotificationEvent[]
+  pushDeviceEvents        PushDeviceEvent[]
+  userPreferenceEvents    UserPreferenceEvent[]
+  feedbackEvents          FeedbackEvent[]
+  exemptionEvents         ExemptionApplicationEvent[]
+  locationConsentEvents   LocationConsentEvent[]
+  locationTrackEvents     LocationTrackEvent[]
+
+  @@unique([id, organizationId], map: "auth_sessions_id_organization_id_key")
+  @@index([organizationId, userId, status], map: "auth_sessions_organization_user_status_idx")
+  @@index([idleExpiresAt], map: "auth_sessions_idle_expires_at_idx")
+  @@map("auth_sessions")
+}
+
+model RefreshToken {
+  id                String    @id @db.Uuid
+  organizationId    String    @map("organization_id") @db.Uuid
+  authSessionId     String    @map("auth_session_id") @db.Uuid
+  tokenHash         String    @unique(map: "refresh_tokens_token_hash_key") @map("token_hash") @db.Char(64)
+  parentTokenId     String?   @unique(map: "refresh_tokens_parent_token_id_key") @map("parent_token_id") @db.Uuid
+  replacedByTokenId String?   @unique(map: "refresh_tokens_replaced_by_token_id_key") @map("replaced_by_token_id") @db.Uuid
+  issuedAt          DateTime  @map("issued_at") @db.Timestamptz(6)
+  expiresAt         DateTime  @map("expires_at") @db.Timestamptz(6)
+  consumedAt        DateTime? @map("consumed_at") @db.Timestamptz(6)
+  revokedAt         DateTime? @map("revoked_at") @db.Timestamptz(6)
+  reuseDetectedAt   DateTime? @map("reuse_detected_at") @db.Timestamptz(6)
+
+  organization    Organization   @relation(fields: [organizationId], references: [id], onDelete: Restrict)
+  authSession     AuthSession    @relation(fields: [authSessionId, organizationId], references: [id, organizationId], onDelete: Restrict)
+  parentToken     RefreshToken?  @relation("RefreshTokenParent", fields: [parentTokenId, organizationId], references: [id, organizationId], onDelete: Restrict)
+  childTokens     RefreshToken[] @relation("RefreshTokenParent")
+  replacedByToken RefreshToken?  @relation("RefreshTokenReplacement", fields: [replacedByTokenId, organizationId], references: [id, organizationId], onDelete: Restrict)
+  replacesTokens  RefreshToken[] @relation("RefreshTokenReplacement")
+
+  @@unique([id, organizationId], map: "refresh_tokens_id_organization_id_key")
+  @@index([authSessionId, issuedAt], map: "refresh_tokens_session_issued_at_idx")
+  @@index([expiresAt], map: "refresh_tokens_expires_at_idx")
+  @@map("refresh_tokens")
+}
+
+model Semester {
+  id             String   @id @db.Uuid
+  organizationId String   @map("organization_id") @db.Uuid
+  academicYear   String   @map("academic_year") @db.VarChar(9)
+  termCode       String   @map("term_code") @db.VarChar(32)
+  displayName    String   @map("display_name") @db.VarChar(100)
+  startDate      DateTime @map("start_date") @db.Date
+  endDate        DateTime @map("end_date") @db.Date
+  status         String   @db.VarChar(32)
+  createdBy      String?  @map("created_by") @db.Uuid
+  version        Int      @default(1)
+  createdAt      DateTime @map("created_at") @db.Timestamptz(6)
+  updatedAt      DateTime @map("updated_at") @db.Timestamptz(6)
+
+  organization                   Organization                   @relation(fields: [organizationId], references: [id], onDelete: Restrict)
+  createdByUser                  User?                          @relation("SemesterCreatedBy", fields: [createdBy, organizationId], references: [id, organizationId], onDelete: Restrict)
+  classSections                  ClassSection[]
+  enrollments                    Enrollment[]
+  rosterAlignmentRuns            RosterAlignmentRun[]
+  rosterAlignmentPlatformEntries RosterAlignmentPlatformEntry[]
+  exerciseSessions               ExerciseSession[]
+  exerciseRecords                ExerciseRecord[]
+  scoreRules                     ScoreRule[]
+  studentScores                  StudentScore[]
+  exemptionApplications          ExemptionApplication[]
+  locationTracks                 LocationTrack[]
+
+  @@unique([id, organizationId], map: "semesters_id_organization_id_key")
+  @@unique([organizationId, academicYear, termCode], map: "semesters_organization_academic_year_term_code_key")
+  @@index([organizationId, status], map: "semesters_organization_status_idx")
+  @@index([createdBy], map: "semesters_created_by_idx")
+  @@map("semesters")
+}
+
+model Course {
+  id             String    @id @db.Uuid
+  organizationId String    @map("organization_id") @db.Uuid
+  courseCode     String    @map("course_code") @db.VarChar(32)
+  courseName     String    @map("course_name") @db.VarChar(200)
+  description    String?   @db.VarChar(2000)
+  status         String    @default("ACTIVE") @db.VarChar(16)
+  createdBy      String    @map("created_by") @db.Uuid
+  updatedBy      String    @map("updated_by") @db.Uuid
+  createdAt      DateTime  @map("created_at") @db.Timestamptz(6)
+  updatedAt      DateTime  @map("updated_at") @db.Timestamptz(6)
+  deletedAt      DateTime? @map("deleted_at") @db.Timestamptz(6)
+  deletedBy      String?   @map("deleted_by") @db.Uuid
+  version        Int       @default(1)
+
+  organization    Organization     @relation(fields: [organizationId], references: [id], onDelete: Restrict)
+  createdByUser   User             @relation("CourseCreatedBy", fields: [createdBy, organizationId], references: [id, organizationId], onDelete: Restrict)
+  updatedByUser   User             @relation("CourseUpdatedBy", fields: [updatedBy, organizationId], references: [id, organizationId], onDelete: Restrict)
+  deletedByUser   User?            @relation("CourseDeletedBy", fields: [deletedBy, organizationId], references: [id, organizationId], onDelete: Restrict)
+  classSections   ClassSection[]
+  exerciseRecords ExerciseRecord[]
+
+  @@unique([id, organizationId], map: "courses_id_organization_id_key")
+  @@unique([organizationId, courseCode], map: "courses_organization_course_code_key")
+  @@index([organizationId, status, courseCode, id], map: "courses_organization_status_code_id_idx")
+  @@index([organizationId, updatedAt, id], map: "courses_organization_updated_at_id_idx")
+  @@map("courses")
+}
+
+model ClassSection {
+  v81CourseRule_section V81CourseRule? @relation("V81CourseRule_section")
+  v81CourseRule_scopedSection V81CourseRule[] @relation("V81CourseRule_scopedSection")
+  v81Interruption_section V81Interruption[] @relation("V81Interruption_section")
+  v81ManualMode_section V81ManualMode? @relation("V81ManualMode_section")
+  v81ManualMode_scopedSection V81ManualMode[] @relation("V81ManualMode_scopedSection")
+  id                   String    @id @db.Uuid
+  organizationId       String    @map("organization_id") @db.Uuid
+  courseId             String    @map("course_id") @db.Uuid
+  semesterId           String    @map("semester_id") @db.Uuid
+  teacherId            String    @map("teacher_id") @db.Uuid
+  classCode            String    @map("class_code") @db.VarChar(64)
+  displayName          String    @map("display_name") @db.VarChar(200)
+  status               String    @db.VarChar(16)
+  isEnrollmentOpen     Boolean   @default(false) @map("is_enrollment_open")
+  checkInWindowMode    String    @default("UNAVAILABLE") @map("check_in_window_mode") @db.VarChar(32)
+  checkInStartDate     DateTime? @map("check_in_start_date") @db.Date
+  checkInEndDate       DateTime? @map("check_in_end_date") @db.Date
+  dailyStartTime       DateTime? @map("daily_start_time") @db.Time(0)
+  dailyEndTime         DateTime? @map("daily_end_time") @db.Time(0)
+  submissionDeadlineAt DateTime? @map("submission_deadline_at") @db.Timestamptz(6)
+  createdBy            String    @map("created_by") @db.Uuid
+  updatedBy            String    @map("updated_by") @db.Uuid
+  createdAt            DateTime  @map("created_at") @db.Timestamptz(6)
+  updatedAt            DateTime  @map("updated_at") @db.Timestamptz(6)
+  version              Int       @default(1)
+  closedAt             DateTime? @map("closed_at") @db.Timestamptz(6)
+  closedBy             String?   @map("closed_by") @db.Uuid
+  closeReason          String?   @map("close_reason") @db.VarChar(1000)
+
+  organization                   Organization                   @relation(fields: [organizationId], references: [id], onDelete: Restrict)
+  course                         Course                         @relation(fields: [courseId, organizationId], references: [id, organizationId], onDelete: Restrict)
+  semester                       Semester                       @relation(fields: [semesterId, organizationId], references: [id, organizationId], onDelete: Restrict)
+  teacher                        TeacherProfile                 @relation(fields: [teacherId, organizationId], references: [id, organizationId], onDelete: Restrict)
+  createdByUser                  User                           @relation("ClassSectionCreatedBy", fields: [createdBy, organizationId], references: [id, organizationId], onDelete: Restrict)
+  updatedByUser                  User                           @relation("ClassSectionUpdatedBy", fields: [updatedBy, organizationId], references: [id, organizationId], onDelete: Restrict)
+  closedByUser                   User?                          @relation("ClassSectionClosedBy", fields: [closedBy, organizationId], references: [id, organizationId], onDelete: Restrict)
+  excludedDates                  ClassSectionExcludedDate[]
+  courseInvites                  CourseInvite[]
+  capabilities                   JoinCapability[]
+  enrollments                    Enrollment[]
+  officialRosterImports          OfficialRosterImport[]
+  rosterAlignmentRuns            RosterAlignmentRun[]
+  rosterAlignmentPlatformEntries RosterAlignmentPlatformEntry[]
+  rosterAlignmentResults         RosterAlignmentResult[]
+  officialRosterEntries          OfficialRosterEntry[]
+  exerciseSessions               ExerciseSession[]
+  exerciseRecords                ExerciseRecord[]
+  scoreRules                     ScoreRule[]
+  studentScores                  StudentScore[]
+  exemptionApplications          ExemptionApplication[]
+  locationTracks                 LocationTrack[]
+
+  @@unique([id, organizationId], map: "class_sections_id_organization_id_key")
+  @@unique([id, semesterId, organizationId], map: "class_sections_id_semester_organization_key")
+  @@unique([id, courseId, semesterId, teacherId, organizationId], map: "class_sections_record_scope_key")
+  @@unique([semesterId, courseId, classCode], map: "class_sections_semester_course_class_code_key")
+  @@index([organizationId, teacherId, status, updatedAt, id], map: "class_sections_organization_teacher_status_updated_id_idx")
+  @@index([organizationId, semesterId, courseId, status], map: "class_sections_organization_semester_course_status_idx")
+  @@index([organizationId, status, updatedAt, id], map: "class_sections_organization_status_updated_id_idx")
+  @@map("class_sections")
+}
+
+model ClassSectionExcludedDate {
+  classSectionId String   @map("class_section_id") @db.Uuid
+  organizationId String   @map("organization_id") @db.Uuid
+  excludedDate   DateTime @map("excluded_date") @db.Date
+  createdAt      DateTime @map("created_at") @db.Timestamptz(6)
+  createdBy      String   @map("created_by") @db.Uuid
+
+  classSection  ClassSection @relation(fields: [classSectionId, organizationId], references: [id, organizationId], onDelete: Restrict)
+  organization  Organization @relation(fields: [organizationId], references: [id], onDelete: Restrict)
+  createdByUser User         @relation("ClassSectionExcludedDateCreatedBy", fields: [createdBy, organizationId], references: [id, organizationId], onDelete: Restrict)
+
+  @@id([classSectionId, excludedDate], map: "class_section_excluded_dates_pkey")
+  @@index([organizationId, excludedDate], map: "class_section_excluded_dates_organization_date_idx")
+  @@map("class_section_excluded_dates")
+}
+
+model CourseInvite {
+  id                    String    @id @db.Uuid
+  organizationId        String    @map("organization_id") @db.Uuid
+  classSectionId        String    @map("class_section_id") @db.Uuid
+  versionNumber         Int       @map("version_number")
+  status                String    @db.VarChar(16)
+  tokenHash             String    @unique(map: "course_invites_token_hash_key") @map("token_hash") @db.Char(64)
+  secretCiphertext      String?   @map("secret_ciphertext") @db.Text
+  secretKeyVersion      Int       @map("secret_key_version")
+  secretReplayExpiresAt DateTime? @map("secret_replay_expires_at") @db.Timestamptz(6)
+  createdBy             String    @map("created_by") @db.Uuid
+  createdAt             DateTime  @map("created_at") @db.Timestamptz(6)
+  expiresAt             DateTime  @map("expires_at") @db.Timestamptz(6)
+  revokedAt             DateTime? @map("revoked_at") @db.Timestamptz(6)
+  revokedBy             String?   @map("revoked_by") @db.Uuid
+  revokeReason          String?   @map("revoke_reason") @db.VarChar(1000)
+  replacedByInviteId    String?   @map("replaced_by_invite_id") @db.Uuid
+  rowVersion            Int       @default(1) @map("row_version")
+
+  organization     Organization     @relation(fields: [organizationId], references: [id], onDelete: Restrict)
+  classSection     ClassSection     @relation(fields: [classSectionId, organizationId], references: [id, organizationId], onDelete: Restrict)
+  createdByUser    User             @relation("CourseInviteCreatedBy", fields: [createdBy, organizationId], references: [id, organizationId], onDelete: Restrict)
+  revokedByUser    User?            @relation("CourseInviteRevokedBy", fields: [revokedBy, organizationId], references: [id, organizationId], onDelete: Restrict)
+  replacedByInvite CourseInvite?    @relation("CourseInviteReplacement", fields: [replacedByInviteId, organizationId], references: [id, organizationId], onDelete: Restrict, map: "course_invites_replaced_by_organization_id_fkey")
+  replacesInvites  CourseInvite[]   @relation("CourseInviteReplacement")
+  capabilities     JoinCapability[]
+
+  @@unique([id, organizationId], map: "course_invites_id_organization_id_key")
+  @@unique([id, classSectionId, organizationId], map: "course_invites_id_section_organization_key")
+  @@unique([classSectionId, versionNumber], map: "course_invites_section_version_key")
+  @@index([organizationId, classSectionId, status, createdAt], map: "course_invites_organization_section_status_created_idx")
+  @@index([expiresAt], map: "course_invites_expires_at_idx")
+  @@index([secretReplayExpiresAt], map: "course_invites_secret_replay_expires_at_idx")
+  @@map("course_invites")
+}
+
+model Enrollment {
+  v81FinalGrades V81FinalGradeRevision[]
+  v81CertificationCredit_enrollment V81CertificationCredit[] @relation("V81CertificationCredit_enrollment")
+  id                String    @id @db.Uuid
+  organizationId    String    @map("organization_id") @db.Uuid
+  semesterId        String    @map("semester_id") @db.Uuid
+  classSectionId    String    @map("class_section_id") @db.Uuid
+  studentId         String    @map("student_id") @db.Uuid
+  source            String    @db.VarChar(32)
+  sourceReferenceId String?   @map("source_reference_id") @db.Uuid
+  status            String    @db.VarChar(16)
+  joinedAt          DateTime  @map("joined_at") @db.Timestamptz(6)
+  endedAt           DateTime? @map("ended_at") @db.Timestamptz(6)
+  endReason         String?   @map("end_reason") @db.VarChar(1000)
+  createdBy         String    @map("created_by") @db.Uuid
+  updatedBy         String    @map("updated_by") @db.Uuid
+  createdAt         DateTime  @map("created_at") @db.Timestamptz(6)
+  updatedAt         DateTime  @map("updated_at") @db.Timestamptz(6)
+  version           Int       @default(1)
+
+  organization                   Organization                   @relation(fields: [organizationId], references: [id], onDelete: Restrict)
+  semester                       Semester                       @relation(fields: [semesterId, organizationId], references: [id, organizationId], onDelete: Restrict)
+  classSection                   ClassSection                   @relation(fields: [classSectionId, semesterId, organizationId], references: [id, semesterId, organizationId], onDelete: Restrict, map: "enrollments_class_section_semester_organization_fkey")
+  student                        StudentProfile                 @relation(fields: [studentId, organizationId], references: [id, organizationId], onDelete: Restrict)
+  createdByUser                  User                           @relation("EnrollmentCreatedBy", fields: [createdBy, organizationId], references: [id, organizationId], onDelete: Restrict)
+  updatedByUser                  User                           @relation("EnrollmentUpdatedBy", fields: [updatedBy, organizationId], references: [id, organizationId], onDelete: Restrict)
+  statusEvents                   EnrollmentStatusEvent[]
+  joinCapabilities               JoinCapability[]
+  rosterAlignmentPlatformEntries RosterAlignmentPlatformEntry[]
+  exerciseSessions               ExerciseSession[]
+  exerciseRecords                ExerciseRecord[]
+  exerciseRecordDailySlots       ExerciseRecordDailySlot[]
+  studentScore                   StudentScore?
+  exemptionApplications          ExemptionApplication[]
+  exemptionMediaEvidence         MediaEvidence[]                @relation("MediaEvidenceExemptionEnrollment")
+  locationTracks                 LocationTrack[]
+
+  @@unique([id, organizationId], map: "enrollments_id_organization_id_key")
+  @@unique([id, studentId, organizationId], map: "enrollments_id_student_organization_key")
+  @@unique([id, semesterId, classSectionId, studentId, organizationId], map: "enrollments_id_semester_section_student_organization_key")
+  @@unique([classSectionId, studentId], map: "enrollments_class_section_student_key")
+  @@index([organizationId, classSectionId, status, joinedAt, id], map: "enrollments_organization_section_status_joined_id_idx")
+  @@index([organizationId, studentId, status, joinedAt, id], map: "enrollments_organization_student_status_joined_id_idx")
+  @@index([organizationId, semesterId, status], map: "enrollments_organization_semester_status_idx")
+  @@map("enrollments")
+}
+
+model EnrollmentStatusEvent {
+  id                      String   @id @db.Uuid
+  organizationId          String   @map("organization_id") @db.Uuid
+  enrollmentId            String   @map("enrollment_id") @db.Uuid
+  fromStatus              String?  @map("from_status") @db.VarChar(16)
+  toStatus                String   @map("to_status") @db.VarChar(16)
+  source                  String   @db.VarChar(32)
+  reason                  String?  @db.VarChar(1000)
+  actorUserId             String   @map("actor_user_id") @db.Uuid
+  actorRoleSnapshot       String   @map("actor_role_snapshot") @db.VarChar(32)
+  requestId               String   @map("request_id") @db.VarChar(64)
+  idempotencyKeyReference String?  @map("idempotency_key_reference") @db.Char(64)
+  occurredAt              DateTime @map("occurred_at") @db.Timestamptz(6)
+  enrollmentVersion       Int      @map("enrollment_version")
+
+  organization Organization @relation(fields: [organizationId], references: [id], onDelete: Restrict)
+  enrollment   Enrollment   @relation(fields: [enrollmentId, organizationId], references: [id, organizationId], onDelete: Restrict)
+  actor        User         @relation("EnrollmentStatusEventActor", fields: [actorUserId, organizationId], references: [id, organizationId], onDelete: Restrict)
+
+  @@unique([enrollmentId, enrollmentVersion], map: "enrollment_status_events_enrollment_version_key")
+  @@unique([id, organizationId], map: "enrollment_status_events_id_organization_id_key")
+  @@index([organizationId, enrollmentId, occurredAt, id], map: "enrollment_status_events_organization_enrollment_occurred_idx")
+  @@index([requestId], map: "enrollment_status_events_request_id_idx")
+  @@map("enrollment_status_events")
+}
+
+model ExerciseSession {
+  id                       String    @id @db.Uuid
+  organizationId           String    @map("organization_id") @db.Uuid
+  studentId                String    @map("student_id") @db.Uuid
+  enrollmentId             String    @map("enrollment_id") @db.Uuid
+  classSectionId           String    @map("class_section_id") @db.Uuid
+  semesterId               String    @map("semester_id") @db.Uuid
+  startedByAuthSessionId   String    @map("started_by_auth_session_id") @db.Uuid
+  status                   String    @db.VarChar(16)
+  startedAt                DateTime  @map("started_at") @db.Timestamptz(6)
+  businessDate             DateTime  @map("business_date") @db.Date
+  completedAt              DateTime? @map("completed_at") @db.Timestamptz(6)
+  cancelledAt              DateTime? @map("cancelled_at") @db.Timestamptz(6)
+  expiredAt                DateTime? @map("expired_at") @db.Timestamptz(6)
+  endReason                String?   @map("end_reason") @db.VarChar(32)
+  actualDurationSeconds    BigInt    @default(0) @map("actual_duration_seconds")
+  pausedDurationSeconds    BigInt    @default(0) @map("paused_duration_seconds")
+  currentIntervalStartedAt DateTime? @map("current_interval_started_at") @db.Timestamptz(6)
+  lastHeartbeatAt          DateTime? @map("last_heartbeat_at") @db.Timestamptz(6)
+  createdAt                DateTime  @map("created_at") @db.Timestamptz(6)
+  updatedAt                DateTime  @map("updated_at") @db.Timestamptz(6)
+  version                  Int       @default(1)
+
+  organization         Organization             @relation(fields: [organizationId], references: [id], onDelete: Restrict)
+  student              StudentProfile           @relation(fields: [studentId, organizationId], references: [id, organizationId], onDelete: Restrict, map: "exercise_sessions_student_organization_fkey")
+  enrollment           Enrollment               @relation(fields: [enrollmentId, semesterId, classSectionId, studentId, organizationId], references: [id, semesterId, classSectionId, studentId, organizationId], onDelete: Restrict, map: "exercise_sessions_enrollment_scope_fkey")
+  classSection         ClassSection             @relation(fields: [classSectionId, semesterId, organizationId], references: [id, semesterId, organizationId], onDelete: Restrict, map: "exercise_sessions_class_section_scope_fkey")
+  semester             Semester                 @relation(fields: [semesterId, organizationId], references: [id, organizationId], onDelete: Restrict, map: "exercise_sessions_semester_organization_fkey")
+  startedByAuthSession AuthSession              @relation("ExerciseSessionStartedByAuthSession", fields: [startedByAuthSessionId, organizationId], references: [id, organizationId], onDelete: Restrict, map: "exercise_sessions_auth_session_organization_fkey")
+  segments             ExerciseSessionSegment[]
+  events               ExerciseSessionEvent[]
+  mediaEvidence        MediaEvidence[]
+  exerciseRecord       ExerciseRecord?
+  locationTrack        LocationTrack?
+
+  @@unique([id, organizationId], map: "exercise_sessions_id_organization_id_key")
+  @@unique([id, studentId, organizationId], map: "exercise_sessions_id_student_organization_key")
+  @@unique([id, enrollmentId, semesterId, classSectionId, studentId, organizationId], map: "exercise_sessions_record_scope_key")
+  @@index([organizationId, studentId, status, startedAt, id], map: "exercise_sessions_student_status_started_idx")
+  @@index([organizationId, enrollmentId, startedAt, id], map: "exercise_sessions_enrollment_started_idx")
+  @@index([organizationId, classSectionId, businessDate, id], map: "exercise_sessions_class_business_date_idx")
+  @@index([status, currentIntervalStartedAt], map: "exercise_sessions_status_interval_idx")
+  @@map("exercise_sessions")
+}
+
+model ExerciseSessionSegment {
+  id                      String    @id @db.Uuid
+  organizationId          String    @map("organization_id") @db.Uuid
+  exerciseSessionId       String    @map("exercise_session_id") @db.Uuid
+  sequenceNumber          Int       @map("sequence_number")
+  segmentType             String    @map("segment_type") @db.VarChar(16)
+  startedAt               DateTime  @map("started_at") @db.Timestamptz(6)
+  endedAt                 DateTime? @map("ended_at") @db.Timestamptz(6)
+  acceptedDurationSeconds BigInt    @default(0) @map("accepted_duration_seconds")
+  source                  String    @default("SERVER") @db.VarChar(16)
+  createdAt               DateTime  @map("created_at") @db.Timestamptz(6)
+
+  organization    Organization    @relation(fields: [organizationId], references: [id], onDelete: Restrict)
+  exerciseSession ExerciseSession @relation(fields: [exerciseSessionId, organizationId], references: [id, organizationId], onDelete: Restrict, map: "exercise_session_segments_session_organization_fkey")
+
+  @@unique([id, organizationId], map: "exercise_session_segments_id_organization_id_key")
+  @@unique([exerciseSessionId, sequenceNumber], map: "exercise_session_segments_session_sequence_key")
+  @@index([organizationId, exerciseSessionId, startedAt, id], map: "exercise_session_segments_session_started_idx")
+  @@map("exercise_session_segments")
+}
+
+model ExerciseSessionEvent {
+  id                      String    @id @db.Uuid
+  organizationId          String    @map("organization_id") @db.Uuid
+  exerciseSessionId       String    @map("exercise_session_id") @db.Uuid
+  eventVersion            Int       @map("event_version")
+  eventType               String    @map("event_type") @db.VarChar(32)
+  fromStatus              String?   @map("from_status") @db.VarChar(16)
+  toStatus                String    @map("to_status") @db.VarChar(16)
+  acceptedAt              DateTime  @map("accepted_at") @db.Timestamptz(6)
+  clientObservedAt        DateTime? @map("client_observed_at") @db.Timestamptz(6)
+  clientEventId           String?   @map("client_event_id") @db.VarChar(128)
+  actorUserId             String    @map("actor_user_id") @db.Uuid
+  authSessionId           String    @map("auth_session_id") @db.Uuid
+  requestId               String    @map("request_id") @db.VarChar(64)
+  idempotencyKeyReference String?   @map("idempotency_key_reference") @db.Char(64)
+  safeMetadata            Json      @default("{}") @map("safe_metadata") @db.JsonB
+  createdAt               DateTime  @map("created_at") @db.Timestamptz(6)
+
+  organization    Organization    @relation(fields: [organizationId], references: [id], onDelete: Restrict)
+  exerciseSession ExerciseSession @relation(fields: [exerciseSessionId, organizationId], references: [id, organizationId], onDelete: Restrict, map: "exercise_session_events_session_organization_fkey")
+  actor           User            @relation("ExerciseSessionEventActor", fields: [actorUserId, organizationId], references: [id, organizationId], onDelete: Restrict, map: "exercise_session_events_actor_organization_fkey")
+  authSession     AuthSession     @relation("ExerciseSessionEventAuthSession", fields: [authSessionId, organizationId], references: [id, organizationId], onDelete: Restrict, map: "exercise_session_events_auth_session_organization_fkey")
+
+  @@unique([id, organizationId], map: "exercise_session_events_id_organization_id_key")
+  @@unique([exerciseSessionId, eventVersion], map: "exercise_session_events_session_version_key")
+  @@index([organizationId, exerciseSessionId, acceptedAt, id], map: "exercise_session_events_session_accepted_idx")
+  @@index([requestId], map: "exercise_session_events_request_id_idx")
+  @@map("exercise_session_events")
+}
+
+model MediaEvidence {
+  v81SwimIntakeItems V81SwimIntakeItem[]
+  v81ApplicationMaterials V81ApplicationMaterial[] @relation("V81ApplicationMaterialMedia")
+  v81MaterialItem_media V81MaterialItem[] @relation("V81MaterialItem_media")
+  id                      String    @id @db.Uuid
+  organizationId          String    @map("organization_id") @db.Uuid
+  ownerStudentId          String    @map("owner_student_id") @db.Uuid
+  sessionId               String?   @map("session_id") @db.Uuid
+  enrollmentId            String?   @map("enrollment_id") @db.Uuid
+  initiatedByUserId       String    @map("initiated_by_user_id") @db.Uuid
+  businessPurpose         String    @map("business_purpose") @db.VarChar(32)
+  mediaType               String    @map("media_type") @db.VarChar(16)
+  captureSource           String    @map("capture_source") @db.VarChar(32)
+  declaredMimeType        String    @map("declared_mime_type") @db.VarChar(127)
+  verifiedMimeType        String?   @map("verified_mime_type") @db.VarChar(127)
+  declaredFileSizeBytes   BigInt    @map("declared_file_size_bytes")
+  verifiedFileSizeBytes   BigInt?   @map("verified_file_size_bytes")
+  declaredContentSha256   String?   @map("declared_content_sha256") @db.Char(64)
+  verifiedContentSha256   String?   @map("verified_content_sha256") @db.Char(64)
+  declaredDurationSeconds Int?      @map("declared_duration_seconds")
+  verifiedDurationSeconds Int?      @map("verified_duration_seconds")
+  uploadStatus            String    @map("upload_status") @db.VarChar(24)
+  storageKey              String    @unique(map: "media_evidence_storage_key_key") @map("storage_key") @db.VarChar(512)
+  uploadedAt              DateTime? @map("uploaded_at") @db.Timestamptz(6)
+  boundAt                 DateTime? @map("bound_at") @db.Timestamptz(6)
+  processingStartedAt     DateTime? @map("processing_started_at") @db.Timestamptz(6)
+  availableAt             DateTime? @map("available_at") @db.Timestamptz(6)
+  failedAt                DateTime? @map("failed_at") @db.Timestamptz(6)
+  failureCode             String?   @map("failure_code") @db.VarChar(64)
+  createdAt               DateTime  @map("created_at") @db.Timestamptz(6)
+  updatedAt               DateTime  @map("updated_at") @db.Timestamptz(6)
+  version                 Int       @default(1)
+
+  organization          Organization                @relation(fields: [organizationId], references: [id], onDelete: Restrict)
+  ownerStudent          StudentProfile              @relation(fields: [ownerStudentId, organizationId], references: [id, organizationId], onDelete: Restrict, map: "media_evidence_owner_organization_fkey")
+  session               ExerciseSession?            @relation(fields: [sessionId, ownerStudentId, organizationId], references: [id, studentId, organizationId], onDelete: Restrict, map: "media_evidence_session_owner_organization_fkey")
+  exemptionEnrollment   Enrollment?                 @relation("MediaEvidenceExemptionEnrollment", fields: [enrollmentId, ownerStudentId, organizationId], references: [id, studentId, organizationId], onDelete: Restrict, map: "media_evidence_enrollment_owner_organization_fkey")
+  initiatedByUser       User                        @relation("MediaEvidenceInitiatedBy", fields: [initiatedByUserId, organizationId], references: [id, organizationId], onDelete: Restrict, map: "media_evidence_initiator_organization_fkey")
+  uploadSession         MediaUploadSession?
+  statusEvents          MediaStatusEvent[]
+  processingAttempts    MediaProcessingAttempt[]
+  recordAssociation     ExerciseRecordMedia?
+  exemptionAssociations ExemptionApplicationMedia[]
+
+  @@unique([id, organizationId], map: "media_evidence_id_organization_id_key")
+  @@unique([id, sessionId, ownerStudentId, organizationId], map: "media_evidence_record_scope_key")
+  @@unique([id, enrollmentId, ownerStudentId, organizationId], map: "media_evidence_exemption_scope_key")
+  @@index([organizationId, ownerStudentId, sessionId, uploadStatus, createdAt, id], map: "media_evidence_owner_session_status_idx")
+  @@index([organizationId, ownerStudentId, enrollmentId, uploadStatus, createdAt, id], map: "media_evidence_owner_enrollment_status_idx")
+  @@index([uploadStatus, processingStartedAt, id], map: "media_evidence_processing_claim_idx")
+  @@map("media_evidence")
+}
+
+model ExerciseRecord {
+  v81SwimIntake V81SwimIntake?
+  v81RecordWorkflow_record V81RecordWorkflow? @relation("V81RecordWorkflow_record")
+  v81RecordWorkflow_scopedRecord V81RecordWorkflow[] @relation("V81RecordWorkflow_scopedRecord")
+  v81MaterialVersion_record V81MaterialVersion[] @relation("V81MaterialVersion_record")
+  v81MaterialVersion_scopedRecord V81MaterialVersion[] @relation("V81MaterialVersion_scopedRecord")
+  v81CreditProjection_record V81CreditProjection? @relation("V81CreditProjection_record")
+  id                      String    @id @db.Uuid
+  organizationId          String    @map("organization_id") @db.Uuid
+  semesterId              String    @map("semester_id") @db.Uuid
+  studentId               String    @map("student_id") @db.Uuid
+  enrollmentId            String    @map("enrollment_id") @db.Uuid
+  classSectionId          String    @map("class_section_id") @db.Uuid
+  courseId                String    @map("course_id") @db.Uuid
+  teacherId               String    @map("teacher_id") @db.Uuid
+  sessionId               String    @unique(map: "exercise_records_session_id_key") @map("session_id") @db.Uuid
+  businessDate            DateTime  @map("business_date") @db.Date
+  creditType              String    @map("credit_type") @db.VarChar(32)
+  sportType               String    @map("sport_type") @db.VarChar(64)
+  sportName               String?   @map("sport_name") @db.VarChar(100)
+  description             String?   @db.VarChar(200)
+  /// Retired compatibility tombstone. Application code cannot read or write this legacy column.
+  retiredStudentRemark    String?   @map("student_remark") @ignore @db.VarChar(200)
+  actualDurationSeconds   BigInt    @map("actual_duration_seconds")
+  pausedDurationSeconds   BigInt    @map("paused_duration_seconds")
+  creditedDurationSeconds BigInt    @map("credited_duration_seconds")
+  status                  String    @db.VarChar(32)
+  submittedAt             DateTime? @map("submitted_at") @db.Timestamptz(6)
+  cancelledAt             DateTime? @map("cancelled_at") @db.Timestamptz(6)
+  clientRequestId         String    @map("client_request_id") @db.VarChar(64)
+  createdAt               DateTime  @map("created_at") @db.Timestamptz(6)
+  updatedAt               DateTime  @map("updated_at") @db.Timestamptz(6)
+  version                 Int       @default(1)
+
+  organization       Organization             @relation(fields: [organizationId], references: [id], onDelete: Restrict)
+  semester           Semester                 @relation(fields: [semesterId, organizationId], references: [id, organizationId], onDelete: Restrict, map: "exercise_records_semester_organization_fkey")
+  student            StudentProfile           @relation(fields: [studentId, organizationId], references: [id, organizationId], onDelete: Restrict, map: "exercise_records_student_organization_fkey")
+  enrollment         Enrollment               @relation(fields: [enrollmentId, semesterId, classSectionId, studentId, organizationId], references: [id, semesterId, classSectionId, studentId, organizationId], onDelete: Restrict, map: "exercise_records_enrollment_scope_fkey")
+  classSection       ClassSection             @relation(fields: [classSectionId, courseId, semesterId, teacherId, organizationId], references: [id, courseId, semesterId, teacherId, organizationId], onDelete: Restrict, map: "exercise_records_class_section_scope_fkey")
+  course             Course                   @relation(fields: [courseId, organizationId], references: [id, organizationId], onDelete: Restrict, map: "exercise_records_course_organization_fkey")
+  teacher            TeacherProfile           @relation("ExerciseRecordResponsibleTeacher", fields: [teacherId, organizationId], references: [id, organizationId], onDelete: Restrict, map: "exercise_records_teacher_organization_fkey")
+  session            ExerciseSession          @relation(fields: [sessionId, enrollmentId, semesterId, classSectionId, studentId, organizationId], references: [id, enrollmentId, semesterId, classSectionId, studentId, organizationId], onDelete: Restrict, map: "exercise_records_session_scope_fkey")
+  media              ExerciseRecordMedia[]
+  events             ExerciseRecordEvent[]
+  reviews            ReviewRecord[]
+  scoreContributions ScoreContribution[]
+  dailySlot          ExerciseRecordDailySlot?
+  locationSummary    LocationSummary?
+
+  @@unique([id, organizationId], map: "exercise_records_id_organization_id_key")
+  @@unique([id, sessionId, studentId, organizationId], map: "exercise_records_media_scope_key")
+  @@unique([id, enrollmentId, organizationId, businessDate], map: "exercise_records_daily_slot_scope_key")
+  @@unique([sessionId, enrollmentId, semesterId, classSectionId, studentId, organizationId], map: "exercise_records_session_scope_key")
+  @@index([organizationId, studentId, businessDate, id], map: "exercise_records_student_business_date_idx")
+  @@index([organizationId, classSectionId, businessDate, id], map: "exercise_records_class_business_date_idx")
+  @@index([organizationId, status, submittedAt, id], map: "exercise_records_status_submitted_idx")
+  @@map("exercise_records")
+}
+
+model ExerciseRecordMedia {
+  organizationId String   @map("organization_id") @db.Uuid
+  recordId       String   @map("record_id") @db.Uuid
+  mediaId        String   @unique(map: "exercise_record_media_media_id_key") @map("media_id") @db.Uuid
+  sessionId      String   @map("session_id") @db.Uuid
+  ownerStudentId String   @map("owner_student_id") @db.Uuid
+  position       Int
+  createdAt      DateTime @map("created_at") @db.Timestamptz(6)
+
+  organization Organization   @relation(fields: [organizationId], references: [id], onDelete: Restrict)
+  record       ExerciseRecord @relation(fields: [recordId, sessionId, ownerStudentId, organizationId], references: [id, sessionId, studentId, organizationId], onDelete: Restrict, map: "exercise_record_media_record_scope_fkey")
+  media        MediaEvidence  @relation(fields: [mediaId, sessionId, ownerStudentId, organizationId], references: [id, sessionId, ownerStudentId, organizationId], onDelete: Restrict, map: "exercise_record_media_media_scope_fkey")
+
+  @@id([recordId, mediaId], map: "exercise_record_media_pkey")
+  @@unique([mediaId, sessionId, ownerStudentId, organizationId], map: "exercise_record_media_media_scope_key")
+  @@unique([recordId, position], map: "exercise_record_media_record_position_key")
+  @@index([organizationId, recordId, position], map: "exercise_record_media_record_position_idx")
+  @@map("exercise_record_media")
+}
+
+model ExerciseRecordDailySlot {
+  organizationId String   @map("organization_id") @db.Uuid
+  enrollmentId   String   @map("enrollment_id") @db.Uuid
+  businessDate   DateTime @map("business_date") @db.Date
+  recordId       String   @unique(map: "exercise_record_daily_slots_record_id_key") @map("record_id") @db.Uuid
+  createdAt      DateTime @map("created_at") @db.Timestamptz(6)
+
+  organization Organization   @relation(fields: [organizationId], references: [id], onDelete: Restrict)
+  enrollment   Enrollment     @relation(fields: [enrollmentId, organizationId], references: [id, organizationId], onDelete: Restrict, map: "exercise_record_daily_slots_enrollment_organization_fkey")
+  record       ExerciseRecord @relation(fields: [recordId, enrollmentId, organizationId, businessDate], references: [id, enrollmentId, organizationId, businessDate], onDelete: Restrict, map: "exercise_record_daily_slots_record_scope_fkey")
+
+  @@id([enrollmentId, businessDate], map: "exercise_record_daily_slots_pkey")
+  @@unique([recordId, enrollmentId, organizationId, businessDate], map: "exercise_record_daily_slots_record_scope_key")
+  @@index([organizationId, businessDate, recordId], map: "exercise_record_daily_slots_organization_date_idx")
+  @@map("exercise_record_daily_slots")
+}
+
+model ExerciseRecordEvent {
+  id                      String   @id @db.Uuid
+  organizationId          String   @map("organization_id") @db.Uuid
+  recordId                String   @map("record_id") @db.Uuid
+  eventVersion            Int      @map("event_version")
+  eventType               String   @map("event_type") @db.VarChar(32)
+  fromStatus              String?  @map("from_status") @db.VarChar(32)
+  toStatus                String   @map("to_status") @db.VarChar(32)
+  actorUserId             String   @map("actor_user_id") @db.Uuid
+  authSessionId           String   @map("auth_session_id") @db.Uuid
+  requestId               String   @map("request_id") @db.VarChar(64)
+  idempotencyKeyReference String?  @map("idempotency_key_reference") @db.Char(64)
+  safeMetadata            Json     @default("{}") @map("safe_metadata") @db.JsonB
+  occurredAt              DateTime @map("occurred_at") @db.Timestamptz(6)
+
+  organization Organization   @relation(fields: [organizationId], references: [id], onDelete: Restrict)
+  record       ExerciseRecord @relation(fields: [recordId, organizationId], references: [id, organizationId], onDelete: Restrict, map: "exercise_record_events_record_organization_fkey")
+  actor        User           @relation("ExerciseRecordEventActor", fields: [actorUserId, organizationId], references: [id, organizationId], onDelete: Restrict, map: "exercise_record_events_actor_organization_fkey")
+  authSession  AuthSession    @relation("ExerciseRecordEventAuthSession", fields: [authSessionId, organizationId], references: [id, organizationId], onDelete: Restrict, map: "exercise_record_events_auth_session_organization_fkey")
+
+  @@unique([id, organizationId], map: "exercise_record_events_id_organization_id_key")
+  @@unique([recordId, eventVersion], map: "exercise_record_events_record_version_key")
+  @@index([organizationId, recordId, occurredAt, id], map: "exercise_record_events_record_occurred_idx")
+  @@index([requestId], map: "exercise_record_events_request_id_idx")
+  @@map("exercise_record_events")
+}
+
+model ReviewRecord {
+  id                              String    @id @db.Uuid
+  organizationId                  String    @map("organization_id") @db.Uuid
+  recordId                        String    @map("record_id") @db.Uuid
+  reviewVersion                   Int       @map("review_version")
+  previousReviewId                String?   @map("previous_review_id") @db.Uuid
+  teacherId                       String?   @map("teacher_id") @db.Uuid
+  result                          String    @db.VarChar(16)
+  reasonCode                      String?   @map("reason_code") @db.VarChar(64)
+  reason                          String?   @db.VarChar(500)
+  publicComment                   String?   @map("public_comment") @db.VarChar(1000)
+  internalNote                    String?   @map("internal_note") @db.VarChar(2000)
+  creditedDurationOverrideSeconds BigInt?   @map("credited_duration_override_seconds")
+  reviewedAt                      DateTime? @map("reviewed_at") @db.Timestamptz(6)
+  createdAt                       DateTime  @map("created_at") @db.Timestamptz(6)
+
+  organization       Organization        @relation(fields: [organizationId], references: [id], onDelete: Restrict)
+  record             ExerciseRecord      @relation(fields: [recordId, organizationId], references: [id, organizationId], onDelete: Restrict, map: "review_records_record_organization_fkey")
+  teacher            TeacherProfile?     @relation("ReviewRecordTeacher", fields: [teacherId, organizationId], references: [id, organizationId], onDelete: Restrict, map: "review_records_teacher_organization_fkey")
+  previousReview     ReviewRecord?       @relation("ReviewRecordHistory", fields: [previousReviewId, recordId, organizationId], references: [id, recordId, organizationId], onDelete: Restrict, map: "review_records_previous_scope_fkey")
+  subsequentReviews  ReviewRecord[]      @relation("ReviewRecordHistory")
+  scoreContributions ScoreContribution[]
+
+  @@unique([id, organizationId], map: "review_records_id_organization_id_key")
+  @@unique([id, recordId, organizationId], map: "review_records_id_record_organization_key")
+  @@unique([recordId, reviewVersion], map: "review_records_record_version_key")
+  @@index([organizationId, recordId, reviewVersion], map: "review_records_record_version_idx")
+  @@map("review_records")
+}
+
+model MediaUploadSession {
+  id                    String    @id @db.Uuid
+  organizationId        String    @map("organization_id") @db.Uuid
+  mediaId               String    @map("media_id") @db.Uuid
+  status                String    @db.VarChar(16)
+  capabilityExpiresAt   DateTime  @map("capability_expires_at") @db.Timestamptz(6)
+  clientEntityTag       String?   @map("client_entity_tag") @db.VarChar(256)
+  observedEntityTag     String?   @map("observed_entity_tag") @db.VarChar(256)
+  observedFileSizeBytes BigInt?   @map("observed_file_size_bytes")
+  confirmedAt           DateTime? @map("confirmed_at") @db.Timestamptz(6)
+  createdAt             DateTime  @map("created_at") @db.Timestamptz(6)
+  updatedAt             DateTime  @map("updated_at") @db.Timestamptz(6)
+  version               Int       @default(1)
+
+  organization Organization  @relation(fields: [organizationId], references: [id], onDelete: Restrict)
+  media        MediaEvidence @relation(fields: [mediaId, organizationId], references: [id, organizationId], onDelete: Restrict, map: "media_upload_sessions_media_organization_fkey")
+
+  @@unique([id, organizationId], map: "media_upload_sessions_id_organization_id_key")
+  @@unique([mediaId, organizationId], map: "media_upload_sessions_media_organization_key")
+  @@index([status, capabilityExpiresAt, id], map: "media_upload_sessions_status_expiry_idx")
+  @@map("media_upload_sessions")
+}
+
+model MediaStatusEvent {
+  id                      String   @id @db.Uuid
+  organizationId          String   @map("organization_id") @db.Uuid
+  mediaId                 String   @map("media_id") @db.Uuid
+  eventVersion            Int      @map("event_version")
+  eventType               String   @map("event_type") @db.VarChar(32)
+  fromStatus              String?  @map("from_status") @db.VarChar(24)
+  toStatus                String   @map("to_status") @db.VarChar(24)
+  actorType               String   @map("actor_type") @db.VarChar(16)
+  actorUserId             String?  @map("actor_user_id") @db.Uuid
+  requestId               String   @map("request_id") @db.VarChar(64)
+  idempotencyKeyReference String?  @map("idempotency_key_reference") @db.Char(64)
+  safeMetadata            Json     @default("{}") @map("safe_metadata") @db.JsonB
+  occurredAt              DateTime @map("occurred_at") @db.Timestamptz(6)
+
+  organization Organization  @relation(fields: [organizationId], references: [id], onDelete: Restrict)
+  media        MediaEvidence @relation(fields: [mediaId, organizationId], references: [id, organizationId], onDelete: Restrict, map: "media_status_events_media_organization_fkey")
+
+  @@unique([mediaId, eventVersion], map: "media_status_events_media_version_key")
+  @@index([organizationId, mediaId, occurredAt, id], map: "media_status_events_media_occurred_idx")
+  @@index([requestId], map: "media_status_events_request_id_idx")
+  @@map("media_status_events")
+}
+
+model MediaProcessingAttempt {
+  id             String   @id @db.Uuid
+  organizationId String   @map("organization_id") @db.Uuid
+  mediaId        String   @map("media_id") @db.Uuid
+  attemptNumber  Int      @map("attempt_number")
+  phase          String   @db.VarChar(16)
+  workerId       String   @map("worker_id") @db.VarChar(128)
+  scannerMode    String   @map("scanner_mode") @db.VarChar(32)
+  resultCode     String?  @map("result_code") @db.VarChar(64)
+  safeMetadata   Json     @default("{}") @map("safe_metadata") @db.JsonB
+  occurredAt     DateTime @map("occurred_at") @db.Timestamptz(6)
+
+  organization Organization  @relation(fields: [organizationId], references: [id], onDelete: Restrict)
+  media        MediaEvidence @relation(fields: [mediaId, organizationId], references: [id, organizationId], onDelete: Restrict, map: "media_processing_attempts_media_organization_fkey")
+
+  @@unique([mediaId, attemptNumber, phase], map: "media_processing_attempts_media_attempt_phase_key")
+  @@index([organizationId, mediaId, attemptNumber, occurredAt, id], map: "media_processing_attempts_media_attempt_idx")
+  @@map("media_processing_attempts")
+}
+
+model JoinCapability {
+  id                         String    @id @db.Uuid
+  organizationId             String    @map("organization_id") @db.Uuid
+  courseInviteId             String    @map("course_invite_id") @db.Uuid
+  classSectionId             String    @map("class_section_id") @db.Uuid
+  tokenHash                  String    @unique(map: "join_capabilities_token_hash_key") @map("token_hash") @db.Char(64)
+  secretCiphertext           String?   @map("secret_ciphertext") @db.Text
+  secretKeyVersion           Int       @map("secret_key_version")
+  secretReplayExpiresAt      DateTime? @map("secret_replay_expires_at") @db.Timestamptz(6)
+  status                     String    @db.VarChar(16)
+  identityFingerprint        String    @map("identity_fingerprint") @db.Char(64)
+  deviceChallengeHash        String?   @map("device_challenge_hash") @db.Char(64)
+  encryptedIdentitySnapshot  String    @map("encrypted_identity_snapshot") @db.Text
+  identityKeyVersion         Int       @map("identity_key_version")
+  issuedAt                   DateTime  @map("issued_at") @db.Timestamptz(6)
+  expiresAt                  DateTime  @map("expires_at") @db.Timestamptz(6)
+  consumedAt                 DateTime? @map("consumed_at") @db.Timestamptz(6)
+  consumedByUserId           String?   @map("consumed_by_user_id") @db.Uuid
+  enrollmentId               String?   @map("enrollment_id") @db.Uuid
+  authSessionId              String?   @map("auth_session_id") @db.Uuid
+  resultCiphertext           String?   @map("result_ciphertext") @db.Text
+  resultKeyVersion           Int?      @map("result_key_version")
+  resultReplayExpiresAt      DateTime? @map("result_replay_expires_at") @db.Timestamptz(6)
+  createdRequestId           String    @map("created_request_id") @db.VarChar(64)
+  consumedRequestId          String?   @map("consumed_request_id") @db.VarChar(64)
+  consumedIdempotencyKeyHash String?   @map("consumed_idempotency_key_hash") @db.Char(64)
+  version                    Int       @default(1)
+
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Restrict)
+  courseInvite   CourseInvite @relation(fields: [courseInviteId, classSectionId, organizationId], references: [id, classSectionId, organizationId], onDelete: Restrict, map: "join_capabilities_invite_section_organization_fkey")
+  classSection   ClassSection @relation(fields: [classSectionId, organizationId], references: [id, organizationId], onDelete: Restrict)
+  consumedByUser User?        @relation("JoinCapabilityConsumedBy", fields: [consumedByUserId, organizationId], references: [id, organizationId], onDelete: Restrict, map: "join_capabilities_consumed_by_user_organization_id_fkey")
+  enrollment     Enrollment?  @relation(fields: [enrollmentId, organizationId], references: [id, organizationId], onDelete: Restrict)
+  authSession    AuthSession? @relation(fields: [authSessionId, organizationId], references: [id, organizationId], onDelete: Restrict)
+
+  @@unique([id, organizationId], map: "join_capabilities_id_organization_id_key")
+  @@index([organizationId, courseInviteId, status, expiresAt], map: "join_capabilities_organization_invite_status_expires_idx")
+  @@index([organizationId, classSectionId, identityFingerprint], map: "join_capabilities_organization_section_identity_idx")
+  @@index([secretReplayExpiresAt], map: "join_capabilities_secret_replay_expires_at_idx")
+  @@index([resultReplayExpiresAt], map: "join_capabilities_result_replay_expires_at_idx")
+  @@map("join_capabilities")
+}
+
+model OfficialRosterImport {
+  id                   String    @id @db.Uuid
+  organizationId       String    @map("organization_id") @db.Uuid
+  classSectionId       String    @map("class_section_id") @db.Uuid
+  versionNumber        Int       @map("version_number")
+  source               String    @db.VarChar(32)
+  fileName             String?   @map("file_name") @db.VarChar(255)
+  sourceFormat         String?   @map("source_format") @db.VarChar(16)
+  sourceSheet          String?   @map("source_sheet") @db.VarChar(31)
+  sourceFileStorageKey String?   @map("source_file_storage_key") @db.VarChar(512)
+  fileChecksumSha256   String?   @map("file_checksum_sha256") @db.Char(64)
+  fieldMappingSnapshot Json      @map("field_mapping_snapshot") @db.JsonB
+  status               String    @default("RECEIVED") @db.VarChar(32)
+  totalRowCount        Int       @default(0) @map("total_row_count")
+  validRowCount        Int       @default(0) @map("valid_row_count")
+  invalidRowCount      Int       @default(0) @map("invalid_row_count")
+  duplicatedRowCount   Int       @default(0) @map("duplicated_row_count")
+  failureCode          String?   @map("failure_code") @db.VarChar(64)
+  failureDetailsSafe   Json?     @map("failure_details_safe") @db.JsonB
+  importedBy           String    @map("imported_by") @db.Uuid
+  importedAt           DateTime  @map("imported_at") @db.Timestamptz(6)
+  isCurrent            Boolean   @default(false) @map("is_current")
+  supersededAt         DateTime? @map("superseded_at") @db.Timestamptz(6)
+  createdAt            DateTime  @map("created_at") @db.Timestamptz(6)
+  version              Int       @default(1)
+
+  organization     Organization            @relation(fields: [organizationId], references: [id], onDelete: Restrict)
+  classSection     ClassSection            @relation(fields: [classSectionId, organizationId], references: [id, organizationId], onDelete: Restrict)
+  importedByUser   User                    @relation("OfficialRosterImportImportedBy", fields: [importedBy, organizationId], references: [id, organizationId], onDelete: Restrict)
+  entries          OfficialRosterEntry[]
+  alignmentRuns    RosterAlignmentRun[]
+  alignmentResults RosterAlignmentResult[]
+
+  @@unique([id, organizationId], map: "official_roster_imports_id_organization_id_key")
+  @@unique([id, classSectionId, organizationId], map: "official_roster_imports_id_section_organization_key")
+  @@unique([classSectionId, versionNumber], map: "official_roster_imports_section_version_key")
+  @@index([organizationId, classSectionId, status, versionNumber], map: "official_roster_imports_organization_section_status_version_idx")
+  @@index([fileChecksumSha256], map: "official_roster_imports_file_checksum_idx")
+  @@map("official_roster_imports")
+}
+
+model OfficialRosterEntry {
+  id                      String   @id @db.Uuid
+  organizationId          String   @map("organization_id") @db.Uuid
+  rosterImportId          String   @map("roster_import_id") @db.Uuid
+  classSectionId          String   @map("class_section_id") @db.Uuid
+  sourceRowNumber         Int      @map("source_row_number")
+  normalizedStudentNumber String?  @map("normalized_student_number") @db.VarChar(32)
+  rawStudentNumberSafe    String?  @map("raw_student_number_safe") @db.VarChar(64)
+  fullName                String?  @map("full_name") @db.VarChar(100)
+  gender                  String?  @db.VarChar(32)
+  gradeYear               Int?     @map("grade_year")
+  collegeName             String?  @map("college_name") @db.VarChar(200)
+  majorName               String?  @map("major_name") @db.VarChar(200)
+  administrativeClassName String?  @map("administrative_class_name") @db.VarChar(200)
+  rowValidationStatus     String   @map("row_validation_status") @db.VarChar(32)
+  rowErrorCodes           Json     @map("row_error_codes") @db.JsonB
+  rawRowSnapshotSafe      Json     @map("raw_row_snapshot_safe") @db.JsonB
+  createdAt               DateTime @map("created_at") @db.Timestamptz(6)
+
+  organization     Organization            @relation(fields: [organizationId], references: [id], onDelete: Restrict)
+  rosterImport     OfficialRosterImport    @relation(fields: [rosterImportId, classSectionId, organizationId], references: [id, classSectionId, organizationId], onDelete: Restrict, map: "official_roster_entries_import_section_organization_fkey")
+  classSection     ClassSection            @relation(fields: [classSectionId, organizationId], references: [id, organizationId], onDelete: Restrict, map: "official_roster_entries_class_section_organization_fkey")
+  alignmentResults RosterAlignmentResult[]
+
+  @@unique([id, organizationId], map: "official_roster_entries_id_organization_id_key")
+  @@unique([id, rosterImportId, classSectionId, organizationId], map: "official_roster_entries_id_import_section_organization_key")
+  @@unique([rosterImportId, sourceRowNumber], map: "official_roster_entries_import_source_row_key")
+  @@index([organizationId, rosterImportId, rowValidationStatus, sourceRowNumber], map: "official_roster_entries_organization_import_status_row_idx")
+  @@index([rosterImportId, normalizedStudentNumber], map: "official_roster_entries_import_student_number_idx")
+  @@map("official_roster_entries")
+}
+
+model RosterAlignmentRun {
+  id                          String    @id @db.Uuid
+  organizationId              String    @map("organization_id") @db.Uuid
+  semesterId                  String    @map("semester_id") @db.Uuid
+  classSectionId              String    @map("class_section_id") @db.Uuid
+  rosterImportId              String    @map("roster_import_id") @db.Uuid
+  comparisonRevision          Int       @map("comparison_revision")
+  algorithmVersion            String    @map("algorithm_version") @db.VarChar(32)
+  platformSnapshotFingerprint String    @map("platform_snapshot_fingerprint") @db.Char(64)
+  platformSnapshotAt          DateTime  @map("platform_snapshot_at") @db.Timestamptz(6)
+  status                      String    @default("RUNNING") @db.VarChar(16)
+  startedBy                   String    @map("started_by") @db.Uuid
+  startedAt                   DateTime  @map("started_at") @db.Timestamptz(6)
+  completedAt                 DateTime? @map("completed_at") @db.Timestamptz(6)
+  failureCode                 String?   @map("failure_code") @db.VarChar(64)
+  failureDetailsSafe          Json?     @map("failure_details_safe") @db.JsonB
+  resultCount                 Int       @default(0) @map("result_count")
+  isCurrent                   Boolean   @default(false) @map("is_current")
+
+  organization     Organization                   @relation(fields: [organizationId], references: [id], onDelete: Restrict)
+  semester         Semester                       @relation(fields: [semesterId, organizationId], references: [id, organizationId], onDelete: Restrict, map: "roster_alignment_runs_semester_organization_fkey")
+  classSection     ClassSection                   @relation(fields: [classSectionId, semesterId, organizationId], references: [id, semesterId, organizationId], onDelete: Restrict, map: "roster_alignment_runs_section_semester_organization_fkey")
+  rosterImport     OfficialRosterImport           @relation(fields: [rosterImportId, classSectionId, organizationId], references: [id, classSectionId, organizationId], onDelete: Restrict, map: "roster_alignment_runs_import_section_organization_fkey")
+  startedByUser    User                           @relation("RosterAlignmentRunStartedBy", fields: [startedBy, organizationId], references: [id, organizationId], onDelete: Restrict)
+  platformEntries  RosterAlignmentPlatformEntry[]
+  alignmentResults RosterAlignmentResult[]
+
+  @@unique([id, organizationId], map: "roster_alignment_runs_id_organization_id_key")
+  @@unique([id, semesterId, organizationId], map: "roster_alignment_runs_id_semester_organization_key")
+  @@unique([id, rosterImportId, classSectionId, comparisonRevision, organizationId], map: "roster_alignment_runs_id_import_section_revision_org_key")
+  @@unique([classSectionId, comparisonRevision], map: "roster_alignment_runs_section_revision_key")
+  @@index([organizationId, classSectionId, status, comparisonRevision], map: "roster_alignment_runs_organization_section_status_revision_idx")
+  @@map("roster_alignment_runs")
+}
+
+model RosterAlignmentPlatformEntry {
+  id                       String   @id @db.Uuid
+  alignmentRunId           String   @map("alignment_run_id") @db.Uuid
+  organizationId           String   @map("organization_id") @db.Uuid
+  enrollmentId             String   @map("enrollment_id") @db.Uuid
+  studentId                String   @map("student_id") @db.Uuid
+  classSectionId           String   @map("class_section_id") @db.Uuid
+  semesterId               String   @map("semester_id") @db.Uuid
+  normalizedStudentNumber  String   @map("normalized_student_number") @db.VarChar(32)
+  fullNameSnapshot         String   @map("full_name_snapshot") @db.VarChar(100)
+  genderSnapshot           String   @map("gender_snapshot") @db.VarChar(32)
+  gradeYearSnapshot        Int      @map("grade_year_snapshot")
+  enrollmentStatusSnapshot String   @map("enrollment_status_snapshot") @db.VarChar(16)
+  createdAt                DateTime @map("created_at") @db.Timestamptz(6)
+
+  organization     Organization            @relation(fields: [organizationId], references: [id], onDelete: Restrict, map: "roster_platform_entries_organization_id_fkey")
+  alignmentRun     RosterAlignmentRun      @relation(fields: [alignmentRunId, semesterId, organizationId], references: [id, semesterId, organizationId], onDelete: Restrict, map: "roster_platform_entries_run_semester_organization_fkey")
+  enrollment       Enrollment              @relation(fields: [enrollmentId, semesterId, classSectionId, studentId, organizationId], references: [id, semesterId, classSectionId, studentId, organizationId], onDelete: Restrict, map: "roster_platform_entries_enrollment_scope_fkey")
+  student          StudentProfile          @relation(fields: [studentId, organizationId], references: [id, organizationId], onDelete: Restrict, map: "roster_platform_entries_student_organization_fkey")
+  classSection     ClassSection            @relation(fields: [classSectionId, semesterId, organizationId], references: [id, semesterId, organizationId], onDelete: Restrict, map: "roster_platform_entries_section_semester_organization_fkey")
+  semester         Semester                @relation(fields: [semesterId, organizationId], references: [id, organizationId], onDelete: Restrict, map: "roster_platform_entries_semester_organization_fkey")
+  alignmentResults RosterAlignmentResult[]
+
+  @@unique([id, organizationId], map: "roster_alignment_platform_entries_id_organization_id_key")
+  @@unique([alignmentRunId, enrollmentId], map: "roster_alignment_platform_entries_run_enrollment_key")
+  @@unique([alignmentRunId, enrollmentId, studentId, organizationId], map: "roster_platform_entries_run_enrollment_student_org_key")
+  @@index([alignmentRunId, normalizedStudentNumber, classSectionId], map: "roster_platform_entries_run_student_number_section_idx")
+  @@map("roster_alignment_platform_entries")
+}
+
+model RosterAlignmentResult {
+  id                       String    @id @db.Uuid
+  organizationId           String    @map("organization_id") @db.Uuid
+  alignmentRunId           String    @map("alignment_run_id") @db.Uuid
+  rosterImportId           String    @map("roster_import_id") @db.Uuid
+  classSectionId           String    @map("class_section_id") @db.Uuid
+  subjectKey               String    @map("subject_key") @db.Char(64)
+  rosterEntryId            String?   @map("official_roster_entry_id") @db.Uuid
+  enrollmentId             String?   @map("enrollment_id") @db.Uuid
+  studentId                String?   @map("student_id") @db.Uuid
+  comparisonRevision       Int       @map("comparison_revision")
+  status                   String    @db.VarChar(32)
+  differences              Json      @db.JsonB
+  reasonCode               String?   @map("reason_code") @db.VarChar(64)
+  resolutionStatus         String    @map("resolution_status") @db.VarChar(32)
+  lastResolutionAction     String?   @map("last_resolution_action") @db.VarChar(16)
+  currentResolutionVersion Int       @default(0) @map("current_resolution_version")
+  resolutionNote           String?   @map("resolution_note") @db.VarChar(1000)
+  resolvedAt               DateTime? @map("resolved_at") @db.Timestamptz(6)
+  resolvedBy               String?   @map("resolved_by") @db.Uuid
+  lastReconciledAt         DateTime  @map("last_reconciled_at") @db.Timestamptz(6)
+  supersededAt             DateTime? @map("superseded_at") @db.Timestamptz(6)
+  createdAt                DateTime  @map("created_at") @db.Timestamptz(6)
+  version                  Int       @default(1)
+
+  organization     Organization                  @relation(fields: [organizationId], references: [id], onDelete: Restrict)
+  alignmentRun     RosterAlignmentRun            @relation(fields: [alignmentRunId, rosterImportId, classSectionId, comparisonRevision, organizationId], references: [id, rosterImportId, classSectionId, comparisonRevision, organizationId], onDelete: Restrict, map: "roster_alignment_results_run_scope_fkey")
+  rosterImport     OfficialRosterImport          @relation(fields: [rosterImportId, classSectionId, organizationId], references: [id, classSectionId, organizationId], onDelete: Restrict, map: "roster_alignment_results_import_scope_fkey")
+  classSection     ClassSection                  @relation(fields: [classSectionId, organizationId], references: [id, organizationId], onDelete: Restrict, map: "roster_alignment_results_class_section_organization_fkey")
+  rosterEntry      OfficialRosterEntry?          @relation(fields: [rosterEntryId, rosterImportId, classSectionId, organizationId], references: [id, rosterImportId, classSectionId, organizationId], onDelete: Restrict, map: "roster_alignment_results_entry_scope_fkey")
+  platformEntry    RosterAlignmentPlatformEntry? @relation(fields: [alignmentRunId, enrollmentId, studentId, organizationId], references: [alignmentRunId, enrollmentId, studentId, organizationId], onDelete: Restrict, map: "roster_alignment_results_platform_entry_scope_fkey")
+  resolvedByUser   User?                         @relation("RosterAlignmentResultResolvedBy", fields: [resolvedBy, organizationId], references: [id, organizationId], onDelete: Restrict, map: "roster_alignment_results_resolved_by_organization_fkey")
+  resolutionEvents RosterResolutionEvent[]
+
+  @@unique([id, organizationId], map: "roster_alignment_results_id_organization_id_key")
+  @@unique([alignmentRunId, subjectKey], map: "roster_alignment_results_run_subject_key")
+  @@index([organizationId, classSectionId, status, resolutionStatus, comparisonRevision, id], map: "roster_results_org_section_status_resolution_revision_idx")
+  @@index([rosterImportId, comparisonRevision], map: "roster_alignment_results_import_revision_idx")
+  @@map("roster_alignment_results")
+}
+
+model RosterResolutionEvent {
+  id                      String   @id @db.Uuid
+  organizationId          String   @map("organization_id") @db.Uuid
+  alignmentResultId       String   @map("alignment_result_id") @db.Uuid
+  resolutionVersion       Int      @map("resolution_version")
+  action                  String   @db.VarChar(16)
+  fromStatus              String   @map("from_status") @db.VarChar(32)
+  toStatus                String   @map("to_status") @db.VarChar(32)
+  reason                  String   @db.VarChar(1000)
+  evidenceType            String?  @map("evidence_type") @db.VarChar(32)
+  evidenceReferenceId     String?  @map("evidence_reference_id") @db.Uuid
+  actorUserId             String   @map("actor_user_id") @db.Uuid
+  actorRoleSnapshot       String   @map("actor_role_snapshot") @db.VarChar(32)
+  requestId               String   @map("request_id") @db.VarChar(64)
+  idempotencyKeyReference String?  @map("idempotency_key_reference") @db.Char(64)
+  createdAt               DateTime @map("created_at") @db.Timestamptz(6)
+
+  organization    Organization          @relation(fields: [organizationId], references: [id], onDelete: Restrict)
+  alignmentResult RosterAlignmentResult @relation(fields: [alignmentResultId, organizationId], references: [id, organizationId], onDelete: Restrict, map: "roster_resolution_events_result_organization_fkey")
+  actor           User                  @relation("RosterResolutionEventActor", fields: [actorUserId, organizationId], references: [id, organizationId], onDelete: Restrict, map: "roster_resolution_events_actor_organization_fkey")
+
+  @@unique([alignmentResultId, resolutionVersion], map: "roster_resolution_events_result_version_key")
+  @@index([organizationId, alignmentResultId, createdAt, id], map: "roster_resolution_events_organization_result_created_idx")
+  @@index([requestId], map: "roster_resolution_events_request_id_idx")
+  @@map("roster_resolution_events")
+}
+
+model IdempotencyRecord {
+  id                               String    @id @db.Uuid
+  organizationId                   String    @map("organization_id") @db.Uuid
+  principalId                      String?   @map("principal_id") @db.Uuid
+  authSessionId                    String?   @map("auth_session_id") @db.Uuid
+  operationId                      String    @map("operation_id") @db.VarChar(128)
+  scopeHash                        String    @map("scope_hash") @db.Char(64)
+  keyHash                          String    @map("key_hash") @db.Char(64)
+  requestHash                      String    @map("request_hash") @db.Char(64)
+  status                           String    @db.VarChar(32)
+  leaseOwner                       String?   @map("lease_owner") @db.VarChar(128)
+  leaseExpiresAt                   DateTime? @map("lease_expires_at") @db.Timestamptz(6)
+  responseStatus                   Int?      @map("response_status")
+  responseBodyEncryptedOrReference String?   @map("response_body_encrypted_or_reference") @db.Text
+  resourceType                     String?   @map("resource_type") @db.VarChar(64)
+  resourceId                       String?   @map("resource_id") @db.Uuid
+  requestId                        String    @map("request_id") @db.VarChar(64)
+  createdAt                        DateTime  @map("created_at") @db.Timestamptz(6)
+  completedAt                      DateTime? @map("completed_at") @db.Timestamptz(6)
+  expiresAt                        DateTime  @map("expires_at") @db.Timestamptz(6)
+
+  organization Organization @relation(fields: [organizationId], references: [id], onDelete: Restrict)
+  principal    User?        @relation("IdempotencyPrincipal", fields: [principalId, organizationId], references: [id, organizationId], onDelete: Restrict)
+  authSession  AuthSession? @relation(fields: [authSessionId, organizationId], references: [id, organizationId], onDelete: Restrict)
+
+  @@unique([scopeHash, keyHash], map: "idempotency_records_scope_hash_key_hash_key")
+  @@index([status, leaseExpiresAt], map: "idempotency_records_status_lease_expires_at_idx")
+  @@index([expiresAt], map: "idempotency_records_expires_at_idx")
+  @@map("idempotency_records")
+}
+
+model ScoreRule {
+  id                    String    @id @db.Uuid
+  organizationId        String    @map("organization_id") @db.Uuid
+  classSectionId        String    @map("class_section_id") @db.Uuid
+  semesterId            String    @map("semester_id") @db.Uuid
+  ruleCode              String    @map("rule_code") @db.VarChar(64)
+  ruleVersion           Int       @map("rule_version")
+  displayName           String    @map("display_name") @db.VarChar(200)
+  totalRequiredSeconds  BigInt    @default(72000) @map("total_required_seconds")
+  calculationDefinition Json      @map("calculation_definition") @db.JsonB
+  roundingMode          String    @default("HALF_UP") @map("rounding_mode") @db.VarChar(16)
+  roundingScale         Int       @default(2) @map("rounding_scale")
+  status                String    @db.VarChar(32)
+  createdBy             String    @map("created_by") @db.Uuid
+  submittedAt           DateTime? @map("submitted_at") @db.Timestamptz(6)
+  activatedAt           DateTime? @map("activated_at") @db.Timestamptz(6)
+  supersededAt          DateTime? @map("superseded_at") @db.Timestamptz(6)
+  createdAt             DateTime  @map("created_at") @db.Timestamptz(6)
+  updatedAt             DateTime  @map("updated_at") @db.Timestamptz(6)
+  version               Int       @default(1)
+
+  organization          Organization                @relation(fields: [organizationId], references: [id], onDelete: Restrict)
+  classSection          ClassSection                @relation(fields: [classSectionId, semesterId, organizationId], references: [id, semesterId, organizationId], onDelete: Restrict, map: "score_rules_class_section_scope_fkey")
+  semester              Semester                    @relation(fields: [semesterId, organizationId], references: [id, organizationId], onDelete: Restrict)
+  creator               User                        @relation("ScoreRuleCreatedBy", fields: [createdBy, organizationId], references: [id, organizationId], onDelete: Restrict)
+  approvalEvents        ScoreRuleApprovalEvent[]
+  scoreRevisions        StudentScoreRevision[]
+  scoreContributions    ScoreContribution[]
+  recalculationAttempts ScoreRecalculationAttempt[]
+
+  @@unique([id, organizationId], map: "score_rules_id_organization_id_key")
+  @@unique([classSectionId, ruleVersion], map: "score_rules_section_version_key")
+  @@index([organizationId, classSectionId, status, ruleVersion], map: "score_rules_section_status_version_idx")
+  @@map("score_rules")
+}
+
+model ScoreRuleApprovalEvent {
+  id             String   @id @db.Uuid
+  organizationId String   @map("organization_id") @db.Uuid
+  scoreRuleId    String   @map("score_rule_id") @db.Uuid
+  action         String   @db.VarChar(16)
+  actorUserId    String   @map("actor_user_id") @db.Uuid
+  reason         String?  @db.VarChar(500)
+  requestId      String   @map("request_id") @db.VarChar(64)
+  createdAt      DateTime @map("created_at") @db.Timestamptz(6)
+
+  organization Organization @relation(fields: [organizationId], references: [id], onDelete: Restrict)
+  scoreRule    ScoreRule    @relation(fields: [scoreRuleId, organizationId], references: [id, organizationId], onDelete: Restrict)
+  actor        User         @relation("ScoreRuleApprovalActor", fields: [actorUserId, organizationId], references: [id, organizationId], onDelete: Restrict)
+
+  @@unique([scoreRuleId, actorUserId, action], map: "score_rule_approval_events_actor_action_key")
+  @@index([organizationId, scoreRuleId, createdAt, id], map: "score_rule_approval_events_rule_created_idx")
+  @@map("score_rule_approval_events")
+}
+
+model StudentScore {
+  id                       String   @id @db.Uuid
+  organizationId           String   @map("organization_id") @db.Uuid
+  semesterId               String   @map("semester_id") @db.Uuid
+  classSectionId           String   @map("class_section_id") @db.Uuid
+  studentId                String   @map("student_id") @db.Uuid
+  enrollmentId             String   @unique(map: "student_scores_enrollment_id_key") @map("enrollment_id") @db.Uuid
+  currentWorkingRevisionId String?  @map("current_working_revision_id") @db.Uuid
+  publishedRevisionId      String?  @map("published_revision_id") @db.Uuid
+  version                  Int      @default(1)
+  createdAt                DateTime @map("created_at") @db.Timestamptz(6)
+  updatedAt                DateTime @map("updated_at") @db.Timestamptz(6)
+
+  organization           Organization                @relation(fields: [organizationId], references: [id], onDelete: Restrict)
+  semester               Semester                    @relation(fields: [semesterId, organizationId], references: [id, organizationId], onDelete: Restrict)
+  classSection           ClassSection                @relation(fields: [classSectionId, semesterId, organizationId], references: [id, semesterId, organizationId], onDelete: Restrict, map: "student_scores_class_section_scope_fkey")
+  student                StudentProfile              @relation(fields: [studentId, organizationId], references: [id, organizationId], onDelete: Restrict)
+  enrollment             Enrollment                  @relation(fields: [enrollmentId, semesterId, classSectionId, studentId, organizationId], references: [id, semesterId, classSectionId, studentId, organizationId], onDelete: Restrict, map: "student_scores_enrollment_scope_fkey")
+  revisions              StudentScoreRevision[]      @relation("StudentScoreRevisions")
+  currentWorkingRevision StudentScoreRevision?       @relation("CurrentWorkingScoreRevision", fields: [currentWorkingRevisionId, id, organizationId], references: [id, studentScoreId, organizationId], onDelete: Restrict)
+  publishedRevision      StudentScoreRevision?       @relation("PublishedScoreRevision", fields: [publishedRevisionId, id, organizationId], references: [id, studentScoreId, organizationId], onDelete: Restrict)
+  adjustments            ScoreAdjustment[]
+  publicationEvents      ScorePublicationEvent[]
+  recalculationAttempts  ScoreRecalculationAttempt[]
+
+  @@unique([id, organizationId], map: "student_scores_id_organization_id_key")
+  @@unique([enrollmentId, semesterId, classSectionId, studentId, organizationId], map: "student_scores_enrollment_scope_key")
+  @@index([organizationId, classSectionId, updatedAt, id], map: "student_scores_section_updated_idx")
+  @@index([organizationId, studentId, updatedAt, id], map: "student_scores_student_updated_idx")
+  @@map("student_scores")
+}
+
+model StudentScoreRevision {
+  id                        String   @id @db.Uuid
+  organizationId            String   @map("organization_id") @db.Uuid
+  studentScoreId            String   @map("student_score_id") @db.Uuid
+  scoreRuleId               String   @map("score_rule_id") @db.Uuid
+  calculationRevision       Int      @map("calculation_revision")
+  totalValidCreditedSeconds BigInt   @map("total_valid_credited_seconds")
+  scoringSeconds            BigInt   @map("scoring_seconds")
+  excessSeconds             BigInt   @map("excess_seconds")
+  qualificationStatus       String   @map("qualification_status") @db.VarChar(32)
+  calculatedScore           Decimal  @map("calculated_score") @db.Decimal(5, 2)
+  adjustedScore             Decimal  @map("adjusted_score") @db.Decimal(5, 2)
+  finalScore                Decimal  @map("final_score") @db.Decimal(5, 2)
+  sourceFingerprint         String   @map("source_fingerprint") @db.Char(64)
+  status                    String   @db.VarChar(16)
+  calculatedAt              DateTime @map("calculated_at") @db.Timestamptz(6)
+  createdAt                 DateTime @map("created_at") @db.Timestamptz(6)
+
+  organization      Organization            @relation(fields: [organizationId], references: [id], onDelete: Restrict)
+  studentScore      StudentScore            @relation("StudentScoreRevisions", fields: [studentScoreId, organizationId], references: [id, organizationId], onDelete: Restrict)
+  scoreRule         ScoreRule               @relation(fields: [scoreRuleId, organizationId], references: [id, organizationId], onDelete: Restrict)
+  contributions     ScoreContribution[]
+  workingFor        StudentScore[]          @relation("CurrentWorkingScoreRevision")
+  publishedFor      StudentScore[]          @relation("PublishedScoreRevision")
+  publicationEvents ScorePublicationEvent[]
+
+  @@unique([id, studentScoreId, organizationId], map: "student_score_revisions_id_score_organization_key")
+  @@unique([id, organizationId], map: "student_score_revisions_id_organization_id_key")
+  @@unique([studentScoreId, calculationRevision], map: "student_score_revisions_score_revision_key")
+  @@unique([studentScoreId, scoreRuleId, sourceFingerprint], map: "student_score_revisions_source_key")
+  @@index([organizationId, studentScoreId, calculatedAt, id], map: "student_score_revisions_score_calculated_idx")
+  @@map("student_score_revisions")
+}
+
+model ScoreContribution {
+  id                     String   @id @db.Uuid
+  organizationId         String   @map("organization_id") @db.Uuid
+  studentScoreRevisionId String   @map("student_score_revision_id") @db.Uuid
+  recordId               String   @map("record_id") @db.Uuid
+  reviewId               String   @map("review_id") @db.Uuid
+  scoreRuleId            String   @map("score_rule_id") @db.Uuid
+  creditType             String   @map("credit_type") @db.VarChar(32)
+  contributionSeconds    BigInt   @map("contribution_seconds")
+  createdAt              DateTime @map("created_at") @db.Timestamptz(6)
+
+  organization Organization         @relation(fields: [organizationId], references: [id], onDelete: Restrict)
+  revision     StudentScoreRevision @relation(fields: [studentScoreRevisionId, organizationId], references: [id, organizationId], onDelete: Restrict)
+  record       ExerciseRecord       @relation(fields: [recordId, organizationId], references: [id, organizationId], onDelete: Restrict)
+  review       ReviewRecord         @relation(fields: [reviewId, recordId, organizationId], references: [id, recordId, organizationId], onDelete: Restrict)
+  scoreRule    ScoreRule            @relation(fields: [scoreRuleId, organizationId], references: [id, organizationId], onDelete: Restrict)
+
+  @@unique([studentScoreRevisionId, recordId], map: "score_contributions_revision_record_key")
+  @@index([organizationId, studentScoreRevisionId, createdAt, id], map: "score_contributions_revision_created_idx")
+  @@map("score_contributions")
+}
+
+model ScoreAdjustment {
+  id                String    @id @db.Uuid
+  organizationId    String    @map("organization_id") @db.Uuid
+  studentScoreId    String    @map("student_score_id") @db.Uuid
+  studentId         String    @map("student_id") @db.Uuid
+  enrollmentId      String    @map("enrollment_id") @db.Uuid
+  adjustmentType    String    @map("adjustment_type") @db.VarChar(32)
+  adjustmentValue   Decimal   @map("adjustment_value") @db.Decimal(6, 2)
+  reasonCode        String    @map("reason_code") @db.VarChar(64)
+  reason            String    @db.VarChar(1000)
+  evidenceReference String    @map("evidence_reference") @db.VarChar(256)
+  status            String    @db.VarChar(32)
+  requestedBy       String    @map("requested_by") @db.Uuid
+  requestedAt       DateTime  @map("requested_at") @db.Timestamptz(6)
+  decidedAt         DateTime? @map("decided_at") @db.Timestamptz(6)
+  requestId         String    @map("request_id") @db.VarChar(64)
+  version           Int       @default(1)
+  createdAt         DateTime  @map("created_at") @db.Timestamptz(6)
+  updatedAt         DateTime  @map("updated_at") @db.Timestamptz(6)
+
+  organization   Organization                   @relation(fields: [organizationId], references: [id], onDelete: Restrict)
+  studentScore   StudentScore                   @relation(fields: [studentScoreId, organizationId], references: [id, organizationId], onDelete: Restrict)
+  student        StudentProfile                 @relation(fields: [studentId, organizationId], references: [id, organizationId], onDelete: Restrict)
+  requester      User                           @relation("ScoreAdjustmentRequestedBy", fields: [requestedBy, organizationId], references: [id, organizationId], onDelete: Restrict)
+  approvalEvents ScoreAdjustmentApprovalEvent[]
+
+  @@unique([id, organizationId], map: "score_adjustments_id_organization_id_key")
+  @@index([organizationId, studentScoreId, requestedAt, id], map: "score_adjustments_score_requested_idx")
+  @@index([organizationId, status, requestedAt, id], map: "score_adjustments_status_requested_idx")
+  @@map("score_adjustments")
+}
+
+model ScoreAdjustmentApprovalEvent {
+  id                String   @id @db.Uuid
+  organizationId    String   @map("organization_id") @db.Uuid
+  scoreAdjustmentId String   @map("score_adjustment_id") @db.Uuid
+  action            String   @db.VarChar(16)
+  actorUserId       String   @map("actor_user_id") @db.Uuid
+  reason            String?  @db.VarChar(500)
+  requestId         String   @map("request_id") @db.VarChar(64)
+  createdAt         DateTime @map("created_at") @db.Timestamptz(6)
+
+  organization Organization    @relation(fields: [organizationId], references: [id], onDelete: Restrict)
+  adjustment   ScoreAdjustment @relation(fields: [scoreAdjustmentId, organizationId], references: [id, organizationId], onDelete: Restrict)
+  actor        User            @relation("ScoreAdjustmentApprovalActor", fields: [actorUserId, organizationId], references: [id, organizationId], onDelete: Restrict)
+
+  @@unique([scoreAdjustmentId, actorUserId, action], map: "score_adjustment_approval_events_actor_action_key")
+  @@index([organizationId, scoreAdjustmentId, createdAt, id], map: "score_adjustment_approval_events_adjustment_created_idx")
+  @@map("score_adjustment_approval_events")
+}
+
+model ScorePublicationEvent {
+  id                     String   @id @db.Uuid
+  organizationId         String   @map("organization_id") @db.Uuid
+  studentScoreId         String   @map("student_score_id") @db.Uuid
+  studentScoreRevisionId String   @map("student_score_revision_id") @db.Uuid
+  action                 String   @db.VarChar(16)
+  actorUserId            String   @map("actor_user_id") @db.Uuid
+  requestId              String   @map("request_id") @db.VarChar(64)
+  createdAt              DateTime @map("created_at") @db.Timestamptz(6)
+
+  organization Organization         @relation(fields: [organizationId], references: [id], onDelete: Restrict)
+  studentScore StudentScore         @relation(fields: [studentScoreId, organizationId], references: [id, organizationId], onDelete: Restrict)
+  revision     StudentScoreRevision @relation(fields: [studentScoreRevisionId, studentScoreId, organizationId], references: [id, studentScoreId, organizationId], onDelete: Restrict)
+  actor        User                 @relation("ScorePublicationActor", fields: [actorUserId, organizationId], references: [id, organizationId], onDelete: Restrict)
+
+  @@unique([studentScoreId, studentScoreRevisionId, action], map: "score_publication_events_score_revision_action_key")
+  @@index([organizationId, studentScoreId, createdAt, id], map: "score_publication_events_score_created_idx")
+  @@map("score_publication_events")
+}
+
+model ScoreRecalculationAttempt {
+  id                String    @id @db.Uuid
+  organizationId    String    @map("organization_id") @db.Uuid
+  studentScoreId    String    @map("student_score_id") @db.Uuid
+  scoreRuleId       String    @map("score_rule_id") @db.Uuid
+  sourceFingerprint String    @map("source_fingerprint") @db.Char(64)
+  status            String    @db.VarChar(16)
+  attempts          Int       @default(0)
+  availableAt       DateTime  @map("available_at") @db.Timestamptz(6)
+  lockedAt          DateTime? @map("locked_at") @db.Timestamptz(6)
+  lockedBy          String?   @map("locked_by") @db.VarChar(128)
+  lastErrorCode     String?   @map("last_error_code") @db.VarChar(64)
+  processedAt       DateTime? @map("processed_at") @db.Timestamptz(6)
+  createdAt         DateTime  @map("created_at") @db.Timestamptz(6)
+  updatedAt         DateTime  @map("updated_at") @db.Timestamptz(6)
+
+  organization Organization @relation(fields: [organizationId], references: [id], onDelete: Restrict)
+  studentScore StudentScore @relation(fields: [studentScoreId, organizationId], references: [id, organizationId], onDelete: Restrict)
+  scoreRule    ScoreRule    @relation(fields: [scoreRuleId, organizationId], references: [id, organizationId], onDelete: Restrict)
+
+  @@unique([studentScoreId, scoreRuleId, sourceFingerprint], map: "score_recalculation_attempts_source_key")
+  @@index([status, availableAt, id], map: "score_recalculation_attempts_claim_idx")
+  @@map("score_recalculation_attempts")
+}
+
+model StudentSignInChallenge {
+  id                    String    @id @db.Uuid
+  organizationId        String    @map("organization_id") @db.Uuid
+  userId                String?   @map("user_id") @db.Uuid
+  channel               String    @db.VarChar(16)
+  locale                String    @db.VarChar(16)
+  accountDigest         String    @map("account_digest") @db.Char(64)
+  sourceIpDigest        String?   @map("source_ip_digest") @db.Char(64)
+  codeDigest            String    @map("code_digest") @db.Char(64)
+  codeKeyVersion        Int       @map("code_key_version")
+  status                String    @db.VarChar(24)
+  failedAttempts        Int       @default(0) @map("failed_attempts")
+  maxAttempts           Int       @map("max_attempts")
+  requestedAt           DateTime  @map("requested_at") @db.Timestamptz(6)
+  deliveredAt           DateTime? @map("delivered_at") @db.Timestamptz(6)
+  expiresAt             DateTime  @map("expires_at") @db.Timestamptz(6)
+  consumedAt            DateTime? @map("consumed_at") @db.Timestamptz(6)
+  authSessionId         String?   @map("auth_session_id") @db.Uuid
+  resultCiphertext      String?   @map("result_ciphertext") @db.Text
+  resultKeyVersion      Int?      @map("result_key_version")
+  resultReplayExpiresAt DateTime? @map("result_replay_expires_at") @db.Timestamptz(6)
+  requestId             String    @map("request_id") @db.VarChar(64)
+  version               Int       @default(1)
+
+  organization Organization @relation(fields: [organizationId], references: [id], onDelete: Restrict)
+  user         User?        @relation(fields: [userId, organizationId], references: [id, organizationId], onDelete: Restrict)
+
+  @@unique([id, organizationId], map: "student_sign_in_challenges_id_organization_key")
+  @@index([organizationId, accountDigest, requestedAt], map: "student_sign_in_challenges_account_requested_idx")
+  @@index([sourceIpDigest, requestedAt], map: "student_sign_in_challenges_source_requested_idx")
+  @@index([status, expiresAt], map: "student_sign_in_challenges_status_expires_idx")
+  @@map("student_sign_in_challenges")
+}
+
+model AccountRecoveryChallenge {
+  id             String    @id @db.Uuid
+  organizationId String    @map("organization_id") @db.Uuid
+  userId         String?   @map("user_id") @db.Uuid
+  requestedRole  String    @map("requested_role") @db.VarChar(16)
+  channel        String    @db.VarChar(16)
+  locale         String    @db.VarChar(16)
+  accountDigest  String    @map("account_digest") @db.Char(64)
+  sourceIpDigest String?   @map("source_ip_digest") @db.Char(64)
+  codeDigest     String    @map("code_digest") @db.Char(64)
+  codeKeyVersion Int       @map("code_key_version")
+  status         String    @db.VarChar(24)
+  failedAttempts Int       @default(0) @map("failed_attempts")
+  maxAttempts    Int       @map("max_attempts")
+  requestedAt    DateTime  @map("requested_at") @db.Timestamptz(6)
+  deliveredAt    DateTime? @map("delivered_at") @db.Timestamptz(6)
+  expiresAt      DateTime  @map("expires_at") @db.Timestamptz(6)
+  consumedAt     DateTime? @map("consumed_at") @db.Timestamptz(6)
+  requestId      String    @map("request_id") @db.VarChar(64)
+  version        Int       @default(1)
+
+  organization Organization @relation(fields: [organizationId], references: [id], onDelete: Restrict)
+  user         User?        @relation(fields: [userId, organizationId], references: [id, organizationId], onDelete: Restrict)
+
+  @@unique([id, organizationId], map: "account_recovery_challenges_id_organization_key")
+  @@index([organizationId, accountDigest, requestedAt], map: "account_recovery_challenges_account_requested_idx")
+  @@index([sourceIpDigest, requestedAt], map: "account_recovery_challenges_source_requested_idx")
+  @@index([status, expiresAt], map: "account_recovery_challenges_status_expires_idx")
+  @@map("account_recovery_challenges")
+}
+
+model EmailVerificationChallenge {
+  id                     String    @id @db.Uuid
+  organizationId         String    @map("organization_id") @db.Uuid
+  userId                 String    @map("user_id") @db.Uuid
+  mode                   String    @db.VarChar(16)
+  locale                 String    @db.VarChar(16)
+  targetEmail            String    @map("target_email") @db.VarChar(254)
+  targetEmailNormalized  String    @map("target_email_normalized") @db.VarChar(254)
+  currentEmailCodeDigest String?   @map("current_email_code_digest") @db.Char(64)
+  newEmailCodeDigest     String    @map("new_email_code_digest") @db.Char(64)
+  codeKeyVersion         Int       @map("code_key_version")
+  status                 String    @db.VarChar(24)
+  failedAttempts         Int       @default(0) @map("failed_attempts")
+  maxAttempts            Int       @map("max_attempts")
+  expectedUserVersion    Int       @map("expected_user_version")
+  requestedAt            DateTime  @map("requested_at") @db.Timestamptz(6)
+  deliveredAt            DateTime? @map("delivered_at") @db.Timestamptz(6)
+  expiresAt              DateTime  @map("expires_at") @db.Timestamptz(6)
+  consumedAt             DateTime? @map("consumed_at") @db.Timestamptz(6)
+  requestId              String    @map("request_id") @db.VarChar(64)
+  version                Int       @default(1)
+
+  organization Organization @relation(fields: [organizationId], references: [id], onDelete: Restrict, map: "email_verification_challenges_organization_fkey")
+  user         User         @relation(fields: [userId, organizationId], references: [id, organizationId], onDelete: Restrict, map: "email_verification_challenges_user_fkey")
+
+  @@unique([id, organizationId], map: "email_verification_challenges_id_organization_key")
+  @@index([organizationId, userId, requestedAt], map: "email_verification_challenges_user_requested_idx")
+  @@index([status, expiresAt], map: "email_verification_challenges_status_expires_idx")
+  @@map("email_verification_challenges")
+}
+
+model AuthRateLimitFact {
+  id             String   @id @db.Uuid
+  organizationId String   @map("organization_id") @db.Uuid
+  purpose        String   @db.VarChar(32)
+  scopeType      String   @map("scope_type") @db.VarChar(16)
+  scopeDigest    String   @map("scope_digest") @db.Char(64)
+  occurredAt     DateTime @map("occurred_at") @db.Timestamptz(6)
+
+  organization Organization @relation(fields: [organizationId], references: [id], onDelete: Restrict)
+
+  @@index([organizationId, purpose, scopeType, scopeDigest, occurredAt], map: "auth_rate_limit_facts_scope_occurred_idx")
+  @@map("auth_rate_limit_facts")
+}
+
+model RateLimitWindow {
+  purpose     String   @db.VarChar(32)
+  scopeDigest String   @map("scope_digest") @db.Char(64)
+  count       Int
+  resetAt     DateTime @map("reset_at") @db.Timestamptz(6)
+  updatedAt   DateTime @map("updated_at") @db.Timestamptz(6)
+
+  @@id([purpose, scopeDigest], map: "rate_limit_windows_pkey")
+  @@index([resetAt], map: "rate_limit_windows_reset_at_idx")
+  @@map("rate_limit_windows")
+}
+
+model AppReleasePolicy {
+  id                          String    @id @db.Uuid
+  platform                    String    @db.VarChar(16)
+  minimumSupportedVersion     String    @map("minimum_supported_version") @db.VarChar(64)
+  latestVersion               String    @map("latest_version") @db.VarChar(64)
+  minimumSupportedBuildNumber Int?      @map("minimum_supported_build_number")
+  latestBuildNumber           Int?      @map("latest_build_number")
+  enforcement                 String    @db.VarChar(16)
+  message                     String?   @db.VarChar(1000)
+  downloadUrl                 String?   @map("download_url") @db.VarChar(2048)
+  effectiveAt                 DateTime  @map("effective_at") @db.Timestamptz(6)
+  expiresAt                   DateTime? @map("expires_at") @db.Timestamptz(6)
+  policyVersion               String    @map("policy_version") @db.VarChar(64)
+  createdAt                   DateTime  @map("created_at") @db.Timestamptz(6)
+
+  @@unique([platform, policyVersion], map: "app_release_policies_platform_version_key")
+  @@index([platform, effectiveAt, expiresAt], map: "app_release_policies_platform_effective_idx")
+  @@map("app_release_policies")
+}
+
+model Notification {
+  id               String    @id @db.Uuid
+  organizationId   String    @map("organization_id") @db.Uuid
+  recipientUserId  String    @map("recipient_user_id") @db.Uuid
+  notificationType String    @map("notification_type") @db.VarChar(64)
+  title            String    @db.VarChar(200)
+  body             String    @db.VarChar(2000)
+  targetType       String?   @map("target_type") @db.VarChar(64)
+  targetId         String?   @map("target_id") @db.Uuid
+  readAt           DateTime? @map("read_at") @db.Timestamptz(6)
+  createdAt        DateTime  @map("created_at") @db.Timestamptz(6)
+  version          Int       @default(1)
+
+  organization Organization        @relation(fields: [organizationId], references: [id], onDelete: Restrict)
+  recipient    User                @relation("NotificationRecipient", fields: [recipientUserId, organizationId], references: [id, organizationId], onDelete: Restrict)
+  events       NotificationEvent[]
+
+  @@unique([id, organizationId], map: "notifications_id_organization_key")
+  @@index([organizationId, recipientUserId, createdAt, id], map: "notifications_recipient_created_idx")
+  @@index([organizationId, recipientUserId, readAt, createdAt], map: "notifications_recipient_unread_idx")
+  @@map("notifications")
+}
+
+model NotificationEvent {
+  id                      String   @id @db.Uuid
+  organizationId          String   @map("organization_id") @db.Uuid
+  notificationId          String   @map("notification_id") @db.Uuid
+  eventType               String   @map("event_type") @db.VarChar(16)
+  actorUserId             String   @map("actor_user_id") @db.Uuid
+  authSessionId           String   @map("auth_session_id") @db.Uuid
+  requestId               String   @map("request_id") @db.VarChar(64)
+  idempotencyKeyReference String?  @map("idempotency_key_reference") @db.Char(64)
+  eventVersion            Int      @map("event_version")
+  occurredAt              DateTime @map("occurred_at") @db.Timestamptz(6)
+
+  notification Notification @relation(fields: [notificationId, organizationId], references: [id, organizationId], onDelete: Restrict)
+  actor        User         @relation("NotificationEventActor", fields: [actorUserId, organizationId], references: [id, organizationId], onDelete: Restrict)
+  authSession  AuthSession  @relation(fields: [authSessionId, organizationId], references: [id, organizationId], onDelete: Restrict)
+
+  @@unique([notificationId, eventVersion], map: "notification_events_notification_version_key")
+  @@index([requestId], map: "notification_events_request_id_idx")
+  @@map("notification_events")
+}
+
+model PushDevice {
+  id                          String    @id @db.Uuid
+  organizationId              String    @map("organization_id") @db.Uuid
+  userId                      String    @map("user_id") @db.Uuid
+  authSessionId               String    @map("auth_session_id") @db.Uuid
+  platform                    String    @db.VarChar(16)
+  appVersion                  String    @map("app_version") @db.VarChar(64)
+  locale                      String    @db.VarChar(16)
+  status                      String    @db.VarChar(16)
+  registrationTokenHash       String    @unique(map: "push_devices_registration_token_hash_key") @map("registration_token_hash") @db.Char(64)
+  registrationTokenCiphertext String?   @map("registration_token_ciphertext") @db.Text
+  encryptionKeyVersion        Int       @map("encryption_key_version")
+  registeredAt                DateTime  @map("registered_at") @db.Timestamptz(6)
+  updatedAt                   DateTime  @map("updated_at") @db.Timestamptz(6)
+  revokedAt                   DateTime? @map("revoked_at") @db.Timestamptz(6)
+  version                     Int       @default(1)
+
+  organization Organization      @relation(fields: [organizationId], references: [id], onDelete: Restrict)
+  owner        User              @relation("PushDeviceOwner", fields: [userId, organizationId], references: [id, organizationId], onDelete: Restrict)
+  authSession  AuthSession       @relation(fields: [authSessionId, organizationId], references: [id, organizationId], onDelete: Restrict)
+  events       PushDeviceEvent[]
+
+  @@unique([id, organizationId], map: "push_devices_id_organization_key")
+  @@index([organizationId, userId, status, registeredAt], map: "push_devices_owner_status_idx")
+  @@map("push_devices")
+}
+
+model PushDeviceEvent {
+  id                      String   @id @db.Uuid
+  organizationId          String   @map("organization_id") @db.Uuid
+  pushDeviceId            String   @map("push_device_id") @db.Uuid
+  eventType               String   @map("event_type") @db.VarChar(16)
+  actorUserId             String   @map("actor_user_id") @db.Uuid
+  authSessionId           String   @map("auth_session_id") @db.Uuid
+  requestId               String   @map("request_id") @db.VarChar(64)
+  idempotencyKeyReference String?  @map("idempotency_key_reference") @db.Char(64)
+  eventVersion            Int      @map("event_version")
+  occurredAt              DateTime @map("occurred_at") @db.Timestamptz(6)
+
+  pushDevice  PushDevice  @relation(fields: [pushDeviceId, organizationId], references: [id, organizationId], onDelete: Restrict)
+  actor       User        @relation("PushDeviceEventActor", fields: [actorUserId, organizationId], references: [id, organizationId], onDelete: Restrict)
+  authSession AuthSession @relation(fields: [authSessionId, organizationId], references: [id, organizationId], onDelete: Restrict)
+
+  @@unique([pushDeviceId, eventVersion], map: "push_device_events_device_version_key")
+  @@index([requestId], map: "push_device_events_request_id_idx")
+  @@map("push_device_events")
+}
+
+model UserPreference {
+  id             String   @id @db.Uuid
+  organizationId String   @map("organization_id") @db.Uuid
+  userId         String   @unique(map: "user_preferences_user_id_key") @map("user_id") @db.Uuid
+  locale         String   @db.VarChar(16)
+  pushEnabled    Boolean  @map("push_enabled")
+  emailEnabled   Boolean  @map("email_enabled")
+  version        Int      @default(1)
+  createdAt      DateTime @map("created_at") @db.Timestamptz(6)
+  updatedAt      DateTime @map("updated_at") @db.Timestamptz(6)
+
+  organization Organization          @relation(fields: [organizationId], references: [id], onDelete: Restrict)
+  user         User                  @relation(fields: [userId, organizationId], references: [id, organizationId], onDelete: Restrict)
+  events       UserPreferenceEvent[]
+
+  @@unique([id, organizationId], map: "user_preferences_id_organization_key")
+  @@unique([userId, organizationId], map: "user_preferences_user_organization_key")
+  @@map("user_preferences")
+}
+
+model UserPreferenceEvent {
+  id                      String   @id @db.Uuid
+  organizationId          String   @map("organization_id") @db.Uuid
+  userPreferenceId        String   @map("user_preference_id") @db.Uuid
+  actorUserId             String   @map("actor_user_id") @db.Uuid
+  authSessionId           String   @map("auth_session_id") @db.Uuid
+  requestId               String   @map("request_id") @db.VarChar(64)
+  idempotencyKeyReference String?  @map("idempotency_key_reference") @db.Char(64)
+  eventVersion            Int      @map("event_version")
+  changedFields           String[] @map("changed_fields") @db.VarChar(32)
+  occurredAt              DateTime @map("occurred_at") @db.Timestamptz(6)
+
+  preference  UserPreference @relation(fields: [userPreferenceId, organizationId], references: [id, organizationId], onDelete: Restrict)
+  actor       User           @relation("UserPreferenceEventActor", fields: [actorUserId, organizationId], references: [id, organizationId], onDelete: Restrict)
+  authSession AuthSession    @relation(fields: [authSessionId, organizationId], references: [id, organizationId], onDelete: Restrict)
+
+  @@unique([userPreferenceId, eventVersion], map: "user_preference_events_preference_version_key")
+  @@index([requestId], map: "user_preference_events_request_id_idx")
+  @@map("user_preference_events")
+}
+
+model HelpArticle {
+  id           String   @id @db.Uuid
+  category     String   @db.VarChar(64)
+  locale       String   @db.VarChar(16)
+  title        String   @db.VarChar(200)
+  bodyMarkdown String   @map("body_markdown") @db.Text
+  status       String   @db.VarChar(16)
+  publishedAt  DateTime @map("published_at") @db.Timestamptz(6)
+  version      Int      @default(1)
+  createdAt    DateTime @map("created_at") @db.Timestamptz(6)
+  updatedAt    DateTime @map("updated_at") @db.Timestamptz(6)
+
+  @@index([locale, category, status, publishedAt], map: "help_articles_locale_category_status_idx")
+  @@map("help_articles")
+}
+
+model Feedback {
+  id               String   @id @db.Uuid
+  organizationId   String   @map("organization_id") @db.Uuid
+  createdByUserId  String   @map("created_by_user_id") @db.Uuid
+  category         String   @db.VarChar(32)
+  content          String   @db.VarChar(2000)
+  status           String   @db.VarChar(24)
+  publicReply      String?  @map("public_reply") @db.VarChar(2000)
+  clientPlatform   String?  @map("client_platform") @db.VarChar(16)
+  clientAppVersion String?  @map("client_app_version") @db.VarChar(64)
+  clientOsVersion  String?  @map("client_os_version") @db.VarChar(64)
+  createdAt        DateTime @map("created_at") @db.Timestamptz(6)
+  updatedAt        DateTime @map("updated_at") @db.Timestamptz(6)
+  version          Int      @default(1)
+
+  organization Organization    @relation(fields: [organizationId], references: [id], onDelete: Restrict)
+  creator      User            @relation("FeedbackCreator", fields: [createdByUserId, organizationId], references: [id, organizationId], onDelete: Restrict)
+  events       FeedbackEvent[]
+
+  @@unique([id, organizationId], map: "feedback_id_organization_key")
+  @@index([organizationId, createdByUserId, createdAt, id], map: "feedback_creator_created_idx")
+  @@index([organizationId, status, createdAt, id], map: "feedback_status_created_idx")
+  @@map("feedback")
+}
+
+model FeedbackEvent {
+  previousStatus          String?  @map("previous_status") @db.VarChar(24)
+  nextStatus              String?  @map("next_status") @db.VarChar(24)
+  publicReply             String?  @map("public_reply") @db.VarChar(2000)
+  id                      String   @id @db.Uuid
+  organizationId          String   @map("organization_id") @db.Uuid
+  feedbackId              String   @map("feedback_id") @db.Uuid
+  eventType               String   @map("event_type") @db.VarChar(16)
+  actorUserId             String   @map("actor_user_id") @db.Uuid
+  authSessionId           String   @map("auth_session_id") @db.Uuid
+  requestId               String   @map("request_id") @db.VarChar(64)
+  idempotencyKeyReference String?  @map("idempotency_key_reference") @db.Char(64)
+  eventVersion            Int      @map("event_version")
+  occurredAt              DateTime @map("occurred_at") @db.Timestamptz(6)
+
+  feedback    Feedback    @relation(fields: [feedbackId, organizationId], references: [id, organizationId], onDelete: Restrict)
+  actor       User        @relation("FeedbackEventActor", fields: [actorUserId, organizationId], references: [id, organizationId], onDelete: Restrict)
+  authSession AuthSession @relation(fields: [authSessionId, organizationId], references: [id, organizationId], onDelete: Restrict)
+
+  @@unique([feedbackId, eventVersion], map: "feedback_events_feedback_version_key")
+  @@index([requestId], map: "feedback_events_request_id_idx")
+  @@map("feedback_events")
+}
+
+model ExemptionApplication {
+  v81AcceptedMaterials V81ApplicationMaterial[] @relation("V81ApplicationMaterialApplication")
+  v81CertificationCredit_application V81CertificationCredit? @relation("V81CertificationCredit_application")
+  id                 String    @id @db.Uuid
+  organizationId     String    @map("organization_id") @db.Uuid
+  semesterId         String    @map("semester_id") @db.Uuid
+  studentId          String    @map("student_id") @db.Uuid
+  enrollmentId       String    @map("enrollment_id") @db.Uuid
+  classSectionId     String    @map("class_section_id") @db.Uuid
+  applicationType    String    @map("application_type") @db.VarChar(32)
+  applicationSubtype String?   @map("application_subtype") @db.VarChar(32)
+  organizationName   String?   @map("organization_name") @db.VarChar(128)
+  reason             String    @db.VarChar(1000)
+  status             String    @db.VarChar(24)
+  publicComment      String?   @map("public_comment") @db.VarChar(1000)
+  submittedAt        DateTime? @map("submitted_at") @db.Timestamptz(6)
+  decidedAt          DateTime? @map("decided_at") @db.Timestamptz(6)
+  createdAt          DateTime  @map("created_at") @db.Timestamptz(6)
+  updatedAt          DateTime  @map("updated_at") @db.Timestamptz(6)
+  version            Int       @default(1)
+
+  organization Organization                @relation(fields: [organizationId], references: [id], onDelete: Restrict)
+  semester     Semester                    @relation(fields: [semesterId, organizationId], references: [id, organizationId], onDelete: Restrict)
+  student      StudentProfile              @relation(fields: [studentId, organizationId], references: [id, organizationId], onDelete: Restrict)
+  enrollment   Enrollment                  @relation(fields: [enrollmentId, semesterId, classSectionId, studentId, organizationId], references: [id, semesterId, classSectionId, studentId, organizationId], onDelete: Restrict)
+  classSection ClassSection                @relation(fields: [classSectionId, semesterId, organizationId], references: [id, semesterId, organizationId], onDelete: Restrict)
+  events       ExemptionApplicationEvent[]
+  reviews      ExemptionReviewRecord[]
+  media        ExemptionApplicationMedia[]
+
+  @@unique([id, organizationId], map: "exemption_applications_id_organization_key")
+  @@index([organizationId, studentId, createdAt, id], map: "exemption_applications_student_created_idx")
+  @@index([organizationId, classSectionId, status, submittedAt, id], map: "exemption_applications_section_status_idx")
+  @@map("exemption_applications")
+}
+
+model ExemptionApplicationEvent {
+  id                      String   @id @db.Uuid
+  organizationId          String   @map("organization_id") @db.Uuid
+  applicationId           String   @map("application_id") @db.Uuid
+  eventType               String   @map("event_type") @db.VarChar(24)
+  fromStatus              String?  @map("from_status") @db.VarChar(24)
+  toStatus                String   @map("to_status") @db.VarChar(24)
+  actorUserId             String   @map("actor_user_id") @db.Uuid
+  authSessionId           String   @map("auth_session_id") @db.Uuid
+  requestId               String   @map("request_id") @db.VarChar(64)
+  idempotencyKeyReference String?  @map("idempotency_key_reference") @db.Char(64)
+  eventVersion            Int      @map("event_version")
+  occurredAt              DateTime @map("occurred_at") @db.Timestamptz(6)
+
+  application ExemptionApplication @relation(fields: [applicationId, organizationId], references: [id, organizationId], onDelete: Restrict)
+  actor       User                 @relation("ExemptionEventActor", fields: [actorUserId, organizationId], references: [id, organizationId], onDelete: Restrict)
+  authSession AuthSession          @relation(fields: [authSessionId, organizationId], references: [id, organizationId], onDelete: Restrict)
+
+  @@unique([applicationId, eventVersion], map: "exemption_application_events_application_version_key")
+  @@index([requestId], map: "exemption_application_events_request_id_idx")
+  @@map("exemption_application_events")
+}
+
+model ExemptionReviewRecord {
+  id               String   @id @db.Uuid
+  organizationId   String   @map("organization_id") @db.Uuid
+  applicationId    String   @map("application_id") @db.Uuid
+  reviewVersion    Int      @map("review_version")
+  previousReviewId String?  @map("previous_review_id") @db.Uuid
+  teacherId        String   @map("teacher_id") @db.Uuid
+  decision         String   @db.VarChar(24)
+  publicComment    String   @map("public_comment") @db.VarChar(1000)
+  internalNote     String?  @map("internal_note") @db.VarChar(2000)
+  requestId        String   @map("request_id") @db.VarChar(64)
+  reviewedAt       DateTime @map("reviewed_at") @db.Timestamptz(6)
+
+  application ExemptionApplication    @relation(fields: [applicationId, organizationId], references: [id, organizationId], onDelete: Restrict)
+  teacher     TeacherProfile          @relation(fields: [teacherId, organizationId], references: [id, organizationId], onDelete: Restrict)
+  previous    ExemptionReviewRecord?  @relation("ExemptionReviewChain", fields: [previousReviewId, organizationId], references: [id, organizationId], onDelete: Restrict)
+  next        ExemptionReviewRecord[] @relation("ExemptionReviewChain")
+
+  @@unique([id, organizationId], map: "exemption_review_records_id_organization_key")
+  @@unique([applicationId, reviewVersion], map: "exemption_review_records_application_version_key")
+  @@index([organizationId, applicationId, reviewedAt], map: "exemption_review_records_application_reviewed_idx")
+  @@map("exemption_review_records")
+}
+
+model ExemptionApplicationMedia {
+  organizationId String   @map("organization_id") @db.Uuid
+  applicationId  String   @map("application_id") @db.Uuid
+  mediaId        String   @unique(map: "exemption_application_media_media_id_key") @map("media_id") @db.Uuid
+  position       Int
+  createdAt      DateTime @map("created_at") @db.Timestamptz(6)
+
+  application ExemptionApplication @relation(fields: [applicationId, organizationId], references: [id, organizationId], onDelete: Restrict)
+  media       MediaEvidence        @relation(fields: [mediaId, organizationId], references: [id, organizationId], onDelete: Restrict)
+
+  @@id([applicationId, mediaId], map: "exemption_application_media_pkey")
+  @@unique([applicationId, position], map: "exemption_application_media_position_key")
+  @@map("exemption_application_media")
+}
+
+model SportCatalogItem {
+  id                String   @id @db.Uuid
+  organizationId    String   @map("organization_id") @db.Uuid
+  sportType         String   @map("sport_type") @db.VarChar(64)
+  displayNameKey    String   @map("display_name_key") @db.VarChar(128)
+  active            Boolean
+  requiresSportName Boolean  @map("requires_sport_name")
+  version           Int      @default(1)
+  createdAt         DateTime @map("created_at") @db.Timestamptz(6)
+  updatedAt         DateTime @map("updated_at") @db.Timestamptz(6)
+
+  organization Organization @relation(fields: [organizationId], references: [id], onDelete: Restrict)
+
+  @@unique([organizationId, sportType], map: "sport_catalog_items_organization_sport_type_key")
+  @@index([organizationId, active, sportType], map: "sport_catalog_items_organization_active_idx")
+  @@map("sport_catalog_items")
+}
+
+model LocationPrivacyPolicy {
+  id                          String   @id @db.Uuid
+  organizationId              String   @map("organization_id") @db.Uuid
+  policyVersion               String   @map("policy_version") @db.VarChar(64)
+  purposeCode                 String   @default("EXERCISE_EVIDENCE") @map("purpose_code") @db.VarChar(32)
+  collectionEnabled           Boolean  @map("collection_enabled")
+  sampleIntervalSeconds       Int?     @map("sample_interval_seconds")
+  maximumAccuracyMeters       Int?     @map("maximum_accuracy_meters")
+  rawRetentionDays            Int?     @map("raw_retention_days")
+  coarseRetentionDays         Int?     @map("coarse_retention_days")
+  coarseProjectionMeters      Int?     @map("coarse_projection_meters")
+  backgroundCollectionEnabled Boolean  @default(false) @map("background_collection_enabled")
+  revocationDisposition       String?  @map("revocation_disposition") @db.VarChar(32)
+  effectiveAt                 DateTime @map("effective_at") @db.Timestamptz(6)
+  version                     Int
+  createdByUserId             String   @map("created_by_user_id") @db.Uuid
+  createdAt                   DateTime @map("created_at") @db.Timestamptz(6)
+
+  organization Organization      @relation(fields: [organizationId], references: [id], onDelete: Restrict)
+  createdBy    User              @relation("LocationPolicyCreator", fields: [createdByUserId, organizationId], references: [id, organizationId], onDelete: Restrict)
+  consents     LocationConsent[]
+  tracks       LocationTrack[]
+
+  @@unique([id, organizationId], map: "location_privacy_policies_id_organization_key")
+  @@unique([organizationId, policyVersion], map: "location_privacy_policies_organization_policy_version_key")
+  @@unique([organizationId, version], map: "location_privacy_policies_organization_version_key")
+  @@index([organizationId, effectiveAt, version], map: "location_privacy_policies_effective_idx")
+  @@map("location_privacy_policies")
+}
+
+model LocationConsent {
+  id             String    @id @db.Uuid
+  organizationId String    @map("organization_id") @db.Uuid
+  studentId      String    @map("student_id") @db.Uuid
+  purposeCode    String    @map("purpose_code") @db.VarChar(32)
+  status         String    @db.VarChar(16)
+  policyId       String    @map("policy_id") @db.Uuid
+  policyVersion  String    @map("policy_version") @db.VarChar(64)
+  consentedAt    DateTime  @map("consented_at") @db.Timestamptz(6)
+  revokedAt      DateTime? @map("revoked_at") @db.Timestamptz(6)
+  version        Int       @default(1)
+
+  organization Organization           @relation(fields: [organizationId], references: [id], onDelete: Restrict)
+  student      StudentProfile         @relation(fields: [studentId, organizationId], references: [id, organizationId], onDelete: Restrict)
+  policy       LocationPrivacyPolicy  @relation(fields: [policyId, organizationId], references: [id, organizationId], onDelete: Restrict)
+  events       LocationConsentEvent[]
+  tracks       LocationTrack[]
+
+  @@unique([id, organizationId], map: "location_consents_id_organization_key")
+  @@unique([organizationId, studentId, purposeCode], map: "location_consents_student_purpose_key")
+  @@map("location_consents")
+}
+
+model LocationConsentEvent {
+  id                      String   @id @db.Uuid
+  organizationId          String   @map("organization_id") @db.Uuid
+  consentId               String   @map("consent_id") @db.Uuid
+  eventType               String   @map("event_type") @db.VarChar(16)
+  policyVersion           String   @map("policy_version") @db.VarChar(64)
+  actorUserId             String   @map("actor_user_id") @db.Uuid
+  authSessionId           String   @map("auth_session_id") @db.Uuid
+  requestId               String   @map("request_id") @db.VarChar(64)
+  idempotencyKeyReference String?  @map("idempotency_key_reference") @db.Char(64)
+  eventVersion            Int      @map("event_version")
+  occurredAt              DateTime @map("occurred_at") @db.Timestamptz(6)
+
+  consent     LocationConsent @relation(fields: [consentId, organizationId], references: [id, organizationId], onDelete: Restrict)
+  actor       User            @relation("LocationConsentEventActor", fields: [actorUserId, organizationId], references: [id, organizationId], onDelete: Restrict)
+  authSession AuthSession     @relation(fields: [authSessionId, organizationId], references: [id, organizationId], onDelete: Restrict)
+
+  @@unique([consentId, eventVersion], map: "location_consent_events_consent_version_key")
+  @@index([requestId], map: "location_consent_events_request_id_idx")
+  @@map("location_consent_events")
+}
+
+model LocationTrack {
+  id                  String    @id @db.Uuid
+  organizationId      String    @map("organization_id") @db.Uuid
+  sessionId           String    @unique(map: "location_tracks_session_id_key") @map("session_id") @db.Uuid
+  studentId           String    @map("student_id") @db.Uuid
+  enrollmentId        String    @map("enrollment_id") @db.Uuid
+  classSectionId      String    @map("class_section_id") @db.Uuid
+  semesterId          String    @map("semester_id") @db.Uuid
+  policyId            String    @map("policy_id") @db.Uuid
+  policyVersion       String    @map("policy_version") @db.VarChar(64)
+  consentId           String    @map("consent_id") @db.Uuid
+  status              String    @db.VarChar(16)
+  acceptedSampleCount Int       @default(0) @map("accepted_sample_count")
+  rejectedSampleCount Int       @default(0) @map("rejected_sample_count")
+  startedAt           DateTime  @map("started_at") @db.Timestamptz(6)
+  lastObservedAt      DateTime? @map("last_observed_at") @db.Timestamptz(6)
+  finalizedAt         DateTime? @map("finalized_at") @db.Timestamptz(6)
+  interruptedAt       DateTime? @map("interrupted_at") @db.Timestamptz(6)
+  deletedAt           DateTime? @map("deleted_at") @db.Timestamptz(6)
+  reasonCode          String?   @map("reason_code") @db.VarChar(64)
+  rawExpiresAt        DateTime  @map("raw_expires_at") @db.Timestamptz(6)
+  version             Int       @default(1)
+  createdAt           DateTime  @map("created_at") @db.Timestamptz(6)
+  updatedAt           DateTime  @map("updated_at") @db.Timestamptz(6)
+
+  organization    Organization             @relation(fields: [organizationId], references: [id], onDelete: Restrict)
+  session         ExerciseSession          @relation(fields: [sessionId, enrollmentId, semesterId, classSectionId, studentId, organizationId], references: [id, enrollmentId, semesterId, classSectionId, studentId, organizationId], onDelete: Restrict)
+  student         StudentProfile           @relation(fields: [studentId, organizationId], references: [id, organizationId], onDelete: Restrict)
+  enrollment      Enrollment               @relation(fields: [enrollmentId, semesterId, classSectionId, studentId, organizationId], references: [id, semesterId, classSectionId, studentId, organizationId], onDelete: Restrict)
+  semester        Semester                 @relation(fields: [semesterId, organizationId], references: [id, organizationId], onDelete: Restrict)
+  classSection    ClassSection             @relation(fields: [classSectionId, semesterId, organizationId], references: [id, semesterId, organizationId], onDelete: Restrict)
+  policy          LocationPrivacyPolicy    @relation(fields: [policyId, organizationId], references: [id, organizationId], onDelete: Restrict)
+  consent         LocationConsent          @relation(fields: [consentId, organizationId], references: [id, organizationId], onDelete: Restrict)
+  events          LocationTrackEvent[]
+  samples         LocationSample[]
+  summary         LocationSummary?
+  retentionEvents LocationRetentionEvent[]
+
+  @@unique([id, organizationId], map: "location_tracks_id_organization_key")
+  @@unique([sessionId, enrollmentId, semesterId, classSectionId, studentId, organizationId], map: "location_tracks_session_scope_key")
+  @@index([organizationId, studentId, status, startedAt, id], map: "location_tracks_student_status_idx")
+  @@index([status, rawExpiresAt, id], map: "location_tracks_retention_idx")
+  @@map("location_tracks")
+}
+
+model LocationTrackEvent {
+  id                      String   @id @db.Uuid
+  organizationId          String   @map("organization_id") @db.Uuid
+  trackId                 String   @map("track_id") @db.Uuid
+  eventType               String   @map("event_type") @db.VarChar(24)
+  fromStatus              String?  @map("from_status") @db.VarChar(16)
+  toStatus                String   @map("to_status") @db.VarChar(16)
+  actorUserId             String   @map("actor_user_id") @db.Uuid
+  authSessionId           String   @map("auth_session_id") @db.Uuid
+  requestId               String   @map("request_id") @db.VarChar(64)
+  idempotencyKeyReference String?  @map("idempotency_key_reference") @db.Char(64)
+  eventVersion            Int      @map("event_version")
+  acceptedSampleCount     Int      @default(0) @map("accepted_sample_count")
+  rejectedSampleCount     Int      @default(0) @map("rejected_sample_count")
+  reasonCode              String?  @map("reason_code") @db.VarChar(64)
+  occurredAt              DateTime @map("occurred_at") @db.Timestamptz(6)
+
+  track       LocationTrack @relation(fields: [trackId, organizationId], references: [id, organizationId], onDelete: Restrict)
+  actor       User          @relation("LocationTrackEventActor", fields: [actorUserId, organizationId], references: [id, organizationId], onDelete: Restrict)
+  authSession AuthSession   @relation(fields: [authSessionId, organizationId], references: [id, organizationId], onDelete: Restrict)
+
+  @@unique([trackId, eventVersion], map: "location_track_events_track_version_key")
+  @@index([requestId], map: "location_track_events_request_id_idx")
+  @@map("location_track_events")
+}
+
+model LocationSample {
+  id                 String   @id @db.Uuid
+  organizationId     String   @map("organization_id") @db.Uuid
+  trackId            String   @map("track_id") @db.Uuid
+  sampleId           String   @map("sample_id") @db.Uuid
+  observedAt         DateTime @map("observed_at") @db.Timestamptz(6)
+  accuracyMeters     Int      @map("accuracy_meters")
+  payloadFingerprint String   @map("payload_fingerprint") @db.Char(64)
+  acceptedAt         DateTime @map("accepted_at") @db.Timestamptz(6)
+  rawExpiresAt       DateTime @map("raw_expires_at") @db.Timestamptz(6)
+
+  organization Organization          @relation(fields: [organizationId], references: [id], onDelete: Restrict)
+  track        LocationTrack         @relation(fields: [trackId, organizationId], references: [id, organizationId], onDelete: Restrict)
+  secret       LocationSampleSecret?
+
+  @@unique([trackId, sampleId], map: "location_samples_track_sample_key")
+  @@unique([id, organizationId], map: "location_samples_id_organization_key")
+  @@index([trackId, observedAt, sampleId], map: "location_samples_track_observed_idx")
+  @@index([rawExpiresAt, id], map: "location_samples_raw_expires_idx")
+  @@map("location_samples")
+}
+
+model LocationSampleSecret {
+  sampleRowId String   @id @map("sample_row_id") @db.Uuid
+  ciphertext  String   @db.Text
+  keyVersion  Int      @map("key_version")
+  createdAt   DateTime @map("created_at") @db.Timestamptz(6)
+
+  sample LocationSample @relation(fields: [sampleRowId], references: [id], onDelete: Restrict)
+
+  @@map("location_sample_secrets")
+}
+
+model LocationSummary {
+  id                   String    @id @db.Uuid
+  organizationId       String    @map("organization_id") @db.Uuid
+  trackId              String    @unique(map: "location_summaries_track_id_key") @map("track_id") @db.Uuid
+  recordId             String?   @unique(map: "location_summaries_record_id_key") @map("record_id") @db.Uuid
+  availability         String    @db.VarChar(24)
+  coarseRoutePolyline  String?   @map("coarse_route_polyline") @db.Text
+  coarseDistanceMeters Int?      @map("coarse_distance_meters")
+  observedStartAt      DateTime? @map("observed_start_at") @db.Timestamptz(6)
+  observedEndAt        DateTime? @map("observed_end_at") @db.Timestamptz(6)
+  expiresAt            DateTime? @map("expires_at") @db.Timestamptz(6)
+  policyVersion        String?   @map("policy_version") @db.VarChar(64)
+  qualityFlags         String[]  @default([]) @map("quality_flags") @db.VarChar(64)
+  version              Int       @default(1)
+  createdAt            DateTime  @map("created_at") @db.Timestamptz(6)
+  updatedAt            DateTime  @map("updated_at") @db.Timestamptz(6)
+
+  organization Organization    @relation(fields: [organizationId], references: [id], onDelete: Restrict)
+  track        LocationTrack   @relation(fields: [trackId, organizationId], references: [id, organizationId], onDelete: Restrict)
+  record       ExerciseRecord? @relation(fields: [recordId, organizationId], references: [id, organizationId], onDelete: Restrict)
+
+  @@unique([id, organizationId], map: "location_summaries_id_organization_key")
+  @@unique([trackId, organizationId], map: "location_summaries_track_organization_key")
+  @@unique([recordId, organizationId], map: "location_summaries_record_organization_key")
+  @@index([availability, expiresAt, id], map: "location_summaries_availability_expires_idx")
+  @@map("location_summaries")
+}
+
+model LocationRetentionEvent {
+  id              String   @id @db.Uuid
+  organizationId  String   @map("organization_id") @db.Uuid
+  trackId         String   @map("track_id") @db.Uuid
+  dataClass       String   @map("data_class") @db.VarChar(16)
+  deletedRowCount Int      @map("deleted_row_count")
+  policyVersion   String   @map("policy_version") @db.VarChar(64)
+  requestId       String   @map("request_id") @db.VarChar(64)
+  deletedAt       DateTime @map("deleted_at") @db.Timestamptz(6)
+
+  organization Organization  @relation(fields: [organizationId], references: [id], onDelete: Restrict)
+  track        LocationTrack @relation(fields: [trackId, organizationId], references: [id, organizationId], onDelete: Restrict)
+
+  @@index([organizationId, trackId, deletedAt], map: "location_retention_events_track_deleted_idx")
+  @@index([requestId], map: "location_retention_events_request_id_idx")
+  @@map("location_retention_events")
+}
+
+model AuditLog {
+  id                      String   @id @db.Uuid
+  organizationId          String   @map("organization_id") @db.Uuid
+  actorUserId             String?  @map("actor_user_id") @db.Uuid
+  actorRoleSnapshot       String?  @map("actor_role_snapshot") @db.VarChar(32)
+  permissionId            String   @map("permission_id") @db.VarChar(128)
+  actionType              String   @map("action_type") @db.VarChar(64)
+  targetType              String   @map("target_type") @db.VarChar(64)
+  targetId                String?  @map("target_id") @db.Uuid
+  requestId               String   @map("request_id") @db.VarChar(64)
+  idempotencyKeyReference String?  @map("idempotency_key_reference") @db.Char(64)
+  outcome                 String   @db.VarChar(32)
+  reasonCode              String?  @map("reason_code") @db.VarChar(64)
+  safeMetadata            Json     @map("safe_metadata") @db.JsonB
+  sourceIpHash            String?  @map("source_ip_hash") @db.Char(64)
+  deviceFingerprintHash   String?  @map("device_fingerprint_hash") @db.Char(64)
+  occurredAt              DateTime @map("occurred_at") @db.Timestamptz(6)
+
+  organization Organization @relation(fields: [organizationId], references: [id], onDelete: Restrict)
+  actor        User?        @relation("AuditActor", fields: [actorUserId, organizationId], references: [id, organizationId], onDelete: Restrict)
+
+  @@index([organizationId, occurredAt, id], map: "audit_logs_organization_occurred_at_id_idx")
+  @@index([requestId], map: "audit_logs_request_id_idx")
+  @@index([targetType, targetId], map: "audit_logs_target_idx")
+  @@map("audit_logs")
+}
+
+model OutboxEvent {
+  id             String    @id @db.Uuid
+  organizationId String    @map("organization_id") @db.Uuid
+  aggregateType  String    @map("aggregate_type") @db.VarChar(64)
+  aggregateId    String    @map("aggregate_id") @db.Uuid
+  eventType      String    @map("event_type") @db.VarChar(128)
+  eventVersion   Int       @map("event_version")
+  payload        Json      @db.JsonB
+  status         String    @db.VarChar(32)
+  availableAt    DateTime  @map("available_at") @db.Timestamptz(6)
+  lockedAt       DateTime? @map("locked_at") @db.Timestamptz(6)
+  lockedBy       String?   @map("locked_by") @db.VarChar(128)
+  attempts       Int       @default(0)
+  lastErrorCode  String?   @map("last_error_code") @db.VarChar(64)
+  createdAt      DateTime  @map("created_at") @db.Timestamptz(6)
+  processedAt    DateTime? @map("processed_at") @db.Timestamptz(6)
+
+  organization Organization @relation(fields: [organizationId], references: [id], onDelete: Restrict)
+
+  @@index([status, availableAt, id], map: "outbox_events_claim_idx")
+  @@index([aggregateType, aggregateId, eventVersion], map: "outbox_events_aggregate_idx")
+  @@map("outbox_events")
+}
+
+// V8.1 checks, partial indexes and append-only guards are defined in migration 0021.
+model V81ApplicationMaterial {
+  applicationId String @map("application_id") @db.Uuid
+  mediaId String @map("media_id") @db.Uuid
+  organizationId String @map("organization_id") @db.Uuid
+  acceptedAt DateTime @map("accepted_at") @db.Timestamptz(6)
+  application ExemptionApplication @relation("V81ApplicationMaterialApplication",fields:[applicationId],references:[id],onDelete:Restrict,onUpdate:NoAction)
+  media MediaEvidence @relation("V81ApplicationMaterialMedia",fields:[mediaId],references:[id],onDelete:Restrict,onUpdate:NoAction)
+  organization Organization @relation("V81ApplicationMaterialOrganization",fields:[organizationId],references:[id],onDelete:Restrict,onUpdate:NoAction)
+  @@id([applicationId,mediaId])
+  @@map("v81_application_materials")
+}
+
+model V81AccountSecurity {
+  userId String @id @map("user_id") @db.Uuid
+  organizationId String @map("organization_id") @db.Uuid
+  loginAccount String? @unique(map:"v81_account_security_login_account_key") @map("login_account")
+  mustChangePassword Boolean @default(true) @map("must_change_password")
+  passwordChangedAt DateTime? @map("password_changed_at") @db.Timestamptz(6)
+  user User @relation("V81AccountSecurityUser",fields:[userId],references:[id],onDelete:Restrict,onUpdate:NoAction)
+  scopedUser User @relation("V81AccountSecurityScopedUser",fields:[userId,organizationId],references:[id,organizationId],onDelete:Restrict,onUpdate:NoAction)
+  organization Organization @relation("V81AccountSecurityOrganization",fields:[organizationId],references:[id],onDelete:Restrict,onUpdate:NoAction)
+  @@map("v81_account_security")
+}
+
+model V81CourseRule {
+  classSectionId String @id @map("class_section_id") @db.Uuid
+  organizationId String @map("organization_id") @db.Uuid
+  minimumMinutes Int @map("minimum_minutes")
+  weeklyLimit Int @map("weekly_limit")
+  courseTarget Int @map("course_target")
+  generalTarget Int @map("general_target")
+  regularDeadline DateTime @map("regular_deadline") @db.Timestamptz(6)
+  closingDeadline DateTime @map("closing_deadline") @db.Timestamptz(6)
+  settlementPlannedAt DateTime @map("settlement_planned_at") @db.Timestamptz(6)
+  publishedAt DateTime? @map("published_at") @db.Timestamptz(6)
+  version Int @default(1)
+  organization Organization @relation("V81CourseRule_organization", fields: [organizationId], references: [id], onDelete: Restrict, onUpdate: NoAction)
+  section ClassSection @relation("V81CourseRule_section", fields: [classSectionId], references: [id], onDelete: Restrict, onUpdate: NoAction)
+  scopedSection ClassSection @relation("V81CourseRule_scopedSection", fields: [classSectionId, organizationId], references: [id, organizationId], onDelete: Restrict, onUpdate: NoAction)
+  @@map("v81_course_rules")
+}
+
+// V8.1 checks, partial indexes and append-only guards are defined in migration 0021.
+model V81RecordWorkflow {
+  recordId String @id @map("record_id") @db.Uuid
+  organizationId String @map("organization_id") @db.Uuid
+  stage String
+  materialVersion Int @default(1) @map("material_version")
+  supplementUsed Boolean @default(false) @map("supplement_used")
+  supplementStartedAt DateTime? @map("supplement_started_at") @db.Timestamptz(6)
+  supplementHours Int? @map("supplement_hours")
+  supplementAcceptedAt DateTime? @map("supplement_accepted_at") @db.Timestamptz(6)
+  teacherRoundStartedAt DateTime? @map("teacher_round_started_at") @db.Timestamptz(6)
+  publicReason String? @map("public_reason")
+  publicComment String? @map("public_comment")
+  version Int @default(1)
+  updatedAt DateTime @default(now()) @map("updated_at") @db.Timestamptz(6)
+  organization Organization @relation("V81RecordWorkflow_organization", fields: [organizationId], references: [id], onDelete: Restrict, onUpdate: NoAction)
+  record ExerciseRecord @relation("V81RecordWorkflow_record", fields: [recordId], references: [id], onDelete: Restrict, onUpdate: NoAction)
+  scopedRecord ExerciseRecord @relation("V81RecordWorkflow_scopedRecord", fields: [recordId, organizationId], references: [id, organizationId], onDelete: Restrict, onUpdate: NoAction)
+  @@map("v81_record_workflows")
+}
+
+// V8.1 checks, partial indexes and append-only guards are defined in migration 0021.
+model V81Event {
+  id String @id @db.Uuid
+  organizationId String @map("organization_id") @db.Uuid
+  resourceType String @map("resource_type")
+  resourceId String @map("resource_id") @db.Uuid
+  eventType String @map("event_type")
+  actorId String? @map("actor_id") @db.Uuid
+  requestId String @map("request_id")
+  version Int
+  facts Json @db.JsonB
+  occurredAt DateTime @default(now()) @map("occurred_at") @db.Timestamptz(6)
+  @@unique([organizationId, resourceType, resourceId, version], map: "v81_events_resource_version_key")
+  @@index([organizationId, resourceType, resourceId, occurredAt], map: "v81_events_resource")
+  organization Organization @relation("V81Event_organization", fields: [organizationId], references: [id], onDelete: Restrict, onUpdate: NoAction)
+  @@map("v81_events")
+}
+
+// V8.1 checks, partial indexes and append-only guards are defined in migration 0021.
+model V81MaterialVersion {
+  v81MaterialItem_packet V81MaterialItem[] @relation("V81MaterialItem_packet")
+  recordId String @map("record_id") @db.Uuid
+  organizationId String @map("organization_id") @db.Uuid
+  materialVersion Int @map("material_version")
+  acceptedAt DateTime @map("accepted_at") @db.Timestamptz(6)
+  acceptedTransaction BigInt @default(dbgenerated("txid_current()")) @map("accepted_transaction")
+  @@id([recordId, materialVersion])
+  organization Organization @relation("V81MaterialVersion_organization", fields: [organizationId], references: [id], onDelete: Restrict, onUpdate: NoAction)
+  record ExerciseRecord @relation("V81MaterialVersion_record", fields: [recordId], references: [id], onDelete: Restrict, onUpdate: NoAction)
+  scopedRecord ExerciseRecord @relation("V81MaterialVersion_scopedRecord", fields: [recordId, organizationId], references: [id, organizationId], onDelete: Restrict, onUpdate: NoAction)
+  @@map("v81_material_versions")
+}
+
+// V8.1 checks, partial indexes and append-only guards are defined in migration 0021.
+model V81MaterialItem {
+  recordId String @map("record_id") @db.Uuid
+  materialVersion Int @map("material_version")
+  mediaId String @map("media_id") @db.Uuid
+  position Int
+  @@id([recordId, materialVersion, mediaId])
+  @@unique([recordId, materialVersion, position], map: "v81_material_items_record_id_material_version_position_key")
+  media MediaEvidence @relation("V81MaterialItem_media", fields: [mediaId], references: [id], onDelete: Restrict, onUpdate: NoAction)
+  packet V81MaterialVersion @relation("V81MaterialItem_packet", fields: [recordId, materialVersion], references: [recordId, materialVersion], onDelete: Restrict, onUpdate: NoAction)
+  @@map("v81_material_items")
+}
+
+// V8.1 checks, partial indexes and append-only guards are defined in migration 0021.
+model V81Interruption {
+  id String @id @db.Uuid
+  organizationId String @map("organization_id") @db.Uuid
+  kind String
+  classSectionId String? @map("class_section_id") @db.Uuid
+  startedAt DateTime @map("started_at") @db.Timestamptz(6)
+  endedAt DateTime? @map("ended_at") @db.Timestamptz(6)
+  reason String
+  version Int @default(1)
+  organization Organization @relation("V81Interruption_organization", fields: [organizationId], references: [id], onDelete: Restrict, onUpdate: NoAction)
+  section ClassSection? @relation("V81Interruption_section", fields: [classSectionId], references: [id], onDelete: Restrict, onUpdate: NoAction)
+  @@map("v81_interruptions")
+}
+
+// V8.1 checks, partial indexes and append-only guards are defined in migration 0021.
+model V81AdminAccess {
+  userId String @id @map("user_id") @db.Uuid
+  organizationId String @map("organization_id") @db.Uuid
+  kind String
+  permissions Json @default("[]") @db.JsonB
+  mustChangePassword Boolean @default(true) @map("must_change_password")
+  version Int @default(1)
+  organization Organization @relation("V81AdminAccess_organization", fields: [organizationId], references: [id], onDelete: Restrict, onUpdate: NoAction)
+  user User @relation("V81AdminAccess_user", fields: [userId], references: [id], onDelete: Restrict, onUpdate: NoAction)
+  scopedUser User @relation("V81AdminAccess_scopedUser", fields: [userId, organizationId], references: [id, organizationId], onDelete: Restrict, onUpdate: NoAction)
+  @@map("v81_admin_access")
+}
+
+// V8.1 checks, partial indexes and append-only guards are defined in migration 0021.
+model V81ManualMode {
+  classSectionId String @id @map("class_section_id") @db.Uuid
+  organizationId String @map("organization_id") @db.Uuid
+  enabled Boolean
+  reason String
+  version Int @default(1)
+  updatedAt DateTime @map("updated_at") @db.Timestamptz(6)
+  organization Organization @relation("V81ManualMode_organization", fields: [organizationId], references: [id], onDelete: Restrict, onUpdate: NoAction)
+  section ClassSection @relation("V81ManualMode_section", fields: [classSectionId], references: [id], onDelete: Restrict, onUpdate: NoAction)
+  scopedSection ClassSection @relation("V81ManualMode_scopedSection", fields: [classSectionId, organizationId], references: [id, organizationId], onDelete: Restrict, onUpdate: NoAction)
+  @@map("v81_manual_modes")
+}
+
+// V8.1 checks, partial indexes and append-only guards are defined in migration 0021.
+model V81CreditProjection {
+  recordId String @id @map("record_id") @db.Uuid
+  organizationId String @map("organization_id") @db.Uuid
+  eligibleMinutes Int @map("eligible_minutes")
+  creditedMinutes Int @map("credited_minutes")
+  selected Boolean
+  reason String?
+  version Int @default(1)
+  updatedAt DateTime @default(now()) @map("updated_at") @db.Timestamptz(6)
+  organization Organization @relation("V81CreditProjection_organization", fields: [organizationId], references: [id], onDelete: Restrict, onUpdate: NoAction)
+  record ExerciseRecord @relation("V81CreditProjection_record", fields: [recordId], references: [id], onDelete: Restrict, onUpdate: NoAction)
+  @@map("v81_credit_projections")
+}
+
+// V8.1 checks, partial indexes and append-only guards are defined in migration 0021.
+model V81CertificationCredit {
+  applicationId String @id @map("application_id") @db.Uuid
+  enrollmentId String @map("enrollment_id") @db.Uuid
+  organizationId String @map("organization_id") @db.Uuid
+  courseMinutes Int @map("course_minutes")
+  generalMinutes Int @map("general_minutes")
+  active Boolean
+  version Int @default(1)
+  organization Organization @relation("V81CertificationCredit_organization", fields: [organizationId], references: [id], onDelete: Restrict, onUpdate: NoAction)
+  application ExemptionApplication @relation("V81CertificationCredit_application", fields: [applicationId], references: [id], onDelete: Restrict, onUpdate: NoAction)
+  enrollment Enrollment @relation("V81CertificationCredit_enrollment", fields: [enrollmentId], references: [id], onDelete: Restrict, onUpdate: NoAction)
+  @@map("v81_certification_credits")
+}
+
+model V81SwimIntake {
+  recordId String @id @map("record_id") @db.Uuid
+  organizationId String @map("organization_id") @db.Uuid
+  acceptedAt DateTime @map("accepted_at") @db.Timestamptz(6)
+  sessionEndedAt DateTime @map("session_ended_at") @db.Timestamptz(6)
+  transferDeadline DateTime @map("transfer_deadline") @db.Timestamptz(6)
+  intakeKind String @map("intake_kind") @db.VarChar(24)
+  delayReason String? @map("delay_reason") @db.VarChar(1000)
+  acceptedTransaction BigInt @default(dbgenerated("txid_current()")) @map("accepted_transaction")
+  record ExerciseRecord @relation(fields: [recordId], references: [id], onDelete: Restrict, onUpdate: NoAction)
+  organization Organization @relation(fields: [organizationId], references: [id], onDelete: Restrict, onUpdate: NoAction)
+  items V81SwimIntakeItem[]
+  @@map("v81_swim_intakes")
+}
+
+model V81SwimIntakeItem {
+  recordId String @map("record_id") @db.Uuid
+  mediaId String @map("media_id") @db.Uuid
+  phase String @db.VarChar(8)
+  position Int
+  contentSha256 String @map("content_sha256") @db.Char(64)
+  intake V81SwimIntake @relation(fields: [recordId], references: [recordId], onDelete: Restrict, onUpdate: NoAction)
+  media MediaEvidence @relation(fields: [mediaId], references: [id], onDelete: Restrict, onUpdate: NoAction)
+  @@id([recordId, mediaId])
+  @@unique([recordId, position])
+  @@map("v81_swim_intake_items")
+}
+
+model V81FinalGradeRevision {
+  enrollmentId String @map("enrollment_id") @db.Uuid
+  organizationId String @map("organization_id") @db.Uuid
+  version Int
+  finalGrade Int @map("final_grade")
+  published Boolean
+  actorId String @map("actor_id") @db.Uuid
+  createdAt DateTime @map("created_at") @db.Timestamptz(6)
+  enrollment Enrollment @relation(fields: [enrollmentId], references: [id], onDelete: Restrict, onUpdate: NoAction)
+  organization Organization @relation(fields: [organizationId], references: [id], onDelete: Restrict, onUpdate: NoAction)
+  actor User @relation(fields: [actorId], references: [id], onDelete: Restrict, onUpdate: NoAction)
+  @@id([enrollmentId, version])
+  @@map("v81_final_grade_revisions")
+}

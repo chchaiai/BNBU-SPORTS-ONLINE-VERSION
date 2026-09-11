@@ -1,0 +1,33 @@
+{
+  "formatVersion": 1,
+  "contractVersion": "2.0.5-contract",
+  "releaseState": "published",
+  "openapiVersion": "3.1.0",
+  "sha256": "86b2607e0922c70d4e7c7866f4578952babc103e57daa14f42c3b4619b34ccf8",
+  "byteLength": 323046,
+  "sourceCommit": "aa208c53762cef8946f703c08693f532daeef946",
+  "canonicalPath": "docs/backend-contracts/openapi.yaml",
+  "immutableCandidateSnapshot": "docs/backend-contracts/releases/2.0.5-contract/openapi.candidate.yaml",
+  "publishedBaseline": {
+    "version": "2.0.4-contract",
+    "sha256": "fb58079a167a1ac6208618bc1b2ac106f618a53be5418936992c1ddf36e85b47",
+    "sourceCommit": "a3f6cf4587028153a84f531aa2e5cbfd3eb415ce"
+  },
+  "counts": {
+    "paths": 109,
+    "operations": 126,
+    "schemas": 288
+  },
+  "compatibility": {
+    "result": "PASS",
+    "classifiedChanges": 0,
+    "unapprovedBlockers": 0
+  },
+  "runtime": {
+    "implementedAndConformant": 109,
+    "intentionallyDisabled": 17,
+    "notImplemented": 0
+  },
+  "immutableHistorySnapshot": "docs/backend-contracts/contract-history/2.0.5-contract-86b2607e0922c70d4e7c7866f4578952babc103e57daa14f42c3b4619b34ccf8/openapi.snapshot.yaml",
+  "immutableHistoryManifest": "docs/backend-contracts/contract-history/2.0.5-contract-86b2607e0922c70d4e7c7866f4578952babc103e57daa14f42c3b4619b34ccf8/release-manifest.json"
+}

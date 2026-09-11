@@ -1,0 +1,16 @@
+{"path":"/api/v1/class-sections/01a07f68-25c2-73ad-94b4-fef654639195/progress-target","status":404}
+{"path":"/api/v1/class-sections/01a07f65-c440-725f-a4fe-76ef011bf685/progress-target","status":404}
+{"path":"/api/v1/class-sections/01a07f5a-13dd-740c-a83d-e466500e12f5/progress-target","status":404}
+{"path":"/api/v1/class-sections/01a07f59-2afb-766a-bf7d-38f2708cd505/progress-target","status":404}
+{"path":"/api/v1/class-sections/01a07f58-06db-74e6-b996-b7730ac1060d/progress-target","status":404}
+{"path":"/api/v1/class-sections/01a07f57-1efe-7328-8303-ad9e04e4ac89/progress-target","status":404}
+{"path":"/api/v1/class-sections/01a07f55-bc25-730b-b69c-2700468c811d/progress-target","status":404}
+{"path":"/api/v1/class-sections/01a07f4f-5094-77ee-9e21-739d01c43e8f/progress-target","status":404}
+{"path":"/api/v1/class-sections/01a07f43-9282-73af-aa29-b1f795492fe2/progress-target","status":404}
+{"path":"/api/v1/class-sections/01a07f3e-92ad-76c1-8c93-2f8cc974570e/progress-target","status":404}
+{"path":"/api/v1/class-sections/01a07f3d-7103-7137-8d92-c63bfd03510f/progress-target","status":404}
+{"path":"/api/v1/class-sections/01a07f3b-6bc7-71cf-b678-9041db551603/progress-target","status":404}
+{"path":"/api/v1/class-sections/01a07f3a-f338-761b-9fdf-4a926a2961a1/progress-target","status":404}
+{"path":"/api/v1/class-sections/01a07ed7-ae72-75e9-91ca-e9f5477f9a81/progress-target","status":404}
+{"region":"课程结算与综合名单确认名单和全部待办后保存结算快照。实时导出不会完成结算。刷新结算预检导出实时综合名单尚未结束的运动：通过（0）未提交记录：通过（0）待审核记录：通过（0）待补充材料：通过（0）技术复核：通过（0）材料处理中：通过（0）尚未结束的平台中断：通过（0）待处理申请：通过（0）名单处理中：通过（0）名单核对处理中：通过（0）体测导入待确认：通过（0）待处理名单差异：通过（0）识别草稿待确认：通过（0）当前正式名单：通过（0）正式名单确认：通过（0）名单身份冲突：通过（0）名单注册入班核对：通过（0）原始体测资料：待确认（1）课程规则发布：通过（0）结算时间：通过（0）综合名单结算确认：待处理（1）正式名单 1 人；注册入班核对已完成。预检时间：2026/9/9 08:49:03学号姓名名单状态待办SYNTH-SESSION-8412FDE7Synthetic Session Student 8412FDE7已注册入班0确认课程结算已保存的结算报告暂无已保存报告。"}
+{"check":"COURSE_SETTLEMENT_BROWSER","result":"FAIL","stage":"BLOCKED_PRECHECK","type":"TimeoutError","message":"locator.waitFor: Timeout 15000ms exceeded.\nCall log:\n\u001b[2m  - waiting for getByRole('region', { name: '课程结算' }).getByText('原始体测资料：待处理（1）', { exact: true }) to be visible\u001b[22m\n"}

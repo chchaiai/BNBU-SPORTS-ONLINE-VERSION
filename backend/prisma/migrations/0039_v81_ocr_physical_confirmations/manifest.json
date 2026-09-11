@@ -1,0 +1,5 @@
+{
+  "destructive": false,
+  "sha256": "43c5a7cdda652a08db0016ac77622941abf3e0940d32169f57729790dc690574",
+  "migrationId": "0039_v81_ocr_physical_confirmations"
+}

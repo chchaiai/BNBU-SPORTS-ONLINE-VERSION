@@ -1,0 +1,40 @@
+
+> @bnbu/sports-backend@0.1.0 typecheck
+> tsc --noEmit -p tsconfig.json
+
+test/e2e/v81-system-management.e2e.test.ts(204,74): error TS2339: Property 'announcement' does not exist on type 'unknown[] | Record<string, unknown>'.
+  Property 'announcement' does not exist on type 'unknown[]'.
+test/e2e/v81-system-management.e2e.test.ts(212,26): error TS2339: Property 'mode' does not exist on type 'unknown[] | Record<string, unknown>'.
+  Property 'mode' does not exist on type 'unknown[]'.
+test/e2e/v81-system-management.e2e.test.ts(218,31): error TS2339: Property 'mode' does not exist on type 'unknown[] | Record<string, unknown>'.
+  Property 'mode' does not exist on type 'unknown[]'.
+test/e2e/v81-system-management.e2e.test.ts(219,35): error TS2339: Property 'announcement' does not exist on type 'unknown[] | Record<string, unknown>'.
+  Property 'announcement' does not exist on type 'unknown[]'.
+test/e2e/v81-system-management.e2e.test.ts(232,80): error TS2339: Property 'policyVersion' does not exist on type 'unknown[] | Record<string, unknown>'.
+  Property 'policyVersion' does not exist on type 'unknown[]'.
+test/e2e/v81-system-management.e2e.test.ts(233,27): error TS2339: Property 'mode' does not exist on type 'unknown[] | Record<string, unknown>'.
+  Property 'mode' does not exist on type 'unknown[]'.
+test/e2e/v81-system-management.e2e.test.ts(235,74): error TS2339: Property 'announcement' does not exist on type 'unknown[] | Record<string, unknown>'.
+  Property 'announcement' does not exist on type 'unknown[]'.
+test/e2e/v81-system-management.e2e.test.ts(255,88): error TS2339: Property 'policyVersion' does not exist on type 'unknown[] | Record<string, unknown>'.
+  Property 'policyVersion' does not exist on type 'unknown[]'.
+test/e2e/v81-system-management.e2e.test.ts(259,63): error TS2339: Property 'mode' does not exist on type 'unknown[] | Record<string, unknown>'.
+  Property 'mode' does not exist on type 'unknown[]'.
+test/e2e/v81-system-management.e2e.test.ts(260,83): error TS2339: Property 'announcement' does not exist on type 'unknown[] | Record<string, unknown>'.
+  Property 'announcement' does not exist on type 'unknown[]'.
+test/e2e/v81-system-management.e2e.test.ts(269,87): error TS2339: Property 'policyVersion' does not exist on type 'unknown[] | Record<string, unknown>'.
+  Property 'policyVersion' does not exist on type 'unknown[]'.
+test/e2e/v81-system-management.e2e.test.ts(271,76): error TS2339: Property 'announcement' does not exist on type 'unknown[] | Record<string, unknown>'.
+  Property 'announcement' does not exist on type 'unknown[]'.
+test/e2e/v81-system-management.e2e.test.ts(308,29): error TS2339: Property 'mustChangePassword' does not exist on type 'unknown[] | Record<string, unknown>'.
+  Property 'mustChangePassword' does not exist on type 'unknown[]'.
+test/e2e/v81-system-management.e2e.test.ts(311,80): error TS2339: Property 'version' does not exist on type 'unknown[] | Record<string, unknown>'.
+  Property 'version' does not exist on type 'unknown[]'.
+test/e2e/v81-system-management.e2e.test.ts(318,28): error TS2339: Property 'mustChangePassword' does not exist on type 'unknown[] | Record<string, unknown>'.
+  Property 'mustChangePassword' does not exist on type 'unknown[]'.
+test/e2e/v81-system-management.e2e.test.ts(320,102): error TS2339: Property 'mustChangePassword' does not exist on type 'unknown[] | Record<string, unknown>'.
+  Property 'mustChangePassword' does not exist on type 'unknown[]'.
+test/e2e/v81-system-management.e2e.test.ts(348,45): error TS2339: Property 'version' does not exist on type 'unknown[] | Record<string, unknown>'.
+  Property 'version' does not exist on type 'unknown[]'.
+test/e2e/v81-system-management.e2e.test.ts(349,26): error TS2339: Property 'mustChangePassword' does not exist on type 'unknown[] | Record<string, unknown>'.
+  Property 'mustChangePassword' does not exist on type 'unknown[]'.

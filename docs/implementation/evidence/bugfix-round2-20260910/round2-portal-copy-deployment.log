@@ -1,0 +1,6 @@
+Loaded image: bnbu-portal-production:fad4083c-round2
+ Container bnbu-sports-production-portal-1 Recreate
+ Container bnbu-sports-production-portal-1 Recreated
+ Container bnbu-sports-production-portal-1 Starting
+ Container bnbu-sports-production-portal-1 Started
+{"check": "PORTAL_COPY_DEPLOYMENT", "result": "PASS", "release": "/opt/bnbu-sports-production/releases/fad4083c023f-round2", "imageId": "sha256:f3a3ebdbcc232f8fe101735f7bcc92817306e89d0377be2712db72009897f823"}

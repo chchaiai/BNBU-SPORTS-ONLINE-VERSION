@@ -1,0 +1,145 @@
+ Image bnbu-v81-full-integration-integration-tests Building 
+#1 [internal] load local bake definitions
+#1 reading from stdin 644B 0.0s done
+#1 DONE 0.0s
+
+#2 [internal] load build definition from Dockerfile.v81-test
+#2 transferring dockerfile: 828B done
+#2 DONE 0.0s
+
+#3 [internal] load metadata for docker.io/library/node:24.18.0-bookworm-slim
+#3 DONE 1.0s
+
+#4 [internal] load .dockerignore
+#4 transferring context: 153B done
+#4 DONE 0.0s
+
+#5 [ 1/11] FROM docker.io/library/node:24.18.0-bookworm-slim@sha256:6f7b03f7c2c8e2e784dcf9295400527b9b1270fd37b7e9a7285cf83b6951452d
+#5 resolve docker.io/library/node:24.18.0-bookworm-slim@sha256:6f7b03f7c2c8e2e784dcf9295400527b9b1270fd37b7e9a7285cf83b6951452d 0.0s done
+#5 DONE 0.0s
+
+#6 [internal] load build context
+#6 transferring context: 2.29MB 0.2s done
+#6 DONE 0.2s
+
+#7 [ 2/11] RUN apt-get update && apt-get install -y --no-install-recommends openssl ca-certificates && rm -rf /var/lib/apt/lists/*
+#7 CACHED
+
+#8 [ 3/11] WORKDIR /workspace/backend
+#8 CACHED
+
+#9 [ 4/11] COPY backend/package.json backend/package-lock.json ./
+#9 CACHED
+
+#10 [ 5/11] RUN npm ci --ignore-scripts --no-audit --no-fund
+#10 CACHED
+
+#11 [ 6/11] COPY backend/ ./
+#11 DONE 0.3s
+
+#12 [ 7/11] COPY docs/backend-contracts/ /workspace/docs/backend-contracts/
+#12 DONE 0.2s
+
+#13 [ 8/11] COPY tools/ /workspace/tools/
+#13 DONE 0.1s
+
+#14 [ 9/11] COPY BNBU-Sports-Web-new/frontend/student/ /workspace/BNBU-Sports-Web-new/frontend/student/
+#14 DONE 0.1s
+
+#15 [10/11] COPY BNBU-Sports-Web-new/portal-teacher-admin/app/ /workspace/BNBU-Sports-Web-new/portal-teacher-admin/app/
+#15 DONE 0.1s
+
+#16 [11/11] RUN npm run db:generate
+#16 0.305 
+#16 0.305 > @bnbu/sports-backend@0.1.0 db:generate
+#16 0.305 > prisma generate
+#16 0.305 
+#16 0.937 Loaded Prisma config from prisma.config.ts.
+#16 0.937 
+#16 2.720 Prisma schema loaded from prisma/schema.prisma.
+#16 4.165 
+#16 4.165 ✔ Generated Prisma Client (7.9.1) to ./src/generated/prisma in 882ms
+#16 4.165 
+#16 DONE 4.3s
+
+#17 exporting to image
+#17 exporting layers
+#17 exporting layers 1.5s done
+#17 exporting manifest sha256:f2b982f52a3f0dcf20284e09bff3a7869fd227fffcd3cc91269f21dc32726bda 0.0s done
+#17 exporting config sha256:3dafff96cda6f8ce0a34ba9dc7831c1bea4194d624c5f0a172e3f7c35f724b4e 0.0s done
+#17 exporting attestation manifest sha256:c58bdb4346b8418a5c835ab9c8352afd225dddf8999bceaff6cde34efdb1c1e1 0.0s done
+#17 exporting manifest list sha256:9c979748ab28d373b7972ec46be86c31bdc45b33b0bb3243d3cb1ec72f2abedb 0.1s done
+#17 naming to docker.io/library/bnbu-v81-full-integration-integration-tests:latest
+#17 naming to docker.io/library/bnbu-v81-full-integration-integration-tests:latest done
+#17 unpacking to docker.io/library/bnbu-v81-full-integration-integration-tests:latest
+#17 unpacking to docker.io/library/bnbu-v81-full-integration-integration-tests:latest 0.7s done
+#17 DONE 2.4s
+
+#18 resolving provenance for metadata file
+#18 DONE 0.0s
+ Image bnbu-v81-full-integration-integration-tests Built 
+ Container bnbu-v81-full-integration-integration-tests-run-aa7cf9f29816 Creating 
+ Container bnbu-v81-full-integration-integration-tests-run-aa7cf9f29816 Created 
+
+> @bnbu/sports-backend@0.1.0 prebuild
+> npm run db:generate && npm run generate
+
+
+> @bnbu/sports-backend@0.1.0 db:generate
+> prisma generate
+
+Loaded Prisma config from prisma.config.ts.
+
+Prisma schema loaded from prisma/schema.prisma.
+
+✔ Generated Prisma Client (7.9.1) to ./src/generated/prisma in 858ms
+
+┌─────────────────────────────────────────────────────────┐
+│  Update available 7.9.1 -> 8.0.0-rc.13                  │
+│                                                         │
+│  This is a major update - please follow the guide at    │
+│  https://pris.ly/d/major-version-upgrade                │
+│                                                         │
+│  Run the following to update                            │
+│    npm i --save-dev prisma@latest                       │
+│    npm i @prisma/client@latest                          │
+└─────────────────────────────────────────────────────────┘
+
+> @bnbu/sports-backend@0.1.0 generate
+> npm run openapi:generate && npm run db:manifest:generate
+
+
+> @bnbu/sports-backend@0.1.0 openapi:generate
+> node ./scripts/generate-openapi.mjs
+
+Generated 3 OpenAPI artifacts from 249 operations.
+
+> @bnbu/sports-backend@0.1.0 db:manifest:generate
+> node ./scripts/generate-migration-manifest.mjs
+
+Generated migration manifest updated.
+
+> @bnbu/sports-backend@0.1.0 build
+> nest build
+
+▶ Foundation HTTP E2E with real PostgreSQL
+  ✔ serves public probes and restricts dependency health to administrators (989.948552ms)
+  ✔ logs in only with the seeded password and returns a safe /me projection (487.029192ms)
+  ✔ denies missing or pending password security and unassigned administrator access (667.391289ms)
+  ✔ validates unauthenticated access responses for every secured operation (854.203474ms)
+  ✔ validates error responses for public operations with request input (355.258509ms)
+  ✔ returns stable generic errors for wrong passwords and a specific disabled-account result (411.269965ms)
+  ✔ rejects expired, tampered, and cross-organization access tokens (379.803567ms)
+  ✔ rotates refresh tokens atomically and revokes the family on reuse (428.914285ms)
+  ✔ revokes logout sessions and makes the operation safely replayable (405.722354ms)
+  ✔ reserves concurrent idempotency keys without creating duplicate sessions (534.809685ms)
+  ✔ enforces mode allowlists, strict validation, request IDs, CORS, and body limits (436.250008ms)
+✔ Foundation HTTP E2E with real PostgreSQL (7742.40376ms)
+ℹ tests 11
+ℹ suites 1
+ℹ pass 11
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 8350.799549

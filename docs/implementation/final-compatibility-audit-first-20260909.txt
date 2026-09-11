@@ -1,0 +1,28 @@
+
+> @bnbu/sports-backend@0.1.0 contract:compatibility:check
+> npm --prefix ../tools/backend-contracts run contract:compatibility:check
+
+
+> @bnbu/backend-contract-checks@0.0.0 contract:compatibility:check
+> node --test ./check-openapi-compatibility.fixtures.test.mjs && node ./check-openapi-compatibility.mjs --check
+
+▶ direction-aware OpenAPI compatibility fixtures
+  ✔ detects removed operations (1.0114ms)
+  ✔ detects required request property additions (6.8379ms)
+  ✔ classifies response enum additions as breaking (0.2994ms)
+  ✔ detects response status removal (0.2159ms)
+  ✔ detects security and permission metadata changes (0.2319ms)
+✔ direction-aware OpenAPI compatibility fixtures (9.2476ms)
+▶ major-version breaking change approval
+  ✔ accepts an exact, version-bound breaking change set (0.3214ms)
+  ✔ rejects contract drift after approval (0.3006ms)
+✔ major-version breaking change approval (0.7606ms)
+ℹ tests 7
+ℹ suites 2
+ℹ pass 7
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 167.1353
+Candidate version must be 2.0.12-contract, got 3.0.0-v81-local-draft

@@ -1,0 +1,80 @@
+time="2026-09-09T14:40:58+08:00" level=warning msg="Found orphan containers (bnbu-v81-admin-governance-web-20260909, bnbu-v81-e2e-fortieth-20260909, bnbu-v81-ocr-image-20260909, bnbu-v81-e2e-thirtyninth-20260909, bnbu-v81-recovery-audit-20260909, bnbu-v81-admin-recovery-20260909, bnbu-v81-e2e-thirtyeighth-20260909, bnbu-v81-unsubmitted-session-first-20260909, bnbu-v81-e2e-thirtyseventh-20260909, bnbu-v81-electronic-closed-retest-20260909, bnbu-v81-electronic-closed-20260909, bnbu-v81-e2e-thirtysixth-20260909, bnbu-v81-ocr-closed-sixth-20260909, bnbu-v81-ocr-closed-fifth-20260909, bnbu-v81-ocr-closed-fourth-20260909, bnbu-v81-ocr-closed-third-20260909, bnbu-v81-ocr-closed-second-20260909, bnbu-v81-ocr-closed-first-20260909, bnbu-v81-e2e-thirtyfifth-20260909, bnbu-v81-e2e-thirtyfourth-20260909, bnbu-v81-e2e-thirtythird-20260909, bnbu-v81-e2e-thirtysecond-20260909, bnbu-v81-e2e-thirtyfirst-20260909, bnbu-v81-e2e-thirtieth-20260909, bnbu-v81-e2e-twentyninth-20260909, bnbu-v81-e2e-twentyeighth-20260909, bnbu-v81-e2e-twentyseventh-20260909, bnbu-v81-e2e-twentysixth-20260909, bnbu-v81-e2e-twentyfifth-20260909, bnbu-v81-e2e-twentyfourth-20260909, bnbu-v81-e2e-twentythird-20260909, bnbu-v81-e2e-twentysecond-20260909, bnbu-v81-e2e-twentyfirst-20260909, bnbu-v81-e2e-twentieth-20260909, bnbu-v81-e2e-nineteenth-20260909, bnbu-v81-e2e-eighteenth-20260909, bnbu-v81-e2e-seventeenth-20260909, bnbu-v81-e2e-sixteenth-20260908, bnbu-v81-e2e-fifteenth-20260908, bnbu-v81-e2e-fourteenth-20260908, bnbu-v81-e2e-thirteenth-20260908, bnbu-v81-e2e-twelfth-20260908, bnbu-v81-e2e-eleventh-20260908, bnbu-v81-e2e-tenth-20260908, bnbu-v81-e2e-ninth-20260908, bnbu-v81-e2e-eighth-20260908, bnbu-v81-e2e-seventh-20260908, bnbu-v81-e2e-sixth-20260908, bnbu-v81-e2e-fifth-20260908, bnbu-v81-e2e-report-20260908) for this project. If you removed or renamed this service in your compose file, you can run this command with the --remove-orphans flag to clean it up."
+ Container bnbu-v81-admin-governance-web-retest-20260909 Creating 
+ Container bnbu-v81-admin-governance-web-retest-20260909 Created 
+
+> @bnbu/sports-backend@0.1.0 prebuild
+> npm run db:generate && npm run generate
+
+
+> @bnbu/sports-backend@0.1.0 db:generate
+> prisma generate
+
+Loaded Prisma config from prisma.config.ts.
+
+Prisma schema loaded from prisma/schema.prisma.
+
+┌─────────────────────────────────────────────────────────┐
+✔ Generated Prisma Client (7.9.1) to ./src/generated/prisma in 910ms
+
+│  Update available 7.9.1 -> 8.0.0-rc.13                  │
+│                                                         │
+│  This is a major update - please follow the guide at    │
+│  https://pris.ly/d/major-version-upgrade                │
+│                                                         │
+│  Run the following to update                            │
+│    npm i --save-dev prisma@latest                       │
+│    npm i @prisma/client@latest                          │
+└─────────────────────────────────────────────────────────┘
+
+> @bnbu/sports-backend@0.1.0 generate
+> npm run openapi:generate && npm run db:manifest:generate
+
+
+> @bnbu/sports-backend@0.1.0 openapi:generate
+> node ./scripts/generate-openapi.mjs
+
+Generated 3 OpenAPI artifacts from 253 operations.
+
+> @bnbu/sports-backend@0.1.0 db:manifest:generate
+> node ./scripts/generate-migration-manifest.mjs
+
+Generated migration manifest updated.
+
+> @bnbu/sports-backend@0.1.0 build
+> nest build
+
+Loaded Prisma config from prisma.config.ts.
+
+Prisma schema loaded from prisma/schema.prisma.
+Datasource "db": PostgreSQL database "bnbu_sports_test", schema "public" at "127.0.0.1:5432"
+
+59 migrations found in prisma/migrations
+
+
+No pending migrations to apply.
+
+> @bnbu/sports-backend@0.1.0 typecheck
+> tsc --noEmit -p tsconfig.json
+
+▶ V81 OCR governance HTTP E2E
+  ✔ governs OCR configuration with super-admin scope, immutable history and versioned replay (1089.457479ms)
+✔ V81 OCR governance HTTP E2E (1967.290351ms)
+▶ V81 system management HTTP E2E
+  ✔ changes maintenance mode with replay, durable history, public announcement and recovery (1041.411072ms)
+  ✔ scopes public mode and announcement to the configured school while another school stays normal (613.734745ms)
+  ✔ reads all mode history across stable version pages without exposing another school (481.555862ms)
+  ✔ changes teacher and administrator passwords while retaining only the current session (1443.497574ms)
+  ✔ allows administrator security access in maintenance and rejects teacher and student password operations (721.626131ms)
+{"check":"APPROVED_TEMPLATE_SUPER_ONLY_IMMUTABLE_VERSIONS_COURSE_SELECTION_NO_RETROACTIVE_CHANGE","result":"PASS","syntheticFixture":true}
+  ✔ publishes immutable approved templates and freezes the teacher course selection (869.084845ms)
+{"check":"UNIFIED_AUDIT_DATE_RANGE_FILTERS_PAGINATION_SOURCE_ROLE_UNKNOWN_METADATA_PRIVACY_PERMISSION","result":"PASS","syntheticEvents":true}
+  ✔ queries immutable audit events with date boundaries, pagination, redaction and tenant isolation (668.604485ms)
+✔ V81 system management HTTP E2E (6747.84048ms)
+ℹ tests 8
+ℹ suites 2
+ℹ pass 8
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 10192.781821

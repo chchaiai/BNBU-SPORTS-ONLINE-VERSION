@@ -1,0 +1,82 @@
+ Image bnbu-v81-local-validation-backend-browser Building 
+#1 [internal] load local bake definitions
+#1 reading from stdin 636B 0.0s done
+#1 DONE 0.0s
+
+#2 [internal] load build definition from Dockerfile.v81-test
+#2 transferring dockerfile: 828B done
+#2 DONE 0.0s
+
+#3 [internal] load metadata for docker.io/library/node:24.18.0-bookworm-slim
+#3 DONE 1.0s
+
+#4 [internal] load .dockerignore
+#4 transferring context: 153B done
+#4 DONE 0.0s
+
+#5 [ 1/11] FROM docker.io/library/node:24.18.0-bookworm-slim@sha256:6f7b03f7c2c8e2e784dcf9295400527b9b1270fd37b7e9a7285cf83b6951452d
+#5 resolve docker.io/library/node:24.18.0-bookworm-slim@sha256:6f7b03f7c2c8e2e784dcf9295400527b9b1270fd37b7e9a7285cf83b6951452d 0.0s done
+#5 DONE 0.0s
+
+#6 [internal] load build context
+#6 transferring context: 100.14kB 0.1s done
+#6 DONE 0.1s
+
+#7 [ 4/11] COPY backend/package.json backend/package-lock.json ./
+#7 CACHED
+
+#8 [ 7/11] COPY docs/backend-contracts/ /workspace/docs/backend-contracts/
+#8 CACHED
+
+#9 [ 8/11] COPY tools/ /workspace/tools/
+#9 CACHED
+
+#10 [10/11] COPY BNBU-Sports-Web-new/portal-teacher-admin/app/ /workspace/BNBU-Sports-Web-new/portal-teacher-admin/app/
+#10 CACHED
+
+#11 [ 5/11] RUN npm ci --ignore-scripts --no-audit --no-fund
+#11 CACHED
+
+#12 [ 3/11] WORKDIR /workspace/backend
+#12 CACHED
+
+#13 [ 6/11] COPY backend/ ./
+#13 CACHED
+
+#14 [ 9/11] COPY BNBU-Sports-Web-new/frontend/student/ /workspace/BNBU-Sports-Web-new/frontend/student/
+#14 CACHED
+
+#15 [ 2/11] RUN apt-get update && apt-get install -y --no-install-recommends openssl ca-certificates && rm -rf /var/lib/apt/lists/*
+#15 CACHED
+
+#16 [11/11] RUN npm run db:generate
+#16 CACHED
+
+#17 exporting to image
+#17 exporting layers done
+#17 exporting manifest sha256:478b94cbe40e76ef86753aaa885d7cd32b4af4d5df2400a0f2aba7f332be1bd6 0.0s done
+#17 exporting config sha256:da508afaa7e9a042950885f5a755d3fe082641e1ce2939cbd785a6596eecd9c0 0.0s done
+#17 exporting attestation manifest sha256:ae0d1091dfb697f9c799d33ed542bdd1c2e1ecf38a4705a39ce38f32c91f8779
+#17 exporting attestation manifest sha256:ae0d1091dfb697f9c799d33ed542bdd1c2e1ecf38a4705a39ce38f32c91f8779 0.0s done
+#17 exporting manifest list sha256:b41c91ccd520d7c0b16ee9c549925fbb88c3213d494d0bbbe4918a3f8465e1db 0.0s done
+#17 naming to docker.io/library/bnbu-v81-local-validation-backend-browser:latest done
+#17 unpacking to docker.io/library/bnbu-v81-local-validation-backend-browser:latest 0.0s done
+#17 DONE 0.2s
+
+#18 resolving provenance for metadata file
+#18 DONE 0.0s
+ Image bnbu-v81-local-validation-backend-browser Built 
+ Container bnbu-v81-local-validation-media-minio-1 Running 
+ Container bnbu-v81-local-validation-sql-postgres-1 Running 
+ Container bnbu-v81-local-validation-mailpit-1 Running 
+ Container bnbu-v81-local-validation-backend-browser-1 Recreate 
+ Container bnbu-v81-local-validation-backend-browser-1 Recreated 
+ Container bnbu-v81-local-validation-sql-postgres-1 Waiting 
+ Container bnbu-v81-local-validation-mailpit-1 Waiting 
+ Container bnbu-v81-local-validation-media-minio-1 Waiting 
+ Container bnbu-v81-local-validation-sql-postgres-1 Healthy 
+ Container bnbu-v81-local-validation-mailpit-1 Healthy 
+ Container bnbu-v81-local-validation-media-minio-1 Healthy 
+ Container bnbu-v81-local-validation-backend-browser-1 Starting 
+ Container bnbu-v81-local-validation-backend-browser-1 Started 
+Compose up exit code: 0

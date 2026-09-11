@@ -1,0 +1,9 @@
+Deterministic Greenfield contract checks: PASS
+- OpenAPI paths: 212
+- OpenAPI operations: 249
+- OpenAPI schemas: 387
+- Local references checked: 2576
+- Access policies: 249; registry rows: 249; diff: 0
+- Named enums: 86; values: 325; diff: 0
+- Error codes: 154; diff: 0
+- Integer duration fields checked: 11

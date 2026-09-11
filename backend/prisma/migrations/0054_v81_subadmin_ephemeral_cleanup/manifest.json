@@ -1,0 +1,5 @@
+{
+  "migrationId": "0054_v81_subadmin_ephemeral_cleanup",
+  "sha256": "e84e7822d2165e638aad2d16299a8c3eb4f82f080e2008229b8bdff48d6604fc",
+  "destructive": false
+}

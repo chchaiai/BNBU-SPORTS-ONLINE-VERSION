@@ -1,0 +1,1 @@
+{"check":"GRADE_CONTROLS","selects":[],"buttons":["课程管理","学生管理","打卡审核","内部成绩册","免测与认证","SSynthetic Test Teacher ASynthetic Physical Education · SYNTH-TEACHER-ASynthetic Test Teacher ASynthetic Physical Education · SYNTH-TEACHER-A","","中文","English","浅色","深色","跟随系统","发布成绩（0）","向学生披露换算分、等级或排名"]}

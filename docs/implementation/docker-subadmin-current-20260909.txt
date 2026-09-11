@@ -1,0 +1,165 @@
+time="2026-09-09T00:23:01+08:00" level=warning msg="Found orphan containers (bnbu-v81-e2e-sixteenth-20260908, bnbu-v81-e2e-fifteenth-20260908, bnbu-v81-e2e-fourteenth-20260908, bnbu-v81-e2e-thirteenth-20260908, bnbu-v81-e2e-twelfth-20260908, bnbu-v81-e2e-eleventh-20260908, bnbu-v81-e2e-tenth-20260908, bnbu-v81-e2e-ninth-20260908, bnbu-v81-e2e-eighth-20260908, bnbu-v81-e2e-seventh-20260908, bnbu-v81-e2e-sixth-20260908, bnbu-v81-e2e-fifth-20260908, bnbu-v81-e2e-report-20260908) for this project. If you removed or renamed this service in your compose file, you can run this command with the --remove-orphans flag to clean it up."
+ Image bnbu-v81-full-integration-integration-tests Building 
+#1 [internal] load local bake definitions
+#1 reading from stdin 644B 0.0s done
+#1 DONE 0.0s
+
+#2 [internal] load build definition from Dockerfile.v81-test
+#2 transferring dockerfile: 828B done
+#2 DONE 0.0s
+
+#3 [internal] load metadata for docker.io/library/node:24.18.0-bookworm-slim
+#3 ...
+
+#4 [auth] library/node:pull token for registry-1.docker.io
+#4 DONE 0.0s
+
+#3 [internal] load metadata for docker.io/library/node:24.18.0-bookworm-slim
+#3 DONE 2.6s
+
+#5 [internal] load .dockerignore
+#5 transferring context: 153B done
+#5 DONE 0.0s
+
+#6 [ 1/11] FROM docker.io/library/node:24.18.0-bookworm-slim@sha256:6f7b03f7c2c8e2e784dcf9295400527b9b1270fd37b7e9a7285cf83b6951452d
+#6 resolve docker.io/library/node:24.18.0-bookworm-slim@sha256:6f7b03f7c2c8e2e784dcf9295400527b9b1270fd37b7e9a7285cf83b6951452d 0.0s done
+#6 DONE 0.0s
+
+#7 [internal] load build context
+#7 transferring context: 187.39kB 0.1s done
+#7 DONE 0.1s
+
+#8 [ 2/11] RUN apt-get update && apt-get install -y --no-install-recommends openssl ca-certificates && rm -rf /var/lib/apt/lists/*
+#8 CACHED
+
+#9 [ 3/11] WORKDIR /workspace/backend
+#9 CACHED
+
+#10 [ 4/11] COPY backend/package.json backend/package-lock.json ./
+#10 CACHED
+
+#11 [ 5/11] RUN npm ci --ignore-scripts --no-audit --no-fund
+#11 CACHED
+
+#12 [ 6/11] COPY backend/ ./
+#12 DONE 0.3s
+
+#13 [ 7/11] COPY docs/backend-contracts/ /workspace/docs/backend-contracts/
+#13 DONE 0.2s
+
+#14 [ 8/11] COPY tools/ /workspace/tools/
+#14 DONE 0.1s
+
+#15 [ 9/11] COPY BNBU-Sports-Web-new/frontend/student/ /workspace/BNBU-Sports-Web-new/frontend/student/
+#15 DONE 0.1s
+
+#16 [10/11] COPY BNBU-Sports-Web-new/portal-teacher-admin/app/ /workspace/BNBU-Sports-Web-new/portal-teacher-admin/app/
+#16 DONE 0.1s
+
+#17 [11/11] RUN npm run db:generate
+#17 0.364 
+#17 0.364 > @bnbu/sports-backend@0.1.0 db:generate
+#17 0.364 > prisma generate
+#17 0.364 
+#17 1.019 Loaded Prisma config from prisma.config.ts.
+#17 1.019 
+#17 7.443 Prisma schema loaded from prisma/schema.prisma.
+#17 8.969 
+#17 8.969 ✔ Generated Prisma Client (7.9.1) to ./src/generated/prisma in 937ms
+#17 8.969 
+#17 DONE 9.1s
+
+#18 exporting to image
+#18 exporting layers
+#18 exporting layers 1.8s done
+#18 exporting manifest sha256:b589d743986e1e81dc6193e45fd302c36ce09b9754773df2735cfc1bab590435 0.0s done
+#18 exporting config sha256:81098d6a978d4ae81696a638531836a9cae754ec305afa54cc22aef4d61dfa8b 0.0s done
+#18 exporting attestation manifest sha256:8e2ce8ffc8886f64594f6a102115453440fd23f8e4b2e51ad22bc3b20733f22a 0.0s done
+#18 exporting manifest list sha256:876bd9fc38c42893ad9a66947ff43dcd456e391974c236621f61f95e2b288947
+#18 exporting manifest list sha256:876bd9fc38c42893ad9a66947ff43dcd456e391974c236621f61f95e2b288947 0.0s done
+#18 naming to docker.io/library/bnbu-v81-full-integration-integration-tests:latest done
+#18 unpacking to docker.io/library/bnbu-v81-full-integration-integration-tests:latest
+#18 unpacking to docker.io/library/bnbu-v81-full-integration-integration-tests:latest 0.8s done
+#18 DONE 2.7s
+
+#19 resolving provenance for metadata file
+#19 DONE 0.0s
+ Image bnbu-v81-full-integration-integration-tests Built 
+ Container bnbu-v81-full-integration-integration-tests-run-fd5011093cf2 Creating 
+ Container bnbu-v81-full-integration-integration-tests-run-fd5011093cf2 Created 
+
+> @bnbu/sports-backend@0.1.0 prebuild
+> npm run db:generate && npm run generate
+
+
+> @bnbu/sports-backend@0.1.0 db:generate
+> prisma generate
+
+Loaded Prisma config from prisma.config.ts.
+
+Prisma schema loaded from prisma/schema.prisma.
+
+┌─────────────────────────────────────────────────────────┐
+│  Update available 7.9.1 -> 8.0.0-rc.13                  │
+│                                                         │
+│  This is a major update - please follow the guide at    │
+│  https://pris.ly/d/major-version-upgrade                │
+✔ Generated Prisma Client (7.9.1) to ./src/generated/prisma in 908ms
+
+│                                                         │
+│  Run the following to update                            │
+│    npm i --save-dev prisma@latest                       │
+│    npm i @prisma/client@latest                          │
+└─────────────────────────────────────────────────────────┘
+
+> @bnbu/sports-backend@0.1.0 generate
+> npm run openapi:generate && npm run db:manifest:generate
+
+
+> @bnbu/sports-backend@0.1.0 openapi:generate
+> node ./scripts/generate-openapi.mjs
+
+Generated 3 OpenAPI artifacts from 251 operations.
+
+> @bnbu/sports-backend@0.1.0 db:manifest:generate
+> node ./scripts/generate-migration-manifest.mjs
+
+Generated migration manifest updated.
+
+> @bnbu/sports-backend@0.1.0 build
+> nest build
+
+{"check":"SUBADMIN_EMAIL_CHANGE_MATCHING_OTP_CONSUMPTION_LOGIN_PRESERVED","result":"PASS"}
+{"check":"SUBADMIN_PREFERENCE_CLEANUP_RETAINS_HISTORY_OTHER_ROLE_DELETE_DENIED","result":"PASS"}
+{"check":"SUBADMIN_PII_RECEIPTS_LINKED_TO_ACCOUNT_OR_IDENTITY_RESOURCE","result":"PASS"}
+{"check":"SUBADMIN_DELETE_CONCURRENT_REPLAY_PUSH_CLEANUP_FEEDBACK_HISTORY","result":"PASS"}
+{"check":"SUBADMIN_DELETE_CURRENT_ACCOUNT_LEGACY_RECEIPTS_REPLAY_HISTORY","result":"PASS"}
+{"check":"SUBADMIN_PROFILE_ATOMIC_UPDATE_REPLAY_VERSION_PERMISSION_REVOKE","result":"PASS"}
+{"check":"SUBADMIN_STATUS_HANDOVER_REPLAY_SESSION_REVOCATION_REENABLE","result":"PASS"}
+{"check":"SUBADMIN_SMTP_OTP_VERIFY_CONSUME_CREATE_FIRST_PASSWORD_CHANGE_PERMISSION","result":"PASS","syntheticIdentity":true}
+▶ V81 subadministrator SMTP identity HTTP E2E
+  ✔ verifies email OTP before creating and managing a subadministrator (2280.332199ms)
+  ✖ enforces permission changes and revocation against an already authenticated subadministrator session (939.851293ms)
+✖ V81 subadministrator SMTP identity HTTP E2E (4124.99864ms)
+ℹ tests 2
+ℹ suites 1
+ℹ pass 1
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 4997.74122
+
+✖ failing tests:
+
+test at test/e2e/v81-subadmin-identity.e2e.test.ts:1:7129
+✖ enforces permission changes and revocation against an already authenticated subadministrator session (939.851293ms)
+  Error: response status 404 is not documented
+      at validateResponse (file:///workspace/backend/scripts/runtime-conformance-hook.mjs:225:11)
+      at conformanceFetch (file:///workspace/backend/scripts/runtime-conformance-hook.mjs:286:11)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async probeSubadminPermissions (file:///workspace/tools/local-integration/v81-subadmin-permissions-probe.mjs:37:17)
+      at async TestContext.<anonymous> (/workspace/backend/test/e2e/v81-subadmin-identity.e2e.test.ts:224:5)
+      at async Test.run (node:internal/test_runner/test:1332:7)
+      at async Suite.processPendingSubtests (node:internal/test_runner/test:911:7)
+

@@ -1,0 +1,151 @@
+ Image bnbu-v81-full-integration-integration-tests Building 
+#1 [internal] load local bake definitions
+#1 reading from stdin 644B 0.0s done
+#1 DONE 0.0s
+
+#2 [internal] load build definition from Dockerfile.v81-test
+#2 transferring dockerfile: 828B done
+#2 DONE 0.0s
+
+#3 [internal] load metadata for docker.io/library/node:24.18.0-bookworm-slim
+#3 DONE 1.0s
+
+#4 [internal] load .dockerignore
+#4 transferring context: 153B done
+#4 DONE 0.0s
+
+#5 [ 1/11] FROM docker.io/library/node:24.18.0-bookworm-slim@sha256:6f7b03f7c2c8e2e784dcf9295400527b9b1270fd37b7e9a7285cf83b6951452d
+#5 resolve docker.io/library/node:24.18.0-bookworm-slim@sha256:6f7b03f7c2c8e2e784dcf9295400527b9b1270fd37b7e9a7285cf83b6951452d 0.0s done
+#5 DONE 0.0s
+
+#6 [internal] load build context
+#6 transferring context: 118.80kB 0.1s done
+#6 DONE 0.1s
+
+#7 [ 2/11] RUN apt-get update && apt-get install -y --no-install-recommends openssl ca-certificates && rm -rf /var/lib/apt/lists/*
+#7 CACHED
+
+#8 [ 3/11] WORKDIR /workspace/backend
+#8 CACHED
+
+#9 [ 4/11] COPY backend/package.json backend/package-lock.json ./
+#9 CACHED
+
+#10 [ 5/11] RUN npm ci --ignore-scripts --no-audit --no-fund
+#10 CACHED
+
+#11 [ 6/11] COPY backend/ ./
+#11 DONE 0.3s
+
+#12 [ 7/11] COPY docs/backend-contracts/ /workspace/docs/backend-contracts/
+#12 DONE 0.2s
+
+#13 [ 8/11] COPY tools/ /workspace/tools/
+#13 DONE 0.1s
+
+#14 [ 9/11] COPY BNBU-Sports-Web-new/frontend/student/ /workspace/BNBU-Sports-Web-new/frontend/student/
+#14 DONE 0.1s
+
+#15 [10/11] COPY BNBU-Sports-Web-new/portal-teacher-admin/app/ /workspace/BNBU-Sports-Web-new/portal-teacher-admin/app/
+#15 DONE 0.1s
+
+#16 [11/11] RUN npm run db:generate
+#16 0.359 
+#16 0.359 > @bnbu/sports-backend@0.1.0 db:generate
+#16 0.359 > prisma generate
+#16 0.359 
+#16 0.987 Loaded Prisma config from prisma.config.ts.
+#16 0.987 
+#16 2.909 Prisma schema loaded from prisma/schema.prisma.
+#16 4.595 
+#16 4.595 ✔ Generated Prisma Client (7.9.1) to ./src/generated/prisma in 1.11s
+#16 4.595 
+#16 DONE 4.8s
+
+#17 exporting to image
+#17 exporting layers
+#17 exporting layers 1.7s done
+#17 exporting manifest sha256:88e5db652518818cfd8c1e45a642b964569438ca2730df0ac76d617312c1fa75 0.0s done
+#17 exporting config sha256:244a8f4739e52ce89f18a0c97e6a7e84671f00982d791b10b5e24a3a5664dcf9 0.0s done
+#17 exporting attestation manifest sha256:b3bace1a8a79a0fe9375a51cb5612ab7d5d321bd74f822cff5accde1e18f56ca 0.0s done
+#17 exporting manifest list sha256:b0b4b4a87ae5ccb33fc7949b36ee10d77c2dd64b37a6a4fcc97af0fe646dc2d9
+#17 exporting manifest list sha256:b0b4b4a87ae5ccb33fc7949b36ee10d77c2dd64b37a6a4fcc97af0fe646dc2d9 0.0s done
+#17 naming to docker.io/library/bnbu-v81-full-integration-integration-tests:latest done
+#17 unpacking to docker.io/library/bnbu-v81-full-integration-integration-tests:latest
+#17 unpacking to docker.io/library/bnbu-v81-full-integration-integration-tests:latest 0.8s done
+#17 DONE 2.7s
+
+#18 resolving provenance for metadata file
+#18 DONE 0.0s
+ Image bnbu-v81-full-integration-integration-tests Built 
+ Container bnbu-v81-full-integration-integration-tests-run-ed9c2be0830d Creating 
+ Container bnbu-v81-full-integration-integration-tests-run-ed9c2be0830d Created 
+
+> @bnbu/sports-backend@0.1.0 prebuild
+> npm run db:generate && npm run generate
+
+
+> @bnbu/sports-backend@0.1.0 db:generate
+> prisma generate
+
+Loaded Prisma config from prisma.config.ts.
+
+Prisma schema loaded from prisma/schema.prisma.
+
+✔ Generated Prisma Client (7.9.1) to ./src/generated/prisma in 886ms
+
+┌─────────────────────────────────────────────────────────┐
+│  Update available 7.9.1 -> 8.0.0-rc.13                  │
+│                                                         │
+│  This is a major update - please follow the guide at    │
+│  https://pris.ly/d/major-version-upgrade                │
+│                                                         │
+│  Run the following to update                            │
+│    npm i --save-dev prisma@latest                       │
+│    npm i @prisma/client@latest                          │
+└─────────────────────────────────────────────────────────┘
+
+> @bnbu/sports-backend@0.1.0 generate
+> npm run openapi:generate && npm run db:manifest:generate
+
+
+> @bnbu/sports-backend@0.1.0 openapi:generate
+> node ./scripts/generate-openapi.mjs
+
+Generated 3 OpenAPI artifacts from 249 operations.
+
+> @bnbu/sports-backend@0.1.0 db:manifest:generate
+> node ./scripts/generate-migration-manifest.mjs
+
+Generated migration manifest updated.
+
+> @bnbu/sports-backend@0.1.0 build
+> nest build
+
+▶ Current internal final grade HTTP E2E
+  ✔ preserves teacher draft and publication history with replay and student privacy (937.823938ms)
+  ✖ serializes competing revisions and rejects stale writes, notes and unauthorized actors (684.987742ms)
+  ✔ denies obsolete administrator score governance without creating score rules (408.2936ms)
+✖ Current internal final grade HTTP E2E (2895.084462ms)
+ℹ tests 3
+ℹ suites 1
+ℹ pass 2
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 3668.197398
+
+✖ failing tests:
+
+test at test/e2e/score.e2e.test.ts:1:7198
+✖ serializes competing revisions and rejects stale writes, notes and unauthorized actors (684.987742ms)
+  Error: response status 404 is not documented
+      at validateResponse (file:///workspace/backend/scripts/runtime-conformance-hook.mjs:225:11)
+      at conformanceFetch (file:///workspace/backend/scripts/runtime-conformance-hook.mjs:286:11)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async request (/workspace/backend/test/e2e/score.e2e.test.ts:69:22)
+      at async TestContext.<anonymous> (/workspace/backend/test/e2e/score.e2e.test.ts:231:21)
+      at async Test.run (node:internal/test_runner/test:1332:7)
+      at async Suite.processPendingSubtests (node:internal/test_runner/test:911:7)
+

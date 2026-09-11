@@ -1,0 +1,187 @@
+time="2026-09-08T12:59:24+08:00" level=warning msg="Found orphan containers (bnbu-v81-local-validation-backend-browser-1) for this project. If you removed or renamed this service in your compose file, you can run this command with the --remove-orphans flag to clean it up."
+ Image bnbu-v81-local-validation-backend-startup Building 
+#1 [internal] load local bake definitions
+#1 reading from stdin 636B 0.0s done
+#1 DONE 0.0s
+
+#2 [internal] load build definition from Dockerfile.v81-test
+#2 transferring dockerfile: 828B done
+#2 DONE 0.0s
+
+#3 [internal] load metadata for docker.io/library/node:24.18.0-bookworm-slim
+#3 ...
+
+#4 [auth] library/node:pull token for registry-1.docker.io
+#4 DONE 0.0s
+
+#3 [internal] load metadata for docker.io/library/node:24.18.0-bookworm-slim
+#3 DONE 1.7s
+
+#5 [internal] load .dockerignore
+#5 transferring context: 153B done
+#5 DONE 0.0s
+
+#6 [ 1/11] FROM docker.io/library/node:24.18.0-bookworm-slim@sha256:6f7b03f7c2c8e2e784dcf9295400527b9b1270fd37b7e9a7285cf83b6951452d
+#6 resolve docker.io/library/node:24.18.0-bookworm-slim@sha256:6f7b03f7c2c8e2e784dcf9295400527b9b1270fd37b7e9a7285cf83b6951452d 0.0s done
+#6 DONE 0.0s
+
+#7 [internal] load build context
+#7 transferring context: 2.84MB 0.2s done
+#7 DONE 0.2s
+
+#8 [ 4/11] COPY backend/package.json backend/package-lock.json ./
+#8 CACHED
+
+#9 [ 2/11] RUN apt-get update && apt-get install -y --no-install-recommends openssl ca-certificates && rm -rf /var/lib/apt/lists/*
+#9 CACHED
+
+#10 [ 3/11] WORKDIR /workspace/backend
+#10 CACHED
+
+#11 [ 5/11] RUN npm ci --ignore-scripts --no-audit --no-fund
+#11 CACHED
+
+#12 [ 6/11] COPY backend/ ./
+#12 DONE 0.5s
+
+#13 [ 7/11] COPY docs/backend-contracts/ /workspace/docs/backend-contracts/
+#13 DONE 0.2s
+
+#14 [ 8/11] COPY tools/ /workspace/tools/
+#14 DONE 0.1s
+
+#15 [ 9/11] COPY BNBU-Sports-Web-new/frontend/student/ /workspace/BNBU-Sports-Web-new/frontend/student/
+#15 DONE 0.2s
+
+#16 [10/11] COPY BNBU-Sports-Web-new/portal-teacher-admin/app/ /workspace/BNBU-Sports-Web-new/portal-teacher-admin/app/
+#16 DONE 0.2s
+
+#17 [11/11] RUN npm run db:generate
+#17 0.425 
+#17 0.425 > @bnbu/sports-backend@0.1.0 db:generate
+#17 0.425 > prisma generate
+#17 0.425 
+#17 1.234 Loaded Prisma config from prisma.config.ts.
+#17 1.234 
+#17 3.120 Prisma schema loaded from prisma/schema.prisma.
+#17 4.686 
+#17 4.686 ✔ Generated Prisma Client (7.9.1) to ./src/generated/prisma in 1.01s
+#17 4.686 
+#17 DONE 4.9s
+
+#18 exporting to image
+#18 exporting layers
+#18 exporting layers 1.7s done
+#18 exporting manifest sha256:3e7b8311af00be4177a4910a6c700f70ebc474da5eec3567a831903b8896a724 0.0s done
+#18 exporting config sha256:0883ecd1cd4d9ae465a94e1be4cab6560f412f51c79c5925c9060c07b341862e 0.0s done
+#18 exporting attestation manifest sha256:6b47d1be4e1e42964163092660cd18fc41d61d170a918aced6127dca0caccc71 0.0s done
+#18 exporting manifest list sha256:fd69f3c9097a5f00defab53d4dd6e8ca621b9e3e2b3167aacfb676518cb16227
+#18 exporting manifest list sha256:fd69f3c9097a5f00defab53d4dd6e8ca621b9e3e2b3167aacfb676518cb16227 0.0s done
+#18 naming to docker.io/library/bnbu-v81-local-validation-backend-startup:latest done
+#18 unpacking to docker.io/library/bnbu-v81-local-validation-backend-startup:latest
+#18 unpacking to docker.io/library/bnbu-v81-local-validation-backend-startup:latest 0.7s done
+#18 DONE 2.6s
+
+#19 resolving provenance for metadata file
+#19 DONE 0.0s
+ Image bnbu-v81-local-validation-backend-startup Built 
+ Container bnbu-v81-local-validation-backend-startup-run-5cc27c5939d7 Creating 
+ Container bnbu-v81-local-validation-backend-startup-run-5cc27c5939d7 Created 
+
+> @bnbu/sports-backend@0.1.0 prebuild
+> npm run db:generate && npm run generate
+
+
+> @bnbu/sports-backend@0.1.0 db:generate
+> prisma generate
+
+Loaded Prisma config from prisma.config.ts.
+
+Prisma schema loaded from prisma/schema.prisma.
+┌─────────────────────────────────────────────────────────┐
+│  Update available 7.9.1 -> 8.0.0-rc.13                  │
+│                                                         │
+│  This is a major update - please follow the guide at    │
+
+✔ Generated Prisma Client (7.9.1) to ./src/generated/prisma in 849ms
+
+│  https://pris.ly/d/major-version-upgrade                │
+│                                                         │
+│  Run the following to update                            │
+│    npm i --save-dev prisma@latest                       │
+│    npm i @prisma/client@latest                          │
+└─────────────────────────────────────────────────────────┘
+
+> @bnbu/sports-backend@0.1.0 generate
+> npm run openapi:generate && npm run db:manifest:generate
+
+
+> @bnbu/sports-backend@0.1.0 openapi:generate
+> node ./scripts/generate-openapi.mjs
+
+Generated 3 OpenAPI artifacts from 239 operations.
+
+> @bnbu/sports-backend@0.1.0 db:manifest:generate
+> node ./scripts/generate-migration-manifest.mjs
+
+Generated migration manifest updated.
+
+> @bnbu/sports-backend@0.1.0 build
+> nest build
+
+▶ Stage 13 alignment run lifecycle
+  ✖ freezes a RUNNING revision before computation and persists FAILED plus outbox on a domain failure (2.881605ms)
+  ✔ maps a non-retried serializable snapshot race to the stable stale-snapshot error (0.246744ms)
+  ✔ projects exactly the public run contract and drops internal snapshot scope and failure details (0.606376ms)
+✖ Stage 13 alignment run lifecycle (4.372319ms)
+▶ Stage 13 deterministic roster alignment
+  ✔ classifies every subject into exactly one of the six frozen outcomes (1.476778ms)
+  ✔ keeps fingerprints, subject keys, normalization, and result order deterministic (0.525447ms)
+  ✔ classifies official duplicates without merging identities, regardless of input order or platform match (0.328615ms)
+✔ Stage 13 deterministic roster alignment (2.970819ms)
+▶ Stage 13 private roster ingestion
+  ✔ streams a strict CSV upload into a server-generated private key (9.116012ms)
+  ✔ rejects path-like names and unsupported OFFICIAL_API without retaining an object (3.93312ms)
+  ✔ normalizes leading-zero identifiers and marks every duplicate row non-valid (4.784878ms)
+  ✔ uses static four-digit grade-year bounds for roster rows (1.178009ms)
+✔ Stage 13 private roster ingestion (20.001911ms)
+ℹ tests 10
+ℹ suites 3
+ℹ pass 9
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 618.764631
+
+✖ failing tests:
+
+test at test/unit/roster-alignment-service.test.ts:1:802
+✖ freezes a RUNNING revision before computation and persists FAILED plus outbox on a domain failure (2.881605ms)
+  AssertionError [ERR_ASSERTION]: The validation function is expected to return "true". Received false
+  
+  Caught error:
+  
+  TypeError: transaction.rosterAlignmentRun.updateMany is not a function
+      at async TestContext.<anonymous> (/workspace/backend/test/unit/roster-alignment-service.test.ts:118:5)
+      at async Test.run (node:internal/test_runner/test:1332:7)
+      at async Promise.all (index 0)
+      at async Suite.run (node:internal/test_runner/test:1794:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:385:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: TypeError: transaction.rosterAlignmentRun.updateMany is not a function
+        at <anonymous> (/workspace/backend/src/modules/roster/application/roster-alignment.service.ts:289:48)
+        at async Object.execute (/workspace/backend/test/unit/roster-alignment-service.test.ts:88:25)
+        at async RosterAlignmentService.align (/workspace/backend/src/modules/roster/application/roster-alignment.service.ts:68:14)
+        at async waitForActual (node:assert:646:5)
+        at async strict.rejects (node:assert:769:25)
+        at async TestContext.<anonymous> (/workspace/backend/test/unit/roster-alignment-service.test.ts:118:5)
+        at async Test.run (node:internal/test_runner/test:1332:7)
+        at async Promise.all (index 0)
+        at async Suite.run (node:internal/test_runner/test:1794:7)
+        at async startSubtestAfterBootstrap (node:internal/test_runner/harness:385:3),
+    operator: 'rejects',
+    diff: 'simple'
+  }
+

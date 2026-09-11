@@ -1,0 +1,129 @@
+ Image bnbu-v81-local-validation-domain-tests Building 
+#1 [internal] load local bake definitions
+#1 reading from stdin 624B 0.0s done
+#1 DONE 0.0s
+
+#2 [internal] load build definition from Dockerfile.v81-test
+#2 transferring dockerfile: 828B done
+#2 DONE 0.0s
+
+#3 [internal] load metadata for docker.io/library/node:24.18.0-bookworm-slim
+#3 DONE 1.0s
+
+#4 [internal] load .dockerignore
+#4 transferring context: 153B done
+#4 DONE 0.0s
+
+#5 [ 1/11] FROM docker.io/library/node:24.18.0-bookworm-slim@sha256:6f7b03f7c2c8e2e784dcf9295400527b9b1270fd37b7e9a7285cf83b6951452d
+#5 resolve docker.io/library/node:24.18.0-bookworm-slim@sha256:6f7b03f7c2c8e2e784dcf9295400527b9b1270fd37b7e9a7285cf83b6951452d 0.0s done
+#5 DONE 0.1s
+
+#6 [internal] load build context
+#6 transferring context: 94.66kB 0.1s done
+#6 DONE 0.1s
+
+#7 [ 2/11] RUN apt-get update && apt-get install -y --no-install-recommends openssl ca-certificates && rm -rf /var/lib/apt/lists/*
+#7 CACHED
+
+#8 [ 3/11] WORKDIR /workspace/backend
+#8 CACHED
+
+#9 [ 4/11] COPY backend/package.json backend/package-lock.json ./
+#9 CACHED
+
+#10 [ 5/11] RUN npm ci --ignore-scripts --no-audit --no-fund
+#10 CACHED
+
+#11 [ 6/11] COPY backend/ ./
+#11 DONE 0.2s
+
+#12 [ 7/11] COPY docs/backend-contracts/ /workspace/docs/backend-contracts/
+#12 DONE 0.1s
+
+#13 [ 8/11] COPY tools/ /workspace/tools/
+#13 DONE 0.2s
+
+#14 [ 9/11] COPY BNBU-Sports-Web-new/frontend/student/ /workspace/BNBU-Sports-Web-new/frontend/student/
+#14 DONE 0.1s
+
+#15 [10/11] COPY BNBU-Sports-Web-new/portal-teacher-admin/app/ /workspace/BNBU-Sports-Web-new/portal-teacher-admin/app/
+#15 DONE 0.1s
+
+#16 [11/11] RUN npm run db:generate
+#16 0.326 
+#16 0.326 > @bnbu/sports-backend@0.1.0 db:generate
+#16 0.326 > prisma generate
+#16 0.326 
+#16 0.920 Loaded Prisma config from prisma.config.ts.
+#16 0.920 
+#16 4.816 Prisma schema loaded from prisma/schema.prisma.
+#16 6.423 
+#16 6.423 ✔ Generated Prisma Client (7.9.1) to ./src/generated/prisma in 1.04s
+#16 6.423 
+#16 DONE 6.6s
+
+#17 exporting to image
+#17 exporting layers
+#17 exporting layers 1.8s done
+#17 exporting manifest sha256:b4177311f67dc64967f3312ed3cc531417c938587d2efe140e291545027248d1 0.0s done
+#17 exporting config sha256:bd08311eb8a90a1fb6fe7d45d87b03b3d44a839fba3ac9b42d4ca94e459a2db3 0.0s done
+#17 exporting attestation manifest sha256:b0b9c201115e1d3046f51e8a83a8007abb85b44b0ffbe200d062740da9bcf356 0.0s done
+#17 exporting manifest list sha256:e2ccb06d64343c243ed2eb0bc2f49edd920cabee3accc00e2703f96b8c15e504
+#17 exporting manifest list sha256:e2ccb06d64343c243ed2eb0bc2f49edd920cabee3accc00e2703f96b8c15e504 0.0s done
+#17 naming to docker.io/library/bnbu-v81-local-validation-domain-tests:latest done
+#17 unpacking to docker.io/library/bnbu-v81-local-validation-domain-tests:latest
+#17 unpacking to docker.io/library/bnbu-v81-local-validation-domain-tests:latest 0.7s done
+#17 DONE 2.6s
+
+#18 resolving provenance for metadata file
+#18 DONE 0.0s
+ Image bnbu-v81-local-validation-domain-tests Built 
+ Container bnbu-v81-local-validation-domain-tests-run-59933ae22830 Creating 
+ Container bnbu-v81-local-validation-domain-tests-run-59933ae22830 Created 
+✖ keeps displayed identifiers, duplicate identities, invalid rows and source cell text (23.280156ms)
+✔ counts all 500 personnel rows including duplicates and invalid identities, rejecting 501 (22.106988ms)
+✔ rejects ambiguous sheets, missing identity columns, formulas and merged source cells (6.20283ms)
+ℹ tests 3
+ℹ suites 0
+ℹ pass 2
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 226.575267
+
+✖ failing tests:
+
+test at test/unit/v81-roster-xlsx.test.ts:1:654
+✖ keeps displayed identifiers, duplicate identities, invalid rows and source cell text (23.280156ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  ... Skipped lines
+  
+    Buffer(16417) [Uint8Array] [
+      80,
+      75,
+      3,
+      4,
+  ...
+      0,
+  +   chk: [Function: CheckField],
+  +   l: 16395,
+  +   read_shift: [Function: ReadShift],
+  +   write_shift: [Function: WriteShift]
+    ]
+  
+      at TestContext.<anonymous> (/workspace/backend/test/unit/v81-roster-xlsx.test.ts:22:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1325:25)
+      at Test.start (node:internal/test_runner/test:1191:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:385:17) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: <Buffer 50 4b 03 04 14 00 00 00 00 00 00 00 00 00 a4 01 84 b8 b5 02 00 00 b5 02 00 00 1a 00 00 00 78 6c 2f 5f 72 65 6c 73 2f 77 6f 72 6b 62 6f 6f 6b 2e 78 6d ... 16367 more bytes>,
+    expected: <Buffer 50 4b 03 04 14 00 00 00 00 00 00 00 00 00 a4 01 84 b8 b5 02 00 00 b5 02 00 00 1a 00 00 00 78 6c 2f 5f 72 65 6c 73 2f 77 6f 72 6b 62 6f 6f 6b 2e 78 6d ... 16367 more bytes>,
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }
+
+Docker exit code: 1

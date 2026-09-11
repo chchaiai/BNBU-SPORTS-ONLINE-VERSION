@@ -1,0 +1,183 @@
+ Image bnbu-v81-full-integration-integration-tests Building 
+#1 [internal] load local bake definitions
+#1 reading from stdin 644B 0.0s done
+#1 DONE 0.0s
+
+#2 [internal] load build definition from Dockerfile.v81-test
+#2 transferring dockerfile: 828B done
+#2 DONE 0.0s
+
+#3 [internal] load metadata for docker.io/library/node:24.18.0-bookworm-slim
+#3 DONE 1.0s
+
+#4 [internal] load .dockerignore
+#4 transferring context: 153B done
+#4 DONE 0.0s
+
+#5 [ 1/11] FROM docker.io/library/node:24.18.0-bookworm-slim@sha256:6f7b03f7c2c8e2e784dcf9295400527b9b1270fd37b7e9a7285cf83b6951452d
+#5 resolve docker.io/library/node:24.18.0-bookworm-slim@sha256:6f7b03f7c2c8e2e784dcf9295400527b9b1270fd37b7e9a7285cf83b6951452d 0.0s done
+#5 DONE 0.0s
+
+#6 [internal] load build context
+#6 transferring context: 137.03kB 0.1s done
+#6 DONE 0.1s
+
+#7 [ 3/11] WORKDIR /workspace/backend
+#7 CACHED
+
+#8 [ 4/11] COPY backend/package.json backend/package-lock.json ./
+#8 CACHED
+
+#9 [ 2/11] RUN apt-get update && apt-get install -y --no-install-recommends openssl ca-certificates && rm -rf /var/lib/apt/lists/*
+#9 CACHED
+
+#10 [ 5/11] RUN npm ci --ignore-scripts --no-audit --no-fund
+#10 CACHED
+
+#11 [ 6/11] COPY backend/ ./
+#11 DONE 0.2s
+
+#12 [ 7/11] COPY docs/backend-contracts/ /workspace/docs/backend-contracts/
+#12 DONE 0.1s
+
+#13 [ 8/11] COPY tools/ /workspace/tools/
+#13 DONE 0.1s
+
+#14 [ 9/11] COPY BNBU-Sports-Web-new/frontend/student/ /workspace/BNBU-Sports-Web-new/frontend/student/
+#14 DONE 0.1s
+
+#15 [10/11] COPY BNBU-Sports-Web-new/portal-teacher-admin/app/ /workspace/BNBU-Sports-Web-new/portal-teacher-admin/app/
+#15 DONE 0.1s
+
+#16 [11/11] RUN npm run db:generate
+#16 0.303 
+#16 0.303 > @bnbu/sports-backend@0.1.0 db:generate
+#16 0.303 > prisma generate
+#16 0.303 
+#16 0.995 Loaded Prisma config from prisma.config.ts.
+#16 0.995 
+#16 3.789 Prisma schema loaded from prisma/schema.prisma.
+#16 5.459 
+#16 5.459 ✔ Generated Prisma Client (7.9.1) to ./src/generated/prisma in 1.09s
+#16 5.459 
+#16 DONE 5.6s
+
+#17 exporting to image
+#17 exporting layers
+#17 exporting layers 1.5s done
+#17 exporting manifest sha256:b4e0d3877db535e142f47d7a0806d55f96c9a76b7a6eb748aac7c31ad666240d 0.0s done
+#17 exporting config sha256:26570396ca804aa8a4c697c0413566b59be1b7e73313563808fbd1bcc8b69c49 0.0s done
+#17 exporting attestation manifest sha256:782ada28a9ae27ab708fb2f0248478955abc950b39338ef6e091a2c0831db237 0.0s done
+#17 exporting manifest list sha256:0fa299405b24d3b3add2ceb1b854bdcd737ac22a2a28af2d9b60e84e5e417455 0.0s done
+#17 naming to docker.io/library/bnbu-v81-full-integration-integration-tests:latest done
+#17 unpacking to docker.io/library/bnbu-v81-full-integration-integration-tests:latest
+#17 unpacking to docker.io/library/bnbu-v81-full-integration-integration-tests:latest 0.7s done
+#17 DONE 2.4s
+
+#18 resolving provenance for metadata file
+#18 DONE 0.0s
+ Image bnbu-v81-full-integration-integration-tests Built 
+ Container bnbu-v81-full-integration-integration-tests-run-9b1b416298cf Creating 
+ Container bnbu-v81-full-integration-integration-tests-run-9b1b416298cf Created 
+
+> @bnbu/sports-backend@0.1.0 prebuild
+> npm run db:generate && npm run generate
+
+
+> @bnbu/sports-backend@0.1.0 db:generate
+> prisma generate
+
+Loaded Prisma config from prisma.config.ts.
+
+Prisma schema loaded from prisma/schema.prisma.
+
+✔ Generated Prisma Client (7.9.1) to ./src/generated/prisma in 952ms
+┌─────────────────────────────────────────────────────────┐
+│  Update available 7.9.1 -> 8.0.0-rc.13                  │
+
+│                                                         │
+│  This is a major update - please follow the guide at    │
+│  https://pris.ly/d/major-version-upgrade                │
+│                                                         │
+│  Run the following to update                            │
+│    npm i --save-dev prisma@latest                       │
+│    npm i @prisma/client@latest                          │
+└─────────────────────────────────────────────────────────┘
+
+> @bnbu/sports-backend@0.1.0 generate
+> npm run openapi:generate && npm run db:manifest:generate
+
+
+> @bnbu/sports-backend@0.1.0 openapi:generate
+> node ./scripts/generate-openapi.mjs
+
+Generated 3 OpenAPI artifacts from 249 operations.
+
+> @bnbu/sports-backend@0.1.0 db:manifest:generate
+> node ./scripts/generate-migration-manifest.mjs
+
+Generated migration manifest updated.
+
+> @bnbu/sports-backend@0.1.0 build
+> nest build
+
+▶ Official Roster Import and Alignment HTTP E2E
+  ✖ uploads private immutable versions and enforces Teacher/Admin/Student projections and scope (1038.083829ms)
+  ✖ aligns a frozen current snapshot and appends confirm/resolve/reopen while ignore is side-effect free (642.14709ms)
+✖ Official Roster Import and Alignment HTTP E2E (2547.104106ms)
+ℹ tests 2
+ℹ suites 1
+ℹ pass 0
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 3371.093704
+
+✖ failing tests:
+
+test at test/e2e/official-roster-alignment.e2e.test.ts:1:9088
+✖ uploads private immutable versions and enforces Teacher/Admin/Student projections and scope (1038.083829ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  422 !== 201
+  
+      at TestContext.<anonymous> (/workspace/backend/test/e2e/official-roster-alignment.e2e.test.ts:448:12)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async Test.run (node:internal/test_runner/test:1332:7)
+      at async Promise.all (index 0)
+      at async Suite.run (node:internal/test_runner/test:1794:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:385:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 422,
+    expected: 201,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at test/e2e/official-roster-alignment.e2e.test.ts:1:15292
+✖ aligns a frozen current snapshot and appends confirm/resolve/reopen while ignore is side-effect free (642.14709ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+    [
+  +   'DUPLICATED',
+      'EXTRA_IN_PLATFORM',
+      'IDENTITY_CONFLICT',
+      'MATCHED',
+      'MISSING_IN_PLATFORM',
+      'WRONG_COURSE'
+  
+      at TestContext.<anonymous> (/workspace/backend/test/e2e/official-roster-alignment.e2e.test.ts:628:12)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async Test.run (node:internal/test_runner/test:1332:7)
+      at async Suite.processPendingSubtests (node:internal/test_runner/test:911:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: [ 'DUPLICATED', 'EXTRA_IN_PLATFORM', 'IDENTITY_CONFLICT', 'MATCHED', 'MISSING_IN_PLATFORM', 'WRONG_COURSE' ],
+    expected: [ 'EXTRA_IN_PLATFORM', 'IDENTITY_CONFLICT', 'MATCHED', 'MISSING_IN_PLATFORM', 'WRONG_COURSE' ],
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }
+

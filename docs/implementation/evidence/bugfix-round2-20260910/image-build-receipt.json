@@ -1,0 +1,22 @@
+{
+  "sourceCommit": "576db9b4dce40434f99f52cfb653f07d20a5243a",
+  "checkedAt": "2026-09-10T15:47:36.5556034Z",
+  "backend": {
+    "tag": "bnbu-backend-production:576db9b4-round2",
+    "imageId": "sha256:623a8a31a8c301161d2097627eef3b1625428b579239830af1231147d4fd0655",
+    "revision": "576db9b4dce40434f99f52cfb653f07d20a5243a",
+    "build": "PASS"
+  },
+  "portal": {
+    "tag": "bnbu-portal-production:576db9b4-round2",
+    "imageId": "sha256:0298eff1ba3930e523b1fff5b956045f263fc0724cfe000f08c5c21ee6a22933",
+    "revision": "576db9b4dce40434f99f52cfb653f07d20a5243a",
+    "build": "PASS",
+    "localHttp": 200,
+    "user": "10001:10001",
+    "readOnlyRootFilesystem": true
+  },
+  "deployed": false,
+  "deploymentGate": "PENDING_SUBADMIN_BUSINESS_RULE_DECISION",
+  "scope": "Local image build and Portal startup only; Tencent acceptance remains pending"
+}

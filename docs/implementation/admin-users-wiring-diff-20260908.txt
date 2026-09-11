@@ -1,0 +1,91 @@
+diff --git a/BNBU-Sports-Web-new/portal-teacher-admin/app/admin-users.tsx b/BNBU-Sports-Web-new/portal-teacher-admin/app/admin-users.tsx
+index dd7f0ded..b3906944 100644
+--- a/BNBU-Sports-Web-new/portal-teacher-admin/app/admin-users.tsx
++++ b/BNBU-Sports-Web-new/portal-teacher-admin/app/admin-users.tsx
+@@ -3 +3,2 @@
+-import { useCallback, useEffect, useMemo, useState } from "react";
++import { useCallback, useEffect, useMemo, useRef, useState } from "react";
++import { confirmTeacherAccounts, previewTeacherAccounts } from './teacher-import-api';
+@@ -73,0 +75,7 @@ export function AdminUsers({ locale }: { locale: AdminLocale }) {
++  const importRevision = useRef(0);
++  const realPreview = useRef<{ csv: string; token: string; key: string } | null>(null);
++  function invalidatePreview() {
++    importRevision.current += 1;
++    realPreview.current = null;
++    setImportPreview([]);
++  }
+@@ -142 +150 @@ export function AdminUsers({ locale }: { locale: AdminLocale }) {
+-    setImportPreview([]);
++    invalidatePreview();
+@@ -152,2 +160,8 @@ export function AdminUsers({ locale }: { locale: AdminLocale }) {
+-    setImportPreview([]);
+-    setCsvText(await file.text());
++    invalidatePreview();
++    const revision = importRevision.current;
++    try {
++      const text = await file.text();
++      if (revision === importRevision.current) setCsvText(text);
++    } catch (failure) {
++      if (revision === importRevision.current) setImportIssue(toUserFacingError(failure, locale).message);
++    }
+@@ -156 +170,8 @@ export function AdminUsers({ locale }: { locale: AdminLocale }) {
+-  function buildTeacherPreview() {
++  function closeTeacherImport() {
++    invalidatePreview();
++    setImportOpen(false);
++    setInitialPassword('');
++    clearError();
++  }
++
++  async function buildTeacherPreview() {
+@@ -158,0 +180,2 @@ export function AdminUsers({ locale }: { locale: AdminLocale }) {
++    invalidatePreview();
++    const revision = importRevision.current;
+@@ -159,0 +183,9 @@ export function AdminUsers({ locale }: { locale: AdminLocale }) {
++      if (mode === 'real') {
++        const preview = await previewTeacherAccounts(csvText);
++        if (revision !== importRevision.current) return;
++        setImportPreview(preview.rows.map(row => ({ line: row.rowNumber + 1,
++          input: { account: row.employeeId, name: row.name, email: row.email, college: row.college ?? '', role: 'teacher', status: 'ACTIVE' },
++          errors: row.errors })));
++        realPreview.current = preview.canCreate && preview.previewToken ? { csv: csvText, token: preview.previewToken, key: crypto.randomUUID() } : null;
++        return;
++      }
+@@ -161,0 +194 @@ export function AdminUsers({ locale }: { locale: AdminLocale }) {
++      if (revision !== importRevision.current) return;
+@@ -163 +196 @@ export function AdminUsers({ locale }: { locale: AdminLocale }) {
+-      setImportIssue(failure instanceof AdminServiceError
++      setImportIssue(mode === 'real' ? toUserFacingError(failure, locale).message : failure instanceof AdminServiceError
+@@ -170 +203,13 @@ export function AdminUsers({ locale }: { locale: AdminLocale }) {
+-    if (mode !== "demo") return;
++    if (mode === 'real') {
++      const preview = realPreview.current;
++      if (!preview || preview.csv !== csvText || !state) return;
++      const result = await run('teacher-import', async () => ({ state,
++        value: await confirmTeacherAccounts(csvText, preview.token, initialPassword, preview.key) }),
++        locale === 'zh' ? '教师账号已批量建立' : 'Teacher accounts created');
++      if (!result) return;
++      setImportOpen(false);
++      invalidatePreview();
++      setInitialPassword('');
++      await load();
++      return;
++    }
+@@ -246 +291 @@ export function AdminUsers({ locale }: { locale: AdminLocale }) {
+-            action={<div className="admin-heading-actions"><button className="text-button" type="button" onClick={() => void load()}>{adminCopy(locale, "refresh_data")}</button><button className="primary-button" type="button" disabled={mode !== "demo"} onClick={openTeacherImport}>{locale === "zh" ? "批量建立教师" : "Create teachers"}</button></div>}
++            action={<div className="admin-heading-actions"><button className="text-button" type="button" onClick={() => void load()}>{adminCopy(locale, "refresh_data")}</button><button className="primary-button" type="button" disabled={Boolean(busyKey)} onClick={openTeacherImport}>{locale === "zh" ? "批量建立教师" : "Create teachers"}</button></div>}
+@@ -248 +293 @@ export function AdminUsers({ locale }: { locale: AdminLocale }) {
+-          {mode !== "demo" && <aside className="admin-readonly-banner admin-teacher-api-note" role="note">{locale === "zh" ? "当前正式 API 仅提供教师资料查询，批量建立与账号删除尚未开放。" : "The formal API currently supports teacher profile queries only. Batch creation and account deletion are not yet available."}</aside>}
++          {mode !== "demo" && <aside className="admin-readonly-banner admin-teacher-api-note" role="note">{locale === "zh" ? "教师资料查询与批量建立已接入服务，账号删除尚未开放。" : "Teacher profile queries and batch creation are connected. Account deletion is not yet available."}</aside>}
+@@ -261 +306 @@ export function AdminUsers({ locale }: { locale: AdminLocale }) {
+-          close={() => { setImportOpen(false); clearError(); }}
++          close={closeTeacherImport}
+@@ -264 +309 @@ export function AdminUsers({ locale }: { locale: AdminLocale }) {
+-          footer={<><button className="secondary-button" type="button" onClick={() => { setImportOpen(false); clearError(); }}>{adminCopy(locale, "cancel")}</button><button className="secondary-button" type="button" onClick={buildTeacherPreview}>{locale === "zh" ? "校验导入内容" : "Validate import"}</button><button className="primary-button" type="button" disabled={mode !== "demo" || Boolean(busyKey) || importPreview.length === 0 || importPreview.some((row) => row.errors.length > 0)} onClick={() => void confirmTeacherImport()}>{busyKey === "teacher-import" ? (locale === "zh" ? "建立中…" : "Creating…") : (locale === "zh" ? `确认建立 ${importPreview.length} 个账号` : `Create ${importPreview.length} accounts`)}</button></>}
++          footer={<><button className="secondary-button" type="button" onClick={closeTeacherImport}>{adminCopy(locale, "cancel")}</button><button className="secondary-button" type="button" onClick={buildTeacherPreview}>{locale === "zh" ? "校验导入内容" : "Validate import"}</button><button className="primary-button" type="button" disabled={Boolean(busyKey) || importPreview.length === 0 || importPreview.some((row) => row.errors.length > 0)} onClick={() => void confirmTeacherImport()}>{busyKey === "teacher-import" ? (locale === "zh" ? "建立中…" : "Creating…") : (locale === "zh" ? `确认建立 ${importPreview.length} 个账号` : `Create ${importPreview.length} accounts`)}</button></>}
+@@ -273 +318 @@ export function AdminUsers({ locale }: { locale: AdminLocale }) {
+-                <input type={showPassword ? "text" : "password"} value={initialPassword} autoComplete="new-password" onChange={(event) => { setInitialPassword(event.target.value); setImportPreview([]); clearError(); }} />
++                <input type={showPassword ? "text" : "password"} value={initialPassword} autoComplete="new-password" onChange={(event) => { setInitialPassword(event.target.value); invalidatePreview(); clearError(); }} />
+@@ -278 +323 @@ export function AdminUsers({ locale }: { locale: AdminLocale }) {
+-              <textarea className="admin-teacher-csv" value={csvText} spellCheck={false} onChange={(event) => { setCsvText(event.target.value); setImportPreview([]); setImportIssue(""); clearError(); }} />
++              <textarea className="admin-teacher-csv" value={csvText} spellCheck={false} onChange={(event) => { setCsvText(event.target.value); invalidatePreview(); setImportIssue(""); clearError(); }} />

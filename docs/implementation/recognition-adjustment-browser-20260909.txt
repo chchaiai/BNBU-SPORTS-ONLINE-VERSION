@@ -1,0 +1,23 @@
+node:internal/process/promises:394
+    triggerUncaughtException(err, true /* fromPromise */);
+    ^
+
+AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+
+500 !== 201
+
+    at file:///C:/Users/23328/Desktop/new_version/tools/local-integration/v81-recognition-adjustment-browser-probe.mjs:13:267
+    at async Promise.all (index 1)
+    at async RouteHandler._handleInternal (C:\Users\23328\Desktop\new_version\.local\browser-test\node_modules\playwright-core\lib\coreBundle.js:60184:27)
+    at async RouteHandler._handleImpl (C:\Users\23328\Desktop\new_version\.local\browser-test\node_modules\playwright-core\lib\coreBundle.js:60153:18)
+    at async RouteHandler.handle (C:\Users\23328\Desktop\new_version\.local\browser-test\node_modules\playwright-core\lib\coreBundle.js:60147:16)
+    at async _Page._onRoute (C:\Users\23328\Desktop\new_version\.local\browser-test\node_modules\playwright-core\lib\coreBundle.js:61441:27) {
+  generatedMessage: true,
+  code: 'ERR_ASSERTION',
+  actual: 500,
+  expected: 201,
+  operator: 'strictEqual',
+  diff: 'simple'
+}
+
+Node.js v24.13.1

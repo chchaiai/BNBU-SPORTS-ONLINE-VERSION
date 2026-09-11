@@ -1,0 +1,26 @@
+{
+  "result": "PASS",
+  "local": {
+    "realDocker": true,
+    "inviteCreate": 201,
+    "invitePreview": 200,
+    "scanButtonAbsent": true,
+    "confirmationButtonAbsent": true,
+    "identityFormPresent": true,
+    "serverExpiryPresent": true
+  },
+  "cloud": {
+    "inviteCreate": 201,
+    "invitePreview": 200,
+    "scanButtonAbsent": true,
+    "confirmationButtonAbsent": true,
+    "identityFormPresent": true,
+    "serverExpiryPresent": true
+  },
+  "cleanup": {
+    "disabledAccounts": 2,
+    "recordsRetained": 1
+  },
+  "backend": "healthy",
+  "portal": "healthy"
+}

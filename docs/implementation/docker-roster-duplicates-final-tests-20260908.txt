@@ -1,0 +1,157 @@
+time="2026-09-08T13:04:23+08:00" level=warning msg="Found orphan containers (bnbu-v81-local-validation-backend-browser-1) for this project. If you removed or renamed this service in your compose file, you can run this command with the --remove-orphans flag to clean it up."
+ Image bnbu-v81-local-validation-backend-startup Building 
+#1 [internal] load local bake definitions
+#1 reading from stdin 636B 0.0s done
+#1 DONE 0.0s
+
+#2 [internal] load build definition from Dockerfile.v81-test
+#2 transferring dockerfile:
+#2 transferring dockerfile: 828B done
+#2 DONE 0.5s
+
+#3 [internal] load metadata for docker.io/library/node:24.18.0-bookworm-slim
+#3 DONE 0.6s
+
+#4 [internal] load .dockerignore
+#4 transferring context:
+#4 transferring context: 153B done
+#4 DONE 0.2s
+
+#5 [ 1/11] FROM docker.io/library/node:24.18.0-bookworm-slim@sha256:6f7b03f7c2c8e2e784dcf9295400527b9b1270fd37b7e9a7285cf83b6951452d
+#5 resolve docker.io/library/node:24.18.0-bookworm-slim@sha256:6f7b03f7c2c8e2e784dcf9295400527b9b1270fd37b7e9a7285cf83b6951452d 0.0s done
+#5 DONE 0.0s
+
+#6 [internal] load build context
+#6 transferring context: 38.78MB 2.2s done
+#6 DONE 2.3s
+
+#7 [ 6/11] COPY backend/ ./
+#7 CACHED
+
+#8 [ 7/11] COPY docs/backend-contracts/ /workspace/docs/backend-contracts/
+#8 CACHED
+
+#9 [ 8/11] COPY tools/ /workspace/tools/
+#9 CACHED
+
+#10 [ 5/11] RUN npm ci --ignore-scripts --no-audit --no-fund
+#10 CACHED
+
+#11 [ 2/11] RUN apt-get update && apt-get install -y --no-install-recommends openssl ca-certificates && rm -rf /var/lib/apt/lists/*
+#11 CACHED
+
+#12 [ 4/11] COPY backend/package.json backend/package-lock.json ./
+#12 CACHED
+
+#13 [ 9/11] COPY BNBU-Sports-Web-new/frontend/student/ /workspace/BNBU-Sports-Web-new/frontend/student/
+#13 CACHED
+
+#14 [10/11] COPY BNBU-Sports-Web-new/portal-teacher-admin/app/ /workspace/BNBU-Sports-Web-new/portal-teacher-admin/app/
+#14 CACHED
+
+#15 [ 3/11] WORKDIR /workspace/backend
+#15 CACHED
+
+#16 [11/11] RUN npm run db:generate
+#16 CACHED
+
+#17 exporting to image
+#17 exporting layers done
+#17 exporting manifest sha256:57c7a6c0e57c26d779dac962370d885d7df65756548f458d01fe211a8c013578 0.0s done
+#17 exporting config sha256:8aacf7a4e50b814d1f5e92edcf08e08d7459ce8fcbd16acd5eda4fa0aead818e 0.0s done
+#17 exporting attestation manifest sha256:480bb4bb27c8698896595d34b407330da7d40f9b27ff608f9a64c31c0a5133ac
+#17 exporting attestation manifest sha256:480bb4bb27c8698896595d34b407330da7d40f9b27ff608f9a64c31c0a5133ac 0.0s done
+#17 exporting manifest list sha256:9a410b38eb0081c2005d99d3f0b54b2bea66a9ae837784a9a48b111a418486bb 0.0s done
+#17 naming to docker.io/library/bnbu-v81-local-validation-backend-startup:latest done
+#17 unpacking to docker.io/library/bnbu-v81-local-validation-backend-startup:latest 0.0s done
+#17 DONE 0.2s
+
+#18 resolving provenance for metadata file
+#18 DONE 0.0s
+ Image bnbu-v81-local-validation-backend-startup Built 
+ Container bnbu-v81-local-validation-backend-startup-run-5d6922780d5c Creating 
+ Container bnbu-v81-local-validation-backend-startup-run-5d6922780d5c Created 
+
+> @bnbu/sports-backend@0.1.0 prebuild
+> npm run db:generate && npm run generate
+
+
+> @bnbu/sports-backend@0.1.0 db:generate
+> prisma generate
+
+Loaded Prisma config from prisma.config.ts.
+
+Prisma schema loaded from prisma/schema.prisma.
+
+✔ Generated Prisma Client (7.9.1) to ./src/generated/prisma in 893ms
+
+┌─────────────────────────────────────────────────────────┐
+│  Update available 7.9.1 -> 8.0.0-rc.13                  │
+│                                                         │
+│  This is a major update - please follow the guide at    │
+│  https://pris.ly/d/major-version-upgrade                │
+│                                                         │
+│  Run the following to update                            │
+│    npm i --save-dev prisma@latest                       │
+│    npm i @prisma/client@latest                          │
+└─────────────────────────────────────────────────────────┘
+
+> @bnbu/sports-backend@0.1.0 generate
+> npm run openapi:generate && npm run db:manifest:generate
+
+
+> @bnbu/sports-backend@0.1.0 openapi:generate
+> node ./scripts/generate-openapi.mjs
+
+Generated 3 OpenAPI artifacts from 239 operations.
+
+> @bnbu/sports-backend@0.1.0 db:manifest:generate
+> node ./scripts/generate-migration-manifest.mjs
+
+Generated migration manifest updated.
+
+> @bnbu/sports-backend@0.1.0 build
+> nest build
+
+▶ Stage 13 alignment run lifecycle
+  ✔ freezes a RUNNING revision before computation and persists FAILED plus outbox on a domain failure (2.277503ms)
+  ✔ maps a non-retried serializable snapshot race to the stable stale-snapshot error (0.229273ms)
+  ✔ projects exactly the public run contract and drops internal snapshot scope and failure details (0.248439ms)
+✔ Stage 13 alignment run lifecycle (3.486336ms)
+▶ Stage 13 deterministic roster alignment
+  ✔ classifies every subject into exactly one of the six frozen outcomes (2.368695ms)
+  ✔ keeps fingerprints, subject keys, normalization, and result order deterministic (0.73617ms)
+  ✔ classifies official duplicates without merging identities, regardless of input order or platform match (0.331722ms)
+✔ Stage 13 deterministic roster alignment (4.555424ms)
+▶ Official roster staged import lifecycle
+  ✖ commits RECEIVED and its outbox event before parsing, then completes atomically (1.10481ms)
+✖ Official roster staged import lifecycle (1.648075ms)
+▶ Stage 13 private roster ingestion
+  ✔ streams a strict CSV upload into a server-generated private key (8.489601ms)
+  ✔ rejects path-like names and unsupported OFFICIAL_API without retaining an object (3.24936ms)
+  ✔ normalizes leading-zero identifiers and marks every duplicate row non-valid (4.808706ms)
+  ✔ uses static four-digit grade-year bounds for roster rows (2.576667ms)
+✔ Stage 13 private roster ingestion (19.975046ms)
+ℹ tests 11
+ℹ suites 4
+ℹ pass 10
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 655.261649
+
+✖ failing tests:
+
+test at test/unit/roster-import-staging.test.ts:1:686
+✖ commits RECEIVED and its outbox event before parsing, then completes atomically (1.10481ms)
+  TypeError: transaction.$queryRaw is not a function
+      at <anonymous> (/workspace/backend/src/modules/roster/application/roster-imports.service.ts:163:27)
+      at Object.reserveStage (/workspace/backend/test/unit/roster-import-staging.test.ts:110:9)
+      at RosterImportsService.create (/workspace/backend/src/modules/roster/application/roster-imports.service.ts:109:44)
+      at async TestContext.<anonymous> (/workspace/backend/test/unit/roster-import-staging.test.ts:222:20)
+      at async Test.run (node:internal/test_runner/test:1332:7)
+      at async Promise.all (index 0)
+      at async Suite.run (node:internal/test_runner/test:1794:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:385:3)
+

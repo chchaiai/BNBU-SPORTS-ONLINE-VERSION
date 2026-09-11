@@ -1,0 +1,6 @@
+
+InputObject                                         SideIndicator
+-----------                                         -------------
+232. Permission registry rows 128 != operations 241 =>
+232. Permission registry rows 126 != operations 239 <=
+

@@ -1,0 +1,14 @@
+ Container bnbu-v81-local-validation-portal-tests-run-3fa02f8ee5d8 Creating 
+ Container bnbu-v81-local-validation-portal-tests-run-3fa02f8ee5d8 Created 
+✔ proof todos read every backend page through the normal API envelope (27.777835ms)
+✔ proof todo pagination rejects a repeated cursor instead of looping (0.920931ms)
+✔ a supplement retry preserves its original media, workflow version and idempotency key (0.665685ms)
+ℹ tests 3
+ℹ suites 0
+ℹ pass 3
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 89.278251
+Docker exit code: 0

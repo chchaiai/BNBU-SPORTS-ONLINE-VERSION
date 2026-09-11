@@ -1,0 +1,50 @@
+{"check": "PRE_RELEASE_DATABASE_BACKUP", "result": "PASS", "path": "/opt/bnbu-sports-production/backups/before-bugfix-20260910T161437Z.dump", "bytes": 2171637}
+Loaded image: bnbu-backend-production:27f9f25a-round2
+Loaded image: bnbu-migrator-production:27f9f25a-round2
+Loaded image: bnbu-portal-production:27f9f25a-round2
+ Container bnbu-sports-production-backend-1 Stopping
+ Container bnbu-sports-production-backend-1 Stopped
+ Container bnbu-sports-production-migrator-run-b701a6306324 Creating
+ Container bnbu-sports-production-migrator-run-b701a6306324 Created
+
+> @bnbu/sports-backend@0.1.0 db:migrate:deploy:container
+> node ./scripts/run-migration-with-secrets.mjs --harden
+
+Loaded Prisma config from prisma.config.ts.
+
+Prisma schema loaded from prisma/schema.prisma.
+Datasource "db": PostgreSQL database "bnbusports", schema "public" at "172.19.0.16:5432"
+
+60 migrations found in prisma/migrations
+
+Applying migration `0060_subadmin_contact_email_scope`
+
+The following migration(s) have been applied:
+
+migrations/
+  └─ 0060_subadmin_contact_email_scope/
+    └─ migration.sql
+
+All migrations have been successfully applied.
+Runtime database privileges hardened; migration history is read-only.
+npm notice
+npm notice New major version of npm available! 11.16.0 -> 12.0.2
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.0.2
+npm notice To update run: npm install -g npm@12.0.2
+npm notice
+ Container bnbu-sports-production-backend-1 Recreate
+ Container bnbu-sports-production-portal-1 Recreate
+ Container bnbu-sports-production-backend-1 Recreated
+ Container bnbu-sports-production-portal-1 Recreated
+ Container bnbu-sports-production-backend-1 Starting
+ Container bnbu-sports-production-portal-1 Starting
+ Container bnbu-sports-production-backend-1 Started
+ Container bnbu-sports-production-portal-1 Started
+nginx: the configuration file /etc/nginx/nginx.conf syntax is ok
+nginx: configuration file /etc/nginx/nginx.conf test is successful
+{"check": "PUBLIC_URL", "url": "https://www.student.bnbusports.cn/api/v1/health/ready", "result": "PASS"}
+{"check": "PUBLIC_URL", "url": "https://www.teacher.bnbusports.cn/api/v1/health/ready", "result": "PASS"}
+{"check": "PUBLIC_URL", "url": "https://www.student.bnbusports.cn/runtime-config.js", "result": "PASS"}
+{"check": "PUBLIC_URL", "url": "https://www.student.bnbusports.cn/student/", "result": "PASS"}
+{"check": "PUBLIC_URL", "url": "https://www.teacher.bnbusports.cn/", "result": "PASS"}
+{"check": "PRODUCTION_DEPLOYMENT_PUBLIC_HEALTH", "result": "PASS", "release": "/opt/bnbu-sports-production/releases/27f9f25abe88-round2", "previous": "/opt/bnbu-sports-production/releases/b83b302c-bugfix2"}

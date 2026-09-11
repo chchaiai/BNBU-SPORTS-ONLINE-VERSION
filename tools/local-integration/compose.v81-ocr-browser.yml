@@ -1,0 +1,4 @@
+services:
+  backend-browser:
+    environment:
+      LOCAL_BROWSER_OCR_SYNTHETIC: '1'

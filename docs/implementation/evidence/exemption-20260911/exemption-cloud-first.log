@@ -1,0 +1,3 @@
+{"check":"APPLICATION_REAL_IMAGE_SUBMISSION","environment":"cloud","result":"PASS","type":"1000m","id":"01a08d87-45a6-742c-b7fc-f7fe4b1f4161"}
+{"check":"TEACHER_APPLICATION_REVIEW","environment":"cloud","result":"PASS","type":"1000m","decision":"approve"}
+{"check":"APPLICATION_FULL_BROWSER_FLOW","result":"FAIL","stage":"SUBMIT_team","type":"TimeoutError","message":"page.waitForResponse: Timeout 60000ms exceeded while waiting for event \"response\""}

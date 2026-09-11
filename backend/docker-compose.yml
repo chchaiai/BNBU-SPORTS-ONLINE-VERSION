@@ -1,0 +1,99 @@
+name: bnbu-sports-greenfield
+
+services:
+  postgres:
+    image: postgres:18.4-alpine3.24
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:?Set POSTGRES_DB in .env}
+      POSTGRES_USER: ${POSTGRES_BOOTSTRAP_USER:?Set POSTGRES_BOOTSTRAP_USER in .env}
+      POSTGRES_PASSWORD: ${POSTGRES_BOOTSTRAP_PASSWORD:?Set POSTGRES_BOOTSTRAP_PASSWORD in .env}
+      POSTGRES_MIGRATOR_USER: ${POSTGRES_MIGRATOR_USER:?Set POSTGRES_MIGRATOR_USER in .env}
+      POSTGRES_MIGRATOR_PASSWORD: ${POSTGRES_MIGRATOR_PASSWORD:?Set POSTGRES_MIGRATOR_PASSWORD in .env}
+      POSTGRES_APP_USER: ${POSTGRES_APP_USER:?Set POSTGRES_APP_USER in .env}
+      POSTGRES_APP_PASSWORD: ${POSTGRES_APP_PASSWORD:?Set POSTGRES_APP_PASSWORD in .env}
+    ports:
+      - 127.0.0.1:${POSTGRES_PORT:-5433}:5432
+    volumes:
+      - postgres_data:/var/lib/postgresql
+      - ./docker/postgres/init-local.sh:/docker-entrypoint-initdb.d/010-create-app-role.sh:ro
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB']
+      interval: 5s
+      timeout: 5s
+      retries: 20
+      start_period: 10s
+
+  minio:
+    image: minio/minio:RELEASE.2025-09-07T16-13-09Z-cpuv1
+    restart: unless-stopped
+    command: server /data --console-address :9001
+    environment:
+      MINIO_ROOT_USER: ${MINIO_ROOT_USER:?Set MINIO_ROOT_USER in .env}
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD:?Set MINIO_ROOT_PASSWORD in .env}
+    ports:
+      - 127.0.0.1:${MINIO_API_PORT:-9000}:9000
+      - 127.0.0.1:${MINIO_CONSOLE_PORT:-9001}:9001
+    volumes:
+      - minio_data:/data
+    healthcheck:
+      test: ['CMD', 'curl', '-f', 'http://127.0.0.1:9000/minio/health/live']
+      interval: 5s
+      timeout: 5s
+      retries: 20
+      start_period: 10s
+
+  minio-init:
+    image: minio/mc:RELEASE.2025-08-13T08-35-41Z-cpuv1
+    depends_on:
+      minio:
+        condition: service_healthy
+    environment:
+      MINIO_ROOT_USER: ${MINIO_ROOT_USER:?Set MINIO_ROOT_USER in .env}
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD:?Set MINIO_ROOT_PASSWORD in .env}
+      MINIO_BUCKET: ${MINIO_BUCKET:?Set MINIO_BUCKET in .env}
+      OBJECT_STORAGE_ACCESS_KEY: ${OBJECT_STORAGE_ACCESS_KEY:?Set OBJECT_STORAGE_ACCESS_KEY in .env}
+      OBJECT_STORAGE_SECRET_KEY: ${OBJECT_STORAGE_SECRET_KEY:?Set OBJECT_STORAGE_SECRET_KEY in .env}
+      MEDIA_STORAGE_BUCKET: ${MEDIA_STORAGE_BUCKET:?Set MEDIA_STORAGE_BUCKET in .env}
+      MEDIA_STORAGE_ACCESS_KEY: ${MEDIA_STORAGE_ACCESS_KEY:?Set MEDIA_STORAGE_ACCESS_KEY in .env}
+      MEDIA_STORAGE_SECRET_KEY: ${MEDIA_STORAGE_SECRET_KEY:?Set MEDIA_STORAGE_SECRET_KEY in .env}
+    entrypoint:
+      - /bin/sh
+      - -ec
+      - |
+        mc alias set local http://minio:9000 "$${MINIO_ROOT_USER}" "$${MINIO_ROOT_PASSWORD}"
+        test "$${MINIO_BUCKET}" != "$${MEDIA_STORAGE_BUCKET}"
+        test "$${OBJECT_STORAGE_ACCESS_KEY}" != "$${MEDIA_STORAGE_ACCESS_KEY}"
+        mc mb --ignore-existing "local/$${MINIO_BUCKET}"
+        mc anonymous set none "local/$${MINIO_BUCKET}"
+        printf '{"Version":"2012-10-17","Statement":[{"Effect":"Allow","Action":["s3:GetBucketLocation"],"Resource":["arn:aws:s3:::%s"]},{"Effect":"Allow","Action":["s3:ListBucket"],"Resource":["arn:aws:s3:::%s"],"Condition":{"StringLike":{"s3:prefix":["roster-sources/*"]}}},{"Effect":"Allow","Action":["s3:PutObject","s3:GetObject","s3:DeleteObject"],"Resource":["arn:aws:s3:::%s/roster-sources/*"]}]}' "$${MINIO_BUCKET}" "$${MINIO_BUCKET}" "$${MINIO_BUCKET}" > /tmp/roster-app-policy.json
+        mc admin user add local "$${OBJECT_STORAGE_ACCESS_KEY}" "$${OBJECT_STORAGE_SECRET_KEY}" >/dev/null
+        mc admin policy create local bnbu-roster-app /tmp/roster-app-policy.json
+        mc admin policy attach local bnbu-roster-app --user "$${OBJECT_STORAGE_ACCESS_KEY}" >/dev/null
+        mc mb --ignore-existing "local/$${MEDIA_STORAGE_BUCKET}"
+        mc anonymous set none "local/$${MEDIA_STORAGE_BUCKET}"
+        printf '{"Version":"2012-10-17","Statement":[{"Effect":"Allow","Action":["s3:GetBucketLocation"],"Resource":["arn:aws:s3:::%s"]},{"Effect":"Allow","Action":["s3:ListBucket"],"Resource":["arn:aws:s3:::%s"],"Condition":{"StringLike":{"s3:prefix":["media/*"]}}},{"Effect":"Allow","Action":["s3:PutObject","s3:GetObject"],"Resource":["arn:aws:s3:::%s/media/*"]}]}' "$${MEDIA_STORAGE_BUCKET}" "$${MEDIA_STORAGE_BUCKET}" "$${MEDIA_STORAGE_BUCKET}" > /tmp/media-app-policy.json
+        mc admin user add local "$${MEDIA_STORAGE_ACCESS_KEY}" "$${MEDIA_STORAGE_SECRET_KEY}" >/dev/null
+        mc admin policy create local bnbu-media-app /tmp/media-app-policy.json
+        mc admin policy attach local bnbu-media-app --user "$${MEDIA_STORAGE_ACCESS_KEY}" >/dev/null
+    restart: 'no'
+
+  mailpit:
+    image: axllent/mailpit:v1.30.0
+    restart: unless-stopped
+    environment:
+      MP_MAX_MESSAGES: 200
+      MP_SMTP_AUTH_ALLOW_INSECURE: 'false'
+    ports:
+      - 127.0.0.1:${MAILPIT_SMTP_PORT:-1025}:1025
+      - 127.0.0.1:${MAILPIT_UI_PORT:-8025}:8025
+    healthcheck:
+      test: ['CMD', '/mailpit', 'readyz']
+      interval: 5s
+      timeout: 5s
+      retries: 20
+      start_period: 5s
+
+volumes:
+  postgres_data:
+  minio_data:

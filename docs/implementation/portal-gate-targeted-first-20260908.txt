@@ -1,0 +1,43 @@
+✔ only VALID records contribute credited minutes and progress (0.6523ms)
+✔ valid duration is restored after a valid record is marked invalid and corrected (0.1184ms)
+✔ single-record credited duration only accepts 0, 1, or 2 hour bands (0.0726ms)
+✔ teacher review surfaces group image and video evidence without 1.5-hour credit (5.6133ms)
+✔ the teacher-configured target caps progress at 100 percent (0.177ms)
+✔ the synchronous operation lock rejects a second same-frame click (0.0908ms)
+✔ maps backend sport and two-state review enums (0.2982ms)
+✔ REVIEWED without currentReview fails closed instead of inventing VALID (0.417ms)
+✔ INVALID is corrected directly to VALID with no reopen or PENDING request (16.4586ms)
+✔ a VALID record is not appended again (0.7194ms)
+✔ teacher workspace exposes invalid records and direct correction wording (4.6083ms)
+✔ teacher portal omits attempt-chain UI and student resubmission mutations (1.9108ms)
+✔ read-only course filters and review, roster and exemption controls keep accessible labels (9.1896ms)
+✔ runtime log downloads use the real server export flow and never synthesize CSV (1.7384ms)
+✔ major search and roster upload controls expose an accessible name or helper (2.4855ms)
+✔ administrator feedback search matches problem summary, student number, email, and visible category (0.5905ms)
+✔ administrator feedback supports combined problem-category and status filters (1.5073ms)
+✔ administrator dashboards keep supported metrics, student identity, and clean dialog close behavior (2.9949ms)
+✔ login and recovery map safe fieldErrors to their concrete controls (1.8455ms)
+✔ authentication boundaries clear both module-level account caches (1.2928ms)
+✔ responsive workspace keeps the teacher/admin account entry available (1.7207ms)
+✔ server-renders a fail-closed system-status gate before sign-in (2014.2665ms)
+✔ uses a deterministic hydration gate and preserves retryable saved sessions (4.3624ms)
+✔ keeps formal authentication and gates skip-sign-in preview access to local development (2.1023ms)
+✔ teacher and admin account dialogs use an in-workspace password settings flow (1.3234ms)
+✔ keeps role responsibilities and semantic theme tokens in source (1.0046ms)
+✔ uses a same-origin API default with an explicit local development proxy (0.4923ms)
+✔ keeps teacher and admin sidebars resizable, collapsible, and locally persisted (1.3403ms)
+✔ keeps teacher overview metrics single-sourced and separate from status filters (2.6494ms)
+✔ uses the direct-enrollment roster as the teacher membership surface (1.266ms)
+✔ keeps teacher course cards free of the retired task business (1.7442ms)
+✔ teacher evidence preview only exposes the file name and submitter (1.0881ms)
+✔ course workspaces do not expose an ended course business state (0.8391ms)
+✔ uses one progressive student identity pattern across teacher workflows (1.6088ms)
+✔ uses one portal-backed AppSelect instead of native browser selects (2.2535ms)
+ℹ tests 35
+ℹ suites 0
+ℹ pass 35
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2291.7332

@@ -1,0 +1,1 @@
+PASS: 391 diagnostics match HEAD baseline after normalizing registry totals to missing-operation count (113). Current 128/241; baseline 126/239. No added diagnostics.

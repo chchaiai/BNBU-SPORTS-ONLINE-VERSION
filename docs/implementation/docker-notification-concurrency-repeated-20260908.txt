@@ -1,0 +1,171 @@
+time="2026-09-08T23:41:19+08:00" level=warning msg="Found orphan containers (bnbu-v81-e2e-fourteenth-20260908, bnbu-v81-e2e-thirteenth-20260908, bnbu-v81-e2e-twelfth-20260908, bnbu-v81-e2e-eleventh-20260908, bnbu-v81-e2e-tenth-20260908, bnbu-v81-e2e-ninth-20260908, bnbu-v81-e2e-eighth-20260908, bnbu-v81-e2e-seventh-20260908, bnbu-v81-e2e-sixth-20260908, bnbu-v81-e2e-fifth-20260908, bnbu-v81-e2e-report-20260908) for this project. If you removed or renamed this service in your compose file, you can run this command with the --remove-orphans flag to clean it up."
+ Container bnbu-v81-full-integration-integration-tests-run-752df2b34fbd Creating 
+ Container bnbu-v81-full-integration-integration-tests-run-752df2b34fbd Created 
+
+> @bnbu/sports-backend@0.1.0 prebuild
+> npm run db:generate && npm run generate
+
+
+> @bnbu/sports-backend@0.1.0 db:generate
+> prisma generate
+
+Loaded Prisma config from prisma.config.ts.
+
+Prisma schema loaded from prisma/schema.prisma.
+
+✔ Generated Prisma Client (7.9.1) to ./src/generated/prisma in 960ms
+┌─────────────────────────────────────────────────────────┐
+
+│  Update available 7.9.1 -> 8.0.0-rc.13                  │
+│                                                         │
+│  This is a major update - please follow the guide at    │
+│  https://pris.ly/d/major-version-upgrade                │
+│                                                         │
+│  Run the following to update                            │
+│    npm i --save-dev prisma@latest                       │
+│    npm i @prisma/client@latest                          │
+└─────────────────────────────────────────────────────────┘
+
+> @bnbu/sports-backend@0.1.0 generate
+> npm run openapi:generate && npm run db:manifest:generate
+
+
+> @bnbu/sports-backend@0.1.0 openapi:generate
+> node ./scripts/generate-openapi.mjs
+
+Generated 3 OpenAPI artifacts from 250 operations.
+
+> @bnbu/sports-backend@0.1.0 db:manifest:generate
+> node ./scripts/generate-migration-manifest.mjs
+
+Generated migration manifest updated.
+
+> @bnbu/sports-backend@0.1.0 build
+> nest build
+
+{"level":50,"time":"2026-09-08T15:41:40.612Z","service":"bnbu-sports-backend","environment":"test","version":"test-suite","context":"HttpExceptionFilter","payload":{"event":"UNHANDLED_HTTP_ERROR","requestId":"01a081ae-a0d8-7328-90d4-bcdb3a0a8a5c","errorType":"DriverAdapterError","databaseCode":null,"serializationFailure":false,"deadlock":false}}
+{"level":50,"time":"2026-09-08T15:41:40.646Z","service":"bnbu-sports-backend","environment":"test","version":"test-suite","context":"HttpExceptionFilter","payload":{"event":"UNHANDLED_HTTP_ERROR","requestId":"01a081ae-a0c6-76dc-9ce3-c5292fa7f299","errorType":"DriverAdapterError","databaseCode":null,"serializationFailure":false,"deadlock":false}}
+{"level":50,"time":"2026-09-08T15:41:40.647Z","service":"bnbu-sports-backend","environment":"test","version":"test-suite","context":"HttpExceptionFilter","payload":{"event":"UNHANDLED_HTTP_ERROR","requestId":"01a081ae-a0c8-732b-ab90-5bc4007ac620","errorType":"DriverAdapterError","databaseCode":null,"serializationFailure":false,"deadlock":false}}
+{"level":50,"time":"2026-09-08T15:41:40.647Z","service":"bnbu-sports-backend","environment":"test","version":"test-suite","context":"HttpExceptionFilter","payload":{"event":"UNHANDLED_HTTP_ERROR","requestId":"01a081ae-a0ea-740b-881c-7f949ac3b7e8","errorType":"DriverAdapterError","databaseCode":null,"serializationFailure":false,"deadlock":false}}
+{"level":50,"time":"2026-09-08T15:41:40.681Z","service":"bnbu-sports-backend","environment":"test","version":"test-suite","context":"HttpExceptionFilter","payload":{"event":"UNHANDLED_HTTP_ERROR","requestId":"01a081ae-a0ef-7737-83c4-5896af892d29","errorType":"DriverAdapterError","databaseCode":null,"serializationFailure":false,"deadlock":false}}
+{"level":50,"time":"2026-09-08T15:41:40.681Z","service":"bnbu-sports-backend","environment":"test","version":"test-suite","context":"HttpExceptionFilter","payload":{"event":"UNHANDLED_HTTP_ERROR","requestId":"01a081ae-a0f2-71f9-9a3a-62b31d1cdf0b","errorType":"DriverAdapterError","databaseCode":null,"serializationFailure":false,"deadlock":false}}
+{"level":50,"time":"2026-09-08T15:41:40.682Z","service":"bnbu-sports-backend","environment":"test","version":"test-suite","context":"HttpExceptionFilter","payload":{"event":"UNHANDLED_HTTP_ERROR","requestId":"01a081ae-a0c7-751d-bb4d-8d71e393a8ab","errorType":"DriverAdapterError","databaseCode":null,"serializationFailure":false,"deadlock":false}}
+{"level":50,"time":"2026-09-08T15:41:40.705Z","service":"bnbu-sports-backend","environment":"test","version":"test-suite","context":"HttpExceptionFilter","payload":{"event":"UNHANDLED_HTTP_ERROR","requestId":"01a081ae-a0e7-70cd-9693-d14aecb5714c","errorType":"DriverAdapterError","databaseCode":null,"serializationFailure":false,"deadlock":false}}
+{"level":50,"time":"2026-09-08T15:41:40.706Z","service":"bnbu-sports-backend","environment":"test","version":"test-suite","context":"HttpExceptionFilter","payload":{"event":"UNHANDLED_HTTP_ERROR","requestId":"01a081ae-a0c3-758d-9059-0e85731f1a47","errorType":"DriverAdapterError","databaseCode":null,"serializationFailure":false,"deadlock":false}}
+
+▶ Stage 21 client capabilities with real PostgreSQL
+  ✖ marks 24 distinct notifications concurrently with one durable event per notification (1164.529179ms)
+✖ Stage 21 client capabilities with real PostgreSQL (2979.799164ms)
+ℹ tests 1
+ℹ suites 1
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 3521.446055
+
+✖ failing tests:
+
+test at test/e2e/client-capabilities.e2e.test.ts:3:17526
+✖ marks 24 distinct notifications concurrently with one durable event per notification (1164.529179ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  ... Skipped lines
+  
+    [
+      {
+  +     code: 'SYSTEM_INTERNAL_ERROR',
+  +     status: 500
+  -     code: undefined,
+  -     status: 200
+      },
+      {
+        code: undefined,
+        status: 200
+      },
+  ...
+      {
+  +     code: 'SYSTEM_INTERNAL_ERROR',
+  +     status: 500
+  -     code: undefined,
+  -     status: 200
+      },
+      {
+        code: undefined,
+        status: 200
+      },
+  ...
+      {
+  +     code: 'SYSTEM_INTERNAL_ERROR',
+  +     status: 500
+  -     code: undefined,
+  -     status: 200
+      },
+      {
+        code: undefined,
+        status: 200
+      },
+  ...
+      {
+  +     code: 'SYSTEM_INTERNAL_ERROR',
+  +     status: 500
+  -     code: undefined,
+  -     status: 200
+      },
+      {
+        code: undefined,
+        status: 200
+      },
+  ...
+      {
+  +     code: 'SYSTEM_INTERNAL_ERROR',
+  +     status: 500
+  -     code: undefined,
+  -     status: 200
+      },
+      {
+        code: undefined,
+        status: 200
+      },
+  ...
+      {
+  +     code: 'SYSTEM_INTERNAL_ERROR',
+  +     status: 500
+  -     code: undefined,
+  -     status: 200
+      },
+      {
+  +     code: 'SYSTEM_INTERNAL_ERROR',
+  +     status: 500
+  -     code: undefined,
+  -     status: 200
+      },
+      {
+  +     code: 'SYSTEM_INTERNAL_ERROR',
+  +     status: 500
+  -     code: undefined,
+  -     status: 200
+      },
+      {
+  +     code: 'SYSTEM_INTERNAL_ERROR',
+  +     status: 500
+  -     code: undefined,
+  -     status: 200
+      }
+    ]
+  
+      at TestContext.<anonymous> (/workspace/backend/test/e2e/client-capabilities.e2e.test.ts:846:12)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async Test.run (node:internal/test_runner/test:1332:7)
+      at async Promise.all (index 8)
+      at async Suite.run (node:internal/test_runner/test:1794:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:385:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: [ { status: 500, code: 'SYSTEM_INTERNAL_ERROR' }, { status: 200, code: undefined }, { status: 200, code: undefined }, { status: 200, code: undefined }, { status: 500, code: 'SYSTEM_INTERNAL_ERROR' }, { status: 200, code: undefined }, { status: 200, code: undefined }, { status: 200, code: undefined }, { status: 500, code: 'SYSTEM_INTERNAL_ERROR' }, { status: 200, code: undefined }, { status: 200, code: undefined }, { status: 500, code: 'SYSTEM_INTERNAL_ERROR' }, { status: 200, code: undefined }, { status: 200, code: undefined }, { status: 200, code: undefined }, { status: 500, code: 'SYSTEM_INTERNAL_ERROR' }, { status: 200, code: undefined }, { status: 200, code: undefined }, { status: 200, code: undefined }, { status: 200, code: undefined }, { status: 500, code: 'SYSTEM_INTERNAL_ERROR' }, { status: 500, code: 'SYSTEM_INTERNAL_ERROR' }, { status: 500, code: 'SYSTEM_INTERNAL_ERROR' }, { status: 500, code: 'SYSTEM_INTERNAL_ERROR' } ],
+    expected: [ { status: 200, code: undefined }, { status: 200, code: undefined }, { status: 200, code: undefined }, { status: 200, code: undefined }, { status: 200, code: undefined }, { status: 200, code: undefined }, { status: 200, code: undefined }, { status: 200, code: undefined }, { status: 200, code: undefined }, { status: 200, code: undefined }, { status: 200, code: undefined }, { status: 200, code: undefined }, { status: 200, code: undefined }, { status: 200, code: undefined }, { status: 200, code: undefined }, { status: 200, code: undefined }, { status: 200, code: undefined }, { status: 200, code: undefined }, { status: 200, code: undefined }, { status: 200, code: undefined }, { status: 200, code: undefined }, { status: 200, code: undefined }, { status: 200, code: undefined }, { status: 200, code: undefined } ],
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }
+

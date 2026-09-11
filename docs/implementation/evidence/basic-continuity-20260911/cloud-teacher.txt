@@ -1,0 +1,6 @@
+{"check":"TEACHER_PAGE_READ","page":"学生管理","requestCount":0,"hasErrorPanel":false}
+{"check":"TEACHER_PAGE_READ","page":"打卡审核","requestCount":0,"hasErrorPanel":false}
+{"check":"TEACHER_PAGE_READ","page":"内部成绩册","requestCount":0,"hasErrorPanel":false}
+{"check":"TEACHER_PAGE_READ","page":"免测与认证","requestCount":0,"hasErrorPanel":false}
+{"check":"TEACHER_PAGE_READ","page":"课程管理","requestCount":0,"hasErrorPanel":false}
+{"check":"TEACHER_NAVIGATION","result":"PASS","expectedUnconfiguredTargets":1}

@@ -1,0 +1,156 @@
+time="2026-09-09T13:30:28+08:00" level=warning msg="Found orphan containers (bnbu-v81-e2e-thirtyeighth-20260909, bnbu-v81-unsubmitted-session-first-20260909, bnbu-v81-e2e-thirtyseventh-20260909, bnbu-v81-electronic-closed-retest-20260909, bnbu-v81-electronic-closed-20260909, bnbu-v81-e2e-thirtysixth-20260909, bnbu-v81-ocr-closed-sixth-20260909, bnbu-v81-ocr-closed-fifth-20260909, bnbu-v81-ocr-closed-fourth-20260909, bnbu-v81-ocr-closed-third-20260909, bnbu-v81-ocr-closed-second-20260909, bnbu-v81-ocr-closed-first-20260909, bnbu-v81-e2e-thirtyfifth-20260909, bnbu-v81-e2e-thirtyfourth-20260909, bnbu-v81-e2e-thirtythird-20260909, bnbu-v81-e2e-thirtysecond-20260909, bnbu-v81-e2e-thirtyfirst-20260909, bnbu-v81-e2e-thirtieth-20260909, bnbu-v81-e2e-twentyninth-20260909, bnbu-v81-e2e-twentyeighth-20260909, bnbu-v81-e2e-twentyseventh-20260909, bnbu-v81-e2e-twentysixth-20260909, bnbu-v81-e2e-twentyfifth-20260909, bnbu-v81-e2e-twentyfourth-20260909, bnbu-v81-e2e-twentythird-20260909, bnbu-v81-e2e-twentysecond-20260909, bnbu-v81-e2e-twentyfirst-20260909, bnbu-v81-e2e-twentieth-20260909, bnbu-v81-e2e-nineteenth-20260909, bnbu-v81-e2e-eighteenth-20260909, bnbu-v81-e2e-seventeenth-20260909, bnbu-v81-e2e-sixteenth-20260908, bnbu-v81-e2e-fifteenth-20260908, bnbu-v81-e2e-fourteenth-20260908, bnbu-v81-e2e-thirteenth-20260908, bnbu-v81-e2e-twelfth-20260908, bnbu-v81-e2e-eleventh-20260908, bnbu-v81-e2e-tenth-20260908, bnbu-v81-e2e-ninth-20260908, bnbu-v81-e2e-eighth-20260908, bnbu-v81-e2e-seventh-20260908, bnbu-v81-e2e-sixth-20260908, bnbu-v81-e2e-fifth-20260908, bnbu-v81-e2e-report-20260908) for this project. If you removed or renamed this service in your compose file, you can run this command with the --remove-orphans flag to clean it up."
+ Image bnbu-v81-full-integration-integration-tests Building 
+#1 [internal] load local bake definitions
+#1 reading from stdin 644B 0.0s done
+#1 DONE 0.0s
+
+#2 [internal] load build definition from Dockerfile.v81-test
+#2 transferring dockerfile: 828B done
+#2 DONE 0.0s
+
+#3 [auth] library/node:pull token for registry-1.docker.io
+#3 DONE 0.0s
+
+#4 [internal] load metadata for docker.io/library/node:24.18.0-bookworm-slim
+#4 DONE 1.6s
+
+#5 [internal] load .dockerignore
+#5 transferring context: 153B done
+#5 DONE 0.0s
+
+#6 [ 1/11] FROM docker.io/library/node:24.18.0-bookworm-slim@sha256:6f7b03f7c2c8e2e784dcf9295400527b9b1270fd37b7e9a7285cf83b6951452d
+#6 resolve docker.io/library/node:24.18.0-bookworm-slim@sha256:6f7b03f7c2c8e2e784dcf9295400527b9b1270fd37b7e9a7285cf83b6951452d 0.0s done
+#6 DONE 0.0s
+
+#7 [internal] load build context
+#7 transferring context: 165.85kB 0.1s done
+#7 DONE 0.1s
+
+#8 [ 2/11] RUN apt-get update && apt-get install -y --no-install-recommends openssl ca-certificates && rm -rf /var/lib/apt/lists/*
+#8 CACHED
+
+#9 [ 3/11] WORKDIR /workspace/backend
+#9 CACHED
+
+#10 [ 4/11] COPY backend/package.json backend/package-lock.json ./
+#10 CACHED
+
+#11 [ 5/11] RUN npm ci --ignore-scripts --no-audit --no-fund
+#11 CACHED
+
+#12 [ 6/11] COPY backend/ ./
+#12 DONE 0.3s
+
+#13 [ 7/11] COPY docs/backend-contracts/ /workspace/docs/backend-contracts/
+#13 DONE 0.2s
+
+#14 [ 8/11] COPY tools/ /workspace/tools/
+#14 DONE 0.1s
+
+#15 [ 9/11] COPY BNBU-Sports-Web-new/frontend/student/ /workspace/BNBU-Sports-Web-new/frontend/student/
+#15 DONE 0.1s
+
+#16 [10/11] COPY BNBU-Sports-Web-new/portal-teacher-admin/app/ /workspace/BNBU-Sports-Web-new/portal-teacher-admin/app/
+#16 DONE 0.1s
+
+#17 [11/11] RUN npm run db:generate
+#17 0.367 
+#17 0.367 > @bnbu/sports-backend@0.1.0 db:generate
+#17 0.367 > prisma generate
+#17 0.367 
+#17 1.033 Loaded Prisma config from prisma.config.ts.
+#17 1.033 
+#17 3.024 Prisma schema loaded from prisma/schema.prisma.
+#17 4.683 
+#17 4.683 ✔ Generated Prisma Client (7.9.1) to ./src/generated/prisma in 1.09s
+#17 4.683 
+#17 DONE 4.9s
+
+#18 exporting to image
+#18 exporting layers
+#18 exporting layers 1.9s done
+#18 exporting manifest sha256:cac9c7e3448e0d07c30eb5a68b0d64074c275f699701102f6277a1982b70c7c6 0.0s done
+#18 exporting config sha256:4b0cbe7cc5de9053235bd0b969b299650c97c46c25262d1fcc17582e09eb6182 0.0s done
+#18 exporting attestation manifest sha256:44e7e66858a0fb408d94046091b704a7285753929dafdfe532aea52a72447de4 0.0s done
+#18 exporting manifest list sha256:dd97ac6828912d905999e080995dbe7f799915c1571e6a7208dfa4610f58c762
+#18 exporting manifest list sha256:dd97ac6828912d905999e080995dbe7f799915c1571e6a7208dfa4610f58c762 0.0s done
+#18 naming to docker.io/library/bnbu-v81-full-integration-integration-tests:latest done
+#18 unpacking to docker.io/library/bnbu-v81-full-integration-integration-tests:latest
+#18 unpacking to docker.io/library/bnbu-v81-full-integration-integration-tests:latest 0.8s done
+#18 DONE 2.9s
+
+#19 resolving provenance for metadata file
+#19 DONE 0.0s
+ Image bnbu-v81-full-integration-integration-tests Built 
+ Container bnbu-v81-admin-recovery-20260909 Creating 
+ Container bnbu-v81-admin-recovery-20260909 Created 
+
+> @bnbu/sports-backend@0.1.0 prebuild
+> npm run db:generate && npm run generate
+
+
+> @bnbu/sports-backend@0.1.0 db:generate
+> prisma generate
+
+Loaded Prisma config from prisma.config.ts.
+
+Prisma schema loaded from prisma/schema.prisma.
+
+✔ Generated Prisma Client (7.9.1) to ./src/generated/prisma in 951ms
+
+┌─────────────────────────────────────────────────────────┐
+│  Update available 7.9.1 -> 8.0.0-rc.13                  │
+│                                                         │
+│  This is a major update - please follow the guide at    │
+│  https://pris.ly/d/major-version-upgrade                │
+│                                                         │
+│  Run the following to update                            │
+│    npm i --save-dev prisma@latest                       │
+│    npm i @prisma/client@latest                          │
+└─────────────────────────────────────────────────────────┘
+
+> @bnbu/sports-backend@0.1.0 generate
+> npm run openapi:generate && npm run db:manifest:generate
+
+
+> @bnbu/sports-backend@0.1.0 openapi:generate
+> node ./scripts/generate-openapi.mjs
+
+Generated 3 OpenAPI artifacts from 253 operations.
+
+> @bnbu/sports-backend@0.1.0 db:manifest:generate
+> node ./scripts/generate-migration-manifest.mjs
+
+Generated migration manifest updated.
+
+> @bnbu/sports-backend@0.1.0 build
+> nest build
+
+
+> @bnbu/sports-backend@0.1.0 typecheck
+> tsc --noEmit -p tsconfig.json
+
+▶ Stage 21 client capabilities with real PostgreSQL
+  ✔ keeps student account deletion deferred with no challenge or account mutation (712.157715ms)
+  ✔ accepts an organization-scoped student challenge without exposing its code and keeps an empty release policy fail-closed (390.512072ms)
+  ✔ rejects PHONE without creating a challenge and activates a pending student through first email binding (492.364783ms)
+  ✔ requires both current and new mailbox codes for email rebinding (462.185136ms)
+  ✔ uses the numeric iOS build number for enforcement and keeps marketing version display-only (336.069418ms)
+  ✔ establishes a student OTP session and completes the private exemption-media review flow (698.98489ms)
+  ✔ completes TEACHER recovery and revokes every prior session (650.006493ms)
+  ✔ completes ADMIN recovery and revokes every prior session (605.528952ms)
+  ✔ lists and marks only the authenticated user notification with durable evidence (462.78324ms)
+  ✔ accepts only authenticated bounded client diagnostics with durable replay and no free-form metadata (772.627888ms)
+  ✔ marks 24 distinct notifications concurrently with one durable event per notification (1422.097902ms)
+  ✔ registers and revokes an IOS push token without exposing plaintext or ciphertext (545.587065ms)
+  ✔ persists preferences and feedback while exposing only published help content (495.071857ms)
+  ✔ keeps all location and conversion capabilities explicitly fail-closed (689.933159ms)
+✔ Stage 21 client capabilities with real PostgreSQL (10342.381115ms)
+ℹ tests 14
+ℹ suites 1
+ℹ pass 14
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 10992.002365

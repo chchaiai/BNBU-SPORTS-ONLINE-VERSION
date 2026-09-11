@@ -1,0 +1,4 @@
+using existing open course; creation gap remains
+stage STUDENT_JOIN
+stage INITIAL_EMAIL
+{"result":"FAIL","stage":"TEACHER_READBACK","message":"locator.click: Error: strict mode violation: getByRole('button', { name: '关闭', exact: true }) resolved to 2 elements:\n    1) <button type=\"button\" aria-label=\"关闭\" class=\"icon-button\" data-originalaria-label=\"关闭\">×</button> aka getByLabel('关闭')\n    2) <button type=\"button\" class=\"secondary-button\">关闭</button> aka getByText('关闭', { exact: true })\n\nCall log:\n\u001b[2m  - waiting for getByRole('button', { name: '关闭', exact: true })\u001b[22m\n"}

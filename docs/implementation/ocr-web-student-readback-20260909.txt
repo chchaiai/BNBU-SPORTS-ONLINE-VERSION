@@ -1,0 +1,20 @@
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: /enrollments/01a084b8-af7e-7086-b25c-af0ec89b75ca/physical-results?limit=20: 403
+
+false !== true
+
+    at api (file:///workspace/tools/local-integration/verify-v81-ocr-web.mjs:3:291)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async file:///workspace/tools/local-integration/verify-v81-ocr-web.mjs:5:870 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: false,
+  expected: true,
+  operator: 'strictEqual',
+  diff: 'simple'
+}
+
+Node.js v24.18.0

@@ -1,0 +1,1 @@
+{"check":"NONEMPTY_SEMESTER_WEB_SWITCH","result":"PASS","unsettledGate":false,"settledCourses":1,"lostResponseReplay":false,"uniqueCurrent":true,"archivedTeacherReadback":true,"oldReportUnchanged":true}

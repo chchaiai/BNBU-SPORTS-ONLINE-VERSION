@@ -1,0 +1,44 @@
+time="2026-09-08T16:37:06+08:00" level=warning msg="Found orphan containers (bnbu-v81-local-validation-backend-browser-1) for this project. If you removed or renamed this service in your compose file, you can run this command with the --remove-orphans flag to clean it up."
+ Container bnbu-v81-local-validation-portal-tests-run-2067a86dab5b Creating 
+ Container bnbu-v81-local-validation-portal-tests-run-2067a86dab5b Created 
+
+> bnbu-pe-management-portal@0.1.0 test:v81
+> node --import tsx --test tests/v81-physical-projection.test.mjs tests/v81-review-projection.test.mjs tests/roster-original-upload.test.mjs tests/roster-row-limit.test.mjs tests/admin-course-directory.test.mjs
+
+✔ directory uses server distinct totals and excludes removed-member credit from current-member display (33.432387ms)
+Codepage tables are not loaded.  Non-ASCII characters may not give expected results
+Codepage tables are not loaded.  Non-ASCII characters may not give expected results
+✔ a replaced reconciliation result rejects confirmation instead of silently reporting success (18.699292ms)
+Codepage tables are not loaded.  Non-ASCII characters may not give expected results
+Codepage tables are not loaded.  Non-ASCII characters may not give expected results
+Codepage tables are not loaded.  Non-ASCII characters may not give expected results
+Codepage tables are not loaded.  Non-ASCII characters may not give expected results
+Codepage tables are not loaded.  Non-ASCII characters may not give expected results
+Codepage tables are not loaded.  Non-ASCII characters may not give expected results
+✔ original CSV and XLSX bytes reach multipart and confirmation retries reuse the uploaded source (38.544096ms)
+Codepage tables are not loaded.  Non-ASCII characters may not give expected results
+Codepage tables are not loaded.  Non-ASCII characters may not give expected results
+Codepage tables are not loaded.  Non-ASCII characters may not give expected results
+Codepage tables are not loaded.  Non-ASCII characters may not give expected results
+Codepage tables are not loaded.  Non-ASCII characters may not give expected results
+Codepage tables are not loaded.  Non-ASCII characters may not give expected results
+Codepage tables are not loaded.  Non-ASCII characters may not give expected results
+Codepage tables are not loaded.  Non-ASCII characters may not give expected results
+Codepage tables are not loaded.  Non-ASCII characters may not give expected results
+Codepage tables are not loaded.  Non-ASCII characters may not give expected results
+✔ file metadata accepts exactly 100 MiB and rejects one byte more before decoding (7.041801ms)
+✔ csv preview enforces the business limit of 500 personnel rows (17.3763ms)
+✔ xlsx preview enforces the business limit of 500 personnel rows (42.267064ms)
+✔ teacher raw time projection preserves the source version without reusing a legacy aggregate score (0.779409ms)
+✔ approved exemption suppresses historical time and absent raw data is not recorded (0.110011ms)
+✔ manual review lifecycle stays visible and only awarded valid minutes contribute (1.006736ms)
+✔ technical processing and valid but uncredited records are distinct from invalid results (0.305758ms)
+✔ public category and supplemental explanation both survive invalid projection (0.193241ms)
+ℹ tests 11
+ℹ suites 0
+ℹ pass 11
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 358.316668

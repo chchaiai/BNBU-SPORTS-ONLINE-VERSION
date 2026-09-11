@@ -1,0 +1,12 @@
+{"check":"STUDENT_BROWSER_SMTP_LOGIN","result":"PASS"}
+node:internal/process/promises:394
+    triggerUncaughtException(err, true /* fromPromise */);
+    ^
+
+page.waitForResponse: Timeout 30000ms exceeded while waiting for event "response"
+    at C:\Users\23328\Desktop\new_version\tools\local-integration\v81-student-help-browser-probe.mjs:38:30 {
+  log: [],
+  name: 'TimeoutError'
+}
+
+Node.js v24.13.1

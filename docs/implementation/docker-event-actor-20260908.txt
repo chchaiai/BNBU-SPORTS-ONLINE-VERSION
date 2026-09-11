@@ -1,0 +1,169 @@
+ Container bnbu-v81-local-validation-media-minio-1 Starting 
+ Container bnbu-v81-local-validation-sql-postgres-1 Starting 
+ Container bnbu-v81-local-validation-mailpit-1 Starting 
+ Container bnbu-v81-local-validation-mailpit-1 Started 
+ Container bnbu-v81-local-validation-sql-postgres-1 Started 
+ Container bnbu-v81-local-validation-media-minio-1 Started 
+ Image bnbu-v81-local-validation-backend-startup Building 
+#1 [internal] load local bake definitions
+#1 reading from stdin 636B 0.0s done
+#1 DONE 0.0s
+
+#2 [internal] load build definition from Dockerfile.v81-test
+#2 DONE 0.0s
+
+#2 [internal] load build definition from Dockerfile.v81-test
+#2 transferring dockerfile: 828B done
+#2 DONE 0.0s
+
+#3 [internal] load metadata for docker.io/library/node:24.18.0-bookworm-slim
+#3 ...
+
+#4 [auth] library/node:pull token for registry-1.docker.io
+#4 DONE 0.0s
+
+#3 [internal] load metadata for docker.io/library/node:24.18.0-bookworm-slim
+#3 DONE 1.8s
+
+#5 [internal] load .dockerignore
+#5 transferring context: 153B done
+#5 DONE 0.0s
+
+#6 [ 1/11] FROM docker.io/library/node:24.18.0-bookworm-slim@sha256:6f7b03f7c2c8e2e784dcf9295400527b9b1270fd37b7e9a7285cf83b6951452d
+#6 resolve docker.io/library/node:24.18.0-bookworm-slim@sha256:6f7b03f7c2c8e2e784dcf9295400527b9b1270fd37b7e9a7285cf83b6951452d 0.0s done
+#6 DONE 0.0s
+
+#7 [internal] load build context
+#7 transferring context: 331.27kB 0.1s done
+#7 DONE 0.1s
+
+#8 [ 3/11] WORKDIR /workspace/backend
+#8 CACHED
+
+#9 [ 4/11] COPY backend/package.json backend/package-lock.json ./
+#9 CACHED
+
+#10 [ 2/11] RUN apt-get update && apt-get install -y --no-install-recommends openssl ca-certificates && rm -rf /var/lib/apt/lists/*
+#10 CACHED
+
+#11 [ 5/11] RUN npm ci --ignore-scripts --no-audit --no-fund
+#11 CACHED
+
+#12 [ 6/11] COPY backend/ ./
+#12 DONE 0.4s
+
+#13 [ 7/11] COPY docs/backend-contracts/ /workspace/docs/backend-contracts/
+#13 DONE 0.2s
+
+#14 [ 8/11] COPY tools/ /workspace/tools/
+#14 DONE 0.1s
+
+#15 [ 9/11] COPY BNBU-Sports-Web-new/frontend/student/ /workspace/BNBU-Sports-Web-new/frontend/student/
+#15 DONE 0.1s
+
+#16 [10/11] COPY BNBU-Sports-Web-new/portal-teacher-admin/app/ /workspace/BNBU-Sports-Web-new/portal-teacher-admin/app/
+#16 DONE 0.1s
+
+#17 [11/11] RUN npm run db:generate
+#17 0.545 
+#17 0.545 > @bnbu/sports-backend@0.1.0 db:generate
+#17 0.545 > prisma generate
+#17 0.545 
+#17 1.413 Loaded Prisma config from prisma.config.ts.
+#17 1.413 
+#17 3.171 Prisma schema loaded from prisma/schema.prisma.
+#17 4.558 
+#17 4.558 ✔ Generated Prisma Client (7.9.1) to ./src/generated/prisma in 835ms
+#17 4.558 
+#17 DONE 4.7s
+
+#18 exporting to image
+#18 exporting layers
+#18 exporting layers 1.7s done
+#18 exporting manifest sha256:5c149f4ece381d59d3a3701ae349baf5ab439449bd6fc2c79c1c32bd5612a194 0.0s done
+#18 exporting config sha256:aebe96ce5dc787a423e0a755e0af44eb590c0e54ace3a32267a6844077459e9f 0.0s done
+#18 exporting attestation manifest sha256:726012e3348bd592f93dc886bfae87e6d6ddd4e65a220dec0bb6ba0a5794b8cc 0.0s done
+#18 exporting manifest list sha256:3043f7b2b3d3e5a77b9786bcfc7a3c24e94ceb4de0f7c1f3ed675c38b6e92bdc
+#18 exporting manifest list sha256:3043f7b2b3d3e5a77b9786bcfc7a3c24e94ceb4de0f7c1f3ed675c38b6e92bdc 0.0s done
+#18 naming to docker.io/library/bnbu-v81-local-validation-backend-startup:latest done
+#18 unpacking to docker.io/library/bnbu-v81-local-validation-backend-startup:latest
+#18 unpacking to docker.io/library/bnbu-v81-local-validation-backend-startup:latest 0.7s done
+#18 DONE 2.6s
+
+#19 resolving provenance for metadata file
+#19 DONE 0.0s
+ Image bnbu-v81-local-validation-backend-startup Built 
+ Container bnbu-v81-local-validation-sql-postgres-1 Waiting 
+ Container bnbu-v81-local-validation-mailpit-1 Waiting 
+ Container bnbu-v81-local-validation-media-minio-1 Waiting 
+ Container bnbu-v81-local-validation-sql-postgres-1 Healthy 
+ Container bnbu-v81-local-validation-mailpit-1 Healthy 
+ Container bnbu-v81-local-validation-media-minio-1 Healthy 
+ Container bnbu-v81-local-validation-backend-startup-run-78ae4c3dc536 Creating 
+ Container bnbu-v81-local-validation-backend-startup-run-78ae4c3dc536 Created 
+
+> @bnbu/sports-backend@0.1.0 prebuild
+> npm run db:generate && npm run generate
+
+
+> @bnbu/sports-backend@0.1.0 db:generate
+> prisma generate
+
+Loaded Prisma config from prisma.config.ts.
+
+Prisma schema loaded from prisma/schema.prisma.
+
+✔ Generated Prisma Client (7.9.1) to ./src/generated/prisma in 853ms
+
+┌─────────────────────────────────────────────────────────┐
+│  Update available 7.9.1 -> 8.0.0-rc.13                  │
+│                                                         │
+│  This is a major update - please follow the guide at    │
+│  https://pris.ly/d/major-version-upgrade                │
+│                                                         │
+│  Run the following to update                            │
+│    npm i --save-dev prisma@latest                       │
+│    npm i @prisma/client@latest                          │
+└─────────────────────────────────────────────────────────┘
+
+> @bnbu/sports-backend@0.1.0 generate
+> npm run openapi:generate && npm run db:manifest:generate
+
+
+> @bnbu/sports-backend@0.1.0 openapi:generate
+> node ./scripts/generate-openapi.mjs
+
+Generated 3 OpenAPI artifacts from 229 operations.
+
+> @bnbu/sports-backend@0.1.0 db:manifest:generate
+> node ./scripts/generate-migration-manifest.mjs
+
+Generated migration manifest updated.
+
+> @bnbu/sports-backend@0.1.0 build
+> nest build
+
+{"check":"LOCAL_OBJECT_STORAGE_ROUNDTRIP","result":"PASS"}
+Loaded Prisma config from prisma.config.ts.
+
+Prisma schema loaded from prisma/schema.prisma.
+Datasource "db": PostgreSQL database "v81_runtime_test", schema "public" at "sql-postgres:5432"
+
+50 migrations found in prisma/migrations
+
+Applying migration `0050_v81_event_actor_snapshot`
+
+The following migration(s) have been applied:
+
+migrations/
+  └─ 0050_v81_event_actor_snapshot/
+    └─ migration.sql
+
+All migrations have been successfully applied.
+{"live":200,"ready":200,"businessValidated":false}
+{"check":"LOGIN_AND_FIRST_PASSWORD_CHANGE","role":"ADMIN","result":"PASS"}
+{"check":"LOGIN_AND_FIRST_PASSWORD_CHANGE","role":"TEACHER","result":"PASS"}
+{"check":"LOGIN_AND_FIRST_PASSWORD_CHANGE","role":"OTHER_TEACHER","result":"PASS"}
+{"check":"LOGIN_AND_FIRST_PASSWORD_CHANGE","role":"OTHER_ORGANIZATION","result":"PASS"}
+{"check":"V81_EVENT_ACTOR_INSERT_SNAPSHOT_HTTP_IMMUTABILITY_UNKNOWN","result":"PASS","synthetic":true}
+Docker exit code: 0

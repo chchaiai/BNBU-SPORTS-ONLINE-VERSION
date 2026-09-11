@@ -1,0 +1,92 @@
+time="2026-09-08T16:27:04+08:00" level=warning msg="Found orphan containers (bnbu-v81-local-validation-backend-browser-1) for this project. If you removed or renamed this service in your compose file, you can run this command with the --remove-orphans flag to clean it up."
+ Image bnbu-v81-local-validation-portal-tests Building 
+#1 [internal] load local bake definitions
+#1 reading from stdin 631B 0.0s done
+#1 DONE 0.0s
+
+#2 [internal] load build definition from Dockerfile.v81-portal-test
+#2 transferring dockerfile: 611B done
+#2 DONE 0.0s
+
+#3 [internal] load metadata for docker.io/library/node:24.18.0-bookworm-slim
+#3 ...
+
+#4 [auth] library/node:pull token for registry-1.docker.io
+#4 DONE 0.0s
+
+#3 [internal] load metadata for docker.io/library/node:24.18.0-bookworm-slim
+#3 DONE 1.8s
+
+#5 [internal] load .dockerignore
+#5 transferring context: 153B done
+#5 DONE 0.0s
+
+#6 [1/8] FROM docker.io/library/node:24.18.0-bookworm-slim@sha256:6f7b03f7c2c8e2e784dcf9295400527b9b1270fd37b7e9a7285cf83b6951452d
+#6 resolve docker.io/library/node:24.18.0-bookworm-slim@sha256:6f7b03f7c2c8e2e784dcf9295400527b9b1270fd37b7e9a7285cf83b6951452d 0.0s done
+#6 DONE 0.0s
+
+#7 [internal] load build context
+#7 transferring context: 72.31MB 4.6s done
+#7 DONE 4.6s
+
+#8 [2/8] RUN apt-get update && apt-get install -y --no-install-recommends python-is-python3 python3-yaml && rm -rf /var/lib/apt/lists/*
+#8 CACHED
+
+#9 [3/8] WORKDIR /workspace/BNBU-Sports-Web-new/portal-teacher-admin
+#9 CACHED
+
+#10 [4/8] COPY BNBU-Sports-Web-new/portal-teacher-admin/package.json BNBU-Sports-Web-new/portal-teacher-admin/package-lock.json ./
+#10 DONE 0.2s
+
+#11 [5/8] RUN npm ci --no-audit --no-fund
+#11 28.74 
+#11 28.74 added 553 packages in 28s
+#11 28.74 npm warn allow-scripts 3 packages have install scripts not yet covered by allowScripts:
+#11 28.74 npm warn allow-scripts   esbuild@0.28.1 (postinstall: node install.js)
+#11 28.74 npm warn allow-scripts   unrs-resolver@1.11.1 (postinstall: napi-postinstall unrs-resolver 1.11.1 check)
+#11 28.74 npm warn allow-scripts   workerd@1.20260804.1 (postinstall: node install.js)
+#11 28.74 npm warn allow-scripts
+#11 28.74 npm warn allow-scripts Run `npm approve-scripts --allow-scripts-pending` to review, or `npm approve-scripts <pkg>` to allow.
+#11 28.74 npm notice
+#11 28.74 npm notice New major version of npm available! 11.16.0 -> 12.0.2
+#11 28.74 npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.0.2
+#11 28.74 npm notice To update run: npm install -g npm@12.0.2
+#11 28.74 npm notice
+#11 DONE 29.9s
+
+#12 [6/8] COPY BNBU-Sports-Web-new/portal-teacher-admin/ ./
+#12 DONE 0.5s
+
+#13 [7/8] COPY BNBU-Sports-Web-new/frontend/student/ ../frontend/student/
+#13 DONE 0.1s
+
+#14 [8/8] COPY contracts/ /workspace/contracts/
+#14 DONE 0.1s
+
+#15 exporting to image
+#15 exporting layers
+#15 exporting layers 27.1s done
+#15 exporting manifest sha256:735f6d9fc07783d82cff4f36a34379379bdcb44830cdc8dd68bd2c73c579c65b 0.0s done
+#15 exporting config sha256:2e76e15dd40fb90a0a460abc93767c3b2032ead0f6c4d284f3d40667d892ccca 0.0s done
+#15 exporting attestation manifest sha256:5ca614fd8d076cca7d8250f1dd9a436a10a2ee2169db1c4507b0d100590863bc 0.0s done
+#15 exporting manifest list sha256:33281c70821ff7ebdbeddafa4065ea7ac6d9043a675bde28df21889df0d8c6f4
+#15 exporting manifest list sha256:33281c70821ff7ebdbeddafa4065ea7ac6d9043a675bde28df21889df0d8c6f4 0.0s done
+#15 naming to docker.io/library/bnbu-v81-local-validation-portal-tests:latest done
+#15 unpacking to docker.io/library/bnbu-v81-local-validation-portal-tests:latest
+#15 unpacking to docker.io/library/bnbu-v81-local-validation-portal-tests:latest 11.1s done
+#15 DONE 38.4s
+
+#16 resolving provenance for metadata file
+#16 DONE 0.0s
+ Image bnbu-v81-local-validation-portal-tests Built 
+ Container bnbu-v81-local-validation-portal-tests-run-22a10aa27121 Creating 
+ Container bnbu-v81-local-validation-portal-tests-run-22a10aa27121 Created 
+✔ Help cache separates users and languages and ignores unscoped legacy data (1.328818ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 1
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 56.314451

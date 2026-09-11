@@ -1,0 +1,62 @@
+ Image bnbu-v81-local-validation-portal-tests Building 
+#1 [internal] load local bake definitions
+#1 reading from stdin 631B 0.0s done
+#1 DONE 0.0s
+
+#2 [internal] load build definition from Dockerfile.v81-portal-test
+#2 transferring dockerfile: 484B done
+#2 DONE 0.0s
+
+#3 [auth] library/node:pull token for registry-1.docker.io
+#3 DONE 0.0s
+
+#4 [internal] load metadata for docker.io/library/node:24.18.0-bookworm-slim
+#4 DONE 1.5s
+
+#5 [internal] load .dockerignore
+#5 transferring context: 153B done
+#5 DONE 0.0s
+
+#6 [1/7] FROM docker.io/library/node:24.18.0-bookworm-slim@sha256:6f7b03f7c2c8e2e784dcf9295400527b9b1270fd37b7e9a7285cf83b6951452d
+#6 resolve docker.io/library/node:24.18.0-bookworm-slim@sha256:6f7b03f7c2c8e2e784dcf9295400527b9b1270fd37b7e9a7285cf83b6951452d 0.0s done
+#6 DONE 0.1s
+
+#7 [internal] load build context
+#7 transferring context: 62.78MB 4.1s done
+#7 DONE 4.1s
+
+#8 [2/7] WORKDIR /workspace/BNBU-Sports-Web-new/portal-teacher-admin
+#8 CACHED
+
+#9 [3/7] COPY BNBU-Sports-Web-new/portal-teacher-admin/package.json BNBU-Sports-Web-new/portal-teacher-admin/package-lock.json ./
+#9 CACHED
+
+#10 [4/7] RUN npm ci --no-audit --no-fund
+#10 CACHED
+
+#11 [5/7] COPY BNBU-Sports-Web-new/portal-teacher-admin/ ./
+#11 DONE 0.2s
+
+#12 [6/7] COPY BNBU-Sports-Web-new/frontend/student/ ../frontend/student/
+#12 DONE 0.1s
+
+#13 [7/7] COPY contracts/ /workspace/contracts/
+#13 DONE 0.1s
+
+#14 exporting to image
+#14 exporting layers
+#14 exporting layers 0.7s done
+#14 exporting manifest sha256:dd1dc865641bb1ed421b0746dfaa5e70e8a06a692735589bd016486ab710c9df 0.0s done
+#14 exporting config sha256:da0aea7e299a10d2402b9025f7f1984348cff0b72fdfc8d76c9c9408102ca5e9 0.0s done
+#14 exporting attestation manifest sha256:cb3ce348c44f493294707b7d5a41bde48d0e5d82f165c2410c61409c9d771df7 0.0s done
+#14 exporting manifest list sha256:d3e02e546bd70b25ec7a0ec5ba615bc2758a7ba7545cd4a66a1da38caf1aab33
+#14 exporting manifest list sha256:d3e02e546bd70b25ec7a0ec5ba615bc2758a7ba7545cd4a66a1da38caf1aab33 0.0s done
+#14 naming to docker.io/library/bnbu-v81-local-validation-portal-tests:latest done
+#14 unpacking to docker.io/library/bnbu-v81-local-validation-portal-tests:latest
+#14 unpacking to docker.io/library/bnbu-v81-local-validation-portal-tests:latest 0.3s done
+#14 DONE 1.1s
+
+#15 resolving provenance for metadata file
+#15 DONE 0.0s
+ Image bnbu-v81-local-validation-portal-tests Built 
+Docker exit code: 0

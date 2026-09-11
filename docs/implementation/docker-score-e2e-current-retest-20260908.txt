@@ -1,0 +1,187 @@
+ Image bnbu-v81-full-integration-integration-tests Building 
+#1 [internal] load local bake definitions
+#1 reading from stdin 644B 0.0s done
+#1 DONE 0.0s
+
+#2 [internal] load build definition from Dockerfile.v81-test
+#2 transferring dockerfile: 828B done
+#2 DONE 0.0s
+
+#3 [auth] library/node:pull token for registry-1.docker.io
+#3 DONE 0.0s
+
+#4 [internal] load metadata for docker.io/library/node:24.18.0-bookworm-slim
+#4 DONE 1.5s
+
+#5 [internal] load .dockerignore
+#5 transferring context: 153B done
+#5 DONE 0.0s
+
+#6 [ 1/11] FROM docker.io/library/node:24.18.0-bookworm-slim@sha256:6f7b03f7c2c8e2e784dcf9295400527b9b1270fd37b7e9a7285cf83b6951452d
+#6 resolve docker.io/library/node:24.18.0-bookworm-slim@sha256:6f7b03f7c2c8e2e784dcf9295400527b9b1270fd37b7e9a7285cf83b6951452d 0.0s done
+#6 DONE 0.0s
+
+#7 [internal] load build context
+#7 transferring context: 118.60kB 0.1s done
+#7 DONE 0.1s
+
+#8 [ 3/11] WORKDIR /workspace/backend
+#8 CACHED
+
+#9 [ 4/11] COPY backend/package.json backend/package-lock.json ./
+#9 CACHED
+
+#10 [ 2/11] RUN apt-get update && apt-get install -y --no-install-recommends openssl ca-certificates && rm -rf /var/lib/apt/lists/*
+#10 CACHED
+
+#11 [ 5/11] RUN npm ci --ignore-scripts --no-audit --no-fund
+#11 CACHED
+
+#12 [ 6/11] COPY backend/ ./
+#12 DONE 0.3s
+
+#13 [ 7/11] COPY docs/backend-contracts/ /workspace/docs/backend-contracts/
+#13 DONE 0.2s
+
+#14 [ 8/11] COPY tools/ /workspace/tools/
+#14 DONE 0.1s
+
+#15 [ 9/11] COPY BNBU-Sports-Web-new/frontend/student/ /workspace/BNBU-Sports-Web-new/frontend/student/
+#15 DONE 0.1s
+
+#16 [10/11] COPY BNBU-Sports-Web-new/portal-teacher-admin/app/ /workspace/BNBU-Sports-Web-new/portal-teacher-admin/app/
+#16 DONE 0.1s
+
+#17 [11/11] RUN npm run db:generate
+#17 0.347 
+#17 0.347 > @bnbu/sports-backend@0.1.0 db:generate
+#17 0.347 > prisma generate
+#17 0.347 
+#17 0.983 Loaded Prisma config from prisma.config.ts.
+#17 0.983 
+#17 2.676 Prisma schema loaded from prisma/schema.prisma.
+#17 4.164 
+#17 4.164 ✔ Generated Prisma Client (7.9.1) to ./src/generated/prisma in 913ms
+#17 4.164 
+#17 DONE 4.3s
+
+#18 exporting to image
+#18 exporting layers
+#18 exporting layers 1.8s done
+#18 exporting manifest sha256:65dfc730694c179fda58aad3e39fb10f3767ed617a95610701b616cb3bb0ed71 0.0s done
+#18 exporting config sha256:5206fd775891ce591ca4ce0bb35b09f3fb1a642431db52bb12ccd2f10996ad42 0.0s done
+#18 exporting attestation manifest sha256:e1e4ec2104e1a89614de757a55bf809d96565ef31c4622eec8a1c052e4a9edd4 0.0s done
+#18 exporting manifest list sha256:718535e0fe50734cbb018d065513593d5e6dd433e1c82f9b132c55f89ad42033
+#18 exporting manifest list sha256:718535e0fe50734cbb018d065513593d5e6dd433e1c82f9b132c55f89ad42033 0.0s done
+#18 naming to docker.io/library/bnbu-v81-full-integration-integration-tests:latest done
+#18 unpacking to docker.io/library/bnbu-v81-full-integration-integration-tests:latest
+#18 unpacking to docker.io/library/bnbu-v81-full-integration-integration-tests:latest 0.8s done
+#18 DONE 2.8s
+
+#19 resolving provenance for metadata file
+#19 DONE 0.0s
+ Image bnbu-v81-full-integration-integration-tests Built 
+ Container bnbu-v81-full-integration-integration-tests-run-d02a8bcfb3e1 Creating 
+ Container bnbu-v81-full-integration-integration-tests-run-d02a8bcfb3e1 Created 
+
+> @bnbu/sports-backend@0.1.0 prebuild
+> npm run db:generate && npm run generate
+
+
+> @bnbu/sports-backend@0.1.0 db:generate
+> prisma generate
+
+Loaded Prisma config from prisma.config.ts.
+
+Prisma schema loaded from prisma/schema.prisma.
+
+┌─────────────────────────────────────────────────────────┐
+│  Update available 7.9.1 -> 8.0.0-rc.13                  │
+│                                                         │
+│  This is a major update - please follow the guide at    │
+│  https://pris.ly/d/major-version-upgrade                │
+│                                                         │
+✔ Generated Prisma Client (7.9.1) to ./src/generated/prisma in 925ms
+
+│  Run the following to update                            │
+│    npm i --save-dev prisma@latest                       │
+│    npm i @prisma/client@latest                          │
+└─────────────────────────────────────────────────────────┘
+
+> @bnbu/sports-backend@0.1.0 generate
+> npm run openapi:generate && npm run db:manifest:generate
+
+
+> @bnbu/sports-backend@0.1.0 openapi:generate
+> node ./scripts/generate-openapi.mjs
+
+Generated 3 OpenAPI artifacts from 249 operations.
+
+> @bnbu/sports-backend@0.1.0 db:manifest:generate
+> node ./scripts/generate-migration-manifest.mjs
+
+Generated migration manifest updated.
+
+> @bnbu/sports-backend@0.1.0 build
+> nest build
+
+▶ Current internal final grade HTTP E2E
+  ✖ preserves teacher draft and publication history with replay and student privacy (668.427752ms)
+  ✖ serializes competing revisions and rejects stale writes, notes and unauthorized actors (409.067721ms)
+  ✔ denies obsolete administrator score governance without creating score rules (555.711474ms)
+✖ Current internal final grade HTTP E2E (2485.741995ms)
+ℹ tests 3
+ℹ suites 1
+ℹ pass 1
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 3267.448308
+
+✖ failing tests:
+
+test at test/e2e/score.e2e.test.ts:1:5504
+✖ preserves teacher draft and publication history with replay and student privacy (668.427752ms)
+  PrismaClientKnownRequestError: 
+  Invalid `transaction.studentProfile.create()` invocation in
+  /workspace/backend/test/helpers/exercise-session.ts:57:38
+  
+    54     updatedAt: now,
+    55   },
+    56 });
+  → 57 await transaction.studentProfile.create(
+  The provided value for the column is too long for the column's type. Column: (not available)
+      at Jr.handleRequestError (/workspace/backend/node_modules/@prisma/client/src/runtime/RequestHandler.ts:237:13)
+      at Jr.handleAndLogRequestError (/workspace/backend/node_modules/@prisma/client/src/runtime/RequestHandler.ts:183:12)
+      at Jr.request (/workspace/backend/node_modules/@prisma/client/src/runtime/RequestHandler.ts:152:12)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async a (/workspace/backend/node_modules/@prisma/client/src/runtime/getPrismaClient.ts:1014:24)
+      at async <anonymous> (/workspace/backend/test/helpers/exercise-session.ts:57:5)
+      at async Proxy._transactionWithCallback (/workspace/backend/node_modules/@prisma/client/src/runtime/getPrismaClient.ts:861:18)
+      at async seedExerciseSessionStudent (/workspace/backend/test/helpers/exercise-session.ts:30:3)
+      at async seedSubmittedExerciseRecord (/workspace/backend/test/helpers/exercise-review.ts:20:19)
+      at async TestContext.<anonymous> (/workspace/backend/test/e2e/score.e2e.test.ts:187:20)
+
+test at test/e2e/score.e2e.test.ts:1:7109
+✖ serializes competing revisions and rejects stale writes, notes and unauthorized actors (409.067721ms)
+  PrismaClientKnownRequestError: 
+  Invalid `transaction.studentProfile.create()` invocation in
+  /workspace/backend/test/helpers/exercise-session.ts:57:38
+  
+    54     updatedAt: now,
+    55   },
+    56 });
+  → 57 await transaction.studentProfile.create(
+  The provided value for the column is too long for the column's type. Column: (not available)
+      at Jr.handleRequestError (/workspace/backend/node_modules/@prisma/client/src/runtime/RequestHandler.ts:237:13)
+      at Jr.handleAndLogRequestError (/workspace/backend/node_modules/@prisma/client/src/runtime/RequestHandler.ts:183:12)
+      at Jr.request (/workspace/backend/node_modules/@prisma/client/src/runtime/RequestHandler.ts:152:12)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async a (/workspace/backend/node_modules/@prisma/client/src/runtime/getPrismaClient.ts:1014:24)
+      at async <anonymous> (/workspace/backend/test/helpers/exercise-session.ts:57:5)
+      at async Proxy._transactionWithCallback (/workspace/backend/node_modules/@prisma/client/src/runtime/getPrismaClient.ts:861:18)
+      at async seedExerciseSessionStudent (/workspace/backend/test/helpers/exercise-session.ts:30:3)
+      at async seedSubmittedExerciseRecord (/workspace/backend/test/helpers/exercise-review.ts:20:19)
+      at async TestContext.<anonymous> (/workspace/backend/test/e2e/score.e2e.test.ts:215:20)
+

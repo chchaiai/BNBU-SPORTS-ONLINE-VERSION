@@ -1,0 +1,1 @@
+{"check":"CLOSED_APPLICATIONS_STUDENT","result":"PASS","approvedOwnApplications":1,"revokedOwnApplications":1,"revokedProgressZero":true,"newApplicationDenied":409}

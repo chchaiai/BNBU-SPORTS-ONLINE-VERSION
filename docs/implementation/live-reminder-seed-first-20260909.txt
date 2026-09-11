@@ -1,0 +1,1 @@
+{"check":"LIVE_REMINDER_WORKER_BROWSER_FIXTURE","result":"PASS","syntheticSchedule":true,"notificationsInsertedByHarness":false,"actualSystemEvents":2,"recipientCount":2,"rescanNoDuplicates":true}

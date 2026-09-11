@@ -1,0 +1,3 @@
+{"check":"STUDENT_BROWSER_SMTP_LOGIN","result":"PASS"}
+{"check":"STUDENT_HOME_CONTENT","hasCourse":true,"hasProgress":true,"hasLoginForm":false}
+{"check":"STUDENT_EMAIL_CHANGE","result":"FAIL","stage":"VERIFY_LOGIN","type":"TimeoutError","failedRequests":[]}

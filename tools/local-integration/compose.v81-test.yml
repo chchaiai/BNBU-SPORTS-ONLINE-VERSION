@@ -1,0 +1,94 @@
+name: bnbu-v81-local-validation
+services:
+  mailpit:
+    image: axllent/mailpit:v1.30.0
+    networks: [sql-probe]
+    healthcheck:
+      test: [CMD, /mailpit, readyz]
+      interval: 3s
+      timeout: 3s
+      retries: 20
+  media-minio:
+    image: minio/minio:RELEASE.2025-09-07T16-13-09Z-cpuv1
+    command: server /data
+    environment:
+      MINIO_ROOT_USER: v81-local-media
+      MINIO_ROOT_PASSWORD: ${V81_SQL_PROBE_PASSWORD:?Initialize the ignored local probe environment}
+    networks: [sql-probe]
+    volumes: [v81_media_data:/data]
+    healthcheck:
+      test: [CMD, curl, -f, http://127.0.0.1:9000/minio/health/live]
+      interval: 3s
+      timeout: 3s
+      retries: 20
+  backend-startup:
+    build:
+      context: ../..
+      dockerfile: tools/local-integration/Dockerfile.v81-test
+    command: [sh, -ec, 'npm run build && node --import tsx /workspace/tools/local-integration/run-v81-startup-probe.mjs']
+    environment:
+      PGUSER: v81_probe
+      PGPASSWORD: ${V81_SQL_PROBE_PASSWORD:?Initialize the ignored local probe environment}
+    networks: [sql-probe]
+    depends_on:
+      mailpit:
+        condition: service_healthy
+      media-minio:
+        condition: service_healthy
+      sql-postgres:
+        condition: service_healthy
+  backend-build:
+    build:
+      context: ../..
+      dockerfile: tools/local-integration/Dockerfile.v81-test
+    network_mode: none
+    command: [npm, run, build]
+  portal-tests:
+    build:
+      context: ../..
+      dockerfile: tools/local-integration/Dockerfile.v81-portal-test
+    network_mode: none
+  domain-tests:
+    build:
+      context: ../..
+      dockerfile: tools/local-integration/Dockerfile.v81-test
+    network_mode: none
+    read_only: true
+    tmpfs:
+      - /tmp
+  sql-postgres:
+    image: postgres:18.4-alpine3.24
+    environment:
+      POSTGRES_DB: v81_sql_probe
+      POSTGRES_USER: v81_probe
+      POSTGRES_PASSWORD: ${V81_SQL_PROBE_PASSWORD:?Initialize the ignored local probe environment}
+    networks: [sql-probe]
+    volumes:
+      - sql_probe_data:/var/lib/postgresql
+    healthcheck:
+      test: [CMD-SHELL, "pg_isready -U v81_probe -d v81_sql_probe"]
+      interval: 3s
+      timeout: 3s
+      retries: 20
+  sql-tests:
+    build:
+      context: ../..
+      dockerfile: tools/local-integration/Dockerfile.v81-test
+    command: [node, /workspace/tools/local-integration/run-v81-sql-probe.mjs]
+    environment:
+      PGHOST: sql-postgres
+      PGDATABASE: v81_sql_probe
+      PGUSER: v81_probe
+      PGPASSWORD: ${V81_SQL_PROBE_PASSWORD:?Initialize the ignored local probe environment}
+    networks: [sql-probe]
+    depends_on:
+      sql-postgres:
+        condition: service_healthy
+    read_only: true
+    tmpfs: [/tmp]
+networks:
+  sql-probe:
+    internal: true
+volumes:
+  v81_media_data:
+  sql_probe_data:

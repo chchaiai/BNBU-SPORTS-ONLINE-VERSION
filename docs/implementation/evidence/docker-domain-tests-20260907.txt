@@ -1,0 +1,16 @@
+ Container bnbu-v81-local-validation-domain-tests-run-d491bb7a902e Creating 
+ Container bnbu-v81-local-validation-domain-tests-run-d491bb7a902e Created 
+✔ V8.1 records preserve actual minutes and credit only whole minutes above the threshold (0.541048ms)
+✔ V8.1 category caps require a joint choice instead of choosing the earliest daily record (7.516902ms)
+✔ V8.1 dynamic selection agrees with an independent exhaustive subset oracle (16.435689ms)
+✔ V8.1 equal totals retain the previously credited combination (0.204643ms)
+✔ Supplement interruption compensation uses the union and cannot resurrect prior expiry (0.34969ms)
+✔ Review reasons and one-time supplement restrictions cannot be bypassed (0.228829ms)
+ℹ tests 6
+ℹ suites 0
+ℹ pass 6
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 200.009114

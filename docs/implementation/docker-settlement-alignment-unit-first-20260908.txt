@@ -1,0 +1,48 @@
+time="2026-09-08T13:52:59+08:00" level=warning msg="Found orphan containers (bnbu-v81-local-validation-backend-browser-1) for this project. If you removed or renamed this service in your compose file, you can run this command with the --remove-orphans flag to clean it up."
+ Container bnbu-v81-local-validation-backend-startup-run-2a7f9db344ec Creating 
+ Container bnbu-v81-local-validation-backend-startup-run-2a7f9db344ec Created 
+▶ Stage 13 alignment run lifecycle
+  ✖ freezes a RUNNING revision before computation and persists FAILED plus outbox on a domain failure (2.508687ms)
+  ✔ maps a non-retried serializable snapshot race to the stable stale-snapshot error (0.250073ms)
+  ✔ projects exactly the public run contract and drops internal snapshot scope and failure details (0.606387ms)
+✖ Stage 13 alignment run lifecycle (3.979499ms)
+ℹ tests 3
+ℹ suites 1
+ℹ pass 2
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 645.487301
+
+✖ failing tests:
+
+test at test/unit/roster-alignment-service.test.ts:1:802
+✖ freezes a RUNNING revision before computation and persists FAILED plus outbox on a domain failure (2.508687ms)
+  AssertionError [ERR_ASSERTION]: The validation function is expected to return "true". Received false
+  
+  Caught error:
+  
+  ApplicationError: The requested resource state transition is not allowed.
+      at async TestContext.<anonymous> (/workspace/backend/test/unit/roster-alignment-service.test.ts:119:5)
+      at async Test.run (node:internal/test_runner/test:1332:7)
+      at async Promise.all (index 0)
+      at async Suite.run (node:internal/test_runner/test:1794:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:385:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: ApplicationError: The requested resource state transition is not allowed.
+        at requireUnsettledCourse (/workspace/backend/src/modules/v8/v81-settlement-write-guard.ts:9:29)
+        at async <anonymous> (/workspace/backend/src/modules/roster/application/roster-alignment.service.ts:112:11)
+        at async Object.execute (/workspace/backend/test/unit/roster-alignment-service.test.ts:89:25)
+        at async RosterAlignmentService.align (/workspace/backend/src/modules/roster/application/roster-alignment.service.ts:69:14)
+        at async waitForActual (node:assert:646:5)
+        at async strict.rejects (node:assert:769:25)
+        at async TestContext.<anonymous> (/workspace/backend/test/unit/roster-alignment-service.test.ts:119:5)
+        at async Test.run (node:internal/test_runner/test:1332:7)
+        at async Promise.all (index 0)
+        at async Suite.run (node:internal/test_runner/test:1794:7),
+    operator: 'rejects',
+    diff: 'simple'
+  }
+

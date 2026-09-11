@@ -1,0 +1,1 @@
+{"check":"PHYSICAL_RESULT_BROWSER","result":"PASS","futureDateRejected":true,"lostResponseReplay":true,"persistedSeconds":275,"version":3}

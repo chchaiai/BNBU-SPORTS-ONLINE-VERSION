@@ -1,0 +1,111 @@
+time="2026-09-08T16:42:26+08:00" level=warning msg="Found orphan containers (bnbu-v81-local-validation-backend-browser-1) for this project. If you removed or renamed this service in your compose file, you can run this command with the --remove-orphans flag to clean it up."
+ Container bnbu-v81-local-validation-backend-startup-run-2115f1f9c99e Creating 
+ Container bnbu-v81-local-validation-backend-startup-run-2115f1f9c99e Created 
+
+> @bnbu/sports-backend@0.1.0 test:security
+> node ./scripts/run-test-layer.mjs security
+
+▶ Stage 21 client capability security
+  ✔ keeps locally integrated client capabilities inside their approved principal scope (1.214767ms)
+  ✔ redacts authentication, push, and location secrets recursively (0.296701ms)
+  ✔ accepts only EMAIL for student sign-in and staff recovery requests (6.451863ms)
+  ✔ binds every GPS mutation to a student-owned existing ExerciseSession (0.200365ms)
+  ✔ uses record scope for summaries and reserves privacy-policy mutation for ADMIN (0.089572ms)
+  ✔ rejects out-of-range coordinates and more than one bounded batch (6.660686ms)
+  ✔ accepts Android, Web, and iOS while rejecting unknown client platforms (1.43455ms)
+✔ Stage 21 client capability security (17.490722ms)
+▶ Docker database role separation
+  ✔ uses a bootstrap identity distinct from the migration and runtime identities (5.189735ms)
+  ✔ makes migration history read-only to the runtime identity after every deploy (1.903152ms)
+  ✔ makes every migrator artifact readable by the non-root node identity (1.004532ms)
+✔ Docker database role separation (8.984326ms)
+▶ Stage 12 security negatives
+  ✔ accepts only X-Join-Capability and rejects ordinary Authorization on atomic Join (0.983222ms)
+  ✔ logs only the generated route template, never a raw invite token path (0.776945ms)
+  ✔ redacts identity snapshots, ciphertexts, token hashes, and names recursively (0.220053ms)
+  ✔ rate limits public QR keys together and resets only after the configured window (0.298805ms)
+✔ Stage 12 security negatives (2.99873ms)
+▶ Stage 16 ExerciseRecord security
+  ✔ permits self mutations only and preserves teacher/admin read-only scope (1.998806ms)
+  ✔ strips mass-assigned identity, duration, state, review, and storage fields (2.576467ms)
+  ✔ projects only the frozen student-safe current review (0.865154ms)
+✔ Stage 16 ExerciseRecord security (6.094216ms)
+▶ Stage 17 ExerciseReview security
+  ✔ allows only TEACHER for single, history, reopen, and batch routes (1.395214ms)
+  ✔ strips forged identity, status, chain, and duration fields while retaining explicit override denial input (1.630296ms)
+  ✔ validates every nested batch item and prevents envelope field smuggling (1.114263ms)
+✔ Stage 17 ExerciseReview security (4.861593ms)
+▶ Stage 14 ExerciseSession security
+  ✔ allows only STUDENT for all eight Session operations (1.993616ms)
+  ✔ rejects whitespace cancellation reasons and malformed reconciliation input (2.531731ms)
+  ✔ whitelists Session inputs so identity, time, duration, status, and version cannot be assigned (0.731077ms)
+  ✔ never exposes auth-session linkage, interval internals, safe metadata, or storage fields (0.267525ms)
+✔ Stage 14 ExerciseSession security (6.257899ms)
+▶ Stage 19 Export and audit governance security
+  ✔ strips forged identity and persistence facts from default-deny DTOs (4.05567ms)
+  ✔ does not expose arbitrary JSON search and bounds every audit query input (0.585767ms)
+  ✔ keeps audit ADMIN-only and all five unresolved mutations fail-closed (0.108088ms)
+✔ Stage 19 Export and audit governance security (5.393647ms)
+▶ Stage 15 MediaEvidence security
+  ✖ enforces Student mutations and only current metadata read roles (0.965429ms)
+  ✔ rejects mass assignment and Record targets at the DTO boundary (2.394094ms)
+  ✔ never projects storage facts and redacts every capability field recursively (0.328492ms)
+✖ Stage 15 MediaEvidence security (4.393142ms)
+▶ Stage 13 roster security boundaries
+  ✔ parses explicit boolean query values and rejects whitespace-only mutation reasons (3.167685ms)
+  ✔ allows ADMIN only on governance reads, TEACHER on owned-scope operations, and no STUDENT (1.888325ms)
+  ✔ returns role-specific projections without raw rows, storage data, or ADMIN identity values (0.941813ms)
+  ✔ redacts roster source facts and identity differences recursively (0.276812ms)
+  ✔ implements ignore as a validated, scoped default deny with zero mutation side effects (0.427152ms)
+  ✔ rejects whitespace-only resolution reasons before idempotency or database access (0.39492ms)
+✔ Stage 13 roster security boundaries (7.842391ms)
+▶ Stage 18 Score security
+  ✔ strips forged score facts and identity from rule, approval, and recalculate requests (4.372092ms)
+  ✔ accepts only bounded adjustment inputs and rejects URL or script evidence injection (1.39392ms)
+  ✔ keeps every score operation fail-closed with the frozen role boundary (0.183232ms)
+✔ Stage 18 Score security (6.558487ms)
+▶ security negative gates
+  ✔ rejects placeholders and malformed production configuration (1.724196ms)
+  ✔ fails closed when staging email delivery is absent or unauthenticated (1.033809ms)
+  ✔ allows an isolated unauthenticated SMTP sink only for local development (0.760474ms)
+  ✔ accepts explicit Tencent SES template configuration without static cloud credentials (0.490894ms)
+  ✔ requires CVM role storage and rejects static COS credentials in staging (0.404078ms)
+  ✔ requires exact HTTPS CORS origins in staging while retaining HTTP support for tests (0.57687ms)
+  ✔ rejects a forged role or organization even when token verification succeeds (0.659579ms)
+  ✔ returns a five-field envelope for oversized or malformed bodies without echoing content (0.395882ms)
+  ✔ redacts every frozen sensitive field without leaking nested values (0.298064ms)
+  ✔ fails closed for unknown operation policies and unsupported resource resolvers (0.558354ms)
+  ✔ accepts only the frozen Stage 13 roster resolver identifiers (0.301139ms)
+  ✔ rejects an otherwise valid access token after its session is revoked (0.217268ms)
+  ✔ rejects organization, teacher, course, and query mass assignment at the DTO boundary (3.525233ms)
+  ✔ maps database constraint failures without exposing SQL or constraint names (0.455266ms)
+✔ security negative gates (12.424705ms)
+ℹ tests 53
+ℹ suites 11
+ℹ pass 52
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 4454.990485
+
+✖ failing tests:
+
+test at test/security/media-security.test.ts:1:1417
+✖ enforces Student mutations and only current metadata read roles (0.965429ms)
+  Error [ApplicationError]: The media bind target is invalid.
+      at AccessPolicyGuard.canActivate (/workspace/backend/src/common/policy/access-policy.guard.ts:239:20)
+      at authorize (/workspace/backend/test/security/media-security.test.ts:102:9)
+      at TestContext.<anonymous> (/workspace/backend/test/security/media-security.test.ts:112:26)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1325:25)
+      at Test.start (node:internal/test_runner/test:1191:17)
+      at node:internal/test_runner/test:1792:71
+      at node:internal/per_context/primordials:466:82
+      at new Promise (<anonymous>)
+      at new SafePromise (node:internal/per_context/primordials:435:3) {
+    code: 'MEDIA_BIND_TARGET_INVALID',
+    status: 422,
+    details: {}
+  }
+

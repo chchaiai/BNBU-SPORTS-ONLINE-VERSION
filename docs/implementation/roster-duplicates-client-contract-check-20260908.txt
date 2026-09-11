@@ -1,0 +1,21 @@
+
+> bnbu-pe-management-portal@0.1.0 contract:check
+> npm run contract:verify && npm run contract:generate -- --check
+
+
+> bnbu-pe-management-portal@0.1.0 contract:verify
+> node scripts/verify-contract.mjs
+
+pinned version   : 3.0.0-web-snapshot
+declared version : 3.0.0-web-snapshot
+sha256           : baba5b43b23046d97d1b403430b0d819328abdab420fd40b790c5977ebbc74de
+bytes            : 348282
+paths/ops/schemas: 116/133/313
+source commit    : 72ddb5e468e0188e6b5a8ea8321f6056700ccb96
+
+Snapshot binding OK.
+
+> bnbu-pe-management-portal@0.1.0 contract:generate
+> openapi-typescript ./openapi/openapi.snapshot.yaml --output ./app/openapi.generated.ts --immutable --alphabetize --check
+
+✨ openapi-typescript 7.13.0

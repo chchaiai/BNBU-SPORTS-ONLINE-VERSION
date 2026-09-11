@@ -1,0 +1,11 @@
+✔ student mode request reads public announcement and preserves notice and recovery facts (14.5027ms)
+✔ normal mode never retains an old maintenance notice (0.2565ms)
+✔ maintenance countdown uses fresh own paused facts and discards failed or changed-session reads (2.7628ms)
+ℹ tests 3
+ℹ suites 0
+ℹ pass 3
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 83.7312

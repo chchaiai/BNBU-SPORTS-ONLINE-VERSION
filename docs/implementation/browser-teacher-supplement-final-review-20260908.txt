@@ -1,0 +1,2 @@
+{"check":"TEACHER_DEFAULT_QUEUE_HAS_REVIEW_ROW","value":true}
+{"check":"TEACHER_BROWSER_REVIEW_REAL_CAMERA_RECORD","result":"PASS"}

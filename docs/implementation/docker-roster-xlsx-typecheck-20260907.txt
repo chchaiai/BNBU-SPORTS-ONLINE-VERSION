@@ -1,0 +1,7 @@
+ Container bnbu-v81-local-validation-domain-tests-run-e4c0d042cb15 Creating 
+ Container bnbu-v81-local-validation-domain-tests-run-e4c0d042cb15 Created 
+
+> @bnbu/sports-backend@0.1.0 typecheck
+> tsc --noEmit -p tsconfig.json
+
+Docker exit code: 0

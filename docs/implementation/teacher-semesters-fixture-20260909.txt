@@ -1,0 +1,48 @@
+/workspace/backend/node_modules/@prisma/client/src/runtime/RequestHandler.ts:237
+      throw new PrismaClientKnownRequestError(message, {
+            ^
+
+PrismaClientKnownRequestError: 
+Invalid `prisma.classSection.create()` invocation:
+
+
+Database error. Code: `23514`. Message: `ClassSection check-in dates must be inside the Semester range`
+    at Jr.handleRequestError (/workspace/backend/node_modules/@prisma/client/src/runtime/RequestHandler.ts:237:13)
+    at Jr.handleAndLogRequestError (/workspace/backend/node_modules/@prisma/client/src/runtime/RequestHandler.ts:183:12)
+    at Jr.request (/workspace/backend/node_modules/@prisma/client/src/runtime/RequestHandler.ts:152:12)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async a (/workspace/backend/node_modules/@prisma/client/src/runtime/getPrismaClient.ts:1014:24)
+    at async file:///workspace/tools/local-integration/seed-v81-teacher-semesters.mjs:14:4
+    at async Proxy._transactionWithCallback (/workspace/backend/node_modules/@prisma/client/src/runtime/getPrismaClient.ts:861:18)
+    at async file:///workspace/tools/local-integration/seed-v81-teacher-semesters.mjs:12:3 {
+  code: 'P2039',
+  meta: {
+    modelName: 'ClassSection',
+    driverAdapterError: DriverAdapterError: ClassSection check-in dates must be inside the Semester range
+        at PgTransaction.onError (file:///workspace/backend/node_modules/@prisma/adapter-pg/dist/index.mjs:639:11)
+        at PgTransaction.performIO (file:///workspace/backend/node_modules/@prisma/adapter-pg/dist/index.mjs:634:12)
+        at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+        at async PgTransaction.queryRaw (file:///workspace/backend/node_modules/@prisma/adapter-pg/dist/index.mjs:568:30)
+        at async e.interpretNode (/workspace/backend/node_modules/@prisma/client-engine-runtime/src/interpreter/query-interpreter.ts:186:26)
+        at async e.interpretNode (/workspace/backend/node_modules/@prisma/client-engine-runtime/src/interpreter/query-interpreter.ts:213:41)
+        at async e.interpretNode (/workspace/backend/node_modules/@prisma/client-engine-runtime/src/interpreter/query-interpreter.ts:272:41)
+        at async e.run (/workspace/backend/node_modules/@prisma/client-engine-runtime/src/interpreter/query-interpreter.ts:94:23)
+        at async e.execute (/workspace/backend/node_modules/@prisma/client/src/runtime/core/engines/client/LocalExecutor.ts:81:12)
+        at async Ut.request (/workspace/backend/node_modules/@prisma/client/src/runtime/core/engines/client/ClientEngine.ts:510:22) {
+      cause: {
+        originalCode: '23514',
+        originalMessage: 'ClassSection check-in dates must be inside the Semester range',
+        kind: 'postgres',
+        code: '23514',
+        severity: 'ERROR',
+        message: 'ClassSection check-in dates must be inside the Semester range',
+        detail: undefined,
+        column: undefined,
+        hint: undefined
+      }
+    }
+  },
+  clientVersion: '7.9.1'
+}
+
+Node.js v24.18.0

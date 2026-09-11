@@ -1,0 +1,4 @@
+{"check":"STUDENT_BROWSER_SMTP_LOGIN","result":"PASS"}
+{"check":"STUDENT_HOME_CONTENT","hasCourse":true,"hasProgress":true,"hasLoginForm":false}
+{"check":"STUDENT_NOTIFICATION_FAILED_READ_RECOVERY","result":"PASS"}
+{"check":"STUDENT_NOTIFICATIONS_RETRY","result":"FAIL","stage":"BATCH_PARTIAL_FAILURE","type":"AssertionError","message":"The expression evaluated to a falsy value:\n\n  assert.ok(await pending.count()>=2)\n","failedRequests":[{"path":"/api/v1/audit-logs/client-errors","status":404}]}

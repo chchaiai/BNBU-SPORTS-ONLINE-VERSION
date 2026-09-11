@@ -1,0 +1,53 @@
+name: bnbu-sports-production
+services:
+  migrator:
+    profiles: [migration]
+    image: ${MIGRATOR_IMAGE:?Set immutable image reference}
+    env_file: production.env
+    group_add: ['10001']
+    volumes:
+      - /etc/bnbu-sports-production/secrets/migrator.json:/run/secrets/migrator.json:ro
+      - /etc/bnbu-sports-production/secrets/tencentdb-ca-chain.pem:/run/secrets/tencentdb-ca-chain.pem:ro
+    read_only: true
+    tmpfs: [/tmp]
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    mem_limit: 768m
+    restart: 'no'
+  backend:
+    image: ${BACKEND_IMAGE:?Set immutable image reference}
+    env_file:
+      - production.env
+      - path: /etc/bnbu-sports-production/mail.env
+        required: false
+    group_add: ['10001']
+    volumes:
+      - /etc/bnbu-sports-production/secrets/runtime.json:/run/secrets/runtime.json:ro
+      - /etc/bnbu-sports-production/secrets/tencentdb-ca-chain.pem:/run/secrets/tencentdb-ca-chain.pem:ro
+      - /run/clamav:/run/clamav:ro
+      - /var/lib/bnbu-sports-production/runtime-logs:/var/log/bnbu-sports
+    ports: ['127.0.0.1:3000:3000']
+    read_only: true
+    tmpfs: [/tmp]
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    mem_limit: 1200m
+    pids_limit: 256
+    restart: unless-stopped
+    stop_grace_period: 30s
+    logging:
+      driver: json-file
+      options: {max-size: '10m', max-file: '5'}
+  portal:
+    image: ${PORTAL_IMAGE:?Set immutable image reference}
+    ports: ['127.0.0.1:3100:3100']
+    read_only: true
+    tmpfs: [/tmp]
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    mem_limit: 512m
+    pids_limit: 128
+    restart: unless-stopped
+    logging:
+      driver: json-file
+      options: {max-size: '10m', max-file: '5'}

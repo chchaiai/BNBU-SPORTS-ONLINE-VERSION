@@ -1,0 +1,1 @@
+{"check":"APPLICATION_FULL_BROWSER_FLOW","result":"FAIL","stage":"SUBMIT_1000m","type":"TimeoutError","message":"locator.click: Timeout 60000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('[data-action=\"exemption.selectType\"][data-value=\"1000m\"]')\u001b[22m\n"}

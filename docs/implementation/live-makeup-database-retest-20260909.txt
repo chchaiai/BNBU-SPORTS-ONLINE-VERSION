@@ -1,0 +1,1 @@
+{"check":"LIVE_MAKEUP_DATABASE_READBACK","result":"PASS","exactWindowSource":true,"startedAfterRegularDeadline":true,"startedBeforeRevocation":true,"completedAfterRevocation":true,"workflow":"VALID","sessionCount":1,"actualDurationSeconds":133,"creditedDurationSeconds":0}

@@ -1,0 +1,4 @@
+{"check":"STUDENT_BROWSER_SMTP_LOGIN","result":"PASS"}
+{"check":"STUDENT_HOME_CONTENT","hasCourse":true,"hasProgress":true,"hasLoginForm":false}
+{"check":"STUDENT_BROWSER_SMTP_LOGIN","result":"FAIL","stage":"RELOAD","type":"TimeoutError"}
+{"reloadPage":"你好，Synthetic Session Student 3C195CD6\nSYNTH-SESSION-3C195CD6\n今日打卡\n今天还未打卡\n完成一次运动后即可提交打卡。\n当前可开始运动\n每日打卡时间 00:00–23:59\n可开始\n去打卡\n运动进度\n进行中\n本学期总完成\n0 分钟\n/ 1200 分钟\n0%\n距离本学期目标还差 1200 分钟\n进度构成\n课程相关运动\n0 分钟 / 600 分钟\n自主其他运动\n0 分钟 / 600 分钟\n补证待办\n当前没有开放的补证窗口。列表只显示服务器返回的待办。\n打开补证待办\n首页\n课程\n打卡\n记录与进度\n我的"}

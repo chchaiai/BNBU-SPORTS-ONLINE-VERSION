@@ -1,0 +1,146 @@
+
+> @bnbu/backend-contract-checks@0.0.0 contract:check
+> npm run check && npm run lint:openapi && npm run contract:compatibility:check && npm run contract:release:check
+
+
+> @bnbu/backend-contract-checks@0.0.0 check
+> node ./generate-permission-registry.mjs && node --test ./operation-response-policy.test.mjs ./enum-subset-policy.test.mjs && node ./check-contract.mjs && node ./check-system-mode-responses.mjs && node ./apply-contract-errata.mjs
+
+Permission registry checked: 249 operations
+✔ enum references must exist and each value must belong to the referenced domain (0.8183ms)
+✔ number options keep their wire type and null follows JSON Schema type constraints (0.1105ms)
+✔ missing declarations fail, while explicit transport constraints remain supported (0.1073ms)
+✔ normal operations require both success and error responses (0.9191ms)
+✔ unavailable operations require an explicit reason and disabled registration (0.2087ms)
+✔ unavailable operations cannot declare successes or omit their actual denial status (0.1265ms)
+ℹ tests 6
+ℹ suites 0
+ℹ pass 6
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 71.5938
+Deterministic Greenfield contract checks: PASS
+- OpenAPI paths: 212
+- OpenAPI operations: 249
+- OpenAPI schemas: 387
+- Local references checked: 2627
+- Access policies: 249; registry rows: 249; diff: 0
+- Named enums: 86; values: 325; diff: 0
+- Error codes: 154; diff: 0
+- Integer duration fields checked: 11
+Service-unavailable response coverage verified for every mutation.
+Contract errata metadata verified: 16/16 decisions represented.
+
+> @bnbu/backend-contract-checks@0.0.0 lint:openapi
+> redocly lint ../../docs/backend-contracts/openapi.yaml --format=stylish --max-problems=1000
+
+No configurations were provided -- using built in recommended configuration by default.
+
+validating ..\..\docs\backend-contracts\openapi.yaml...
+..\..\docs\backend-contracts\openapi.yaml:
+  800:7     warning  operation-2xx-response                   Operation must have at least one `2XX` response.
+  869:7     warning  operation-2xx-response                   Operation must have at least one `2XX` response.
+  20274:17  warning  no-required-schema-properties-undefined  Required property 'sheetName' is not defined.
+  20278:19  warning  no-required-schema-properties-undefined  Required property 'sheetName' is not defined.
+  3038:7    warning  operation-2xx-response                   Operation must have at least one `2XX` response.
+  3076:7    warning  operation-2xx-response                   Operation must have at least one `2XX` response.
+  3108:7    warning  operation-2xx-response                   Operation must have at least one `2XX` response.
+  3142:7    warning  operation-2xx-response                   Operation must have at least one `2XX` response.
+  3182:7    warning  operation-2xx-response                   Operation must have at least one `2XX` response.
+  3218:7    warning  operation-2xx-response                   Operation must have at least one `2XX` response.
+  3273:7    warning  operation-2xx-response                   Operation must have at least one `2XX` response.
+  3303:7    warning  operation-2xx-response                   Operation must have at least one `2XX` response.
+  3338:7    warning  operation-2xx-response                   Operation must have at least one `2XX` response.
+  3378:7    warning  operation-2xx-response                   Operation must have at least one `2XX` response.
+  3460:7    warning  operation-2xx-response                   Operation must have at least one `2XX` response.
+  3498:7    warning  operation-2xx-response                   Operation must have at least one `2XX` response.
+  3538:7    warning  operation-2xx-response                   Operation must have at least one `2XX` response.
+  3574:7    warning  operation-2xx-response                   Operation must have at least one `2XX` response.
+  22991:17  warning  no-required-schema-properties-undefined  Required property 'titleZh' is not defined.
+  22992:17  warning  no-required-schema-properties-undefined  Required property 'titleEn' is not defined.
+  22993:17  warning  no-required-schema-properties-undefined  Required property 'bodyZh' is not defined.
+  22994:17  warning  no-required-schema-properties-undefined  Required property 'bodyEn' is not defined.
+  22995:17  warning  no-required-schema-properties-undefined  Required property 'estimatedRecoveryAt' is not defined.
+  14326:7   warning  operation-2xx-response                   Operation must have at least one `2XX` response.
+  24735:5   warning  no-unused-components                     Component: "V81AdminKind" is never used.
+  24741:5   warning  no-unused-components                     Component: "V81AdminPermission" is never used.
+  24753:5   warning  no-unused-components                     Component: "V81CreatedAccountStatus" is never used.
+  24758:5   warning  no-unused-components                     Component: "V81SwimIntakeKind" is never used.
+  24764:5   warning  no-unused-components                     Component: "V81EvidencePhase" is never used.
+  24771:5   warning  no-unused-components                     Component: "V81SettlementCheckStatus" is never used.
+  24778:5   warning  no-unused-components                     Component: "V81FeedbackCategory" is never used.
+  24787:5   warning  no-unused-components                     Component: "V81FeedbackStatus" is never used.
+  24796:5   warning  no-unused-components                     Component: "V81HelpCategory" is never used.
+  24810:5   warning  no-unused-components                     Component: "V81HelpStatus" is never used.
+  24817:5   warning  no-unused-components                     Component: "V81EnduranceGender" is never used.
+  24823:5   warning  no-unused-components                     Component: "V81EnduranceCohort" is never used.
+  24829:5   warning  no-unused-components                     Component: "V81RunType" is never used.
+  24835:5   warning  no-unused-components                     Component: "V81EnduranceTier" is never used.
+  24843:5   warning  no-unused-components                     Component: "V81MissingPhysicalStatus" is never used.
+  24849:5   warning  no-unused-components                     Component: "V81RegistrationStatus" is never used.
+  24857:5   warning  no-unused-components                     Component: "V81RosterRowStatus" is never used.
+  24863:5   warning  no-unused-components                     Component: "V81RosterSourceKind" is never used.
+  24869:5   warning  no-unused-components                     Component: "V81PhysicalStatus" is never used.
+  24876:5   warning  no-unused-components                     Component: "V81JoinableSectionStatus" is never used.
+  24882:5   warning  no-unused-components                     Component: "V81OcrPurpose" is never used.
+  24888:5   warning  no-unused-components                     Component: "V81OcrAttemptStatus" is never used.
+  24894:5   warning  no-unused-components                     Component: "V81OcrJobStatus" is never used.
+  24902:5   warning  no-unused-components                     Component: "V81OcrField" is never used.
+  24911:5   warning  no-unused-components                     Component: "V81MaterialVersion" is never used.
+  24917:5   warning  no-unused-components                     Component: "V81MakeupStatus" is never used.
+  24925:5   warning  no-unused-components                     Component: "V81SemesterStatus" is never used.
+  24932:5   warning  no-unused-components                     Component: "V81AuditSource" is never used.
+  24938:5   warning  no-unused-components                     Component: "V81RuntimeArchiveStatus" is never used.
+  24948:5   warning  no-unused-components                     Component: "V81OcrConfigSource" is never used.
+  24954:5   warning  no-unused-components                     Component: "V81OcrProvider" is never used.
+  24960:5   warning  no-unused-components                     Component: "V81IdentityVerificationStatus" is never used.
+  24965:5   warning  no-unused-components                     Component: "V81ManagedAccountStatus" is never used.
+  24971:5   warning  no-unused-components                     Component: "V81RecordWorkflowStage" is never used.
+  24981:5   warning  no-unused-components                     Component: "V81RosterAlignmentRule" is never used.
+  24987:5   warning  no-unused-components                     Component: "V81ExerciseMinimumMinutes" is never used.
+  24994:5   warning  no-unused-components                     Component: "V81WeeklyRecordLimit" is never used.
+  25001:5   warning  no-unused-components                     Component: "V81TeacherReviewAction" is never used.
+  25008:5   warning  no-unused-components                     Component: "V81SupplementHours" is never used.
+  25014:5   warning  no-unused-components                     Component: "V81ProgressStatus" is never used.
+  25020:5   warning  no-unused-components                     Component: "V81CertificationType" is never used.
+  25026:5   warning  no-unused-components                     Component: "V81CertificationStatus" is never used.
+  25036:5   warning  no-unused-components                     Component: "V81SemesterTerm" is never used.
+  16721:5   warning  no-unused-components                     Component: "ScoreRuleSuccess" is never used.
+  16727:5   warning  no-unused-components                     Component: "ScoreRuleListSuccess" is never used.
+  16739:5   warning  no-unused-components                     Component: "StudentScoreListSuccess" is never used.
+  16745:5   warning  no-unused-components                     Component: "ScoreAdjustmentSuccess" is never used.
+  16751:5   warning  no-unused-components                     Component: "ScoreAdjustmentListSuccess" is never used.
+
+..\..\docs\backend-contracts\openapi.yaml: validated in 396ms
+
+Woohoo! Your API description is valid. 🎉
+You have 72 warnings.
+5 problems are explicitly ignored.
+
+
+
+> @bnbu/backend-contract-checks@0.0.0 contract:compatibility:check
+> node --test ./check-openapi-compatibility.fixtures.test.mjs && node ./check-openapi-compatibility.mjs --check
+
+▶ direction-aware OpenAPI compatibility fixtures
+  ✔ detects removed operations (0.9679ms)
+  ✔ detects required request property additions (6.3337ms)
+  ✔ classifies response enum additions as breaking (0.265ms)
+  ✔ detects response status removal (0.1935ms)
+  ✔ detects security and permission metadata changes (0.2151ms)
+✔ direction-aware OpenAPI compatibility fixtures (8.6228ms)
+▶ major-version breaking change approval
+  ✔ accepts an exact, version-bound breaking change set (0.3193ms)
+  ✔ rejects contract drift after approval (0.2622ms)
+✔ major-version breaking change approval (0.6959ms)
+ℹ tests 7
+ℹ suites 2
+ℹ pass 7
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 105.1458
+Published 2.0.11-contract snapshot hash mismatch

@@ -1,0 +1,1 @@
+{"check":"RUNTIME_ARCHIVE_BROWSER_REAL_WORKER_SAME_KEY_AUTHENTICATED_ZIP_HASH","result":"PASS","reload":true,"downloadReload":true,"bytes":214970,"coverage":"AVAILABLE_SCOPED_HTTP_RECORDS_ONLY"}

@@ -1,0 +1,1 @@
+{"check": "STUDENT_PROGRESS_STATIC_DEPLOYMENT", "result": "PASS", "release": "/opt/bnbu-sports-production/releases/481f163a959e-round2", "previous": "/opt/bnbu-sports-production/releases/fad4083c023f-round2", "sourceCommit": "481f163a959ebc1600c90022f927b3d4bde05cc8", "sha256": "ea393b31083b9eed7f5397a7f1bf8d7f1a5a3024d58df3ecd340f6c7497258f9"}

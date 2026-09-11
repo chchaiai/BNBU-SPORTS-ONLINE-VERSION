@@ -1,0 +1,5 @@
+time="2026-09-08T14:44:58+08:00" level=warning msg="Found orphan containers (bnbu-v81-local-validation-backend-browser-1) for this project. If you removed or renamed this service in your compose file, you can run this command with the --remove-orphans flag to clean it up."
+ Container bnbu-v81-local-validation-backend-startup-run-49d22d5387a4 Creating 
+ Container bnbu-v81-local-validation-backend-startup-run-49d22d5387a4 Created 
+Could not find 'test/unit/semester-switch-readiness.test.ts'
+

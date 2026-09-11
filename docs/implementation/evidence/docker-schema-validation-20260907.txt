@@ -1,0 +1,24 @@
+ Container bnbu-v81-local-validation-domain-tests-run-6efdec596b57 Creating 
+ Container bnbu-v81-local-validation-domain-tests-run-6efdec596b57 Created 
+Loaded Prisma config from prisma.config.ts.
+
+prisma:warn Prisma failed to detect the libssl/openssl version to use, and may not work as expected. Defaulting to "openssl-1.1.x".
+Please manually install OpenSSL via `apt-get update -y && apt-get install -y openssl` and try installing Prisma again. If you're running Prisma on Docker, add this command to your Dockerfile, or switch to an image that already has OpenSSL installed.
+prisma:warn Prisma failed to detect the libssl/openssl version to use, and may not work as expected. Defaulting to "openssl-1.1.x".
+Please manually install OpenSSL via `apt-get update -y && apt-get install -y openssl` and try installing Prisma again. If you're running Prisma on Docker, add this command to your Dockerfile, or switch to an image that already has OpenSSL installed.
+Prisma schema loaded from prisma/schema.prisma.
+
+Error: Prisma schema validation - (validate wasm)
+Error code: P1012
+error: Error validating model "V81Event": The constraint name 'v81_events_organization_id_resource_type_resource_id_version_key' specified in the `map` argument for the `@@unique` constraint is too long for your chosen provider. The maximum allowed length is 63 bytes.
+  -->  prisma/schema.prisma:2252
+   | 
+2251 |   occurredAt DateTime @default(now()) @map("occurred_at") @db.Timestamptz(6)
+2252 |   @@unique([organizationId, resourceType, resourceId, version], map: "v81_events_organization_id_resource_type_resource_id_version_key")
+   | 
+
+Validation Error Count: 1
+[Context: validate]
+
+Prisma CLI Version : 7.9.1
+

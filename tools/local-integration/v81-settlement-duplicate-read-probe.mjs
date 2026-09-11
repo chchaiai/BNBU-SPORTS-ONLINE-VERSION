@@ -1,0 +1,16 @@
+import fs from 'node:fs';
+import assert from 'node:assert/strict';
+import {randomUUID} from 'node:crypto';
+const state=JSON.parse(fs.readFileSync(new URL('../../.local/v81-browser-state/state.json',import.meta.url)));
+const courseId=process.env.V81_ROSTER_COURSE_ID;assert.match(courseId??'',/^[0-9a-f-]{36}$/);
+const base='http://127.0.0.1:3199/api/v1';
+const login=await fetch(`${base}/auth/password-login`,{method:'POST',headers:{'content-type':'application/json','idempotency-key':randomUUID()},body:JSON.stringify({account:state.accounts.teacher.email,password:state.accounts.teacher.password})});
+assert.equal(login.status,200);const headers={authorization:`Bearer ${(await login.json()).data.accessToken}`};
+const section=await fetch(`${base}/class-sections/${courseId}`,{headers});assert.equal(section.status,200);assert.ok((await section.json()).data.displayName.startsWith('Synthetic Roster'));
+const response=await fetch(`${base}/class-sections/${courseId}/settlement-check`,{headers});assert.equal(response.status,200);const result=(await response.json()).data;
+const check=code=>result.checks.find(item=>item.code===code);
+assert.deepEqual(check('ROSTER_IDENTITY_AMBIGUITY'),{code:'ROSTER_IDENTITY_AMBIGUITY',status:'BLOCKED',count:2});
+assert.equal(check('ROSTER_PENDING_DIFFERENCE').count,0);
+assert.equal(check('RAW_PHYSICAL_RESULTS').status,'UNAVAILABLE');assert.equal(check('RAW_PHYSICAL_RESULTS').count,null);
+assert.equal(result.ready,false);
+console.log(JSON.stringify({check:'CONFIRMED_DUPLICATE_IDENTITY_STILL_BLOCKS_SETTLEMENT_HTTP',result:'PASS',classSectionId:courseId}));

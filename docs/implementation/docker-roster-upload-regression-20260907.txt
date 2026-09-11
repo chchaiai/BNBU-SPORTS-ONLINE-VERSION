@@ -1,0 +1,20 @@
+ Container bnbu-v81-local-validation-backend-startup-run-085333ee80cb Creating 
+ Container bnbu-v81-local-validation-backend-startup-run-085333ee80cb Created 
+▶ Official roster staged import lifecycle
+  ✔ commits RECEIVED and its outbox event before parsing, then completes atomically (1.841179ms)
+✔ Official roster staged import lifecycle (2.34733ms)
+▶ Stage 13 private roster ingestion
+  ✔ streams a strict CSV upload into a server-generated private key (10.759069ms)
+  ✔ rejects path-like names and unsupported OFFICIAL_API without retaining an object (3.659905ms)
+  ✔ normalizes leading-zero identifiers and marks every duplicate row non-valid (3.907243ms)
+  ✔ uses static four-digit grade-year bounds for roster rows (1.18655ms)
+✔ Stage 13 private roster ingestion (20.209387ms)
+ℹ tests 5
+ℹ suites 2
+ℹ pass 5
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 578.473071
+Docker exit code: 0

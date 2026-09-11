@@ -1,0 +1,5 @@
+{
+  "migrationId": "0014_email_only_auth",
+  "sha256": "c0ce94ec0551f293453839ff19d361dd1da109c69eed308f3dc92176de916927",
+  "destructive": false
+}

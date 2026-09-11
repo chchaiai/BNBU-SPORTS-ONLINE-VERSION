@@ -1,0 +1,6 @@
+{
+  "migrationId": "0004_official_roster_alignment",
+  "sha256": "bcfcde0c5cbb2a6bb0097f57b97f4d1f576dd90a4ff8e290a5c34f7605554b3a",
+  "destructive": false,
+  "scope": "Stage 13 Official Roster Import, immutable versions, frozen alignment snapshots, and resolution history only"
+}

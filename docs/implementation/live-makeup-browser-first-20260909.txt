@@ -1,0 +1,3 @@
+stage OUTSIDE_WINDOW
+stage WINDOW_EXERCISE
+{"result":"FAIL","stage":"WINDOW_EXERCISE","message":"locator.click: Timeout 60000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('[data-action=\"checkin.ackHealth\"]')\u001b[22m\n"}

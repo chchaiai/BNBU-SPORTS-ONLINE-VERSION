@@ -1,0 +1,1 @@
+{"check":"CLOSED_APPLICATIONS_BROWSER","result":"PASS","approved":2,"courseMinutes":30,"generalMinutes":15,"pendingApplications":0,"syntheticMediaMetadata":true}

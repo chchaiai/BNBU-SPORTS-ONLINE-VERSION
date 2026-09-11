@@ -1,0 +1,1 @@
+{"check":"COURSE_CLOSE_BROWSER","result":"PASS","newClosure":true,"historyVisible":true,"version":2,"savedSettlementAccessible":true}

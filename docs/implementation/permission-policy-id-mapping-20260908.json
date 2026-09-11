@@ -1,0 +1,571 @@
+{
+  "sourceCommit": "6d8704ba",
+  "scope": "Policy identifier normalization only; preserve historical audit and log identifiers",
+  "changes": [
+    {
+      "operationId": "getV81CourseRules",
+      "previousPolicyId": "getV81CourseRules",
+      "policyId": "GET-V81-COURSE-RULES"
+    },
+    {
+      "operationId": "saveV81CourseRules",
+      "previousPolicyId": "saveV81CourseRules",
+      "policyId": "SAVE-V81-COURSE-RULES"
+    },
+    {
+      "operationId": "setV81ManualMode",
+      "previousPolicyId": "setV81ManualMode",
+      "policyId": "SET-V81-MANUAL-MODE"
+    },
+    {
+      "operationId": "reviewV81Record",
+      "previousPolicyId": "reviewV81Record",
+      "policyId": "REVIEW-V81-RECORD"
+    },
+    {
+      "operationId": "getV81RecordWorkflow",
+      "previousPolicyId": "getV81RecordWorkflow",
+      "policyId": "GET-V81-RECORD-WORKFLOW"
+    },
+    {
+      "operationId": "submitV81Supplement",
+      "previousPolicyId": "submitV81Supplement",
+      "policyId": "SUBMIT-V81-SUPPLEMENT"
+    },
+    {
+      "operationId": "correctV81Record",
+      "previousPolicyId": "correctV81Record",
+      "policyId": "CORRECT-V81-RECORD"
+    },
+    {
+      "operationId": "getV81MaintenanceAnnouncement",
+      "previousPolicyId": "getV81MaintenanceAnnouncement",
+      "policyId": "GET-V81-MAINTENANCE-ANNOUNCEMENT"
+    },
+    {
+      "operationId": "getV81SystemModeHistory",
+      "previousPolicyId": "getV81SystemModeHistory",
+      "policyId": "GET-V81-SYSTEM-MODE-HISTORY"
+    },
+    {
+      "operationId": "changeV81SystemMode",
+      "previousPolicyId": "changeV81SystemMode",
+      "policyId": "CHANGE-V81-SYSTEM-MODE"
+    },
+    {
+      "operationId": "getV81SupplementClock",
+      "previousPolicyId": "getV81SupplementClock",
+      "policyId": "GET-V81-SUPPLEMENT-CLOCK"
+    },
+    {
+      "operationId": "getV81AccountSecurity",
+      "previousPolicyId": "getV81AccountSecurity",
+      "policyId": "GET-V81-ACCOUNT-SECURITY"
+    },
+    {
+      "operationId": "changeOwnV81Password",
+      "previousPolicyId": "changeOwnV81Password",
+      "policyId": "CHANGE-OWN-V81-PASSWORD"
+    },
+    {
+      "operationId": "listV81Subadmins",
+      "previousPolicyId": "listV81Subadmins",
+      "policyId": "LIST-V81-SUBADMINS"
+    },
+    {
+      "operationId": "createV81VerifiedSubadmin",
+      "previousPolicyId": "createV81VerifiedSubadmin",
+      "policyId": "CREATE-V81-VERIFIED-SUBADMIN"
+    },
+    {
+      "operationId": "setV81SubadminStatus",
+      "previousPolicyId": "setV81SubadminStatus",
+      "policyId": "SET-V81-SUBADMIN-STATUS"
+    },
+    {
+      "operationId": "listV81StudentProgress",
+      "previousPolicyId": "listV81StudentProgress",
+      "policyId": "LIST-V81-STUDENT-PROGRESS"
+    },
+    {
+      "operationId": "getV81ProgressTarget",
+      "previousPolicyId": "getV81ProgressTarget",
+      "policyId": "GET-V81-PROGRESS-TARGET"
+    },
+    {
+      "operationId": "listV81Certifications",
+      "previousPolicyId": "listV81Certifications",
+      "policyId": "LIST-V81-CERTIFICATIONS"
+    },
+    {
+      "operationId": "listV81RecognitionRevisions",
+      "previousPolicyId": "listV81RecognitionRevisions",
+      "policyId": "LIST-V81-RECOGNITION-REVISIONS"
+    },
+    {
+      "operationId": "revokeV81Certification",
+      "previousPolicyId": "revokeV81Certification",
+      "policyId": "REVOKE-V81-CERTIFICATION"
+    },
+    {
+      "operationId": "getV81ManualMode",
+      "previousPolicyId": "getV81ManualMode",
+      "policyId": "GET-V81-MANUAL-MODE"
+    },
+    {
+      "operationId": "acceptV81SwimIntake",
+      "previousPolicyId": "acceptV81SwimIntake",
+      "policyId": "ACCEPT-V81-SWIM-INTAKE"
+    },
+    {
+      "operationId": "getV81SwimIntake",
+      "previousPolicyId": "getV81SwimIntake",
+      "policyId": "GET-V81-SWIM-INTAKE"
+    },
+    {
+      "operationId": "listV81ProofTodos",
+      "previousPolicyId": "listV81ProofTodos",
+      "policyId": "LIST-V81-PROOF-TODOS"
+    },
+    {
+      "operationId": "listV81FinalGrades",
+      "previousPolicyId": "listV81FinalGrades",
+      "policyId": "LIST-V81-FINAL-GRADES"
+    },
+    {
+      "operationId": "appendV81FinalGrade",
+      "previousPolicyId": "appendV81FinalGrade",
+      "policyId": "APPEND-V81-FINAL-GRADE"
+    },
+    {
+      "operationId": "getV81SettlementCheck",
+      "previousPolicyId": "getV81SettlementCheck",
+      "policyId": "GET-V81-SETTLEMENT-CHECK"
+    },
+    {
+      "operationId": "getV81FeedbackDetail",
+      "previousPolicyId": "getV81FeedbackDetail",
+      "policyId": "GET-V81-FEEDBACK-DETAIL"
+    },
+    {
+      "operationId": "handleV81Feedback",
+      "previousPolicyId": "handleV81Feedback",
+      "policyId": "HANDLE-V81-FEEDBACK"
+    },
+    {
+      "operationId": "listV81Feedback",
+      "previousPolicyId": "listV81Feedback",
+      "policyId": "LIST-V81-FEEDBACK"
+    },
+    {
+      "operationId": "getV81StudentFeedbackHistory",
+      "previousPolicyId": "getV81StudentFeedbackHistory",
+      "policyId": "GET-V81-STUDENT-FEEDBACK-HISTORY"
+    },
+    {
+      "operationId": "createV81HelpArticle",
+      "previousPolicyId": "createV81HelpArticle",
+      "policyId": "CREATE-V81-HELP-ARTICLE"
+    },
+    {
+      "operationId": "listV81HelpArticles",
+      "previousPolicyId": "listV81HelpArticles",
+      "policyId": "LIST-V81-HELP-ARTICLES"
+    },
+    {
+      "operationId": "saveV81HelpArticle",
+      "previousPolicyId": "saveV81HelpArticle",
+      "policyId": "SAVE-V81-HELP-ARTICLE"
+    },
+    {
+      "operationId": "getV81HelpArticle",
+      "previousPolicyId": "getV81HelpArticle",
+      "policyId": "GET-V81-HELP-ARTICLE"
+    },
+    {
+      "operationId": "listV81StudentHelpArticles",
+      "previousPolicyId": "listV81StudentHelpArticles",
+      "policyId": "LIST-V81-STUDENT-HELP-ARTICLES"
+    },
+    {
+      "operationId": "getV81StudentHelpArticle",
+      "previousPolicyId": "getV81StudentHelpArticle",
+      "policyId": "GET-V81-STUDENT-HELP-ARTICLE"
+    },
+    {
+      "operationId": "listV81EnduranceTables",
+      "previousPolicyId": "listV81EnduranceTables",
+      "policyId": "LIST-V81-ENDURANCE-TABLES"
+    },
+    {
+      "operationId": "createV81EnduranceRule",
+      "previousPolicyId": "createV81EnduranceRule",
+      "policyId": "CREATE-V81-ENDURANCE-RULE"
+    },
+    {
+      "operationId": "updateV81EnduranceRule",
+      "previousPolicyId": "updateV81EnduranceRule",
+      "policyId": "UPDATE-V81-ENDURANCE-RULE"
+    },
+    {
+      "operationId": "deleteV81EnduranceRule",
+      "previousPolicyId": "deleteV81EnduranceRule",
+      "policyId": "DELETE-V81-ENDURANCE-RULE"
+    },
+    {
+      "operationId": "listV81PhysicalResults",
+      "previousPolicyId": "listV81PhysicalResults",
+      "policyId": "LIST-V81-PHYSICAL-RESULTS"
+    },
+    {
+      "operationId": "appendV81PhysicalResult",
+      "previousPolicyId": "appendV81PhysicalResult",
+      "policyId": "APPEND-V81-PHYSICAL-RESULT"
+    },
+    {
+      "operationId": "getV81StudentPhysicalResult",
+      "previousPolicyId": "getV81StudentPhysicalResult",
+      "policyId": "GET-V81-STUDENT-PHYSICAL-RESULT"
+    },
+    {
+      "operationId": "createV81PhysicalImport",
+      "previousPolicyId": "createV81PhysicalImport",
+      "policyId": "CREATE-V81-PHYSICAL-IMPORT"
+    },
+    {
+      "operationId": "listV81PhysicalImports",
+      "previousPolicyId": "listV81PhysicalImports",
+      "policyId": "LIST-V81-PHYSICAL-IMPORTS"
+    },
+    {
+      "operationId": "getV81PhysicalImport",
+      "previousPolicyId": "getV81PhysicalImport",
+      "policyId": "GET-V81-PHYSICAL-IMPORT"
+    },
+    {
+      "operationId": "reviseV81PhysicalImport",
+      "previousPolicyId": "reviseV81PhysicalImport",
+      "policyId": "REVISE-V81-PHYSICAL-IMPORT"
+    },
+    {
+      "operationId": "listV81PhysicalImportRevisions",
+      "previousPolicyId": "listV81PhysicalImportRevisions",
+      "policyId": "LIST-V81-PHYSICAL-IMPORT-REVISIONS"
+    },
+    {
+      "operationId": "confirmV81PhysicalImport",
+      "previousPolicyId": "confirmV81PhysicalImport",
+      "policyId": "CONFIRM-V81-PHYSICAL-IMPORT"
+    },
+    {
+      "operationId": "getV81PhysicalImportSource",
+      "previousPolicyId": "getV81PhysicalImportSource",
+      "policyId": "GET-V81-PHYSICAL-IMPORT-SOURCE"
+    },
+    {
+      "operationId": "createV81PhysicalXlsxImport",
+      "previousPolicyId": "createV81PhysicalXlsxImport",
+      "policyId": "CREATE-V81-PHYSICAL-XLSX-IMPORT"
+    },
+    {
+      "operationId": "previewV81TeacherImport",
+      "previousPolicyId": "previewV81TeacherImport",
+      "policyId": "PREVIEW-V81-TEACHER-IMPORT"
+    },
+    {
+      "operationId": "confirmV81TeacherImport",
+      "previousPolicyId": "confirmV81TeacherImport",
+      "policyId": "CONFIRM-V81-TEACHER-IMPORT"
+    },
+    {
+      "operationId": "listV81TeacherAccounts",
+      "previousPolicyId": "listV81TeacherAccounts",
+      "policyId": "LIST-V81-TEACHER-ACCOUNTS"
+    },
+    {
+      "operationId": "createV81Semester",
+      "previousPolicyId": "createV81Semester",
+      "policyId": "CREATE-V81-SEMESTER"
+    },
+    {
+      "operationId": "listV81Semesters",
+      "previousPolicyId": "listV81Semesters",
+      "policyId": "LIST-V81-SEMESTERS"
+    },
+    {
+      "operationId": "updateV81Semester",
+      "previousPolicyId": "updateV81Semester",
+      "policyId": "UPDATE-V81-SEMESTER"
+    },
+    {
+      "operationId": "previewV81RosterRegistration",
+      "previousPolicyId": "previewV81RosterRegistration",
+      "policyId": "PREVIEW-V81-ROSTER-REGISTRATION"
+    },
+    {
+      "operationId": "getV81RosterConfirmation",
+      "previousPolicyId": "getV81RosterConfirmation",
+      "policyId": "GET-V81-ROSTER-CONFIRMATION"
+    },
+    {
+      "operationId": "confirmV81Roster",
+      "previousPolicyId": "confirmV81Roster",
+      "policyId": "CONFIRM-V81-ROSTER"
+    },
+    {
+      "operationId": "previewV81CompositeRoster",
+      "previousPolicyId": "previewV81CompositeRoster",
+      "policyId": "PREVIEW-V81-COMPOSITE-ROSTER"
+    },
+    {
+      "operationId": "exportV81CompositeRosterPreview",
+      "previousPolicyId": "exportV81CompositeRosterPreview",
+      "policyId": "EXPORT-V81-COMPOSITE-ROSTER-PREVIEW"
+    },
+    {
+      "operationId": "getV81RosterSource",
+      "previousPolicyId": "getV81RosterSource",
+      "policyId": "GET-V81-ROSTER-SOURCE"
+    },
+    {
+      "operationId": "getV81OwnRosterStatus",
+      "previousPolicyId": "getV81OwnRosterStatus",
+      "policyId": "GET-V81-OWN-ROSTER-STATUS"
+    },
+    {
+      "operationId": "getV81AdminRosterSummary",
+      "previousPolicyId": "getV81AdminRosterSummary",
+      "policyId": "GET-V81-ADMIN-ROSTER-SUMMARY"
+    },
+    {
+      "operationId": "getV81AdminCourseDirectory",
+      "previousPolicyId": "getV81AdminCourseDirectory",
+      "policyId": "GET-V81-ADMIN-COURSE-DIRECTORY"
+    },
+    {
+      "operationId": "getV81AdminPhysicalSummary",
+      "previousPolicyId": "getV81AdminPhysicalSummary",
+      "policyId": "GET-V81-ADMIN-PHYSICAL-SUMMARY"
+    },
+    {
+      "operationId": "createV81OcrRosterBatch",
+      "previousPolicyId": "createV81OcrRosterBatch",
+      "policyId": "CREATE-V81-OCR-ROSTER-BATCH"
+    },
+    {
+      "operationId": "createV81OcrPhysicalBatch",
+      "previousPolicyId": "createV81OcrPhysicalBatch",
+      "policyId": "CREATE-V81-OCR-PHYSICAL-BATCH"
+    },
+    {
+      "operationId": "listV81OcrBatches",
+      "previousPolicyId": "listV81OcrBatches",
+      "policyId": "LIST-V81-OCR-BATCHES"
+    },
+    {
+      "operationId": "getV81OcrBatch",
+      "previousPolicyId": "getV81OcrBatch",
+      "policyId": "GET-V81-OCR-BATCH"
+    },
+    {
+      "operationId": "getV81OcrPageSource",
+      "previousPolicyId": "getV81OcrPageSource",
+      "policyId": "GET-V81-OCR-PAGE-SOURCE"
+    },
+    {
+      "operationId": "getV81OcrPageRecognition",
+      "previousPolicyId": "getV81OcrPageRecognition",
+      "policyId": "GET-V81-OCR-PAGE-RECOGNITION"
+    },
+    {
+      "operationId": "createV81OcrJob",
+      "previousPolicyId": "createV81OcrJob",
+      "policyId": "CREATE-V81-OCR-JOB"
+    },
+    {
+      "operationId": "getV81OcrJob",
+      "previousPolicyId": "getV81OcrJob",
+      "policyId": "GET-V81-OCR-JOB"
+    },
+    {
+      "operationId": "getV81OcrDraft",
+      "previousPolicyId": "getV81OcrDraft",
+      "policyId": "GET-V81-OCR-DRAFT"
+    },
+    {
+      "operationId": "createV81OcrDraft",
+      "previousPolicyId": "createV81OcrDraft",
+      "policyId": "CREATE-V81-OCR-DRAFT"
+    },
+    {
+      "operationId": "reviseV81OcrDraft",
+      "previousPolicyId": "reviseV81OcrDraft",
+      "policyId": "REVISE-V81-OCR-DRAFT"
+    },
+    {
+      "operationId": "getV81OcrPhysicalConfirmation",
+      "previousPolicyId": "getV81OcrPhysicalConfirmation",
+      "policyId": "GET-V81-OCR-PHYSICAL-CONFIRMATION"
+    },
+    {
+      "operationId": "confirmV81OcrPhysicalRows",
+      "previousPolicyId": "confirmV81OcrPhysicalRows",
+      "policyId": "CONFIRM-V81-OCR-PHYSICAL-ROWS"
+    },
+    {
+      "operationId": "getV81OcrRosterConfirmation",
+      "previousPolicyId": "getV81OcrRosterConfirmation",
+      "policyId": "GET-V81-OCR-ROSTER-CONFIRMATION"
+    },
+    {
+      "operationId": "confirmV81OcrRoster",
+      "previousPolicyId": "confirmV81OcrRoster",
+      "policyId": "CONFIRM-V81-OCR-ROSTER"
+    },
+    {
+      "operationId": "getV81RosterBasis",
+      "previousPolicyId": "getV81RosterBasis",
+      "policyId": "GET-V81-ROSTER-BASIS"
+    },
+    {
+      "operationId": "selectV81RosterBasis",
+      "previousPolicyId": "selectV81RosterBasis",
+      "policyId": "SELECT-V81-ROSTER-BASIS"
+    },
+    {
+      "operationId": "listV81ConfirmedRosterSnapshots",
+      "previousPolicyId": "listV81ConfirmedRosterSnapshots",
+      "policyId": "LIST-V81-CONFIRMED-ROSTER-SNAPSHOTS"
+    },
+    {
+      "operationId": "listV81MakeupWindows",
+      "previousPolicyId": "listV81MakeupWindows",
+      "policyId": "LIST-V81-MAKEUP-WINDOWS"
+    },
+    {
+      "operationId": "createV81MakeupWindow",
+      "previousPolicyId": "createV81MakeupWindow",
+      "policyId": "CREATE-V81-MAKEUP-WINDOW"
+    },
+    {
+      "operationId": "revokeV81MakeupWindow",
+      "previousPolicyId": "revokeV81MakeupWindow",
+      "policyId": "REVOKE-V81-MAKEUP-WINDOW"
+    },
+    {
+      "operationId": "listV81OwnMakeupWindows",
+      "previousPolicyId": "listV81OwnMakeupWindows",
+      "policyId": "LIST-V81-OWN-MAKEUP-WINDOWS"
+    },
+    {
+      "operationId": "getV81SemesterSwitchCheck",
+      "previousPolicyId": "getV81SemesterSwitchCheck",
+      "policyId": "GET-V81-SEMESTER-SWITCH-CHECK"
+    },
+    {
+      "operationId": "listV81RuleTemplates",
+      "previousPolicyId": "listV81RuleTemplates",
+      "policyId": "LIST-V81-RULE-TEMPLATES"
+    },
+    {
+      "operationId": "publishV81RuleTemplate",
+      "previousPolicyId": "publishV81RuleTemplate",
+      "policyId": "PUBLISH-V81-RULE-TEMPLATE"
+    },
+    {
+      "operationId": "getV81RuleTemplate",
+      "previousPolicyId": "getV81RuleTemplate",
+      "policyId": "GET-V81-RULE-TEMPLATE"
+    },
+    {
+      "operationId": "listV81AuditEvents",
+      "previousPolicyId": "listV81AuditEvents",
+      "policyId": "LIST-V81-AUDIT-EVENTS"
+    },
+    {
+      "operationId": "getV81AuditEvent",
+      "previousPolicyId": "getV81AuditEvent",
+      "policyId": "GET-V81-AUDIT-EVENT"
+    },
+    {
+      "operationId": "createV81RuntimeArchive",
+      "previousPolicyId": "createV81RuntimeArchive",
+      "policyId": "CREATE-V81-RUNTIME-ARCHIVE"
+    },
+    {
+      "operationId": "getV81RuntimeArchive",
+      "previousPolicyId": "getV81RuntimeArchive",
+      "policyId": "GET-V81-RUNTIME-ARCHIVE"
+    },
+    {
+      "operationId": "cancelV81RuntimeArchive",
+      "previousPolicyId": "cancelV81RuntimeArchive",
+      "policyId": "CANCEL-V81-RUNTIME-ARCHIVE"
+    },
+    {
+      "operationId": "createV81RuntimeArchiveDownload",
+      "previousPolicyId": "createV81RuntimeArchiveDownload",
+      "policyId": "CREATE-V81-RUNTIME-ARCHIVE-DOWNLOAD"
+    },
+    {
+      "operationId": "downloadV81RuntimeArchive",
+      "previousPolicyId": "downloadV81RuntimeArchive",
+      "policyId": "DOWNLOAD-V81-RUNTIME-ARCHIVE"
+    },
+    {
+      "operationId": "setV81SubadminPermissions",
+      "previousPolicyId": "setV81SubadminPermissions",
+      "policyId": "SET-V81-SUBADMIN-PERMISSIONS"
+    },
+    {
+      "operationId": "requestCurrentUserAccountDeletionChallenge",
+      "previousPolicyId": "requestCurrentUserAccountDeletionChallenge",
+      "policyId": "REQUEST-CURRENT-USER-ACCOUNT-DELETION-CHALLENGE"
+    },
+    {
+      "operationId": "getV81OcrService",
+      "previousPolicyId": "getV81OcrService",
+      "policyId": "GET-V81-OCR-SERVICE"
+    },
+    {
+      "operationId": "listV81OcrServiceRevisions",
+      "previousPolicyId": "listV81OcrServiceRevisions",
+      "policyId": "LIST-V81-OCR-SERVICE-REVISIONS"
+    },
+    {
+      "operationId": "saveV81OcrService",
+      "previousPolicyId": "saveV81OcrService",
+      "policyId": "SAVE-V81-OCR-SERVICE"
+    },
+    {
+      "operationId": "requestV81SubadminIdentity",
+      "previousPolicyId": "requestV81SubadminIdentity",
+      "policyId": "REQUEST-V81-SUBADMIN-IDENTITY"
+    },
+    {
+      "operationId": "verifyV81SubadminIdentity",
+      "previousPolicyId": "verifyV81SubadminIdentity",
+      "policyId": "VERIFY-V81-SUBADMIN-IDENTITY"
+    },
+    {
+      "operationId": "updateV81VerifiedSubadmin",
+      "previousPolicyId": "updateV81VerifiedSubadmin",
+      "policyId": "UPDATE-V81-VERIFIED-SUBADMIN"
+    },
+    {
+      "operationId": "deleteV81Subadmin",
+      "previousPolicyId": "deleteV81Subadmin",
+      "policyId": "DELETE-V81-SUBADMIN"
+    },
+    {
+      "operationId": "createV81TeacherCourse",
+      "previousPolicyId": "createV81TeacherCourse",
+      "policyId": "CREATE-V81-TEACHER-COURSE"
+    },
+    {
+      "operationId": "revokeV81CourseInvite",
+      "previousPolicyId": "revokeV81CourseInvite",
+      "policyId": "REVOKE-V81-COURSE-INVITE"
+    }
+  ]
+}

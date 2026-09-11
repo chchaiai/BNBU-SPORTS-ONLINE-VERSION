@@ -1,0 +1,142 @@
+ Image bnbu-v81-local-validation-backend-build Building 
+#1 [internal] load local bake definitions
+#1 reading from stdin 628B 0.0s done
+#1 DONE 0.0s
+
+#2 [internal] load build definition from Dockerfile.v81-test
+#2 transferring dockerfile: 828B done
+#2 DONE 0.0s
+
+#3 [auth] library/node:pull token for registry-1.docker.io
+#3 DONE 0.0s
+
+#4 [internal] load metadata for docker.io/library/node:24.18.0-bookworm-slim
+#4 DONE 1.5s
+
+#5 [internal] load .dockerignore
+#5 transferring context: 153B done
+#5 DONE 0.0s
+
+#6 [ 1/11] FROM docker.io/library/node:24.18.0-bookworm-slim@sha256:6f7b03f7c2c8e2e784dcf9295400527b9b1270fd37b7e9a7285cf83b6951452d
+#6 resolve docker.io/library/node:24.18.0-bookworm-slim@sha256:6f7b03f7c2c8e2e784dcf9295400527b9b1270fd37b7e9a7285cf83b6951452d 0.0s done
+#6 DONE 0.0s
+
+#7 [internal] load build context
+#7 transferring context: 96.60kB 0.1s done
+#7 DONE 0.1s
+
+#8 [ 2/11] RUN apt-get update && apt-get install -y --no-install-recommends openssl ca-certificates && rm -rf /var/lib/apt/lists/*
+#8 CACHED
+
+#9 [ 3/11] WORKDIR /workspace/backend
+#9 CACHED
+
+#10 [ 4/11] COPY backend/package.json backend/package-lock.json ./
+#10 CACHED
+
+#11 [ 5/11] RUN npm ci --ignore-scripts --no-audit --no-fund
+#11 CACHED
+
+#12 [ 6/11] COPY backend/ ./
+#12 DONE 0.2s
+
+#13 [ 7/11] COPY docs/backend-contracts/ /workspace/docs/backend-contracts/
+#13 DONE 0.1s
+
+#14 [ 8/11] COPY tools/ /workspace/tools/
+#14 DONE 0.1s
+
+#15 [ 9/11] COPY BNBU-Sports-Web-new/frontend/student/ /workspace/BNBU-Sports-Web-new/frontend/student/
+#15 DONE 0.1s
+
+#16 [10/11] COPY BNBU-Sports-Web-new/portal-teacher-admin/app/ /workspace/BNBU-Sports-Web-new/portal-teacher-admin/app/
+#16 DONE 0.1s
+
+#17 [11/11] RUN npm run db:generate
+#17 0.348 
+#17 0.348 > @bnbu/sports-backend@0.1.0 db:generate
+#17 0.348 > prisma generate
+#17 0.348 
+#17 0.982 Loaded Prisma config from prisma.config.ts.
+#17 0.982 
+#17 3.641 Prisma schema loaded from prisma/schema.prisma.
+#17 5.216 
+#17 5.216 ✔ Generated Prisma Client (7.9.1) to ./src/generated/prisma in 1.00s
+#17 5.216 
+#17 DONE 5.4s
+
+#18 exporting to image
+#18 exporting layers
+#18 exporting layers 1.8s done
+#18 exporting manifest sha256:b34ba21782d5da0b70ae87d5c1f3af239722c168adf5660b2fdbbc6dda0fc2c5 0.0s done
+#18 exporting config sha256:26434fd730940ca478bb9d389b50154991c0dffe609c606ee598ba13363eb248 0.0s done
+#18 exporting attestation manifest sha256:4dd65937b5eab5f50715abb2cf2fff7eb021b5b19d7d7e1aa2c634bcf6fb9639 0.0s done
+#18 exporting manifest list sha256:ae0350023d08d5ee37b4bf82a8d05f3b556f5e7f7d0aa40dec569ad6b3b51a27
+#18 exporting manifest list sha256:ae0350023d08d5ee37b4bf82a8d05f3b556f5e7f7d0aa40dec569ad6b3b51a27 0.0s done
+#18 naming to docker.io/library/bnbu-v81-local-validation-backend-build:latest done
+#18 unpacking to docker.io/library/bnbu-v81-local-validation-backend-build:latest
+#18 unpacking to docker.io/library/bnbu-v81-local-validation-backend-build:latest 0.7s done
+#18 DONE 2.6s
+
+#19 resolving provenance for metadata file
+#19 DONE 0.0s
+ Image bnbu-v81-local-validation-backend-build Built 
+ Container bnbu-v81-local-validation-backend-build-run-58e1d5523a63 Creating 
+ Container bnbu-v81-local-validation-backend-build-run-58e1d5523a63 Created 
+✔ admits stored and deflated XLSX within declared budgets (10.807613ms)
+✔ rejects declared expansion and entry budgets before spreadsheet parsing (2.851962ms)
+✔ rejects truncated directories and mismatched local size claims (2.356449ms)
+✔ bounds actual inflation even when local and central sizes consistently understate output (1.786714ms)
+✔ checks stored entry byte length and CRC rather than trusting directory metadata (1.746257ms)
+ℹ tests 5
+ℹ suites 0
+ℹ pass 5
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 196.267443
+
+> @bnbu/sports-backend@0.1.0 prebuild
+> npm run db:generate && npm run generate
+
+
+> @bnbu/sports-backend@0.1.0 db:generate
+> prisma generate
+
+Loaded Prisma config from prisma.config.ts.
+
+Prisma schema loaded from prisma/schema.prisma.
+
+✔ Generated Prisma Client (7.9.1) to ./src/generated/prisma in 919ms
+
+┌─────────────────────────────────────────────────────────┐
+│  Update available 7.9.1 -> 8.0.0-rc.13                  │
+│                                                         │
+│  This is a major update - please follow the guide at    │
+│  https://pris.ly/d/major-version-upgrade                │
+│                                                         │
+│  Run the following to update                            │
+│    npm i --save-dev prisma@latest                       │
+│    npm i @prisma/client@latest                          │
+└─────────────────────────────────────────────────────────┘
+
+> @bnbu/sports-backend@0.1.0 generate
+> npm run openapi:generate && npm run db:manifest:generate
+
+
+> @bnbu/sports-backend@0.1.0 openapi:generate
+> node ./scripts/generate-openapi.mjs
+
+Generated 3 OpenAPI artifacts from 189 operations.
+
+> @bnbu/sports-backend@0.1.0 db:manifest:generate
+> node ./scripts/generate-migration-manifest.mjs
+
+Generated migration manifest updated.
+
+> @bnbu/sports-backend@0.1.0 build
+> nest build
+
+{"check":"ROSTER_XLSX_COMPILED_WORKER_SOURCE_DIGEST_ROWS_TIMEOUT_BUSY_SLOT_RELEASE","result":"PASS"}
+Docker exit code: 0

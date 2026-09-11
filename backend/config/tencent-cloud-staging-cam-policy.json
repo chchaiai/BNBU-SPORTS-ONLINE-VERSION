@@ -1,0 +1,33 @@
+{
+  "version": "2.0",
+  "statement": [
+    {
+      "effect": "allow",
+      "action": ["name/cos:HeadBucket"],
+      "resource": ["qcs::cos:ap-guangzhou:uid/1443273655:sports-staging-media-1443273655/"]
+    },
+    {
+      "effect": "allow",
+      "action": ["name/cos:GetObject", "name/cos:HeadObject", "name/cos:PutObject"],
+      "resource": [
+        "qcs::cos:ap-guangzhou:uid/1443273655:sports-staging-media-1443273655/roster-sources/*",
+        "qcs::cos:ap-guangzhou:uid/1443273655:sports-staging-media-1443273655/media/*"
+      ]
+    },
+    {
+      "effect": "allow",
+      "action": [
+        "name/cos:AbortMultipartUpload",
+        "name/cos:CompleteMultipartUpload",
+        "name/cos:DeleteObject",
+        "name/cos:InitiateMultipartUpload",
+        "name/cos:ListMultipartUploads",
+        "name/cos:ListParts",
+        "name/cos:UploadPart"
+      ],
+      "resource": [
+        "qcs::cos:ap-guangzhou:uid/1443273655:sports-staging-media-1443273655/roster-sources/*"
+      ]
+    }
+  ]
+}

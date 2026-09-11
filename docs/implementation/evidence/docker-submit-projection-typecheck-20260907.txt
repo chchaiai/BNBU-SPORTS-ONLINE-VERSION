@@ -1,0 +1,7 @@
+ Container bnbu-v81-local-validation-sql-tests-run-5333f1d3d21d Creating 
+ Container bnbu-v81-local-validation-sql-tests-run-5333f1d3d21d Created 
+
+> @bnbu/sports-backend@0.1.0 typecheck
+> tsc --noEmit -p tsconfig.json
+
+Docker exit code: 0

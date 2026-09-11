@@ -1,0 +1,5 @@
+              session_id              | session_status | actual_duration_seconds |              record_id               |  status  | credited_duration_seconds 
+--------------------------------------+----------------+-------------------------+--------------------------------------+----------+---------------------------
+ 01a07f08-d893-714a-a8db-678e4d993262 | COMPLETED      |                    2104 | 01a07f28-fa48-762a-8b76-bea1c53c5bc9 | REVIEWED |                      2100
+(1 row)
+

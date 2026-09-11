@@ -1,0 +1,1 @@
+{"check":"MAKEUP_WINDOW_BROWSER","result":"FAIL","stage":"LOGIN","type":"TimeoutError","message":"locator.click: Timeout 15000ms exceeded.\nCall log:\n\u001b[2m  - waiting for getByRole('row').filter({ hasText: 'SYNTH-SESSION-3C195CD6' }).getByRole('button').filter({ hasText: 'Synthetic Session Student 3C195CD6' })\u001b[22m\n"}

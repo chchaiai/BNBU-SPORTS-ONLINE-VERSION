@@ -1,0 +1,12 @@
+{
+  "currentVersion": "2.0.12-contract",
+  "releaseState": "published",
+  "sha256": "916461bed7c2fd14f28f0d750b7f414fd12f31db1ade09dc52777208fc3790d6",
+  "canonicalPath": "docs/backend-contracts/openapi.yaml",
+  "releaseManifest": "docs/backend-contracts/releases/2.0.12-contract/release-manifest.json",
+  "immutableHistory": "docs/backend-contracts/contract-history/2.0.12-contract-916461bed7c2fd14f28f0d750b7f414fd12f31db1ade09dc52777208fc3790d6",
+  "previousPublishedBaseline": {
+    "version": "2.0.11-contract",
+    "sha256": "c3bdba5999404ea5c58b48407f582ed7b6f19fe955b793f5dfba78303ae9edb1"
+  }
+}

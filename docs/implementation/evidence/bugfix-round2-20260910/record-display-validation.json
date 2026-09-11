@@ -1,0 +1,13 @@
+{
+  "sourceCommit": "2d4a49cabd79a9d7b40eef1984334152e07b70c8",
+  "status": "PASS",
+  "localDockerBrowser": "PASS",
+  "portalBuildTests": 129,
+  "readOnlyImageHttp200": "PASS",
+  "deltaSha256": "26968fa7d1529c8ad8e13007b5294926acb3633fb73f5f1086ce4c9b63d5e505",
+  "imageId": "sha256:612b35637ce1bf2774b4d7a60b933b8410087041d33409b4bf783a495e218dcb",
+  "studentFiles": {
+    "js/api.js": "15faa284cceee43d8cbca21a82be2dde766c48dcce62c4d0eda5c7ce79cb1a2a",
+    "js/screens/checkin.js": "2769ac8bd406154d8f91efbe5efd331b3ef9bc670347fd5270b7e0dd9505d776"
+  }
+}

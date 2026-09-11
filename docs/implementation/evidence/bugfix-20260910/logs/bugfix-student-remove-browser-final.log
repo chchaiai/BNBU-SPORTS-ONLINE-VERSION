@@ -1,0 +1,20 @@
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+
+404 !== 200
+
+    at read (file:///C:/Users/23328/Desktop/new_version/tools/local-integration/bugfix-20260910-student-remove.mjs:9:140)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    at async file:///C:/Users/23328/Desktop/new_version/tools/local-integration/bugfix-20260910-student-remove.mjs:19:12 {
+  generatedMessage: true,
+  code: 'ERR_ASSERTION',
+  actual: 404,
+  expected: 200,
+  operator: 'strictEqual',
+  diff: 'simple'
+}
+
+Node.js v24.13.1

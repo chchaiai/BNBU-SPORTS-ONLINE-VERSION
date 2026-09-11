@@ -1,0 +1,1 @@
+{"check":"LIVE_MAKEUP_BROWSER_FIXTURE","result":"READY","scheduleSeeded":true,"windowCurrentlyOpenForGrant":true,"fixtureFingerprint":"9fecdc7f5387"}

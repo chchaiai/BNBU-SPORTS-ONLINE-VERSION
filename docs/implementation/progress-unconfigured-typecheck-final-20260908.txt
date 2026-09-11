@@ -1,0 +1,2 @@
+BNBU-Sports-Web-new/portal-teacher-admin/app/language.tsx(412,3): error TS1117: An object literal cannot have multiple properties with the same name.
+BNBU-Sports-Web-new/portal-teacher-admin/app/language.tsx(1305,3): error TS1117: An object literal cannot have multiple properties with the same name.

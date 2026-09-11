@@ -1,0 +1,10 @@
+{
+  "formatVersion": 1,
+  "version": "1.3.0-contract",
+  "sha256": "914084874afda2481813a041da4cc01249aa9ea557d9a8bf29baeed4f10e0dc9",
+  "byteLength": 298422,
+  "sourceCommit": "4b4f88b69fb2c3e07e7401650e0107360dd28b12",
+  "sourcePath": "docs/backend-contracts/openapi.yaml",
+  "snapshotPath": "docs/backend-contracts/contract-history/1.3.0-contract-914084874afda2481813a041da4cc01249aa9ea557d9a8bf29baeed4f10e0dc9/openapi.snapshot.yaml",
+  "immutable": true
+}

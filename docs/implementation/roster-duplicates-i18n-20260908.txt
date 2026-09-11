@@ -1,0 +1,53 @@
+✖ keeps translation resources unique and covers all static system text (99.0394ms)
+✔ keeps portals, accessibility attributes, enum labels, and reverse switching in the i18n boundary (2.4068ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 1
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 700.0816
+
+✖ failing tests:
+
+test at tests\i18n-resources.test.mjs:67:1
+✖ keeps translation resources unique and covers all static system text (99.0394ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+  + [
+  +   'app/teacher-workspace.tsx:835 审核结果由服务器保存。退回补证和判无效必须选择公开原因，可补充说明；每条记录只有一次补证机会。',
+  +   'app/teacher-workspace.tsx:1995 该记录已使用过一次补证，请复核现有材料后选择通过或无效。',
+  +   'app/teacher-workspace.tsx:2175 课程已创建，请配置并发布规则。',
+  +   'app/teacher-workspace.tsx:2180 课程已发布，规则和时间安排已锁定。',
+  +   'app/teacher-workspace.tsx:2182 请选择已发布的规则模板。',
+  +   'app/teacher-workspace.tsx:2207 发布课程前请将打卡状态设为“允许打卡”，并配置可完成目标的运动时间。',
+  +   'app/teacher-workspace.tsx:2305 上次发布结果尚未确认，请先按原内容重试并核对结果。',
+  +   'app/teacher-workspace.tsx:2357 课程时间窗与 V8.1 规则已发布。',
+  +   'app/teacher-workspace.tsx:2411 请先读取当前课程邀请码。',
+  +   'app/teacher-workspace.tsx:3525 待处理与无效',
+  +   'app/teacher-workspace.tsx:3540 待审核记录按服务端处理状态展示。人工审核模式下由责任教师核对材料；退回补证和判无效需选择公开原因。',
+  +   'app/teacher-workspace.tsx:3561 待处理与无效',
+  +   'app/teacher-workspace.tsx:3638 当前没有待处理或无效记录',
+  +   'app/teacher-workspace.tsx:4754 课程使用已发布的 V8.1 规则模板。',
+  +   'app/teacher-workspace.tsx:4759 总目标为 1,200 分钟。课程发布后，运动门槛、周频次和时间安排锁定。',
+  +   'app/teacher-workspace.tsx:4765 请选择已发布模板',
+  +   'app/teacher-workspace.tsx:4768 请选择总管理员已发布的模板。',
+  +   'app/teacher-workspace.tsx:4771 总目标',
+  +   'app/teacher-workspace.tsx:4776 按当前课程规则累计有效运动，目标合计 20 小时。',
+  +   'app/teacher-workspace.tsx:5111 撤销后，当前二维码、邀请码和未完成的入班宽限立即失效，已经加入课程的学生不受影响。',
+  +   'app/teacher-workspace.tsx:5370 请选择公开原因和补证窗口。确认后服务器会退回本条记录，学生可在期限内补充一次材料。'
+  + ]
+  - []
+  
+      at TestContext.<anonymous> (file:///C:/Users/23328/Desktop/new_version/BNBU-Sports-Web-new/portal-teacher-admin/tests/i18n-resources.test.mjs:101:10)
+      at async Test.run (node:internal/test_runner/test:1110:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:358:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: [ 'app/teacher-workspace.tsx:835 审核结果由服务器保存。退回补证和判无效必须选择公开原因，可补充说明；每条记录只有一次补证机会。', 'app/teacher-workspace.tsx:1995 该记录已使用过一次补证，请复核现有材料后选择通过或无效。', 'app/teacher-workspace.tsx:2175 课程已创建，请配置并发布规则。', 'app/teacher-workspace.tsx:2180 课程已发布，规则和时间安排已锁定。', 'app/teacher-workspace.tsx:2182 请选择已发布的规则模板。', 'app/teacher-workspace.tsx:2207 发布课程前请将打卡状态设为“允许打卡”，并配置可完成目标的运动时间。', 'app/teacher-workspace.tsx:2305 上次发布结果尚未确认，请先按原内容重试并核对结果。', 'app/teacher-workspace.tsx:2357 课程时间窗与 V8.1 规则已发布。', 'app/teacher-workspace.tsx:2411 请先读取当前课程邀请码。', 'app/teacher-workspace.tsx:3525 待处理与无效', 'app/teacher-workspace.tsx:3540 待审核记录按服务端处理状态展示。人工审核模式下由责任教师核对材料；退回补证和判无效需选择公开原因。', 'app/teacher-workspace.tsx:3561 待处理与无效', 'app/teacher-workspace.tsx:3638 当前没有待处理或无效记录', 'app/teacher-workspace.tsx:4754 课程使用已发布的 V8.1 规则模板。', 'app/teacher-workspace.tsx:4759 总目标为 1,200 分钟。课程发布后，运动门槛、周频次和时间安排锁定。', 'app/teacher-workspace.tsx:4765 请选择已发布模板', 'app/teacher-workspace.tsx:4768 请选择总管理员已发布的模板。', 'app/teacher-workspace.tsx:4771 总目标', 'app/teacher-workspace.tsx:4776 按当前课程规则累计有效运动，目标合计 20 小时。', 'app/teacher-workspace.tsx:5111 撤销后，当前二维码、邀请码和未完成的入班宽限立即失效，已经加入课程的学生不受影响。', 'app/teacher-workspace.tsx:5370 请选择公开原因和补证窗口。确认后服务器会退回本条记录，学生可在期限内补充一次材料。' ],
+    expected: [],
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }

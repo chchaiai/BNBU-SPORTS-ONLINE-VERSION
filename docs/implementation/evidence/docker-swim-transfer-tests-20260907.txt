@@ -1,0 +1,18 @@
+ Container bnbu-v81-local-validation-sql-tests-run-8bb1012db0ee Creating 
+ Container bnbu-v81-local-validation-sql-tests-run-8bb1012db0ee Created 
+✔ the server accepts the fifteen-minute boundary and grants thirty minutes from acceptance (1.431102ms)
+✔ a late intake requires an explicit explanation and routes to offline handling (0.250288ms)
+✔ twenty-four hours is the final offline boundary and a future server end is rejected (0.099618ms)
+✔ overlapping transfer interruptions add their union and preserve elapsed transfer time (0.202564ms)
+✔ an open interruption pauses the current transfer window and does not renew it (0.143162ms)
+✔ an interruption after a genuinely expired transfer cannot revive it (0.086176ms)
+✔ confirmation exactly at the thirty-minute boundary is on time (0.10054ms)
+ℹ tests 7
+ℹ suites 0
+ℹ pass 7
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 210.365362
+Docker exit code: 0

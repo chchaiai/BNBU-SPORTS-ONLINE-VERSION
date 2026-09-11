@@ -1,0 +1,1 @@
+{"check":"ADMIN_HEALTH_BROWSER_REAL_DEPENDENCIES_REFRESH","result":"PASS","dependencies":{"database":"UP","notificationQueue":"UP","objectStorage":"UP","mediaStorage":"UP"}}

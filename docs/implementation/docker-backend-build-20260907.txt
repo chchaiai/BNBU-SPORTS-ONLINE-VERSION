@@ -1,0 +1,15 @@
+ Container bnbu-v81-local-validation-backend-build-run-6696a84ed6ad Creating 
+ Container bnbu-v81-local-validation-backend-build-run-6696a84ed6ad Created 
+
+> @bnbu/sports-backend@0.1.0 prebuild
+> npm run db:generate && npm run generate
+
+
+> @bnbu/sports-backend@0.1.0 db:generate
+> prisma generate
+
+Loaded Prisma config from prisma.config.ts.
+
+Error: request to https://binaries.prisma.sh/all_commits/e922089b7d7502aff4249d5da3420f6fa55fc6ad/debian-openssl-3.0.x/schema-engine.gz.sha256 failed, reason: getaddrinfo EAI_AGAIN binaries.prisma.sh
+
+Docker exit code: 1

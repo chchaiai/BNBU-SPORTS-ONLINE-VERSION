@@ -1,0 +1,254 @@
+ Image bnbu-v81-full-integration-integration-tests Building 
+#1 [internal] load local bake definitions
+#1 reading from stdin 644B 0.0s done
+#1 DONE 0.0s
+
+#2 [internal] load build definition from Dockerfile.v81-test
+#2 transferring dockerfile: 828B done
+#2 DONE 0.0s
+
+#3 [auth] library/node:pull token for registry-1.docker.io
+#3 DONE 0.0s
+
+#4 [internal] load metadata for docker.io/library/node:24.18.0-bookworm-slim
+#4 DONE 1.5s
+
+#5 [internal] load .dockerignore
+#5 transferring context: 153B done
+#5 DONE 0.0s
+
+#6 [ 1/11] FROM docker.io/library/node:24.18.0-bookworm-slim@sha256:6f7b03f7c2c8e2e784dcf9295400527b9b1270fd37b7e9a7285cf83b6951452d
+#6 resolve docker.io/library/node:24.18.0-bookworm-slim@sha256:6f7b03f7c2c8e2e784dcf9295400527b9b1270fd37b7e9a7285cf83b6951452d 0.0s done
+#6 DONE 0.0s
+
+#7 [internal] load build context
+#7 transferring context: 147.12kB 0.1s done
+#7 DONE 0.1s
+
+#8 [ 2/11] RUN apt-get update && apt-get install -y --no-install-recommends openssl ca-certificates && rm -rf /var/lib/apt/lists/*
+#8 CACHED
+
+#9 [ 3/11] WORKDIR /workspace/backend
+#9 CACHED
+
+#10 [ 4/11] COPY backend/package.json backend/package-lock.json ./
+#10 CACHED
+
+#11 [ 5/11] RUN npm ci --ignore-scripts --no-audit --no-fund
+#11 CACHED
+
+#12 [ 6/11] COPY backend/ ./
+#12 DONE 0.2s
+
+#13 [ 7/11] COPY docs/backend-contracts/ /workspace/docs/backend-contracts/
+#13 DONE 0.2s
+
+#14 [ 8/11] COPY tools/ /workspace/tools/
+#14 DONE 0.1s
+
+#15 [ 9/11] COPY BNBU-Sports-Web-new/frontend/student/ /workspace/BNBU-Sports-Web-new/frontend/student/
+#15 DONE 0.1s
+
+#16 [10/11] COPY BNBU-Sports-Web-new/portal-teacher-admin/app/ /workspace/BNBU-Sports-Web-new/portal-teacher-admin/app/
+#16 DONE 0.1s
+
+#17 [11/11] RUN npm run db:generate
+#17 0.378 
+#17 0.378 > @bnbu/sports-backend@0.1.0 db:generate
+#17 0.378 > prisma generate
+#17 0.378 
+#17 0.990 Loaded Prisma config from prisma.config.ts.
+#17 0.990 
+#17 2.861 Prisma schema loaded from prisma/schema.prisma.
+#17 4.319 
+#17 4.319 ✔ Generated Prisma Client (7.9.1) to ./src/generated/prisma in 890ms
+#17 4.319 
+#17 DONE 4.5s
+
+#18 exporting to image
+#18 exporting layers
+#18 exporting layers 1.8s done
+#18 exporting manifest sha256:0e560cdd30b2443c104373ccabf00433c28e4249df7ecb380d9fe43ac208136e 0.0s done
+#18 exporting config sha256:e7b298a2c3cb53a05309d0fc89223a5da18f22844bcd563fcdcf22670218e2a0 0.0s done
+#18 exporting attestation manifest sha256:f3a25d1f0c85c3bb654b8144c4891f8af40bdd60839cddaf67e5e4a296435eef 0.0s done
+#18 exporting manifest list sha256:fac90d6516167c20e69335bf78819b157c67d60e5557ab505ea645743e46cda5
+#18 exporting manifest list sha256:fac90d6516167c20e69335bf78819b157c67d60e5557ab505ea645743e46cda5 0.0s done
+#18 naming to docker.io/library/bnbu-v81-full-integration-integration-tests:latest done
+#18 unpacking to docker.io/library/bnbu-v81-full-integration-integration-tests:latest
+#18 unpacking to docker.io/library/bnbu-v81-full-integration-integration-tests:latest 0.8s done
+#18 DONE 2.8s
+
+#19 resolving provenance for metadata file
+#19 DONE 0.0s
+ Image bnbu-v81-full-integration-integration-tests Built 
+ Container bnbu-v81-full-integration-integration-tests-run-fb4f6bbdff4d Creating 
+ Container bnbu-v81-full-integration-integration-tests-run-fb4f6bbdff4d Created 
+
+> @bnbu/sports-backend@0.1.0 prebuild
+> npm run db:generate && npm run generate
+
+
+> @bnbu/sports-backend@0.1.0 db:generate
+> prisma generate
+
+Loaded Prisma config from prisma.config.ts.
+
+Prisma schema loaded from prisma/schema.prisma.
+
+✔ Generated Prisma Client (7.9.1) to ./src/generated/prisma in 877ms
+
+┌─────────────────────────────────────────────────────────┐
+│  Update available 7.9.1 -> 8.0.0-rc.13                  │
+│                                                         │
+│  This is a major update - please follow the guide at    │
+│  https://pris.ly/d/major-version-upgrade                │
+│                                                         │
+│  Run the following to update                            │
+│    npm i --save-dev prisma@latest                       │
+│    npm i @prisma/client@latest                          │
+└─────────────────────────────────────────────────────────┘
+
+> @bnbu/sports-backend@0.1.0 generate
+> npm run openapi:generate && npm run db:manifest:generate
+
+
+> @bnbu/sports-backend@0.1.0 openapi:generate
+> node ./scripts/generate-openapi.mjs
+
+Generated 3 OpenAPI artifacts from 249 operations.
+
+> @bnbu/sports-backend@0.1.0 db:manifest:generate
+> node ./scripts/generate-migration-manifest.mjs
+
+Generated migration manifest updated.
+
+> @bnbu/sports-backend@0.1.0 build
+> nest build
+
+Loaded Prisma config from prisma.config.ts.
+
+Prisma schema loaded from prisma/schema.prisma.
+Datasource "db": PostgreSQL database "bnbu_sports_test", schema "public" at "127.0.0.1:5432"
+
+57 migrations found in prisma/migrations
+
+
+No pending migrations to apply.
+
+> @bnbu/sports-backend@0.1.0 test:integration
+> node ./scripts/run-test-layer.mjs integration
+
+▶ PostgreSQL identity, Enrollment, and QR Join integration
+  ✔ installs exactly the four Stage 12 tables with append-only event protection (553.662051ms)
+  ✔ preserves leading zeros and enforces one identity per organization (339.086033ms)
+  ✔ enforces a permanent class relation and one ACTIVE Enrollment per semester (441.776621ms)
+  ✔ rejects invalid Enrollment status shapes and cross-organization references (413.927918ms)
+  ✔ permits one ACTIVE invite per section while retaining revoked history (423.89451ms)
+  ✔ enforces consumed capability shape and keeps EnrollmentStatusEvent append-only (392.79684ms)
+✔ PostgreSQL identity, Enrollment, and QR Join integration (2605.034411ms)
+▶ ExerciseRecord PostgreSQL integration
+  ✔ installs only the five Stage 16 tables and the one-record-per-session key (604.238889ms)
+  ✔ enforces the conditional description rule in PostgreSQL (473.071501ms)
+  ✔ enforces media ownership, availability, global uniqueness, and daily uniqueness (492.416853ms)
+  ✔ keeps association, daily slot, event, and review histories append-only (518.068128ms)
+✔ ExerciseRecord PostgreSQL integration (2140.501357ms)
+▶ ExerciseReview PostgreSQL integration
+  ✔ accepts only an immediate append-only review chain including reopen PENDING reason (616.579308ms)
+  ✔ accepts a system VALID first review and a reviewed-to-reviewed invalidation (464.192385ms)
+  ✔ enforces INVALID reason shape and permanently denies credited override (383.26146ms)
+  ✔ permits only the Stage 17 review and reopen record transitions (460.843419ms)
+  ✔ keeps Stage 17 review facts intact after forward-only Score migration (414.527067ms)
+✔ ExerciseReview PostgreSQL integration (2387.876492ms)
+▶ ExerciseSession PostgreSQL integration
+  ✔ enforces one active Session per student under concurrent writes (647.059071ms)
+  ✔ enforces terminal timestamps, duration bounds, version, and scoped foreign keys (396.914184ms)
+  ✔ allows a segment to close exactly once and keeps event history append-only (486.249934ms)
+  ✔ rolls back Session, segment, event, audit, and outbox together on transaction failure (499.638726ms)
+✔ ExerciseSession PostgreSQL integration (2030.772638ms)
+▶ Stage 19 Export and audit governance PostgreSQL integration
+  ✔ adds AUDIT_LOG_READ without creating Export persistence (532.862499ms)
+{"tool":"STAGING_HEALTH_OPERATOR","command":"bootstrap","status":"PASS","fixtureState":"CREATED","createdComponents":["organization","adminUser","adminProfile","systemPolicy"],"secretOutput":"REDACTED"}
+{"tool":"STAGING_HEALTH_OPERATOR","command":"bootstrap","status":"PASS","fixtureState":"VERIFIED","createdComponents":[],"secretOutput":"REDACTED"}
+  ✔ accepts the isolated staging fixture bootstrap audit action (545.151773ms)
+  ✔ keeps the audit action constraint closed and the append-only trigger effective (323.071586ms)
+✔ Stage 19 Export and audit governance PostgreSQL integration (1434.220989ms)
+▶ MediaEvidence PostgreSQL integration
+  ✔ installs four scoped tables, immutable facts, and append-only histories (639.384295ms)
+  ✔ enforces active 6-image and 1-video quotas under database serialization (549.778442ms)
+  ✔ persists the monotonic confirmed, bound, processing, and available lifecycle (434.625261ms)
+✔ MediaEvidence PostgreSQL integration (1671.192683ms)
+▶ Official Roster Import and Alignment PostgreSQL integration
+  ✔ installs six scoped roster tables and append-only history guards (528.246321ms)
+  ✖ persists private versions, a frozen deterministic alignment, resolution history, and rollback (507.768203ms)
+  ✔ binds roster-version evidence to a different version of the same subject and keeps newer-result evidence fail-closed (449.152193ms)
+✖ Official Roster Import and Alignment PostgreSQL integration (1524.802102ms)
+▶ PostgreSQL 18 Foundation integration
+  ✔ records every exact finished Greenfield migration and checksum (524.554951ms)
+  ✔ enforces foreign keys and one CURRENT semester per organization (339.124501ms)
+  ✔ preserves student-number leading zeros and enforces exactly one role Profile (406.427187ms)
+  ✔ enforces mutually exclusive StudentScore status predicates in PostgreSQL (477.764714ms)
+  ✔ keeps AuditLog append-only at the database boundary (322.964356ms)
+  ✔ claims Outbox rows concurrently without duplicate ownership (395.986151ms)
+  ✔ enforces shared rate-limit windows atomically across concurrent consumers (396.707332ms)
+  ✔ persists SystemMode, rejects unknown values, and rolls transactions back (375.090022ms)
+✔ PostgreSQL 18 Foundation integration (3284.840145ms)
+▶ Stage 18 Score PostgreSQL integration
+  ✔ creates exactly the nine 0009 tables while leaving Export absent (520.432919ms)
+  ✔ enforces one ACTIVE rule and protects the frozen rule definition (336.019934ms)
+  ✔ keeps approvals and score revisions append-only and source-idempotent (500.473479ms)
+✔ Stage 18 Score PostgreSQL integration (1402.983945ms)
+▶ staging business fixture PostgreSQL integration
+  ✔ creates the complete fixture once and verifies it without adding rows (730.378283ms)
+  ✔ reports a deterministic conflict without changing the conflicting database state (481.16115ms)
+  ✔ creates one completed one-hour session and verifies the same closure on replay (509.091731ms)
+✔ staging business fixture PostgreSQL integration (1767.260329ms)
+▶ staging R01 fixture PostgreSQL integration
+  ✔ creates only the isolated staff topology once and verifies it without Student side effects (727.778381ms)
+  ✔ fails atomically when an existing BNBU organization has conflicting metadata (247.533716ms)
+  ✔ fails closed and rolls back when reserved Student STUDENT-ANDROID-01 already exists (271.698675ms)
+  ✔ fails closed and rolls back when reserved Student STUDENT-IOS-01 already exists (273.171552ms)
+  ✔ fails closed and rolls back when reserved Student STUDENT-WEB-01 already exists (259.303757ms)
+  ✔ rejects an extra identity and rolls back all attempted fixture writes (382.93687ms)
+  ✔ rejects any existing AuthSession with a dedicated conflict (489.601186ms)
+  ✔ rejects any existing Enrollment with a dedicated conflict before identity counts (473.592566ms)
+  ✔ rejects a cross-role Profile and rolls back earlier fixture writes (419.297608ms)
+  ✔ rejects a changed password without rotating or overwriting the existing account (425.150197ms)
+✔ staging R01 fixture PostgreSQL integration (4018.883725ms)
+▶ PostgreSQL teaching structure integration
+  ✔ persists the teaching fixture across forward-only Score while keeping Export absent (537.730011ms)
+  ✔ enforces organization Course codes and semester/course/class codes as unique (334.375865ms)
+  ✔ rejects every cross-organization Course, Semester, Teacher, and actor reference (443.083947ms)
+  ✔ enforces version, date, daily-time, and excluded-date database checks (459.625786ms)
+  ✔ prevents deleting referenced Course and preserves sections across deactivate and close (414.368418ms)
+  ✔ rolls back parent and excluded-date changes when the calendar invariant fails (402.530207ms)
+  ✔ accepts the Stage 11 Course audit actions while preserving append-only behavior (318.09606ms)
+✔ PostgreSQL teaching structure integration (2958.731867ms)
+ℹ tests 59
+ℹ suites 12
+ℹ pass 58
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 51025.468971
+
+✖ failing tests:
+
+test at test/integration/official-roster-alignment.test.ts:33:213
+✖ persists private versions, a frozen deterministic alignment, resolution history, and rollback (507.768203ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  1 !== 0
+  
+      at TestContext.<anonymous> (/workspace/backend/test/integration/official-roster-alignment.test.ts:408:12)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async Test.run (node:internal/test_runner/test:1332:7)
+      at async Suite.processPendingSubtests (node:internal/test_runner/test:911:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 1,
+    expected: 0,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+

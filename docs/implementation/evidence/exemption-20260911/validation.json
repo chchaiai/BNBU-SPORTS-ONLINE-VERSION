@@ -1,0 +1,9 @@
+{
+  "sourceCommit": "26fc80e2423a6f94d673eca728985278980c5b9a",
+  "localResult": "PASS",
+  "files": {
+    "services.js": "43f821c504d9583c841abfff8bd1b88664c69df848d16396ef9248bd0d43d7a1"
+  },
+  "localFullApplicationFlow": "PASS",
+  "realResponseLoadingRegression": "PASS"
+}

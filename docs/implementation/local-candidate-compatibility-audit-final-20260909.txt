@@ -1,0 +1,1 @@
+{"check":"LOCAL_CANDIDATE_DIFFERENCE_AUDIT","result":"REPORT_GENERATED","releaseApproval":false,"baseline":"2.0.12-contract","candidate":"3.0.0-v81-local-draft","counts":{"BREAKING":53,"NON_BREAKING":27,"REVIEW_REQUIRED":35}}

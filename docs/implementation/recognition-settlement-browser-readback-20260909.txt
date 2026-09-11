@@ -1,0 +1,1 @@
+{"check":"RECOGNITION_SETTLEMENT_BROWSER","result":"PASS","adjustReplay":true,"revokeReplay":true,"archived":false,"reportVersions":3,"downloadedValues":[[1800,900],[900,1800],[0,0]],"originalShaPreserved":true}

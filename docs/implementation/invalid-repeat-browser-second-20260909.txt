@@ -1,0 +1,1 @@
+{"result":"FAIL","stage":"MANUAL_MODE","message":"locator.waitFor: Timeout 60000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('[data-admin-form=\"manual\"]').getByText(/当前状态: 开启/) to be visible\u001b[22m\n"}

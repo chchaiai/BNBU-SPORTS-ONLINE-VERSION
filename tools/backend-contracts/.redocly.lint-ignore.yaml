@@ -1,0 +1,10 @@
+# This file instructs Redocly's linter to ignore the rules contained for specific parts of your API.
+# See https://redocly.com/docs/cli/ for more information.
+../../docs/backend-contracts/openapi.yaml:
+  operation-4xx-response:
+    - "#/paths/~1health~1live/get/responses"
+    - "#/paths/~1health~1ready/get/responses"
+    - "#/paths/~1system-mode/get/responses"
+  no-unused-components:
+    - "#/components/schemas/ResponseMeta"
+    - "#/components/schemas/ScoreContribution"

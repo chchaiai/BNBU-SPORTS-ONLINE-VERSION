@@ -1,0 +1,23 @@
+{
+  "formatVersion": 2,
+  "baseline": {
+    "version": "2.0.10-contract",
+    "sha256": "56f7f13cdd8122dae630fec93bf198f7ed6d92a5fc4f67ae4f866a3b41c38ad7",
+    "operationCount": 126
+  },
+  "current": {
+    "version": "2.0.11-contract",
+    "sha256": "c3bdba5999404ea5c58b48407f582ed7b6f19fe955b793f5dfba78303ae9edb1",
+    "operationCount": 126
+  },
+  "compatible": true,
+  "majorChangeApproval": null,
+  "summary": {
+    "breaking": 0,
+    "reviewRequired": 0,
+    "nonBreaking": 0,
+    "approvedExceptions": 0,
+    "unapprovedBlockers": 0
+  },
+  "changes": []
+}

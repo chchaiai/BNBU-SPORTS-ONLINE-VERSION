@@ -1,0 +1,1 @@
+{"check":"CERTIFICATION_REVOKE_BROWSER","result":"FAIL","stage":"RELOAD_REPLAY","type":"TimeoutError","message":"locator.isDisabled: Timeout 60000ms exceeded.\nCall log:\n\u001b[2m  - waiting for getByPlaceholder('请说明审核依据和处理结果')\u001b[22m\n"}

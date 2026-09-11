@@ -1,0 +1,18 @@
+{"stage":"RETRY","error":"/system-mode: 503"}
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: /system-mode: 503
+    at api (file:///C:/Users/23328/Desktop/new_version/tools/local-integration/v81-system-mode-browser-probe.mjs:6:293)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    at async file:///C:/Users/23328/Desktop/new_version/tools/local-integration/v81-system-mode-browser-probe.mjs:35:23 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: false,
+  expected: true,
+  operator: '==',
+  diff: 'simple'
+}
+
+Node.js v24.13.1

@@ -1,0 +1,4 @@
+stage TEMPLATE
+stage MANUAL
+stage OCR
+{"result":"PASS","template":"Synthetic Web Template 1788936115007","realDockerBackend":true,"mutations":8,"refreshLostResponseReplays":3,"manualRestored":true,"ocrRestoredDisabled":true,"cloudRecognitionInvoked":false}

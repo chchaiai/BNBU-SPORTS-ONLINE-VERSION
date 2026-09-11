@@ -1,0 +1,18 @@
+ROSTER_DEBUG_LOAD 01a07f43-9282-73af-aa29-b1f795492fe2
+{"check":"EXISTING_SYNTHETIC_ROSTER_RENDER","text":"对齐结果\n\n共 2 条记录，异常和待处理记录优先显示。\n\n清除筛选\n学号\t姓名\t官方课程\t当前加入课程\t官方信息\t平台信息\t对齐状态\t差异说明\t处理状态\t操作\n000002\tSynthetic Roster Two\tSynthetic Roster csv 74202e30-f3e0-4204-92ad-7442b27cd1e8\t—\t\nSynthetic Roster Two\n—\n\t—\t\n未加入课程\n\t\n后端核对结果：官方名单中存在，但当前平台成员中不存在。\n\t待确认\t\n处理 Synthetic Roster Two\n\n000001\tSynthetic Roster One\tSynthetic Roster csv 74202e30-f3e0-4204-92ad-7442b27cd1e8\t—\t\nSynthetic Roster One\n—\n\t—\t\n未加入课程\n\t\n后端核对结果：官方名单中存在，但当前平台成员中不存在。\n\t待确认\t\n处理 Synthetic Roster One\n第 1 / 1 页\n上一页\n下一页"}
+ROSTER_DEBUG_RENDER {"reason":"","resultId":"01a07f4d-c4d2-7122-a50e-3bb51e4e79fe"}
+ROSTER_DEBUG_MOUNT
+ROSTER_DEBUG_RENDER {"reason":"Synthetic teacher confirms the registration discrepancy","resultId":"01a07f4d-c4d2-7122-a50e-3bb51e4e79fe"}
+{"check":"REASON_AFTER_FILL","value":"Synthetic teacher confirms the registration discrepancy","hint":"本次处理原因 *\n（必填）\n55 / 1000"}
+ROSTER_DEBUG_RENDER {"reason":"Synthetic teacher confirms the registration discrepancy","resultId":"01a07f4d-c4d2-7122-a50e-3bb51e4e79fe"}
+ROSTER_DEBUG_RENDER {"reason":"Synthetic teacher confirms the registration discrepancy","resultId":"01a07f4d-c4d2-7122-a50e-3bb51e4e79fe"}
+ROSTER_DEBUG_RENDER {"reason":"Synthetic teacher confirms the registration discrepancy","resultId":"01a07f4d-c4d2-7122-a50e-3bb51e4e79fe"}
+ROSTER_DEBUG_LOAD 01a07f43-9282-73af-aa29-b1f795492fe2
+ROSTER_DEBUG_UNMOUNT
+ROSTER_DEBUG_RENDER {"reason":"","resultId":"01a07f4d-c4d2-7122-a50e-3bb51e4e79fe"}
+ROSTER_DEBUG_MOUNT
+{"check":"ROSTER_CLICK","tag":"BUTTON","className":"primary-button","text":"确认该异常"}
+ROSTER_DEBUG {"reason":"","resultId":"01a07f4d-c4d2-7122-a50e-3bb51e4e79fe","status":"CONFIRMED"}
+ROSTER_DEBUG_RENDER {"reason":"","resultId":"01a07f4d-c4d2-7122-a50e-3bb51e4e79fe"}
+ROSTER_DEBUG_RENDER {"reason":"","resultId":"01a07f4d-c4d2-7122-a50e-3bb51e4e79fe"}
+{"check":"EXISTING_ROSTER_BROWSER","result":"FAIL","stage":"CONFIRM","type":"TimeoutError","message":"page.waitForResponse: Timeout 15000ms exceeded while waiting for event \"response\"","dialogs":["差异详情Synthetic Roster One · 000001系统判定依据与教师处理记录未加入课程系统判定原因后端核对结果：官方名单中存在，但当前平台成员中不存在。官方名单信息学号000001姓名Synthetic Roster One性别—年级—官方归属课程Synthetic Roster csv 74202e30-f3e0-4204-92ad-7442b27cd1e8平台学生信息学号—姓名—性别—年级—当前加入课程—差异字段主要身份字段无差异。本次处理原因 *（必填）0 / 1000请填写本次确认或重新打开的原因。受接口规则约束的处理范围当前页面仅开放后端已支持的“确认异常”和“重新打开”。“已处理”必须附带可追溯证据引用；现有页面尚不能安全采集该证据，因此不会显示伪造入口。完整历史可在审计日志中查询。关闭确认该异常"],"reason":""}

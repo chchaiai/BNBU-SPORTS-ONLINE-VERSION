@@ -1,0 +1,24 @@
+Contract parity: FAIL (operations=232, handlers=232, query=47, body=110)
+[
+  {
+    "operationId": "setV81SubadminPermissions",
+    "kind": "body",
+    "field": "permissions",
+    "issue": "ENUM_MISMATCH",
+    "contract": "OPEN_STRING",
+    "backend": [
+      "AUDIT_QUERY",
+      "COURSE_VIEW",
+      "GLOBAL_RULES",
+      "HELP_CENTER",
+      "SEMESTER_MANAGE",
+      "STUDENT_FEEDBACK",
+      "SYSTEM_MODE",
+      "USER_ACCOUNTS"
+    ],
+    "location": "backend/src/modules/v8/v81-subadmins.ts:39"
+  }
+]
+Error parity: catalog=154, registry=154, messages=154, callSites=953, lifecycle=runtime:115/reserved:39
+Frozen 1.3 contract defects: 0 (staticExceptions=0, semanticLimitations=0)
+Parity exit code: 1

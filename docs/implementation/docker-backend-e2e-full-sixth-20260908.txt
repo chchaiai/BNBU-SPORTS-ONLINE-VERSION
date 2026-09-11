@@ -1,0 +1,449 @@
+time="2026-09-08T19:00:03+08:00" level=warning msg="Found orphan containers (bnbu-v81-e2e-fifth-20260908, bnbu-v81-e2e-report-20260908) for this project. If you removed or renamed this service in your compose file, you can run this command with the --remove-orphans flag to clean it up."
+ Image bnbu-v81-full-integration-integration-tests Building 
+#1 [internal] load local bake definitions
+#1 reading from stdin 644B 0.0s done
+#1 DONE 0.0s
+
+#2 [internal] load build definition from Dockerfile.v81-test
+#2 transferring dockerfile: 828B done
+#2 DONE 0.0s
+
+#3 [auth] library/node:pull token for registry-1.docker.io
+#3 DONE 0.0s
+
+#4 [internal] load metadata for docker.io/library/node:24.18.0-bookworm-slim
+#4 DONE 1.7s
+
+#5 [internal] load .dockerignore
+#5 transferring context: 153B done
+#5 DONE 0.0s
+
+#6 [ 1/11] FROM docker.io/library/node:24.18.0-bookworm-slim@sha256:6f7b03f7c2c8e2e784dcf9295400527b9b1270fd37b7e9a7285cf83b6951452d
+#6 resolve docker.io/library/node:24.18.0-bookworm-slim@sha256:6f7b03f7c2c8e2e784dcf9295400527b9b1270fd37b7e9a7285cf83b6951452d 0.0s done
+#6 DONE 0.0s
+
+#7 [internal] load build context
+#7 transferring context: 107.11kB 0.1s done
+#7 DONE 0.1s
+
+#8 [ 2/11] RUN apt-get update && apt-get install -y --no-install-recommends openssl ca-certificates && rm -rf /var/lib/apt/lists/*
+#8 CACHED
+
+#9 [ 7/11] COPY docs/backend-contracts/ /workspace/docs/backend-contracts/
+#9 CACHED
+
+#10 [ 8/11] COPY tools/ /workspace/tools/
+#10 CACHED
+
+#11 [ 5/11] RUN npm ci --ignore-scripts --no-audit --no-fund
+#11 CACHED
+
+#12 [ 6/11] COPY backend/ ./
+#12 CACHED
+
+#13 [10/11] COPY BNBU-Sports-Web-new/portal-teacher-admin/app/ /workspace/BNBU-Sports-Web-new/portal-teacher-admin/app/
+#13 CACHED
+
+#14 [ 3/11] WORKDIR /workspace/backend
+#14 CACHED
+
+#15 [ 4/11] COPY backend/package.json backend/package-lock.json ./
+#15 CACHED
+
+#16 [ 9/11] COPY BNBU-Sports-Web-new/frontend/student/ /workspace/BNBU-Sports-Web-new/frontend/student/
+#16 CACHED
+
+#17 [11/11] RUN npm run db:generate
+#17 CACHED
+
+#18 exporting to image
+#18 exporting layers done
+#18 exporting manifest sha256:15fe9d49c5b7ca7982a1dfd32515fcad750249bed3fcec82975ab578b854f35f done
+#18 exporting config sha256:1bd616bf99f71b4671d8cbf09c07f27348105606212bb9ccbbd1a8fdef3b7566 done
+#18 exporting attestation manifest sha256:1ae7c4f8980385939de1a47b42f28a28f2ed13b981fa172ed8d9970d697c7b48 0.0s done
+#18 exporting manifest list sha256:1c5c1fac582a4e1f47bfc517ff9091a97fe14cb8db93b6f137925950f7cef7c1
+#18 exporting manifest list sha256:1c5c1fac582a4e1f47bfc517ff9091a97fe14cb8db93b6f137925950f7cef7c1 0.0s done
+#18 naming to docker.io/library/bnbu-v81-full-integration-integration-tests:latest done
+#18 unpacking to docker.io/library/bnbu-v81-full-integration-integration-tests:latest 0.0s done
+#18 DONE 0.2s
+
+#19 resolving provenance for metadata file
+#19 DONE 0.0s
+ Image bnbu-v81-full-integration-integration-tests Built 
+ Container bnbu-v81-e2e-sixth-20260908 Creating 
+ Container bnbu-v81-e2e-sixth-20260908 Created 
+
+> @bnbu/sports-backend@0.1.0 pretest:e2e
+> npm run build
+
+
+> @bnbu/sports-backend@0.1.0 prebuild
+> npm run db:generate && npm run generate
+
+
+> @bnbu/sports-backend@0.1.0 db:generate
+> prisma generate
+
+Loaded Prisma config from prisma.config.ts.
+
+Prisma schema loaded from prisma/schema.prisma.
+
+✔ Generated Prisma Client (7.9.1) to ./src/generated/prisma in 893ms
+
+┌─────────────────────────────────────────────────────────┐
+│  Update available 7.9.1 -> 8.0.0-rc.13                  │
+│                                                         │
+│  This is a major update - please follow the guide at    │
+│  https://pris.ly/d/major-version-upgrade                │
+│                                                         │
+│  Run the following to update                            │
+│    npm i --save-dev prisma@latest                       │
+│    npm i @prisma/client@latest                          │
+└─────────────────────────────────────────────────────────┘
+
+> @bnbu/sports-backend@0.1.0 generate
+> npm run openapi:generate && npm run db:manifest:generate
+
+
+> @bnbu/sports-backend@0.1.0 openapi:generate
+> node ./scripts/generate-openapi.mjs
+
+Generated 3 OpenAPI artifacts from 249 operations.
+
+> @bnbu/sports-backend@0.1.0 db:manifest:generate
+> node ./scripts/generate-migration-manifest.mjs
+
+Generated migration manifest updated.
+
+> @bnbu/sports-backend@0.1.0 build
+> nest build
+
+
+> @bnbu/sports-backend@0.1.0 test:e2e
+> node ./scripts/run-test-layer.mjs e2e
+
+▶ Foundation HTTP E2E with real PostgreSQL
+  ✔ serves public probes and restricts dependency health to administrators (930.478568ms)
+  ✔ logs in only with the seeded password and returns a safe /me projection (459.313166ms)
+  ✔ denies missing or pending password security and unassigned administrator access (639.806301ms)
+  ✔ validates unauthenticated access responses for every secured operation (825.89056ms)
+  ✔ validates error responses for public operations with request input (332.920603ms)
+  ✔ returns stable generic errors for wrong passwords and a specific disabled-account result (416.872133ms)
+  ✔ rejects expired, tampered, and cross-organization access tokens (377.145065ms)
+  ✔ rotates refresh tokens atomically and revokes the family on reuse (418.860051ms)
+  ✔ revokes logout sessions and makes the operation safely replayable (402.628927ms)
+  ✔ reserves concurrent idempotency keys without creating duplicate sessions (512.764495ms)
+  ✔ enforces mode allowlists, strict validation, request IDs, CORS, and body limits (438.455362ms)
+✔ Foundation HTTP E2E with real PostgreSQL (7372.190221ms)
+▶ Stage 21 client capabilities with real PostgreSQL
+  ✔ keeps student account deletion deferred with no challenge or account mutation (679.310724ms)
+  ✔ accepts an organization-scoped student challenge without exposing its code and keeps an empty release policy fail-closed (355.85188ms)
+  ✔ rejects PHONE without creating a challenge and activates a pending student through first email binding (501.760339ms)
+  ✔ requires both current and new mailbox codes for email rebinding (452.54856ms)
+  ✔ uses the numeric iOS build number for enforcement and keeps marketing version display-only (317.956805ms)
+  ✔ establishes a student OTP session and completes the private exemption-media review flow (680.57501ms)
+  ✔ completes recovery only for a teacher and revokes prior sessions (498.996492ms)
+  ✔ lists and marks only the authenticated user notification with durable evidence (457.805383ms)
+  ✔ registers and revokes an IOS push token without exposing plaintext or ciphertext (613.998246ms)
+  ✔ persists preferences and feedback while exposing only published help content (490.315715ms)
+  ✔ keeps all location and conversion capabilities explicitly fail-closed (686.930607ms)
+✔ Stage 21 client capabilities with real PostgreSQL (7237.921752ms)
+▶ Student identity, Enrollment, and QR Join HTTP E2E
+  ✔ rotates digest-only invites and issues one replayable capability without creating identity (749.189005ms)
+  ✔ rejects non-binary QR join genders and malformed cohort years before issuing a capability (462.441831ms)
+  ✔ joins atomically, replays the exact encrypted result, and grants only Enrollment projections (552.83428ms)
+  ✔ manually enrolls an existing student and enforces remove, restore, read, and withdraw scopes (664.012903ms)
+  ✔ rolls back a second same-semester join and refuses self rejoin after teacher removal (641.122329ms)
+✔ Student identity, Enrollment, and QR Join HTTP E2E (4579.175878ms)
+▶ ExerciseRecord HTTP E2E
+  ✔ creates, edits, lists, submits, and replays one immutable evidence chain (1153.956441ms)
+  ✔ requires the exact complete set of available session media (695.584633ms)
+  ✔ does not let an unselected processing upload block valid evidence submission (623.312864ms)
+  ✔ returns a stable conflict when a second draft is created for one session (587.565832ms)
+  ✔ discards a draft atomically with append-only evidence (613.697899ms)
+  ✔ routes withdrawal to stable default deny with zero domain side effects (570.622906ms)
+  ✔ retains below-threshold submissions with zero credited duration (630.611811ms)
+  ✔ accepts same-day submissions for review without reserving legacy daily slots (727.024454ms)
+✔ ExerciseRecord HTTP E2E (6498.679525ms)
+▶ ExerciseReview HTTP E2E
+  ✔ lets the responsible teacher append INVALID to a system-valid submission (844.72894ms)
+  ✔ appends VALID, lists history, reopens, and appends INVALID without changing duration facts (743.498069ms)
+  ✔ replays one decision and permits only one concurrent stale decision (620.54112ms)
+  ✔ returns ordered partial batch outcomes and exact replay (585.432633ms)
+  ✔ denies STUDENT and ADMIN review operations before business mutation (612.882027ms)
+✔ ExerciseReview HTTP E2E (4210.446427ms)
+▶ ExerciseSession HTTP E2E
+  ✔ runs start, active recovery, pause, resume, conservative reconcile, and finish atomically (1189.86109ms)
+  ✔ cancels without deleting history and rejects stale, duplicate-active, foreign-role, removed, and unknown input (852.551473ms)
+  ✔ fails closed outside the configured window and rejects unverified offline intervals (634.292706ms)
+  ✔ allows further exercise with 20 hours of historical VALID records (652.900318ms)
+✔ ExerciseSession HTTP E2E (4325.373486ms)
+▶ Stage 19 Export, Audit Read, and governance HTTP E2E
+  ✔ enforces role and organization scope for Student and Teacher projections (1000.979286ms)
+  ✔ denies administrator student-profile mutation without side effects (466.763177ms)
+  ✔ denies unassigned legacy Export operations without persistence (466.064971ms)
+  ✔ allows only organization ADMIN audit read, redacts recursively, and audits each read (534.912131ms)
+✔ Stage 19 Export, Audit Read, and governance HTTP E2E (3298.848686ms)
+▶ MediaEvidence HTTP E2E
+  ✔ runs idempotent initiate, verified confirm, same-Session bind, worker, and private access (1085.508312ms)
+  ✔ accepts a byte-verified 15-second audible WebM upload (435.96749ms)
+  ✔ fails spoofed MIME without partial verified facts and rejects cross-Session binding (446.7622ms)
+  ✔ rejects new or newly bound evidence after the session record is submitted (420.377266ms)
+✔ MediaEvidence HTTP E2E (3202.289949ms)
+▶ Official Roster Import and Alignment HTTP E2E
+  ✔ uploads private immutable versions and enforces Teacher/Admin/Student projections and scope (1124.584617ms)
+  ✔ aligns a frozen current snapshot and appends confirm/resolve/reopen while ignore is side-effect free (804.552965ms)
+✔ Official Roster Import and Alignment HTTP E2E (2770.460402ms)
+▶ Public system endpoint error conformance
+  ✔ validates documented liveness, readiness, and system-mode failures over HTTP (45.129004ms)
+✔ Public system endpoint error conformance (947.980037ms)
+▶ Current internal final grade HTTP E2E
+  ✔ preserves teacher draft and publication history with replay and student privacy (895.10121ms)
+  ✔ serializes competing revisions and rejects stale writes, notes and unauthorized actors (739.857095ms)
+  ✔ denies obsolete administrator score governance without creating score rules (400.577345ms)
+✔ Current internal final grade HTTP E2E (2869.718125ms)
+▶ Course and ClassSection HTTP E2E
+  ✔ applies role-scoped Course reads and stable bound cursor pagination (714.568001ms)
+  ✔ creates and updates the teacher course with replay while administrators remain read-only (573.171283ms)
+  ✔ derives the responsible teacher and replaces excluded dates atomically (466.973168ms)
+  ✔ closes a ClassSection idempotently and preserves the historical projection (455.746471ms)
+  ✔ enforces teacher ownership, administrator read-only governance, and organization isolation (682.999494ms)
+  ✔ keeps archived Semester and inactive Course creation failures free of side effects (403.229425ms)
+  ✔ returns an empty student projection without ACTIVE Enrollment and rejects writes (416.967328ms)
+  ✔ rejects unsupported mode values and maintenance mutations without side effects (423.476039ms)
+✔ Course and ClassSection HTTP E2E (5558.073084ms)
+▶ V81 help and feedback HTTP E2E
+  ✔ publishes bilingual help, replays writes and removes archived content from student reads (1122.307475ms)
+  ✔ paginates help without omissions, serializes edits and applies revoked admin permissions immediately (535.00199ms)
+  ✔ delivers feedback handling history and notifications once, with owner isolation and version conflicts (817.084105ms)
+✔ V81 help and feedback HTTP E2E (3323.92639ms)
+{"check":"MAKEUP_HTTP_GRANT_SCOPE_RULE_BOUNDS_REPLAY_PAGINATION_CONCURRENT_REVOCATION_AUDIT","result":"PASS","membersSeeded":true}
+{"check":"STUDENT_OWN_MAKEUP_OTP_SCOPE_PAGINATION_REVOCATION_NOTIFICATION_EXACTLY_ONCE","result":"PASS","syntheticStudents":true}
+▶ V81 makeup window HTTP E2E
+  ✔ creates and revokes makeup windows with student OTP readback and notifications (1610.74515ms)
+{"check":"MAKEUP_SESSION_REAL_EMAIL_LOGIN_POST_DEADLINE_GRANT_SERVER_DATE_REPLAY_SOURCE_REVOKE_PRESERVES_SESSION","result":"PASS","scheduleSeeded":true}
+  ✔ authorizes post-deadline exercise from a granted window and preserves the active session after revocation (935.062066ms)
+✔ V81 makeup window HTTP E2E (3376.551749ms)
+{"check":"SEMESTER_SWITCH_PREFLIGHT_SCOPE_DATE_PAGINATION_SHARED_COURSE_BLOCKERS_NO_MUTATION","result":"PASS","settlementSource":"saved reports"}
+{"check":"SEMESTER_SWITCH_DATE_UNSETTLED_SCOPE_REQUIRED_VERSION_DENIED","result":"PASS"}
+{"check":"SEMESTER_SWITCH_SUBADMIN_PERMISSION_AND_AUDIT_FAILURE_ROLLS_BACK_BOTH_SEMESTERS","result":"PASS","failure":"injected only in isolated test database; trigger removed"}
+{"check":"COURSE_CREATION_UPCOMING_DENIED_SWITCH_THEN_ACTIVE_REPLAY_ARCHIVED_DENIED","result":"PASS"}
+{"check":"SEMESTER_EMPTY_OLD_ATOMIC_SWITCH_CONCURRENT_REPLAY_UNIQUE_CURRENT_AUDIT_HISTORY","result":"PASS","fixture":"empty current semester prepared in isolated database; not settled-course acceptance"}
+▶ V81 semester administration HTTP E2E
+  ✔ creates and edits an upcoming semester, checks blockers and atomically switches an empty current semester (1566.720846ms)
+✔ V81 semester administration HTTP E2E (2393.310385ms)
+{"check":"ADMIN_COURSE_SETTLEMENT_AGGREGATE_REAL_REPORT_SCHEMA_PRIVACY_SCOPE_GRANT_REVOCATION","result":"PASS"}
+{"check":"SEMESTER_PREFLIGHT_COUNTS_FORMAL_REPORT_AND_OFF_PAGE_UNFINISHED_COURSES","result":"PASS"}
+{"check":"SETTLED_SEMESTER_SWITCH_MAINTENANCE_DENIED_NO_STATUS_CHANGE_RECOVERY","result":"PASS"}
+{"check":"ONE_COURSE_FORMAL_HTTP_SETTLEMENT_SWITCH_ARCHIVE_REPLAY_REPORT_EXPORT_HISTORY_PRESERVED","result":"PASS","fixture":"one-course semester prepared before business facts; historical published rules; report and switch use real HTTP"}
+{"check":"SETTLEMENT_REAL_HTTP_MISSING_FACTS_STALE_PREVIEW_SCOPE_CONCURRENT_SINGLE_REPORT_REPLAY_READ_EXPORT","result":"PASS","clock":"real server clock","fixture":"historical rules seeded only in isolated test database"}
+▶ V81 formal settlement and semester archival HTTP E2E
+  ✔ confirms one course settlement and preserves its report when switching semesters (2032.538979ms)
+✔ V81 formal settlement and semester archival HTTP E2E (2850.304479ms)
+{"check":"SUBADMIN_EMAIL_CHANGE_MATCHING_OTP_CONSUMPTION_LOGIN_PRESERVED","result":"PASS"}
+{"check":"SUBADMIN_PREFERENCE_CLEANUP_RETAINS_HISTORY_OTHER_ROLE_DELETE_DENIED","result":"PASS"}
+{"check":"SUBADMIN_PII_RECEIPTS_LINKED_TO_ACCOUNT_OR_IDENTITY_RESOURCE","result":"PASS"}
+{"check":"SUBADMIN_DELETE_CONCURRENT_REPLAY_PUSH_CLEANUP_FEEDBACK_HISTORY","result":"PASS"}
+{"check":"SUBADMIN_DELETE_CURRENT_ACCOUNT_LEGACY_RECEIPTS_REPLAY_HISTORY","result":"PASS"}
+{"check":"SUBADMIN_PROFILE_ATOMIC_UPDATE_REPLAY_VERSION_PERMISSION_REVOKE","result":"PASS"}
+{"check":"SUBADMIN_STATUS_HANDOVER_REPLAY_SESSION_REVOCATION_REENABLE","result":"PASS"}
+{"check":"SUBADMIN_SMTP_OTP_VERIFY_CONSUME_CREATE_FIRST_PASSWORD_CHANGE_PERMISSION","result":"PASS","syntheticIdentity":true}
+▶ V81 subadministrator SMTP identity HTTP E2E
+  ✔ verifies email OTP before creating and managing a subadministrator (2136.73473ms)
+✔ V81 subadministrator SMTP identity HTTP E2E (2945.909718ms)
+▶ V81 system management HTTP E2E
+  ✔ changes maintenance mode with replay, durable history, public announcement and recovery (1004.949159ms)
+  ✔ changes teacher and administrator passwords while retaining only the current session (1440.234748ms)
+  ✔ allows administrator security access in maintenance and rejects teacher and student password operations (694.668499ms)
+{"check":"APPROVED_TEMPLATE_SUPER_ONLY_IMMUTABLE_VERSIONS_COURSE_SELECTION_NO_RETROACTIVE_CHANGE","result":"PASS","syntheticFixture":true}
+  ✔ publishes immutable approved templates and freezes the teacher course selection (832.280829ms)
+{"check":"UNIFIED_AUDIT_DATE_RANGE_FILTERS_PAGINATION_SOURCE_ROLE_UNKNOWN_METADATA_PRIVACY_PERMISSION","result":"PASS","syntheticEvents":true}
+  ✔ queries immutable audit events with date boundaries, pagination, redaction and tenant isolation (697.767538ms)
+✔ V81 system management HTTP E2E (5499.531703ms)
+ℹ tests 79
+ℹ suites 18
+ℹ pass 79
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 83088.925846
+Runtime conformance coverage failed (88):
+- createCourse: enabled public path lacks successful response
+- updateCourse: enabled public path lacks successful response
+- listScoreRules: enabled public path lacks successful response
+- createScoreRule: enabled public path lacks successful response
+- getScoreRule: enabled public path lacks successful response
+- submitScoreRuleForApproval: enabled public path lacks successful response
+- approveScoreRule: enabled public path lacks successful response
+- rejectScoreRule: enabled public path lacks successful response
+- listStudentScores: enabled public path lacks successful response
+- getStudentScore: enabled public path lacks successful response
+- recalculateStudentScore: enabled public path lacks successful response
+- publishStudentScore: enabled public path lacks successful response
+- listScoreAdjustments: enabled public path lacks successful response
+- createScoreAdjustment: enabled public path lacks successful response
+- approveScoreAdjustment: enabled public path lacks successful response
+- rejectScoreAdjustment: enabled public path lacks successful response
+- reviewV81Record: enabled public path lacks successful response
+- getV81RecordWorkflow: enabled public path lacks successful response
+- submitV81Supplement: enabled public path lacks successful response
+- correctV81Record: enabled public path lacks successful response
+- getV81SupplementClock: enabled public path lacks successful response
+- listV81StudentProgress: enabled public path lacks successful response
+- getV81ProgressTarget: enabled public path lacks successful response
+- listV81Certifications: enabled public path lacks successful response
+- listV81RecognitionRevisions: enabled public path lacks successful response
+- revokeV81Certification: enabled public path lacks successful response
+- getV81ManualMode: enabled public path lacks successful response
+- acceptV81SwimIntake: enabled public path lacks successful response
+- getV81SwimIntake: enabled public path lacks successful response
+- listV81ProofTodos: enabled public path lacks successful response
+- listV81EnduranceTables: enabled public path lacks successful response
+- createV81EnduranceRule: enabled public path lacks successful response
+- updateV81EnduranceRule: enabled public path lacks successful response
+- deleteV81EnduranceRule: enabled public path lacks successful response
+- listV81PhysicalResults: enabled public path lacks successful response
+- getV81StudentPhysicalResult: enabled public path lacks successful response
+- createV81PhysicalImport: enabled public path lacks successful response
+- listV81PhysicalImports: enabled public path lacks successful response
+- getV81PhysicalImport: enabled public path lacks successful response
+- reviseV81PhysicalImport: enabled public path lacks successful response
+- listV81PhysicalImportRevisions: enabled public path lacks successful response
+- confirmV81PhysicalImport: enabled public path lacks successful response
+- getV81PhysicalImportSource: enabled public path lacks successful response
+- createV81PhysicalXlsxImport: enabled public path lacks successful response
+- previewV81TeacherImport: enabled public path lacks successful response
+- confirmV81TeacherImport: enabled public path lacks successful response
+- listV81TeacherAccounts: enabled public path lacks successful response
+- previewV81RosterRegistration: enabled public path lacks successful response
+- getV81RosterConfirmation: enabled public path lacks successful response
+- previewV81CompositeRoster: enabled public path lacks successful response
+- exportV81CompositeRosterPreview: enabled public path lacks successful response
+- getV81RosterSource: enabled public path lacks successful response
+- getV81OwnRosterStatus: enabled public path lacks successful response
+- getV81AdminRosterSummary: enabled public path lacks successful response
+- getV81AdminCourseDirectory: enabled public path lacks successful response
+- getV81AdminPhysicalSummary: enabled public path lacks successful response
+- createV81OcrRosterBatch: enabled public path lacks successful response
+- createV81OcrPhysicalBatch: enabled public path lacks successful response
+- listV81OcrBatches: enabled public path lacks successful response
+- getV81OcrBatch: enabled public path lacks successful response
+- getV81OcrPageSource: enabled public path lacks successful response
+- getV81OcrPageRecognition: enabled public path lacks successful response
+- createV81OcrJob: enabled public path lacks successful response
+- getV81OcrJob: enabled public path lacks successful response
+- getV81OcrDraft: enabled public path lacks successful response
+- createV81OcrDraft: enabled public path lacks successful response
+- reviseV81OcrDraft: enabled public path lacks successful response
+- getV81OcrPhysicalConfirmation: enabled public path lacks successful response
+- confirmV81OcrPhysicalRows: enabled public path lacks successful response
+- getV81OcrRosterConfirmation: enabled public path lacks successful response
+- confirmV81OcrRoster: enabled public path lacks successful response
+- getV81RosterBasis: enabled public path lacks successful response
+- selectV81RosterBasis: enabled public path lacks successful response
+- listV81ConfirmedRosterSnapshots: enabled public path lacks successful response
+- createV81RuntimeArchive: enabled public path lacks successful response
+- getV81RuntimeArchive: enabled public path lacks successful response
+- cancelV81RuntimeArchive: enabled public path lacks successful response
+- createV81RuntimeArchiveDownload: enabled public path lacks successful response
+- downloadV81RuntimeArchive: enabled public path lacks successful response
+- requestCurrentUserAccountDeletionChallenge: enabled public path lacks successful response
+- getV81OcrService: enabled public path lacks successful response
+- listV81OcrServiceRevisions: enabled public path lacks successful response
+- saveV81OcrService: enabled public path lacks successful response
+- revokeV81CourseInvite: enabled public path lacks successful response
+- correctV81FinalGrade: enabled public path lacks successful response
+- correctV81PhysicalResult: enabled public path lacks successful response
+- operation count 249 does not match expected 126
+- runtime manifest count 126 does not match OpenAPI 249
+Runtime conformance coverage failed (88):
+- createCourse: enabled public path lacks successful response
+- updateCourse: enabled public path lacks successful response
+- listScoreRules: enabled public path lacks successful response
+- createScoreRule: enabled public path lacks successful response
+- getScoreRule: enabled public path lacks successful response
+- submitScoreRuleForApproval: enabled public path lacks successful response
+- approveScoreRule: enabled public path lacks successful response
+- rejectScoreRule: enabled public path lacks successful response
+- listStudentScores: enabled public path lacks successful response
+- getStudentScore: enabled public path lacks successful response
+- recalculateStudentScore: enabled public path lacks successful response
+- publishStudentScore: enabled public path lacks successful response
+- listScoreAdjustments: enabled public path lacks successful response
+- createScoreAdjustment: enabled public path lacks successful response
+- approveScoreAdjustment: enabled public path lacks successful response
+- rejectScoreAdjustment: enabled public path lacks successful response
+- reviewV81Record: enabled public path lacks successful response
+- getV81RecordWorkflow: enabled public path lacks successful response
+- submitV81Supplement: enabled public path lacks successful response
+- correctV81Record: enabled public path lacks successful response
+- getV81SupplementClock: enabled public path lacks successful response
+- listV81StudentProgress: enabled public path lacks successful response
+- getV81ProgressTarget: enabled public path lacks successful response
+- listV81Certifications: enabled public path lacks successful response
+- listV81RecognitionRevisions: enabled public path lacks successful response
+- revokeV81Certification: enabled public path lacks successful response
+- getV81ManualMode: enabled public path lacks successful response
+- acceptV81SwimIntake: enabled public path lacks successful response
+- getV81SwimIntake: enabled public path lacks successful response
+- listV81ProofTodos: enabled public path lacks successful response
+- listV81EnduranceTables: enabled public path lacks successful response
+- createV81EnduranceRule: enabled public path lacks successful response
+- updateV81EnduranceRule: enabled public path lacks successful response
+- deleteV81EnduranceRule: enabled public path lacks successful response
+- listV81PhysicalResults: enabled public path lacks successful response
+- getV81StudentPhysicalResult: enabled public path lacks successful response
+- createV81PhysicalImport: enabled public path lacks successful response
+- listV81PhysicalImports: enabled public path lacks successful response
+- getV81PhysicalImport: enabled public path lacks successful response
+- reviseV81PhysicalImport: enabled public path lacks successful response
+- listV81PhysicalImportRevisions: enabled public path lacks successful response
+- confirmV81PhysicalImport: enabled public path lacks successful response
+- getV81PhysicalImportSource: enabled public path lacks successful response
+- createV81PhysicalXlsxImport: enabled public path lacks successful response
+- previewV81TeacherImport: enabled public path lacks successful response
+- confirmV81TeacherImport: enabled public path lacks successful response
+- listV81TeacherAccounts: enabled public path lacks successful response
+- previewV81RosterRegistration: enabled public path lacks successful response
+- getV81RosterConfirmation: enabled public path lacks successful response
+- previewV81CompositeRoster: enabled public path lacks successful response
+- exportV81CompositeRosterPreview: enabled public path lacks successful response
+- getV81RosterSource: enabled public path lacks successful response
+- getV81OwnRosterStatus: enabled public path lacks successful response
+- getV81AdminRosterSummary: enabled public path lacks successful response
+- getV81AdminCourseDirectory: enabled public path lacks successful response
+- getV81AdminPhysicalSummary: enabled public path lacks successful response
+- createV81OcrRosterBatch: enabled public path lacks successful response
+- createV81OcrPhysicalBatch: enabled public path lacks successful response
+- listV81OcrBatches: enabled public path lacks successful response
+- getV81OcrBatch: enabled public path lacks successful response
+- getV81OcrPageSource: enabled public path lacks successful response
+- getV81OcrPageRecognition: enabled public path lacks successful response
+- createV81OcrJob: enabled public path lacks successful response
+- getV81OcrJob: enabled public path lacks successful response
+- getV81OcrDraft: enabled public path lacks successful response
+- createV81OcrDraft: enabled public path lacks successful response
+- reviseV81OcrDraft: enabled public path lacks successful response
+- getV81OcrPhysicalConfirmation: enabled public path lacks successful response
+- confirmV81OcrPhysicalRows: enabled public path lacks successful response
+- getV81OcrRosterConfirmation: enabled public path lacks successful response
+- confirmV81OcrRoster: enabled public path lacks successful response
+- getV81RosterBasis: enabled public path lacks successful response
+- selectV81RosterBasis: enabled public path lacks successful response
+- listV81ConfirmedRosterSnapshots: enabled public path lacks successful response
+- createV81RuntimeArchive: enabled public path lacks successful response
+- getV81RuntimeArchive: enabled public path lacks successful response
+- cancelV81RuntimeArchive: enabled public path lacks successful response
+- createV81RuntimeArchiveDownload: enabled public path lacks successful response
+- downloadV81RuntimeArchive: enabled public path lacks successful response
+- requestCurrentUserAccountDeletionChallenge: enabled public path lacks successful response
+- getV81OcrService: enabled public path lacks successful response
+- listV81OcrServiceRevisions: enabled public path lacks successful response
+- saveV81OcrService: enabled public path lacks successful response
+- revokeV81CourseInvite: enabled public path lacks successful response
+- correctV81FinalGrade: enabled public path lacks successful response
+- correctV81PhysicalResult: enabled public path lacks successful response
+- operation count 249 does not match expected 126
+- runtime manifest count 126 does not match OpenAPI 249
+

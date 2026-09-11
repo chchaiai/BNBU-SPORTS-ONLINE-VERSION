@@ -1,0 +1,2 @@
+{"check":"TEACHER_BROWSER_CREATE_CONFIGURE_PUBLISH_RELOAD_LOCK","result":"FAIL","stage":"CREATE","type":"TimeoutError"}
+{"dialogText":"教师端业务操作\n新建课程\n\n教师可以在当前学期自定义课程名称，创建后自动成为责任教师。\n\n×\n学期\n课程名称 *\n（必填）\n\n课程名称为必填项。\n\n取消\n创建课程"}

@@ -1,0 +1,172 @@
+time="2026-09-08T12:05:07+08:00" level=warning msg="Found orphan containers (bnbu-v81-local-validation-backend-browser-1) for this project. If you removed or renamed this service in your compose file, you can run this command with the --remove-orphans flag to clean it up."
+ Image bnbu-v81-local-validation-backend-startup Building 
+#1 [internal] load local bake definitions
+#1 reading from stdin 636B 0.0s done
+#1 DONE 0.0s
+
+#2 [internal] load build definition from Dockerfile.v81-test
+#2 transferring dockerfile: 828B done
+#2 DONE 0.0s
+
+#3 [internal] load metadata for docker.io/library/node:24.18.0-bookworm-slim
+#3 ...
+
+#4 [auth] library/node:pull token for registry-1.docker.io
+#4 DONE 0.0s
+
+#3 [internal] load metadata for docker.io/library/node:24.18.0-bookworm-slim
+#3 DONE 1.8s
+
+#5 [internal] load .dockerignore
+#5 transferring context: 153B done
+#5 DONE 0.0s
+
+#6 [ 1/11] FROM docker.io/library/node:24.18.0-bookworm-slim@sha256:6f7b03f7c2c8e2e784dcf9295400527b9b1270fd37b7e9a7285cf83b6951452d
+#6 resolve docker.io/library/node:24.18.0-bookworm-slim@sha256:6f7b03f7c2c8e2e784dcf9295400527b9b1270fd37b7e9a7285cf83b6951452d 0.0s done
+#6 DONE 0.0s
+
+#7 [internal] load build context
+#7 transferring context: 799.07kB 0.1s done
+#7 DONE 0.1s
+
+#8 [ 2/11] RUN apt-get update && apt-get install -y --no-install-recommends openssl ca-certificates && rm -rf /var/lib/apt/lists/*
+#8 CACHED
+
+#9 [ 3/11] WORKDIR /workspace/backend
+#9 CACHED
+
+#10 [ 4/11] COPY backend/package.json backend/package-lock.json ./
+#10 DONE 0.1s
+
+#11 [ 5/11] RUN npm ci --ignore-scripts --no-audit --no-fund
+#11 17.50 
+#11 17.50 added 645 packages in 17s
+#11 17.51 npm notice
+#11 17.51 npm notice New major version of npm available! 11.16.0 -> 12.0.2
+#11 17.51 npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.0.2
+#11 17.51 npm notice To update run: npm install -g npm@12.0.2
+#11 17.51 npm notice
+#11 DONE 18.6s
+
+#12 [ 6/11] COPY backend/ ./
+#12 DONE 0.7s
+
+#13 [ 7/11] COPY docs/backend-contracts/ /workspace/docs/backend-contracts/
+#13 DONE 0.2s
+
+#14 [ 8/11] COPY tools/ /workspace/tools/
+#14 DONE 0.1s
+
+#15 [ 9/11] COPY BNBU-Sports-Web-new/frontend/student/ /workspace/BNBU-Sports-Web-new/frontend/student/
+#15 DONE 0.1s
+
+#16 [10/11] COPY BNBU-Sports-Web-new/portal-teacher-admin/app/ /workspace/BNBU-Sports-Web-new/portal-teacher-admin/app/
+#16 DONE 0.1s
+
+#17 [11/11] RUN npm run db:generate
+#17 0.357 
+#17 0.357 > @bnbu/sports-backend@0.1.0 db:generate
+#17 0.357 > prisma generate
+#17 0.357 
+#17 0.990 Loaded Prisma config from prisma.config.ts.
+#17 0.990 
+#17 3.868 Prisma schema loaded from prisma/schema.prisma.
+#17 5.477 
+#17 5.477 ✔ Generated Prisma Client (7.9.1) to ./src/generated/prisma in 1.00s
+#17 5.477 
+#17 DONE 5.7s
+
+#18 exporting to image
+#18 exporting layers
+#18 exporting layers 16.3s done
+#18 exporting manifest sha256:645b582f8e7a3fb9db8a896292704733b619ad8fc4240418a4d2cfaf4f678305 0.0s done
+#18 exporting config sha256:3d81ba999ae274e20b5b34695db0a599f3c5653ed8e770d243a3891f88cca442 0.0s done
+#18 exporting attestation manifest sha256:565406c5802407a91d298ac6fcb4e198ef2db493939f49c6d2fd5f5835074515
+#18 exporting attestation manifest sha256:565406c5802407a91d298ac6fcb4e198ef2db493939f49c6d2fd5f5835074515 0.0s done
+#18 exporting manifest list sha256:54fdcc3e72140c545dd5a53234ac9f8fbba5e1cb1b397112b767cc70a5bb421b 0.0s done
+#18 naming to docker.io/library/bnbu-v81-local-validation-backend-startup:latest done
+#18 unpacking to docker.io/library/bnbu-v81-local-validation-backend-startup:latest
+#18 unpacking to docker.io/library/bnbu-v81-local-validation-backend-startup:latest 10.7s done
+#18 DONE 27.2s
+
+#19 resolving provenance for metadata file
+#19 DONE 0.0s
+ Image bnbu-v81-local-validation-backend-startup Built 
+ Container bnbu-v81-local-validation-backend-startup-run-25a12c4c92bd Creating 
+ Container bnbu-v81-local-validation-backend-startup-run-25a12c4c92bd Created 
+
+> @bnbu/sports-backend@0.1.0 prebuild
+> npm run db:generate && npm run generate
+
+
+> @bnbu/sports-backend@0.1.0 db:generate
+> prisma generate
+
+Loaded Prisma config from prisma.config.ts.
+
+Prisma schema loaded from prisma/schema.prisma.
+
+✔ Generated Prisma Client (7.9.1) to ./src/generated/prisma in 981ms
+
+┌─────────────────────────────────────────────────────────┐
+│  Update available 7.9.1 -> 8.0.0-rc.13                  │
+│                                                         │
+│  This is a major update - please follow the guide at    │
+│  https://pris.ly/d/major-version-upgrade                │
+│                                                         │
+│  Run the following to update                            │
+│    npm i --save-dev prisma@latest                       │
+│    npm i @prisma/client@latest                          │
+└─────────────────────────────────────────────────────────┘
+
+> @bnbu/sports-backend@0.1.0 generate
+> npm run openapi:generate && npm run db:manifest:generate
+
+
+> @bnbu/sports-backend@0.1.0 openapi:generate
+> node ./scripts/generate-openapi.mjs
+
+Generated 3 OpenAPI artifacts from 239 operations.
+
+> @bnbu/sports-backend@0.1.0 db:manifest:generate
+> node ./scripts/generate-migration-manifest.mjs
+
+Generated migration manifest updated.
+
+> @bnbu/sports-backend@0.1.0 build
+> nest build
+
+{"check":"LOCAL_OBJECT_STORAGE_ROUNDTRIP","result":"PASS"}
+Loaded Prisma config from prisma.config.ts.
+
+Prisma schema loaded from prisma/schema.prisma.
+Datasource "db": PostgreSQL database "v81_runtime_test", schema "public" at "sql-postgres:5432"
+
+56 migrations found in prisma/migrations
+
+Applying migration `0056_v81_settlement_reports`
+Error: P3018
+
+A migration failed to apply. New migrations cannot be applied before the error is recovered from. Read more about how to resolve migration issues in a production database: https://pris.ly/d/migrate-resolve
+
+Migration name: 0056_v81_settlement_reports
+
+Database error code: 42P17
+
+Database error:
+ERROR: generation expression is not immutable
+
+DbError { severity: "ERROR", parsed_severity: Some(Error), code: SqlState(E42P17), message: "generation expression is not immutable", detail: None, hint: None, position: None, where_: None, schema: None, table: None, column: None, datatype: None, constraint: None, file: Some("heap.c"), line: Some(3360), routine: Some("cookDefault") }
+
+
+file:///workspace/tools/local-integration/run-v81-startup-probe.mjs:68
+if (migrationExit !== 0) throw new Error('Prisma migrate deploy failed');
+                               ^
+
+Error: Prisma migrate deploy failed
+    at file:///workspace/tools/local-integration/run-v81-startup-probe.mjs:68:32
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+
+Node.js v24.18.0
+
+Docker exit code: 1

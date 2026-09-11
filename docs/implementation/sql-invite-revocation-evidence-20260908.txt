@@ -1,0 +1,10 @@
+ applied_migrations 
+--------------------
+                 55
+(1 row)
+
+                  id                  | status  | replaced_by_invite_id | active_invites | revoke_events 
+--------------------------------------+---------+-----------------------+----------------+---------------
+ 01a07ee5-7ffb-76b8-ac69-0c9239fffb62 | REVOKED |                       |              0 |             1
+(1 row)
+

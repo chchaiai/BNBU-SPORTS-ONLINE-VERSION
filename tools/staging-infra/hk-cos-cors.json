@@ -1,0 +1,8 @@
+{
+  "origins": ["https://www.student.bnbusports.cn", "https://www.teacher.bnbusports.cn"],
+  "methods": ["PUT", "GET", "HEAD"],
+  "allowHeaders": ["Content-Type", "Content-Length"],
+  "exposeHeaders": ["ETag", "Content-Length"],
+  "maxAgeSeconds": 600,
+  "varyOrigin": true
+}

@@ -1,0 +1,582 @@
+time="2026-09-10T18:19:02+08:00" level=warning msg="Found orphan containers (bnbu-v81-e2e-fortyfirst-20260909, bnbu-v81-makeup-deadline-retest-20260909, bnbu-v81-makeup-deadline-first-20260909, bnbu-v81-admin-governance-web-retest-20260909, bnbu-v81-admin-governance-web-20260909, bnbu-v81-e2e-fortieth-20260909, bnbu-v81-ocr-image-20260909, bnbu-v81-e2e-thirtyninth-20260909, bnbu-v81-recovery-audit-20260909, bnbu-v81-admin-recovery-20260909, bnbu-v81-e2e-thirtyeighth-20260909, bnbu-v81-unsubmitted-session-first-20260909, bnbu-v81-e2e-thirtyseventh-20260909, bnbu-v81-electronic-closed-retest-20260909, bnbu-v81-electronic-closed-20260909, bnbu-v81-e2e-thirtysixth-20260909, bnbu-v81-ocr-closed-sixth-20260909, bnbu-v81-ocr-closed-fifth-20260909, bnbu-v81-ocr-closed-fourth-20260909, bnbu-v81-ocr-closed-third-20260909, bnbu-v81-ocr-closed-second-20260909, bnbu-v81-ocr-closed-first-20260909, bnbu-v81-e2e-thirtyfifth-20260909, bnbu-v81-e2e-thirtyfourth-20260909, bnbu-v81-e2e-thirtythird-20260909, bnbu-v81-e2e-thirtysecond-20260909, bnbu-v81-e2e-thirtyfirst-20260909, bnbu-v81-e2e-thirtieth-20260909, bnbu-v81-e2e-twentyninth-20260909, bnbu-v81-e2e-twentyeighth-20260909, bnbu-v81-e2e-twentyseventh-20260909, bnbu-v81-e2e-twentysixth-20260909, bnbu-v81-e2e-twentyfifth-20260909, bnbu-v81-e2e-twentyfourth-20260909, bnbu-v81-e2e-twentythird-20260909, bnbu-v81-e2e-twentysecond-20260909, bnbu-v81-e2e-twentyfirst-20260909, bnbu-v81-e2e-twentieth-20260909, bnbu-v81-e2e-nineteenth-20260909, bnbu-v81-e2e-eighteenth-20260909, bnbu-v81-e2e-seventeenth-20260909, bnbu-v81-e2e-sixteenth-20260908, bnbu-v81-e2e-fifteenth-20260908, bnbu-v81-e2e-fourteenth-20260908, bnbu-v81-e2e-thirteenth-20260908, bnbu-v81-e2e-twelfth-20260908, bnbu-v81-e2e-eleventh-20260908, bnbu-v81-e2e-tenth-20260908, bnbu-v81-e2e-ninth-20260908, bnbu-v81-e2e-eighth-20260908, bnbu-v81-e2e-seventh-20260908, bnbu-v81-e2e-sixth-20260908, bnbu-v81-e2e-fifth-20260908, bnbu-v81-e2e-report-20260908) for this project. If you removed or renamed this service in your compose file, you can run this command with the --remove-orphans flag to clean it up."
+ Container bnbu-v81-full-integration-mailpit-1 Running 
+ Container bnbu-v81-full-integration-integration-postgres-1 Running 
+ Container bnbu-v81-full-integration-integration-media-1 Running 
+ Image bnbu-v81-full-integration-integration-tests Building 
+#1 [internal] load local bake definitions
+#1 reading from stdin 644B 0.0s done
+#1 DONE 0.0s
+
+#2 [internal] load build definition from Dockerfile.v81-test
+#2 transferring dockerfile: 828B done
+#2 DONE 0.0s
+
+#3 [internal] load metadata for docker.io/library/node:24.18.0-bookworm-slim
+#3 DONE 0.5s
+
+#4 [internal] load .dockerignore
+#4 transferring context: 153B done
+#4 DONE 0.0s
+
+#5 [ 1/11] FROM docker.io/library/node:24.18.0-bookworm-slim@sha256:6f7b03f7c2c8e2e784dcf9295400527b9b1270fd37b7e9a7285cf83b6951452d
+#5 resolve docker.io/library/node:24.18.0-bookworm-slim@sha256:6f7b03f7c2c8e2e784dcf9295400527b9b1270fd37b7e9a7285cf83b6951452d 0.0s done
+#5 DONE 0.1s
+
+#6 [internal] load build context
+#6 transferring context: 121.55kB 0.1s done
+#6 DONE 0.1s
+
+#7 [ 2/11] RUN apt-get update && apt-get install -y --no-install-recommends openssl ca-certificates && rm -rf /var/lib/apt/lists/*
+#7 CACHED
+
+#8 [ 3/11] WORKDIR /workspace/backend
+#8 CACHED
+
+#9 [ 5/11] RUN npm ci --ignore-scripts --no-audit --no-fund
+#9 CACHED
+
+#10 [ 6/11] COPY backend/ ./
+#10 CACHED
+
+#11 [ 4/11] COPY backend/package.json backend/package-lock.json ./
+#11 CACHED
+
+#12 [ 7/11] COPY docs/backend-contracts/ /workspace/docs/backend-contracts/
+#12 CACHED
+
+#13 [ 8/11] COPY tools/ /workspace/tools/
+#13 CACHED
+
+#14 [10/11] COPY BNBU-Sports-Web-new/portal-teacher-admin/app/ /workspace/BNBU-Sports-Web-new/portal-teacher-admin/app/
+#14 CACHED
+
+#15 [ 9/11] COPY BNBU-Sports-Web-new/frontend/student/ /workspace/BNBU-Sports-Web-new/frontend/student/
+#15 CACHED
+
+#16 [11/11] RUN npm run db:generate
+#16 CACHED
+
+#17 exporting to image
+#17 exporting layers done
+#17 exporting manifest sha256:ce65cd5e9257568aeeb8fc7886ff453ca08935e620886eb1f8f7d5e29aad4835 0.1s done
+#17 exporting config sha256:41191550cf4da9316140908c7198666155b2d2b617d4aa013583d6fe7a3a81a6
+#17 exporting config sha256:41191550cf4da9316140908c7198666155b2d2b617d4aa013583d6fe7a3a81a6 0.1s done
+#17 exporting attestation manifest sha256:ec422bb21a17f75ebd8e1ecca7b2ee6d199640d48e08b3ff7cf3acbf6df2ae73
+#17 exporting attestation manifest sha256:ec422bb21a17f75ebd8e1ecca7b2ee6d199640d48e08b3ff7cf3acbf6df2ae73 0.1s done
+#17 exporting manifest list sha256:fef50d6109e1f71c8245542236217531e8fde38bff79148b9a529560b5e6eb2a 0.0s done
+#17 naming to docker.io/library/bnbu-v81-full-integration-integration-tests:latest
+#17 naming to docker.io/library/bnbu-v81-full-integration-integration-tests:latest done
+#17 unpacking to docker.io/library/bnbu-v81-full-integration-integration-tests:latest 0.0s done
+#17 DONE 0.3s
+
+#18 resolving provenance for metadata file
+#18 DONE 0.0s
+ Image bnbu-v81-full-integration-integration-tests Built 
+ Container bnbu-v81-full-integration-integration-media-1 Waiting 
+ Container bnbu-v81-full-integration-mailpit-1 Waiting 
+ Container bnbu-v81-full-integration-integration-postgres-1 Waiting 
+ Container bnbu-v81-full-integration-integration-postgres-1 Healthy 
+ Container bnbu-v81-full-integration-integration-media-1 Healthy 
+ Container bnbu-v81-full-integration-mailpit-1 Healthy 
+ Container bnbu-v81-full-integration-integration-tests-run-73cc2a5a1b20 Creating 
+ Container bnbu-v81-full-integration-integration-tests-run-73cc2a5a1b20 Created 
+
+> @bnbu/sports-backend@0.1.0 prebuild
+> npm run db:generate && npm run generate
+
+
+> @bnbu/sports-backend@0.1.0 db:generate
+> prisma generate
+
+Loaded Prisma config from prisma.config.ts.
+
+Prisma schema loaded from prisma/schema.prisma.
+┌─────────────────────────────────────────────────────────┐
+
+│  Update available 7.9.1 -> 8.0.0-rc.13                  │
+│                                                         │
+│  This is a major update - please follow the guide at    │
+✔ Generated Prisma Client (7.9.1) to ./src/generated/prisma in 1.05s
+│  https://pris.ly/d/major-version-upgrade                │
+│                                                         │
+
+│  Run the following to update                            │
+│    npm i --save-dev prisma@latest                       │
+│    npm i @prisma/client@latest                          │
+└─────────────────────────────────────────────────────────┘
+
+> @bnbu/sports-backend@0.1.0 generate
+> npm run openapi:generate && npm run db:manifest:generate
+
+
+> @bnbu/sports-backend@0.1.0 openapi:generate
+> node ./scripts/generate-openapi.mjs
+
+Generated 3 OpenAPI artifacts from 254 operations.
+
+> @bnbu/sports-backend@0.1.0 db:manifest:generate
+> node ./scripts/generate-migration-manifest.mjs
+
+Generated migration manifest updated.
+
+> @bnbu/sports-backend@0.1.0 build
+> nest build
+
+Loaded Prisma config from prisma.config.ts.
+
+Prisma schema loaded from prisma/schema.prisma.
+Datasource "db": PostgreSQL database "bnbu_sports_test", schema "public" at "127.0.0.1:5432"
+
+59 migrations found in prisma/migrations
+
+
+No pending migrations to apply.
+
+> @bnbu/sports-backend@0.1.0 test:integration
+> node ./scripts/run-test-layer.mjs integration
+
+▶ PostgreSQL identity, Enrollment, and QR Join integration
+  ✔ installs exactly the four Stage 12 tables with append-only event protection (905.749061ms)
+  ✔ preserves leading zeros and enforces one identity per organization (580.319284ms)
+  ✔ enforces a permanent class relation and one ACTIVE Enrollment per semester (738.758473ms)
+  ✔ rejects invalid Enrollment status shapes and cross-organization references (614.473919ms)
+  ✔ permits one ACTIVE invite per section while retaining revoked history (563.818628ms)
+  ✔ enforces consumed capability shape and keeps EnrollmentStatusEvent append-only (506.725046ms)
+✔ PostgreSQL identity, Enrollment, and QR Join integration (3973.117835ms)
+▶ ExerciseRecord PostgreSQL integration
+  ✔ installs only the five Stage 16 tables and the one-record-per-session key (856.726544ms)
+  ✔ enforces the conditional description rule in PostgreSQL (597.434989ms)
+  ✔ enforces media ownership, availability, global uniqueness, and daily uniqueness (642.994658ms)
+  ✔ keeps association, daily slot, event, and review histories append-only (648.059153ms)
+✔ ExerciseRecord PostgreSQL integration (2833.832478ms)
+▶ ExerciseReview PostgreSQL integration
+  ✔ accepts only an immediate append-only review chain including reopen PENDING reason (790.243807ms)
+  ✔ accepts a system VALID first review and a reviewed-to-reviewed invalidation (588.468813ms)
+  ✔ enforces INVALID reason shape and permanently denies credited override (471.630861ms)
+  ✔ permits only the Stage 17 review and reopen record transitions (563.315838ms)
+  ✔ keeps Stage 17 review facts intact after forward-only Score migration (480.810561ms)
+✔ ExerciseReview PostgreSQL integration (2953.365714ms)
+▶ ExerciseSession PostgreSQL integration
+  ✔ enforces one active Session per student under concurrent writes (907.579669ms)
+  ✔ enforces terminal timestamps, duration bounds, version, and scoped foreign keys (738.83002ms)
+  ✔ allows a segment to close exactly once and keeps event history append-only (847.622132ms)
+  ✔ rolls back Session, segment, event, audit, and outbox together on transaction failure (612.778502ms)
+✔ ExerciseSession PostgreSQL integration (3108.033807ms)
+▶ Stage 19 Export and audit governance PostgreSQL integration
+  ✔ adds AUDIT_LOG_READ without creating Export persistence (628.688878ms)
+{"tool":"STAGING_HEALTH_OPERATOR","command":"bootstrap","status":"PASS","fixtureState":"CREATED","createdComponents":["organization","adminUser","adminProfile","systemPolicy"],"secretOutput":"REDACTED"}
+{"tool":"STAGING_HEALTH_OPERATOR","command":"bootstrap","status":"PASS","fixtureState":"VERIFIED","createdComponents":[],"secretOutput":"REDACTED"}
+  ✔ accepts the isolated staging fixture bootstrap audit action (626.699025ms)
+  ✔ keeps the audit action constraint closed and the append-only trigger effective (386.464668ms)
+✔ Stage 19 Export and audit governance PostgreSQL integration (1683.59884ms)
+▶ MediaEvidence PostgreSQL integration
+  ✔ installs four scoped tables, immutable facts, and append-only histories (746.33944ms)
+  ✔ enforces active 6-image and 1-video quotas under database serialization (601.585338ms)
+  ✔ persists the monotonic confirmed, bound, processing, and available lifecycle (518.124543ms)
+✔ MediaEvidence PostgreSQL integration (1919.473844ms)
+▶ Official Roster Import and Alignment PostgreSQL integration
+  ✔ installs six scoped roster tables and append-only history guards (607.281768ms)
+  ✔ persists private versions, a frozen deterministic alignment, resolution history, and rollback (726.297971ms)
+  ✔ binds roster-version evidence to a different version of the same subject and keeps newer-result evidence fail-closed (603.338596ms)
+✔ Official Roster Import and Alignment PostgreSQL integration (1980.041467ms)
+▶ PostgreSQL 18 Foundation integration
+  ✔ records every exact finished Greenfield migration and checksum (570.256608ms)
+  ✔ enforces foreign keys and one CURRENT semester per organization (596.846731ms)
+  ✔ preserves student-number leading zeros and enforces exactly one role Profile (526.368233ms)
+  ✔ enforces mutually exclusive StudentScore status predicates in PostgreSQL (761.587347ms)
+  ✔ keeps AuditLog append-only at the database boundary (442.435307ms)
+  ✔ claims Outbox rows concurrently without duplicate ownership (504.670879ms)
+  ✔ enforces shared rate-limit windows atomically across concurrent consumers (496.792189ms)
+  ✔ persists SystemMode, rejects unknown values, and rolls transactions back (436.04755ms)
+✔ PostgreSQL 18 Foundation integration (4385.008647ms)
+▶ Stage 18 Score PostgreSQL integration
+  ✔ creates exactly the nine 0009 tables while leaving Export absent (622.235062ms)
+  ✔ enforces one ACTIVE rule and protects the frozen rule definition (395.058707ms)
+  ✔ keeps approvals and score revisions append-only and source-idempotent (593.406171ms)
+✔ Stage 18 Score PostgreSQL integration (1669.128625ms)
+▶ staging business fixture PostgreSQL integration
+  ✔ creates the complete fixture once and verifies it without adding rows (846.293539ms)
+  ✔ reports a deterministic conflict without changing the conflicting database state (550.121633ms)
+  ✔ creates one completed one-hour session and verifies the same closure on replay (586.126873ms)
+✔ staging business fixture PostgreSQL integration (2036.172228ms)
+▶ staging R01 fixture PostgreSQL integration
+  ✔ creates only the isolated staff topology once and verifies it without Student side effects (856.604606ms)
+  ✔ fails atomically when an existing BNBU organization has conflicting metadata (276.430537ms)
+  ✔ fails closed and rolls back when reserved Student STUDENT-ANDROID-01 already exists (318.553759ms)
+  ✔ fails closed and rolls back when reserved Student STUDENT-IOS-01 already exists (417.813059ms)
+  ✔ fails closed and rolls back when reserved Student STUDENT-WEB-01 already exists (468.784324ms)
+  ✔ rejects an extra identity and rolls back all attempted fixture writes (531.475881ms)
+  ✔ rejects any existing AuthSession with a dedicated conflict (750.712068ms)
+  ✔ rejects any existing Enrollment with a dedicated conflict before identity counts (600.125586ms)
+  ✔ rejects a cross-role Profile and rolls back earlier fixture writes (486.048898ms)
+  ✔ rejects a changed password without rotating or overwriting the existing account (548.698224ms)
+✔ staging R01 fixture PostgreSQL integration (5313.762931ms)
+▶ PostgreSQL teaching structure integration
+  ✔ persists the teaching fixture across forward-only Score while keeping Export absent (631.008169ms)
+  ✔ enforces organization Course codes and semester/course/class codes as unique (422.757236ms)
+  ✔ rejects every cross-organization Course, Semester, Teacher, and actor reference (534.941034ms)
+  ✔ enforces version, date, daily-time, and excluded-date database checks (626.71582ms)
+  ✔ prevents deleting referenced Course and preserves sections across deactivate and close (569.524261ms)
+  ✔ rolls back parent and excluded-date changes when the calendar invariant fails (547.818355ms)
+  ✔ accepts the Stage 11 Course audit actions while preserving append-only behavior (435.827954ms)
+✔ PostgreSQL teaching structure integration (3830.223897ms)
+ℹ tests 59
+ℹ suites 12
+ℹ pass 59
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 60389.401274
+▶ Foundation HTTP E2E with real PostgreSQL
+  ✔ serves public probes and restricts dependency health to administrators (1082.588635ms)
+  ✔ logs in only with the seeded password and returns a safe /me projection (556.25674ms)
+  ✔ denies missing or pending password security and unassigned administrator access (787.003515ms)
+  ✔ validates unauthenticated access responses for every secured operation (994.941427ms)
+  ✔ validates error responses for public operations with request input (390.025339ms)
+  ✔ returns stable generic errors for wrong passwords and a specific disabled-account result (542.952463ms)
+  ✔ rejects expired, tampered, and cross-organization access tokens (508.347942ms)
+  ✔ rotates refresh tokens atomically and revokes the family on reuse (528.84179ms)
+  ✔ revokes logout sessions and makes the operation safely replayable (500.565269ms)
+  ✔ reserves concurrent idempotency keys without creating duplicate sessions (618.12045ms)
+  ✔ enforces mode allowlists, strict validation, request IDs, CORS, and body limits (527.693144ms)
+✔ Foundation HTTP E2E with real PostgreSQL (8934.572516ms)
+▶ Stage 21 client capabilities with real PostgreSQL
+  ✔ keeps student account deletion deferred with no challenge or account mutation (950.085816ms)
+  ✔ accepts an organization-scoped student challenge without exposing its code and keeps an empty release policy fail-closed (512.166764ms)
+  ✔ rejects PHONE without creating a challenge and activates a pending student through first email binding (582.422702ms)
+  ✔ requires both current and new mailbox codes for email rebinding (545.300578ms)
+  ✔ uses the numeric iOS build number for enforcement and keeps marketing version display-only (429.8638ms)
+  ✔ establishes a student OTP session and completes the private exemption-media review flow (940.495964ms)
+  ✔ completes TEACHER recovery and revokes every prior session (797.001499ms)
+  ✔ completes ADMIN recovery and revokes every prior session (735.242205ms)
+  ✔ lists and marks only the authenticated user notification with durable evidence (566.646393ms)
+  ✔ accepts only authenticated bounded client diagnostics with durable replay and no free-form metadata (925.188674ms)
+  ✔ marks 24 distinct notifications concurrently with one durable event per notification (1454.498266ms)
+  ✔ registers and revokes an IOS push token without exposing plaintext or ciphertext (627.934661ms)
+  ✔ persists preferences and feedback while exposing only published help content (614.785056ms)
+  ✔ keeps all location and conversion capabilities explicitly fail-closed (771.363487ms)
+✔ Stage 21 client capabilities with real PostgreSQL (12186.095455ms)
+▶ Student identity, Enrollment, and QR Join HTTP E2E
+  ✔ rotates digest-only invites and issues one replayable capability without creating identity (926.641286ms)
+  ✔ rejects non-binary QR join genders and malformed cohort years before issuing a capability (552.137113ms)
+  ✔ joins atomically, replays the exact encrypted result, and grants only Enrollment projections (938.320418ms)
+  ✔ manually enrolls an existing student and enforces remove, restore, read, and withdraw scopes (765.43927ms)
+  ✔ rolls back a second same-semester join and refuses self rejoin after teacher removal (719.78477ms)
+✔ Student identity, Enrollment, and QR Join HTTP E2E (5662.022417ms)
+▶ ExerciseRecord HTTP E2E
+  ✔ creates, edits, lists, submits, and replays one immutable evidence chain (1388.47304ms)
+  ✔ requires the exact complete set of available session media (1153.481645ms)
+  ✔ does not let an unselected processing upload block valid evidence submission (851.918277ms)
+  ✔ returns a stable conflict when a second draft is created for one session (741.83425ms)
+  ✔ discards a draft atomically with append-only evidence (834.563284ms)
+  ✔ routes withdrawal to stable default deny with zero domain side effects (802.422506ms)
+  ✔ retains below-threshold submissions with zero credited duration (741.370128ms)
+  ✔ accepts same-day submissions for review without reserving legacy daily slots (837.244486ms)
+  ✔ returns for one supplement then credits a replayable teacher decision in student progress (1893.957112ms)
+  ✔ approves, adjusts and revokes activity recognition with matching student progress and history (1336.485874ms)
+  ✔ locks swimming before and after evidence once and exposes the transfer clock (1062.822252ms)
+✔ ExerciseRecord HTTP E2E (12648.83861ms)
+▶ ExerciseReview HTTP E2E
+  ✔ lets the responsible teacher append INVALID to a system-valid submission (1024.54937ms)
+  ✔ appends VALID, lists history, reopens, and appends INVALID without changing duration facts (928.08115ms)
+  ✔ replays one decision and permits only one concurrent stale decision (687.017675ms)
+  ✔ returns ordered partial batch outcomes and exact replay (666.809131ms)
+  ✔ denies STUDENT and ADMIN review operations before business mutation (693.794443ms)
+✔ ExerciseReview HTTP E2E (4977.851905ms)
+▶ ExerciseSession HTTP E2E
+  ✔ runs start, active recovery, pause, resume, conservative reconcile, and finish atomically (1568.832502ms)
+  ✔ cancels without deleting history and rejects stale, duplicate-active, foreign-role, removed, and unknown input (990.403796ms)
+  ✔ fails closed outside the configured window and rejects unverified offline intervals (876.253187ms)
+  ✔ allows further exercise with 20 hours of historical VALID records (807.614488ms)
+✔ ExerciseSession HTTP E2E (5363.894693ms)
+▶ Stage 19 Export, Audit Read, and governance HTTP E2E
+  ✔ enforces role and organization scope for Student and Teacher projections (1171.567884ms)
+  ✔ denies administrator student-profile mutation without side effects (564.428582ms)
+  ✔ denies unassigned legacy Export operations without persistence (576.656091ms)
+  ✔ allows only organization ADMIN audit read, redacts recursively, and audits each read (664.12688ms)
+✔ Stage 19 Export, Audit Read, and governance HTTP E2E (3980.647097ms)
+▶ MediaEvidence HTTP E2E
+  ✔ runs idempotent initiate, verified confirm, same-Session bind, worker, and private access (1251.80416ms)
+  ✔ accepts a byte-verified 15-second audible WebM upload (499.242641ms)
+  ✔ fails spoofed MIME without partial verified facts and rejects cross-Session binding (510.044572ms)
+  ✔ rejects new or newly bound evidence after the session record is submitted (632.830246ms)
+✔ MediaEvidence HTTP E2E (3835.175545ms)
+▶ Official Roster Import and Alignment HTTP E2E
+  ✔ continues an accepted electronic roster after closing while rejecting new imports without side effects (1265.195417ms)
+  ✔ uploads private immutable versions and enforces Teacher/Admin/Student projections and scope (848.238248ms)
+  ✔ aligns a frozen current snapshot and appends confirm/resolve/reopen while ignore is side-effect free (838.717262ms)
+✔ Official Roster Import and Alignment HTTP E2E (3963.701319ms)
+[31m[Nest] 15706  - [39m09/10/2026, 10:21:37 AM [31m  ERROR[39m [38;5;3m[HttpExceptionFilter] [39mObject(7) {
+  event: [32m'UNHANDLED_HTTP_ERROR'[39m,
+  requestId: [32m'01a08ad6-55c7-75a3-817e-8ed233e2c44c'[39m,
+  errorType: [32m'UNEXPECTED_ERROR'[39m,
+  databaseCode: [1mnull[22m,
+  sqlState: [1mnull[22m,
+  serializationFailure: [33mfalse[39m,
+  deadlock: [33mfalse[39m
+}
+▶ Public system endpoint error conformance
+  ✔ validates documented liveness, readiness, and system-mode failures over HTTP (53.209667ms)
+✔ Public system endpoint error conformance (1123.150162ms)
+▶ Current internal final grade HTTP E2E
+  ✔ preserves teacher draft and publication history with replay and student privacy (1003.098612ms)
+  ✔ serializes competing revisions and rejects stale writes, notes and unauthorized actors (1027.131427ms)
+  ✔ denies obsolete administrator score governance without creating score rules (552.738606ms)
+  ✔ denies every retired score endpoint for authenticated teachers and administrators (692.782885ms)
+✔ Current internal final grade HTTP E2E (4197.978002ms)
+▶ Course and ClassSection HTTP E2E
+  ✔ applies role-scoped Course reads and stable bound cursor pagination (795.577776ms)
+  ✔ creates and updates the teacher course with replay while administrators remain read-only (702.913252ms)
+  ✔ derives the responsible teacher and replaces excluded dates atomically (547.87867ms)
+  ✔ closes a ClassSection idempotently and preserves the historical projection (483.115213ms)
+  ✔ enforces teacher ownership, administrator read-only governance, and organization isolation (794.403991ms)
+  ✔ keeps archived Semester and inactive Course creation failures free of side effects (457.183381ms)
+  ✔ returns an empty student projection without ACTIVE Enrollment and rejects writes (470.423736ms)
+  ✔ rejects unsupported mode values and maintenance mutations without side effects (456.048223ms)
+✔ Course and ClassSection HTTP E2E (6433.131592ms)
+{"check":"ENDURANCE_CONCURRENT_VERSION_AND_SUBADMIN_PERMISSION_REVOCATION","result":"PASS"}
+▶ V81 endurance rule administration HTTP E2E
+  ✔ preserves rule revisions, rejects invalid bands and enforces concurrent versions and revoked permissions (1347.300711ms)
+✔ V81 endurance rule administration HTTP E2E (2540.583887ms)
+▶ V81 help and feedback HTTP E2E
+  ✔ publishes bilingual help, replays writes and removes archived content from student reads (1298.206015ms)
+  ✔ paginates help without omissions, serializes edits and applies revoked admin permissions immediately (627.227188ms)
+  ✔ delivers feedback handling history and notifications once, with owner isolation and version conflicts (983.22241ms)
+✔ V81 help and feedback HTTP E2E (3888.346929ms)
+{"check":"MAKEUP_HTTP_GRANT_SCOPE_RULE_BOUNDS_REPLAY_PAGINATION_CONCURRENT_REVOCATION_AUDIT","result":"PASS","membersSeeded":true}
+{"check":"STUDENT_OWN_MAKEUP_OTP_SCOPE_PAGINATION_REVOCATION_NOTIFICATION_EXACTLY_ONCE","result":"PASS","syntheticStudents":true}
+▶ V81 makeup window HTTP E2E
+  ✔ creates and revokes makeup windows with student OTP readback and notifications (1973.770715ms)
+{"check":"MAKEUP_REVOKED_SESSION_MINIO_UPLOAD_SUBMIT_MANUAL_REVIEW_REPLAY","result":"PASS","scheduleSeeded":true,"syntheticImage":true,"shortSessionNoCredit":true}
+  ✔ authorizes post-deadline exercise from a granted window and preserves the active session after revocation (1726.320962ms)
+✔ V81 makeup window HTTP E2E (4580.309617ms)
+▶ V81 OCR governance HTTP E2E
+  ✔ governs OCR configuration with super-admin scope, immutable history and versioned replay (1207.623885ms)
+✔ V81 OCR governance HTTP E2E (2171.811545ms)
+{"check":"OCR_DRAFT_HTTP_MAPPING_SCOPE_VALIDATION_REPLAY_CONCURRENT_REVISION_HISTORY_SOURCE_RETAINED","result":"PASS","providerSimulated":true,"formalConfirmation":false}
+{"check":"OCR_SETTLEMENT_PENDING_BATCHES_UNIFIED_SOURCE_UNRESOLVED_REGISTRATION_STILL_BLOCKED","result":"PASS"}
+{"check":"OCR_CONFIRMED_ROSTER_ADMIN_SUMMARIES_USE_UNIFIED_BASIS_NO_PERSONAL_SOURCE_DATA","result":"PASS"}
+{"check":"OCR_ROSTER_HTTP_CONFIRM_CONCURRENT_SINGLE_SNAPSHOT_BASIS_REPLAY_SCOPE_HISTORY_NO_ENROLLMENT","result":"PASS","providerSimulated":true}
+{"check":"CONFIRMED_ROSTER_SNAPSHOT_LIST_CURSOR_CURRENT_SELECTION_METADATA_ONLY","result":"PASS"}
+{"check":"UNIFIED_ROSTER_BASIS_RESTORE_OCR_ELECTRONIC_CONCURRENT_VERSION_REASON_REPLAY_HISTORY","result":"PASS"}
+{"check":"OCR_TO_REAL_CSV_CONFIRM_REPLACE_ROLLBACK_SHARED_VERSION_SOURCE_BYTES_HISTORY_NO_MEMBERSHIP","result":"PASS","providerSimulated":true}
+▶ V81 OCR intake and job HTTP E2E
+  ✔ uploads private OCR pages and completes recognition and confirmation with course open (image/png) (3091.412015ms)
+{"check":"OCR_DRAFT_HTTP_MAPPING_SCOPE_VALIDATION_REPLAY_CONCURRENT_REVISION_HISTORY_SOURCE_RETAINED","result":"PASS","providerSimulated":true,"formalConfirmation":false}
+{"check":"OCR_SETTLEMENT_PENDING_BATCHES_UNIFIED_SOURCE_UNRESOLVED_REGISTRATION_STILL_BLOCKED","result":"PASS"}
+{"check":"OCR_CONFIRMED_ROSTER_ADMIN_SUMMARIES_USE_UNIFIED_BASIS_NO_PERSONAL_SOURCE_DATA","result":"PASS"}
+{"check":"OCR_ROSTER_HTTP_CONFIRM_CONCURRENT_SINGLE_SNAPSHOT_BASIS_REPLAY_SCOPE_HISTORY_NO_ENROLLMENT","result":"PASS","providerSimulated":true}
+  ✔ uploads private OCR pages and completes recognition and confirmation with course closed after acceptance (image/png) (2153.672943ms)
+{"check":"OCR_DRAFT_HTTP_MAPPING_SCOPE_VALIDATION_REPLAY_CONCURRENT_REVISION_HISTORY_SOURCE_RETAINED","result":"PASS","providerSimulated":true,"formalConfirmation":false}
+{"check":"OCR_SETTLEMENT_PENDING_BATCHES_UNIFIED_SOURCE_UNRESOLVED_REGISTRATION_STILL_BLOCKED","result":"PASS"}
+{"check":"OCR_CONFIRMED_ROSTER_ADMIN_SUMMARIES_USE_UNIFIED_BASIS_NO_PERSONAL_SOURCE_DATA","result":"PASS"}
+{"check":"OCR_ROSTER_HTTP_CONFIRM_CONCURRENT_SINGLE_SNAPSHOT_BASIS_REPLAY_SCOPE_HISTORY_NO_ENROLLMENT","result":"PASS","providerSimulated":true}
+  ✔ uploads private OCR pages and completes recognition and confirmation with course closed after acceptance (image/webp) (1931.103155ms)
+✔ V81 OCR intake and job HTTP E2E (8107.612929ms)
+▶ V81 physical import HTTP E2E
+  ✔ keeps CSV drafts separate then confirms reviewed rows atomically with replay (1247.984664ms)
+  ✔ imports the selected XLSX sheet, retains exact source bytes and confirms the student result (855.77318ms)
+✔ V81 physical import HTTP E2E (3044.47366ms)
+▶ V81 physical result HTTP E2E
+  ✔ records 1000m raw facts with immutable history, concurrency and student privacy (1618.372255ms)
+  ✔ records 800m raw facts with immutable history, concurrency and student privacy (1010.531734ms)
+✔ V81 physical result HTTP E2E (3602.019006ms)
+{"check":"RUNTIME_ARCHIVE_CURRENT_PERMISSION_REVOKE_RESTORE_SYNTHETIC_EXPIRY_REISSUE","result":"PASS"}
+{"check":"RUNTIME_ARCHIVE_LIVE_WORKER_PRIVATE_ZIP_DOWNLOAD_CANCEL","result":"PASS","recordCount":12}
+▶ V81 runtime archives HTTP E2E
+  ✔ generates a scoped private ZIP with the live worker, downloads it and revokes access on cancellation (5361.699954ms)
+✔ V81 runtime archives HTTP E2E (6339.495443ms)
+{"check":"SEMESTER_SWITCH_PREFLIGHT_SCOPE_DATE_PAGINATION_SHARED_COURSE_BLOCKERS_NO_MUTATION","result":"PASS","settlementSource":"saved reports"}
+{"check":"SEMESTER_SWITCH_DATE_UNSETTLED_SCOPE_REQUIRED_VERSION_DENIED","result":"PASS"}
+[31m[Nest] 21678  - [39m09/10/2026, 10:22:32 AM [31m  ERROR[39m [38;5;3m[HttpExceptionFilter] [39mObject(7) {
+  event: [32m'UNHANDLED_HTTP_ERROR'[39m,
+  requestId: [32m'01a08ad7-2da6-709b-ba15-7d0ebb1125e7'[39m,
+  errorType: [32m'PrismaClientKnownRequestError'[39m,
+  databaseCode: [32m'P2010'[39m,
+  sqlState: [1mnull[22m,
+  serializationFailure: [33mfalse[39m,
+  deadlock: [33mfalse[39m
+}
+{"check":"SEMESTER_SWITCH_SUBADMIN_PERMISSION_AND_AUDIT_FAILURE_ROLLS_BACK_BOTH_SEMESTERS","result":"PASS","failure":"injected only in isolated test database; trigger removed"}
+{"check":"COURSE_CREATION_UPCOMING_DENIED_SWITCH_THEN_ACTIVE_REPLAY_ARCHIVED_DENIED","result":"PASS"}
+{"check":"SEMESTER_EMPTY_OLD_ATOMIC_SWITCH_CONCURRENT_REPLAY_UNIQUE_CURRENT_AUDIT_HISTORY","result":"PASS","fixture":"empty current semester prepared in isolated database; not settled-course acceptance"}
+▶ V81 semester administration HTTP E2E
+  ✔ creates and edits an upcoming semester, checks blockers and atomically switches an empty current semester (1808.407994ms)
+✔ V81 semester administration HTTP E2E (2929.749827ms)
+{"check":"ADMIN_COURSE_SETTLEMENT_AGGREGATE_REAL_REPORT_SCHEMA_PRIVACY_SCOPE_GRANT_REVOCATION","result":"PASS"}
+{"check":"SEMESTER_PREFLIGHT_COUNTS_FORMAL_REPORT_AND_OFF_PAGE_UNFINISHED_COURSES","result":"PASS"}
+{"check":"SETTLED_SEMESTER_SWITCH_MAINTENANCE_DENIED_NO_STATUS_CHANGE_RECOVERY","result":"PASS"}
+{"check":"ONE_COURSE_FORMAL_HTTP_SETTLEMENT_SWITCH_ARCHIVE_REPLAY_REPORT_EXPORT_HISTORY_PRESERVED","result":"PASS","fixture":"one-course semester prepared before business facts; historical published rules; report and switch use real HTTP"}
+{"check":"SETTLEMENT_REAL_HTTP_MISSING_FACTS_STALE_PREVIEW_SCOPE_CONCURRENT_SINGLE_REPORT_REPLAY_READ_EXPORT","result":"PASS","clock":"real server clock","fixture":"historical rules seeded only in isolated test database"}
+[31m[Nest] 21892  - [39m09/10/2026, 10:22:37 AM [31m  ERROR[39m [38;5;3m[HttpExceptionFilter] [39mObject(7) {
+  event: [32m'UNHANDLED_HTTP_ERROR'[39m,
+  requestId: [32m'01a08ad7-4075-724f-88d8-db75393be313'[39m,
+  errorType: [32m'PrismaClientKnownRequestError'[39m,
+  databaseCode: [32m'P2010'[39m,
+  sqlState: [1mnull[22m,
+  serializationFailure: [33mfalse[39m,
+  deadlock: [33mfalse[39m
+}
+{"check":"PHYSICAL_CORRECTION_NO_REPORT_ROLLBACK_STUDENT_LATEST_SCOPE_PRIVACY","result":"PASS"}
+{"check":"PHYSICAL_CORRECTION_MISSING_ORIGINAL_NO_SIDE_EFFECT_CONCURRENT_SINGLE_WINNER_HISTORY","result":"PASS"}
+{"check":"PHYSICAL_REPORT_FAILURE_ROLLS_BACK_RESULT_NOTIFICATION_AUDIT_SAME_KEY_RECOVERY","result":"PASS"}
+{"check":"FORMAL_SETTLEMENT_ARCHIVE_PHYSICAL_CORRECTION_REPORT_HISTORY_NOTIFICATION_REPLAY_SCOPE_SCHEMA","result":"PASS"}
+[31m[Nest] 21892  - [39m09/10/2026, 10:22:38 AM [31m  ERROR[39m [38;5;3m[HttpExceptionFilter] [39mObject(7) {
+  event: [32m'UNHANDLED_HTTP_ERROR'[39m,
+  requestId: [32m'01a08ad7-430f-70ed-97a3-849ce12d66e0'[39m,
+  errorType: [32m'PrismaClientKnownRequestError'[39m,
+  databaseCode: [32m'P2010'[39m,
+  sqlState: [1mnull[22m,
+  serializationFailure: [33mfalse[39m,
+  deadlock: [33mfalse[39m
+}
+{"check":"GRADE_REPORT_FAILURE_ROLLS_BACK_GRADE_AUDIT_SAME_KEY_RETRY_REPORT_SCHEMA","result":"PASS"}
+{"check":"GRADE_CORRECTION_OTHER_TEACHER_NO_ORIGINAL_GRADE_NO_REPORT_ROLLBACK_CONCURRENT_SINGLE_WINNER","result":"PASS","archived":true}
+{"check":"FINAL_GRADE_CORRECTION_ATOMIC_VERSION_REPORT_REPLAY_HISTORY_PRIVATE_GRADE","result":"PASS","archived":true,"fixture":"initial report and optional archived state prepared in isolated database"}
+[31m[Nest] 21892  - [39m09/10/2026, 10:22:38 AM [31m  ERROR[39m [38;5;3m[HttpExceptionFilter] [39mObject(7) {
+  event: [32m'UNHANDLED_HTTP_ERROR'[39m,
+  requestId: [32m'01a08ad7-4421-745a-9e3d-bd60acc2b8b7'[39m,
+  errorType: [32m'PrismaClientKnownRequestError'[39m,
+  databaseCode: [32m'P2010'[39m,
+  sqlState: [1mnull[22m,
+  serializationFailure: [33mfalse[39m,
+  deadlock: [33mfalse[39m
+}
+[31m[Nest] 21892  - [39m09/10/2026, 10:22:38 AM [31m  ERROR[39m [38;5;3m[HttpExceptionFilter] [39mObject(7) {
+  event: [32m'UNHANDLED_HTTP_ERROR'[39m,
+  requestId: [32m'01a08ad7-44b1-709e-896f-f28af65c6332'[39m,
+  errorType: [32m'PrismaClientKnownRequestError'[39m,
+  databaseCode: [32m'P2010'[39m,
+  sqlState: [1mnull[22m,
+  serializationFailure: [33mfalse[39m,
+  deadlock: [33mfalse[39m
+}
+▶ V81 formal settlement and semester archival HTTP E2E
+  ✔ confirms one course settlement and preserves its report when switching semesters (3944.316437ms)
+✔ V81 formal settlement and semester archival HTTP E2E (4948.081711ms)
+▶ V81 subadministrator SMTP identity HTTP E2E
+  ✔ deletes only completed teacher accounts and preserves historical subjects with replay (1373.592702ms)
+{"check":"SUBADMIN_EMAIL_CHANGE_MATCHING_OTP_CONSUMPTION_LOGIN_PRESERVED","result":"PASS"}
+{"check":"SUBADMIN_PREFERENCE_CLEANUP_RETAINS_HISTORY_OTHER_ROLE_DELETE_DENIED","result":"PASS"}
+{"check":"SUBADMIN_PII_RECEIPTS_LINKED_TO_ACCOUNT_OR_IDENTITY_RESOURCE","result":"PASS"}
+{"check":"SUBADMIN_DELETE_CONCURRENT_REPLAY_PUSH_CLEANUP_FEEDBACK_HISTORY","result":"PASS"}
+{"check":"SUBADMIN_DELETE_CURRENT_ACCOUNT_LEGACY_RECEIPTS_REPLAY_HISTORY","result":"PASS"}
+{"check":"SUBADMIN_PROFILE_ATOMIC_UPDATE_REPLAY_VERSION_PERMISSION_REVOKE","result":"PASS"}
+{"check":"SUBADMIN_STATUS_HANDOVER_REPLAY_SESSION_REVOCATION_REENABLE","result":"PASS"}
+{"check":"SUBADMIN_SMTP_OTP_VERIFY_CONSUME_CREATE_FIRST_PASSWORD_CHANGE_PERMISSION","result":"PASS","syntheticIdentity":true}
+  ✔ verifies email OTP before creating and managing a subadministrator (2103.481921ms)
+{"check":"SUBADMIN_EIGHT_SINGLE_PERMISSION_MATRIX_AND_SYSTEM_MODE_WRITE","result":"PASS","readChecks":64,"revokedReadChecks":8,"syntheticIdentity":true}
+{"check":"SUBADMIN_PERMISSION_UPDATE_REPLAY_CONCURRENT_REVOKE_CURRENT_SESSION_NO_ESCALATION","result":"PASS","syntheticIdentity":true}
+  ✔ enforces permission changes and revocation against an already authenticated subadministrator session (1858.395549ms)
+✔ V81 subadministrator SMTP identity HTTP E2E (6358.254607ms)
+▶ V81 system management HTTP E2E
+  ✔ changes maintenance mode with replay, durable history, public announcement and recovery (1235.134764ms)
+  ✔ scopes public mode and announcement to the configured school while another school stays normal (691.302848ms)
+  ✔ reads all mode history across stable version pages without exposing another school (537.086346ms)
+  ✔ changes teacher and administrator passwords while retaining only the current session (1792.084525ms)
+  ✔ allows administrator security access in maintenance and rejects teacher and student password operations (790.040441ms)
+{"check":"APPROVED_TEMPLATE_SUPER_ONLY_IMMUTABLE_VERSIONS_COURSE_SELECTION_NO_RETROACTIVE_CHANGE","result":"PASS","syntheticFixture":true}
+  ✔ publishes immutable approved templates and freezes the teacher course selection (1102.589355ms)
+{"check":"UNIFIED_AUDIT_DATE_RANGE_FILTERS_PAGINATION_SOURCE_ROLE_UNKNOWN_METADATA_PRIVACY_PERMISSION","result":"PASS","syntheticEvents":true}
+  ✔ queries immutable audit events with date boundaries, pagination, redaction and tenant isolation (798.282592ms)
+✔ V81 system management HTTP E2E (7956.696724ms)
+▶ V81 teacher account import HTTP E2E
+  ✔ previews custom-email accounts, confirms once and requires personal passwords before business access (2014.371232ms)
+✔ V81 teacher account import HTTP E2E (2983.821578ms)
+ℹ tests 102
+ℹ suites 25
+ℹ pass 102
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 149975.472105
+Runtime conformance coverage passed: 220/220 enabled successes, 254/254 error/access responses, 34 fail-closed.
+
+> @bnbu/sports-backend@0.1.0 test:security
+> node ./scripts/run-test-layer.mjs security
+
+▶ Stage 21 client capability security
+  ✔ keeps locally integrated client capabilities inside their approved principal scope (1.138769ms)
+  ✔ redacts authentication, push, and location secrets recursively (0.206031ms)
+  ✔ accepts only EMAIL for student sign-in and staff recovery requests (3.820963ms)
+  ✔ binds every GPS mutation to a student-owned existing ExerciseSession (0.126496ms)
+  ✔ uses record scope for summaries and reserves privacy-policy mutation for ADMIN (0.102559ms)
+  ✔ rejects out-of-range coordinates and more than one bounded batch (8.852683ms)
+  ✔ accepts Android, Web, and iOS while rejecting unknown client platforms (2.147534ms)
+✔ Stage 21 client capability security (17.393361ms)
+▶ Docker database role separation
+  ✔ uses a bootstrap identity distinct from the migration and runtime identities (6.040317ms)
+  ✔ makes migration history read-only to the runtime identity after every deploy (1.880273ms)
+  ✔ makes every migrator artifact readable by the non-root node identity (1.284592ms)
+✔ Docker database role separation (10.166654ms)
+▶ Stage 12 security negatives
+  ✔ accepts only X-Join-Capability and rejects ordinary Authorization on atomic Join (1.729329ms)
+  ✔ logs only the generated route template, never a raw invite token path (2.009935ms)
+  ✔ redacts identity snapshots, ciphertexts, token hashes, and names recursively (0.262031ms)
+  ✔ rate limits public QR keys together and resets only after the configured window (0.350242ms)
+✔ Stage 12 security negatives (5.887498ms)
+▶ Stage 16 ExerciseRecord security
+  ✔ permits self mutations only and preserves teacher/admin read-only scope (2.236897ms)
+  ✔ strips mass-assigned identity, duration, state, review, and storage fields (3.928141ms)
+  ✔ projects only the frozen student-safe current review (0.871007ms)
+✔ Stage 16 ExerciseRecord security (7.919375ms)
+▶ Stage 17 ExerciseReview security
+  ✔ allows only TEACHER for single, history, reopen, and batch routes (3.394883ms)
+  ✔ strips forged identity, status, chain, and duration fields while retaining explicit override denial input (2.987109ms)
+  ✔ validates every nested batch item and prevents envelope field smuggling (1.721533ms)
+✔ Stage 17 ExerciseReview security (9.576935ms)
+▶ Stage 14 ExerciseSession security
+  ✔ allows only STUDENT for all eight Session operations (3.17884ms)
+  ✔ rejects whitespace cancellation reasons and malformed reconciliation input (3.727055ms)
+  ✔ whitelists Session inputs so identity, time, duration, status, and version cannot be assigned (1.22434ms)
+  ✔ never exposes auth-session linkage, interval internals, safe metadata, or storage fields (0.383375ms)
+✔ Stage 14 ExerciseSession security (9.584803ms)
+▶ Stage 19 Export and audit governance security
+  ✔ strips forged identity and persistence facts from default-deny DTOs (5.759496ms)
+  ✔ does not expose arbitrary JSON search and bounds every audit query input (0.554218ms)
+  ✔ keeps audit ADMIN-only and all five unresolved mutations fail-closed (0.092841ms)
+✔ Stage 19 Export and audit governance security (7.200447ms)
+▶ Stage 15 MediaEvidence security
+  ✔ enforces Student mutations and only current metadata read roles (3.580461ms)
+  ✔ rejects mass assignment and Record targets at the DTO boundary (2.897904ms)
+  ✔ never projects storage facts and redacts every capability field recursively (0.425637ms)
+✔ Stage 15 MediaEvidence security (7.955536ms)
+▶ Stage 13 roster security boundaries
+  ✔ parses explicit boolean query values and rejects whitespace-only mutation reasons (4.69679ms)
+  ✔ allows ADMIN only on governance reads, TEACHER on owned-scope operations, and no STUDENT (2.448019ms)
+  ✔ returns role-specific projections without raw rows, storage data, or ADMIN identity values (1.151328ms)
+  ✔ redacts roster source facts and identity differences recursively (0.351103ms)
+  ✔ implements ignore as a validated, scoped default deny with zero mutation side effects (0.570569ms)
+  ✔ rejects whitespace-only resolution reasons before idempotency or database access (0.433312ms)
+✔ Stage 13 roster security boundaries (10.501625ms)
+▶ Stage 18 Score security
+  ✔ strips forged score facts and identity from rule, approval, and recalculate requests (4.313936ms)
+  ✔ accepts only bounded adjustment inputs and rejects URL or script evidence injection (1.934831ms)
+  ✔ keeps every score operation fail-closed with the frozen role boundary (0.2318ms)
+✔ Stage 18 Score security (7.205207ms)
+▶ security negative gates
+  ✔ rejects placeholders and malformed production configuration (1.424088ms)
+  ✔ fails closed when staging email delivery is absent or unauthenticated (1.060481ms)
+  ✔ allows an isolated unauthenticated SMTP sink only for local development (0.770458ms)
+  ✔ accepts explicit Tencent SES template configuration without static cloud credentials (0.443672ms)
+  ✔ requires CVM role storage and rejects static COS credentials in staging (0.505342ms)
+  ✔ requires exact HTTPS CORS origins in staging while retaining HTTP support for tests (0.57588ms)
+  ✔ rejects a forged role or organization even when token verification succeeds (0.606068ms)
+  ✔ returns a five-field envelope for oversized or malformed bodies without echoing content (0.384958ms)
+  ✔ redacts every frozen sensitive field without leaking nested values (0.292619ms)
+  ✔ fails closed for unknown operation policies and unsupported resource resolvers (0.587803ms)
+  ✔ accepts only the frozen Stage 13 roster resolver identifiers (0.264895ms)
+  ✔ rejects an otherwise valid access token after its session is revoked (0.299141ms)
+  ✔ rejects organization, teacher, course, and query mass assignment at the DTO boundary (4.09498ms)
+  ✔ maps database constraint failures without exposing SQL or constraint names (0.67394ms)
+✔ security negative gates (13.041541ms)
+ℹ tests 53
+ℹ suites 11
+ℹ pass 53
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 5604.766731

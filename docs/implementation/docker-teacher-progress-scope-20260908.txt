@@ -1,0 +1,166 @@
+time="2026-09-08T22:15:54+08:00" level=warning msg="Found orphan containers (bnbu-v81-e2e-twelfth-20260908, bnbu-v81-e2e-eleventh-20260908, bnbu-v81-e2e-tenth-20260908, bnbu-v81-e2e-ninth-20260908, bnbu-v81-e2e-eighth-20260908, bnbu-v81-e2e-seventh-20260908, bnbu-v81-e2e-sixth-20260908, bnbu-v81-e2e-fifth-20260908, bnbu-v81-e2e-report-20260908) for this project. If you removed or renamed this service in your compose file, you can run this command with the --remove-orphans flag to clean it up."
+ Image bnbu-v81-full-integration-integration-tests Building 
+#1 [internal] load local bake definitions
+#1 reading from stdin 644B 0.0s done
+#1 DONE 0.0s
+
+#2 [internal] load build definition from Dockerfile.v81-test
+#2 transferring dockerfile: 828B done
+#2 DONE 0.0s
+
+#3 [internal] load metadata for docker.io/library/node:24.18.0-bookworm-slim
+#3 DONE 1.1s
+
+#4 [internal] load .dockerignore
+#4 transferring context: 153B done
+#4 DONE 0.0s
+
+#5 [ 1/11] FROM docker.io/library/node:24.18.0-bookworm-slim@sha256:6f7b03f7c2c8e2e784dcf9295400527b9b1270fd37b7e9a7285cf83b6951452d
+#5 resolve docker.io/library/node:24.18.0-bookworm-slim@sha256:6f7b03f7c2c8e2e784dcf9295400527b9b1270fd37b7e9a7285cf83b6951452d 0.0s done
+#5 DONE 0.0s
+
+#6 [internal] load build context
+#6 transferring context: 380.10kB 0.1s done
+#6 DONE 0.1s
+
+#7 [ 2/11] RUN apt-get update && apt-get install -y --no-install-recommends openssl ca-certificates && rm -rf /var/lib/apt/lists/*
+#7 CACHED
+
+#8 [ 3/11] WORKDIR /workspace/backend
+#8 CACHED
+
+#9 [ 4/11] COPY backend/package.json backend/package-lock.json ./
+#9 CACHED
+
+#10 [ 5/11] RUN npm ci --ignore-scripts --no-audit --no-fund
+#10 CACHED
+
+#11 [ 6/11] COPY backend/ ./
+#11 DONE 0.3s
+
+#12 [ 7/11] COPY docs/backend-contracts/ /workspace/docs/backend-contracts/
+#12 DONE 0.1s
+
+#13 [ 8/11] COPY tools/ /workspace/tools/
+#13 DONE 0.1s
+
+#14 [ 9/11] COPY BNBU-Sports-Web-new/frontend/student/ /workspace/BNBU-Sports-Web-new/frontend/student/
+#14 DONE 0.1s
+
+#15 [10/11] COPY BNBU-Sports-Web-new/portal-teacher-admin/app/ /workspace/BNBU-Sports-Web-new/portal-teacher-admin/app/
+#15 DONE 0.1s
+
+#16 [11/11] RUN npm run db:generate
+#16 0.333 
+#16 0.333 > @bnbu/sports-backend@0.1.0 db:generate
+#16 0.333 > prisma generate
+#16 0.333 
+#16 1.015 Loaded Prisma config from prisma.config.ts.
+#16 1.015 
+#16 8.697 Prisma schema loaded from prisma/schema.prisma.
+#16 10.52 
+#16 10.52 ✔ Generated Prisma Client (7.9.1) to ./src/generated/prisma in 1.15s
+#16 10.52 
+#16 DONE 10.7s
+
+#17 exporting to image
+#17 exporting layers
+#17 exporting layers 1.7s done
+#17 exporting manifest sha256:cdf335cf1ae7544c326b716ec15829b96e42829cc9ed629bf1ee8646b51618b9 0.0s done
+#17 exporting config sha256:9c310747ba98008591ef9b36810da35528ada86d69ff41dae6e9dc340b18e97e 0.0s done
+#17 exporting attestation manifest sha256:ddaa787e2744e2cb9992ba2aa71fa5831aed6c9dd9d56817cc51212aa97217b1 0.0s done
+#17 exporting manifest list sha256:9fb3d2c9a85aac95abbead77f531a29ce71cda3cf87e7e8ecdee619dea367e51 0.0s done
+#17 naming to docker.io/library/bnbu-v81-full-integration-integration-tests:latest done
+#17 unpacking to docker.io/library/bnbu-v81-full-integration-integration-tests:latest
+#17 unpacking to docker.io/library/bnbu-v81-full-integration-integration-tests:latest 0.7s done
+#17 DONE 2.6s
+
+#18 resolving provenance for metadata file
+#18 DONE 0.0s
+ Image bnbu-v81-full-integration-integration-tests Built 
+ Container bnbu-v81-full-integration-integration-tests-run-f30b785a9d0d Creating 
+ Container bnbu-v81-full-integration-integration-tests-run-f30b785a9d0d Created 
+
+> @bnbu/sports-backend@0.1.0 prebuild
+> npm run db:generate && npm run generate
+
+
+> @bnbu/sports-backend@0.1.0 db:generate
+> prisma generate
+
+Loaded Prisma config from prisma.config.ts.
+
+Prisma schema loaded from prisma/schema.prisma.
+
+✔ Generated Prisma Client (7.9.1) to ./src/generated/prisma in 977ms
+┌─────────────────────────────────────────────────────────┐
+
+│  Update available 7.9.1 -> 8.0.0-rc.13                  │
+│                                                         │
+│  This is a major update - please follow the guide at    │
+│  https://pris.ly/d/major-version-upgrade                │
+│                                                         │
+│  Run the following to update                            │
+│    npm i --save-dev prisma@latest                       │
+│    npm i @prisma/client@latest                          │
+└─────────────────────────────────────────────────────────┘
+
+> @bnbu/sports-backend@0.1.0 generate
+> npm run openapi:generate && npm run db:manifest:generate
+
+
+> @bnbu/sports-backend@0.1.0 openapi:generate
+> node ./scripts/generate-openapi.mjs
+
+Generated 3 OpenAPI artifacts from 250 operations.
+
+> @bnbu/sports-backend@0.1.0 db:manifest:generate
+> node ./scripts/generate-migration-manifest.mjs
+
+Generated migration manifest updated.
+
+> @bnbu/sports-backend@0.1.0 build
+> nest build
+
+▶ ExerciseRecord HTTP E2E
+  ✔ creates, edits, lists, submits, and replays one immutable evidence chain (1255.230918ms)
+  ✔ requires the exact complete set of available session media (702.568343ms)
+  ✔ does not let an unselected processing upload block valid evidence submission (699.524108ms)
+  ✔ returns a stable conflict when a second draft is created for one session (690.210886ms)
+  ✔ discards a draft atomically with append-only evidence (633.20249ms)
+  ✔ routes withdrawal to stable default deny with zero domain side effects (613.498955ms)
+  ✔ retains below-threshold submissions with zero credited duration (643.400584ms)
+  ✔ accepts same-day submissions for review without reserving legacy daily slots (755.562382ms)
+  ✖ returns for one supplement then credits a replayable teacher decision in student progress (1184.478986ms)
+  ✔ approves and revokes activity recognition with matching student progress and history (832.210414ms)
+  ✔ locks swimming before and after evidence once and exposes the transfer clock (889.038961ms)
+✖ ExerciseRecord HTTP E2E (9856.802244ms)
+ℹ tests 11
+ℹ suites 1
+ℹ pass 10
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 10809.056133
+
+✖ failing tests:
+
+test at test/e2e/exercise-record.e2e.test.ts:1:21219
+✖ returns for one supplement then credits a replayable teacher decision in student progress (1184.478986ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  403 !== 200
+  
+      at TestContext.<anonymous> (/workspace/backend/test/e2e/exercise-record.e2e.test.ts:839:14)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async Test.run (node:internal/test_runner/test:1332:7)
+      at async Suite.processPendingSubtests (node:internal/test_runner/test:911:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 403,
+    expected: 200,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+

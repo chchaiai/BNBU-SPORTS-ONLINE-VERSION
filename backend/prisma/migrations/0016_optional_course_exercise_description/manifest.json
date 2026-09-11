@@ -1,0 +1,5 @@
+{
+  "migrationId": "0016_optional_course_exercise_description",
+  "sha256": "7e7292a85b086a830b84c52eebc1bd63d967775165aafb779346d3c2e85291ef",
+  "destructive": false
+}

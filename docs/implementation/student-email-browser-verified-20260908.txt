@@ -1,0 +1,5 @@
+{"check":"STUDENT_BROWSER_SMTP_LOGIN","result":"PASS"}
+{"check":"STUDENT_HOME_CONTENT","hasCourse":true,"hasProgress":true,"hasLoginForm":false}
+{"check":"EMAIL_CHANGE_COMMITTED","stage":"CHANGE_EMAIL","status":200}
+{"check":"EMAIL_CHANGE_COMMITTED","stage":"RESTORE_EMAIL","status":200}
+{"check":"STUDENT_EMAIL_DOUBLE_OTP_CHANGE_AND_RESTORE","result":"PASS","restored":true}

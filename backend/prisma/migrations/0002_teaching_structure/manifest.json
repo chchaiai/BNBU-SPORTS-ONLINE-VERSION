@@ -1,0 +1,6 @@
+{
+  "migrationId": "0002_teaching_structure",
+  "sha256": "bc62c8cc42989da02eb5be92c7c68f64a72b90e6a41b3913c169333d5fbfbc41",
+  "destructive": false,
+  "scope": "Stage 11 Course and ClassSection teaching structure only"
+}

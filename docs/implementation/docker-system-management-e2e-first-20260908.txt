@@ -1,0 +1,155 @@
+time="2026-09-08T18:17:38+08:00" level=warning msg="Found orphan containers (bnbu-v81-e2e-report-20260908) for this project. If you removed or renamed this service in your compose file, you can run this command with the --remove-orphans flag to clean it up."
+ Image bnbu-v81-full-integration-integration-tests Building 
+#1 [internal] load local bake definitions
+#1 reading from stdin 644B 0.0s done
+#1 DONE 0.0s
+
+#2 [internal] load build definition from Dockerfile.v81-test
+#2 transferring dockerfile: 828B done
+#2 DONE 0.0s
+
+#3 [auth] library/node:pull token for registry-1.docker.io
+#3 DONE 0.0s
+
+#4 [internal] load metadata for docker.io/library/node:24.18.0-bookworm-slim
+#4 DONE 1.5s
+
+#5 [internal] load .dockerignore
+#5 transferring context: 153B done
+#5 DONE 0.0s
+
+#6 [ 1/11] FROM docker.io/library/node:24.18.0-bookworm-slim@sha256:6f7b03f7c2c8e2e784dcf9295400527b9b1270fd37b7e9a7285cf83b6951452d
+#6 resolve docker.io/library/node:24.18.0-bookworm-slim@sha256:6f7b03f7c2c8e2e784dcf9295400527b9b1270fd37b7e9a7285cf83b6951452d 0.0s done
+#6 DONE 0.0s
+
+#7 [internal] load build context
+#7 transferring context: 118.55kB 0.1s done
+#7 DONE 0.1s
+
+#8 [ 2/11] RUN apt-get update && apt-get install -y --no-install-recommends openssl ca-certificates && rm -rf /var/lib/apt/lists/*
+#8 CACHED
+
+#9 [ 3/11] WORKDIR /workspace/backend
+#9 CACHED
+
+#10 [ 4/11] COPY backend/package.json backend/package-lock.json ./
+#10 CACHED
+
+#11 [ 5/11] RUN npm ci --ignore-scripts --no-audit --no-fund
+#11 CACHED
+
+#12 [ 6/11] COPY backend/ ./
+#12 DONE 0.3s
+
+#13 [ 7/11] COPY docs/backend-contracts/ /workspace/docs/backend-contracts/
+#13 DONE 0.2s
+
+#14 [ 8/11] COPY tools/ /workspace/tools/
+#14 DONE 0.1s
+
+#15 [ 9/11] COPY BNBU-Sports-Web-new/frontend/student/ /workspace/BNBU-Sports-Web-new/frontend/student/
+#15 DONE 0.1s
+
+#16 [10/11] COPY BNBU-Sports-Web-new/portal-teacher-admin/app/ /workspace/BNBU-Sports-Web-new/portal-teacher-admin/app/
+#16 DONE 0.1s
+
+#17 [11/11] RUN npm run db:generate
+#17 0.395 
+#17 0.395 > @bnbu/sports-backend@0.1.0 db:generate
+#17 0.395 > prisma generate
+#17 0.395 
+#17 1.047 Loaded Prisma config from prisma.config.ts.
+#17 1.047 
+#17 2.885 Prisma schema loaded from prisma/schema.prisma.
+#17 4.335 
+#17 4.335 ✔ Generated Prisma Client (7.9.1) to ./src/generated/prisma in 879ms
+#17 4.335 
+#17 DONE 4.5s
+
+#18 exporting to image
+#18 exporting layers
+#18 exporting layers 1.7s done
+#18 exporting manifest sha256:c75b2e9d3f0cf7c6a44c6d83479cfc592a8e60ef79421937ec8c6f1012116015 0.0s done
+#18 exporting config sha256:2e6c6c1107f11125c8937fc6eafb57fc1705b3e954b92e24e46560c0c3b0c480 0.0s done
+#18 exporting attestation manifest sha256:f9396b3bcadca2351c044096580b40688ed458f74bf267ed2b492bb5312d411a 0.1s done
+#18 exporting manifest list sha256:67dd0decf94a4eb12a5abe6bb92f9c8b81e5cd0cf533f09e4a626efd6b8cc873
+#18 exporting manifest list sha256:67dd0decf94a4eb12a5abe6bb92f9c8b81e5cd0cf533f09e4a626efd6b8cc873 0.0s done
+#18 naming to docker.io/library/bnbu-v81-full-integration-integration-tests:latest done
+#18 unpacking to docker.io/library/bnbu-v81-full-integration-integration-tests:latest
+#18 unpacking to docker.io/library/bnbu-v81-full-integration-integration-tests:latest 0.8s done
+#18 DONE 2.7s
+
+#19 resolving provenance for metadata file
+#19 DONE 0.0s
+ Image bnbu-v81-full-integration-integration-tests Built 
+ Container bnbu-v81-full-integration-integration-tests-run-f8d88f6b5ec9 Creating 
+ Container bnbu-v81-full-integration-integration-tests-run-f8d88f6b5ec9 Created 
+
+> @bnbu/sports-backend@0.1.0 prebuild
+> npm run db:generate && npm run generate
+
+
+> @bnbu/sports-backend@0.1.0 db:generate
+> prisma generate
+
+Loaded Prisma config from prisma.config.ts.
+
+Prisma schema loaded from prisma/schema.prisma.
+
+┌─────────────────────────────────────────────────────────┐
+│  Update available 7.9.1 -> 8.0.0-rc.13                  │
+│                                                         │
+│  This is a major update - please follow the guide at    │
+│  https://pris.ly/d/major-version-upgrade                │
+│                                                         │
+│  Run the following to update                            │
+│    npm i --save-dev prisma@latest                       │
+│    npm i @prisma/client@latest                          │
+└─────────────────────────────────────────────────────────┘
+✔ Generated Prisma Client (7.9.1) to ./src/generated/prisma in 894ms
+
+
+> @bnbu/sports-backend@0.1.0 generate
+> npm run openapi:generate && npm run db:manifest:generate
+
+
+> @bnbu/sports-backend@0.1.0 openapi:generate
+> node ./scripts/generate-openapi.mjs
+
+Generated 3 OpenAPI artifacts from 249 operations.
+
+> @bnbu/sports-backend@0.1.0 db:manifest:generate
+> node ./scripts/generate-migration-manifest.mjs
+
+Generated migration manifest updated.
+
+> @bnbu/sports-backend@0.1.0 build
+> nest build
+
+▶ V81 system management HTTP E2E
+  ✖ changes maintenance mode with replay, durable history, public announcement and recovery (1018.695719ms)
+✖ V81 system management HTTP E2E (1850.474594ms)
+ℹ tests 1
+ℹ suites 1
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2628.842257
+
+✖ failing tests:
+
+test at test/e2e/v81-system-management.e2e.test.ts:1:5626
+✖ changes maintenance mode with replay, durable history, public announcement and recovery (1018.695719ms)
+  Error: response status 503 is not documented
+      at validateResponse (file:///workspace/backend/scripts/runtime-conformance-hook.mjs:225:11)
+      at conformanceFetch (file:///workspace/backend/scripts/runtime-conformance-hook.mjs:286:11)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async request (/workspace/backend/test/e2e/v81-system-management.e2e.test.ts:69:22)
+      at async TestContext.<anonymous> (/workspace/backend/test/e2e/v81-system-management.e2e.test.ts:212:19)
+      at async Test.run (node:internal/test_runner/test:1332:7)
+      at async Promise.all (index 0)
+      at async Suite.run (node:internal/test_runner/test:1794:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:385:3)
+

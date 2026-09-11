@@ -1,0 +1,33 @@
+import fs from 'node:fs';
+import assert from 'node:assert/strict';
+import {randomUUID} from 'node:crypto';
+import {chromium} from '../../.local/browser-test/node_modules/playwright-core/index.mjs';
+const cloud=process.env.BNBU_JOIN_CLOUD==='1',label=cloud?'cloud':'local';
+const origin=cloud?'https://www.student.bnbusports.cn':'http://127.0.0.1:4274';
+const portal=cloud?'https://www.teacher.bnbusports.cn':'http://localhost:3300';
+const api=cloud?portal+'/api/v1':'http://127.0.0.1:3199/api/v1';
+const fixture=JSON.parse(fs.readFileSync(cloud?'.local/round2-cloud-long-private.json':'.local/v81-browser-state/state.json','utf8'));
+const account=cloud?fixture.teacher:fixture.accounts.teacher;
+const browser=await chromium.launch({executablePath:'C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe',headless:true});
+try {
+ const teacher=await browser.newPage();teacher.setDefaultTimeout(45000);
+ await teacher.goto(portal);await teacher.locator('#login-account').fill(account.email);await teacher.locator('#login-password').fill(account.password);
+ const login=teacher.waitForResponse(r=>new URL(r.url()).pathname.endsWith('/auth/password-login')&&r.request().method()==='POST');
+ await teacher.getByRole('button',{name:'登录',exact:true}).click();const logged=await login;assert.equal(logged.status(),200);
+ const headers={authorization:'Bearer '+(await logged.json()).data.accessToken,'idempotency-key':randomUUID()};
+ const courses=await teacher.request.get(api+'/class-sections?limit=100',{headers});assert.equal(courses.status(),200);
+ const data=(await courses.json()).data,rows=Array.isArray(data)?data:data.items;
+ const course=rows.find(r=>r.isEnrollmentOpen&&r.status==='ACTIVE'&&(!cloud||r.id==='01a08c2b-3453-7306-abf1-9fc879f27141'));assert.ok(course);
+ const invited=await teacher.request.post(api+'/class-sections/'+course.id+'/course-invites',{headers,data:{expiresAt:new Date(Date.now()+6*60000).toISOString()}});assert.equal(invited.status(),201);
+ const token=(await invited.json()).data.inviteToken;assert.ok(token);
+ const student=await browser.newPage({viewport:{width:390,height:844}});student.setDefaultTimeout(45000);
+ await student.goto(origin+'/student/');await student.getByRole('button',{name:'同意并继续',exact:true}).click();await student.getByText('直接登录',{exact:true}).click();await student.locator('[data-action="login.scan"]').click();
+ const absent=async()=>assert.equal(await student.getByRole('button',{name:/刷新宽限|Refresh grace/}).count(),0);
+ await absent();await student.locator('[data-action="scan.manual"]').click();await student.locator('#manual-invite-code').fill(token);
+ const preview=student.waitForResponse(r=>new URL(r.url()).pathname.includes('/preview')&&r.request().method()==='GET');
+ await student.locator('[data-action="scan.dialogSubmit"]').click();assert.equal((await preview).status(),200);
+ await student.locator('#join-name').waitFor();await student.getByText('确认课程信息',{exact:true}).waitFor();await absent();
+ assert.ok(await student.getByText(/服务端到期时间还剩约/).count());assert.equal(await student.locator('[data-action="joinConfirm.submit"]').count(),1);
+ fs.mkdirSync('.local/join-grace-evidence',{recursive:true});await student.screenshot({path:'.local/join-grace-evidence/'+label+'.png',fullPage:true,animations:'disabled'});
+ console.log(JSON.stringify({check:'REAL_INVITE_CONFIRM_NO_GRACE_BUTTON',environment:label,result:'PASS',inviteCreate:201,invitePreview:200,scanButtonAbsent:true,confirmationButtonAbsent:true,identityFormPresent:true,serverExpiryPresent:true,syntheticCourseOnly:true,inviteExpiresWithinMinutes:6}));
+} finally {await browser.close();}

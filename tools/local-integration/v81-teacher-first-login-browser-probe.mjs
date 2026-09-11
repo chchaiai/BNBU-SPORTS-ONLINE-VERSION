@@ -1,0 +1,6 @@
+import fs from 'node:fs';import {chromium} from '../../.local/browser-test/node_modules/playwright-core/index.mjs';
+const fixture=JSON.parse(fs.readFileSync(new URL('../../.local/v81-browser-state/teacher-import-current.json',import.meta.url)));
+const browser=await chromium.launch({executablePath:'C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe',headless:true});
+try{const page=await browser.newPage(),responses=[];page.on('response',r=>{const path=new URL(r.url()).pathname;if(path.startsWith('/api/v1/'))responses.push({path,status:r.status()});});
+await page.goto('http://localhost:3300/');await page.getByLabel('学校邮箱').fill(fixture.accounts[0].email);await page.locator('#login-password').fill(fixture.password);await page.getByRole('button',{name:'登录',exact:true}).click();await page.waitForLoadState('networkidle');
+console.log(JSON.stringify({check:'TEACHER_FIRST_LOGIN_DIAGNOSTIC',alerts:await page.getByRole('alert').allTextContents(),buttons:await page.getByRole('button').allTextContents(),responses}));}finally{await browser.close();}

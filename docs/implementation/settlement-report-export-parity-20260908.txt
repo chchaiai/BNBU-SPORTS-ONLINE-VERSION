@@ -1,0 +1,3 @@
+Contract parity: PASS (operations=242, handlers=242, query=48, body=117)
+Error parity: catalog=154, registry=154, messages=154, callSites=1010, lifecycle=runtime:115/reserved:39
+Frozen 1.3 contract defects: 0 (staticExceptions=0, semanticLimitations=0)

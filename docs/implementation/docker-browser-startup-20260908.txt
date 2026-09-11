@@ -1,0 +1,2 @@
+cannot extend service "backend-browser" in C:\Users\23328\Desktop\new_version\tools\local-integration\compose.v81-browser.yml: service "backend-startup" not found
+Compose startup exit code: 1

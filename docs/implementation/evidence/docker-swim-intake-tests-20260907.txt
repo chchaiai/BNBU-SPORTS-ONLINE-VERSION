@@ -1,0 +1,14 @@
+ Container bnbu-v81-local-validation-sql-tests-run-ff8d1632ecd4 Creating 
+ Container bnbu-v81-local-validation-sql-tests-run-ff8d1632ecd4 Created 
+✔ the server accepts the fifteen-minute boundary and grants thirty minutes from acceptance (1.265746ms)
+✔ a late intake requires an explicit explanation and routes to offline handling (0.350163ms)
+✔ twenty-four hours is the final offline boundary and a future server end is rejected (0.137651ms)
+ℹ tests 3
+ℹ suites 0
+ℹ pass 3
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 203.40895
+Docker exit code: 0

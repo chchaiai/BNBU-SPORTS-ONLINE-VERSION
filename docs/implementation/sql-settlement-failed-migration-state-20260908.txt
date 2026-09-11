@@ -1,0 +1,10 @@
+ current_database | to_regclass | to_regprocedure 
+------------------+-------------+-----------------
+ v81_runtime_test |             | 
+(1 row)
+
+       migration_name        | finished_at | rolled_back_at | applied_steps_count 
+-----------------------------+-------------+----------------+---------------------
+ 0056_v81_settlement_reports |             |                |                   0
+(1 row)
+

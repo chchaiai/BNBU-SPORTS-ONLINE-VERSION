@@ -1,0 +1,82 @@
+ Container bnbu-v81-local-validation-media-minio-1 Starting 
+ Container bnbu-v81-local-validation-sql-postgres-1 Starting 
+ Container bnbu-v81-local-validation-mailpit-1 Starting 
+ Container bnbu-v81-local-validation-mailpit-1 Started 
+ Container bnbu-v81-local-validation-media-minio-1 Started 
+ Container bnbu-v81-local-validation-sql-postgres-1 Started 
+ Container bnbu-v81-local-validation-sql-postgres-1 Waiting 
+ Container bnbu-v81-local-validation-mailpit-1 Waiting 
+ Container bnbu-v81-local-validation-media-minio-1 Waiting 
+ Container bnbu-v81-local-validation-mailpit-1 Healthy 
+ Container bnbu-v81-local-validation-media-minio-1 Healthy 
+ Container bnbu-v81-local-validation-sql-postgres-1 Healthy 
+ Container bnbu-v81-local-validation-backend-startup-run-2eaf0ee9f168 Creating 
+ Container bnbu-v81-local-validation-backend-startup-run-2eaf0ee9f168 Created 
+
+> @bnbu/sports-backend@0.1.0 prebuild
+> npm run db:generate && npm run generate
+
+
+> @bnbu/sports-backend@0.1.0 db:generate
+> prisma generate
+
+Loaded Prisma config from prisma.config.ts.
+
+Prisma schema loaded from prisma/schema.prisma.
+
+┌─────────────────────────────────────────────────────────┐
+│  Update available 7.9.1 -> 8.0.0-rc.13                  │
+│                                                         │
+│  This is a major update - please follow the guide at    │
+✔ Generated Prisma Client (7.9.1) to ./src/generated/prisma in 996ms
+│  https://pris.ly/d/major-version-upgrade                │
+
+│                                                         │
+│  Run the following to update                            │
+│    npm i --save-dev prisma@latest                       │
+│    npm i @prisma/client@latest                          │
+└─────────────────────────────────────────────────────────┘
+
+> @bnbu/sports-backend@0.1.0 generate
+> npm run openapi:generate && npm run db:manifest:generate
+
+
+> @bnbu/sports-backend@0.1.0 openapi:generate
+> node ./scripts/generate-openapi.mjs
+
+Generated 3 OpenAPI artifacts from 153 operations.
+
+> @bnbu/sports-backend@0.1.0 db:manifest:generate
+> node ./scripts/generate-migration-manifest.mjs
+
+Generated migration manifest updated.
+
+> @bnbu/sports-backend@0.1.0 build
+> nest build
+
+{"check":"LOCAL_OBJECT_STORAGE_ROUNDTRIP","result":"PASS"}
+Loaded Prisma config from prisma.config.ts.
+
+Prisma schema loaded from prisma/schema.prisma.
+Datasource "db": PostgreSQL database "v81_runtime_test", schema "public" at "sql-postgres:5432"
+
+26 migrations found in prisma/migrations
+
+
+No pending migrations to apply.
+{"live":200,"ready":200,"businessValidated":false}
+{"check":"LOGIN_AND_FIRST_PASSWORD_CHANGE","role":"ADMIN","result":"PASS"}
+{"check":"LOGIN_AND_FIRST_PASSWORD_CHANGE","role":"TEACHER","result":"PASS"}
+{"check":"LOGIN_AND_FIRST_PASSWORD_CHANGE","role":"OTHER_TEACHER","result":"PASS"}
+{"check":"LOGIN_AND_FIRST_PASSWORD_CHANGE","role":"OTHER_ORGANIZATION","result":"PASS"}
+{"check":"SUPER_ENABLE_MANUAL_MODE","result":"PASS"}
+{"check":"STUDENT_SMTP_CODE_LOGIN","result":"PASS"}
+{"check":"STUDENT_UPLOAD_CONFIRM_BIND_VERIFY","result":"PASS","elapsedSessionFixture":true,"captureSource":"IN_APP_CAMERA","syntheticImage":true}
+{"check":"RULES_SUBMIT_TEACHER_APPROVE_STUDENT_READBACK","result":"PASS","creditedMinutes":60}
+{"check":"STUDENT_REVIEW_DENIED_AND_TEACHER_REPLAY_ONCE","result":"PASS"}
+{"check":"OTHER_TEACHER_AND_ORGANIZATION_READ_REVIEW_DENIED","result":"PASS"}
+{"check":"INTERNAL_GRADE_HISTORY_REPLAY_ROLE_ISOLATION_NO_NOTE","result":"PASS"}
+{"check":"CERTIFICATION_MEDIA_AVAILABLE","result":"PASS","format":"WEBP"}
+{"check":"CERTIFICATION_UPLOAD_SUBMIT_APPROVE_REVOKE","result":"PASS"}
+{"check":"STUDENT_PROGRESS_RECOGNITION_APPROVE_REVOKE","result":"PASS"}
+Docker exit code: 0

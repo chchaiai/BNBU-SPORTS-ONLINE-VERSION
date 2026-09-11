@@ -1,0 +1,403 @@
+ Image bnbu-v81-local-validation-domain-tests Building 
+#1 [internal] load local bake definitions
+#1 reading from stdin 624B 0.0s done
+#1 DONE 0.0s
+
+#2 [internal] load build definition from Dockerfile.v81-test
+#2 transferring dockerfile: 828B done
+#2 DONE 0.0s
+
+#3 [internal] load metadata for docker.io/library/node:24.18.0-bookworm-slim
+#3 DONE 1.0s
+
+#4 [internal] load .dockerignore
+#4 transferring context: 153B done
+#4 DONE 0.0s
+
+#5 [internal] load build context
+#5 DONE 0.0s
+
+#6 [ 1/11] FROM docker.io/library/node:24.18.0-bookworm-slim@sha256:6f7b03f7c2c8e2e784dcf9295400527b9b1270fd37b7e9a7285cf83b6951452d
+#6 resolve docker.io/library/node:24.18.0-bookworm-slim@sha256:6f7b03f7c2c8e2e784dcf9295400527b9b1270fd37b7e9a7285cf83b6951452d 0.1s done
+#6 DONE 0.1s
+
+#5 [internal] load build context
+#5 transferring context: 101.16kB 0.1s done
+#5 DONE 0.1s
+
+#7 [ 2/11] RUN apt-get update && apt-get install -y --no-install-recommends openssl ca-certificates && rm -rf /var/lib/apt/lists/*
+#7 CACHED
+
+#8 [ 3/11] WORKDIR /workspace/backend
+#8 CACHED
+
+#9 [ 4/11] COPY backend/package.json backend/package-lock.json ./
+#9 CACHED
+
+#10 [ 5/11] RUN npm ci --ignore-scripts --no-audit --no-fund
+#10 CACHED
+
+#11 [ 6/11] COPY backend/ ./
+#11 DONE 0.2s
+
+#12 [ 7/11] COPY docs/backend-contracts/ /workspace/docs/backend-contracts/
+#12 DONE 0.2s
+
+#13 [ 8/11] COPY tools/ /workspace/tools/
+#13 DONE 0.1s
+
+#14 [ 9/11] COPY BNBU-Sports-Web-new/frontend/student/ /workspace/BNBU-Sports-Web-new/frontend/student/
+#14 DONE 0.1s
+
+#15 [10/11] COPY BNBU-Sports-Web-new/portal-teacher-admin/app/ /workspace/BNBU-Sports-Web-new/portal-teacher-admin/app/
+#15 DONE 0.1s
+
+#16 [11/11] RUN npm run db:generate
+#16 0.396 
+#16 0.396 > @bnbu/sports-backend@0.1.0 db:generate
+#16 0.396 > prisma generate
+#16 0.396 
+#16 1.000 Loaded Prisma config from prisma.config.ts.
+#16 1.000 
+#16 3.401 Prisma schema loaded from prisma/schema.prisma.
+#16 4.832 
+#16 4.832 ✔ Generated Prisma Client (7.9.1) to ./src/generated/prisma in 863ms
+#16 4.832 
+#16 DONE 5.0s
+
+#17 exporting to image
+#17 exporting layers
+#17 exporting layers 1.8s done
+#17 exporting manifest sha256:7beba3abd4cd884fba80e7d2dfe1d5ba02e28019555e67e8a6ceb5b374ce39ac 0.0s done
+#17 exporting config sha256:a74e66e59cd64db2d4c64e4ad91bab3784f9ec70a501145978774345cf7d3cb2 0.0s done
+#17 exporting attestation manifest sha256:75d85f81aa97babd2a91fb4543a1a59e5f5493444c1b605c0e318e736e9d56a7 0.0s done
+#17 exporting manifest list sha256:249e29884a0d2eef9021db8356da7d5be962470498ff2092f2b93a18810d2229
+#17 exporting manifest list sha256:249e29884a0d2eef9021db8356da7d5be962470498ff2092f2b93a18810d2229 0.0s done
+#17 naming to docker.io/library/bnbu-v81-local-validation-domain-tests:latest done
+#17 unpacking to docker.io/library/bnbu-v81-local-validation-domain-tests:latest
+#17 unpacking to docker.io/library/bnbu-v81-local-validation-domain-tests:latest 0.7s done
+#17 DONE 2.7s
+
+#18 resolving provenance for metadata file
+#18 DONE 0.0s
+ Image bnbu-v81-local-validation-domain-tests Built 
+ Container bnbu-v81-local-validation-domain-tests-run-fa7dd5512a6b Creating 
+ Container bnbu-v81-local-validation-domain-tests-run-fa7dd5512a6b Created 
+
+> @bnbu/sports-backend@0.1.0 test
+> node ./scripts/run-test-layer.mjs unit
+
+▶ authentication-code cryptography
+  ✔ generates CSPRNG-backed fixed-length numeric codes and rejects unsafe lengths (1.224059ms)
+  ✔ digests codes with context binding and verifies wrong inputs without leaking a match (0.382677ms)
+  ✔ deterministically escrows canonical auth results and authenticates their AAD (5.876906ms)
+  ✔ rejects tampered escrow ciphertexts (0.2594ms)
+✔ authentication-code cryptography (8.349491ms)
+▶ authentication challenge state machine
+  ✔ consumes a valid challenge exactly once (0.595908ms)
+  ✔ expires at the exact TTL boundary (0.112827ms)
+  ✔ increments durable attempts and locks at the configured maximum (0.121584ms)
+  ✔ activates only a pending challenge delivered before expiry (0.157273ms)
+✔ authentication challenge state machine (1.22995ms)
+▶ authentication-code delivery ports
+  ✔ fails closed when no delivery provider is configured (1.218606ms)
+  ✔ prevents the in-memory capture adapter from running outside tests (0.171992ms)
+  ✔ captures only test deliveries and preserves delivery-id idempotency (0.36293ms)
+✔ authentication-code delivery ports (1.864602ms)
+▶ durable rate-window evaluation
+  ✔ uses repository timestamps and excludes the exact window cutoff (0.247898ms)
+  ✔ rejects future repository facts instead of treating them as valid attempts (0.114481ms)
+✔ durable rate-window evaluation (0.424548ms)
+▶ app release policy projection
+  ✔ selects only the currently effective IOS policy without comparing version syntax (0.206157ms)
+  ✔ compares iOS build numbers numerically and never uses marketing version text (0.139499ms)
+  ✔ fails on equal-time policy ambiguity instead of depending on input order (0.106625ms)
+✔ app release policy projection (0.552385ms)
+▶ Stage 21 client capability boundary
+  ✔ returns the same stable default-deny error for public and authenticated capabilities (0.526365ms)
+✔ Stage 21 client capability boundary (1.183591ms)
+▶ PushTokenCipher
+  ✔ round-trips with AES-GCM and rejects tampering or the wrong key (1.329332ms)
+✔ PushTokenCipher (1.860195ms)
+▶ ClientMessagingService
+  ✔ marks only the principal notification as read and emits durable evidence (1.246863ms)
+  ✔ registers IOS tokens encrypted and never leaks token material to projections or evidence (0.603423ms)
+  ✔ returns 409 and never transfers a token already owned by another user (0.336558ms)
+  ✔ revokes only a self-scoped push device and destroys decryptable token material (0.48276ms)
+  ✔ derives missing preferences from the organization and persists the first update as version 2 (0.92905ms)
+  ✔ creates feedback OPEN without copying content or client context into evidence (0.450799ms)
+  ✔ keeps feedback self-scoped for non-admins and only queries published help (0.671845ms)
+✔ ClientMessagingService (5.104588ms)
+▶ Contract 1.3 parity regression gate
+  ✔ detects the six required synthetic mismatch scenarios (217.325657ms)
+  ✔ accepts the repository only with the frozen, explicit contract-defect ledger (3046.003503ms)
+  ✔ enforces the canonical HTTP status at runtime and when restoring snapshots (0.520593ms)
+  ✔ pins both location POST handlers to the published 200 success status (0.162363ms)
+  ✔ rejects the removed search alias and accepts the contract q parameter (2.68754ms)
+  ✔ rejects contract-external and null gender values while allowing omission (0.6742ms)
+✔ Contract 1.3 parity regression gate (3268.090635ms)
+▶ Stage 12 student identity and QR security
+  ✔ normalizes the student number without losing leading zeros and applies NFC (1.174483ms)
+  ✔ narrows QR join gender while accepting the full four-digit cohort range (2.666921ms)
+  ✔ accepts any four-digit cohort year and rejects malformed identity fields (0.464876ms)
+  ✔ issues public-id plus 256-bit secret tokens and verifies only their HMAC digest (0.670201ms)
+  ✔ authenticates encrypted identity and result escrows with purpose-bound AAD (0.689349ms)
+✔ Stage 12 student identity and QR security (6.356432ms)
+▶ Stage 12 lifecycle entities
+  ✔ rotates an invite without deleting history (0.246465ms)
+  ✔ keeps one Enrollment id across remove and restore transitions (0.249952ms)
+  ✔ issues an ACTIVE capability without any consumed result fields (0.260552ms)
+✔ Stage 12 lifecycle entities (0.92387ms)
+▶ ExerciseRecord domain rules
+  ✔ applies V8.1 selectable thresholds, whole minutes and the 60-minute credit cap (0.636907ms)
+  ✔ normalizes optional content without inventing a second sport taxonomy (0.610026ms)
+✔ ExerciseRecord domain rules (1.890243ms)
+▶ ExerciseReview domain rules
+  ✔ normalizes a valid decision without inventing credited duration (0.736249ms)
+  ✔ requires an approved invalid reason and nonblank OTHER detail (0.32202ms)
+  ✔ rejects reason codes on VALID decisions (0.189245ms)
+✔ ExerciseReview domain rules (1.851418ms)
+▶ ExerciseSession authoritative domain
+  ✔ freezes the five states and every permitted lifecycle transition (0.919442ms)
+  ✔ rejects terminal and otherwise invalid transitions (0.319496ms)
+  ✔ uses exact whole server seconds for all boundary vectors (0.230273ms)
+  ✔ preserves actual running time beyond two hours and rejects unsafe numeric totals (0.120111ms)
+  ✔ keeps paused time separate from trusted activity time (0.341048ms)
+  ✔ exposes only the stable public projection and preserves start businessDate (0.173234ms)
+  ✔ uses the exact VALID credited-duration boundary for new-session admission (0.115412ms)
+✔ ExerciseSession authoritative domain (2.960164ms)
+▶ Stage 19 Export and audit governance domain
+  ✔ keeps every Export use case as an exact no-persistence default deny (0.637899ms)
+  ✔ projects only action-specific audit metadata and recursively redacts sensitive keys (1.085372ms)
+  ✔ bounds arrays, strings, and nesting depth in the public audit projection (0.203783ms)
+✔ Stage 19 Export and audit governance domain (2.536629ms)
+▶ FILE_JSON runtime secret loader
+  ✔ loads only the frozen runtime keys from the mounted file (1.095127ms)
+  ✔ reports every missing key by name without returning secret values (0.41375ms)
+  ✔ rejects unsupported keys and duplicate container secrets (0.218011ms)
+  ✔ requires FILE_JSON for staging and production but preserves local environment configuration (0.17587ms)
+  ✔ redacts file-system failure details from the bootstrap error (0.122787ms)
+✔ FILE_JSON runtime secret loader (2.730017ms)
+▶ Foundation time and identifiers
+  ✔ generates UUIDv7 identifiers and supports a deterministic Clock (1.037787ms)
+  ✔ derives businessDate from the organization timezone (0.564792ms)
+✔ Foundation time and identifiers (2.111132ms)
+▶ HTTP primitives
+  ✔ logs the mapped application error status instead of the pre-filter response status (1.098794ms)
+  ✔ accepts only bounded safe request IDs and generates a replacement (0.248951ms)
+  ✔ wraps success and maps errors to exactly five public fields (0.855113ms)
+✔ HTTP primitives (2.360674ms)
+▶ Authentication cryptography
+  ✔ hashes passwords with Argon2id and rejects a wrong password (228.208134ms)
+  ✔ issues only the frozen claims and fails closed for expiration and tampering (6.710872ms)
+✔ Authentication cryptography (235.346673ms)
+▶ Authorization and SystemMode
+  ✔ enforces role metadata and rejects missing policy metadata (0.436374ms)
+  ✔ denies ordinary mutations in READ_ONLY and unknown modes (0.259953ms)
+✔ Authorization and SystemMode (0.792952ms)
+▶ Idempotency, Audit, Outbox, and rate limiting
+  ✔ validates an Idempotency-Key without creating persistence side effects (0.47058ms)
+  ✔ canonicalizes JSON and replays a stable encrypted response (2.235562ms)
+  ✔ commits, recovers, completes, and exactly replays a staged idempotent response (1.257771ms)
+  ✔ stores only allowlisted audit metadata and irreversible source digests (0.407568ms)
+  ✔ enforces Outbox state ownership and fixed-window rate limits (0.299259ms)
+  ✔ redacts secrets and PII recursively (0.155842ms)
+✔ Idempotency, Audit, Outbox, and rate limiting (4.987842ms)
+▶ HealthService
+  ✔ preserves the published public readiness projection (1.114925ms)
+  ✔ reports measured database, queue, object-storage and media-storage health to admins (0.758086ms)
+  ✔ marks optional storage as not configured without probing it (0.283859ms)
+  ✔ preserves the public readiness failure while attributing database failure in admin health (0.425733ms)
+  ✔ reports a MinIO failure without leaking adapter error details (0.314418ms)
+✔ HealthService (3.708419ms)
+▶ location evidence raw cryptography
+  ✔ round-trips AES-256-GCM and binds every row identity field as AAD (2.225202ms)
+  ✔ rejects a modified ciphertext with a coordinate-free stable error (0.244834ms)
+✔ location evidence raw cryptography (3.046779ms)
+▶ location policy gate
+  ✔ keeps disabled and incomplete policies disabled without supplying defaults (0.317484ms)
+  ✔ returns only explicitly complete, enabled policy parameters (0.134701ms)
+✔ location policy gate (0.557818ms)
+▶ location sample fingerprinting and classification
+  ✔ creates a stable keyed fingerprint and detects identical versus conflicting IDs (0.585632ms)
+  ✔ classifies time, accuracy, and accepted out-of-order samples deterministically (0.489957ms)
+✔ location sample fingerprinting and classification (1.210741ms)
+▶ coarse projection and retention
+  ✔ strips endpoints, emits coarse grid cells, and never embeds exact coordinates (0.365758ms)
+  ✔ selects raw and coarse expiry work deterministically with explicit limits (4.854765ms)
+✔ coarse projection and retention (5.360142ms)
+▶ LocationEvidenceService policy safety
+  ✔ projects an explicitly disabled, incomplete policy without supplying defaults (0.757795ms)
+  ✔ rejects enabling an incomplete policy before any row, audit, or outbox write (1.055871ms)
+✔ LocationEvidenceService policy safety (2.414027ms)
+▶ LocationEvidenceService secure intake and projection
+  ✔ deduplicates identical samples and persists coordinates only inside ciphertext (2.150487ms)
+  ✔ returns the same coarse-only summary to student, responsible teacher, and admin (0.512742ms)
+✔ LocationEvidenceService secure intake and projection (2.784433ms)
+▶ LocationRetentionWorker
+  ✔ deletes due raw secrets before metadata and expires coarse summaries atomically (2.602201ms)
+  ✔ keeps audit and outbox evidence coordinate-free (0.276134ms)
+  ✔ returns an empty result without writes and rejects invalid batch input (0.422416ms)
+✔ LocationRetentionWorker (3.897585ms)
+▶ MediaService expired pending upload cleanup
+  ✔ fails an expired upload session and releases it from the active quota set (0.890201ms)
+✔ MediaService expired pending upload cleanup (1.446657ms)
+✔ accepts WebP declarations for certification images but not exercise evidence (0.648614ms)
+✔ reads actual certification WebP dimensions: sample-lossy.webp (15.659992ms)
+✔ rejects truncated certification WebP even with matching transport digest: sample-lossy.webp (1.11219ms)
+✔ reads actual certification WebP dimensions: sample-lossless.webp (9.279117ms)
+✔ rejects truncated certification WebP even with matching transport digest: sample-lossless.webp (0.641851ms)
+✔ rejects WebP with valid container lengths and image dimensions but missing compressed pixels (2.266532ms)
+▶ MediaEvidence validation core
+  ✔ separates declarations from verified image facts and computes SHA-256 from bytes (9.527006ms)
+  ✔ accepts JPEG comment bytes that resemble a GPS tag but rejects a real GPS IFD (9.334915ms)
+  ✔ rejects MIME spoofing, byte-size mismatches, location metadata, and the test signature (1.281648ms)
+  ✔ keeps image limits while replacing exercise-video size rules with a fixed 15-second cap (0.529363ms)
+  ✔ streams video verification and enforces the trusted duration at the exact boundary (1.352995ms)
+  ✔ accepts a 15-second audible WebM and verifies its actual tracks and duration (1.251529ms)
+  ✔ rejects WebM duration overflow, missing audio, and location tags (1.088575ms)
+  ✔ rejects an exercise video without a trusted audio track (0.682259ms)
+  ✔ rejects an audio-only ISO media container even when it has a trusted audio handler (0.535625ms)
+  ✔ rejects ISO location metadata without scanning random media payload bytes (0.593738ms)
+✔ MediaEvidence validation core (26.754028ms)
+▶ TencentDB PostgreSQL TLS configuration
+  ✔ uses explicit pool fields so connection-string parsing cannot replace strict TLS (1.031314ms)
+  ✔ preserves local connection-string behavior when no managed CA is configured (0.177533ms)
+  ✔ rejects insecure URL overrides and incomplete CA files without exposing input values (0.537078ms)
+✔ TencentDB PostgreSQL TLS configuration (2.339021ms)
+▶ Stage 13 alignment run lifecycle
+  ✔ freezes a RUNNING revision before computation and persists FAILED plus outbox on a domain failure (1.973696ms)
+  ✔ maps a non-retried serializable snapshot race to the stable stale-snapshot error (0.219274ms)
+  ✔ projects exactly the public run contract and drops internal snapshot scope and failure details (0.209776ms)
+✔ Stage 13 alignment run lifecycle (3.055667ms)
+▶ Stage 13 deterministic roster alignment
+  ✔ classifies every subject into exactly one of the six frozen outcomes (1.390578ms)
+  ✔ keeps fingerprints, subject keys, normalization, and result order deterministic (0.533531ms)
+  ✔ fails closed if supposedly VALID official entries duplicate a normalized student number (0.333235ms)
+✔ Stage 13 deterministic roster alignment (3.008666ms)
+▶ Official roster staged import lifecycle
+  ✔ commits RECEIVED and its outbox event before parsing, then completes atomically (1.988504ms)
+✔ Official roster staged import lifecycle (2.479453ms)
+▶ Stage 13 private roster ingestion
+  ✔ streams a strict CSV upload into a server-generated private key (12.168814ms)
+  ✔ rejects path-like names and unsupported OFFICIAL_API without retaining an object (4.696575ms)
+  ✔ normalizes leading-zero identifiers and marks every duplicate row non-valid (8.29069ms)
+  ✔ uses static four-digit grade-year bounds for roster rows (2.048008ms)
+✔ Stage 13 private roster ingestion (28.280719ms)
+▶ S3 media storage key contract
+  ✔ accepts the exact private key shape generated by MediaService (17.713332ms)
+  ✔ rejects keys with extra path segments before signing (0.660587ms)
+✔ S3 media storage key contract (19.029857ms)
+▶ S3 object storage streaming uploads
+  ✔ uploads an unknown-length stream in bounded multipart chunks without buffering the whole file (30.281256ms)
+  ✔ uses the managed uploader for a small unknown-length stream (1.162247ms)
+  ✔ aborts a failed multipart upload and maps the failure to the stable dependency error (22.041929ms)
+✔ S3 object storage streaming uploads (54.158523ms)
+▶ Stage 18 Score domain
+  ✔ matches every frozen formula boundary with HALF_UP rounding and a hard cap (1.388614ms)
+  ✔ applies approved adjustments in immutable chronological order and rejects overflow (0.346459ms)
+  ✔ denies student access to legacy course score projections under V8.1 (0.224484ms)
+✔ Stage 18 Score domain (2.660974ms)
+▶ SMTP auth-code delivery
+  ✔ retries bounded transient failures and sends the bilingual-safe template (1.032395ms)
+  ✔ fails after three attempts instead of retrying without a bound (0.374023ms)
+✔ SMTP auth-code delivery (2.007701ms)
+▶ staging business closure operator safety gates
+  ✔ uses closed-catalog audit identifiers (0.655097ms)
+  ✔ never reflects an arbitrary command-line value into status output (0.083902ms)
+  ✔ bounds QR interruption recovery to three synthetic invite rotations (0.388711ms)
+  ✔ accepts only the domain ACTIVE state as fresh join-capability database evidence (0.161222ms)
+  ✔ runs a fresh session start/replay/stale/cancel sequence on every clean invocation (14.616655ms)
+  ✔ cancels an interrupted operator session and still executes a fresh session sequence (0.631551ms)
+  ✔ permits destructive database tests only on the dedicated confirmed loopback target (0.335018ms)
+  ✔ confines presigned uploads to the staging bucket media image prefix (0.470035ms)
+  ✔ requires staging, exact confirmation, an absolute secret path and the canonical HTTPS API (0.424511ms)
+  ✔ loads exactly the isolated fixture keys without exposing rejected values (0.790428ms)
+  ✔ rejects non-isolated passwords, reserved mailboxes, oversized input and invalid UTF-8 (0.588157ms)
+  ✔ fails closed unless the fixture secret is a root-owned 0640 regular file for gid 10001 (0.391367ms)
+  ✔ accepts OTP only through the injected hidden-input boundary (0.240646ms)
+  ✔ accepts only the staging CVM-role, TEST_SIGNATURE worker and Tencent SES runtime boundary (0.6672ms)
+✔ staging business closure operator safety gates (23.928034ms)
+▶ staging health operator safety gates
+  ✔ uses database-valid closed-catalog audit identifiers (0.463226ms)
+  ✔ requires staging, an exact confirmation, an absolute secret path and the Docker URL (0.727867ms)
+  ✔ loads only the isolated fixture password key and never echoes invalid values (0.282356ms)
+✔ staging health operator safety gates (2.240611ms)
+▶ staging R01 provisioning operator
+  ✔ loads exactly four isolated staff values from a hardened secret file (1.090798ms)
+  ✔ rejects unsafe metadata, unknown keys and non-isolated identities without exposing values (0.445822ms)
+  ✔ requires the exact staging command, confirmation and absolute secret path (0.225866ms)
+  ✔ rejects every current and retired R01 secret key from environment without reflecting values (0.345168ms)
+  ✔ accepts only the exact TLS-protected staging runtime database boundary (0.372019ms)
+  ✔ builds a result containing only safe aliases, counts and component labels (0.191069ms)
+✔ staging R01 provisioning operator (3.341139ms)
+▶ Course domain
+  ✔ normalizes CourseCode and starts Course as ACTIVE version 1 (0.531056ms)
+  ✔ fails closed for invalid codes and increments version only for a real update (0.673963ms)
+  ✔ projects only the authoritative public Course fields (0.210336ms)
+✔ Course domain (2.031196ms)
+▶ ClassSection domain
+  ✔ normalizes fields and atomically validates the complete calendar value object (0.512471ms)
+  ✔ rejects invalid class codes, incomplete daily time pairs, and non-owner teachers (0.185278ms)
+  ✔ rejects invalid windows and excluded dates outside the section range (0.161061ms)
+  ✔ closes without deleting history and rejects a second close (0.237129ms)
+  ✔ rejects ordinary writes to an archived section and projects no close internals (0.258831ms)
+✔ ClassSection domain (1.603189ms)
+▶ Scoped cursor
+  ✔ binds opaque cursors to organization, principal, filters, sort, and limit (1.219087ms)
+✔ Scoped cursor (1.284864ms)
+▶ Tencent CVM role AWS credential bridge
+  ✔ maps temporary credentials and the security token for COS requests (1.417681ms)
+  ✔ fails closed without exposing provider details or accepting an absent token (0.392007ms)
+✔ Tencent CVM role AWS credential bridge (2.465516ms)
+▶ Tencent SES authentication-code delivery
+  ✔ uses the approved template as a trigger email without exposing provider credentials (1.016575ms)
+  ✔ retries with a bound limit and returns a stable unavailable error (0.354666ms)
+✔ Tencent SES authentication-code delivery (1.946122ms)
+✔ seven calendar weeks allow 21 slots even when each start window is one minute (11.533475ms)
+✔ a passed local start window is not counted at publication (0.385736ms)
+✔ deadline before local daily opening excludes that day (0.275442ms)
+✔ daily and shared weekly limits include exclusions and partial weeks (0.285442ms)
+✔ category targets may require separate slots even when their total is unchanged (0.314478ms)
+✔ semester dates cap nominal course dates and expired plans have no capacity (0.281093ms)
+✔ V8.1 records preserve actual minutes and credit only whole minutes above the threshold (0.504105ms)
+✔ V8.1 category caps require a joint choice instead of choosing the earliest daily record (6.039946ms)
+✔ V8.1 dynamic selection agrees with an independent exhaustive subset oracle (14.370008ms)
+✔ V8.1 equal totals retain the previously credited combination (0.231577ms)
+✔ Supplement interruption compensation uses the union and cannot resurrect prior expiry (0.33657ms)
+✔ Review reasons and one-time supplement restrictions cannot be bypassed (0.236336ms)
+✔ creates all four documented 101-row tables and matches every integer second uniquely (34.168901ms)
+✔ rejects invalid edits and deletions, including grades and increasing scores (1.132058ms)
+✔ allows incomplete drafts and finite fractional negative sort weights (1.429105ms)
+✔ requires both bodies and keywords for every publication and preserves legal transitions (0.735362ms)
+✔ preserves student-number zeros, quoted cells and ambiguous time in the review draft (2.880007ms)
+✔ rejects missing or duplicate columns, invalid UTF-8, broken CSV and configured resource limits (1.59306ms)
+✔ parses explicit seconds and minutes while refusing ambiguous decimal notation (0.934056ms)
+✔ matches exact student numbers, flags every duplicate, and never confirms rows automatically (1.251659ms)
+✔ reads XLSX draft with displayed student zeros, ambiguous time and explicit date formats (12.299729ms)
+✔ rejects formula results, merged cells, absent sheets and oversized row ranges (9.317921ms)
+✔ recognition and exercise preserve category targets without counting overflow twice (0.9882ms)
+✔ actual exercise remains separated into invalid, pending, credited and valid uncredited durations (0.213113ms)
+✔ invalid projections fail rather than producing a negative remainder or false completion (0.194747ms)
+✔ registration requires verified email, target enrollment and exact identity instead of equal totals (0.699222ms)
+✔ duplicate official identities preserve every row and leave denominator unresolved (0.210628ms)
+✔ outside members are separate and ambiguous platform identities are never merged (0.231829ms)
+✔ the server accepts the fifteen-minute boundary and grants thirty minutes from acceptance (0.667892ms)
+✔ a late intake requires an explicit explanation and routes to offline handling (0.244693ms)
+✔ twenty-four hours is the final offline boundary and a future server end is rejected (0.101346ms)
+✔ overlapping transfer interruptions add their union and preserve elapsed transfer time (0.22214ms)
+✔ an open interruption pauses the current transfer window and does not renew it (0.135502ms)
+✔ an interruption after a genuinely expired transfer cannot revive it (0.107738ms)
+✔ confirmation exactly at the thirty-minute boundary is on time (0.117627ms)
+✔ preserves employee zeros and parses optional college; forbids password columns (4.256616ms)
+✔ marks every duplicate row and database conflict while accepting custom email domains (1.280366ms)
+✔ enforces the teacher batch initial-password rule without imposing it on personal passwords (0.204646ms)
+ℹ tests 209
+ℹ suites 48
+ℹ pass 209
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 14928.447168
+Docker exit code: 0

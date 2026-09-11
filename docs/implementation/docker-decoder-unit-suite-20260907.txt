@@ -1,0 +1,662 @@
+ Container bnbu-v81-local-validation-domain-tests-run-c168164f201c Creating 
+ Container bnbu-v81-local-validation-domain-tests-run-c168164f201c Created 
+
+> @bnbu/sports-backend@0.1.0 test
+> node ./scripts/run-test-layer.mjs unit
+
+▶ authentication-code cryptography
+  ✔ generates CSPRNG-backed fixed-length numeric codes and rejects unsafe lengths (1.393316ms)
+  ✔ digests codes with context binding and verifies wrong inputs without leaking a match (0.386658ms)
+  ✔ deterministically escrows canonical auth results and authenticates their AAD (5.749793ms)
+  ✔ rejects tampered escrow ciphertexts (0.244363ms)
+✔ authentication-code cryptography (8.439507ms)
+▶ authentication challenge state machine
+  ✔ consumes a valid challenge exactly once (0.462013ms)
+  ✔ expires at the exact TTL boundary (0.112668ms)
+  ✔ increments durable attempts and locks at the configured maximum (0.133277ms)
+  ✔ activates only a pending challenge delivered before expiry (0.161352ms)
+✔ authentication challenge state machine (1.113124ms)
+▶ authentication-code delivery ports
+  ✔ fails closed when no delivery provider is configured (1.108304ms)
+  ✔ prevents the in-memory capture adapter from running outside tests (0.176111ms)
+  ✔ captures only test deliveries and preserves delivery-id idempotency (0.312284ms)
+✔ authentication-code delivery ports (1.750146ms)
+▶ durable rate-window evaluation
+  ✔ uses repository timestamps and excludes the exact window cutoff (0.233011ms)
+  ✔ rejects future repository facts instead of treating them as valid attempts (0.127537ms)
+✔ durable rate-window evaluation (0.423189ms)
+▶ app release policy projection
+  ✔ selects only the currently effective IOS policy without comparing version syntax (0.217361ms)
+  ✔ compares iOS build numbers numerically and never uses marketing version text (0.127457ms)
+  ✔ fails on equal-time policy ambiguity instead of depending on input order (0.112217ms)
+✔ app release policy projection (0.561867ms)
+▶ Stage 21 client capability boundary
+  ✔ returns the same stable default-deny error for public and authenticated capabilities (0.549593ms)
+✔ Stage 21 client capability boundary (1.033219ms)
+▶ PushTokenCipher
+  ✔ round-trips with AES-GCM and rejects tampering or the wrong key (1.33372ms)
+✔ PushTokenCipher (1.830321ms)
+▶ ClientMessagingService
+  ✔ marks only the principal notification as read and emits durable evidence (0.971499ms)
+  ✔ registers IOS tokens encrypted and never leaks token material to projections or evidence (0.659867ms)
+  ✔ returns 409 and never transfers a token already owned by another user (0.326562ms)
+  ✔ revokes only a self-scoped push device and destroys decryptable token material (0.561937ms)
+  ✔ derives missing preferences from the organization and persists the first update as version 2 (0.953136ms)
+  ✔ creates feedback OPEN without copying content or client context into evidence (0.417808ms)
+  ✔ keeps feedback self-scoped for non-admins and only queries published help (0.691867ms)
+✔ ClientMessagingService (4.952131ms)
+▶ Contract 1.3 parity regression gate
+  ✔ detects the six required synthetic mismatch scenarios (228.113562ms)
+  ✖ accepts the repository only with the frozen, explicit contract-defect ledger (2988.954471ms)
+  ✔ enforces the canonical HTTP status at runtime and when restoring snapshots (0.389494ms)
+  ✔ pins both location POST handlers to the published 200 success status (0.150081ms)
+  ✔ rejects the removed search alias and accepts the contract q parameter (2.768376ms)
+  ✔ rejects contract-external and null gender values while allowing omission (0.831238ms)
+✖ Contract 1.3 parity regression gate (3221.971391ms)
+▶ Stage 12 student identity and QR security
+  ✔ normalizes the student number without losing leading zeros and applies NFC (1.087534ms)
+  ✔ narrows QR join gender while accepting the full four-digit cohort range (2.891764ms)
+  ✔ accepts any four-digit cohort year and rejects malformed identity fields (0.429141ms)
+  ✔ issues public-id plus 256-bit secret tokens and verifies only their HMAC digest (0.679555ms)
+  ✔ authenticates encrypted identity and result escrows with purpose-bound AAD (0.590743ms)
+✔ Stage 12 student identity and QR security (6.419418ms)
+▶ Stage 12 lifecycle entities
+  ✔ rotates an invite without deleting history (0.256867ms)
+  ✔ keeps one Enrollment id across remove and restore transitions (0.24319ms)
+  ✔ issues an ACTIVE capability without any consumed result fields (0.24839ms)
+✔ Stage 12 lifecycle entities (0.918897ms)
+▶ ExerciseRecord domain rules
+  ✖ derives credited duration only from the server duration boundaries (1.641466ms)
+  ✔ normalizes optional content without inventing a second sport taxonomy (0.717829ms)
+✖ ExerciseRecord domain rules (2.942613ms)
+▶ ExerciseReview domain rules
+  ✔ normalizes a valid decision without inventing credited duration (0.706127ms)
+  ✔ requires an approved invalid reason and nonblank OTHER detail (0.277507ms)
+  ✔ rejects reason codes on VALID decisions (0.127437ms)
+✔ ExerciseReview domain rules (1.699268ms)
+▶ ExerciseSession authoritative domain
+  ✔ freezes the five states and every permitted lifecycle transition (0.884691ms)
+  ✔ rejects terminal and otherwise invalid transitions (0.280873ms)
+  ✖ uses exact whole server seconds for all boundary vectors (1.407052ms)
+  ✖ caps running time and never credits an arbitrary client interval (0.688843ms)
+  ✔ keeps paused time separate from trusted activity time (0.177994ms)
+  ✔ exposes only the stable public projection and preserves start businessDate (0.162184ms)
+  ✔ uses the exact VALID credited-duration boundary for new-session admission (0.19108ms)
+✖ ExerciseSession authoritative domain (4.513963ms)
+▶ Stage 19 Export and audit governance domain
+  ✔ keeps every Export use case as an exact no-persistence default deny (0.544714ms)
+  ✔ projects only action-specific audit metadata and recursively redacts sensitive keys (1.070481ms)
+  ✔ bounds arrays, strings, and nesting depth in the public audit projection (0.17591ms)
+✔ Stage 19 Export and audit governance domain (2.404873ms)
+▶ FILE_JSON runtime secret loader
+  ✔ loads only the frozen runtime keys from the mounted file (1.695861ms)
+  ✔ reports every missing key by name without returning secret values (0.541047ms)
+  ✔ rejects unsupported keys and duplicate container secrets (0.335068ms)
+  ✔ requires FILE_JSON for staging and production but preserves local environment configuration (0.160881ms)
+  ✔ redacts file-system failure details from the bootstrap error (0.142075ms)
+✔ FILE_JSON runtime secret loader (3.874355ms)
+▶ Foundation time and identifiers
+  ✔ generates UUIDv7 identifiers and supports a deterministic Clock (1.051023ms)
+  ✔ derives businessDate from the organization timezone (0.360808ms)
+✔ Foundation time and identifiers (1.941185ms)
+▶ HTTP primitives
+  ✔ logs the mapped application error status instead of the pre-filter response status (0.99757ms)
+  ✔ accepts only bounded safe request IDs and generates a replacement (0.252078ms)
+  ✔ wraps success and maps errors to exactly five public fields (0.946541ms)
+✔ HTTP primitives (2.335247ms)
+▶ Authentication cryptography
+  ✔ hashes passwords with Argon2id and rejects a wrong password (234.232203ms)
+  ✔ issues only the frozen claims and fails closed for expiration and tampering (6.840464ms)
+✔ Authentication cryptography (241.521576ms)
+▶ Authorization and SystemMode
+  ✔ enforces role metadata and rejects missing policy metadata (0.430984ms)
+  ✖ denies ordinary mutations in READ_ONLY and unknown modes (1.769534ms)
+✖ Authorization and SystemMode (2.349385ms)
+▶ Idempotency, Audit, Outbox, and rate limiting
+  ✔ validates an Idempotency-Key without creating persistence side effects (0.35685ms)
+  ✔ canonicalizes JSON and replays a stable encrypted response (2.227388ms)
+  ✔ commits, recovers, completes, and exactly replays a staged idempotent response (1.20421ms)
+  ✔ stores only allowlisted audit metadata and irreversible source digests (0.461935ms)
+  ✔ enforces Outbox state ownership and fixed-window rate limits (0.253701ms)
+  ✔ redacts secrets and PII recursively (0.157004ms)
+✔ Idempotency, Audit, Outbox, and rate limiting (4.806811ms)
+▶ HealthService
+  ✔ preserves the published public readiness projection (1.00275ms)
+  ✔ reports measured database, queue, object-storage and media-storage health to admins (0.922524ms)
+  ✔ marks optional storage as not configured without probing it (0.226067ms)
+  ✔ preserves the public readiness failure while attributing database failure in admin health (0.396216ms)
+  ✔ reports a MinIO failure without leaking adapter error details (0.301684ms)
+✔ HealthService (3.615204ms)
+▶ location evidence raw cryptography
+  ✔ round-trips AES-256-GCM and binds every row identity field as AAD (2.421845ms)
+  ✔ rejects a modified ciphertext with a coordinate-free stable error (0.252719ms)
+✔ location evidence raw cryptography (3.299453ms)
+▶ location policy gate
+  ✔ keeps disabled and incomplete policies disabled without supplying defaults (0.329577ms)
+  ✔ returns only explicitly complete, enabled policy parameters (0.137466ms)
+✔ location policy gate (0.56895ms)
+▶ location sample fingerprinting and classification
+  ✔ creates a stable keyed fingerprint and detects identical versus conflicting IDs (0.850816ms)
+  ✔ classifies time, accuracy, and accepted out-of-order samples deterministically (0.541898ms)
+✔ location sample fingerprinting and classification (1.540189ms)
+▶ coarse projection and retention
+  ✔ strips endpoints, emits coarse grid cells, and never embeds exact coordinates (0.441501ms)
+  ✔ selects raw and coarse expiry work deterministically with explicit limits (4.834744ms)
+✔ coarse projection and retention (5.419061ms)
+▶ LocationEvidenceService policy safety
+  ✔ projects an explicitly disabled, incomplete policy without supplying defaults (1.001758ms)
+  ✔ rejects enabling an incomplete policy before any row, audit, or outbox write (1.011697ms)
+✔ LocationEvidenceService policy safety (2.645338ms)
+▶ LocationEvidenceService secure intake and projection
+  ✔ deduplicates identical samples and persists coordinates only inside ciphertext (2.184937ms)
+  ✔ returns the same coarse-only summary to student, responsible teacher, and admin (0.561857ms)
+✔ LocationEvidenceService secure intake and projection (2.861125ms)
+▶ LocationRetentionWorker
+  ✔ deletes due raw secrets before metadata and expires coarse summaries atomically (1.50927ms)
+  ✔ keeps audit and outbox evidence coordinate-free (1.29751ms)
+  ✔ returns an empty result without writes and rejects invalid batch input (0.369144ms)
+✔ LocationRetentionWorker (3.755907ms)
+▶ MediaService expired pending upload cleanup
+  ✔ fails an expired upload session and releases it from the active quota set (0.855194ms)
+✔ MediaService expired pending upload cleanup (1.307008ms)
+✔ accepts WebP declarations for certification images but not exercise evidence (0.691718ms)
+✔ reads actual certification WebP dimensions: sample-lossy.webp (15.176732ms)
+✔ rejects truncated certification WebP even with matching transport digest: sample-lossy.webp (1.255158ms)
+✔ reads actual certification WebP dimensions: sample-lossless.webp (10.009502ms)
+✔ rejects truncated certification WebP even with matching transport digest: sample-lossless.webp (1.021507ms)
+✔ rejects WebP with valid container lengths and image dimensions but missing compressed pixels (2.47407ms)
+▶ MediaEvidence validation core
+  ✔ separates declarations from verified image facts and computes SHA-256 from bytes (9.745544ms)
+  ✔ accepts JPEG comment bytes that resemble a GPS tag but rejects a real GPS IFD (9.719865ms)
+  ✔ rejects MIME spoofing, byte-size mismatches, location metadata, and the test signature (1.327638ms)
+  ✔ keeps image limits while replacing exercise-video size rules with a fixed 15-second cap (0.472194ms)
+  ✔ streams video verification and enforces the trusted duration at the exact boundary (1.424505ms)
+  ✔ accepts a 15-second audible WebM and verifies its actual tracks and duration (1.099588ms)
+  ✔ rejects WebM duration overflow, missing audio, and location tags (1.014734ms)
+  ✔ rejects an exercise video without a trusted audio track (0.776813ms)
+  ✔ rejects an audio-only ISO media container even when it has a trusted audio handler (0.602342ms)
+  ✔ rejects ISO location metadata without scanning random media payload bytes (0.605785ms)
+✔ MediaEvidence validation core (27.487519ms)
+▶ TencentDB PostgreSQL TLS configuration
+  ✔ uses explicit pool fields so connection-string parsing cannot replace strict TLS (1.229479ms)
+  ✔ preserves local connection-string behavior when no managed CA is configured (0.226076ms)
+  ✔ rejects insecure URL overrides and incomplete CA files without exposing input values (0.574071ms)
+✔ TencentDB PostgreSQL TLS configuration (2.725443ms)
+▶ Stage 13 alignment run lifecycle
+  ✔ freezes a RUNNING revision before computation and persists FAILED plus outbox on a domain failure (1.965493ms)
+  ✔ maps a non-retried serializable snapshot race to the stable stale-snapshot error (0.200799ms)
+  ✔ projects exactly the public run contract and drops internal snapshot scope and failure details (0.210648ms)
+✔ Stage 13 alignment run lifecycle (2.984304ms)
+▶ Stage 13 deterministic roster alignment
+  ✔ classifies every subject into exactly one of the six frozen outcomes (1.484338ms)
+  ✔ keeps fingerprints, subject keys, normalization, and result order deterministic (0.537801ms)
+  ✔ fails closed if supposedly VALID official entries duplicate a normalized student number (0.413804ms)
+✔ Stage 13 deterministic roster alignment (3.099205ms)
+▶ Official roster staged import lifecycle
+  ✔ commits RECEIVED and its outbox event before parsing, then completes atomically (2.107384ms)
+✔ Official roster staged import lifecycle (2.661566ms)
+▶ Stage 13 private roster ingestion
+  ✔ streams a strict CSV upload into a server-generated private key (8.138135ms)
+  ✔ rejects path-like names and unsupported OFFICIAL_API without retaining an object (4.302975ms)
+  ✔ normalizes leading-zero identifiers and marks every duplicate row non-valid (5.275575ms)
+  ✔ uses static four-digit grade-year bounds for roster rows (1.098986ms)
+✔ Stage 13 private roster ingestion (19.527108ms)
+▶ S3 media storage key contract
+  ✔ accepts the exact private key shape generated by MediaService (17.379253ms)
+  ✔ rejects keys with extra path segments before signing (0.679495ms)
+✔ S3 media storage key contract (18.66991ms)
+▶ S3 object storage streaming uploads
+  ✔ uploads an unknown-length stream in bounded multipart chunks without buffering the whole file (24.667311ms)
+  ✔ uses the managed uploader for a small unknown-length stream (2.009477ms)
+  ✔ aborts a failed multipart upload and maps the failure to the stable dependency error (15.166161ms)
+✔ S3 object storage streaming uploads (42.969358ms)
+▶ Stage 18 Score domain
+  ✔ matches every frozen formula boundary with HALF_UP rounding and a hard cap (1.46797ms)
+  ✔ applies approved adjustments in immutable chronological order and rejects overflow (0.368924ms)
+  ✖ keeps unpublished score values hidden while preserving the Contract 1.3 transport shape (0.266446ms)
+✖ Stage 18 Score domain (2.723949ms)
+▶ SMTP auth-code delivery
+  ✔ retries bounded transient failures and sends the bilingual-safe template (1.063287ms)
+  ✔ fails after three attempts instead of retrying without a bound (0.408771ms)
+✔ SMTP auth-code delivery (2.120142ms)
+▶ staging business closure operator safety gates
+  ✔ uses closed-catalog audit identifiers (0.637593ms)
+  ✔ never reflects an arbitrary command-line value into status output (0.085726ms)
+  ✔ bounds QR interruption recovery to three synthetic invite rotations (0.372481ms)
+  ✔ accepts only the domain ACTIVE state as fresh join-capability database evidence (0.141955ms)
+  ✔ runs a fresh session start/replay/stale/cancel sequence on every clean invocation (12.623121ms)
+  ✔ cancels an interrupted operator session and still executes a fresh session sequence (0.620961ms)
+  ✔ permits destructive database tests only on the dedicated confirmed loopback target (0.318887ms)
+  ✔ confines presigned uploads to the staging bucket media image prefix (0.208754ms)
+  ✔ requires staging, exact confirmation, an absolute secret path and the canonical HTTPS API (0.294851ms)
+  ✔ loads exactly the isolated fixture keys without exposing rejected values (0.554062ms)
+  ✔ rejects non-isolated passwords, reserved mailboxes, oversized input and invalid UTF-8 (0.436364ms)
+  ✔ fails closed unless the fixture secret is a root-owned 0640 regular file for gid 10001 (0.48075ms)
+  ✔ accepts OTP only through the injected hidden-input boundary (2.320208ms)
+  ✔ accepts only the staging CVM-role, TEST_SIGNATURE worker and Tencent SES runtime boundary (0.685486ms)
+✔ staging business closure operator safety gates (20.68593ms)
+▶ staging health operator safety gates
+  ✔ uses database-valid closed-catalog audit identifiers (0.477344ms)
+  ✔ requires staging, an exact confirmation, an absolute secret path and the Docker URL (0.690887ms)
+  ✔ loads only the isolated fixture password key and never echoes invalid values (0.282115ms)
+✔ staging health operator safety gates (2.126033ms)
+▶ staging R01 provisioning operator
+  ✔ loads exactly four isolated staff values from a hardened secret file (1.145005ms)
+  ✔ rejects unsafe metadata, unknown keys and non-isolated identities without exposing values (0.470971ms)
+  ✔ requires the exact staging command, confirmation and absolute secret path (0.261336ms)
+  ✔ rejects every current and retired R01 secret key from environment without reflecting values (0.336281ms)
+  ✔ accepts only the exact TLS-protected staging runtime database boundary (0.375717ms)
+  ✔ builds a result containing only safe aliases, counts and component labels (0.185108ms)
+✔ staging R01 provisioning operator (3.422541ms)
+▶ Course domain
+  ✔ normalizes CourseCode and starts Course as ACTIVE version 1 (0.493665ms)
+  ✔ fails closed for invalid codes and increments version only for a real update (0.679004ms)
+  ✔ projects only the authoritative public Course fields (0.217952ms)
+✔ Course domain (2.013225ms)
+▶ ClassSection domain
+  ✔ normalizes fields and atomically validates the complete calendar value object (0.519805ms)
+  ✔ rejects invalid class codes, incomplete daily time pairs, and non-owner teachers (0.179647ms)
+  ✔ rejects invalid windows and excluded dates outside the section range (0.151784ms)
+  ✔ closes without deleting history and rejects a second close (0.246217ms)
+  ✔ rejects ordinary writes to an archived section and projects no close internals (0.282356ms)
+✔ ClassSection domain (1.602019ms)
+▶ Scoped cursor
+  ✔ binds opaque cursors to organization, principal, filters, sort, and limit (1.520846ms)
+✔ Scoped cursor (1.589789ms)
+▶ Tencent CVM role AWS credential bridge
+  ✔ maps temporary credentials and the security token for COS requests (1.097643ms)
+  ✔ fails closed without exposing provider details or accepting an absent token (0.384754ms)
+✔ Tencent CVM role AWS credential bridge (2.120973ms)
+▶ Tencent SES authentication-code delivery
+  ✔ uses the approved template as a trigger email without exposing provider credentials (0.934919ms)
+  ✔ retries with a bound limit and returns a stable unavailable error (0.348794ms)
+✔ Tencent SES authentication-code delivery (1.86581ms)
+✔ seven calendar weeks allow 21 slots even when each start window is one minute (11.44428ms)
+✔ a passed local start window is not counted at publication (0.457676ms)
+✔ deadline before local daily opening excludes that day (0.211639ms)
+✔ daily and shared weekly limits include exclusions and partial weeks (0.29462ms)
+✔ category targets may require separate slots even when their total is unchanged (0.288548ms)
+✔ semester dates cap nominal course dates and expired plans have no capacity (0.277978ms)
+✔ V8.1 records preserve actual minutes and credit only whole minutes above the threshold (0.515637ms)
+✔ V8.1 category caps require a joint choice instead of choosing the earliest daily record (5.683535ms)
+✔ V8.1 dynamic selection agrees with an independent exhaustive subset oracle (14.238114ms)
+✔ V8.1 equal totals retain the previously credited combination (0.279432ms)
+✔ Supplement interruption compensation uses the union and cannot resurrect prior expiry (0.412939ms)
+✔ Review reasons and one-time supplement restrictions cannot be bypassed (0.264662ms)
+✔ the server accepts the fifteen-minute boundary and grants thirty minutes from acceptance (0.706718ms)
+✔ a late intake requires an explicit explanation and routes to offline handling (0.247569ms)
+✔ twenty-four hours is the final offline boundary and a future server end is rejected (0.099101ms)
+✔ overlapping transfer interruptions add their union and preserve elapsed transfer time (0.194226ms)
+✔ an open interruption pauses the current transfer window and does not renew it (0.139339ms)
+✔ an interruption after a genuinely expired transfer cannot revive it (0.080266ms)
+✔ confirmation exactly at the thirty-minute boundary is on time (0.097769ms)
+ℹ tests 190
+ℹ suites 48
+ℹ pass 184
+ℹ fail 6
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 13756.927926
+
+✖ failing tests:
+
+test at test/unit/contract-parity-gate.test.ts:1:1303
+✖ accepts the repository only with the frozen, explicit contract-defect ledger (2988.954471ms)
+  AssertionError [ERR_ASSERTION]: [
+    {
+      "operationId": "submitExerciseRecord",
+      "kind": "body",
+      "field": "swimDelayReason",
+      "issue": "NULLABLE_MISMATCH",
+      "contract": false,
+      "backend": true,
+      "location": "backend/src/modules/exercise-records/interface/http/exercise-records.dto.ts:142"
+    },
+    {
+      "operationId": "reviewExemptionApplication",
+      "kind": "body",
+      "field": "courseMinutes",
+      "issue": "NULLABLE_MISMATCH",
+      "contract": false,
+      "backend": true,
+      "location": "backend/src/modules/client-capabilities/client-capabilities.dto.ts:299"
+    },
+    {
+      "operationId": "reviewExemptionApplication",
+      "kind": "body",
+      "field": "generalMinutes",
+      "issue": "NULLABLE_MISMATCH",
+      "contract": false,
+      "backend": true,
+      "location": "backend/src/modules/client-capabilities/client-capabilities.dto.ts:300"
+    },
+    {
+      "operationId": "saveV81CourseRules",
+      "kind": "body",
+      "field": "minimumMinutes",
+      "issue": "ENUM_MISMATCH",
+      "contract": [
+        30,
+        45,
+        60
+      ],
+      "backend": "OPEN_STRING",
+      "location": "backend/src/modules/v8/v81.dto.ts:39"
+    },
+    {
+      "operationId": "saveV81CourseRules",
+      "kind": "body",
+      "field": "weeklyLimit",
+      "issue": "ENUM_MISMATCH",
+      "contract": [
+        2,
+        3,
+        4
+      ],
+      "backend": "OPEN_STRING",
+      "location": "backend/src/modules/v8/v81.dto.ts:40"
+    },
+    {
+      "operationId": "reviewV81Record",
+      "kind": "body",
+      "field": "reasonCode",
+      "issue": "NULLABLE_MISMATCH",
+      "contract": false,
+      "backend": true,
+      "location": "backend/src/modules/v8/v81.dto.ts:58"
+    },
+    {
+      "operationId": "reviewV81Record",
+      "kind": "body",
+      "field": "reasonCode",
+      "issue": "ENUM_MISMATCH",
+      "contract": [
+        "AUTHENTICITY_REQUIRES_CLARIFICATION",
+        "CONFIRMED_REUSE_OR_MISUSE",
+        "INCONSISTENT_EVIDENCE",
+        "MISSING_REQUIRED_EVIDENCE",
+        "SESSION_MISMATCH",
+        "UNCLEAR_EVIDENCE"
+      ],
+      "backend": "OPEN_STRING",
+      "location": "backend/src/modules/v8/v81.dto.ts:58"
+    },
+    {
+      "operationId": "reviewV81Record",
+      "kind": "body",
+      "field": "publicComment",
+      "issue": "NULLABLE_MISMATCH",
+      "contract": false,
+      "backend": true,
+      "location": "backend/src/modules/v8/v81.dto.ts:59"
+    },
+    {
+      "operationId": "reviewV81Record",
+      "kind": "body",
+      "field": "supplementHours",
+      "issue": "TYPE_MISMATCH",
+      "contract": "integer",
+      "backend": "string",
+      "location": "backend/src/modules/v8/v81.dto.ts:60"
+    },
+    {
+      "operationId": "reviewV81Record",
+      "kind": "body",
+      "field": "supplementHours",
+      "issue": "NULLABLE_MISMATCH",
+      "contract": false,
+      "backend": true,
+      "location": "backend/src/modules/v8/v81.dto.ts:60"
+    },
+    {
+      "operationId": "reviewV81Record",
+      "kind": "body",
+      "field": "supplementHours",
+      "issue": "ENUM_MISMATCH",
+      "contract": [
+        24,
+        72
+      ],
+      "backend": "OPEN_STRING",
+      "location": "backend/src/modules/v8/v81.dto.ts:60"
+    },
+    {
+      "operationId": "correctV81Record",
+      "kind": "body",
+      "field": "reasonCode",
+      "issue": "NULLABLE_MISMATCH",
+      "contract": false,
+      "backend": true,
+      "location": "backend/src/modules/v8/v81.dto.ts:74"
+    },
+    {
+      "operationId": "correctV81Record",
+      "kind": "body",
+      "field": "reasonCode",
+      "issue": "ENUM_MISMATCH",
+      "contract": [
+        "AUTHENTICITY_REQUIRES_CLARIFICATION",
+        "CONFIRMED_REUSE_OR_MISUSE",
+        "INCONSISTENT_EVIDENCE",
+        "MISSING_REQUIRED_EVIDENCE",
+        "SESSION_MISMATCH",
+        "UNCLEAR_EVIDENCE"
+      ],
+      "backend": "OPEN_STRING",
+      "location": "backend/src/modules/v8/v81.dto.ts:74"
+    },
+    {
+      "operationId": "correctV81Record",
+      "kind": "body",
+      "field": "publicComment",
+      "issue": "NULLABLE_MISMATCH",
+      "contract": false,
+      "backend": true,
+      "location": "backend/src/modules/v8/v81.dto.ts:75"
+    },
+    {
+      "operationId": "changeV81SystemMode",
+      "kind": "body",
+      "field": "titleZh",
+      "issue": "NULLABLE_MISMATCH",
+      "contract": false,
+      "backend": true,
+      "location": "backend/src/modules/system-mode/system-mode.dto.ts:8"
+    },
+    {
+      "operationId": "changeV81SystemMode",
+      "kind": "body",
+      "field": "titleEn",
+      "issue": "NULLABLE_MISMATCH",
+      "contract": false,
+      "backend": true,
+      "location": "backend/src/modules/system-mode/system-mode.dto.ts:9"
+    },
+    {
+      "operationId": "changeV81SystemMode",
+      "kind": "body",
+      "field": "bodyZh",
+      "issue": "NULLABLE_MISMATCH",
+      "contract": false,
+      "backend": true,
+      "location": "backend/src/modules/system-mode/system-mode.dto.ts:10"
+    },
+    {
+      "operationId": "changeV81SystemMode",
+      "kind": "body",
+      "field": "bodyEn",
+      "issue": "NULLABLE_MISMATCH",
+      "contract": false,
+      "backend": true,
+      "location": "backend/src/modules/system-mode/system-mode.dto.ts:11"
+    },
+    {
+      "operationId": "changeV81SystemMode",
+      "kind": "body",
+      "field": "estimatedRecoveryAt",
+      "issue": "NULLABLE_MISMATCH",
+      "contract": false,
+      "backend": true,
+      "location": "backend/src/modules/system-mode/system-mode.dto.ts:12"
+    },
+    {
+      "operationId": "setV81SubadminStatus",
+      "kind": "body",
+      "field": "handoverCompleted",
+      "issue": "NULLABLE_MISMATCH",
+      "contract": false,
+      "backend": true,
+      "location": "backend/src/modules/v8/v81-subadmins.ts:35"
+    },
+    {
+      "operationId": "acceptV81SwimIntake",
+      "kind": "body",
+      "field": "delayReason",
+      "issue": "NULLABLE_MISMATCH",
+      "contract": false,
+      "backend": true,
+      "location": "backend/src/modules/v8/v81.dto.ts:34"
+    },
+    {
+      "kind": "errorLifecycle",
+      "field": "SESSION_NOT_COMPLETED",
+      "issue": "RESERVED_CODE_HAS_RUNTIME_CALL",
+      "location": "backend/src/modules/v8/v81.service.ts:278"
+    }
+  ]
+  
+  
+  1 !== 0
+  
+      at TestContext.<anonymous> (/workspace/backend/test/unit/contract-parity-gate.test.ts:35:12)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1325:25)
+      at Suite.processPendingSubtests (node:internal/test_runner/test:911:18)
+      at Test.postRun (node:internal/test_runner/test:1465:19)
+      at Test.run (node:internal/test_runner/test:1390:12)
+      at async Promise.all (index 0)
+      at async Suite.run (node:internal/test_runner/test:1794:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:385:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 1,
+    expected: 0,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at test/unit/exercise-record.test.ts:1:333
+✖ derives credited duration only from the server duration boundaries (1.641466ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  3540n !== 0n
+  
+      at TestContext.<anonymous> (/workspace/backend/test/unit/exercise-record.test.ts:14:12)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1325:25)
+      at Test.start (node:internal/test_runner/test:1191:17)
+      at node:internal/test_runner/test:1792:71
+      at node:internal/per_context/primordials:466:82
+      at new Promise (<anonymous>)
+      at new SafePromise (node:internal/per_context/primordials:435:3)
+      at node:internal/per_context/primordials:466:9
+      at Array.map (<anonymous>) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 3540n,
+    expected: 0n,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at test/unit/exercise-session.test.ts:1:2541
+✖ uses exact whole server seconds for all boundary vectors (1.407052ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  false !== true
+  
+      at TestContext.<anonymous> (/workspace/backend/test/unit/exercise-session.test.ts:93:12)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1325:25)
+      at Suite.processPendingSubtests (node:internal/test_runner/test:911:18)
+      at Test.postRun (node:internal/test_runner/test:1465:19)
+      at Test.run (node:internal/test_runner/test:1390:12)
+      at async Suite.processPendingSubtests (node:internal/test_runner/test:911:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at test/unit/exercise-session.test.ts:1:3081
+✖ caps running time and never credits an arbitrary client interval (0.688843ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+    {
+  +   actualDurationSeconds: 10700,
+  +   capAt: 2026-08-04T01:00:00.000Z,
+  +   reachedCap: false
+  -   actualDurationSeconds: 7200,
+  -   capAt: 2026-08-04T00:01:40.000Z,
+  -   reachedCap: true
+    }
+  
+      at TestContext.<anonymous> (/workspace/backend/test/unit/exercise-session.test.ts:100:12)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1325:25)
+      at Suite.processPendingSubtests (node:internal/test_runner/test:911:18)
+      at Test.postRun (node:internal/test_runner/test:1465:19)
+      at Test.run (node:internal/test_runner/test:1390:12)
+      at async Suite.processPendingSubtests (node:internal/test_runner/test:911:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: { actualDurationSeconds: 10700, reachedCap: false, capAt: 2026-08-04T01:00:00.000Z },
+    expected: { actualDurationSeconds: 7200, reachedCap: true, capAt: 2026-08-04T00:01:40.000Z },
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }
+
+test at test/unit/foundation.test.ts:1:8509
+✖ denies ordinary mutations in READ_ONLY and unknown modes (1.769534ms)
+  AssertionError [ERR_ASSERTION]: The validation function is expected to return "true". Received false
+  
+  Caught error:
+  
+  ApplicationError: The current system mode does not support this request.
+      at async TestContext.<anonymous> (/workspace/backend/test/unit/foundation.test.ts:251:5)
+      at async Test.run (node:internal/test_runner/test:1332:7)
+      at async Suite.processPendingSubtests (node:internal/test_runner/test:911:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: ApplicationError: The current system mode does not support this request.
+        at SystemModeGuard.canActivate (/workspace/backend/src/modules/system-mode/system-mode.guard.ts:40:11)
+        at async waitForActual (node:assert:646:5)
+        at async strict.rejects (node:assert:769:25)
+        at async TestContext.<anonymous> (/workspace/backend/test/unit/foundation.test.ts:251:5)
+        at async Test.run (node:internal/test_runner/test:1332:7)
+        at async Suite.processPendingSubtests (node:internal/test_runner/test:911:7),
+    operator: 'rejects',
+    diff: 'simple'
+  }
+
+test at test/unit/score.test.ts:1:1920
+✖ keeps unpublished score values hidden while preserving the Contract 1.3 transport shape (0.266446ms)
+  Error [ApplicationError]: The requested action is outside the authorized resource scope.
+      at projectStudentScore (/workspace/backend/src/modules/scores/application/score-projection.ts:104:11)
+      at TestContext.<anonymous> (/workspace/backend/test/unit/score.test.ts:86:24)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1325:25)
+      at Suite.processPendingSubtests (node:internal/test_runner/test:911:18)
+      at Test.postRun (node:internal/test_runner/test:1465:19)
+      at Test.run (node:internal/test_runner/test:1390:12)
+      at async Suite.processPendingSubtests (node:internal/test_runner/test:911:7) {
+    code: 'PERMISSION_RESOURCE_SCOPE_DENIED',
+    status: 403,
+    details: { reason: 'STUDENT_GRADES_NOT_PUBLIC' }
+  }
+
+Docker exit code: 1

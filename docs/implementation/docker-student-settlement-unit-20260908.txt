@@ -1,0 +1,13 @@
+time="2026-09-08T14:40:05+08:00" level=warning msg="Found orphan containers (bnbu-v81-local-validation-backend-browser-1) for this project. If you removed or renamed this service in your compose file, you can run this command with the --remove-orphans flag to clean it up."
+ Container bnbu-v81-local-validation-backend-startup-run-091ef6c309d8 Creating 
+ Container bnbu-v81-local-validation-backend-startup-run-091ef6c309d8 Created 
+✔ student settlement excludes teacher-only and unexpected nested fields without mutating the snapshot (1.259475ms)
+✔ unknown student facts remain null rather than becoming successful zero values (0.969249ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 2
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 169.558637

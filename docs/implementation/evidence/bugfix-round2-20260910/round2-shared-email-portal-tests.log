@@ -1,0 +1,195 @@
+
+> bnbu-pe-management-portal@0.1.0 test
+> npm run build && node --import tsx --test tests/rendered-html.test.mjs tests/contract-binding.test.mjs tests/api-client.test.mjs tests/form-field.test.mjs tests/input-ui-coverage.test.mjs tests/checkin-audit.test.mjs tests/review-public-reasons.test.mjs tests/admin-domain.test.mjs tests/i18n-resources.test.mjs tests/roster-reconciliation.test.mjs tests/roster-reconciliation-mock.test.mjs tests/semester-presentation.test.mjs tests/phase5b-contract-mock.test.mjs tests/phase5b-contract-revalidation.test.mjs tests/phase5gb-contract-revalidation.test.mjs
+
+
+> bnbu-pe-management-portal@0.1.0 build
+> vinext build
+
+
+  vinext build  (Vite 8.2.1)
+
+(node:43496) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+[1/5] analyze client references...
+[2K
+transforming...✓ 88 modules transformed.
+rendering chunks...
+✓ built in 513ms
+[2/5] analyze server references...
+[2K
+transforming...✓ 205 modules transformed.
+rendering chunks...
+✓ built in 414ms
+[3/5] build rsc environment...
+[2K
+transforming...✓ 94 modules transformed.
+rendering chunks...
+computing gzip size...
+✓ built in 409ms
+[4/5] build client environment...
+[2K
+transforming...✓ 1953 modules transformed.
+rendering chunks...
+computing gzip size...
+[plugin builtin:vite-reporter]
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rolldownOptions.output.codeSplitting to improve chunking: https://rolldown.rs/reference/OutputOptions.codeSplitting
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+✓ built in 1.06s
+[5/5] build ssr environment...
+[2K
+transforming...✓ 275 modules transformed.
+rendering chunks...
+computing gzip size...
+✓ built in 593ms
+[0m
+  Route (app)
+  ┌ ? /
+  └ ? /phase5b-contract-mock
+
+  ? Unknown
+
+  ? Some routes could not be classified. vinext currently uses static analysis
+    and cannot detect dynamic API usage (headers(), cookies(), etc.) at build time.
+    Automatic classification will be improved in a future release.
+  Build complete. Run `vinext start` to start the production server.
+
+✔ the mock state uses role-specific student states and two system modes (2.1352ms)
+✔ system availability opens only for an explicit NORMAL projection (0.2422ms)
+✔ persisted preview state removes legacy student and read-only states (1.4896ms)
+✔ help authoring categories and Markdown projection match student clients (1.1802ms)
+✔ the new endurance tables use one point per three-second band (1.1343ms)
+✔ business state machines expose only documented transitions (0.2052ms)
+✔ semester validation rejects invalid years, reversed dates, and duplicate terms (0.6156ms)
+✔ CSV parsing preserves quoted commas and import preview catches duplicates atomically (0.9061ms)
+✔ endurance tables detect gaps and overlaps while accepting continuous ranges (0.3425ms)
+✔ real admin mutations preserve UserFacingError details while demo errors stay local (13.1498ms)
+✔ portal starts a fresh refresh intent after a definitive maintenance denial (29.9061ms)
+✔ authenticated API base ignores persisted cross-origin overrides (0.3919ms)
+✔ account recovery injects portal organization context outside the page form (1.0197ms)
+✔ portal persists the complete versioned refresh session (0.7384ms)
+✔ portal rejects malformed or refresh-expired persisted sessions (0.2232ms)
+✔ temporary portal startup failure preserves the persisted session (0.7865ms)
+✔ disabled portal account clears the persisted session (0.509ms)
+✔ 401 refresh retries a portal mutation with one stable Idempotency-Key (0.8121ms)
+✔ admin audit queries send date filters to the Backend and collect every download page (1.5716ms)
+✔ portal errors post only the closed redacted audit envelope (8.3487ms)
+✔ password-free review mode blocks every API request before fetch (0.3758ms)
+✔ switching to review mode wins an in-flight password login race (0.4871ms)
+✔ a stale terminal response cannot clear a later real login (0.7558ms)
+✔ invalid portal access token is terminal, does not refresh, and clears local auth (0.5215ms)
+✔ ambiguous portal refresh failure keeps the session and reuses its intent key (1.0937ms)
+✔ terminal portal refresh rejection clears the local session (0.618ms)
+✔ logout wins a portal refresh race without clearing a later session (1.5469ms)
+✔ UserFacingError maps the required HTTP and transport families (1.9241ms)
+✔ UserFacingError never exposes raw backend or transport text (0.2582ms)
+✔ UserFacingError allowlists field names and replaces backend field messages (0.3024ms)
+✔ UserFacingError gives review, media and exemption codes safe domain copy (0.2831ms)
+✔ safe client diagnostics redact dynamic routes and query data (0.3599ms)
+✔ transport diagnostics retain only a sanitized request route (0.2515ms)
+✔ teacher pending queue excludes AI, technical and student supplement stages while preserving invalid history (1.0359ms)
+✔ only VALID records contribute credited minutes and progress (0.2691ms)
+✔ valid duration is restored after a valid record is marked invalid and corrected (0.2168ms)
+✔ single-record credited duration only accepts 0, 1, or 2 hour bands (0.1371ms)
+✔ teacher review surfaces group image and video evidence without 1.5-hour credit (29.8816ms)
+✔ the teacher-configured target caps progress at 100 percent (1.2373ms)
+✔ the synchronous operation lock rejects a second same-frame click (0.1501ms)
+✔ maps backend sport and two-state review enums (0.6821ms)
+✔ REVIEWED without currentReview fails closed instead of inventing VALID (0.7832ms)
+✔ INVALID is corrected directly to VALID with no reopen or PENDING request (34.3196ms)
+✔ a VALID record is not appended again (0.8852ms)
+✔ teacher workspace exposes invalid records and direct correction wording (5.9249ms)
+✔ teacher portal omits attempt-chain UI and student resubmission mutations (6.0687ms)
+✔ the snapshot is bound to the declared current API local candidate (25.4324ms)
+✔ the generated types are the ones openapi-typescript emits for that snapshot (2.5855ms)
+✔ the client never re-derives a review state the Backend owns (1.3696ms)
+✔ FormField preserves a native control id and connects its label (8.2758ms)
+✔ FormField gives a native control and its label the same generated id (0.7932ms)
+✔ FormField connects AppSelect and forwards required accessibility state (3.597ms)
+✔ FormField links hint and error text and marks the native control invalid (0.7804ms)
+✔ FormField merges a child's existing aria-describedby ids with its own ids (0.8639ms)
+✔ AdminField delegates label, required state and inline error association to FormField (0.8103ms)
+✔ keeps translation resources unique and covers all static system text (172.2865ms)
+✔ keeps portals, accessibility attributes, enum labels, and reverse switching in the i18n boundary (3.3386ms)
+✔ read-only course filters and review, roster and exemption controls keep accessible labels (17.9833ms)
+✔ runtime log downloads use the real server export flow and never synthesize CSV (5.6543ms)
+✔ major search and roster upload controls expose an accessible name or helper (2.7248ms)
+✔ administrator feedback search matches problem summary, student number, email, and visible category (0.5346ms)
+✔ administrator feedback supports combined problem-category and status filters (2.2702ms)
+✔ administrator dashboards keep supported metrics, student identity, and clean dialog close behavior (3.5001ms)
+✔ login and recovery map safe fieldErrors to their concrete controls (8.7019ms)
+✔ authentication boundaries clear both module-level account caches (12.4752ms)
+✔ responsive workspace keeps the teacher/admin account entry available (1.7192ms)
+✔ Phase 5B fixtures pin the root RC Contract version and SHA (1.8042ms)
+✔ Phase 5B Mock payloads do not restore legacy Web DTO fields (1.9269ms)
+✔ teacher Record keeps actual duration, credited minutes, and review projection separate (0.1877ms)
+✔ content and empty states use the Contract page shapes without synthetic rows (0.1473ms)
+✔ administrator health renders explicit states and preserves unavailable measurements as null (0.1638ms)
+✔ error fixtures use only the ErrorEnvelope fields (0.1556ms)
+✔ the preview names the record surface as post-submit review and never renders tokens (17.3172ms)
+✔ student and Portal validation bindings pin the exact 1.2.0 Contract version and SHA (1.6731ms)
+✔ student active Session content and 404 Idle are distinct from auth, maintenance, and dependency failures (0.2476ms)
+✔ ACTIVE and PENDING dashboards retain the stable student projection without synthetic profile fallback (0.13ms)
+✔ scan and manual invitation preview share all five 200 content states while unknown input remains 422 (0.3371ms)
+✔ Record image/video and application image direct uploads use PUT, exact headers, bytes, and fresh reallocation (0.5957ms)
+✔ roster CSV/XLSX direct-upload allocation also uses PUT and a fresh allocation after expiry (0.1932ms)
+✔ media finalization has one terminal result channel and keeps dependency failure separate (0.247ms)
+✔ teacher invitation management survives refresh/relogin/device reads without raw code or digest (0.2963ms)
+✔ semester management preserves organization summary across status filters and pagination (0.2036ms)
+✔ feedback summary covers five states, zero state, filtering, paging, processing, and reopen re-read (0.3999ms)
+✔ help summary covers three states, zero state, filters, paging, and every state-changing re-read (0.2922ms)
+✔ sub-admin summary ignores state filtering and the public permission enum remains exactly eight values (0.1649ms)
+✔ Teacher Dashboard no-current is a zero-count empty state and dependency failure never becomes empty (0.1755ms)
+✔ createCourse distinguishes CURRENT success, non-current/no-current 409, unknown 404, and switch conflict (0.2344ms)
+✔ all re-validation fixtures exclude legacy fields, private fallbacks, and Fake Success markers (0.6349ms)
+✔ Portal and Student bindings pin the same 1.2.0 RC metadata and actual OpenAPI SHA (1.7853ms)
+✔ Portal and Student generated bindings are identical and expose the closed CertificationKind (0.3833ms)
+✔ CertificationKind is required, non-null, closed, and names never infer its value (0.2446ms)
+✔ Student SCHOOL_TEAM and STUDENT_CLUB requests serialize and round-trip unchanged (0.4138ms)
+✔ Certification validation rejects unknown, missing, null, inferred, and private subtype inputs (0.4379ms)
+✔ all seven CR-003 response surfaces remain bound to StudentApplication certification data (1.8498ms)
+✔ the exact 45 Admin operations are gated and the exact 10 recovery operations stay gate-safe (4.0232ms)
+✔ Teacher/Admin gate state survives login, refresh, me, page reload, and a new session (0.6283ms)
+✔ changeOwnPassword and self reset preserve the exact gate and session semantics (0.2081ms)
+✔ disabled change/reset use stable ACCOUNT_DISABLED and never restore access (0.3195ms)
+✔ createSubAdmin assigns a temporary credential and mustChangePassword=true (0.2009ms)
+✔ UpdateSubAdminRequest and its Web fixture contain no password or credential substitute (5.512ms)
+✔ personal password schemas and Web UI keep only the accepted non-empty rule (2.2231ms)
+✔ server-renders a fail-closed system-status gate before sign-in (632.1742ms)
+✔ uses a deterministic hydration gate and preserves retryable saved sessions (17.5589ms)
+✔ keeps formal authentication and gates skip-sign-in preview access to local development (3.6098ms)
+✔ teacher and admin account dialogs use an in-workspace password settings flow (2.2187ms)
+✔ keeps role responsibilities and semantic theme tokens in source (1.4494ms)
+✔ uses a same-origin API default with an explicit local development proxy (0.9137ms)
+✔ keeps teacher and admin sidebars resizable, collapsible, and locally persisted (1.9505ms)
+✔ keeps teacher overview metrics single-sourced and separate from status filters (3.9919ms)
+✔ uses the direct-enrollment roster as the teacher membership surface (2.0762ms)
+✔ keeps teacher course cards free of the retired task business (2.7445ms)
+✔ teacher evidence preview only exposes the file name and submitter (1.1297ms)
+✔ course workspaces do not expose an ended course business state (1.3981ms)
+✔ uses one progressive student identity pattern across teacher workflows (2.487ms)
+✔ uses one portal-backed AppSelect instead of native browser selects (4.0027ms)
+✔ V8.1 catalog has six bilingual reasons and no Other fallback (1.3928ms)
+✔ return and invalid actions expose only their allowed reasons (0.2572ms)
+✔ Mock 名单服务可以生成完整对齐结果并保留处理状态 (374.5604ms)
+✔ Mock 名单导入创建本地版本并自动运行一次核对 (418.8659ms)
+✔ 模式路由只在 Mock 预览中选择本地名单服务 (93.2395ms)
+✔ maps every authoritative Backend reconciliation status without reclassifying it in the browser (2.3259ms)
+✔ uses the latest server resolution version and note instead of browser-persisted state (0.2518ms)
+✔ student numbers remain strings with leading zeros and duplicate rows are excluded (0.7174ms)
+✔ the import adapter parses xlsx, legacy xls, and csv rosters (151.3593ms)
+✔ statistics keep official members, platform members, and resolution state separate (0.3121ms)
+✔ teacher roster flow keeps authoritative API and synthetic Mock adapters separated (8.7196ms)
+✔ encodes every roster API identifier before building the API path (0.2251ms)
+✔ administrator-managed semester display name remains authoritative (0.7323ms)
+✔ structured semester fallback follows admin term naming (0.1975ms)
+ℹ tests 129
+ℹ suites 0
+ℹ pass 129
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1865.1325

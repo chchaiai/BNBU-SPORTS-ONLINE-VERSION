@@ -1,0 +1,9 @@
+/opt/bnbu-sports-production/releases/b83b302c-bugfix2
+/bnbu-sports-production-backend-1 sha256:684f803c1ee7fb97ce8d03e1515a0e0dd610e923f3a07c92a1d50fdade26eee5 healthy
+/bnbu-sports-production-portal-1 sha256:4494fb90c4a786f8c292f846778184b3281ad8b354bd1a10660f2b9bb107a5cb healthy
+nginx: the configuration file /etc/nginx/nginx.conf syntax is ok
+nginx: configuration file /etc/nginx/nginx.conf test is successful
+755 root root
+750 UNKNOWN bnbu-secrets
+aeacfaeec5005faab3dadbd5a6389aa31ce38230027d6cccec780761d8846334  /etc/nginx/sites-available/verityai.conf
+663b4ab1619e325558513291528175211a80dcbaed675dcd611245892e1d790d  /etc/nginx/sites-available/bnbu-sports-download.conf

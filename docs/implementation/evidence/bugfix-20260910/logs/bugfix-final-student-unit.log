@@ -1,0 +1,18 @@
+✔ application images accept the documented formats and exact ten MB ceiling (1.4177ms)
+✔ cumulative count keeps accepted images and counts each uploaded id only once (0.1673ms)
+✔ object-storage rejection explains retained evidence without claiming the student has no business permission (1.5497ms)
+✔ network failure remains renderable and does not log the private transport cause (1.4343ms)
+✔ Help cache separates users and languages and ignores unscoped legacy data (1.2405ms)
+✔ check-in retries an expired object URL with fresh authorization and the same evidence bytes (20.3605ms)
+✔ exemption retries an expired object URL with fresh authorization and the same evidence bytes (2.1047ms)
+✔ proof todos read every backend page through the normal API envelope (0.6104ms)
+✔ proof todo pagination rejects a repeated cursor instead of looping (0.2691ms)
+✔ a supplement retry preserves its original media, workflow version and idempotency key (0.3759ms)
+ℹ tests 10
+ℹ suites 0
+ℹ pass 10
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 131.1444

@@ -1,0 +1,79 @@
+time="2026-09-08T23:56:28+08:00" level=warning msg="Found orphan containers (bnbu-v81-e2e-fifteenth-20260908, bnbu-v81-e2e-fourteenth-20260908, bnbu-v81-e2e-thirteenth-20260908, bnbu-v81-e2e-twelfth-20260908, bnbu-v81-e2e-eleventh-20260908, bnbu-v81-e2e-tenth-20260908, bnbu-v81-e2e-ninth-20260908, bnbu-v81-e2e-eighth-20260908, bnbu-v81-e2e-seventh-20260908, bnbu-v81-e2e-sixth-20260908, bnbu-v81-e2e-fifth-20260908, bnbu-v81-e2e-report-20260908) for this project. If you removed or renamed this service in your compose file, you can run this command with the --remove-orphans flag to clean it up."
+ Container bnbu-v81-full-integration-integration-tests-run-c0f653e24fa9 Creating 
+ Container bnbu-v81-full-integration-integration-tests-run-c0f653e24fa9 Created 
+
+> @bnbu/sports-backend@0.1.0 prebuild
+> npm run db:generate && npm run generate
+
+
+> @bnbu/sports-backend@0.1.0 db:generate
+> prisma generate
+
+Loaded Prisma config from prisma.config.ts.
+
+Prisma schema loaded from prisma/schema.prisma.
+
+┌─────────────────────────────────────────────────────────┐
+✔ Generated Prisma Client (7.9.1) to ./src/generated/prisma in 1.47s
+
+│  Update available 7.9.1 -> 8.0.0-rc.13                  │
+│                                                         │
+│  This is a major update - please follow the guide at    │
+│  https://pris.ly/d/major-version-upgrade                │
+│                                                         │
+│  Run the following to update                            │
+│    npm i --save-dev prisma@latest                       │
+│    npm i @prisma/client@latest                          │
+└─────────────────────────────────────────────────────────┘
+
+> @bnbu/sports-backend@0.1.0 generate
+> npm run openapi:generate && npm run db:manifest:generate
+
+
+> @bnbu/sports-backend@0.1.0 openapi:generate
+> node ./scripts/generate-openapi.mjs
+
+Generated 3 OpenAPI artifacts from 251 operations.
+
+> @bnbu/sports-backend@0.1.0 db:manifest:generate
+> node ./scripts/generate-migration-manifest.mjs
+
+Generated migration manifest updated.
+
+> @bnbu/sports-backend@0.1.0 build
+> nest build
+
+▶ Stage 21 client capabilities with real PostgreSQL
+  ✖ accepts only authenticated bounded client diagnostics with durable replay and no free-form metadata (766.555354ms)
+✖ Stage 21 client capabilities with real PostgreSQL (2549.728744ms)
+ℹ tests 1
+ℹ suites 1
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 3182.144094
+
+✖ failing tests:
+
+test at test/e2e/client-capabilities.e2e.test.ts:3:17526
+✖ accepts only authenticated bounded client diagnostics with durable replay and no free-form metadata (766.555354ms)
+  AssertionError [ERR_ASSERTION]: {"code":"SYSTEM_INTERNAL_ERROR","message":"An unexpected server error occurred.","details":{},"requestId":"01a081bc-8609-7155-a9b8-2d739679d438","timestamp":"2026-09-08T15:56:51.102Z"}
+  
+  500 !== 200
+  
+      at TestContext.<anonymous> (/workspace/backend/test/e2e/client-capabilities.e2e.test.ts:843:41)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async Test.run (node:internal/test_runner/test:1332:7)
+      at async Promise.all (index 8)
+      at async Suite.run (node:internal/test_runner/test:1794:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:385:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 500,
+    expected: 200,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+

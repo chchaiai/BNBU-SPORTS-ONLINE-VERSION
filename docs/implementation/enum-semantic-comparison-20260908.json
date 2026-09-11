@@ -1,0 +1,24 @@
+{
+  "sourceCommit": "a23c1c1e",
+  "addedEnumDefinitions": 43,
+  "explicitBindings": 155,
+  "wireSchemaDifferences": [
+    {
+      "path": "paths./class-sections/{classSectionId}/roster-basis.get.responses.200.content.application/json.schema.properties.data.properties.sourceKind.type",
+      "before": "UNSPECIFIED",
+      "after": [
+        "string",
+        "null"
+      ]
+    },
+    {
+      "path": "paths./class-sections/{classSectionId}/roster-basis.post.responses.201.content.application/json.schema.properties.data.properties.sourceKind.type",
+      "before": "UNSPECIFIED",
+      "after": [
+        "string",
+        "null"
+      ]
+    }
+  ],
+  "existingEnumValuesUnchanged": true
+}

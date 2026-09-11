@@ -1,0 +1,173 @@
+time="2026-09-08T16:43:25+08:00" level=warning msg="Found orphan containers (bnbu-v81-local-validation-backend-browser-1) for this project. If you removed or renamed this service in your compose file, you can run this command with the --remove-orphans flag to clean it up."
+ Image bnbu-v81-local-validation-backend-startup Building 
+#1 [internal] load local bake definitions
+#1 reading from stdin 636B 0.0s done
+#1 DONE 0.0s
+
+#2 [internal] load build definition from Dockerfile.v81-test
+#2 transferring dockerfile: 828B done
+#2 DONE 0.0s
+
+#3 [auth] library/node:pull token for registry-1.docker.io
+#3 DONE 0.0s
+
+#4 [internal] load metadata for docker.io/library/node:24.18.0-bookworm-slim
+#4 DONE 1.5s
+
+#5 [internal] load .dockerignore
+#5 transferring context: 153B done
+#5 DONE 0.0s
+
+#6 [ 1/11] FROM docker.io/library/node:24.18.0-bookworm-slim@sha256:6f7b03f7c2c8e2e784dcf9295400527b9b1270fd37b7e9a7285cf83b6951452d
+#6 resolve docker.io/library/node:24.18.0-bookworm-slim@sha256:6f7b03f7c2c8e2e784dcf9295400527b9b1270fd37b7e9a7285cf83b6951452d 0.0s done
+#6 DONE 0.0s
+
+#7 [internal] load build context
+#7 transferring context: 114.88kB 0.1s done
+#7 DONE 0.1s
+
+#8 [ 4/11] COPY backend/package.json backend/package-lock.json ./
+#8 CACHED
+
+#9 [ 2/11] RUN apt-get update && apt-get install -y --no-install-recommends openssl ca-certificates && rm -rf /var/lib/apt/lists/*
+#9 CACHED
+
+#10 [ 3/11] WORKDIR /workspace/backend
+#10 CACHED
+
+#11 [ 5/11] RUN npm ci --ignore-scripts --no-audit --no-fund
+#11 CACHED
+
+#12 [ 6/11] COPY backend/ ./
+#12 DONE 0.3s
+
+#13 [ 7/11] COPY docs/backend-contracts/ /workspace/docs/backend-contracts/
+#13 DONE 0.2s
+
+#14 [ 8/11] COPY tools/ /workspace/tools/
+#14 DONE 0.1s
+
+#15 [ 9/11] COPY BNBU-Sports-Web-new/frontend/student/ /workspace/BNBU-Sports-Web-new/frontend/student/
+#15 DONE 0.1s
+
+#16 [10/11] COPY BNBU-Sports-Web-new/portal-teacher-admin/app/ /workspace/BNBU-Sports-Web-new/portal-teacher-admin/app/
+#16 DONE 0.1s
+
+#17 [11/11] RUN npm run db:generate
+#17 0.347 
+#17 0.347 > @bnbu/sports-backend@0.1.0 db:generate
+#17 0.347 > prisma generate
+#17 0.347 
+#17 0.977 Loaded Prisma config from prisma.config.ts.
+#17 0.977 
+#17 2.926 Prisma schema loaded from prisma/schema.prisma.
+#17 4.465 
+#17 4.465 ✔ Generated Prisma Client (7.9.1) to ./src/generated/prisma in 953ms
+#17 4.465 
+#17 DONE 4.6s
+
+#18 exporting to image
+#18 exporting layers
+#18 exporting layers 1.8s done
+#18 exporting manifest sha256:ccf72fffffa5ba9b7257938944eea63951c46f0ba1d0128400c63fb919f3c4ef 0.0s done
+#18 exporting config sha256:0567405e16762b3e77171f732c1238f6a6a5b49e5c892085935281aa0fef7876 0.0s done
+#18 exporting attestation manifest sha256:a41cbf06b2a9b44684162cc177dad5fd40799919e5b78a11cd7d391238e59a57 0.1s done
+#18 exporting manifest list sha256:4adf4ef8557fa70842747347b18a7b8f0d6d846621cc796d0eaf1ba70fe1a065
+#18 exporting manifest list sha256:4adf4ef8557fa70842747347b18a7b8f0d6d846621cc796d0eaf1ba70fe1a065 0.0s done
+#18 naming to docker.io/library/bnbu-v81-local-validation-backend-startup:latest done
+#18 unpacking to docker.io/library/bnbu-v81-local-validation-backend-startup:latest
+#18 unpacking to docker.io/library/bnbu-v81-local-validation-backend-startup:latest 0.8s done
+#18 DONE 2.7s
+
+#19 resolving provenance for metadata file
+#19 DONE 0.0s
+ Image bnbu-v81-local-validation-backend-startup Built 
+ Container bnbu-v81-local-validation-backend-startup-run-0bc0914d261d Creating 
+ Container bnbu-v81-local-validation-backend-startup-run-0bc0914d261d Created 
+
+> @bnbu/sports-backend@0.1.0 test:security
+> node ./scripts/run-test-layer.mjs security
+
+▶ Stage 21 client capability security
+  ✔ keeps locally integrated client capabilities inside their approved principal scope (0.903214ms)
+  ✔ redacts authentication, push, and location secrets recursively (0.14612ms)
+  ✔ accepts only EMAIL for student sign-in and staff recovery requests (3.266973ms)
+  ✔ binds every GPS mutation to a student-owned existing ExerciseSession (0.09909ms)
+  ✔ uses record scope for summaries and reserves privacy-policy mutation for ADMIN (0.075464ms)
+  ✔ rejects out-of-range coordinates and more than one bounded batch (5.461356ms)
+  ✔ accepts Android, Web, and iOS while rejecting unknown client platforms (1.389157ms)
+✔ Stage 21 client capability security (12.10268ms)
+▶ Docker database role separation
+  ✔ uses a bootstrap identity distinct from the migration and runtime identities (5.972458ms)
+  ✔ makes migration history read-only to the runtime identity after every deploy (1.873311ms)
+  ✔ makes every migrator artifact readable by the non-root node identity (1.075823ms)
+✔ Docker database role separation (9.769548ms)
+▶ Stage 12 security negatives
+  ✔ accepts only X-Join-Capability and rejects ordinary Authorization on atomic Join (1.157933ms)
+  ✔ logs only the generated route template, never a raw invite token path (0.902233ms)
+  ✔ redacts identity snapshots, ciphertexts, token hashes, and names recursively (0.222106ms)
+  ✔ rate limits public QR keys together and resets only after the configured window (0.34359ms)
+✔ Stage 12 security negatives (3.302622ms)
+▶ Stage 16 ExerciseRecord security
+  ✔ permits self mutations only and preserves teacher/admin read-only scope (2.259521ms)
+  ✔ strips mass-assigned identity, duration, state, review, and storage fields (2.772321ms)
+  ✔ projects only the frozen student-safe current review (0.796109ms)
+✔ Stage 16 ExerciseRecord security (6.538855ms)
+▶ Stage 17 ExerciseReview security
+  ✔ allows only TEACHER for single, history, reopen, and batch routes (1.600262ms)
+  ✔ strips forged identity, status, chain, and duration fields while retaining explicit override denial input (1.90573ms)
+  ✔ validates every nested batch item and prevents envelope field smuggling (1.171629ms)
+✔ Stage 17 ExerciseReview security (5.364501ms)
+▶ Stage 14 ExerciseSession security
+  ✔ allows only STUDENT for all eight Session operations (2.075585ms)
+  ✔ rejects whitespace cancellation reasons and malformed reconciliation input (2.384048ms)
+  ✔ whitelists Session inputs so identity, time, duration, status, and version cannot be assigned (0.724542ms)
+  ✔ never exposes auth-session linkage, interval internals, safe metadata, or storage fields (0.409426ms)
+✔ Stage 14 ExerciseSession security (6.294526ms)
+▶ Stage 19 Export and audit governance security
+  ✔ strips forged identity and persistence facts from default-deny DTOs (3.841406ms)
+  ✔ does not expose arbitrary JSON search and bounds every audit query input (0.576136ms)
+  ✔ keeps audit ADMIN-only and all five unresolved mutations fail-closed (0.098238ms)
+✔ Stage 19 Export and audit governance security (5.131482ms)
+▶ Stage 15 MediaEvidence security
+  ✔ enforces Student mutations and only current metadata read roles (1.90123ms)
+  ✔ rejects mass assignment and Record targets at the DTO boundary (2.424726ms)
+  ✔ never projects storage facts and redacts every capability field recursively (0.339903ms)
+✔ Stage 15 MediaEvidence security (5.329834ms)
+▶ Stage 13 roster security boundaries
+  ✔ parses explicit boolean query values and rejects whitespace-only mutation reasons (3.175708ms)
+  ✔ allows ADMIN only on governance reads, TEACHER on owned-scope operations, and no STUDENT (1.850463ms)
+  ✔ returns role-specific projections without raw rows, storage data, or ADMIN identity values (0.879018ms)
+  ✔ redacts roster source facts and identity differences recursively (0.294445ms)
+  ✔ implements ignore as a validated, scoped default deny with zero mutation side effects (0.497636ms)
+  ✔ rejects whitespace-only resolution reasons before idempotency or database access (0.461474ms)
+✔ Stage 13 roster security boundaries (7.819972ms)
+▶ Stage 18 Score security
+  ✔ strips forged score facts and identity from rule, approval, and recalculate requests (3.120622ms)
+  ✔ accepts only bounded adjustment inputs and rejects URL or script evidence injection (1.264227ms)
+  ✔ keeps every score operation fail-closed with the frozen role boundary (0.18227ms)
+✔ Stage 18 Score security (5.145389ms)
+▶ security negative gates
+  ✔ rejects placeholders and malformed production configuration (1.291871ms)
+  ✔ fails closed when staging email delivery is absent or unauthenticated (0.993638ms)
+  ✔ allows an isolated unauthenticated SMTP sink only for local development (0.735682ms)
+  ✔ accepts explicit Tencent SES template configuration without static cloud credentials (0.497836ms)
+  ✔ requires CVM role storage and rejects static COS credentials in staging (0.392013ms)
+  ✔ requires exact HTTPS CORS origins in staging while retaining HTTP support for tests (0.600112ms)
+  ✔ rejects a forged role or organization even when token verification succeeds (0.6351ms)
+  ✔ returns a five-field envelope for oversized or malformed bodies without echoing content (0.376473ms)
+  ✔ redacts every frozen sensitive field without leaking nested values (0.304524ms)
+  ✔ fails closed for unknown operation policies and unsupported resource resolvers (0.56233ms)
+  ✔ accepts only the frozen Stage 13 roster resolver identifiers (0.291991ms)
+  ✔ rejects an otherwise valid access token after its session is revoked (0.220954ms)
+  ✔ rejects organization, teacher, course, and query mass assignment at the DTO boundary (3.797322ms)
+  ✔ maps database constraint failures without exposing SQL or constraint names (0.481214ms)
+✔ security negative gates (12.321699ms)
+ℹ tests 53
+ℹ suites 11
+ℹ pass 53
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 4525.604702

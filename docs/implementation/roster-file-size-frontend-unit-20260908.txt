@@ -1,0 +1,21 @@
+Codepage tables are not loaded.  Non-ASCII characters may not give expected results
+Codepage tables are not loaded.  Non-ASCII characters may not give expected results
+Codepage tables are not loaded.  Non-ASCII characters may not give expected results
+Codepage tables are not loaded.  Non-ASCII characters may not give expected results
+Codepage tables are not loaded.  Non-ASCII characters may not give expected results
+Codepage tables are not loaded.  Non-ASCII characters may not give expected results
+Codepage tables are not loaded.  Non-ASCII characters may not give expected results
+Codepage tables are not loaded.  Non-ASCII characters may not give expected results
+Codepage tables are not loaded.  Non-ASCII characters may not give expected results
+Codepage tables are not loaded.  Non-ASCII characters may not give expected results
+✔ file metadata accepts exactly 100 MiB and rejects one byte more before decoding (3.2313ms)
+✔ csv preview enforces the business limit of 500 personnel rows (7.6507ms)
+✔ xlsx preview enforces the business limit of 500 personnel rows (28.3075ms)
+ℹ tests 3
+ℹ suites 0
+ℹ pass 3
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 265.6384

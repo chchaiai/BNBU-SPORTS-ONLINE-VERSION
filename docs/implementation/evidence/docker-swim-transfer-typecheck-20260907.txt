@@ -1,0 +1,12 @@
+ Container bnbu-v81-local-validation-sql-tests-run-d14e03cbc7fe Creating 
+ Container bnbu-v81-local-validation-sql-tests-run-d14e03cbc7fe Created 
+
+> @bnbu/sports-backend@0.1.0 typecheck
+> tsc --noEmit -p tsconfig.json
+
+src/modules/exercise-records/application/exercise-records.service.ts(541,55): error TS2379: Argument of type '{ recordId: string; organizationId: string; now: Date; mediaIds: string[]; swimDelayReason: string | undefined; }' is not assignable to parameter of type '{ recordId: string; organizationId: string; now: Date; mediaIds: readonly string[]; swimDelayReason?: string; }' with 'exactOptionalPropertyTypes: true'. Consider adding 'undefined' to the types of the target's properties.
+  Types of property 'swimDelayReason' are incompatible.
+    Type 'string | undefined' is not assignable to type 'string'.
+      Type 'undefined' is not assignable to type 'string'.
+
+Docker exit code: 2

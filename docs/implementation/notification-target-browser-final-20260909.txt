@@ -1,0 +1,2 @@
+{"check":"TEACHER_NOTIFICATION_EXACT_TARGET","result":"PASS","targetType":"CLASS_SECTION","targetId":"01a083fc-9ee3-73cf-80bd-fd46e2af0a86","existingClosedCourse":true}
+{"check":"TEACHER_NOTIFICATION_EXACT_TARGET","result":"PASS","targetType":"EXERCISE_RECORD","targetId":"01a083fe-620b-7547-ab56-7330ab3b4b4a","existingClosedCourse":true}

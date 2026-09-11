@@ -1,0 +1,33 @@
+ Image bnbu-v81-local-validation-backend-build Building 
+#1 [internal] load local bake definitions
+#1 reading from stdin 628B 0.0s done
+#1 DONE 0.0s
+
+#2 [internal] load build definition from Dockerfile.v81-test
+#2 transferring dockerfile: 828B done
+#2 DONE 0.0s
+
+#3 [internal] load metadata for docker.io/library/node:24.18.0-bookworm-slim
+#3 ERROR: failed to do request: Head "https://registry-1.docker.io/v2/library/node/manifests/24.18.0-bookworm-slim": net/http: TLS handshake timeout
+------
+ > [internal] load metadata for docker.io/library/node:24.18.0-bookworm-slim:
+------
+Dockerfile.v81-test:1
+
+--------------------
+
+   1 | >>> FROM node:24.18.0-bookworm-slim
+
+   2 |     RUN apt-get update && apt-get install -y --no-install-recommends openssl ca-certificates && rm -rf /var/lib/apt/lists/*
+
+   3 |     WORKDIR /workspace/backend
+
+--------------------
+
+failed to solve: node:24.18.0-bookworm-slim: failed to resolve source metadata for docker.io/library/node:24.18.0-bookworm-slim: failed to do request: Head "https://registry-1.docker.io/v2/library/node/manifests/24.18.0-bookworm-slim": net/http: TLS handshake timeout
+
+
+
+View build details: docker-desktop://dashboard/build/default/default/y9nolrszbs1sus3ny8ybcm9th
+
+Docker exit code: 1

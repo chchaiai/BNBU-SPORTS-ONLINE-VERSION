@@ -1,0 +1,2 @@
+{"check":"ADMIN_FEEDBACK_NOTIFICATION_TARGET","result":"PASS","missing":false,"readOnlyBusiness":true}
+{"check":"ADMIN_FEEDBACK_NOTIFICATION_TARGET","result":"PASS","missing":true,"readOnlyBusiness":true}

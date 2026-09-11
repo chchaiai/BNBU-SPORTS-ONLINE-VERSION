@@ -1,0 +1,15 @@
+{"check":"TEACHER_BROWSER_CREATE_CONFIGURE_PUBLISH_RELOAD_LOCK","result":"FAIL","stage":"CREATE","type":"TimeoutError"}
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+locator.innerText: Timeout 30000ms exceeded.
+Call log:
+  - waiting for getByRole('dialog')
+
+    at C:\Users\23328\Desktop\new_version\tools\local-integration\v81-course-publication-browser-probe.mjs:38:115 {
+  log: [ "  - waiting for getByRole('dialog')" ],
+  name: 'TimeoutError'
+}
+
+Node.js v24.13.1

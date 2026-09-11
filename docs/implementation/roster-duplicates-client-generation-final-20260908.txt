@@ -1,0 +1,6 @@
+
+> bnbu-pe-management-portal@0.1.0 contract:generate
+> openapi-typescript ./openapi/openapi.snapshot.yaml --output ./app/openapi.generated.ts --immutable --alphabetize
+
+✨ openapi-typescript 7.13.0
+🚀 ./openapi/openapi.snapshot.yaml → ./app/openapi.generated.ts [221.9ms]

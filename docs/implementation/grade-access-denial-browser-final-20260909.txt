@@ -1,0 +1,5 @@
+{"check":"FINAL_GRADE_UNCONFIRMED_ACCESS_DENIAL_RETAINS_INTENT","result":"PASS"}
+{"check":"FINAL_GRADE_LOST_RESPONSE_REPLAY","firstVersion":9,"retryVersion":9,"sameKey":true,"sameInput":true}
+{"check":"FINAL_GRADE_LOST_RESPONSE_REPLAY","result":"PASS"}
+{"check":"FINAL_GRADE_CONFLICT_REQUIRES_EXPLICIT_RETRY","result":"PASS","concurrentVersion":10,"confirmedVersion":11}
+{"check":"FINAL_GRADE_PUBLICATION_LOST_RESPONSE_REPLAY","result":"PASS","version":12}

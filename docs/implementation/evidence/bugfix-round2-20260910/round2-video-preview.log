@@ -1,0 +1,2 @@
+{"check":"RECORD_PAUSE_RESUME_STOP_DECODE_MP4_DRAFT","status":"PASS","fragmentedDuration":false,"duration":3.20515,"bytes":164548,"mime":"video/mp4","thumbnail":true,"cameraClosed":true,"error":null}
+{"check":"RECORD_PAUSE_RESUME_STOP_DECODE_MP4_DRAFT","status":"PASS","fragmentedDuration":true,"duration":3.251,"bytes":163990,"mime":"video/mp4","thumbnail":true,"cameraClosed":true,"error":null}

@@ -1,0 +1,372 @@
+time="2026-09-08T21:18:06+08:00" level=warning msg="Found orphan containers (bnbu-v81-e2e-eleventh-20260908, bnbu-v81-e2e-tenth-20260908, bnbu-v81-e2e-ninth-20260908, bnbu-v81-e2e-eighth-20260908, bnbu-v81-e2e-seventh-20260908, bnbu-v81-e2e-sixth-20260908, bnbu-v81-e2e-fifth-20260908, bnbu-v81-e2e-report-20260908) for this project. If you removed or renamed this service in your compose file, you can run this command with the --remove-orphans flag to clean it up."
+ Image bnbu-v81-full-integration-integration-tests Building 
+#1 [internal] load local bake definitions
+#1 reading from stdin 644B 0.0s done
+#1 DONE 0.0s
+
+#2 [internal] load build definition from Dockerfile.v81-test
+#2 transferring dockerfile: 828B done
+#2 DONE 0.0s
+
+#3 [auth] library/node:pull token for registry-1.docker.io
+#3 DONE 0.0s
+
+#4 [internal] load metadata for docker.io/library/node:24.18.0-bookworm-slim
+#4 DONE 1.6s
+
+#5 [internal] load .dockerignore
+#5 transferring context: 153B done
+#5 DONE 0.0s
+
+#6 [ 1/11] FROM docker.io/library/node:24.18.0-bookworm-slim@sha256:6f7b03f7c2c8e2e784dcf9295400527b9b1270fd37b7e9a7285cf83b6951452d
+#6 resolve docker.io/library/node:24.18.0-bookworm-slim@sha256:6f7b03f7c2c8e2e784dcf9295400527b9b1270fd37b7e9a7285cf83b6951452d 0.0s done
+#6 DONE 0.0s
+
+#7 [internal] load build context
+#7 transferring context: 2.92MB 0.2s done
+#7 DONE 0.2s
+
+#8 [ 3/11] WORKDIR /workspace/backend
+#8 CACHED
+
+#9 [ 4/11] COPY backend/package.json backend/package-lock.json ./
+#9 CACHED
+
+#10 [ 2/11] RUN apt-get update && apt-get install -y --no-install-recommends openssl ca-certificates && rm -rf /var/lib/apt/lists/*
+#10 CACHED
+
+#11 [ 5/11] RUN npm ci --ignore-scripts --no-audit --no-fund
+#11 CACHED
+
+#12 [ 6/11] COPY backend/ ./
+#12 DONE 0.3s
+
+#13 [ 7/11] COPY docs/backend-contracts/ /workspace/docs/backend-contracts/
+#13 DONE 0.1s
+
+#14 [ 8/11] COPY tools/ /workspace/tools/
+#14 DONE 0.1s
+
+#15 [ 9/11] COPY BNBU-Sports-Web-new/frontend/student/ /workspace/BNBU-Sports-Web-new/frontend/student/
+#15 DONE 0.1s
+
+#16 [10/11] COPY BNBU-Sports-Web-new/portal-teacher-admin/app/ /workspace/BNBU-Sports-Web-new/portal-teacher-admin/app/
+#16 DONE 0.1s
+
+#17 [11/11] RUN npm run db:generate
+#17 0.345 
+#17 0.345 > @bnbu/sports-backend@0.1.0 db:generate
+#17 0.345 > prisma generate
+#17 0.345 
+#17 0.969 Loaded Prisma config from prisma.config.ts.
+#17 0.969 
+#17 3.017 Prisma schema loaded from prisma/schema.prisma.
+#17 4.473 
+#17 4.473 ✔ Generated Prisma Client (7.9.1) to ./src/generated/prisma in 879ms
+#17 4.473 
+#17 DONE 4.6s
+
+#18 exporting to image
+#18 exporting layers
+#18 exporting layers 1.8s done
+#18 exporting manifest sha256:e64f85b33a7b6ebc3bf8e8836ae33142fec57a3968ea8052001ec596659f846b 0.0s done
+#18 exporting config sha256:573d5fe7211aeac3b80a6d6c0162ec2bfdcce010dab0e5cd025333452ffca690 0.0s done
+#18 exporting attestation manifest sha256:3b71a155340d61dc854c63bfade9715e6e593593521a4aef63c0732c29b78b05 0.0s done
+#18 exporting manifest list sha256:26f4f69f321da14932b2e38e4bb41661feba34f256eedf60f4d73ff4cb0aff2b
+#18 exporting manifest list sha256:26f4f69f321da14932b2e38e4bb41661feba34f256eedf60f4d73ff4cb0aff2b 0.1s done
+#18 naming to docker.io/library/bnbu-v81-full-integration-integration-tests:latest done
+#18 unpacking to docker.io/library/bnbu-v81-full-integration-integration-tests:latest
+#18 unpacking to docker.io/library/bnbu-v81-full-integration-integration-tests:latest 0.7s done
+#18 DONE 2.7s
+
+#19 resolving provenance for metadata file
+#19 DONE 0.0s
+ Image bnbu-v81-full-integration-integration-tests Built 
+ Container bnbu-v81-full-integration-integration-tests-run-ef9a2370f26d Creating 
+ Container bnbu-v81-full-integration-integration-tests-run-ef9a2370f26d Created 
+✔ normal operations require both success and error responses (1.216994ms)
+✔ unavailable operations require an explicit reason and disabled registration (0.205335ms)
+✔ unavailable operations cannot declare successes or omit their actual denial status (0.175338ms)
+ℹ tests 3
+ℹ suites 0
+ℹ pass 3
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 47.990578
+
+> @bnbu/sports-backend@0.1.0 prebuild
+> npm run db:generate && npm run generate
+
+
+> @bnbu/sports-backend@0.1.0 db:generate
+> prisma generate
+
+Loaded Prisma config from prisma.config.ts.
+
+Prisma schema loaded from prisma/schema.prisma.
+
+✔ Generated Prisma Client (7.9.1) to ./src/generated/prisma in 866ms
+
+┌─────────────────────────────────────────────────────────┐
+│  Update available 7.9.1 -> 8.0.0-rc.13                  │
+│                                                         │
+│  This is a major update - please follow the guide at    │
+│  https://pris.ly/d/major-version-upgrade                │
+│                                                         │
+│  Run the following to update                            │
+│    npm i --save-dev prisma@latest                       │
+│    npm i @prisma/client@latest                          │
+└─────────────────────────────────────────────────────────┘
+
+> @bnbu/sports-backend@0.1.0 generate
+> npm run openapi:generate && npm run db:manifest:generate
+
+
+> @bnbu/sports-backend@0.1.0 openapi:generate
+> node ./scripts/generate-openapi.mjs
+
+Generated 3 OpenAPI artifacts from 249 operations.
+
+> @bnbu/sports-backend@0.1.0 db:manifest:generate
+> node ./scripts/generate-migration-manifest.mjs
+
+Generated migration manifest updated.
+
+> @bnbu/sports-backend@0.1.0 build
+> nest build
+
+▶ Stage 21 client capabilities with real PostgreSQL
+  ✖ keeps student account deletion deferred with no challenge or account mutation
+  ✖ accepts an organization-scoped student challenge without exposing its code and keeps an empty release policy fail-closed
+  ✖ rejects PHONE without creating a challenge and activates a pending student through first email binding
+  ✖ requires both current and new mailbox codes for email rebinding
+  ✖ uses the numeric iOS build number for enforcement and keeps marketing version display-only
+  ✖ establishes a student OTP session and completes the private exemption-media review flow
+  ✖ completes recovery only for a teacher and revokes prior sessions
+  ✖ lists and marks only the authenticated user notification with durable evidence
+  ✖ registers and revokes an IOS push token without exposing plaintext or ciphertext
+  ✖ persists preferences and feedback while exposing only published help content
+  ✖ keeps all location and conversion capabilities explicitly fail-closed
+✖ Stage 21 client capabilities with real PostgreSQL (949.898492ms)
+▶ Current internal final grade HTTP E2E
+  ✖ preserves teacher draft and publication history with replay and student privacy (1040.027792ms)
+  ✖ serializes competing revisions and rejects stale writes, notes and unauthorized actors (347.384665ms)
+  ✖ denies obsolete administrator score governance without creating score rules (926.705125ms)
+  ✖ denies every retired score endpoint for authenticated teachers and administrators (323.871753ms)
+✖ Current internal final grade HTTP E2E (3578.581751ms)
+▶ Course and ClassSection HTTP E2E
+  ✖ applies role-scoped Course reads and stable bound cursor pagination (907.590492ms)
+  ✖ creates and updates the teacher course with replay while administrators remain read-only (393.964765ms)
+  ✔ derives the responsible teacher and replaces excluded dates atomically (824.253793ms)
+  ✔ closes a ClassSection idempotently and preserves the historical projection (427.139375ms)
+  ✔ enforces teacher ownership, administrator read-only governance, and organization isolation (680.968769ms)
+  ✔ keeps archived Semester and inactive Course creation failures free of side effects (423.383741ms)
+  ✔ returns an empty student projection without ACTIVE Enrollment and rejects writes (407.416787ms)
+  ✔ rejects unsupported mode values and maintenance mutations without side effects (394.748286ms)
+✖ Course and ClassSection HTTP E2E (6415.535207ms)
+ℹ tests 23
+ℹ suites 3
+ℹ pass 6
+ℹ fail 6
+ℹ cancelled 11
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 11561.782884
+
+✖ failing tests:
+
+test at test/e2e/client-capabilities.e2e.test.ts:1:4622
+✖ keeps student account deletion deferred with no challenge or account mutation
+  'test did not finish before its parent and was cancelled'
+
+test at test/e2e/client-capabilities.e2e.test.ts:2:201
+✖ accepts an organization-scoped student challenge without exposing its code and keeps an empty release policy fail-closed
+  'test did not finish before its parent and was cancelled'
+
+test at test/e2e/client-capabilities.e2e.test.ts:3:440
+✖ rejects PHONE without creating a challenge and activates a pending student through first email binding
+  'test did not finish before its parent and was cancelled'
+
+test at test/e2e/client-capabilities.e2e.test.ts:3:3717
+✖ requires both current and new mailbox codes for email rebinding
+  'test did not finish before its parent and was cancelled'
+
+test at test/e2e/client-capabilities.e2e.test.ts:3:5933
+✖ uses the numeric iOS build number for enforcement and keeps marketing version display-only
+  'test did not finish before its parent and was cancelled'
+
+test at test/e2e/client-capabilities.e2e.test.ts:3:6970
+✖ establishes a student OTP session and completes the private exemption-media review flow
+  'test did not finish before its parent and was cancelled'
+
+test at test/e2e/client-capabilities.e2e.test.ts:3:13493
+✖ completes recovery only for a teacher and revokes prior sessions
+  'test did not finish before its parent and was cancelled'
+
+test at test/e2e/client-capabilities.e2e.test.ts:3:15095
+✖ lists and marks only the authenticated user notification with durable evidence
+  'test did not finish before its parent and was cancelled'
+
+test at test/e2e/client-capabilities.e2e.test.ts:3:17526
+✖ registers and revokes an IOS push token without exposing plaintext or ciphertext
+  'test did not finish before its parent and was cancelled'
+
+test at test/e2e/client-capabilities.e2e.test.ts:4:1680
+✖ persists preferences and feedback while exposing only published help content
+  'test did not finish before its parent and was cancelled'
+
+test at test/e2e/client-capabilities.e2e.test.ts:5:3452
+✖ keeps all location and conversion capabilities explicitly fail-closed
+  'test did not finish before its parent and was cancelled'
+
+test at test/e2e/client-capabilities.e2e.test.ts:1:1478
+✖ Stage 21 client capabilities with real PostgreSQL (949.898492ms)
+  PrismaClientKnownRequestError: 
+  Invalid `transaction.organization.createMany()` invocation in
+  /workspace/backend/test/helpers/database.ts:144:36
+  
+    141 const teacherCEmail = `teacher.c.e2e.synthetic${emailNamespace}@isolation.invalid`;
+    142 
+    143 await prisma.$transaction(async (transaction) => {
+  → 144   await transaction.organization.createMany(
+  Unique constraint failed on the fields: (`organization_code`)
+      at Jr.handleRequestError (/workspace/backend/node_modules/@prisma/client/src/runtime/RequestHandler.ts:237:13)
+      at Jr.handleAndLogRequestError (/workspace/backend/node_modules/@prisma/client/src/runtime/RequestHandler.ts:183:12)
+      at Jr.request (/workspace/backend/node_modules/@prisma/client/src/runtime/RequestHandler.ts:152:12)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async a (/workspace/backend/node_modules/@prisma/client/src/runtime/getPrismaClient.ts:1014:24)
+      at async <anonymous> (/workspace/backend/test/helpers/database.ts:144:5)
+      at async Proxy._transactionWithCallback (/workspace/backend/node_modules/@prisma/client/src/runtime/getPrismaClient.ts:861:18)
+      at async seedFoundationFixture (/workspace/backend/test/helpers/database.ts:143:3)
+      at async SuiteContext.<anonymous> (/workspace/backend/test/e2e/client-capabilities.e2e.test.ts:131:5)
+      at async TestHook.run (node:internal/test_runner/test:1332:7)
+
+test at test/e2e/score.e2e.test.ts:1:5504
+✖ preserves teacher draft and publication history with replay and student privacy (1040.027792ms)
+  AssertionError [ERR_ASSERTION]: {"code":"SYSTEM_SERVICE_UNAVAILABLE","message":"A required service dependency is unavailable.","details":{},"requestId":"01a0812b-a372-75ca-a117-e071b59e7a2f","timestamp":"2026-09-08T13:18:36.173Z"}
+  
+  503 !== 200
+  
+      at login (/workspace/backend/test/e2e/score.e2e.test.ts:163:12)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async TestContext.<anonymous> (/workspace/backend/test/e2e/score.e2e.test.ts:188:21)
+      at async Test.run (node:internal/test_runner/test:1332:7)
+      at async Promise.all (index 0)
+      at async Suite.run (node:internal/test_runner/test:1794:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:385:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 503,
+    expected: 200,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at test/e2e/score.e2e.test.ts:1:7198
+✖ serializes competing revisions and rejects stale writes, notes and unauthorized actors (347.384665ms)
+  PrismaClientKnownRequestError: 
+  Invalid `transaction.organization.createMany()` invocation in
+  /workspace/backend/test/helpers/database.ts:144:36
+  
+    141 const teacherCEmail = `teacher.c.e2e.synthetic${emailNamespace}@isolation.invalid`;
+    142 
+    143 await prisma.$transaction(async (transaction) => {
+  → 144   await transaction.organization.createMany(
+  Unique constraint failed on the fields: (`organization_code`)
+      at Jr.handleRequestError (/workspace/backend/node_modules/@prisma/client/src/runtime/RequestHandler.ts:237:13)
+      at Jr.handleAndLogRequestError (/workspace/backend/node_modules/@prisma/client/src/runtime/RequestHandler.ts:183:12)
+      at Jr.request (/workspace/backend/node_modules/@prisma/client/src/runtime/RequestHandler.ts:152:12)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async a (/workspace/backend/node_modules/@prisma/client/src/runtime/getPrismaClient.ts:1014:24)
+      at async <anonymous> (/workspace/backend/test/helpers/database.ts:144:5)
+      at async Proxy._transactionWithCallback (/workspace/backend/node_modules/@prisma/client/src/runtime/getPrismaClient.ts:861:18)
+      at async seedFoundationFixture (/workspace/backend/test/helpers/database.ts:143:3)
+      at async TestContext.<anonymous> (/workspace/backend/test/e2e/score.e2e.test.ts:139:15)
+      at async TestHook.run (node:internal/test_runner/test:1332:7)
+
+test at test/e2e/score.e2e.test.ts:1:8987
+✖ denies obsolete administrator score governance without creating score rules (926.705125ms)
+  AssertionError [ERR_ASSERTION]: {"code":"SYSTEM_INTERNAL_ERROR","message":"An unexpected server error occurred.","details":{},"requestId":"01a0812b-a844-73fd-a3c5-cab804158c5c","timestamp":"2026-09-08T13:18:37.467Z"}
+  
+  500 !== 200
+  
+      at login (/workspace/backend/test/e2e/score.e2e.test.ts:163:12)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async TestContext.<anonymous> (/workspace/backend/test/e2e/score.e2e.test.ts:248:19)
+      at async Test.run (node:internal/test_runner/test:1332:7)
+      at async Suite.processPendingSubtests (node:internal/test_runner/test:911:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 500,
+    expected: 200,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at test/e2e/score.e2e.test.ts:1:9892
+✖ denies every retired score endpoint for authenticated teachers and administrators (323.871753ms)
+  PrismaClientKnownRequestError: 
+  Invalid `transaction.organization.createMany()` invocation in
+  /workspace/backend/test/helpers/database.ts:144:36
+  
+    141 const teacherCEmail = `teacher.c.e2e.synthetic${emailNamespace}@isolation.invalid`;
+    142 
+    143 await prisma.$transaction(async (transaction) => {
+  → 144   await transaction.organization.createMany(
+  Unique constraint failed on the fields: (`organization_code`)
+      at Jr.handleRequestError (/workspace/backend/node_modules/@prisma/client/src/runtime/RequestHandler.ts:237:13)
+      at Jr.handleAndLogRequestError (/workspace/backend/node_modules/@prisma/client/src/runtime/RequestHandler.ts:183:12)
+      at Jr.request (/workspace/backend/node_modules/@prisma/client/src/runtime/RequestHandler.ts:152:12)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async a (/workspace/backend/node_modules/@prisma/client/src/runtime/getPrismaClient.ts:1014:24)
+      at async <anonymous> (/workspace/backend/test/helpers/database.ts:144:5)
+      at async Proxy._transactionWithCallback (/workspace/backend/node_modules/@prisma/client/src/runtime/getPrismaClient.ts:861:18)
+      at async seedFoundationFixture (/workspace/backend/test/helpers/database.ts:143:3)
+      at async TestContext.<anonymous> (/workspace/backend/test/e2e/score.e2e.test.ts:139:15)
+      at async TestHook.run (node:internal/test_runner/test:1332:7)
+
+test at test/e2e/teaching-structure.e2e.test.ts:1:5199
+✖ applies role-scoped Course reads and stable bound cursor pagination (907.590492ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  503 !== 200
+  
+      at login (/workspace/backend/test/e2e/teaching-structure.e2e.test.ts:78:12)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async TestContext.<anonymous> (/workspace/backend/test/e2e/teaching-structure.e2e.test.ts:212:24)
+      at async Test.run (node:internal/test_runner/test:1332:7)
+      at async Promise.all (index 0)
+      at async Suite.run (node:internal/test_runner/test:1794:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:385:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 503,
+    expected: 200,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at test/e2e/teaching-structure.e2e.test.ts:1:6510
+✖ creates and updates the teacher course with replay while administrators remain read-only (393.964765ms)
+  PrismaClientKnownRequestError: 
+  Invalid `transaction.organization.createMany()` invocation in
+  /workspace/backend/test/helpers/database.ts:144:36
+  
+    141 const teacherCEmail = `teacher.c.e2e.synthetic${emailNamespace}@isolation.invalid`;
+    142 
+    143 await prisma.$transaction(async (transaction) => {
+  → 144   await transaction.organization.createMany(
+  Unique constraint failed on the fields: (`organization_code`)
+      at Jr.handleRequestError (/workspace/backend/node_modules/@prisma/client/src/runtime/RequestHandler.ts:237:13)
+      at Jr.handleAndLogRequestError (/workspace/backend/node_modules/@prisma/client/src/runtime/RequestHandler.ts:183:12)
+      at Jr.request (/workspace/backend/node_modules/@prisma/client/src/runtime/RequestHandler.ts:152:12)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async a (/workspace/backend/node_modules/@prisma/client/src/runtime/getPrismaClient.ts:1014:24)
+      at async <anonymous> (/workspace/backend/test/helpers/database.ts:144:5)
+      at async Proxy._transactionWithCallback (/workspace/backend/node_modules/@prisma/client/src/runtime/getPrismaClient.ts:861:18)
+      at async seedFoundationFixture (/workspace/backend/test/helpers/database.ts:143:3)
+      at async TestContext.<anonymous> (/workspace/backend/test/e2e/teaching-structure.e2e.test.ts:189:15)
+      at async TestHook.run (node:internal/test_runner/test:1332:7)
+

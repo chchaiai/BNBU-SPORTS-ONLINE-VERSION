@@ -1,0 +1,16 @@
+{
+  "checks": [
+    {
+      "path": "/health/live",
+      "status": 200
+    },
+    {
+      "path": "/health/ready",
+      "status": 200
+    }
+  ],
+  "database": "v81_browser_test",
+  "bootstrapped": true,
+  "syntheticFixture": true,
+  "localAccountFilePresent": true
+}

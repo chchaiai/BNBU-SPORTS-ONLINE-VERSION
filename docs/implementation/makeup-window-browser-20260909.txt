@@ -1,0 +1,1 @@
+{"check":"MAKEUP_WINDOW_BROWSER","result":"FAIL","stage":"LOGIN","type":"TypeError","message":"r.status is not a function"}

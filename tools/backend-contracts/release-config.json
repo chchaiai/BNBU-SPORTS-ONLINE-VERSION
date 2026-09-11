@@ -1,0 +1,15 @@
+{
+  "formatVersion": 1,
+  "candidateVersion": "2.0.12-contract",
+  "releaseState": "published",
+  "releaseDate": "2026-08-21",
+  "publishedBaseline": {
+    "version": "2.0.11-contract",
+    "sha256": "c3bdba5999404ea5c58b48407f582ed7b6f19fe955b793f5dfba78303ae9edb1",
+    "sourceCommit": "026d3d1d1c959e33f7450bd2ec123622c83bc9fe"
+  },
+  "compatibility": {
+    "jsonPath": "docs/backend-contracts/openapi-2.0.11-to-2.0.12-compatibility.json",
+    "markdownPath": "docs/backend-contracts/openapi-2.0.11-to-2.0.12-compatibility.md"
+  }
+}

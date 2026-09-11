@@ -1,0 +1,4 @@
+{"check":"STUDENT_BROWSER_SMTP_LOGIN","result":"PASS"}
+{"check":"STUDENT_OWN_ROSTER_REAL_API_CLOSED_PROJECTION","result":"PASS","enrollmentCount":1,"statuses":[{"available":false,"status":null,"registrationComplete":false}]}
+{"check":"STUDENT_COURSE_PAGE_ROSTER_WIRING","result":"MISSING","automaticRosterRequestCount":0,"syntheticIdentity":true}
+{"stage":"COURSE_PAGE","error":"Course page never requested the student own roster status; API method exists without page wiring"}

@@ -1,0 +1,16 @@
+(node:14668) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+✔ OCR defaults disabled and validates explicit region/timeout without requiring credentials at startup (1.4857ms)
+✔ provider sends exact private bytes, validates source binding, and retains unconfirmed recognized evidence (0.5749ms)
+✔ provider errors are sanitized and failed responses do not become recognized evidence (0.3312ms)
+✔ WebP is losslessly prepared for OCR while evidence stays bound to the original source (9.8516ms)
+✔ oversized source uses lossless preparation without resizing and malformed data never reaches provider (20.3636ms)
+✔ uncompressible page remains a clear size failure without upstream call or lossy resize (130.7273ms)
+ℹ tests 6
+ℹ suites 0
+ℹ pass 6
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 578.7252

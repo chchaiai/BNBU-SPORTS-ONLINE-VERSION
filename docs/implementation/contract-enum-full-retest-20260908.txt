@@ -1,0 +1,167 @@
+
+> @bnbu/backend-contract-checks@0.0.0 contract:check
+> npm run check && npm run lint:openapi && npm run contract:compatibility:check && npm run contract:release:check
+
+
+> @bnbu/backend-contract-checks@0.0.0 check
+> node ./generate-permission-registry.mjs && node --test ./operation-response-policy.test.mjs ./enum-subset-policy.test.mjs && node ./check-contract.mjs && node ./check-system-mode-responses.mjs && node ./apply-contract-errata.mjs
+
+Permission registry checked: 249 operations
+✔ enum references must exist and each value must belong to the referenced domain (0.9079ms)
+✔ number options keep their wire type and null requires an explicit nullable field (0.1064ms)
+✔ missing declarations fail, while explicit transport constraints remain supported (0.1233ms)
+✔ normal operations require both success and error responses (0.9081ms)
+✔ unavailable operations require an explicit reason and disabled registration (0.1914ms)
+✔ unavailable operations cannot declare successes or omit their actual denial status (0.1266ms)
+ℹ tests 6
+ℹ suites 0
+ℹ pass 6
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 69.479
+Deterministic Greenfield contract checks: PASS
+- OpenAPI paths: 212
+- OpenAPI operations: 249
+- OpenAPI schemas: 387
+- Local references checked: 2576
+- Access policies: 249; registry rows: 249; diff: 0
+- Named enums: 86; values: 325; diff: 0
+- Error codes: 154; diff: 0
+- Integer duration fields checked: 11
+file:///C:/Users/23328/Desktop/new_version/tools/backend-contracts/check-system-mode-responses.mjs:85
+  throw new Error(
+        ^
+
+Error: Mutations missing SystemMode 503 responses:
+POST /auth/password-login
+POST /auth/refresh
+POST /auth/logout
+POST /me/email-verification-challenges
+POST /me/email-verification-challenges/{challengeId}/verify
+PATCH /students/{studentId}
+POST /courses
+PATCH /courses/{courseId}
+POST /class-sections
+PATCH /class-sections/{classSectionId}
+POST /class-sections/{classSectionId}/close
+POST /class-sections/{classSectionId}/enrollments
+POST /enrollments/{enrollmentId}/withdraw
+POST /enrollments/{enrollmentId}/remove
+POST /enrollments/{enrollmentId}/restore
+POST /class-sections/{classSectionId}/course-invites
+POST /course-invites/{inviteToken}/join-capabilities
+POST /course-invites/{inviteToken}/join
+POST /class-sections/{classSectionId}/roster-imports
+POST /roster-imports/{rosterImportId}/rollback
+POST /roster-imports/{rosterImportId}/align
+POST /roster-alignment-results/{alignmentResultId}/confirm
+POST /roster-alignment-results/{alignmentResultId}/resolve
+POST /roster-alignment-results/{alignmentResultId}/ignore
+POST /roster-alignment-results/{alignmentResultId}/reopen
+POST /exercise-sessions
+POST /exercise-sessions/{sessionId}/pause
+POST /exercise-sessions/{sessionId}/resume
+POST /exercise-sessions/{sessionId}/finish
+POST /exercise-sessions/{sessionId}/cancel
+POST /exercise-sessions/{sessionId}/reconcile
+POST /exercise-records
+PATCH /exercise-records/{recordId}
+POST /exercise-records/{recordId}/submit
+POST /exercise-records/{recordId}/discard
+POST /exercise-records/{recordId}/withdraw
+POST /media-uploads
+POST /media-uploads/{uploadSessionId}/confirm
+POST /media/{mediaId}/bind
+POST /media/{mediaId}/access-url
+POST /exercise-records/{recordId}/reviews
+POST /exercise-records/{recordId}/reviews/reopen
+POST /exercise-reviews/batch
+POST /class-sections/{classSectionId}/score-rules
+POST /score-rules/{scoreRuleId}/submit-approval
+POST /score-rules/{scoreRuleId}/approve
+POST /score-rules/{scoreRuleId}/reject
+POST /student-scores/{studentScoreId}/recalculate
+POST /student-scores/{studentScoreId}/publish
+POST /student-scores/{studentScoreId}/open-correction
+POST /student-scores/{studentScoreId}/adjustments
+POST /score-adjustments/{scoreAdjustmentId}/approve
+POST /score-adjustments/{scoreAdjustmentId}/reject
+POST /exports
+POST /exports/{exportId}/download-url
+POST /auth/student-sign-in-codes
+POST /auth/student-sign-in-codes/verify
+POST /auth/account-recovery-requests
+POST /auth/account-recovery-requests/complete
+POST /notifications/{notificationId}/read
+POST /push-devices
+DELETE /push-devices/{deviceId}
+PATCH /me/preferences
+POST /feedback
+POST /exemption-applications
+PATCH /exemption-applications/{applicationId}
+POST /exemption-applications/{applicationId}/submit
+POST /exemption-applications/{applicationId}/review
+POST /exercise-sessions/{sessionId}/location-track
+POST /exercise-sessions/{sessionId}/location-samples
+POST /exercise-sessions/{sessionId}/location-track/finalize
+PATCH /location-privacy-policy
+POST /class-sections/{classSectionId}/v81-rules
+POST /admin/review-services/manual-mode
+POST /exercise-records/{recordId}/v81-reviews
+POST /exercise-records/{recordId}/supplements
+POST /exercise-records/{recordId}/corrections
+POST /system-mode/changes
+POST /auth/own-password
+POST /admin/subadmins
+POST /admin/subadmins/{id}/status
+POST /activity-certification-applications/{id}/revoke
+POST /exercise-records/{recordId}/swim-intake
+POST /enrollments/{enrollmentId}/final-grades
+POST /admin/feedback/{feedbackId}/handling
+POST /admin/help-articles
+POST /admin/help-articles/{articleId}
+POST /admin/endurance-tables/rules
+POST /admin/endurance-tables/rules/{ruleId}
+POST /admin/endurance-tables/rules/{ruleId}/delete
+POST /enrollments/{enrollmentId}/physical-results
+POST /class-sections/{classSectionId}/physical-imports
+POST /physical-imports/{importId}/revisions
+POST /physical-imports/{importId}/confirm
+POST /class-sections/{classSectionId}/physical-imports/xlsx
+POST /admin/teacher-imports/preview
+POST /admin/teacher-imports/confirm
+POST /admin/semesters
+POST /admin/semesters/{id}
+POST /roster-imports/{rosterImportId}/confirmation
+POST /class-sections/{classSectionId}/ocr-roster-batches
+POST /class-sections/{classSectionId}/ocr-physical-batches
+POST /ocr-batches/{batchId}/pages/{pageId}/recognition
+POST /ocr-batches/{batchId}/draft
+POST /ocr-batches/{batchId}/draft/revisions
+POST /ocr-batches/{batchId}/physical-confirmations
+POST /ocr-batches/{batchId}/roster-confirmation
+POST /class-sections/{classSectionId}/roster-basis
+POST /class-sections/{classSectionId}/makeup-windows
+POST /makeup-windows/{windowId}/revocation
+POST /rule-templates
+POST /admin/runtime-archives
+POST /admin/runtime-archives/{id}/cancellation
+POST /admin/runtime-archives/{id}/download-url
+POST /admin/subadmins/{id}/permissions
+POST /me/account-deletion-challenges
+POST /admin/review-services/ocr/revisions
+POST /admin/subadmin-identity-challenges
+POST /admin/subadmin-identity-challenges/{id}/verify
+POST /admin/subadmins/{id}/profile
+POST /admin/subadmins/{id}/delete
+POST /teacher/courses
+POST /class-sections/{classSectionId}/course-invites/revocations
+POST /class-sections/{classSectionId}/settlement-reports
+POST /admin/semesters/{id}/switch
+POST /enrollments/{enrollmentId}/final-grades/corrections
+POST /enrollments/{enrollmentId}/physical-results/corrections
+    at file:///C:/Users/23328/Desktop/new_version/tools/backend-contracts/check-system-mode-responses.mjs:85:9
+
+Node.js v24.13.1

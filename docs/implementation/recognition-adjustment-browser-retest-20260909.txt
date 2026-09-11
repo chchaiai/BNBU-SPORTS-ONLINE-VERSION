@@ -1,0 +1,1 @@
+{"check":"RECOGNITION_ADJUSTMENT_BROWSER","result":"PASS","replayVerified":true,"historyVersions":3,"oldApprovalPreserved":true,"courseMinutes":15,"generalMinutes":30}

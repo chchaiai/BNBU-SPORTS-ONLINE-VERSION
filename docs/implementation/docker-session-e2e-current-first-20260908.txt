@@ -1,0 +1,234 @@
+ Image bnbu-v81-full-integration-integration-tests Building 
+#1 [internal] load local bake definitions
+#1 reading from stdin 644B 0.0s done
+#1 DONE 0.0s
+
+#2 [internal] load build definition from Dockerfile.v81-test
+#2 DONE 0.0s
+
+#2 [internal] load build definition from Dockerfile.v81-test
+#2 transferring dockerfile: 828B done
+#2 DONE 0.0s
+
+#3 [auth] library/node:pull token for registry-1.docker.io
+#3 DONE 0.0s
+
+#4 [internal] load metadata for docker.io/library/node:24.18.0-bookworm-slim
+#4 DONE 1.5s
+
+#5 [internal] load .dockerignore
+#5 transferring context: 153B done
+#5 DONE 0.0s
+
+#6 [ 1/11] FROM docker.io/library/node:24.18.0-bookworm-slim@sha256:6f7b03f7c2c8e2e784dcf9295400527b9b1270fd37b7e9a7285cf83b6951452d
+#6 resolve docker.io/library/node:24.18.0-bookworm-slim@sha256:6f7b03f7c2c8e2e784dcf9295400527b9b1270fd37b7e9a7285cf83b6951452d 0.0s done
+#6 DONE 0.0s
+
+#7 [internal] load build context
+#7 transferring context: 125.47kB 0.1s done
+#7 DONE 0.1s
+
+#8 [ 2/11] RUN apt-get update && apt-get install -y --no-install-recommends openssl ca-certificates && rm -rf /var/lib/apt/lists/*
+#8 CACHED
+
+#9 [ 3/11] WORKDIR /workspace/backend
+#9 CACHED
+
+#10 [ 4/11] COPY backend/package.json backend/package-lock.json ./
+#10 CACHED
+
+#11 [ 5/11] RUN npm ci --ignore-scripts --no-audit --no-fund
+#11 CACHED
+
+#12 [ 6/11] COPY backend/ ./
+#12 DONE 0.2s
+
+#13 [ 7/11] COPY docs/backend-contracts/ /workspace/docs/backend-contracts/
+#13 DONE 0.1s
+
+#14 [ 8/11] COPY tools/ /workspace/tools/
+#14 DONE 0.1s
+
+#15 [ 9/11] COPY BNBU-Sports-Web-new/frontend/student/ /workspace/BNBU-Sports-Web-new/frontend/student/
+#15 DONE 0.1s
+
+#16 [10/11] COPY BNBU-Sports-Web-new/portal-teacher-admin/app/ /workspace/BNBU-Sports-Web-new/portal-teacher-admin/app/
+#16 DONE 0.1s
+
+#17 [11/11] RUN npm run db:generate
+#17 0.307 
+#17 0.307 > @bnbu/sports-backend@0.1.0 db:generate
+#17 0.307 > prisma generate
+#17 0.307 
+#17 0.920 Loaded Prisma config from prisma.config.ts.
+#17 0.920 
+#17 2.791 Prisma schema loaded from prisma/schema.prisma.
+#17 4.188 
+#17 4.188 ✔ Generated Prisma Client (7.9.1) to ./src/generated/prisma in 843ms
+#17 4.188 
+#17 DONE 4.3s
+
+#18 exporting to image
+#18 exporting layers
+#18 exporting layers 1.6s done
+#18 exporting manifest sha256:97b0ed5720cf13729a8602eea94e1e32aee0a56d1a6ef7195fc878892c836070 0.0s done
+#18 exporting config sha256:c3e8abe4270f63cfd1f42fb8c9d168f0ba45438c8e388db3a9da83b703ded00f 0.0s done
+#18 exporting attestation manifest sha256:1f6819639d977d2b2bfcfee1755e60db75d95095ce122df25245821a7b7d17d3 0.0s done
+#18 exporting manifest list sha256:5579ef98d2d0971a100b5f2a1aca66f2419391588464f025cb9221d877533b62 0.0s done
+#18 naming to docker.io/library/bnbu-v81-full-integration-integration-tests:latest done
+#18 unpacking to docker.io/library/bnbu-v81-full-integration-integration-tests:latest
+#18 unpacking to docker.io/library/bnbu-v81-full-integration-integration-tests:latest 0.7s done
+#18 DONE 2.4s
+
+#19 resolving provenance for metadata file
+#19 DONE 0.0s
+ Image bnbu-v81-full-integration-integration-tests Built 
+ Container bnbu-v81-full-integration-integration-tests-run-9b5b39eb01de Creating 
+ Container bnbu-v81-full-integration-integration-tests-run-9b5b39eb01de Created 
+
+> @bnbu/sports-backend@0.1.0 prebuild
+> npm run db:generate && npm run generate
+
+
+> @bnbu/sports-backend@0.1.0 db:generate
+> prisma generate
+
+Loaded Prisma config from prisma.config.ts.
+
+Prisma schema loaded from prisma/schema.prisma.
+
+✔ Generated Prisma Client (7.9.1) to ./src/generated/prisma in 880ms
+┌─────────────────────────────────────────────────────────┐
+│  Update available 7.9.1 -> 8.0.0-rc.13                  │
+│                                                         │
+│  This is a major update - please follow the guide at    │
+│  https://pris.ly/d/major-version-upgrade                │
+│                                                         │
+│  Run the following to update                            │
+│    npm i --save-dev prisma@latest                       │
+│    npm i @prisma/client@latest                          │
+
+└─────────────────────────────────────────────────────────┘
+
+> @bnbu/sports-backend@0.1.0 generate
+> npm run openapi:generate && npm run db:manifest:generate
+
+
+> @bnbu/sports-backend@0.1.0 openapi:generate
+> node ./scripts/generate-openapi.mjs
+
+Generated 3 OpenAPI artifacts from 249 operations.
+
+> @bnbu/sports-backend@0.1.0 db:manifest:generate
+> node ./scripts/generate-migration-manifest.mjs
+
+Generated migration manifest updated.
+
+> @bnbu/sports-backend@0.1.0 build
+> nest build
+
+▶ ExerciseSession HTTP E2E
+  ✖ runs start, active recovery, pause, resume, conservative reconcile, and finish atomically (624.228444ms)
+  ✖ cancels without deleting history and rejects stale, duplicate-active, foreign-role, removed, and unknown input (513.021483ms)
+  ✖ fails closed outside the configured window and rejects unverified offline intervals (465.708276ms)
+  ✖ rejects a new session after latest VALID reviews reach 20 hours (473.162736ms)
+✖ ExerciseSession HTTP E2E (3070.422839ms)
+ℹ tests 4
+ℹ suites 1
+ℹ pass 0
+ℹ fail 4
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 3639.672377
+
+✖ failing tests:
+
+test at test/e2e/exercise-session.e2e.test.ts:1:4291
+✖ runs start, active recovery, pause, resume, conservative reconcile, and finish atomically (624.228444ms)
+  PrismaClientKnownRequestError: 
+  Invalid `prisma.v81CourseRule.create()` invocation in
+  /workspace/backend/test/e2e/exercise-session.e2e.test.ts:146:32
+  
+    143 await resetFoundationDatabase(prisma);
+    144 foundation = await seedFoundationFixture(prisma);
+    145 student = await seedExerciseSessionStudent(prisma, foundation);
+  → 146 await prisma.v81CourseRule.create(
+  Database error. Code: `P0001`. Message: `New course publication requires an explicit template`
+      at Jr.handleRequestError (/workspace/backend/node_modules/@prisma/client/src/runtime/RequestHandler.ts:237:13)
+      at Jr.handleAndLogRequestError (/workspace/backend/node_modules/@prisma/client/src/runtime/RequestHandler.ts:183:12)
+      at Jr.request (/workspace/backend/node_modules/@prisma/client/src/runtime/RequestHandler.ts:152:12)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async a (/workspace/backend/node_modules/@prisma/client/src/runtime/getPrismaClient.ts:1014:24)
+      at async TestContext.<anonymous> (/workspace/backend/test/e2e/exercise-session.e2e.test.ts:146:5)
+      at async TestHook.run (node:internal/test_runner/test:1332:7)
+      at async Suite.runHook (node:internal/test_runner/test:1212:9)
+      at async Test.run (node:internal/test_runner/test:1285:9)
+      at async Promise.all (index 0)
+
+test at test/e2e/exercise-session.e2e.test.ts:1:7652
+✖ cancels without deleting history and rejects stale, duplicate-active, foreign-role, removed, and unknown input (513.021483ms)
+  PrismaClientKnownRequestError: 
+  Invalid `prisma.v81CourseRule.create()` invocation in
+  /workspace/backend/test/e2e/exercise-session.e2e.test.ts:146:32
+  
+    143 await resetFoundationDatabase(prisma);
+    144 foundation = await seedFoundationFixture(prisma);
+    145 student = await seedExerciseSessionStudent(prisma, foundation);
+  → 146 await prisma.v81CourseRule.create(
+  Database error. Code: `P0001`. Message: `New course publication requires an explicit template`
+      at Jr.handleRequestError (/workspace/backend/node_modules/@prisma/client/src/runtime/RequestHandler.ts:237:13)
+      at Jr.handleAndLogRequestError (/workspace/backend/node_modules/@prisma/client/src/runtime/RequestHandler.ts:183:12)
+      at Jr.request (/workspace/backend/node_modules/@prisma/client/src/runtime/RequestHandler.ts:152:12)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async a (/workspace/backend/node_modules/@prisma/client/src/runtime/getPrismaClient.ts:1014:24)
+      at async TestContext.<anonymous> (/workspace/backend/test/e2e/exercise-session.e2e.test.ts:146:5)
+      at async TestHook.run (node:internal/test_runner/test:1332:7)
+      at async Suite.runHook (node:internal/test_runner/test:1212:9)
+      at async Test.run (node:internal/test_runner/test:1285:9)
+      at async Suite.processPendingSubtests (node:internal/test_runner/test:911:7)
+
+test at test/e2e/exercise-session.e2e.test.ts:1:9834
+✖ fails closed outside the configured window and rejects unverified offline intervals (465.708276ms)
+  PrismaClientKnownRequestError: 
+  Invalid `prisma.v81CourseRule.create()` invocation in
+  /workspace/backend/test/e2e/exercise-session.e2e.test.ts:146:32
+  
+    143 await resetFoundationDatabase(prisma);
+    144 foundation = await seedFoundationFixture(prisma);
+    145 student = await seedExerciseSessionStudent(prisma, foundation);
+  → 146 await prisma.v81CourseRule.create(
+  Database error. Code: `P0001`. Message: `New course publication requires an explicit template`
+      at Jr.handleRequestError (/workspace/backend/node_modules/@prisma/client/src/runtime/RequestHandler.ts:237:13)
+      at Jr.handleAndLogRequestError (/workspace/backend/node_modules/@prisma/client/src/runtime/RequestHandler.ts:183:12)
+      at Jr.request (/workspace/backend/node_modules/@prisma/client/src/runtime/RequestHandler.ts:152:12)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async a (/workspace/backend/node_modules/@prisma/client/src/runtime/getPrismaClient.ts:1014:24)
+      at async TestContext.<anonymous> (/workspace/backend/test/e2e/exercise-session.e2e.test.ts:146:5)
+      at async TestHook.run (node:internal/test_runner/test:1332:7)
+      at async Suite.runHook (node:internal/test_runner/test:1212:9)
+      at async Test.run (node:internal/test_runner/test:1285:9)
+      at async Suite.processPendingSubtests (node:internal/test_runner/test:911:7)
+
+test at test/e2e/exercise-session.e2e.test.ts:1:11179
+✖ rejects a new session after latest VALID reviews reach 20 hours (473.162736ms)
+  PrismaClientKnownRequestError: 
+  Invalid `prisma.v81CourseRule.create()` invocation in
+  /workspace/backend/test/e2e/exercise-session.e2e.test.ts:146:32
+  
+    143 await resetFoundationDatabase(prisma);
+    144 foundation = await seedFoundationFixture(prisma);
+    145 student = await seedExerciseSessionStudent(prisma, foundation);
+  → 146 await prisma.v81CourseRule.create(
+  Database error. Code: `P0001`. Message: `New course publication requires an explicit template`
+      at Jr.handleRequestError (/workspace/backend/node_modules/@prisma/client/src/runtime/RequestHandler.ts:237:13)
+      at Jr.handleAndLogRequestError (/workspace/backend/node_modules/@prisma/client/src/runtime/RequestHandler.ts:183:12)
+      at Jr.request (/workspace/backend/node_modules/@prisma/client/src/runtime/RequestHandler.ts:152:12)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async a (/workspace/backend/node_modules/@prisma/client/src/runtime/getPrismaClient.ts:1014:24)
+      at async TestContext.<anonymous> (/workspace/backend/test/e2e/exercise-session.e2e.test.ts:146:5)
+      at async TestHook.run (node:internal/test_runner/test:1332:7)
+      at async Suite.runHook (node:internal/test_runner/test:1212:9)
+      at async Test.run (node:internal/test_runner/test:1285:9)
+      at async Suite.processPendingSubtests (node:internal/test_runner/test:911:7)
+

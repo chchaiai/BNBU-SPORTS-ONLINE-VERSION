@@ -1,0 +1,17 @@
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: /auth/password-login: 401 AUTH_CREDENTIAL_INVALID
+    at api (file:///workspace/tools/local-integration/seed-v81-closed-applications-browser.mjs:13:333)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async file:///workspace/tools/local-integration/seed-v81-closed-applications-browser.mjs:26:14 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: false,
+  expected: true,
+  operator: '==',
+  diff: 'simple'
+}
+
+Node.js v24.18.0

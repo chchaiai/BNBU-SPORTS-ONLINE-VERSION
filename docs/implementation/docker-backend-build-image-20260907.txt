@@ -1,0 +1,151 @@
+ Image bnbu-v81-local-validation-backend-build Building 
+#1 [internal] load local bake definitions
+#1 reading from stdin 628B 0.0s done
+#1 DONE 0.0s
+
+#2 [internal] load build definition from Dockerfile.v81-test
+#2 transferring dockerfile: 604B done
+#2 DONE 0.1s
+
+#3 [internal] load metadata for docker.io/library/node:24.18.0-bookworm-slim
+#3 DONE 0.5s
+
+#4 [internal] load .dockerignore
+#4 transferring context: 153B done
+#4 DONE 0.1s
+
+#5 [1/8] FROM docker.io/library/node:24.18.0-bookworm-slim@sha256:6f7b03f7c2c8e2e784dcf9295400527b9b1270fd37b7e9a7285cf83b6951452d
+#5 resolve docker.io/library/node:24.18.0-bookworm-slim@sha256:6f7b03f7c2c8e2e784dcf9295400527b9b1270fd37b7e9a7285cf83b6951452d 0.0s done
+#5 CACHED
+
+#6 [2/8] RUN apt-get update && apt-get install -y --no-install-recommends openssl ca-certificates && rm -rf /var/lib/apt/lists/*
+#6 0.887 Get:1 http://deb.debian.org/debian bookworm InRelease [151 kB]
+#6 1.281 Get:2 http://deb.debian.org/debian bookworm-updates InRelease [55.4 kB]
+#6 2.630 Get:3 http://deb.debian.org/debian-security bookworm-security InRelease [34.8 kB]
+#6 4.120 Get:4 http://deb.debian.org/debian bookworm/main amd64 Packages [8790 kB]
+#6 4.928 Get:5 http://deb.debian.org/debian bookworm-updates/main amd64 Packages [6924 B]
+#6 5.521 Get:6 http://deb.debian.org/debian-security bookworm-security/main amd64 Packages [337 kB]
+#6 5.553 Fetched 9375 kB in 5s (1824 kB/s)
+#6 5.553 Reading package lists...
+#6 5.862 Reading package lists...
+#6 6.153 Building dependency tree...
+#6 6.227 Reading state information...
+#6 6.291 The following additional packages will be installed:
+#6 6.292   libssl3
+#6 6.316 The following NEW packages will be installed:
+#6 6.316   ca-certificates libssl3 openssl
+#6 7.288 0 upgraded, 3 newly installed, 0 to remove and 1 not upgraded.
+#6 7.288 Need to get 3637 kB of archives.
+#6 7.288 After this operation, 8940 kB of additional disk space will be used.
+#6 7.288 Get:1 http://deb.debian.org/debian bookworm/main amd64 libssl3 amd64 3.0.20-1~deb12u2 [2036 kB]
+#6 8.095 Get:2 http://deb.debian.org/debian bookworm/main amd64 openssl amd64 3.0.20-1~deb12u2 [1439 kB]
+#6 8.576 Get:3 http://deb.debian.org/debian-security bookworm-security/main amd64 ca-certificates all 20250419~deb12u1 [162 kB]
+#6 8.715 debconf: delaying package configuration, since apt-utils is not installed
+#6 8.741 Fetched 3637 kB in 2s (1609 kB/s)
+#6 8.783 Selecting previously unselected package libssl3:amd64.
+#6 8.783 (Reading database ... 
+(Reading database ... 5%
+(Reading database ... 10%
+(Reading database ... 15%
+(Reading database ... 20%
+(Reading database ... 25%
+(Reading database ... 30%
+(Reading database ... 35%
+(Reading database ... 40%
+(Reading database ... 45%
+(Reading database ... 50%
+(Reading database ... 55%
+(Reading database ... 60%
+(Reading database ... 65%
+(Reading database ... 70%
+(Reading database ... 75%
+(Reading database ... 80%
+(Reading database ... 85%
+(Reading database ... 90%
+(Reading database ... 95%
+(Reading database ... 100%
+(Reading database ... 6096 files and directories currently installed.)
+#6 8.804 Preparing to unpack .../libssl3_3.0.20-1~deb12u2_amd64.deb ...
+#6 8.820 Unpacking libssl3:amd64 (3.0.20-1~deb12u2) ...
+#6 8.956 Selecting previously unselected package openssl.
+#6 8.957 Preparing to unpack .../openssl_3.0.20-1~deb12u2_amd64.deb ...
+#6 8.965 Unpacking openssl (3.0.20-1~deb12u2) ...
+#6 9.082 Selecting previously unselected package ca-certificates.
+#6 9.083 Preparing to unpack .../ca-certificates_20250419~deb12u1_all.deb ...
+#6 9.091 Unpacking ca-certificates (20250419~deb12u1) ...
+#6 9.191 Setting up libssl3:amd64 (3.0.20-1~deb12u2) ...
+#6 9.215 Setting up openssl (3.0.20-1~deb12u2) ...
+#6 9.247 Setting up ca-certificates (20250419~deb12u1) ...
+#6 9.315 debconf: unable to initialize frontend: Dialog
+#6 9.315 debconf: (TERM is not set, so the dialog frontend is not usable.)
+#6 9.315 debconf: falling back to frontend: Readline
+#6 9.315 debconf: unable to initialize frontend: Readline
+#6 9.315 debconf: (Can't locate Term/ReadLine.pm in @INC (you may need to install the Term::ReadLine module) (@INC contains: /etc/perl /usr/local/lib/x86_64-linux-gnu/perl/5.36.0 /usr/local/share/perl/5.36.0 /usr/lib/x86_64-linux-gnu/perl5/5.36 /usr/share/perl5 /usr/lib/x86_64-linux-gnu/perl-base /usr/lib/x86_64-linux-gnu/perl/5.36 /usr/share/perl/5.36 /usr/local/lib/site_perl) at /usr/share/perl5/Debconf/FrontEnd/Readline.pm line 7.)
+#6 9.315 debconf: falling back to frontend: Teletype
+#6 9.760 Updating certificates in /etc/ssl/certs...
+#6 10.41 150 added, 0 removed; done.
+#6 10.45 Processing triggers for libc-bin (2.36-9+deb12u14) ...
+#6 10.50 Processing triggers for ca-certificates (20250419~deb12u1) ...
+#6 10.51 Updating certificates in /etc/ssl/certs...
+#6 11.00 0 added, 0 removed; done.
+#6 11.00 Running hooks in /etc/ca-certificates/update.d...
+#6 11.01 done.
+#6 DONE 11.1s
+
+#7 [3/8] WORKDIR /workspace/backend
+#7 DONE 0.1s
+
+#8 [internal] load build context
+#8 transferring context: 30.56MB 1.7s done
+#8 DONE 1.8s
+
+#9 [4/8] COPY backend/package.json backend/package-lock.json ./
+#9 DONE 0.1s
+
+#10 [5/8] RUN npm ci --ignore-scripts --no-audit --no-fund
+#10 17.09 
+#10 17.09 added 637 packages in 17s
+#10 17.09 npm notice
+#10 17.09 npm notice New major version of npm available! 11.16.0 -> 12.0.2
+#10 17.09 npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.0.2
+#10 17.09 npm notice To update run: npm install -g npm@12.0.2
+#10 17.09 npm notice
+#10 DONE 18.0s
+
+#11 [6/8] COPY backend/ ./
+#11 DONE 0.6s
+
+#12 [7/8] COPY docs/backend-contracts/ /workspace/docs/backend-contracts/
+#12 DONE 0.2s
+
+#13 [4/8] COPY backend/package.json backend/package-lock.json ./
+#13 CACHED
+
+#14 [6/8] COPY backend/ ./
+#14 CACHED
+
+#15 [5/8] RUN npm ci --ignore-scripts --no-audit --no-fund
+#15 CACHED
+
+#16 [7/8] COPY docs/backend-contracts/ /workspace/docs/backend-contracts/
+#16 CACHED
+
+#17 [8/8] COPY tools/ /workspace/tools/
+#17 DONE 0.1s
+
+#18 exporting to image
+#18 exporting layers
+#18 exporting layers 14.1s done
+#18 exporting manifest sha256:0bc165c4eb2474b912aace1f4d5a717f9795b61a7c10e42d00fa3c1d7fc80c31 0.0s done
+#18 exporting config sha256:b59f08ca160d0997a39cf9a2168995e9081e7a7cd38c95fe51d38789915bf512 0.0s done
+#18 exporting attestation manifest sha256:d19175060f0172b40eb6cfb5d4a876612a616282d774b6b58bcac47edcd14b72 0.0s done
+#18 exporting manifest list sha256:e8e8069b40b513875b9883b12a9208475c84c29814606cbdbd0ad9371240c7ca
+#18 exporting manifest list sha256:e8e8069b40b513875b9883b12a9208475c84c29814606cbdbd0ad9371240c7ca 0.0s done
+#18 naming to docker.io/library/bnbu-v81-local-validation-backend-build:latest done
+#18 unpacking to docker.io/library/bnbu-v81-local-validation-backend-build:latest
+#18 unpacking to docker.io/library/bnbu-v81-local-validation-backend-build:latest 9.9s done
+#18 DONE 24.2s
+
+#19 resolving provenance for metadata file
+#19 DONE 0.0s
+ Image bnbu-v81-local-validation-backend-build Built 

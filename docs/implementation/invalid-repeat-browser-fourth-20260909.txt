@@ -1,0 +1,2 @@
+stage FIRST_EXERCISE
+{"result":"FAIL","stage":"INVALID","message":"locator.click: Timeout 60000ms exceeded.\nCall log:\n\u001b[2m  - waiting for getByRole('row').filter({ hasText: 'JOIN52588925c7a3458' }).getByRole('button', { name: /查看记录/ })\u001b[22m\n"}

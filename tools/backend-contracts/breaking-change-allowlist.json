@@ -1,0 +1,234 @@
+{
+  "formatVersion": 1,
+  "exceptions": [
+    {
+      "changeId": "property-removed-41dce74b825ec16c",
+      "reason": "ADR-100 retires the student-only supplemental remark so completion records have one required description field.",
+      "owner": "BNBU Sports product and backend",
+      "approvedDate": "2026-08-11",
+      "expiration": "2027-08-31",
+      "migrationPlan": "Android is upgraded in the same monorepo change; legacy clients that still send studentRemark receive strict validation failure and must upgrade. The ignored database tombstone will be dropped only under a separately approved destructive migration.",
+      "affectedClients": ["Android 1.3 and older"],
+      "targetVersion": "1.5.0-contract"
+    },
+    {
+      "changeId": "property-removed-77effd74e4a9b2f4",
+      "reason": "ADR-100 retires the student-only supplemental remark so completion records have one required description field.",
+      "owner": "BNBU Sports product and backend",
+      "approvedDate": "2026-08-11",
+      "expiration": "2027-08-31",
+      "migrationPlan": "Android is upgraded in the same monorepo change; legacy clients that still send studentRemark receive strict validation failure and must upgrade. The ignored database tombstone will be dropped only under a separately approved destructive migration.",
+      "affectedClients": ["Android 1.3 and older"],
+      "targetVersion": "1.5.0-contract"
+    },
+    {
+      "changeId": "property-removed-901462e082bf0322",
+      "reason": "ADR-100 retires the student-only supplemental remark so completion records have one required description field.",
+      "owner": "BNBU Sports product and backend",
+      "approvedDate": "2026-08-11",
+      "expiration": "2027-08-31",
+      "migrationPlan": "Android is upgraded in the same monorepo change; legacy clients that still send studentRemark receive strict validation failure and must upgrade. The ignored database tombstone will be dropped only under a separately approved destructive migration.",
+      "affectedClients": ["Android 1.3 and older"],
+      "targetVersion": "1.5.0-contract"
+    },
+    {
+      "changeId": "property-removed-a30c4329d74e9af8",
+      "reason": "ADR-100 retires the student-only supplemental remark so completion records have one required description field.",
+      "owner": "BNBU Sports product and backend",
+      "approvedDate": "2026-08-11",
+      "expiration": "2027-08-31",
+      "migrationPlan": "Android is upgraded in the same monorepo change; legacy clients that still send studentRemark receive strict validation failure and must upgrade. The ignored database tombstone will be dropped only under a separately approved destructive migration.",
+      "affectedClients": ["Android 1.3 and older"],
+      "targetVersion": "1.5.0-contract"
+    },
+    {
+      "changeId": "property-removed-aa2a15ac1f6d11b0",
+      "reason": "ADR-100 retires the student-only supplemental remark so completion records have one required description field.",
+      "owner": "BNBU Sports product and backend",
+      "approvedDate": "2026-08-11",
+      "expiration": "2027-08-31",
+      "migrationPlan": "Android is upgraded in the same monorepo change; legacy clients that still send studentRemark receive strict validation failure and must upgrade. The ignored database tombstone will be dropped only under a separately approved destructive migration.",
+      "affectedClients": ["Android 1.3 and older"],
+      "targetVersion": "1.5.0-contract"
+    },
+    {
+      "changeId": "property-removed-ad6d840d5a61623c",
+      "reason": "ADR-100 retires the student-only supplemental remark so completion records have one required description field.",
+      "owner": "BNBU Sports product and backend",
+      "approvedDate": "2026-08-11",
+      "expiration": "2027-08-31",
+      "migrationPlan": "Android is upgraded in the same monorepo change; legacy clients that still send studentRemark receive strict validation failure and must upgrade. The ignored database tombstone will be dropped only under a separately approved destructive migration.",
+      "affectedClients": ["Android 1.3 and older"],
+      "targetVersion": "1.5.0-contract"
+    },
+    {
+      "changeId": "property-removed-b00f908f804e6e87",
+      "reason": "ADR-100 retires the student-only supplemental remark so completion records have one required description field.",
+      "owner": "BNBU Sports product and backend",
+      "approvedDate": "2026-08-11",
+      "expiration": "2027-08-31",
+      "migrationPlan": "Android is upgraded in the same monorepo change; legacy clients that still send studentRemark receive strict validation failure and must upgrade. The ignored database tombstone will be dropped only under a separately approved destructive migration.",
+      "affectedClients": ["Android 1.3 and older"],
+      "targetVersion": "1.5.0-contract"
+    },
+    {
+      "changeId": "property-removed-c2bd2df6aee70f40",
+      "reason": "ADR-100 retires the student-only supplemental remark so completion records have one required description field.",
+      "owner": "BNBU Sports product and backend",
+      "approvedDate": "2026-08-11",
+      "expiration": "2027-08-31",
+      "migrationPlan": "Android is upgraded in the same monorepo change; legacy clients that still send studentRemark receive strict validation failure and must upgrade. The ignored database tombstone will be dropped only under a separately approved destructive migration.",
+      "affectedClients": ["Android 1.3 and older"],
+      "targetVersion": "1.5.0-contract"
+    },
+    {
+      "changeId": "property-removed-f926b518920a8cea",
+      "reason": "ADR-100 retires the student-only supplemental remark so completion records have one required description field.",
+      "owner": "BNBU Sports product and backend",
+      "approvedDate": "2026-08-11",
+      "expiration": "2027-08-31",
+      "migrationPlan": "Android is upgraded in the same monorepo change; legacy clients that still send studentRemark receive strict validation failure and must upgrade. The ignored database tombstone will be dropped only under a separately approved destructive migration.",
+      "affectedClients": ["Android 1.3 and older"],
+      "targetVersion": "1.5.0-contract"
+    },
+    {
+      "changeId": "enum-values-added-114f60e70927f40e",
+      "reason": "ADR-101 adds the explicit PENDING_CONTACT_BINDING account state required before a new student verifies an email.",
+      "owner": "BNBU Sports product and backend", "approvedDate": "2026-08-11", "expiration": "2027-08-31",
+      "migrationPlan": "Android is upgraded in the same monorepo change and treats PENDING_CONTACT_BINDING as an email-activation gate before entering the app.",
+      "affectedClients": ["Android 1.3 and older", "Web clients parsing UserStatus exhaustively"], "targetVersion": "1.5.0-contract"
+    },
+    {
+      "changeId": "enum-values-added-4d204ee37d30b860",
+      "reason": "ADR-101 adds the explicit PENDING_CONTACT_BINDING account state required before a new student verifies an email.",
+      "owner": "BNBU Sports product and backend", "approvedDate": "2026-08-11", "expiration": "2027-08-31",
+      "migrationPlan": "Android is upgraded in the same monorepo change and treats PENDING_CONTACT_BINDING as an email-activation gate before entering the app.",
+      "affectedClients": ["Android 1.3 and older", "Web clients parsing UserStatus exhaustively"], "targetVersion": "1.5.0-contract"
+    },
+    {
+      "changeId": "enum-values-added-a3773a192eae004d",
+      "reason": "ADR-101 adds the explicit PENDING_CONTACT_BINDING account state required before a new student verifies an email.",
+      "owner": "BNBU Sports product and backend", "approvedDate": "2026-08-11", "expiration": "2027-08-31",
+      "migrationPlan": "Android is upgraded in the same monorepo change and treats PENDING_CONTACT_BINDING as an email-activation gate before entering the app.",
+      "affectedClients": ["Android 1.3 and older", "Web clients parsing UserStatus exhaustively"], "targetVersion": "1.5.0-contract"
+    },
+    {
+      "changeId": "enum-values-added-ba1b5fb38d335530",
+      "reason": "ADR-101 adds the explicit PENDING_CONTACT_BINDING account state required before a new student verifies an email.",
+      "owner": "BNBU Sports product and backend", "approvedDate": "2026-08-11", "expiration": "2027-08-31",
+      "migrationPlan": "Android is upgraded in the same monorepo change and treats PENDING_CONTACT_BINDING as an email-activation gate before entering the app.",
+      "affectedClients": ["Android 1.3 and older", "Web clients parsing UserStatus exhaustively"], "targetVersion": "1.5.0-contract"
+    },
+    {
+      "changeId": "enum-values-added-c8bb8f2d9563b454",
+      "reason": "ADR-101 adds the explicit PENDING_CONTACT_BINDING account state required before a new student verifies an email.",
+      "owner": "BNBU Sports product and backend", "approvedDate": "2026-08-11", "expiration": "2027-08-31",
+      "migrationPlan": "Android is upgraded in the same monorepo change and treats PENDING_CONTACT_BINDING as an email-activation gate before entering the app.",
+      "affectedClients": ["Android 1.3 and older", "Web clients parsing UserStatus exhaustively"], "targetVersion": "1.5.0-contract"
+    },
+    {
+      "changeId": "enum-values-added-fb983bec811ab6d9",
+      "reason": "ADR-101 adds the explicit PENDING_CONTACT_BINDING account state required before a new student verifies an email.",
+      "owner": "BNBU Sports product and backend", "approvedDate": "2026-08-11", "expiration": "2027-08-31",
+      "migrationPlan": "Android is upgraded in the same monorepo change and treats PENDING_CONTACT_BINDING as an email-activation gate before entering the app.",
+      "affectedClients": ["Android 1.3 and older", "Web clients parsing UserStatus exhaustively"], "targetVersion": "1.5.0-contract"
+    },
+    {
+      "changeId": "enum-values-removed-1df9053b65a2b9ab",
+      "reason": "ADR-101 retires SMS delivery and narrows account recovery to verified email only.",
+      "owner": "BNBU Sports product and backend", "approvedDate": "2026-08-11", "expiration": "2027-08-31",
+      "migrationPlan": "Email clients continue sending channel EMAIL; PHONE requests are rejected before challenge creation or delivery.",
+      "affectedClients": ["Clients sending PHONE recovery challenges"], "targetVersion": "1.5.0-contract"
+    },
+    {
+      "changeId": "enum-values-removed-ae13e512f631dd11",
+      "reason": "ADR-101 retires SMS delivery and narrows student sign-in to verified email only.",
+      "owner": "BNBU Sports product and backend", "approvedDate": "2026-08-11", "expiration": "2027-08-31",
+      "migrationPlan": "Android is upgraded in the same monorepo change; PHONE requests are rejected before challenge creation or delivery.",
+      "affectedClients": ["Android 1.3 and older", "Clients sending PHONE sign-in challenges"], "targetVersion": "1.5.0-contract"
+    },
+    {
+      "changeId": "operation-removed-ea73ccd9bdec9a3a",
+      "reason": "ADR-101 replaces the generic fail-closed PATCH /me placeholder with two dedicated verified-email challenge operations.",
+      "owner": "BNBU Sports product and backend", "approvedDate": "2026-08-11", "expiration": "2027-08-31",
+      "migrationPlan": "Android uses the dedicated request and verify endpoints; profile mutation remains unavailable and legacy clients must upgrade.",
+      "affectedClients": ["Clients calling PATCH /me"], "targetVersion": "1.5.0-contract"
+    },
+    {
+      "changeId": "property-removed-24b7355070b45b91",
+      "reason": "ADR-101 removes phone data from the public User projection after SMS and phone binding are retired.",
+      "owner": "BNBU Sports product and backend", "approvedDate": "2026-08-11", "expiration": "2027-08-31",
+      "migrationPlan": "Android no longer reads phone fields; historical database columns remain untouched and application-inaccessible pending separate deletion approval.",
+      "affectedClients": ["Android 1.3 and older", "Clients reading public phone fields"], "targetVersion": "1.5.0-contract"
+    },
+    { "changeId": "property-removed-3540dbcd706e1250", "reason": "ADR-101 removes phone data from the public User projection after SMS and phone binding are retired.", "owner": "BNBU Sports product and backend", "approvedDate": "2026-08-11", "expiration": "2027-08-31", "migrationPlan": "Android no longer reads phone fields; historical database columns remain untouched and application-inaccessible pending separate deletion approval.", "affectedClients": ["Android 1.3 and older", "Clients reading public phone fields"], "targetVersion": "1.5.0-contract" },
+    { "changeId": "property-removed-41c83a02537eed1c", "reason": "ADR-101 removes phone data from the public User projection after SMS and phone binding are retired.", "owner": "BNBU Sports product and backend", "approvedDate": "2026-08-11", "expiration": "2027-08-31", "migrationPlan": "Android no longer reads phone fields; historical database columns remain untouched and application-inaccessible pending separate deletion approval.", "affectedClients": ["Android 1.3 and older", "Clients reading public phone fields"], "targetVersion": "1.5.0-contract" },
+    { "changeId": "property-removed-44137575780297e4", "reason": "ADR-101 removes phone data from the public User projection after SMS and phone binding are retired.", "owner": "BNBU Sports product and backend", "approvedDate": "2026-08-11", "expiration": "2027-08-31", "migrationPlan": "Android no longer reads phone fields; historical database columns remain untouched and application-inaccessible pending separate deletion approval.", "affectedClients": ["Android 1.3 and older", "Clients reading public phone fields"], "targetVersion": "1.5.0-contract" },
+    { "changeId": "property-removed-4b16e834eb8998ef", "reason": "ADR-101 removes phone data from the public User projection after SMS and phone binding are retired.", "owner": "BNBU Sports product and backend", "approvedDate": "2026-08-11", "expiration": "2027-08-31", "migrationPlan": "Android no longer reads phone fields; historical database columns remain untouched and application-inaccessible pending separate deletion approval.", "affectedClients": ["Android 1.3 and older", "Clients reading public phone fields"], "targetVersion": "1.5.0-contract" },
+    { "changeId": "property-removed-501d8727387f2e4a", "reason": "ADR-101 removes phone data from the public User projection after SMS and phone binding are retired.", "owner": "BNBU Sports product and backend", "approvedDate": "2026-08-11", "expiration": "2027-08-31", "migrationPlan": "Android no longer reads phone fields; historical database columns remain untouched and application-inaccessible pending separate deletion approval.", "affectedClients": ["Android 1.3 and older", "Clients reading public phone fields"], "targetVersion": "1.5.0-contract" },
+    { "changeId": "property-removed-634284f77d2ae9ca", "reason": "ADR-101 removes phone data from the public User projection after SMS and phone binding are retired.", "owner": "BNBU Sports product and backend", "approvedDate": "2026-08-11", "expiration": "2027-08-31", "migrationPlan": "Android no longer reads phone fields; historical database columns remain untouched and application-inaccessible pending separate deletion approval.", "affectedClients": ["Android 1.3 and older", "Clients reading public phone fields"], "targetVersion": "1.5.0-contract" },
+    { "changeId": "property-removed-69d196e5f183a251", "reason": "ADR-101 removes phone data from the public User projection after SMS and phone binding are retired.", "owner": "BNBU Sports product and backend", "approvedDate": "2026-08-11", "expiration": "2027-08-31", "migrationPlan": "Android no longer reads phone fields; historical database columns remain untouched and application-inaccessible pending separate deletion approval.", "affectedClients": ["Android 1.3 and older", "Clients reading public phone fields"], "targetVersion": "1.5.0-contract" },
+    { "changeId": "property-removed-71cc6ba8bc2d62d4", "reason": "ADR-101 removes phone data from the public User projection after SMS and phone binding are retired.", "owner": "BNBU Sports product and backend", "approvedDate": "2026-08-11", "expiration": "2027-08-31", "migrationPlan": "Android no longer reads phone fields; historical database columns remain untouched and application-inaccessible pending separate deletion approval.", "affectedClients": ["Android 1.3 and older", "Clients reading public phone fields"], "targetVersion": "1.5.0-contract" },
+    { "changeId": "property-removed-bfd4ac63769e0917", "reason": "ADR-101 removes phone data from the public User projection after SMS and phone binding are retired.", "owner": "BNBU Sports product and backend", "approvedDate": "2026-08-11", "expiration": "2027-08-31", "migrationPlan": "Android no longer reads phone fields; historical database columns remain untouched and application-inaccessible pending separate deletion approval.", "affectedClients": ["Android 1.3 and older", "Clients reading public phone fields"], "targetVersion": "1.5.0-contract" },
+    { "changeId": "property-removed-c47759d425bdd954", "reason": "ADR-101 removes phone data from the public User projection after SMS and phone binding are retired.", "owner": "BNBU Sports product and backend", "approvedDate": "2026-08-11", "expiration": "2027-08-31", "migrationPlan": "Android no longer reads phone fields; historical database columns remain untouched and application-inaccessible pending separate deletion approval.", "affectedClients": ["Android 1.3 and older", "Clients reading public phone fields"], "targetVersion": "1.5.0-contract" },
+    { "changeId": "property-removed-e77bcdde4321d88c", "reason": "ADR-101 removes phone data from the public User projection after SMS and phone binding are retired.", "owner": "BNBU Sports product and backend", "approvedDate": "2026-08-11", "expiration": "2027-08-31", "migrationPlan": "Android no longer reads phone fields; historical database columns remain untouched and application-inaccessible pending separate deletion approval.", "affectedClients": ["Android 1.3 and older", "Clients reading public phone fields"], "targetVersion": "1.5.0-contract" },
+    {
+      "changeId": "schema-format-changed-45f6b1a170bfc60e",
+      "reason": "ADR-101 narrows the teacher and administrator recovery account identifier to an email address.",
+      "owner": "BNBU Sports product and backend", "approvedDate": "2026-08-11", "expiration": "2027-08-31",
+      "migrationPlan": "Email clients already submit email identifiers; clients submitting phone or opaque account values must upgrade.",
+      "affectedClients": ["Clients using non-email recovery account identifiers"], "targetVersion": "1.5.0-contract"
+    },
+    { "changeId": "schema-format-changed-96429a8db1425d4e", "reason": "ADR-101 narrows the student OTP account identifier to an email address.", "owner": "BNBU Sports product and backend", "approvedDate": "2026-08-11", "expiration": "2027-08-31", "migrationPlan": "Android is upgraded in the same monorepo change; clients submitting phone or opaque account values must upgrade.", "affectedClients": ["Android 1.3 and older", "Clients using non-email sign-in identifiers"], "targetVersion": "1.5.0-contract" },
+    { "changeId": "schema-format-changed-aef80021814edf44", "reason": "ADR-101 narrows teacher and administrator password-login account identifiers to email addresses.", "owner": "BNBU Sports product and backend", "approvedDate": "2026-08-11", "expiration": "2027-08-31", "migrationPlan": "Web clients must submit the verified account email; phone identifiers are no longer resolved.", "affectedClients": ["Web clients using non-email password-login identifiers"], "targetVersion": "1.5.0-contract" },
+    { "changeId": "schema-minlength-changed-2db7d9a92e125a18", "reason": "ADR-101 applies the minimum valid email identifier length to account recovery.", "owner": "BNBU Sports product and backend", "approvedDate": "2026-08-11", "expiration": "2027-08-31", "migrationPlan": "Valid email identifiers already meet the new minimum; invalid legacy identifiers are rejected.", "affectedClients": ["Clients submitting invalid short recovery identifiers"], "targetVersion": "1.5.0-contract" },
+    { "changeId": "schema-minlength-changed-c63f586d8afb97db", "reason": "ADR-101 applies the minimum valid email identifier length to password login.", "owner": "BNBU Sports product and backend", "approvedDate": "2026-08-11", "expiration": "2027-08-31", "migrationPlan": "Valid email identifiers already meet the new minimum; invalid legacy identifiers are rejected.", "affectedClients": ["Clients submitting invalid short password-login identifiers"], "targetVersion": "1.5.0-contract" },
+    { "changeId": "schema-minlength-changed-c8d21486259f5185", "reason": "ADR-101 applies the minimum valid email identifier length to student OTP sign-in.", "owner": "BNBU Sports product and backend", "approvedDate": "2026-08-11", "expiration": "2027-08-31", "migrationPlan": "Valid email identifiers already meet the new minimum; Android is upgraded in the same monorepo change.", "affectedClients": ["Android 1.3 and older", "Clients submitting invalid short sign-in identifiers"], "targetVersion": "1.5.0-contract" },
+    {
+      "changeId": "enum-values-removed-a259718a82500839",
+      "reason": "ADR-102 narrows QR course joining to the two genders supported by this enrollment flow while retaining OTHER in the global historical profile model.",
+      "owner": "BNBU Sports product and backend",
+      "approvedDate": "2026-08-11",
+      "expiration": "2027-08-31",
+      "migrationPlan": "Android is upgraded in the same monorepo change to show only MALE and FEMALE; legacy join clients submitting OTHER receive stable validation failure and must upgrade.",
+      "affectedClients": ["Android 1.3 and older", "Clients submitting OTHER to QR course joining"],
+      "targetVersion": "1.5.0-contract"
+    },
+    {
+      "changeId": "schema-composition-changed-0404ff52260db0b3",
+      "reason": "ADR-102 replaces the time-dependent gradeYear range with stable four-digit cohort bounds in the nullable current-user student projection.",
+      "owner": "BNBU Sports product and backend",
+      "approvedDate": "2026-08-11",
+      "expiration": "2027-08-31",
+      "migrationPlan": "Android is upgraded in the same monorepo change; clients must treat gradeYear as an opaque four-digit cohort year rather than enforce the obsolete 2000..2027 range.",
+      "affectedClients": ["Clients validating studentProfile.gradeYear against 2000..2027"],
+      "targetVersion": "1.5.0-contract"
+    },
+    { "changeId": "schema-maximum-changed-08697f6959164752", "reason": "ADR-102 broadens gradeYear to the stable four-digit cohort range.", "owner": "BNBU Sports product and backend", "approvedDate": "2026-08-11", "expiration": "2027-08-31", "migrationPlan": "Android is upgraded in the same monorepo change; clients must remove the obsolete fixed 2027 maximum.", "affectedClients": ["Clients validating gradeYear against a 2027 maximum"], "targetVersion": "1.5.0-contract" },
+    { "changeId": "schema-maximum-changed-180a909f73f00070", "reason": "ADR-102 broadens gradeYear to the stable four-digit cohort range.", "owner": "BNBU Sports product and backend", "approvedDate": "2026-08-11", "expiration": "2027-08-31", "migrationPlan": "Android is upgraded in the same monorepo change; clients must remove the obsolete fixed 2027 maximum.", "affectedClients": ["Clients validating gradeYear against a 2027 maximum"], "targetVersion": "1.5.0-contract" },
+    { "changeId": "schema-maximum-changed-186b1211558b1b62", "reason": "ADR-102 broadens gradeYear to the stable four-digit cohort range.", "owner": "BNBU Sports product and backend", "approvedDate": "2026-08-11", "expiration": "2027-08-31", "migrationPlan": "Android is upgraded in the same monorepo change; clients must remove the obsolete fixed 2027 maximum.", "affectedClients": ["Clients validating gradeYear against a 2027 maximum"], "targetVersion": "1.5.0-contract" },
+    { "changeId": "schema-maximum-changed-467d3e5fd18f9e26", "reason": "ADR-102 broadens gradeYear to the stable four-digit cohort range.", "owner": "BNBU Sports product and backend", "approvedDate": "2026-08-11", "expiration": "2027-08-31", "migrationPlan": "Existing request values remain valid; upgraded clients may submit any four-digit cohort year.", "affectedClients": ["Clients validating gradeYear against a 2027 maximum"], "targetVersion": "1.5.0-contract" },
+    { "changeId": "schema-maximum-changed-479a579a25059962", "reason": "ADR-102 broadens gradeYear to the stable four-digit cohort range.", "owner": "BNBU Sports product and backend", "approvedDate": "2026-08-11", "expiration": "2027-08-31", "migrationPlan": "Android is upgraded in the same monorepo change; clients must remove the obsolete fixed 2027 maximum.", "affectedClients": ["Clients validating gradeYear against a 2027 maximum"], "targetVersion": "1.5.0-contract" },
+    { "changeId": "schema-maximum-changed-510b365bda44b516", "reason": "ADR-102 broadens gradeYear to the stable four-digit cohort range.", "owner": "BNBU Sports product and backend", "approvedDate": "2026-08-11", "expiration": "2027-08-31", "migrationPlan": "Android is upgraded in the same monorepo change; clients must remove the obsolete fixed 2027 maximum.", "affectedClients": ["Clients validating gradeYear against a 2027 maximum"], "targetVersion": "1.5.0-contract" },
+    { "changeId": "schema-maximum-changed-6c8b67e276f95ea8", "reason": "ADR-102 broadens gradeYear to the stable four-digit cohort range.", "owner": "BNBU Sports product and backend", "approvedDate": "2026-08-11", "expiration": "2027-08-31", "migrationPlan": "Android is upgraded in the same monorepo change; clients must remove the obsolete fixed 2027 maximum.", "affectedClients": ["Clients validating gradeYear against a 2027 maximum"], "targetVersion": "1.5.0-contract" },
+    { "changeId": "schema-maximum-changed-d35c358288cef08b", "reason": "ADR-102 broadens gradeYear to the stable four-digit cohort range.", "owner": "BNBU Sports product and backend", "approvedDate": "2026-08-11", "expiration": "2027-08-31", "migrationPlan": "Existing request values remain valid; upgraded clients may submit any four-digit cohort year.", "affectedClients": ["Clients validating gradeYear against a 2027 maximum"], "targetVersion": "1.5.0-contract" },
+    { "changeId": "schema-minimum-changed-07ab154dd9b372fc", "reason": "ADR-102 broadens gradeYear to the stable four-digit cohort range.", "owner": "BNBU Sports product and backend", "approvedDate": "2026-08-11", "expiration": "2027-08-31", "migrationPlan": "Existing request values remain valid; upgraded clients may submit any four-digit cohort year.", "affectedClients": ["Clients validating gradeYear against a 2000 minimum"], "targetVersion": "1.5.0-contract" },
+    { "changeId": "schema-minimum-changed-07cc5e5a155139e1", "reason": "ADR-102 broadens gradeYear to the stable four-digit cohort range.", "owner": "BNBU Sports product and backend", "approvedDate": "2026-08-11", "expiration": "2027-08-31", "migrationPlan": "Android is upgraded in the same monorepo change; clients must remove the obsolete fixed 2000 minimum.", "affectedClients": ["Clients validating gradeYear against a 2000 minimum"], "targetVersion": "1.5.0-contract" },
+    { "changeId": "schema-minimum-changed-3ff3837f26c8a978", "reason": "ADR-102 broadens gradeYear to the stable four-digit cohort range.", "owner": "BNBU Sports product and backend", "approvedDate": "2026-08-11", "expiration": "2027-08-31", "migrationPlan": "Existing request values remain valid; upgraded clients may submit any four-digit cohort year.", "affectedClients": ["Clients validating gradeYear against a 2000 minimum"], "targetVersion": "1.5.0-contract" },
+    { "changeId": "schema-minimum-changed-4737b9b0c04ec5e8", "reason": "ADR-102 broadens gradeYear to the stable four-digit cohort range.", "owner": "BNBU Sports product and backend", "approvedDate": "2026-08-11", "expiration": "2027-08-31", "migrationPlan": "Android is upgraded in the same monorepo change; clients must remove the obsolete fixed 2000 minimum.", "affectedClients": ["Clients validating gradeYear against a 2000 minimum"], "targetVersion": "1.5.0-contract" },
+    { "changeId": "schema-minimum-changed-8df0919d11a83df3", "reason": "ADR-102 broadens gradeYear to the stable four-digit cohort range.", "owner": "BNBU Sports product and backend", "approvedDate": "2026-08-11", "expiration": "2027-08-31", "migrationPlan": "Android is upgraded in the same monorepo change; clients must remove the obsolete fixed 2000 minimum.", "affectedClients": ["Clients validating gradeYear against a 2000 minimum"], "targetVersion": "1.5.0-contract" },
+    { "changeId": "schema-minimum-changed-94856ef8536503a9", "reason": "ADR-102 broadens gradeYear to the stable four-digit cohort range.", "owner": "BNBU Sports product and backend", "approvedDate": "2026-08-11", "expiration": "2027-08-31", "migrationPlan": "Android is upgraded in the same monorepo change; clients must remove the obsolete fixed 2000 minimum.", "affectedClients": ["Clients validating gradeYear against a 2000 minimum"], "targetVersion": "1.5.0-contract" },
+    { "changeId": "schema-minimum-changed-c9a42d113c7a3057", "reason": "ADR-102 broadens gradeYear to the stable four-digit cohort range.", "owner": "BNBU Sports product and backend", "approvedDate": "2026-08-11", "expiration": "2027-08-31", "migrationPlan": "Android is upgraded in the same monorepo change; clients must remove the obsolete fixed 2000 minimum.", "affectedClients": ["Clients validating gradeYear against a 2000 minimum"], "targetVersion": "1.5.0-contract" },
+    { "changeId": "schema-minimum-changed-d83366ff85a25e57", "reason": "ADR-102 broadens gradeYear to the stable four-digit cohort range.", "owner": "BNBU Sports product and backend", "approvedDate": "2026-08-11", "expiration": "2027-08-31", "migrationPlan": "Android is upgraded in the same monorepo change; clients must remove the obsolete fixed 2000 minimum.", "affectedClients": ["Clients validating gradeYear against a 2000 minimum"], "targetVersion": "1.5.0-contract" },
+    {
+      "changeId": "schema-composition-changed-ddd6315e3a007326",
+      "reason": "ADR-105 changes only ReviewRecord descriptive semantics so system-created reviewVersion 1 may be VALID; the response structure, union alternatives, required fields, and transport values are unchanged.",
+      "owner": "BNBU Sports product and backend",
+      "approvedDate": "2026-08-17",
+      "expiration": "2027-08-31",
+      "migrationPlan": "Backend, Android, and Web are upgraded in the same monorepo change. Clients continue parsing the existing ReviewRecord shape and ReviewResult enum while treating new submissions as VALID by default.",
+      "affectedClients": ["Android clients", "Web teacher clients", "Clients displaying ReviewRecord teacher ownership"],
+      "targetVersion": "1.5.0-contract"
+    }
+  ]
+}

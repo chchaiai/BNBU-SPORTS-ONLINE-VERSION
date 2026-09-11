@@ -1,0 +1,1027 @@
+ Container bnbu-v81-local-validation-portal-tests-run-3e78312080bd Creating 
+ Container bnbu-v81-local-validation-portal-tests-run-3e78312080bd Created 
+
+> bnbu-pe-management-portal@0.1.0 test
+> npm run build && node --import tsx --test tests/rendered-html.test.mjs tests/contract-binding.test.mjs tests/api-client.test.mjs tests/form-field.test.mjs tests/input-ui-coverage.test.mjs tests/checkin-audit.test.mjs tests/review-public-reasons.test.mjs tests/admin-domain.test.mjs tests/i18n-resources.test.mjs tests/roster-reconciliation.test.mjs tests/roster-reconciliation-mock.test.mjs tests/semester-presentation.test.mjs tests/phase5b-contract-mock.test.mjs tests/phase5b-contract-revalidation.test.mjs tests/phase5gb-contract-revalidation.test.mjs
+
+
+> bnbu-pe-management-portal@0.1.0 build
+> vinext build
+
+
+  vinext build  (Vite 8.2.1)
+
+[1/5] analyze client references...
+[2K
+transforming...✓ 88 modules transformed.
+rendering chunks...
+✓ built in 538ms
+[2/5] analyze server references...
+[2K
+transforming...✓ 185 modules transformed.
+rendering chunks...
+✓ built in 403ms
+[3/5] build rsc environment...
+[2K
+transforming...✓ 94 modules transformed.
+rendering chunks...
+computing gzip size...
+✓ built in 359ms
+[4/5] build client environment...
+[2K
+transforming...✓ 1934 modules transformed.
+rendering chunks...
+computing gzip size...
+[plugin builtin:vite-reporter] 
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rolldownOptions.output.codeSplitting to improve chunking: https://rolldown.rs/reference/OutputOptions.codeSplitting
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+✓ built in 1.09s
+[5/5] build ssr environment...
+[2K
+transforming...✓ 255 modules transformed.
+rendering chunks...
+computing gzip size...
+✓ built in 644ms
+[0m
+  Route (app)
+  ┌ ? /                     
+  └ ? /phase5b-contract-mock
+
+  ? Unknown
+
+  ? Some routes could not be classified. vinext currently uses static analysis
+    and cannot detect dynamic API usage (headers(), cookies(), etc.) at build time.
+    Automatic classification will be improved in a future release.
+
+  Build complete. Run `vinext start` to start the production server.
+
+✔ the mock state uses role-specific student states and two system modes (2.61296ms)
+✔ system availability opens only for an explicit NORMAL projection (0.375108ms)
+✔ persisted preview state removes legacy student and read-only states (1.760879ms)
+✔ help authoring categories and Markdown projection match student clients (1.416127ms)
+✔ the new endurance tables use one point per three-second band (0.91792ms)
+✔ business state machines expose only documented transitions (0.149886ms)
+✔ semester validation rejects invalid years, reversed dates, and duplicate terms (0.506987ms)
+✔ CSV parsing preserves quoted commas and import preview catches duplicates atomically (0.963393ms)
+✔ endurance tables detect gaps and overlaps while accepting continuous ranges (0.520155ms)
+✔ real admin mutations preserve UserFacingError details while demo errors stay local (14.76735ms)
+✔ authenticated API base ignores persisted cross-origin overrides (1.13413ms)
+✔ account recovery injects portal organization context outside the page form (22.888329ms)
+✔ portal persists the complete versioned refresh session (0.773159ms)
+✔ portal rejects malformed or refresh-expired persisted sessions (0.20897ms)
+✔ temporary portal startup failure preserves the persisted session (1.475233ms)
+✔ disabled portal account clears the persisted session (1.148017ms)
+✔ 401 refresh retries a portal mutation with one stable Idempotency-Key (1.633736ms)
+✔ admin audit queries send date filters to the Backend and collect every download page (1.534276ms)
+✔ portal errors post only the closed redacted audit envelope (9.224601ms)
+✔ password-free review mode blocks every API request before fetch (0.829647ms)
+✔ switching to review mode wins an in-flight password login race (0.57474ms)
+✔ a stale terminal response cannot clear a later real login (1.000685ms)
+✔ invalid portal access token is terminal, does not refresh, and clears local auth (0.548599ms)
+✔ ambiguous portal refresh failure keeps the session and reuses its intent key (1.438319ms)
+✔ terminal portal refresh rejection clears the local session (0.577154ms)
+✔ logout wins a portal refresh race without clearing a later session (2.037932ms)
+✔ UserFacingError maps the required HTTP and transport families (0.606501ms)
+✔ UserFacingError never exposes raw backend or transport text (0.251722ms)
+✔ UserFacingError allowlists field names and replaces backend field messages (0.336143ms)
+✔ UserFacingError gives review, media and exemption codes safe domain copy (0.416137ms)
+✔ safe client diagnostics redact dynamic routes and query data (0.318029ms)
+✔ transport diagnostics retain only a sanitized request route (0.243597ms)
+✔ only VALID records contribute credited minutes and progress (1.219612ms)
+✔ valid duration is restored after a valid record is marked invalid and corrected (0.223658ms)
+✔ single-record credited duration only accepts 0, 1, or 2 hour bands (0.158443ms)
+✔ teacher review surfaces group image and video evidence without 1.5-hour credit (10.68026ms)
+✔ the teacher-configured target caps progress at 100 percent (0.42314ms)
+✔ the synchronous operation lock rejects a second same-frame click (0.720653ms)
+✔ maps backend sport and two-state review enums (0.520566ms)
+✔ REVIEWED without currentReview fails closed instead of inventing VALID (0.406118ms)
+✔ INVALID is corrected directly to VALID with no reopen or PENDING request (25.938775ms)
+✔ a VALID record is not appended again (1.226146ms)
+✖ teacher workspace exposes invalid records and direct correction wording (8.987861ms)
+✔ teacher portal omits attempt-chain UI and student resubmission mutations (20.079713ms)
+✔ the snapshot is bound to the declared current API local candidate (19.942796ms)
+✔ the generated types are the ones openapi-typescript emits for that snapshot (5.256117ms)
+✔ the client never re-derives a review state the Backend owns (2.138745ms)
+✔ FormField preserves a native control id and connects its label (5.21558ms)
+✔ FormField gives a native control and its label the same generated id (0.614716ms)
+✔ FormField connects AppSelect and forwards required accessibility state (2.151948ms)
+✔ FormField links hint and error text and marks the native control invalid (0.483014ms)
+✔ FormField merges a child's existing aria-describedby ids with its own ids (0.480068ms)
+✔ AdminField delegates label, required state and inline error association to FormField (0.770154ms)
+✖ keeps translation resources unique and covers all static system text (141.394828ms)
+✔ keeps portals, accessibility attributes, enum labels, and reverse switching in the i18n boundary (5.743806ms)
+✔ read-only course filters and review, roster and exemption controls keep accessible labels (18.517949ms)
+✔ runtime log downloads use the real server export flow and never synthesize CSV (3.706802ms)
+✔ major search and roster upload controls expose an accessible name or helper (7.02311ms)
+✔ administrator feedback search matches problem summary, student number, email, and visible category (0.703306ms)
+✔ administrator feedback supports combined problem-category and status filters (2.822872ms)
+✔ administrator dashboards keep supported metrics, student identity, and clean dialog close behavior (10.138116ms)
+✔ login and recovery map safe fieldErrors to their concrete controls (3.289107ms)
+✔ authentication boundaries clear both module-level account caches (4.497697ms)
+✔ responsive workspace keeps the teacher/admin account entry available (4.196852ms)
+✔ Phase 5B fixtures pin the root RC Contract version and SHA (1.389276ms)
+✔ Phase 5B Mock payloads do not restore legacy Web DTO fields (0.377443ms)
+✔ teacher Record keeps actual duration, credited minutes, and review projection separate (0.184092ms)
+✔ content and empty states use the Contract page shapes without synthetic rows (1.281884ms)
+✔ administrator health renders explicit states and preserves unavailable measurements as null (0.204311ms)
+✔ error fixtures use only the ErrorEnvelope fields (0.145459ms)
+✔ the preview names the record surface as post-submit review and never renders tokens (18.873075ms)
+✔ student and Portal validation bindings pin the exact 1.2.0 Contract version and SHA (3.210021ms)
+✔ student active Session content and 404 Idle are distinct from auth, maintenance, and dependency failures (0.299292ms)
+✔ ACTIVE and PENDING dashboards retain the stable student projection without synthetic profile fallback (0.100151ms)
+✔ scan and manual invitation preview share all five 200 content states while unknown input remains 422 (0.455252ms)
+✔ Record image/video and application image direct uploads use PUT, exact headers, bytes, and fresh reallocation (0.363996ms)
+✔ roster CSV/XLSX direct-upload allocation also uses PUT and a fresh allocation after expiry (0.150288ms)
+✔ media finalization has one terminal result channel and keeps dependency failure separate (0.191918ms)
+✔ teacher invitation management survives refresh/relogin/device reads without raw code or digest (1.254339ms)
+✔ semester management preserves organization summary across status filters and pagination (0.198219ms)
+✔ feedback summary covers five states, zero state, filtering, paging, processing, and reopen re-read (0.393082ms)
+✔ help summary covers three states, zero state, filters, paging, and every state-changing re-read (0.371912ms)
+✔ sub-admin summary ignores state filtering and the public permission enum remains exactly eight values (0.142522ms)
+✔ Teacher Dashboard no-current is a zero-count empty state and dependency failure never becomes empty (0.169565ms)
+✔ createCourse distinguishes CURRENT success, non-current/no-current 409, unknown 404, and switch conflict (0.175196ms)
+✔ all re-validation fixtures exclude legacy fields, private fallbacks, and Fake Success markers (0.650725ms)
+node:internal/child_process:1143
+    result.error = new ErrnoException(result.error, 'spawnSync ' + options.file);
+                   ^
+
+<ref *1> Error: spawnSync python ENOENT
+    at Object.spawnSync (node:internal/child_process:1143:20)
+    at spawnSync (node:child_process:911:24)
+    at execFileSync (node:child_process:954:15)
+    at file:///workspace/BNBU-Sports-Web-new/portal-teacher-admin/tests/phase5gb-contract-revalidation.test.mjs:51:3 {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'spawnSync python',
+  path: 'python',
+  spawnargs: [
+    '-c',
+    "import json; import pathlib; import sys; import yaml; document = yaml.safe_load(pathlib.Path(sys.argv[1]).read_text(encoding='utf-8')); print(json.dumps(document))",
+    '/workspace/contracts/openapi.yaml'
+  ],
+  error: [Circular *1],
+  status: null,
+  signal: null,
+  output: null,
+  pid: 0,
+  stdout: undefined,
+  stderr: undefined
+}
+
+Node.js v24.18.0
+✖ tests/phase5gb-contract-revalidation.test.mjs (357.329302ms)
+✔ server-renders a fail-closed system-status gate before sign-in (607.697513ms)
+✔ uses a deterministic hydration gate and preserves retryable saved sessions (4.604961ms)
+✔ keeps formal authentication and gates skip-sign-in preview access to local development (3.093339ms)
+✔ teacher and admin account dialogs use an in-workspace password settings flow (1.790226ms)
+✔ keeps role responsibilities and semantic theme tokens in source (1.92466ms)
+✔ uses a same-origin API default with an explicit local development proxy (0.824799ms)
+✔ keeps teacher and admin sidebars resizable, collapsible, and locally persisted (2.473122ms)
+✔ keeps teacher overview metrics single-sourced and separate from status filters (3.792057ms)
+✔ uses the direct-enrollment roster as the teacher membership surface (2.03175ms)
+✔ keeps teacher course cards free of the retired task business (2.14216ms)
+✔ teacher evidence preview only exposes the file name and submitter (1.238158ms)
+✔ course workspaces do not expose an ended course business state (0.864033ms)
+✔ uses one progressive student identity pattern across teacher workflows (2.890112ms)
+✖ uses one portal-backed AppSelect instead of native browser selects (8.276675ms)
+✔ V8.1 catalog has six bilingual reasons and no Other fallback (3.644464ms)
+✔ return and invalid actions expose only their allowed reasons (0.681244ms)
+✔ Mock 名单服务可以生成完整对齐结果并保留处理状态 (364.464079ms)
+✔ Mock 名单导入创建本地版本并自动运行一次核对 (411.016939ms)
+✔ 模式路由只在 Mock 预览中选择本地名单服务 (91.424121ms)
+✔ maps every authoritative Backend reconciliation status without reclassifying it in the browser (1.827336ms)
+✔ uses the latest server resolution version and note instead of browser-persisted state (0.229559ms)
+✔ student numbers remain strings with leading zeros and duplicate rows are excluded (0.64819ms)
+✔ the import adapter parses xlsx, legacy xls, and csv rosters (144.288392ms)
+✔ statistics keep official members, platform members, and resolution state separate (0.234529ms)
+✔ teacher roster flow keeps authoritative API and synthetic Mock adapters separated (10.850033ms)
+✔ encodes every roster API identifier before building the API path (0.290927ms)
+✔ administrator-managed semester display name remains authoritative (0.924701ms)
+✔ structured semester fallback follows admin term naming (0.262994ms)
+ℹ tests 115
+ℹ suites 0
+ℹ pass 111
+ℹ fail 4
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1298.16888
+
+✖ failing tests:
+
+test at tests/checkin-audit.test.mjs:228:1
+✖ teacher workspace exposes invalid records and direct correction wording (8.987861ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /当前正式协议 1\.2\.0 的审核结果只有有效 \/ 无效，不能写入退回补证/. Input:
+  
+  '"use client";\r\n' +
+    '\r\n' +
+    'import {\r\n' +
+    '  ChevronLeft,\r\n' +
+    '  CircleAlert,\r\n' +
+    '  Copy,\r\n' +
+    '  Download,\r\n' +
+    '  Eye,\r\n' +
+    '  File as FileIcon,\r\n' +
+    '  ListChecks,\r\n' +
+    '  Maximize2,\r\n' +
+    '  Pause,\r\n' +
+    '  Play,\r\n' +
+    '  Printer,\r\n' +
+    '  QrCode,\r\n' +
+    '  Undo2,\r\n' +
+    '  ZoomIn,\r\n' +
+    '  ZoomOut,\r\n' +
+    '} from "lucide-react";\r\n' +
+    'import Image from "next/image";\r\n' +
+    'import { useCallback, useEffect, useMemo, useRef, useState } from "react";\r\n' +
+    'import { AppSelect } from "./app-select";\r\n' +
+    'import { businessDateTime } from "./business-time";\r\n' +
+    'import { FormField } from "./form-field";\r\n' +
+    'import {\r\n' +
+    '  toUserFacingError,\r\n' +
+    '  type UserFacingError,\r\n' +
+    '} from "./api-client";\r\n' +
+    'import { ErrorPanel, localUserFacingError } from "./error-panel";\n' +
+    'import { correctRecord, decideRecord, fetchRecordWorkflow } from "./v81-data";\n' +
+    'import {\r\n' +
+    '  formatInviteExpiry,\r\n' +
+    '  formatInviteRemaining,\r\n' +
+    '  getInviteStatus,\r\n' +
+    '  inviteStatusLabel,\r\n' +
+    '} from "./course-invite";\r\n' +
+    'import { InviteQrCode } from "./invite-qr";\r\n' +
+    'import { statusLabel } from "./language";\r\n' +
+    'import {\r\n' +
+    '  TEACHER_REVIEW_ACTIONS,\r\n' +
+    '  publicReasonById,\r\n' +
+    '  reasonsForAction,\r\n' +
+    '} from "./review-public-reasons";\r\n' +
+    'import {\r\n' +
+    '  applyAttendanceAuditState,\r\n' +
+    '  deriveAuditSummary,\r\n' +
+    '  toCreditedDurationHours,\r\n' +
+    '  type AttendanceAuditSummary,\r\n' +
+    '  type AuditStatus,\r\n' +
+    '} from "./checkin-audit";\r\n' +
+    'import {\r\n' +
+    '  CourseOverviewLayout,\r\n' +
+    '  DataTable,\r\n' +
+    '  FilterToolbar,\r\n' +
+    '  ManagementTableLayout,\r\n' +
+    '  PageSummaryMetrics,\r\n' +
+    '  ProgressCell,\r\n' +
+    '  ReviewWorkbenchLayout,\r\n' +
+    '  StatusFilterTabs,\r\n' +
+    '  StatusTabs,\r\n' +
+    '  TableActionMenu,\r\n' +
+    '  TableActionMenuItem,\r\n' +
+    '} from "./teacher-ui";\r\n' +
+    'import {\r\n' +
+    '  StudentIdentity,\r\n' +
+    '  type StudentCourseMetric,\r\n' +
+    '  type StudentProfile,\r\n' +
+    '  type StudentQuickAction,\r\n' +
+    '} from "./student-profile";\r\n' +
+    'import {\r\n' +
+    '  TabPageTransition,\r\n' +
+    '  type TabTransitionDirection,\r\n' +
+    '} from "./teacher-tab-page-transition";\r\n' +
+    'import { RosterReconciliationPage } from "./roster-reconciliation";\r\n' +
+    'import type {\r\n' +
+    '  PlatformCourseMember,\r\n' +
+    '  RosterCourseReference,\r\n' +
+    '} from "./roster-reconciliation-types";\r\n' +
+    'import {\r\n' +
+    '  createInvalidToValidReviewOperation,\r\n' +
+    '  createCourseInvite,\r\n' +
+    '  loadSubmittedCheckins,\r\n' +
+    '  fetchExerciseRecord,\r\n' +
+    '  loadTeacherCourses,\r\n' +
+    '  loadTeacherGrades,\r\n' +
+    '  loadTeacherExemptions,\r\n' +
+    '  loadTeacherStudents,\r\n' +
+    '  openTeacherMedia,\r\n' +
+    '  publishStudentScore,\r\n' +
+    '  readDemoCurrentSemester,\r\n' +
+    '  recalculateStudentScore,\r\n' +
+    '  removeEnrollment,\r\n' +
+    '  reviewExemptionApplication,\r\n' +
+    '  subscribeDemoCurrentSemester,\r\n' +
+    '  tryAcquireReviewTransitionLock,\r\n' +
+    '  updateClassSectionWindow,\r\n' +
+    '  reviseClassProgressTarget,\r\n' +
+    '} from "./teacher-data";\r\n' +
+    'import type { InvalidToValidReviewOperation } from "./teacher-data";\r\n' +
+    'import type { Semester } from "./teacher-api-types";\r\n' +
+    'import { semesterDisplayName } from "./semester-presentation";\r\n' +
+    'import type { WorkspaceMode } from "./portal-app";\r\n' +
+    '\r\n' +
+    'type TeacherWorkspaceProps = {\r\n' +
+    '  active: string;\r\n' +
+    '  direction: TabTransitionDirection;\r\n' +
+    '  mode: WorkspaceMode;\r\n' +
+    '  showToast: (value: string) => void;\r\n' +
+    '  onSemesterChange?: (value: string) => void;\r\n' +
+    '};\r\n' +
+    '\r\n' +
+    'type FormErrorState = string | UserFacingError;\r\n' +
+    '\r\n' +
+    'function userErrorToast(error: UserFacingError): string {\r\n' +
+    '  return [\r\n' +
+    '    error.message,\r\n' +
+    '    error.action,\r\n' +
+    '    error.requestId ? `诊断编号：${error.requestId}` : null,\r\n' +
+    '  ].filter(Boolean).join(" ");\r\n' +
+    '}\r\n' +
+    '\r\n' +
+    'function userFacingFieldError(\r\n' +
+    '  error: FormErrorState,\r\n' +
+    '  ...fieldNames: string[]\r\n' +
+    '): string | undefined {\r\n' +
+    '  if (!error || typeof error === "string") return undefined;\r\n' +
+    '  const accepted = new Set(fieldNames.map((field) => field.toLowerCase()));\r\n' +
+    '  return error.fieldErrors.find((item) => {\r\n' +
+    '    const field = item.field.toLowerCase();\r\n' +
+    '    const leaf = field.split(".").pop() ?? field;\r\n' +
+    '    return accepted.has(field) || accepted.has(leaf);\r\n' +
+    '  })?.message;\r\n' +
+    '}\r\n' +
+    '\r\n' +
+    'type ExemptionStatus =\r\n' +
+    '  "pending" | "supplement_required" | "approved" | "rejected";\r\n' +
+    'type GradeStatus = "NotRecorded" | "Recorded" | "Exempt" | "Absent" | "Unavailable";\r\n' +
+    'type CourseStatus = "ACTIVE";\r\n' +
+    'type MembershipStatus = "active" | "removed" | "exited" | "disabled";\r\n' +
+    'type CheckinDetailView = "list" | "album";\r\n' +
+    'type CheckinAuditFilter = "all" | AuditStatus;\r\n' +
+    'type RosterView = "all" | "needs_attention" | "complete" | "inactive";\r\n' +
+    'type CheckinReviewFilter = "all" | "history";\r\n' +
+    'type ExemptionFilter = "all" | ExemptionStatus;\r\n' +
+    '\r\n' +
+    'type Invite = {\r\n' +
+    '  code: string;\r\n' +
+    '  expiresAt: string;\r\n' +
+    '  status: "active" | "revoked";\r\n' +
+    '  durationMinutes?: number;\r\n' +
+    '};\r\n' +
+    '\r\n' +
+    'const MAKEUP_SPORT_TYPES = [\r\n' +
+    '  { value: "RUNNING", label: "跑步" },\r\n' +
+    '  { value: "BASKETBALL", label: "篮球" },\r\n' +
+    '  { value: "FOOTBALL", label: "足球" },\r\n' +
+    '  { value: "BADMINTON", label: "羽毛球" },\r\n' +
+    '  { value: "TABLE_TENNIS", label: "乒乓球" },\r\n' +
+    '  { value: "SWIMMING", label: "游泳" },\r\n' +
+    '  { value: "FITNESS", label: "健身" },\r\n' +
+    '  { value: "CYCLING", label: "骑行" },\r\n' +
+    '  { value: "OTHER", label: "其他" },\r\n' +
+    '] as const;\r\n' +
+    '\r\n' +
+    'type CheckinWindow = {\r\n' +
+    '  windowMode: "available" | "unavailable";\r\n' +
+    '  dateRangeStart: string;\r\n' +
+    '  dateRangeEnd: string;\r\n' +
+    '  dailyStartTime: string;\r\n' +
+    '  dailyEndTime: string;\r\n' +
+    '  excludedDates: { date: string; reason: string }[];\r\n' +
+    '  semesterDeadline: string;\r\n' +
+    '};\r\n' +
+    '\r\n' +
+    'type Course = {\r\n' +
+    '  id: string;\r\n' +
+    '  name: string;\r\n' +
+    '  semester: string;\r\n' +
+    '  semesterId?: string;\r\n' +
+    '  courseId?: string;\r\n' +
+    '  status: CourseStatus;\r\n' +
+    '  courseTarget: number;\r\n' +
+    '  otherTarget: number;\r\n' +
+    '  version?: number;\r\n' +
+    '  checkinWindow: CheckinWindow;\r\n' +
+    '  invite?: Invite;\r\n' +
+    '};\r\n' +
+    '\r\n' +
+    'type Student = {\r\n' +
+    '  id: string;\r\n' +
+    '  name: string;\r\n' +
+    '  number: string;\r\n' +
+    '  email: string;\r\n' +
+    '  gender: "男" | "女" | "其他" | "未知";\r\n' +
+    '  grade: string;\r\n' +
+    '  courseId: string;\r\n' +
+    '  enrollmentId?: string;\r\n' +
+    '  version?: number;\r\n' +
+    '  status: MembershipStatus;\r\n' +
+    '  joinedAt: string;\r\n' +
+    '  joinMethod: "qr" | "manual_import";\r\n' +
+    '  courseHours: number;\r\n' +
+    '  otherHours: number;\r\n' +
+    '  courseWaiverHours?: number;\r\n' +
+    '  otherWaiverHours?: number;\r\n' +
+    '};\r\n' +
+    '\r\n' +
+    'type CheckinRecord = {\r\n' +
+    '  id: string;\r\n' +
+    '  studentId: string;\r\n' +
+    '  courseId: string;\r\n' +
+    '  enrollmentId?: string;\r\n' +
+    '  creditType: "课程相关" | "其他运动" | "系统抵扣";\r\n' +
+    '  sport: string;\r\n' +
+    '  startAt: string;\r\n' +
+    '  endAt: string;\r\n' +
+    '  durationMinutes: number;\r\n' +
+    '  creditedMinutes: number;\r\n' +
+    '  originalHours: number;\r\n' +
+    '  approvedHours: number;\r\n' +
+    '  description: string;\r\n' +
+    '  submittedAt: string;\r\n' +
+    '  status: "有效" | "已调整" | "系统抵扣" | "待审核" | "待补证" | "技术处理中";\n' +
+    '  risk: "低风险" | "需关注" | "凭证模糊" | null;\r\n' +
+    '  confidence: number | null;\r\n' +
+    '  proof: string[];\r\n' +
+    '  mediaIds?: string[];\r\n' +
+    '  locationExpired: boolean | null;\r\n' +
+    '  reviewComment?: string;\r\n' +
+    '  source: "student" | "system";\r\n' +
+    '  auditStatus: AuditStatus;\r\n' +
+    '  invalidReason?: string;\r\n' +
+    '  auditRemark?: string;\r\n' +
+    '  version?: number;\r\n' +
+    '  reviewVersion?: number;\r\n' +
+    '};\r\n' +
+    '\r\n' +
+    'type Grade = {\r\n' +
+    '  id: string;\r\n' +
+    '  studentId: string;\r\n' +
+    '  courseId: string;\r\n' +
+    '  enrollmentId?: string;\r\n' +
+    '  gender: "男" | "女" | "其他" | "未知";\r\n' +
+    '  gradeGroup: "大一/大二" | "大三/大四" | "未知";\r\n' +
+    '  enduranceStatus: GradeStatus;\r\n' +
+    '  minutes?: number;\r\n' +
+    '  seconds?: number;\r\n' +
+    '  physicalScore?: number;\r\n' +
+    '  published: boolean;\r\n' +
+    '  scoreStatus?: string;\r\n' +
+    '  qualificationStatus?: string;\r\n' +
+    '  validCourseDurationSeconds?: number;\r\n' +
+    '  validGeneralDurationSeconds?: number;\r\n' +
+    '  totalValidDurationSeconds?: number;\r\n' +
+    '  scoringSeconds?: number;\r\n' +
+    '  excessSeconds?: number;\r\n' +
+    '  baseScore?: number | null;\r\n' +
+    '  adjustmentTotal?: number | null;\r\n' +
+    '  calculatedAt?: string | null;\r\n' +
+    '  publishedAt?: string | null;\r\n' +
+    '  version?: number;\r\n' +
+    '};\r\n' +
+    '\r\n' +
+    'type Exemption = {\r\n' +
+    '  id: string | number;\r\n' +
+    '  studentId: string;\r\n' +
+    '  courseId: string;\r\n' +
+    '  kind:\r\n' +
+    '    | "耐力跑免测"\r\n' +
+    '    | "校队认证"\r\n' +
+    '    | "社团认证"\r\n' +
+    '    | "体测免测"\r\n' +
+    '    | "运动打卡减免"\r\n' +
+    '    | "特殊情况";\r\n' +
+    '  organization?: string;\r\n' +
+    '  reason: string;\r\n' +
+    '  material: string[];\r\n' +
+    '  mediaIds?: string[];\r\n' +
+    '  submittedAt: string;\r\n' +
+    '  status: ExemptionStatus;\r\n' +
+    '  reviewComment?: string;\r\n' +
+    '  score?: number;\r\n' +
+    '  courseOffset?: number;\r\n' +
+    '  otherOffset?: number;\r\n' +
+    '  version?: number;\r\n' +
+    '};\r\n' +
+    '\r\n' +
+    'type MaterialPreview = {\r\n' +
+    '  file: string;\r\n' +
+    '  studentName: string;\r\n' +
+    '};\r\n' +
+    '\r\n' +
+    'type DialogState =\r\n' +
+    '  | { type: "course-new" }\r\n' +
+    '  | { type: "course-manage"; courseId: string }\r\n' +
+    '  | { type: "invite"; courseId: string }\r\n' +
+    '  | { type: "invite-revoke"; courseId: string }\r\n' +
+    '  | {\r\n' +
+    '      type: "student-action";\r\n' +
+    '      studentId: string;\r\n' +
+    '      action: "remove" | "supplement" | "waiver";\r\n' +
+    '    }\r\n' +
+    '  | { type: "supplement" }\r\n' +
+    '  | { type: "checkin"; recordId: string }\r\n' +
+    '  | { type: "checkin-invalid"; recordId: string }\r\n' +
+    '  | { type: "checkin-return-proof"; recordId: string }\r\n' +
+    '  | { type: "checkin-correct-valid"; recordId: string }\r\n' +
+    '  | { type: "grade"; gradeId: string }\r\n' +
+    '  | { type: "publish-grades"; courseId: string }\r\n' +
+    '  | { type: "exemption"; exemptionId: string | number }\r\n' +
+    '  | null;\r\n' +
+    '\r\n' +
+    'const returnForProofReasons = reasonsForAction(TEACHER_REVIEW_ACTIONS.ReturnForSupplement);\r\n' +
+    'const markInvalidReasons = reasonsForAction(TEACHER_REVIEW_ACTIONS.MarkInvalid);\r\n' +
+    '\r\n' +
+    'const demoSemester: Semester = readDemoCurrentSemester();\r\n' +
+    '\r\n' +
+    'const initialCourses: Course[] = [\r\n' +
+    '  {\r\n' +
+    '    id: "demo-section-pe101-01",\r\n' +
+    '    name: "大学体育（一）",\r\n' +
+    '    semester: semesterDisplayName(demoSemester),\r\n' +
+    '    semesterId: demoSemester.id,\r\n' +
+    '    courseId: "demo-catalog-pe101",\r\n' +
+    '    status: "ACTIVE",\r\n' +
+    '    courseTarget: 8,\r\n' +
+    '    otherTarget: 12,\r\n' +
+    '    version: 1,\r\n' +
+    '    checkinWindow: {\r\n' +
+    '      windowMode: "available",\r\n' +
+    '      dateRangeStart: "2026-08-24",\r\n' +
+    '      dateRangeEnd: "2027-01-09",\r\n' +
+    '      dailyStartTime: "06:00",\r\n' +
+    '      dailyEndTime: "22:00",\r\n' +
+    '      excludedDates: [{ date: "2026-10-01", reason: "国庆假期" }],\r\n' +
+    '      semesterDeadline: "2027-01-09",\r\n' +
+    '    },\r\n' +
+    '    invite: {\r\n' +
+    '      code: "TEST-4821",\r\n' +
+    '      expiresAt: "2026-08-30T12:00:00+08:00",\r\n' +
+    '      status: "active",\r\n' +
+    '    },\r\n' +
+    '  },\r\n' +
+    '  {\r\n' +
+    '    id: "demo-section-badminton-02",\r\n' +
+    '    name: "羽毛球基础",\r\n' +
+    '    semester: semesterDisplayName(demoSemester),\r\n' +
+    '    semesterId: demoSemester.id,\r\n' +
+    '    courseId: "demo-catalog-badminton",\r\n' +
+    '    status: "ACTIVE",\r\n' +
+    '    courseTarget: 10,\r\n' +
+    '    otherTarget: 10,\r\n' +
+    '    version: 1,\r\n' +
+    '    checkinWindow: {\r\n' +
+    '      windowMode: "available",\r\n' +
+    '      dateRangeStart: "2026-08-24",\r\n' +
+    '      dateRangeEnd: "2027-01-09",\r\n' +
+    '      dailyStartTime: "07:00",\r\n' +
+    '      dailyEndTime: "21:30",\r\n' +
+    '      excludedDates: [],\r\n' +
+    '      semesterDeadline: "2027-01-09",\r\n' +
+    '    },\r\n' +
+    '  },\r\n' +
+    '];\r\n' +
+    '\r\n' +
+    'const initialStudents: Student[] = [\r\n' +
+    '  {\r\n' +
+    '    id: "demo-student-a",\r\n' +
+    '    name: "测试学生甲",\r\n' +
+    '    number: "TEST2026001",\r\n' +
+    '    email: "student.a@bnbu.invalid",\r\n' +
+    '    gender: "女",\r\n' +
+    '    grade: "2026级",\r\n' +
+    '    courseId'... 197249 more characters
+  
+      at TestContext.<anonymous> (file:///workspace/BNBU-Sports-Web-new/portal-teacher-admin/tests/checkin-audit.test.mjs:236:10)
+      at async Test.run (node:internal/test_runner/test:1332:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:911:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '"use client";\r\n\r\nimport {\r\n  ChevronLeft,\r\n  CircleAlert,\r\n  Copy,\r\n  Download,\r\n  Eye,\r\n  File as FileIcon,\r\n  ListChecks,\r\n  Maximize2,\r\n  Pause,\r\n  Play,\r\n  Printer,\r\n  QrCode,\r\n  Undo2,\r\n  ZoomIn,\r\n  ZoomOut,\r\n} from "lucide-react";\r\nimport Image from "next/image";\r\nimport { useCallback, useEffect, useMemo, useRef, useState } from "react";\r\nimport { AppSelect } from "./app-select";\r\nimport { businessDateTime } from "./business-time";\r\nimport { FormField } from "./form-field";\r\nimport {\r\n  toUserFacingError,\r\n  type UserFacingError,\r\n} from "./api-client";\r\nimport { ErrorPanel, localUserFacingError } from "./error-panel";\nimport { correctRecord, decideRecord, fetchRecordWorkflow } from "./v81-data";\nimport {\r\n  formatInviteExpiry,\r\n  formatInviteRemaining,\r\n  getInviteStatus,\r\n  inviteStatusLabel,\r\n} from "./course-invite";\r\nimport { InviteQrCode } from "./invite-qr";\r\nimport { statusLabel } from "./language";\r\nimport {\r\n  TEACHER_REVIEW_ACTIONS,\r\n  publicReasonById,\r\n  reasonsForAction,\r\n} from "./review-public-reasons";\r\nimport {\r\n  applyAttendanceAuditState,\r\n  deriveAuditSummary,\r\n  toCreditedDurationHours,\r\n  type AttendanceAuditSummary,\r\n  type AuditStatus,\r\n} from "./checkin-audit";\r\nimport {\r\n  CourseOverviewLayout,\r\n  DataTable,\r\n  FilterToolbar,\r\n  ManagementTableLayout,\r\n  PageSummaryMetrics,\r\n  ProgressCell,\r\n  ReviewWorkbenchLayout,\r\n  StatusFilterTabs,\r\n  StatusTabs,\r\n  TableActionMenu,\r\n  TableActionMenuItem,\r\n} from "./teacher-ui";\r\nimport {\r\n  StudentIdentity,\r\n  type StudentCourseMetric,\r\n  type StudentProfile,\r\n  type StudentQuickAction,\r\n} from "./student-profile";\r\nimport {\r\n  TabPageTransition,\r\n  type TabTransitionDirection,\r\n} from "./teacher-tab-page-transition";\r\nimport { RosterReconciliationPage } from "./roster-reconciliation";\r\nimport type {\r\n  PlatformCourseMember,\r\n  RosterCourseReference,\r\n} from "./roster-reconciliation-types";\r\nimport {\r\n  createInvalidToValidReviewOperation,\r\n  createCourseInvite,\r\n  loadSubmittedCheckins,\r\n  fetchExerciseRecord,\r\n  loadTeacherCourses,\r\n  loadTeacherGrades,\r\n  loadTeacherExemptions,\r\n  loadTeacherStudents,\r\n  openTeacherMedia,\r\n  publishStudentScore,\r\n  readDemoCurrentSemester,\r\n  recalculateStudentScore,\r\n  removeEnrollment,\r\n  reviewExemptionApplication,\r\n  subscribeDemoCurrentSemester,\r\n  tryAcquireReviewTransitionLock,\r\n  updateClassSectionWindow,\r\n  reviseClassProgressTarget,\r\n} from "./teacher-data";\r\nimport type { InvalidToValidReviewOperation } from "./teacher-data";\r\nimport type { Semester } from "./teacher-api-types";\r\nimport { semesterDisplayName } from "./semester-presentation";\r\nimport type { WorkspaceMode } from "./portal-app";\r\n\r\ntype TeacherWorkspaceProps = {\r\n  active: string;\r\n  direction: TabTransitionDirection;\r\n  mode: WorkspaceMode;\r\n  showToast: (value: string) => void;\r\n  onSemesterChange?: (value: string) => void;\r\n};\r\n\r\ntype FormErrorState = string | UserFacingError;\r\n\r\nfunction userErrorToast(error: UserFacingError): string {\r\n  return [\r\n    error.message,\r\n    error.action,\r\n    error.requestId ? `诊断编号：${error.requestId}` : null,\r\n  ].filter(Boolean).join(" ");\r\n}\r\n\r\nfunction userFacingFieldError(\r\n  error: FormErrorState,\r\n  ...fieldNames: string[]\r\n): string | undefined {\r\n  if (!error || typeof error === "string") return undefined;\r\n  const accepted = new Set(fieldNames.map((field) => field.toLowerCase()));\r\n  return error.fieldErrors.find((item) => {\r\n    const field = item.field.toLowerCase();\r\n    const leaf = field.split(".").pop() ?? field;\r\n    return accepted.has(field) || accepted.has(leaf);\r\n  })?.message;\r\n}\r\n\r\ntype ExemptionStatus =\r\n  "pending" | "supplement_required" | "approved" | "rejected";\r\ntype GradeStatus = "NotRecorded" | "Recorded" | "Exempt" | "Absent" | "Unavailable";\r\ntype CourseStatus = "ACTIVE";\r\ntype MembershipStatus = "active" | "removed" | "exited" | "disabled";\r\ntype CheckinDetailView = "list" | "album";\r\ntype CheckinAuditFilter = "all" | AuditStatus;\r\ntype RosterView = "all" | "needs_attention" | "complete" | "inactive";\r\ntype CheckinReviewFilter = "all" | "history";\r\ntype ExemptionFilter = "all" | ExemptionStatus;\r\n\r\ntype Invite = {\r\n  code: string;\r\n  expiresAt: string;\r\n  status: "active" | "revoked";\r\n  durationMinutes?: number;\r\n};\r\n\r\nconst MAKEUP_SPORT_TYPES = [\r\n  { value: "RUNNING", label: "跑步" },\r\n  { value: "BASKETBALL", label: "篮球" },\r\n  { value: "FOOTBALL", label: "足球" },\r\n  { value: "BADMINTON", label: "羽毛球" },\r\n  { value: "TABLE_TENNIS", label: "乒乓球" },\r\n  { value: "SWIMMING", label: "游泳" },\r\n  { value: "FITNESS", label: "健身" },\r\n  { value: "CYCLING", label: "骑行" },\r\n  { value: "OTHER", label: "其他" },\r\n] as const;\r\n\r\ntype CheckinWindow = {\r\n  windowMode: "available" | "unavailable";\r\n  dateRangeStart: string;\r\n  dateRangeEnd: string;\r\n  dailyStartTime: string;\r\n  dailyEndTime: string;\r\n  excludedDates: { date: string; reason: string }[];\r\n  semesterDeadline: string;\r\n};\r\n\r\ntype Course = {\r\n  id: string;\r\n  name: string;\r\n  semester: string;\r\n  semesterId?: string;\r\n  courseId?: string;\r\n  status: CourseStatus;\r\n  courseTarget: number;\r\n  otherTarget: number;\r\n  version?: number;\r\n  checkinWindow: CheckinWindow;\r\n  invite?: Invite;\r\n};\r\n\r\ntype Student = {\r\n  id: string;\r\n  name: string;\r\n  number: string;\r\n  email: string;\r\n  gender: "男" | "女" | "其他" | "未知";\r\n  grade: string;\r\n  courseId: string;\r\n  enrollmentId?: string;\r\n  version?: number;\r\n  status: MembershipStatus;\r\n  joinedAt: string;\r\n  joinMethod: "qr" | "manual_import";\r\n  courseHours: number;\r\n  otherHours: number;\r\n  courseWaiverHours?: number;\r\n  otherWaiverHours?: number;\r\n};\r\n\r\ntype CheckinRecord = {\r\n  id: string;\r\n  studentId: string;\r\n  courseId: string;\r\n  enrollmentId?: string;\r\n  creditType: "课程相关" | "其他运动" | "系统抵扣";\r\n  sport: string;\r\n  startAt: string;\r\n  endAt: string;\r\n  durationMinutes: number;\r\n  creditedMinutes: number;\r\n  originalHours: number;\r\n  approvedHours: number;\r\n  description: string;\r\n  submittedAt: string;\r\n  status: "有效" | "已调整" | "系统抵扣" | "待审核" | "待补证" | "技术处理中";\n  risk: "低风险" | "需关注" | "凭证模糊" | null;\r\n  confidence: number | null;\r\n  proof: string[];\r\n  mediaIds?: string[];\r\n  locationExpired: boolean | null;\r\n  reviewComment?: string;\r\n  source: "student" | "system";\r\n  auditStatus: AuditStatus;\r\n  invalidReason?: string;\r\n  auditRemark?: string;\r\n  version?: number;\r\n  reviewVersion?: number;\r\n};\r\n\r\ntype Grade = {\r\n  id: string;\r\n  studentId: string;\r\n  courseId: string;\r\n  enrollmentId?: string;\r\n  gender: "男" | "女" | "其他" | "未知";\r\n  gradeGroup: "大一/大二" | "大三/大四" | "未知";\r\n  enduranceStatus: GradeStatus;\r\n  minutes?: number;\r\n  seconds?: number;\r\n  physicalScore?: number;\r\n  published: boolean;\r\n  scoreStatus?: string;\r\n  qualificationStatus?: string;\r\n  validCourseDurationSeconds?: number;\r\n  validGeneralDurationSeconds?: number;\r\n  totalValidDurationSeconds?: number;\r\n  scoringSeconds?: number;\r\n  excessSeconds?: number;\r\n  baseScore?: number | null;\r\n  adjustmentTotal?: number | null;\r\n  calculatedAt?: string | null;\r\n  publishedAt?: string | null;\r\n  version?: number;\r\n};\r\n\r\ntype Exemption = {\r\n  id: string | number;\r\n  studentId: string;\r\n  courseId: string;\r\n  kind:\r\n    | "耐力跑免测"\r\n    | "校队认证"\r\n    | "社团认证"\r\n    | "体测免测"\r\n    | "运动打卡减免"\r\n    | "特殊情况";\r\n  organization?: string;\r\n  reason: string;\r\n  material: string[];\r\n  mediaIds?: string[];\r\n  submittedAt: string;\r\n  status: ExemptionStatus;\r\n  reviewComment?: string;\r\n  score?: number;\r\n  courseOffset?: number;\r\n  otherOffset?: number;\r\n  version?: number;\r\n};\r\n\r\ntype MaterialPreview = {\r\n  file: string;\r\n  studentName: string;\r\n};\r\n\r\ntype DialogState =\r\n  | { type: "course-new" }\r\n  | { type: "course-manage"; courseId: string }\r\n  | { type: "invite"; courseId: string }\r\n  | { type: "invite-revoke"; courseId: string }\r\n  | {\r\n      type: "student-action";\r\n      studentId: string;\r\n      action: "remove" | "supplement" | "waiver";\r\n    }\r\n  | { type: "supplement" }\r\n  | { type: "checkin"; recordId: string }\r\n  | { type: "checkin-invalid"; recordId: string }\r\n  | { type: "checkin-return-proof"; recordId: string }\r\n  | { type: "checkin-correct-valid"; recordId: string }\r\n  | { type: "grade"; gradeId: string }\r\n  | { type: "publish-grades"; courseId: string }\r\n  | { type: "exemption"; exemptionId: string | number }\r\n  | null;\r\n\r\nconst returnForProofReasons = reasonsForAction(TEACHER_REVIEW_ACTIONS.ReturnForSupplement);\r\nconst markInvalidReasons = reasonsForAction(TEACHER_REVIEW_ACTIONS.MarkInvalid);\r\n\r\nconst demoSemester: Semester = readDemoCurrentSemester();\r\n\r\nconst initialCourses: Course[] = [\r\n  {\r\n    id: "demo-section-pe101-01",\r\n    name: "大学体育（一）",\r\n    semester: semesterDisplayName(demoSemester),\r\n    semesterId: demoSemester.id,\r\n    courseId: "demo-catalog-pe101",\r\n    status: "ACTIVE",\r\n    courseTarget: 8,\r\n    otherTarget: 12,\r\n    version: 1,\r\n    checkinWindow: {\r\n      windowMode: "available",\r\n      dateRangeStart: "2026-08-24",\r\n      dateRangeEnd: "2027-01-09",\r\n      dailyStartTime: "06:00",\r\n      dailyEndTime: "22:00",\r\n      excludedDates: [{ date: "2026-10-01", reason: "国庆假期" }],\r\n      semesterDeadline: "2027-01-09",\r\n    },\r\n    invite: {\r\n      code: "TEST-4821",\r\n      expiresAt: "2026-08-30T12:00:00+08:00",\r\n      status: "active",\r\n    },\r\n  },\r\n  {\r\n    id: "demo-section-badminton-02",\r\n    name: "羽毛球基础",\r\n    semester: semesterDisplayName(demoSemester),\r\n    semesterId: demoSemester.id,\r\n    courseId: "demo-catalog-badminton",\r\n    status: "ACTIVE",\r\n    courseTarget: 10,\r\n    otherTarget: 10,\r\n    version: 1,\r\n    checkinWindow: {\r\n      windowMode: "available",\r\n      dateRangeStart: "2026-08-24",\r\n      dateRangeEnd: "2027-01-09",\r\n      dailyStartTime: "07:00",\r\n      dailyEndTime: "21:30",\r\n      excludedDates: [],\r\n      semesterDeadline: "2027-01-09",\r\n    },\r\n  },\r\n];\r\n\r\nconst initialStudents: Student[] = [\r\n  {\r\n    id: "demo-student-a",\r\n    name: "测试学生甲",\r\n    number: "TEST2026001",\r\n    email: "student.a@bnbu.invalid",\r\n    gender: "女",\r\n    grade: "2026级",\r\n    courseId'... 197249 more characters,
+    expected: /当前正式协议 1\.2\.0 的审核结果只有有效 \/ 无效，不能写入退回补证/,
+    operator: 'match',
+    diff: 'simple'
+  }
+
+test at tests/i18n-resources.test.mjs:67:1
+✖ keeps translation resources unique and covers all static system text (141.394828ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+  + [
+  +   'app/teacher-workspace.tsx:223 待补证',
+  +   'app/teacher-workspace.tsx:223 技术处理中',
+  +   'app/teacher-workspace.tsx:777 待补证',
+  +   'app/teacher-workspace.tsx:778 技术处理中',
+  +   'app/teacher-workspace.tsx:1966 演示模式没有发送审核请求，请登录真实教师账号进行退回补证操作。',
+  +   'app/teacher-workspace.tsx:1971 请选择24或72小时补证窗口。',
+  +   'app/teacher-workspace.tsx:1986 已退回补证，记录和补证期限已更新。',
+  +   'app/teacher-workspace.tsx:2037 该记录已不是无效状态，请根据最新记录重新操作。',
+  +   'app/teacher-workspace.tsx:2047 本次纠正请求已建立，请保留原说明重试，或关闭后重新操作。'
+  + ]
+  - []
+  
+      at TestContext.<anonymous> (file:///workspace/BNBU-Sports-Web-new/portal-teacher-admin/tests/i18n-resources.test.mjs:101:10)
+      at async Test.run (node:internal/test_runner/test:1332:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:385:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: [ 'app/teacher-workspace.tsx:223 待补证', 'app/teacher-workspace.tsx:223 技术处理中', 'app/teacher-workspace.tsx:777 待补证', 'app/teacher-workspace.tsx:778 技术处理中', 'app/teacher-workspace.tsx:1966 演示模式没有发送审核请求，请登录真实教师账号进行退回补证操作。', 'app/teacher-workspace.tsx:1971 请选择24或72小时补证窗口。', 'app/teacher-workspace.tsx:1986 已退回补证，记录和补证期限已更新。', 'app/teacher-workspace.tsx:2037 该记录已不是无效状态，请根据最新记录重新操作。', 'app/teacher-workspace.tsx:2047 本次纠正请求已建立，请保留原说明重试，或关闭后重新操作。' ],
+    expected: [],
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }
+
+test at tests/phase5gb-contract-revalidation.test.mjs:1:1
+✖ tests/phase5gb-contract-revalidation.test.mjs (357.329302ms)
+  'test failed'
+
+test at tests/rendered-html.test.mjs:418:1
+✖ uses one portal-backed AppSelect instead of native browser selects (8.276675ms)
+  AssertionError [ERR_ASSERTION]: The input was expected to not match the regular expression /<(?:select|option)\b/i. Input:
+  
+  '"use client";\r\n' +
+    '\r\n' +
+    'import {\r\n' +
+    '  ChevronLeft,\r\n' +
+    '  CircleAlert,\r\n' +
+    '  Copy,\r\n' +
+    '  Download,\r\n' +
+    '  Eye,\r\n' +
+    '  File as FileIcon,\r\n' +
+    '  ListChecks,\r\n' +
+    '  Maximize2,\r\n' +
+    '  Pause,\r\n' +
+    '  Play,\r\n' +
+    '  Printer,\r\n' +
+    '  QrCode,\r\n' +
+    '  Undo2,\r\n' +
+    '  ZoomIn,\r\n' +
+    '  ZoomOut,\r\n' +
+    '} from "lucide-react";\r\n' +
+    'import Image from "next/image";\r\n' +
+    'import { useCallback, useEffect, useMemo, useRef, useState } from "react";\r\n' +
+    'import { AppSelect } from "./app-select";\r\n' +
+    'import { businessDateTime } from "./business-time";\r\n' +
+    'import { FormField } from "./form-field";\r\n' +
+    'import {\r\n' +
+    '  toUserFacingError,\r\n' +
+    '  type UserFacingError,\r\n' +
+    '} from "./api-client";\r\n' +
+    'import { ErrorPanel, localUserFacingError } from "./error-panel";\n' +
+    'import { correctRecord, decideRecord, fetchRecordWorkflow } from "./v81-data";\n' +
+    'import {\r\n' +
+    '  formatInviteExpiry,\r\n' +
+    '  formatInviteRemaining,\r\n' +
+    '  getInviteStatus,\r\n' +
+    '  inviteStatusLabel,\r\n' +
+    '} from "./course-invite";\r\n' +
+    'import { InviteQrCode } from "./invite-qr";\r\n' +
+    'import { statusLabel } from "./language";\r\n' +
+    'import {\r\n' +
+    '  TEACHER_REVIEW_ACTIONS,\r\n' +
+    '  publicReasonById,\r\n' +
+    '  reasonsForAction,\r\n' +
+    '} from "./review-public-reasons";\r\n' +
+    'import {\r\n' +
+    '  applyAttendanceAuditState,\r\n' +
+    '  deriveAuditSummary,\r\n' +
+    '  toCreditedDurationHours,\r\n' +
+    '  type AttendanceAuditSummary,\r\n' +
+    '  type AuditStatus,\r\n' +
+    '} from "./checkin-audit";\r\n' +
+    'import {\r\n' +
+    '  CourseOverviewLayout,\r\n' +
+    '  DataTable,\r\n' +
+    '  FilterToolbar,\r\n' +
+    '  ManagementTableLayout,\r\n' +
+    '  PageSummaryMetrics,\r\n' +
+    '  ProgressCell,\r\n' +
+    '  ReviewWorkbenchLayout,\r\n' +
+    '  StatusFilterTabs,\r\n' +
+    '  StatusTabs,\r\n' +
+    '  TableActionMenu,\r\n' +
+    '  TableActionMenuItem,\r\n' +
+    '} from "./teacher-ui";\r\n' +
+    'import {\r\n' +
+    '  StudentIdentity,\r\n' +
+    '  type StudentCourseMetric,\r\n' +
+    '  type StudentProfile,\r\n' +
+    '  type StudentQuickAction,\r\n' +
+    '} from "./student-profile";\r\n' +
+    'import {\r\n' +
+    '  TabPageTransition,\r\n' +
+    '  type TabTransitionDirection,\r\n' +
+    '} from "./teacher-tab-page-transition";\r\n' +
+    'import { RosterReconciliationPage } from "./roster-reconciliation";\r\n' +
+    'import type {\r\n' +
+    '  PlatformCourseMember,\r\n' +
+    '  RosterCourseReference,\r\n' +
+    '} from "./roster-reconciliation-types";\r\n' +
+    'import {\r\n' +
+    '  createInvalidToValidReviewOperation,\r\n' +
+    '  createCourseInvite,\r\n' +
+    '  loadSubmittedCheckins,\r\n' +
+    '  fetchExerciseRecord,\r\n' +
+    '  loadTeacherCourses,\r\n' +
+    '  loadTeacherGrades,\r\n' +
+    '  loadTeacherExemptions,\r\n' +
+    '  loadTeacherStudents,\r\n' +
+    '  openTeacherMedia,\r\n' +
+    '  publishStudentScore,\r\n' +
+    '  readDemoCurrentSemester,\r\n' +
+    '  recalculateStudentScore,\r\n' +
+    '  removeEnrollment,\r\n' +
+    '  reviewExemptionApplication,\r\n' +
+    '  subscribeDemoCurrentSemester,\r\n' +
+    '  tryAcquireReviewTransitionLock,\r\n' +
+    '  updateClassSectionWindow,\r\n' +
+    '  reviseClassProgressTarget,\r\n' +
+    '} from "./teacher-data";\r\n' +
+    'import type { InvalidToValidReviewOperation } from "./teacher-data";\r\n' +
+    'import type { Semester } from "./teacher-api-types";\r\n' +
+    'import { semesterDisplayName } from "./semester-presentation";\r\n' +
+    'import type { WorkspaceMode } from "./portal-app";\r\n' +
+    '\r\n' +
+    'type TeacherWorkspaceProps = {\r\n' +
+    '  active: string;\r\n' +
+    '  direction: TabTransitionDirection;\r\n' +
+    '  mode: WorkspaceMode;\r\n' +
+    '  showToast: (value: string) => void;\r\n' +
+    '  onSemesterChange?: (value: string) => void;\r\n' +
+    '};\r\n' +
+    '\r\n' +
+    'type FormErrorState = string | UserFacingError;\r\n' +
+    '\r\n' +
+    'function userErrorToast(error: UserFacingError): string {\r\n' +
+    '  return [\r\n' +
+    '    error.message,\r\n' +
+    '    error.action,\r\n' +
+    '    error.requestId ? `诊断编号：${error.requestId}` : null,\r\n' +
+    '  ].filter(Boolean).join(" ");\r\n' +
+    '}\r\n' +
+    '\r\n' +
+    'function userFacingFieldError(\r\n' +
+    '  error: FormErrorState,\r\n' +
+    '  ...fieldNames: string[]\r\n' +
+    '): string | undefined {\r\n' +
+    '  if (!error || typeof error === "string") return undefined;\r\n' +
+    '  const accepted = new Set(fieldNames.map((field) => field.toLowerCase()));\r\n' +
+    '  return error.fieldErrors.find((item) => {\r\n' +
+    '    const field = item.field.toLowerCase();\r\n' +
+    '    const leaf = field.split(".").pop() ?? field;\r\n' +
+    '    return accepted.has(field) || accepted.has(leaf);\r\n' +
+    '  })?.message;\r\n' +
+    '}\r\n' +
+    '\r\n' +
+    'type ExemptionStatus =\r\n' +
+    '  "pending" | "supplement_required" | "approved" | "rejected";\r\n' +
+    'type GradeStatus = "NotRecorded" | "Recorded" | "Exempt" | "Absent" | "Unavailable";\r\n' +
+    'type CourseStatus = "ACTIVE";\r\n' +
+    'type MembershipStatus = "active" | "removed" | "exited" | "disabled";\r\n' +
+    'type CheckinDetailView = "list" | "album";\r\n' +
+    'type CheckinAuditFilter = "all" | AuditStatus;\r\n' +
+    'type RosterView = "all" | "needs_attention" | "complete" | "inactive";\r\n' +
+    'type CheckinReviewFilter = "all" | "history";\r\n' +
+    'type ExemptionFilter = "all" | ExemptionStatus;\r\n' +
+    '\r\n' +
+    'type Invite = {\r\n' +
+    '  code: string;\r\n' +
+    '  expiresAt: string;\r\n' +
+    '  status: "active" | "revoked";\r\n' +
+    '  durationMinutes?: number;\r\n' +
+    '};\r\n' +
+    '\r\n' +
+    'const MAKEUP_SPORT_TYPES = [\r\n' +
+    '  { value: "RUNNING", label: "跑步" },\r\n' +
+    '  { value: "BASKETBALL", label: "篮球" },\r\n' +
+    '  { value: "FOOTBALL", label: "足球" },\r\n' +
+    '  { value: "BADMINTON", label: "羽毛球" },\r\n' +
+    '  { value: "TABLE_TENNIS", label: "乒乓球" },\r\n' +
+    '  { value: "SWIMMING", label: "游泳" },\r\n' +
+    '  { value: "FITNESS", label: "健身" },\r\n' +
+    '  { value: "CYCLING", label: "骑行" },\r\n' +
+    '  { value: "OTHER", label: "其他" },\r\n' +
+    '] as const;\r\n' +
+    '\r\n' +
+    'type CheckinWindow = {\r\n' +
+    '  windowMode: "available" | "unavailable";\r\n' +
+    '  dateRangeStart: string;\r\n' +
+    '  dateRangeEnd: string;\r\n' +
+    '  dailyStartTime: string;\r\n' +
+    '  dailyEndTime: string;\r\n' +
+    '  excludedDates: { date: string; reason: string }[];\r\n' +
+    '  semesterDeadline: string;\r\n' +
+    '};\r\n' +
+    '\r\n' +
+    'type Course = {\r\n' +
+    '  id: string;\r\n' +
+    '  name: string;\r\n' +
+    '  semester: string;\r\n' +
+    '  semesterId?: string;\r\n' +
+    '  courseId?: string;\r\n' +
+    '  status: CourseStatus;\r\n' +
+    '  courseTarget: number;\r\n' +
+    '  otherTarget: number;\r\n' +
+    '  version?: number;\r\n' +
+    '  checkinWindow: CheckinWindow;\r\n' +
+    '  invite?: Invite;\r\n' +
+    '};\r\n' +
+    '\r\n' +
+    'type Student = {\r\n' +
+    '  id: string;\r\n' +
+    '  name: string;\r\n' +
+    '  number: string;\r\n' +
+    '  email: string;\r\n' +
+    '  gender: "男" | "女" | "其他" | "未知";\r\n' +
+    '  grade: string;\r\n' +
+    '  courseId: string;\r\n' +
+    '  enrollmentId?: string;\r\n' +
+    '  version?: number;\r\n' +
+    '  status: MembershipStatus;\r\n' +
+    '  joinedAt: string;\r\n' +
+    '  joinMethod: "qr" | "manual_import";\r\n' +
+    '  courseHours: number;\r\n' +
+    '  otherHours: number;\r\n' +
+    '  courseWaiverHours?: number;\r\n' +
+    '  otherWaiverHours?: number;\r\n' +
+    '};\r\n' +
+    '\r\n' +
+    'type CheckinRecord = {\r\n' +
+    '  id: string;\r\n' +
+    '  studentId: string;\r\n' +
+    '  courseId: string;\r\n' +
+    '  enrollmentId?: string;\r\n' +
+    '  creditType: "课程相关" | "其他运动" | "系统抵扣";\r\n' +
+    '  sport: string;\r\n' +
+    '  startAt: string;\r\n' +
+    '  endAt: string;\r\n' +
+    '  durationMinutes: number;\r\n' +
+    '  creditedMinutes: number;\r\n' +
+    '  originalHours: number;\r\n' +
+    '  approvedHours: number;\r\n' +
+    '  description: string;\r\n' +
+    '  submittedAt: string;\r\n' +
+    '  status: "有效" | "已调整" | "系统抵扣" | "待审核" | "待补证" | "技术处理中";\n' +
+    '  risk: "低风险" | "需关注" | "凭证模糊" | null;\r\n' +
+    '  confidence: number | null;\r\n' +
+    '  proof: string[];\r\n' +
+    '  mediaIds?: string[];\r\n' +
+    '  locationExpired: boolean | null;\r\n' +
+    '  reviewComment?: string;\r\n' +
+    '  source: "student" | "system";\r\n' +
+    '  auditStatus: AuditStatus;\r\n' +
+    '  invalidReason?: string;\r\n' +
+    '  auditRemark?: string;\r\n' +
+    '  version?: number;\r\n' +
+    '  reviewVersion?: number;\r\n' +
+    '};\r\n' +
+    '\r\n' +
+    'type Grade = {\r\n' +
+    '  id: string;\r\n' +
+    '  studentId: string;\r\n' +
+    '  courseId: string;\r\n' +
+    '  enrollmentId?: string;\r\n' +
+    '  gender: "男" | "女" | "其他" | "未知";\r\n' +
+    '  gradeGroup: "大一/大二" | "大三/大四" | "未知";\r\n' +
+    '  enduranceStatus: GradeStatus;\r\n' +
+    '  minutes?: number;\r\n' +
+    '  seconds?: number;\r\n' +
+    '  physicalScore?: number;\r\n' +
+    '  published: boolean;\r\n' +
+    '  scoreStatus?: string;\r\n' +
+    '  qualificationStatus?: string;\r\n' +
+    '  validCourseDurationSeconds?: number;\r\n' +
+    '  validGeneralDurationSeconds?: number;\r\n' +
+    '  totalValidDurationSeconds?: number;\r\n' +
+    '  scoringSeconds?: number;\r\n' +
+    '  excessSeconds?: number;\r\n' +
+    '  baseScore?: number | null;\r\n' +
+    '  adjustmentTotal?: number | null;\r\n' +
+    '  calculatedAt?: string | null;\r\n' +
+    '  publishedAt?: string | null;\r\n' +
+    '  version?: number;\r\n' +
+    '};\r\n' +
+    '\r\n' +
+    'type Exemption = {\r\n' +
+    '  id: string | number;\r\n' +
+    '  studentId: string;\r\n' +
+    '  courseId: string;\r\n' +
+    '  kind:\r\n' +
+    '    | "耐力跑免测"\r\n' +
+    '    | "校队认证"\r\n' +
+    '    | "社团认证"\r\n' +
+    '    | "体测免测"\r\n' +
+    '    | "运动打卡减免"\r\n' +
+    '    | "特殊情况";\r\n' +
+    '  organization?: string;\r\n' +
+    '  reason: string;\r\n' +
+    '  material: string[];\r\n' +
+    '  mediaIds?: string[];\r\n' +
+    '  submittedAt: string;\r\n' +
+    '  status: ExemptionStatus;\r\n' +
+    '  reviewComment?: string;\r\n' +
+    '  score?: number;\r\n' +
+    '  courseOffset?: number;\r\n' +
+    '  otherOffset?: number;\r\n' +
+    '  version?: number;\r\n' +
+    '};\r\n' +
+    '\r\n' +
+    'type MaterialPreview = {\r\n' +
+    '  file: string;\r\n' +
+    '  studentName: string;\r\n' +
+    '};\r\n' +
+    '\r\n' +
+    'type DialogState =\r\n' +
+    '  | { type: "course-new" }\r\n' +
+    '  | { type: "course-manage"; courseId: string }\r\n' +
+    '  | { type: "invite"; courseId: string }\r\n' +
+    '  | { type: "invite-revoke"; courseId: string }\r\n' +
+    '  | {\r\n' +
+    '      type: "student-action";\r\n' +
+    '      studentId: string;\r\n' +
+    '      action: "remove" | "supplement" | "waiver";\r\n' +
+    '    }\r\n' +
+    '  | { type: "supplement" }\r\n' +
+    '  | { type: "checkin"; recordId: string }\r\n' +
+    '  | { type: "checkin-invalid"; recordId: string }\r\n' +
+    '  | { type: "checkin-return-proof"; recordId: string }\r\n' +
+    '  | { type: "checkin-correct-valid"; recordId: string }\r\n' +
+    '  | { type: "grade"; gradeId: string }\r\n' +
+    '  | { type: "publish-grades"; courseId: string }\r\n' +
+    '  | { type: "exemption"; exemptionId: string | number }\r\n' +
+    '  | null;\r\n' +
+    '\r\n' +
+    'const returnForProofReasons = reasonsForAction(TEACHER_REVIEW_ACTIONS.ReturnForSupplement);\r\n' +
+    'const markInvalidReasons = reasonsForAction(TEACHER_REVIEW_ACTIONS.MarkInvalid);\r\n' +
+    '\r\n' +
+    'const demoSemester: Semester = readDemoCurrentSemester();\r\n' +
+    '\r\n' +
+    'const initialCourses: Course[] = [\r\n' +
+    '  {\r\n' +
+    '    id: "demo-section-pe101-01",\r\n' +
+    '    name: "大学体育（一）",\r\n' +
+    '    semester: semesterDisplayName(demoSemester),\r\n' +
+    '    semesterId: demoSemester.id,\r\n' +
+    '    courseId: "demo-catalog-pe101",\r\n' +
+    '    status: "ACTIVE",\r\n' +
+    '    courseTarget: 8,\r\n' +
+    '    otherTarget: 12,\r\n' +
+    '    version: 1,\r\n' +
+    '    checkinWindow: {\r\n' +
+    '      windowMode: "available",\r\n' +
+    '      dateRangeStart: "2026-08-24",\r\n' +
+    '      dateRangeEnd: "2027-01-09",\r\n' +
+    '      dailyStartTime: "06:00",\r\n' +
+    '      dailyEndTime: "22:00",\r\n' +
+    '      excludedDates: [{ date: "2026-10-01", reason: "国庆假期" }],\r\n' +
+    '      semesterDeadline: "2027-01-09",\r\n' +
+    '    },\r\n' +
+    '    invite: {\r\n' +
+    '      code: "TEST-4821",\r\n' +
+    '      expiresAt: "2026-08-30T12:00:00+08:00",\r\n' +
+    '      status: "active",\r\n' +
+    '    },\r\n' +
+    '  },\r\n' +
+    '  {\r\n' +
+    '    id: "demo-section-badminton-02",\r\n' +
+    '    name: "羽毛球基础",\r\n' +
+    '    semester: semesterDisplayName(demoSemester),\r\n' +
+    '    semesterId: demoSemester.id,\r\n' +
+    '    courseId: "demo-catalog-badminton",\r\n' +
+    '    status: "ACTIVE",\r\n' +
+    '    courseTarget: 10,\r\n' +
+    '    otherTarget: 10,\r\n' +
+    '    version: 1,\r\n' +
+    '    checkinWindow: {\r\n' +
+    '      windowMode: "available",\r\n' +
+    '      dateRangeStart: "2026-08-24",\r\n' +
+    '      dateRangeEnd: "2027-01-09",\r\n' +
+    '      dailyStartTime: "07:00",\r\n' +
+    '      dailyEndTime: "21:30",\r\n' +
+    '      excludedDates: [],\r\n' +
+    '      semesterDeadline: "2027-01-09",\r\n' +
+    '    },\r\n' +
+    '  },\r\n' +
+    '];\r\n' +
+    '\r\n' +
+    'const initialStudents: Student[] = [\r\n' +
+    '  {\r\n' +
+    '    id: "demo-student-a",\r\n' +
+    '    name: "测试学生甲",\r\n' +
+    '    number: "TEST2026001",\r\n' +
+    '    email: "student.a@bnbu.invalid",\r\n' +
+    '    gender: "女",\r\n' +
+    '    grade: "2026级",\r\n' +
+    '    courseId'... 409749 more characters
+  
+      at TestContext.<anonymous> (/workspace/BNBU-Sports-Web-new/portal-teacher-admin/tests/rendered-html.test.mjs:429:10)
+      at async Test.run (node:internal/test_runner/test:1332:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:911:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '"use client";\r\n\r\nimport {\r\n  ChevronLeft,\r\n  CircleAlert,\r\n  Copy,\r\n  Download,\r\n  Eye,\r\n  File as FileIcon,\r\n  ListChecks,\r\n  Maximize2,\r\n  Pause,\r\n  Play,\r\n  Printer,\r\n  QrCode,\r\n  Undo2,\r\n  ZoomIn,\r\n  ZoomOut,\r\n} from "lucide-react";\r\nimport Image from "next/image";\r\nimport { useCallback, useEffect, useMemo, useRef, useState } from "react";\r\nimport { AppSelect } from "./app-select";\r\nimport { businessDateTime } from "./business-time";\r\nimport { FormField } from "./form-field";\r\nimport {\r\n  toUserFacingError,\r\n  type UserFacingError,\r\n} from "./api-client";\r\nimport { ErrorPanel, localUserFacingError } from "./error-panel";\nimport { correctRecord, decideRecord, fetchRecordWorkflow } from "./v81-data";\nimport {\r\n  formatInviteExpiry,\r\n  formatInviteRemaining,\r\n  getInviteStatus,\r\n  inviteStatusLabel,\r\n} from "./course-invite";\r\nimport { InviteQrCode } from "./invite-qr";\r\nimport { statusLabel } from "./language";\r\nimport {\r\n  TEACHER_REVIEW_ACTIONS,\r\n  publicReasonById,\r\n  reasonsForAction,\r\n} from "./review-public-reasons";\r\nimport {\r\n  applyAttendanceAuditState,\r\n  deriveAuditSummary,\r\n  toCreditedDurationHours,\r\n  type AttendanceAuditSummary,\r\n  type AuditStatus,\r\n} from "./checkin-audit";\r\nimport {\r\n  CourseOverviewLayout,\r\n  DataTable,\r\n  FilterToolbar,\r\n  ManagementTableLayout,\r\n  PageSummaryMetrics,\r\n  ProgressCell,\r\n  ReviewWorkbenchLayout,\r\n  StatusFilterTabs,\r\n  StatusTabs,\r\n  TableActionMenu,\r\n  TableActionMenuItem,\r\n} from "./teacher-ui";\r\nimport {\r\n  StudentIdentity,\r\n  type StudentCourseMetric,\r\n  type StudentProfile,\r\n  type StudentQuickAction,\r\n} from "./student-profile";\r\nimport {\r\n  TabPageTransition,\r\n  type TabTransitionDirection,\r\n} from "./teacher-tab-page-transition";\r\nimport { RosterReconciliationPage } from "./roster-reconciliation";\r\nimport type {\r\n  PlatformCourseMember,\r\n  RosterCourseReference,\r\n} from "./roster-reconciliation-types";\r\nimport {\r\n  createInvalidToValidReviewOperation,\r\n  createCourseInvite,\r\n  loadSubmittedCheckins,\r\n  fetchExerciseRecord,\r\n  loadTeacherCourses,\r\n  loadTeacherGrades,\r\n  loadTeacherExemptions,\r\n  loadTeacherStudents,\r\n  openTeacherMedia,\r\n  publishStudentScore,\r\n  readDemoCurrentSemester,\r\n  recalculateStudentScore,\r\n  removeEnrollment,\r\n  reviewExemptionApplication,\r\n  subscribeDemoCurrentSemester,\r\n  tryAcquireReviewTransitionLock,\r\n  updateClassSectionWindow,\r\n  reviseClassProgressTarget,\r\n} from "./teacher-data";\r\nimport type { InvalidToValidReviewOperation } from "./teacher-data";\r\nimport type { Semester } from "./teacher-api-types";\r\nimport { semesterDisplayName } from "./semester-presentation";\r\nimport type { WorkspaceMode } from "./portal-app";\r\n\r\ntype TeacherWorkspaceProps = {\r\n  active: string;\r\n  direction: TabTransitionDirection;\r\n  mode: WorkspaceMode;\r\n  showToast: (value: string) => void;\r\n  onSemesterChange?: (value: string) => void;\r\n};\r\n\r\ntype FormErrorState = string | UserFacingError;\r\n\r\nfunction userErrorToast(error: UserFacingError): string {\r\n  return [\r\n    error.message,\r\n    error.action,\r\n    error.requestId ? `诊断编号：${error.requestId}` : null,\r\n  ].filter(Boolean).join(" ");\r\n}\r\n\r\nfunction userFacingFieldError(\r\n  error: FormErrorState,\r\n  ...fieldNames: string[]\r\n): string | undefined {\r\n  if (!error || typeof error === "string") return undefined;\r\n  const accepted = new Set(fieldNames.map((field) => field.toLowerCase()));\r\n  return error.fieldErrors.find((item) => {\r\n    const field = item.field.toLowerCase();\r\n    const leaf = field.split(".").pop() ?? field;\r\n    return accepted.has(field) || accepted.has(leaf);\r\n  })?.message;\r\n}\r\n\r\ntype ExemptionStatus =\r\n  "pending" | "supplement_required" | "approved" | "rejected";\r\ntype GradeStatus = "NotRecorded" | "Recorded" | "Exempt" | "Absent" | "Unavailable";\r\ntype CourseStatus = "ACTIVE";\r\ntype MembershipStatus = "active" | "removed" | "exited" | "disabled";\r\ntype CheckinDetailView = "list" | "album";\r\ntype CheckinAuditFilter = "all" | AuditStatus;\r\ntype RosterView = "all" | "needs_attention" | "complete" | "inactive";\r\ntype CheckinReviewFilter = "all" | "history";\r\ntype ExemptionFilter = "all" | ExemptionStatus;\r\n\r\ntype Invite = {\r\n  code: string;\r\n  expiresAt: string;\r\n  status: "active" | "revoked";\r\n  durationMinutes?: number;\r\n};\r\n\r\nconst MAKEUP_SPORT_TYPES = [\r\n  { value: "RUNNING", label: "跑步" },\r\n  { value: "BASKETBALL", label: "篮球" },\r\n  { value: "FOOTBALL", label: "足球" },\r\n  { value: "BADMINTON", label: "羽毛球" },\r\n  { value: "TABLE_TENNIS", label: "乒乓球" },\r\n  { value: "SWIMMING", label: "游泳" },\r\n  { value: "FITNESS", label: "健身" },\r\n  { value: "CYCLING", label: "骑行" },\r\n  { value: "OTHER", label: "其他" },\r\n] as const;\r\n\r\ntype CheckinWindow = {\r\n  windowMode: "available" | "unavailable";\r\n  dateRangeStart: string;\r\n  dateRangeEnd: string;\r\n  dailyStartTime: string;\r\n  dailyEndTime: string;\r\n  excludedDates: { date: string; reason: string }[];\r\n  semesterDeadline: string;\r\n};\r\n\r\ntype Course = {\r\n  id: string;\r\n  name: string;\r\n  semester: string;\r\n  semesterId?: string;\r\n  courseId?: string;\r\n  status: CourseStatus;\r\n  courseTarget: number;\r\n  otherTarget: number;\r\n  version?: number;\r\n  checkinWindow: CheckinWindow;\r\n  invite?: Invite;\r\n};\r\n\r\ntype Student = {\r\n  id: string;\r\n  name: string;\r\n  number: string;\r\n  email: string;\r\n  gender: "男" | "女" | "其他" | "未知";\r\n  grade: string;\r\n  courseId: string;\r\n  enrollmentId?: string;\r\n  version?: number;\r\n  status: MembershipStatus;\r\n  joinedAt: string;\r\n  joinMethod: "qr" | "manual_import";\r\n  courseHours: number;\r\n  otherHours: number;\r\n  courseWaiverHours?: number;\r\n  otherWaiverHours?: number;\r\n};\r\n\r\ntype CheckinRecord = {\r\n  id: string;\r\n  studentId: string;\r\n  courseId: string;\r\n  enrollmentId?: string;\r\n  creditType: "课程相关" | "其他运动" | "系统抵扣";\r\n  sport: string;\r\n  startAt: string;\r\n  endAt: string;\r\n  durationMinutes: number;\r\n  creditedMinutes: number;\r\n  originalHours: number;\r\n  approvedHours: number;\r\n  description: string;\r\n  submittedAt: string;\r\n  status: "有效" | "已调整" | "系统抵扣" | "待审核" | "待补证" | "技术处理中";\n  risk: "低风险" | "需关注" | "凭证模糊" | null;\r\n  confidence: number | null;\r\n  proof: string[];\r\n  mediaIds?: string[];\r\n  locationExpired: boolean | null;\r\n  reviewComment?: string;\r\n  source: "student" | "system";\r\n  auditStatus: AuditStatus;\r\n  invalidReason?: string;\r\n  auditRemark?: string;\r\n  version?: number;\r\n  reviewVersion?: number;\r\n};\r\n\r\ntype Grade = {\r\n  id: string;\r\n  studentId: string;\r\n  courseId: string;\r\n  enrollmentId?: string;\r\n  gender: "男" | "女" | "其他" | "未知";\r\n  gradeGroup: "大一/大二" | "大三/大四" | "未知";\r\n  enduranceStatus: GradeStatus;\r\n  minutes?: number;\r\n  seconds?: number;\r\n  physicalScore?: number;\r\n  published: boolean;\r\n  scoreStatus?: string;\r\n  qualificationStatus?: string;\r\n  validCourseDurationSeconds?: number;\r\n  validGeneralDurationSeconds?: number;\r\n  totalValidDurationSeconds?: number;\r\n  scoringSeconds?: number;\r\n  excessSeconds?: number;\r\n  baseScore?: number | null;\r\n  adjustmentTotal?: number | null;\r\n  calculatedAt?: string | null;\r\n  publishedAt?: string | null;\r\n  version?: number;\r\n};\r\n\r\ntype Exemption = {\r\n  id: string | number;\r\n  studentId: string;\r\n  courseId: string;\r\n  kind:\r\n    | "耐力跑免测"\r\n    | "校队认证"\r\n    | "社团认证"\r\n    | "体测免测"\r\n    | "运动打卡减免"\r\n    | "特殊情况";\r\n  organization?: string;\r\n  reason: string;\r\n  material: string[];\r\n  mediaIds?: string[];\r\n  submittedAt: string;\r\n  status: ExemptionStatus;\r\n  reviewComment?: string;\r\n  score?: number;\r\n  courseOffset?: number;\r\n  otherOffset?: number;\r\n  version?: number;\r\n};\r\n\r\ntype MaterialPreview = {\r\n  file: string;\r\n  studentName: string;\r\n};\r\n\r\ntype DialogState =\r\n  | { type: "course-new" }\r\n  | { type: "course-manage"; courseId: string }\r\n  | { type: "invite"; courseId: string }\r\n  | { type: "invite-revoke"; courseId: string }\r\n  | {\r\n      type: "student-action";\r\n      studentId: string;\r\n      action: "remove" | "supplement" | "waiver";\r\n    }\r\n  | { type: "supplement" }\r\n  | { type: "checkin"; recordId: string }\r\n  | { type: "checkin-invalid"; recordId: string }\r\n  | { type: "checkin-return-proof"; recordId: string }\r\n  | { type: "checkin-correct-valid"; recordId: string }\r\n  | { type: "grade"; gradeId: string }\r\n  | { type: "publish-grades"; courseId: string }\r\n  | { type: "exemption"; exemptionId: string | number }\r\n  | null;\r\n\r\nconst returnForProofReasons = reasonsForAction(TEACHER_REVIEW_ACTIONS.ReturnForSupplement);\r\nconst markInvalidReasons = reasonsForAction(TEACHER_REVIEW_ACTIONS.MarkInvalid);\r\n\r\nconst demoSemester: Semester = readDemoCurrentSemester();\r\n\r\nconst initialCourses: Course[] = [\r\n  {\r\n    id: "demo-section-pe101-01",\r\n    name: "大学体育（一）",\r\n    semester: semesterDisplayName(demoSemester),\r\n    semesterId: demoSemester.id,\r\n    courseId: "demo-catalog-pe101",\r\n    status: "ACTIVE",\r\n    courseTarget: 8,\r\n    otherTarget: 12,\r\n    version: 1,\r\n    checkinWindow: {\r\n      windowMode: "available",\r\n      dateRangeStart: "2026-08-24",\r\n      dateRangeEnd: "2027-01-09",\r\n      dailyStartTime: "06:00",\r\n      dailyEndTime: "22:00",\r\n      excludedDates: [{ date: "2026-10-01", reason: "国庆假期" }],\r\n      semesterDeadline: "2027-01-09",\r\n    },\r\n    invite: {\r\n      code: "TEST-4821",\r\n      expiresAt: "2026-08-30T12:00:00+08:00",\r\n      status: "active",\r\n    },\r\n  },\r\n  {\r\n    id: "demo-section-badminton-02",\r\n    name: "羽毛球基础",\r\n    semester: semesterDisplayName(demoSemester),\r\n    semesterId: demoSemester.id,\r\n    courseId: "demo-catalog-badminton",\r\n    status: "ACTIVE",\r\n    courseTarget: 10,\r\n    otherTarget: 10,\r\n    version: 1,\r\n    checkinWindow: {\r\n      windowMode: "available",\r\n      dateRangeStart: "2026-08-24",\r\n      dateRangeEnd: "2027-01-09",\r\n      dailyStartTime: "07:00",\r\n      dailyEndTime: "21:30",\r\n      excludedDates: [],\r\n      semesterDeadline: "2027-01-09",\r\n    },\r\n  },\r\n];\r\n\r\nconst initialStudents: Student[] = [\r\n  {\r\n    id: "demo-student-a",\r\n    name: "测试学生甲",\r\n    number: "TEST2026001",\r\n    email: "student.a@bnbu.invalid",\r\n    gender: "女",\r\n    grade: "2026级",\r\n    courseId'... 409749 more characters,
+    expected: /<(?:select|option)\b/i,
+    operator: 'doesNotMatch',
+    diff: 'simple'
+  }
+
+Docker exit code: 1

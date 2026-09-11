@@ -1,0 +1,13 @@
+✔ network failure remains renderable and does not log the private transport cause (1.7886ms)
+✔ Help cache separates users and languages and ignores unscoped legacy data (1.5321ms)
+✔ proof todos read every backend page through the normal API envelope (22.7721ms)
+✔ proof todo pagination rejects a repeated cursor instead of looping (0.8113ms)
+✔ a supplement retry preserves its original media, workflow version and idempotency key (0.7793ms)
+ℹ tests 5
+ℹ suites 0
+ℹ pass 5
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 130.148

@@ -1,0 +1,155 @@
+time="2026-09-08T18:22:12+08:00" level=warning msg="Found orphan containers (bnbu-v81-e2e-report-20260908) for this project. If you removed or renamed this service in your compose file, you can run this command with the --remove-orphans flag to clean it up."
+ Image bnbu-v81-full-integration-integration-tests Building 
+#1 [internal] load local bake definitions
+#1 reading from stdin 644B 0.0s done
+#1 DONE 0.0s
+
+#2 [internal] load build definition from Dockerfile.v81-test
+#2 transferring dockerfile: 828B done
+#2 DONE 0.0s
+
+#3 [auth] library/node:pull token for registry-1.docker.io
+#3 DONE 0.0s
+
+#4 [internal] load metadata for docker.io/library/node:24.18.0-bookworm-slim
+#4 DONE 1.9s
+
+#5 [internal] load .dockerignore
+#5 transferring context: 153B done
+#5 DONE 0.0s
+
+#6 [ 1/11] FROM docker.io/library/node:24.18.0-bookworm-slim@sha256:6f7b03f7c2c8e2e784dcf9295400527b9b1270fd37b7e9a7285cf83b6951452d
+#6 resolve docker.io/library/node:24.18.0-bookworm-slim@sha256:6f7b03f7c2c8e2e784dcf9295400527b9b1270fd37b7e9a7285cf83b6951452d 0.0s done
+#6 DONE 0.0s
+
+#7 [internal] load build context
+#7 transferring context: 122.81kB 0.1s done
+#7 DONE 0.1s
+
+#8 [ 3/11] WORKDIR /workspace/backend
+#8 CACHED
+
+#9 [ 4/11] COPY backend/package.json backend/package-lock.json ./
+#9 CACHED
+
+#10 [ 2/11] RUN apt-get update && apt-get install -y --no-install-recommends openssl ca-certificates && rm -rf /var/lib/apt/lists/*
+#10 CACHED
+
+#11 [ 5/11] RUN npm ci --ignore-scripts --no-audit --no-fund
+#11 CACHED
+
+#12 [ 6/11] COPY backend/ ./
+#12 DONE 0.3s
+
+#13 [ 7/11] COPY docs/backend-contracts/ /workspace/docs/backend-contracts/
+#13 DONE 0.2s
+
+#14 [ 8/11] COPY tools/ /workspace/tools/
+#14 DONE 0.1s
+
+#15 [ 9/11] COPY BNBU-Sports-Web-new/frontend/student/ /workspace/BNBU-Sports-Web-new/frontend/student/
+#15 DONE 0.1s
+
+#16 [10/11] COPY BNBU-Sports-Web-new/portal-teacher-admin/app/ /workspace/BNBU-Sports-Web-new/portal-teacher-admin/app/
+#16 DONE 0.1s
+
+#17 [11/11] RUN npm run db:generate
+#17 0.368 
+#17 0.368 > @bnbu/sports-backend@0.1.0 db:generate
+#17 0.368 > prisma generate
+#17 0.368 
+#17 1.081 Loaded Prisma config from prisma.config.ts.
+#17 1.081 
+#17 2.871 Prisma schema loaded from prisma/schema.prisma.
+#17 4.612 
+#17 4.612 ✔ Generated Prisma Client (7.9.1) to ./src/generated/prisma in 1.16s
+#17 4.612 
+#17 DONE 4.7s
+
+#18 exporting to image
+#18 exporting layers
+#18 exporting layers 1.8s done
+#18 exporting manifest sha256:509c4ff6f37c19fe6e868717ac25323a73c5cee19dfa36061e0757a99757113a 0.0s done
+#18 exporting config sha256:52afc50ae94742ac4eeef88e74858174bd648d28e9578dc96ed5e822660847b4 0.0s done
+#18 exporting attestation manifest sha256:b2589254f3c2d4a0206bcac4c25ece37db56e19280093cf8c6cc32c04dd00376 0.0s done
+#18 exporting manifest list sha256:a9109a9ae0480c4bb7dc9c3bc8b176b4361e906602f450e125ea2e17a0a2376b
+#18 exporting manifest list sha256:a9109a9ae0480c4bb7dc9c3bc8b176b4361e906602f450e125ea2e17a0a2376b 0.0s done
+#18 naming to docker.io/library/bnbu-v81-full-integration-integration-tests:latest done
+#18 unpacking to docker.io/library/bnbu-v81-full-integration-integration-tests:latest
+#18 unpacking to docker.io/library/bnbu-v81-full-integration-integration-tests:latest 0.7s done
+#18 DONE 2.7s
+
+#19 resolving provenance for metadata file
+#19 DONE 0.0s
+ Image bnbu-v81-full-integration-integration-tests Built 
+ Container bnbu-v81-full-integration-integration-tests-run-064f80a8e4d5 Creating 
+ Container bnbu-v81-full-integration-integration-tests-run-064f80a8e4d5 Created 
+
+> @bnbu/sports-backend@0.1.0 prebuild
+> npm run db:generate && npm run generate
+
+
+> @bnbu/sports-backend@0.1.0 db:generate
+> prisma generate
+
+Loaded Prisma config from prisma.config.ts.
+
+Prisma schema loaded from prisma/schema.prisma.
+
+┌─────────────────────────────────────────────────────────┐
+│  Update available 7.9.1 -> 8.0.0-rc.13                  │
+│                                                         │
+│  This is a major update - please follow the guide at    │
+│  https://pris.ly/d/major-version-upgrade                │
+│                                                         │
+│  Run the following to update                            │
+✔ Generated Prisma Client (7.9.1) to ./src/generated/prisma in 1.17s
+
+│    npm i --save-dev prisma@latest                       │
+│    npm i @prisma/client@latest                          │
+└─────────────────────────────────────────────────────────┘
+
+> @bnbu/sports-backend@0.1.0 generate
+> npm run openapi:generate && npm run db:manifest:generate
+
+
+> @bnbu/sports-backend@0.1.0 openapi:generate
+> node ./scripts/generate-openapi.mjs
+
+Generated 3 OpenAPI artifacts from 249 operations.
+
+> @bnbu/sports-backend@0.1.0 db:manifest:generate
+> node ./scripts/generate-migration-manifest.mjs
+
+Generated migration manifest updated.
+
+> @bnbu/sports-backend@0.1.0 build
+> nest build
+
+▶ V81 system management HTTP E2E
+  ✔ changes maintenance mode with replay, durable history, public announcement and recovery (1039.555185ms)
+  ✔ changes teacher and administrator passwords while retaining only the current session (1409.433246ms)
+  ✖ allows administrator security access in maintenance and rejects teacher and student password operations (517.523062ms)
+✖ V81 system management HTTP E2E (3855.492035ms)
+ℹ tests 3
+ℹ suites 1
+ℹ pass 2
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 4654.850188
+
+✖ failing tests:
+
+test at test/e2e/v81-system-management.e2e.test.ts:3:154
+✖ allows administrator security access in maintenance and rejects teacher and student password operations (517.523062ms)
+  Error: response status 503 is not documented
+      at validateResponse (file:///workspace/backend/scripts/runtime-conformance-hook.mjs:225:11)
+      at conformanceFetch (file:///workspace/backend/scripts/runtime-conformance-hook.mjs:286:11)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async request (/workspace/backend/test/e2e/v81-system-management.e2e.test.ts:69:22)
+      at async TestContext.<anonymous> (/workspace/backend/test/e2e/v81-system-management.e2e.test.ts:285:19)
+      at async Test.run (node:internal/test_runner/test:1332:7)
+      at async Suite.processPendingSubtests (node:internal/test_runner/test:911:7)
+

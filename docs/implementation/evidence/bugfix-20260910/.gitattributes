@@ -1,0 +1,4 @@
+# Preserve original evidence bytes, including terminal whitespace and CRLF.
+logs/* -text -whitespace
+local-validation.json -text whitespace=cr-at-eol
+production-nginx.conf -text whitespace=cr-at-eol

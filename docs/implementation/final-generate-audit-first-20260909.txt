@@ -1,0 +1,11 @@
+
+> @bnbu/sports-backend@0.1.0 generate:check
+> npm run repo-layout:check && npm run backend-release-policy:check && npm run client-contract-baseline:check && npm run openapi:check && npm run db:manifest:check
+
+
+> @bnbu/sports-backend@0.1.0 repo-layout:check
+> node ../tools/repository/check-monorepo-layout.mjs
+
+Monorepo layout: FAIL
+- client directory is missing: BNBU-Sports-Android-master
+- required client file is missing: BNBU-Sports-Web-new/frontend/index.html

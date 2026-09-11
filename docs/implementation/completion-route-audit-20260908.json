@@ -1,0 +1,42 @@
+{
+  "checkedAt": "2026-09-07T21:32:11.593Z",
+  "scope": "Current contract routes and migration files, not runtime or full acceptance proof",
+  "operationCount": 232,
+  "migrationDirectoryCount": 52,
+  "accountDeletion": [
+    {
+      "method": "POST",
+      "route": "/me/account-deletion-challenges",
+      "operationId": "requestCurrentUserAccountDeletionChallenge"
+    }
+  ],
+  "subadminGovernance": [
+    {
+      "method": "GET",
+      "route": "/admin/subadmins",
+      "operationId": "listV81Subadmins"
+    },
+    {
+      "method": "POST",
+      "route": "/admin/subadmins/{id}/status",
+      "operationId": "setV81SubadminStatus"
+    },
+    {
+      "method": "POST",
+      "route": "/admin/subadmins/{id}/permissions",
+      "operationId": "setV81SubadminPermissions"
+    }
+  ],
+  "settlementAndSwitch": [
+    {
+      "method": "GET",
+      "route": "/class-sections/{classSectionId}/settlement-check",
+      "operationId": "getV81SettlementCheck"
+    },
+    {
+      "method": "GET",
+      "route": "/admin/semesters/{id}/switch-check",
+      "operationId": "getV81SemesterSwitchCheck"
+    }
+  ]
+}

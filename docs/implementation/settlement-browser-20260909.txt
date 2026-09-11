@@ -1,0 +1,1 @@
+{"check":"COURSE_SETTLEMENT_BROWSER","result":"FAIL","stage":"PREPARE_CONFIRMED_ROSTER","type":"TimeoutError","message":"locator.click: Timeout 15000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('.teacher-course-card').filter({ hasText: 'Synthetic Settlement Browser 43d1ddf5' }).getByRole('button', { name: /进入课程/ })\u001b[22m\n"}

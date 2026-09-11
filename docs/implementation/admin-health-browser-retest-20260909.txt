@@ -1,0 +1,11 @@
+{"check":"ADMIN_HEALTH_BROWSER_REAL_DEPENDENCIES_REFRESH","result":"PASS","dependencies":{"database":"UP","notificationQueue":"UP","objectStorage":"UP","mediaStorage":"UP"}}
+node:internal/process/promises:394
+    triggerUncaughtException(err, true /* fromPromise */);
+    ^
+
+response.json: Target page, context or browser has been closed
+    at _Page.<anonymous> (C:\Users\23328\Desktop\new_version\tools\local-integration\v81-admin-health-browser-probe.mjs:8:108) {
+  log: []
+}
+
+Node.js v24.13.1

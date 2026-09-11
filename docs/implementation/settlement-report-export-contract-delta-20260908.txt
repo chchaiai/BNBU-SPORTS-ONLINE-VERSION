@@ -1,0 +1,1 @@
+PASS: 391 diagnostics match the archived read-interface baseline after normalizing registry totals. Current registry 129/242; prior 128/241; both missing 113. No new diagnostics.

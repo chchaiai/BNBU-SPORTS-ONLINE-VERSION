@@ -1,0 +1,40 @@
+{"check": "PRE_RELEASE_DATABASE_BACKUP", "result": "PASS", "path": "/opt/bnbu-sports-production/backups/before-bugfix-20260910T110212Z.dump", "bytes": 2035624}
+Loaded image: bnbu-backend-production:b83b302c-bugfix
+Loaded image: bnbu-portal-production:b83b302c-bugfix
+ Container bnbu-sports-production-backend-1 Recreate 
+ Container bnbu-sports-production-portal-1 Recreate 
+ Container bnbu-sports-production-backend-1 Recreated 
+ Container bnbu-sports-production-portal-1 Recreated 
+ Container bnbu-sports-production-portal-1 Starting 
+ Container bnbu-sports-production-backend-1 Starting 
+ Container bnbu-sports-production-portal-1 Started 
+ Container bnbu-sports-production-backend-1 Started 
+nginx: the configuration file /etc/nginx/nginx.conf syntax is ok
+nginx: configuration file /etc/nginx/nginx.conf test is successful
+ Container bnbu-sports-production-backend-1 Recreate 
+ Container bnbu-sports-production-portal-1 Recreate 
+ Container bnbu-sports-production-backend-1 Recreated 
+ Container bnbu-sports-production-portal-1 Recreated 
+ Container bnbu-sports-production-portal-1 Starting 
+ Container bnbu-sports-production-backend-1 Starting 
+ Container bnbu-sports-production-portal-1 Started 
+ Container bnbu-sports-production-backend-1 Started 
+nginx: the configuration file /etc/nginx/nginx.conf syntax is ok
+nginx: configuration file /etc/nginx/nginx.conf test is successful
+{"check": "PRODUCTION_DEPLOYMENT", "result": "FAILED_ROLLED_BACK", "release": "/opt/bnbu-sports-production/releases/f0f628ae-scanner1"}
+Traceback (most recent call last):
+  File "/home/ubuntu/bnbu-bugfix-20260910/deploy-bugfix-20260910.py", line 85, in <module>
+    with urllib.request.urlopen(url, timeout=20) as response:
+  File "/usr/lib/python3.10/urllib/request.py", line 216, in urlopen
+    return opener.open(url, data, timeout)
+  File "/usr/lib/python3.10/urllib/request.py", line 525, in open
+    response = meth(req, response)
+  File "/usr/lib/python3.10/urllib/request.py", line 634, in http_response
+    response = self.parent.error(
+  File "/usr/lib/python3.10/urllib/request.py", line 563, in error
+    return self._call_chain(*args)
+  File "/usr/lib/python3.10/urllib/request.py", line 496, in _call_chain
+    result = func(*args)
+  File "/usr/lib/python3.10/urllib/request.py", line 643, in http_error_default
+    raise HTTPError(req.full_url, code, msg, hdrs, fp)
+urllib.error.HTTPError: HTTP Error 404: Not Found

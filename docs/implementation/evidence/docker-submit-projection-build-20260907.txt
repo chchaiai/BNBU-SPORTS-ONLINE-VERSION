@@ -1,0 +1,60 @@
+ Image bnbu-v81-local-validation-sql-tests Building 
+#1 [internal] load local bake definitions
+#1 reading from stdin 612B 0.0s done
+#1 DONE 0.0s
+
+#2 [internal] load build definition from Dockerfile.v81-test
+#2 transferring dockerfile: 484B done
+#2 DONE 0.0s
+
+#3 [auth] library/node:pull token for registry-1.docker.io
+#3 DONE 0.0s
+
+#4 [internal] load metadata for docker.io/library/node:24.18.0-bookworm-slim
+#4 DONE 1.5s
+
+#5 [internal] load .dockerignore
+#5 transferring context: 153B done
+#5 DONE 0.0s
+
+#6 [1/7] FROM docker.io/library/node:24.18.0-bookworm-slim@sha256:6f7b03f7c2c8e2e784dcf9295400527b9b1270fd37b7e9a7285cf83b6951452d
+#6 resolve docker.io/library/node:24.18.0-bookworm-slim@sha256:6f7b03f7c2c8e2e784dcf9295400527b9b1270fd37b7e9a7285cf83b6951452d 0.0s done
+#6 DONE 0.0s
+
+#7 [internal] load build context
+#7 transferring context: 110.36kB 0.1s done
+#7 DONE 0.1s
+
+#8 [2/7] WORKDIR /workspace/backend
+#8 CACHED
+
+#9 [3/7] COPY backend/package.json backend/package-lock.json ./
+#9 CACHED
+
+#10 [4/7] RUN npm ci --ignore-scripts --no-audit --no-fund
+#10 CACHED
+
+#11 [5/7] COPY backend/ ./
+#11 DONE 0.2s
+
+#12 [6/7] COPY docs/backend-contracts/ /workspace/docs/backend-contracts/
+#12 DONE 0.1s
+
+#13 [7/7] COPY tools/ /workspace/tools/
+#13 DONE 0.1s
+
+#14 exporting to image
+#14 exporting layers
+#14 exporting layers 0.3s done
+#14 exporting manifest sha256:7d83a154129b9a717f5eb7591d36fb45d46316ce8e047f02412b6bab8d734ae0 0.0s done
+#14 exporting config sha256:00e106fc2675ef105de0c4f5d964196cb6519b7e976fb1a0a6d98335f5b54497 0.0s done
+#14 exporting attestation manifest sha256:56350013a0d424939536449e78537f263231dc15402c73f0b0ddb823eee9a300 0.0s done
+#14 exporting manifest list sha256:6f3c9ed1298a5dcc03d09980ab9b58eccdd56b09b0789e5c78e245eaaa1b8dc1 0.0s done
+#14 naming to docker.io/library/bnbu-v81-local-validation-sql-tests:latest done
+#14 unpacking to docker.io/library/bnbu-v81-local-validation-sql-tests:latest
+#14 unpacking to docker.io/library/bnbu-v81-local-validation-sql-tests:latest 0.3s done
+#14 DONE 0.7s
+
+#15 resolving provenance for metadata file
+#15 DONE 0.0s
+ Image bnbu-v81-local-validation-sql-tests Built 

@@ -1,0 +1,7 @@
+{
+  "path": "docs/backend-contracts/contract-history/2.0.11-contract-c3bdba5999404ea5c58b48407f582ed7b6f19fe955b793f5dfba78303ae9edb1/openapi.snapshot.yaml",
+  "expected": "c3bdba5999404ea5c58b48407f582ed7b6f19fe955b793f5dfba78303ae9edb1",
+  "before": "6019d1a0c5480a831e66ef6c0e9abd080465114a7a18f5eb191da6e65fd38678",
+  "after": "c3bdba5999404ea5c58b48407f582ed7b6f19fe955b793f5dfba78303ae9edb1",
+  "change": "CRLF to original LF only; published hash unchanged"
+}

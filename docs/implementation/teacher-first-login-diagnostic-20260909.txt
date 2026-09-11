@@ -1,0 +1,1 @@
+{"check":"TEACHER_FIRST_LOGIN_DIAGNOSTIC","alerts":["无法执行此操作该资源不在你的管理范围内。确认账号身份和管理范围。诊断编号：01a081c8-d587-7238-8323-170dc6678805"],"buttons":["中文","English","浅色","深色","跟随系统","","登录","忘记密码或无法登录？"],"responses":[{"path":"/api/v1/auth/password-login","status":200},{"path":"/api/v1/me","status":403},{"path":"/api/v1/audit-logs/client-errors","status":403}]}

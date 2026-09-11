@@ -1,0 +1,103 @@
+time="2026-09-08T20:59:37+08:00" level=warning msg="Found orphan containers (bnbu-v81-e2e-tenth-20260908, bnbu-v81-e2e-ninth-20260908, bnbu-v81-e2e-eighth-20260908, bnbu-v81-e2e-seventh-20260908, bnbu-v81-e2e-sixth-20260908, bnbu-v81-e2e-fifth-20260908, bnbu-v81-e2e-report-20260908) for this project. If you removed or renamed this service in your compose file, you can run this command with the --remove-orphans flag to clean it up."
+ Image bnbu-v81-full-integration-integration-tests Building 
+#1 [internal] load local bake definitions
+#1 reading from stdin 644B 0.0s done
+#1 DONE 0.0s
+
+#2 [internal] load build definition from Dockerfile.v81-test
+#2 transferring dockerfile: 828B done
+#2 DONE 0.0s
+
+#3 [auth] library/node:pull token for registry-1.docker.io
+#3 DONE 0.0s
+
+#4 [internal] load metadata for docker.io/library/node:24.18.0-bookworm-slim
+#4 DONE 1.6s
+
+#5 [internal] load .dockerignore
+#5 transferring context: 153B done
+#5 DONE 0.0s
+
+#6 [internal] load build context
+#6 DONE 0.0s
+
+#7 [ 1/11] FROM docker.io/library/node:24.18.0-bookworm-slim@sha256:6f7b03f7c2c8e2e784dcf9295400527b9b1270fd37b7e9a7285cf83b6951452d
+#7 resolve docker.io/library/node:24.18.0-bookworm-slim@sha256:6f7b03f7c2c8e2e784dcf9295400527b9b1270fd37b7e9a7285cf83b6951452d 0.1s done
+#7 DONE 0.1s
+
+#6 [internal] load build context
+#6 transferring context: 436.17kB 0.1s done
+#6 DONE 0.1s
+
+#8 [ 2/11] RUN apt-get update && apt-get install -y --no-install-recommends openssl ca-certificates && rm -rf /var/lib/apt/lists/*
+#8 CACHED
+
+#9 [ 3/11] WORKDIR /workspace/backend
+#9 CACHED
+
+#10 [ 4/11] COPY backend/package.json backend/package-lock.json ./
+#10 CACHED
+
+#11 [ 5/11] RUN npm ci --ignore-scripts --no-audit --no-fund
+#11 CACHED
+
+#12 [ 6/11] COPY backend/ ./
+#12 DONE 0.3s
+
+#13 [ 7/11] COPY docs/backend-contracts/ /workspace/docs/backend-contracts/
+#13 DONE 0.2s
+
+#14 [ 8/11] COPY tools/ /workspace/tools/
+#14 DONE 0.1s
+
+#15 [ 9/11] COPY BNBU-Sports-Web-new/frontend/student/ /workspace/BNBU-Sports-Web-new/frontend/student/
+#15 DONE 0.1s
+
+#16 [10/11] COPY BNBU-Sports-Web-new/portal-teacher-admin/app/ /workspace/BNBU-Sports-Web-new/portal-teacher-admin/app/
+#16 DONE 0.1s
+
+#17 [11/11] RUN npm run db:generate
+#17 0.334 
+#17 0.334 > @bnbu/sports-backend@0.1.0 db:generate
+#17 0.334 > prisma generate
+#17 0.334 
+#17 0.982 Loaded Prisma config from prisma.config.ts.
+#17 0.982 
+#17 3.275 Prisma schema loaded from prisma/schema.prisma.
+#17 4.709 
+#17 4.709 ✔ Generated Prisma Client (7.9.1) to ./src/generated/prisma in 847ms
+#17 4.709 
+#17 DONE 4.9s
+
+#18 exporting to image
+#18 exporting layers
+#18 exporting layers 1.7s done
+#18 exporting manifest sha256:96cca89c59e5bd7e266383750382a59591d79f5257bf88e784e0bcb8c1dfae57 0.0s done
+#18 exporting config sha256:90e068ec561b3e597bc39c948ded9d0479d10d099c3d4fd2d3344cd07a8e09be 0.0s done
+#18 exporting attestation manifest sha256:eb7974eb18eb07deb5df6c7f157a2faeff78de102a21fe7c2d2b23ae73d09fab
+#18 exporting attestation manifest sha256:eb7974eb18eb07deb5df6c7f157a2faeff78de102a21fe7c2d2b23ae73d09fab 0.0s done
+#18 exporting manifest list sha256:37a364e2ccbab41c0e4d6f5004a1c5c7fb880903b25db426b50907464e7ac4cb 0.0s done
+#18 naming to docker.io/library/bnbu-v81-full-integration-integration-tests:latest done
+#18 unpacking to docker.io/library/bnbu-v81-full-integration-integration-tests:latest
+#18 unpacking to docker.io/library/bnbu-v81-full-integration-integration-tests:latest 0.7s done
+#18 DONE 2.6s
+
+#19 resolving provenance for metadata file
+#19 DONE 0.0s
+ Image bnbu-v81-full-integration-integration-tests Built 
+ Container bnbu-v81-full-integration-integration-tests-run-c82197413bda Creating 
+ Container bnbu-v81-full-integration-integration-tests-run-c82197413bda Created 
+Static evidence registration: PASS (operations=249, foundation=9, teachingStructure=10, registered=105, defaultDeny=34, notRegistered=110, blockedByAdr=0)
+✔ missing responses remain unobserved and never claim completed implementation (35.185168ms)
+✔ valid success alone remains partial while valid denial of disabled routes is counted (36.251383ms)
+✔ invalid responses and successful disabled routes fail without being marked validated (33.85141ms)
+✔ complete valid runtime evidence passes and is reported precisely (36.439566ms)
+✔ disabled manifest count, duplicate and unknown entries cannot silently pass (137.432523ms)
+ℹ tests 5
+ℹ suites 0
+ℹ pass 5
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 410.304408

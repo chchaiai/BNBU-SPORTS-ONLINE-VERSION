@@ -1,0 +1,3 @@
+ERROR:  column "ended_at" does not exist
+LINE 1: ...status,version,actual_duration_seconds,started_at,ended_at F...
+                                                             ^

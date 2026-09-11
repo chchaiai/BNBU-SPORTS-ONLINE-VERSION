@@ -1,0 +1,162 @@
+time="2026-09-09T02:05:59+08:00" level=warning msg="Found orphan containers (bnbu-v81-e2e-nineteenth-20260909, bnbu-v81-e2e-eighteenth-20260909, bnbu-v81-e2e-seventeenth-20260909, bnbu-v81-e2e-sixteenth-20260908, bnbu-v81-e2e-fifteenth-20260908, bnbu-v81-e2e-fourteenth-20260908, bnbu-v81-e2e-thirteenth-20260908, bnbu-v81-e2e-twelfth-20260908, bnbu-v81-e2e-eleventh-20260908, bnbu-v81-e2e-tenth-20260908, bnbu-v81-e2e-ninth-20260908, bnbu-v81-e2e-eighth-20260908, bnbu-v81-e2e-seventh-20260908, bnbu-v81-e2e-sixth-20260908, bnbu-v81-e2e-fifth-20260908, bnbu-v81-e2e-report-20260908) for this project. If you removed or renamed this service in your compose file, you can run this command with the --remove-orphans flag to clean it up."
+ Image bnbu-v81-full-integration-integration-tests Building 
+#1 [internal] load local bake definitions
+#1 reading from stdin 644B 0.0s done
+#1 DONE 0.0s
+
+#2 [internal] load build definition from Dockerfile.v81-test
+#2 transferring dockerfile: 828B 0.0s done
+#2 DONE 0.0s
+
+#3 [auth] library/node:pull token for registry-1.docker.io
+#3 DONE 0.0s
+
+#4 [internal] load metadata for docker.io/library/node:24.18.0-bookworm-slim
+#4 DONE 1.6s
+
+#5 [internal] load .dockerignore
+#5 transferring context: 153B done
+#5 DONE 0.0s
+
+#6 [ 1/11] FROM docker.io/library/node:24.18.0-bookworm-slim@sha256:6f7b03f7c2c8e2e784dcf9295400527b9b1270fd37b7e9a7285cf83b6951452d
+#6 resolve docker.io/library/node:24.18.0-bookworm-slim@sha256:6f7b03f7c2c8e2e784dcf9295400527b9b1270fd37b7e9a7285cf83b6951452d 0.0s done
+#6 DONE 0.0s
+
+#7 [internal] load build context
+#7 transferring context: 135.33kB 0.1s done
+#7 DONE 0.1s
+
+#8 [ 4/11] COPY backend/package.json backend/package-lock.json ./
+#8 CACHED
+
+#9 [ 2/11] RUN apt-get update && apt-get install -y --no-install-recommends openssl ca-certificates && rm -rf /var/lib/apt/lists/*
+#9 CACHED
+
+#10 [ 3/11] WORKDIR /workspace/backend
+#10 CACHED
+
+#11 [ 5/11] RUN npm ci --ignore-scripts --no-audit --no-fund
+#11 CACHED
+
+#12 [ 6/11] COPY backend/ ./
+#12 DONE 0.3s
+
+#13 [ 7/11] COPY docs/backend-contracts/ /workspace/docs/backend-contracts/
+#13 DONE 0.2s
+
+#14 [ 8/11] COPY tools/ /workspace/tools/
+#14 DONE 0.1s
+
+#15 [ 9/11] COPY BNBU-Sports-Web-new/frontend/student/ /workspace/BNBU-Sports-Web-new/frontend/student/
+#15 DONE 0.1s
+
+#16 [10/11] COPY BNBU-Sports-Web-new/portal-teacher-admin/app/ /workspace/BNBU-Sports-Web-new/portal-teacher-admin/app/
+#16 DONE 0.1s
+
+#17 [11/11] RUN npm run db:generate
+#17 0.374 
+#17 0.374 > @bnbu/sports-backend@0.1.0 db:generate
+#17 0.374 > prisma generate
+#17 0.374 
+#17 1.095 Loaded Prisma config from prisma.config.ts.
+#17 1.095 
+#17 2.893 Prisma schema loaded from prisma/schema.prisma.
+#17 4.625 
+#17 4.625 ✔ Generated Prisma Client (7.9.1) to ./src/generated/prisma in 1.12s
+#17 4.625 
+#17 DONE 4.8s
+
+#18 exporting to image
+#18 exporting layers
+#18 exporting layers 1.9s done
+#18 exporting manifest sha256:268445992b7c2630a22ea530ee62c7fa9715ba316c8f26dd0d780ab7f25bcbdf 0.0s done
+#18 exporting config sha256:9b39f47115c465bd0164091d1739114f6f44b397b140761d3e16664be0c11c41 0.0s done
+#18 exporting attestation manifest sha256:a91d10bfbd078a5e363f69920a16ece7f14b99e21099f962d2e1c657e335ffbc
+#18 exporting attestation manifest sha256:a91d10bfbd078a5e363f69920a16ece7f14b99e21099f962d2e1c657e335ffbc 0.0s done
+#18 exporting manifest list sha256:c74c0d6300890325d94212b5903dd75d3fc20ee6018d51814bed4a84d964e640 0.0s done
+#18 naming to docker.io/library/bnbu-v81-full-integration-integration-tests:latest done
+#18 unpacking to docker.io/library/bnbu-v81-full-integration-integration-tests:latest
+#18 unpacking to docker.io/library/bnbu-v81-full-integration-integration-tests:latest 0.8s done
+#18 DONE 2.9s
+
+#19 resolving provenance for metadata file
+#19 DONE 0.0s
+ Image bnbu-v81-full-integration-integration-tests Built 
+ Container bnbu-v81-full-integration-integration-tests-run-193eb99e5db4 Creating 
+ Container bnbu-v81-full-integration-integration-tests-run-193eb99e5db4 Created 
+
+> @bnbu/sports-backend@0.1.0 prebuild
+> npm run db:generate && npm run generate
+
+
+> @bnbu/sports-backend@0.1.0 db:generate
+> prisma generate
+
+Loaded Prisma config from prisma.config.ts.
+
+Prisma schema loaded from prisma/schema.prisma.
+
+✔ Generated Prisma Client (7.9.1) to ./src/generated/prisma in 1.04s
+
+┌─────────────────────────────────────────────────────────┐
+│  Update available 7.9.1 -> 8.0.0-rc.13                  │
+│                                                         │
+│  This is a major update - please follow the guide at    │
+│  https://pris.ly/d/major-version-upgrade                │
+│                                                         │
+│  Run the following to update                            │
+│    npm i --save-dev prisma@latest                       │
+│    npm i @prisma/client@latest                          │
+└─────────────────────────────────────────────────────────┘
+
+> @bnbu/sports-backend@0.1.0 generate
+> npm run openapi:generate && npm run db:manifest:generate
+
+
+> @bnbu/sports-backend@0.1.0 openapi:generate
+> node ./scripts/generate-openapi.mjs
+
+Generated 3 OpenAPI artifacts from 251 operations.
+
+> @bnbu/sports-backend@0.1.0 db:manifest:generate
+> node ./scripts/generate-migration-manifest.mjs
+
+Generated migration manifest updated.
+
+> @bnbu/sports-backend@0.1.0 build
+> nest build
+
+{"check":"MAKEUP_HTTP_GRANT_SCOPE_RULE_BOUNDS_REPLAY_PAGINATION_CONCURRENT_REVOCATION_AUDIT","result":"PASS","membersSeeded":true}
+{"check":"STUDENT_OWN_MAKEUP_OTP_SCOPE_PAGINATION_REVOCATION_NOTIFICATION_EXACTLY_ONCE","result":"PASS","syntheticStudents":true}
+▶ V81 makeup window HTTP E2E
+  ✔ creates and revokes makeup windows with student OTP readback and notifications (1838.878402ms)
+  ✖ authorizes post-deadline exercise from a granted window and preserves the active session after revocation (661.275386ms)
+✖ V81 makeup window HTTP E2E (3431.363168ms)
+ℹ tests 2
+ℹ suites 1
+ℹ pass 1
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 4475.264314
+
+✖ failing tests:
+
+test at test/e2e/v81-makeup.e2e.test.ts:1:8575
+✖ authorizes post-deadline exercise from a granted window and preserves the active session after revocation (661.275386ms)
+  Error [ERR_MODULE_NOT_FOUND]: Cannot find module '/workspace/backend/node_modules/sharp/lib/index.js' imported from /workspace/tools/local-integration/v81-makeup-session-probe.mjs
+      at finalizeResolution (node:internal/modules/esm/resolve:271:11)
+      at moduleResolve (node:internal/modules/esm/resolve:865:10)
+      at defaultResolve (node:internal/modules/esm/resolve:992:11)
+      at #cachedDefaultResolve (node:internal/modules/esm/loader:701:20)
+      at #resolveAndMaybeBlockOnLoaderThread (node:internal/modules/esm/loader:721:38)
+      at nextStep (node:internal/modules/customization_hooks:189:26)
+      at resolveBaseSync (file:///workspace/backend/node_modules/tsx/dist/register-B_kKY3fL.mjs:2:9102)
+      at resolveDirectorySync (file:///workspace/backend/node_modules/tsx/dist/register-B_kKY3fL.mjs:2:10315)
+      at resolveTsPathsSync (file:///workspace/backend/node_modules/tsx/dist/register-B_kKY3fL.mjs:2:11547)
+      at resolve (file:///workspace/backend/node_modules/tsx/dist/register-B_kKY3fL.mjs:2:13365) {
+    code: 'ERR_MODULE_NOT_FOUND',
+    url: 'file:///workspace/backend/node_modules/sharp/lib/index.js'
+  }
+

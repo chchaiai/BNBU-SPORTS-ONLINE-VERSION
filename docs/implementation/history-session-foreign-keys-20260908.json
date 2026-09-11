@@ -1,0 +1,110 @@
+[
+    {
+        "table": "exemption_application_events",
+        "target": "auth_sessions",
+        "constraint": "exemption_application_events_auth_session_id_organization__fkey",
+        "definition": "FOREIGN KEY (auth_session_id, organization_id) REFERENCES auth_sessions(id, organization_id) ON UPDATE CASCADE ON DELETE RESTRICT"
+    },
+    {
+        "table": "exercise_record_events",
+        "target": "auth_sessions",
+        "constraint": "exercise_record_events_auth_session_organization_fkey",
+        "definition": "FOREIGN KEY (auth_session_id, organization_id) REFERENCES auth_sessions(id, organization_id) ON UPDATE CASCADE ON DELETE RESTRICT"
+    },
+    {
+        "table": "exercise_session_events",
+        "target": "auth_sessions",
+        "constraint": "exercise_session_events_auth_session_organization_fkey",
+        "definition": "FOREIGN KEY (auth_session_id, organization_id) REFERENCES auth_sessions(id, organization_id) ON UPDATE CASCADE ON DELETE RESTRICT"
+    },
+    {
+        "table": "exercise_sessions",
+        "target": "auth_sessions",
+        "constraint": "exercise_sessions_auth_session_organization_fkey",
+        "definition": "FOREIGN KEY (started_by_auth_session_id, organization_id) REFERENCES auth_sessions(id, organization_id) ON UPDATE CASCADE ON DELETE RESTRICT"
+    },
+    {
+        "table": "feedback_events",
+        "target": "auth_sessions",
+        "constraint": "feedback_events_auth_session_id_organization_id_fkey",
+        "definition": "FOREIGN KEY (auth_session_id, organization_id) REFERENCES auth_sessions(id, organization_id) ON UPDATE CASCADE ON DELETE RESTRICT"
+    },
+    {
+        "table": "idempotency_records",
+        "target": "auth_sessions",
+        "constraint": "idempotency_records_auth_session_id_organization_id_fkey",
+        "definition": "FOREIGN KEY (auth_session_id, organization_id) REFERENCES auth_sessions(id, organization_id) ON UPDATE CASCADE ON DELETE RESTRICT"
+    },
+    {
+        "table": "join_capabilities",
+        "target": "auth_sessions",
+        "constraint": "join_capabilities_auth_session_id_organization_id_fkey",
+        "definition": "FOREIGN KEY (auth_session_id, organization_id) REFERENCES auth_sessions(id, organization_id) ON UPDATE CASCADE ON DELETE RESTRICT"
+    },
+    {
+        "table": "location_consent_events",
+        "target": "auth_sessions",
+        "constraint": "location_consent_events_auth_session_id_organization_id_fkey",
+        "definition": "FOREIGN KEY (auth_session_id, organization_id) REFERENCES auth_sessions(id, organization_id) ON UPDATE CASCADE ON DELETE RESTRICT"
+    },
+    {
+        "table": "location_track_events",
+        "target": "auth_sessions",
+        "constraint": "location_track_events_auth_session_id_organization_id_fkey",
+        "definition": "FOREIGN KEY (auth_session_id, organization_id) REFERENCES auth_sessions(id, organization_id) ON UPDATE CASCADE ON DELETE RESTRICT"
+    },
+    {
+        "table": "notification_events",
+        "target": "auth_sessions",
+        "constraint": "notification_events_auth_session_id_organization_id_fkey",
+        "definition": "FOREIGN KEY (auth_session_id, organization_id) REFERENCES auth_sessions(id, organization_id) ON UPDATE CASCADE ON DELETE RESTRICT"
+    },
+    {
+        "table": "push_device_events",
+        "target": "auth_sessions",
+        "constraint": "push_device_events_auth_session_id_organization_id_fkey",
+        "definition": "FOREIGN KEY (auth_session_id, organization_id) REFERENCES auth_sessions(id, organization_id) ON UPDATE CASCADE ON DELETE RESTRICT"
+    },
+    {
+        "table": "push_device_events",
+        "target": "push_devices",
+        "constraint": "push_device_events_push_device_id_organization_id_fkey",
+        "definition": "FOREIGN KEY (push_device_id, organization_id) REFERENCES push_devices(id, organization_id) ON UPDATE CASCADE ON DELETE RESTRICT"
+    },
+    {
+        "table": "push_devices",
+        "target": "auth_sessions",
+        "constraint": "push_devices_auth_session_id_organization_id_fkey",
+        "definition": "FOREIGN KEY (auth_session_id, organization_id) REFERENCES auth_sessions(id, organization_id) ON UPDATE CASCADE ON DELETE RESTRICT"
+    },
+    {
+        "table": "refresh_tokens",
+        "target": "auth_sessions",
+        "constraint": "refresh_tokens_auth_session_id_organization_id_fkey",
+        "definition": "FOREIGN KEY (auth_session_id, organization_id) REFERENCES auth_sessions(id, organization_id) ON UPDATE CASCADE ON DELETE RESTRICT"
+    },
+    {
+        "table": "user_preference_events",
+        "target": "auth_sessions",
+        "constraint": "user_preference_events_auth_session_id_organization_id_fkey",
+        "definition": "FOREIGN KEY (auth_session_id, organization_id) REFERENCES auth_sessions(id, organization_id) ON UPDATE CASCADE ON DELETE RESTRICT"
+    },
+    {
+        "table": "user_preference_events",
+        "target": "user_preferences",
+        "constraint": "user_preference_events_user_preference_id_organization_id_fkey",
+        "definition": "FOREIGN KEY (user_preference_id, organization_id) REFERENCES user_preferences(id, organization_id) ON UPDATE CASCADE ON DELETE RESTRICT"
+    },
+    {
+        "table": "v81_account_deletion_challenges",
+        "target": "auth_sessions",
+        "constraint": "v81_account_deletion_challenges_auth_session_id_fkey",
+        "definition": "FOREIGN KEY (auth_session_id) REFERENCES auth_sessions(id)"
+    },
+    {
+        "table": "v81_runtime_archive_capabilities",
+        "target": "auth_sessions",
+        "constraint": "v81_runtime_archive_capabilities_auth_session_id_fkey",
+        "definition": "FOREIGN KEY (auth_session_id) REFERENCES auth_sessions(id) ON DELETE CASCADE"
+    }
+]

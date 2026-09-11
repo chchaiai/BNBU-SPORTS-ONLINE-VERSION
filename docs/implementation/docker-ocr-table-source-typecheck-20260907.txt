@@ -1,0 +1,24 @@
+ Container bnbu-v81-local-validation-domain-tests-run-2cd6fde102bb Creating 
+ Container bnbu-v81-local-validation-domain-tests-run-2cd6fde102bb Created 
+
+> @bnbu/sports-backend@0.1.0 typecheck
+> tsc --noEmit -p tsconfig.json
+
+test/unit/ocr-table-source.test.ts(13,20): error TS2532: Object is possibly 'undefined'.
+test/unit/ocr-table-source.test.ts(16,16): error TS2532: Object is possibly 'undefined'.
+test/unit/ocr-table-source.test.ts(16,16): error TS2532: Object is possibly 'undefined'.
+test/unit/ocr-table-source.test.ts(17,3): error TS2532: Object is possibly 'undefined'.
+test/unit/ocr-table-source.test.ts(17,3): error TS2532: Object is possibly 'undefined'.
+test/unit/ocr-table-source.test.ts(17,3): error TS2532: Object is possibly 'undefined'.
+test/unit/ocr-table-source.test.ts(18,16): error TS2532: Object is possibly 'undefined'.
+test/unit/ocr-table-source.test.ts(18,16): error TS2532: Object is possibly 'undefined'.
+test/unit/ocr-table-source.test.ts(18,16): error TS2532: Object is possibly 'undefined'.
+test/unit/ocr-table-source.test.ts(21,16): error TS2532: Object is possibly 'undefined'.
+test/unit/ocr-table-source.test.ts(21,16): error TS2532: Object is possibly 'undefined'.
+test/unit/ocr-table-source.test.ts(21,67): error TS2322: Type 'null' is not assignable to type 'number'.
+test/unit/ocr-table-source.test.ts(24,60): error TS2322: Type '{ Confidence: number; RowTl: number; RowBr: number; ColBr: number; Text: string; Polygon: { X: number; Y: number; }[]; ColTl: number; } | { RowTl: number; Confidence: number; RowBr: number; ColBr: number; Text: string; Polygon: { ...; }[]; ColTl: number; } | { ...; } | { ...; } | { ...; } | { ...; }' is not assignable to type '{ Text: string; RowTl: number; RowBr: number; ColTl: number; ColBr: number; Confidence: number; Polygon: { X: number; Y: number; }[]; }'.
+  Type '{ Text: number; Confidence: number; RowTl: number; RowBr: number; ColBr: number; Polygon: { X: number; Y: number; }[]; ColTl: number; }' is not assignable to type '{ Text: string; RowTl: number; RowBr: number; ColTl: number; ColBr: number; Confidence: number; Polygon: { X: number; Y: number; }[]; }'.
+    Types of property 'Text' are incompatible.
+      Type 'number' is not assignable to type 'string'.
+
+Docker exit code: 2

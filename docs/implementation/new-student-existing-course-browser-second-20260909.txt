@@ -1,0 +1,4 @@
+using existing open course; creation gap remains
+stage STUDENT_JOIN
+stage INITIAL_EMAIL
+{"result":"FAIL","stage":"INITIAL_EMAIL","message":"locator.waitFor: Timeout 60000ms exceeded.\nCall log:\n\u001b[2m  - waiting for getByText('我的', { exact: true }) to be visible\u001b[22m\n"}

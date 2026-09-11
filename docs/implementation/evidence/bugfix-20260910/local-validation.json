@@ -1,0 +1,13 @@
+{
+  "status": "PASS",
+  "real30MinuteSubmission": "PASS",
+  "sourceCommit": "b83b302c1f02f9463ee0ab79150742571ebb18b2",
+  "actualDurationSeconds": 1812,
+  "creditedDurationSeconds": 1800,
+  "passedAt": "2026-09-10T10:55:27.576Z",
+  "previousNginxSha256": "c09d6dc8ad7724cb1a316c5740f7bf1c23a0e5085df32dd2a92a75eed02ea1a9",
+  "artifacts": {
+    "release.tar.gz": "0d0549401ae67afd0aafc157f07a734ae469afec997e91bda9c1da23a00e96da",
+    "bugfix-release-images.tar.gz": "b7df07813ab339e0d030f01bb2644903cf74348be84fc29a7cb146ba4fa7512b"
+  }
+}

@@ -1,0 +1,164 @@
+ Image bnbu-v81-full-integration-integration-tests Building 
+#1 [internal] load local bake definitions
+#1 reading from stdin 644B 0.0s done
+#1 DONE 0.0s
+
+#2 [internal] load build definition from Dockerfile.v81-test
+#2 transferring dockerfile: 828B done
+#2 DONE 0.0s
+
+#3 [auth] library/node:pull token for registry-1.docker.io
+#3 DONE 0.0s
+
+#4 [internal] load metadata for docker.io/library/node:24.18.0-bookworm-slim
+#4 DONE 1.5s
+
+#5 [internal] load .dockerignore
+#5 transferring context: 153B done
+#5 DONE 0.0s
+
+#6 [ 1/11] FROM docker.io/library/node:24.18.0-bookworm-slim@sha256:6f7b03f7c2c8e2e784dcf9295400527b9b1270fd37b7e9a7285cf83b6951452d
+#6 resolve docker.io/library/node:24.18.0-bookworm-slim@sha256:6f7b03f7c2c8e2e784dcf9295400527b9b1270fd37b7e9a7285cf83b6951452d 0.0s done
+#6 DONE 0.0s
+
+#7 [internal] load build context
+#7 transferring context: 126.62kB 0.1s done
+#7 DONE 0.1s
+
+#8 [ 3/11] WORKDIR /workspace/backend
+#8 CACHED
+
+#9 [ 4/11] COPY backend/package.json backend/package-lock.json ./
+#9 CACHED
+
+#10 [ 2/11] RUN apt-get update && apt-get install -y --no-install-recommends openssl ca-certificates && rm -rf /var/lib/apt/lists/*
+#10 CACHED
+
+#11 [ 5/11] RUN npm ci --ignore-scripts --no-audit --no-fund
+#11 CACHED
+
+#12 [ 6/11] COPY backend/ ./
+#12 DONE 0.2s
+
+#13 [ 7/11] COPY docs/backend-contracts/ /workspace/docs/backend-contracts/
+#13 DONE 0.2s
+
+#14 [ 8/11] COPY tools/ /workspace/tools/
+#14 DONE 0.1s
+
+#15 [ 9/11] COPY BNBU-Sports-Web-new/frontend/student/ /workspace/BNBU-Sports-Web-new/frontend/student/
+#15 DONE 0.1s
+
+#16 [10/11] COPY BNBU-Sports-Web-new/portal-teacher-admin/app/ /workspace/BNBU-Sports-Web-new/portal-teacher-admin/app/
+#16 DONE 0.1s
+
+#17 [11/11] RUN npm run db:generate
+#17 0.361 
+#17 0.361 > @bnbu/sports-backend@0.1.0 db:generate
+#17 0.361 > prisma generate
+#17 0.361 
+#17 0.978 Loaded Prisma config from prisma.config.ts.
+#17 0.978 
+#17 2.787 Prisma schema loaded from prisma/schema.prisma.
+#17 4.434 
+#17 4.434 ✔ Generated Prisma Client (7.9.1) to ./src/generated/prisma in 1.08s
+#17 4.434 
+#17 DONE 4.6s
+
+#18 exporting to image
+#18 exporting layers
+#18 exporting layers 1.7s done
+#18 exporting manifest sha256:e4ef859048fb76e579a11e4544052c01284c9ed5f5a6bac1a19cac41078ab31f 0.0s done
+#18 exporting config sha256:a77302baecd3043e4cf8909bc94d930e6c16937c3d475366d1bda8fce1dd379f 0.0s done
+#18 exporting attestation manifest sha256:b75af08e07d28f8e557dbefd56b0d4fba87a9347d2e7293a9263feb41373f6f6 0.0s done
+#18 exporting manifest list sha256:2983d3acb1808097c2c928cbe38d852ea7dd0799bb667e1eabc8b2f7d833cce9
+#18 exporting manifest list sha256:2983d3acb1808097c2c928cbe38d852ea7dd0799bb667e1eabc8b2f7d833cce9 0.0s done
+#18 naming to docker.io/library/bnbu-v81-full-integration-integration-tests:latest done
+#18 unpacking to docker.io/library/bnbu-v81-full-integration-integration-tests:latest
+#18 unpacking to docker.io/library/bnbu-v81-full-integration-integration-tests:latest 0.8s done
+#18 DONE 2.7s
+
+#19 resolving provenance for metadata file
+#19 DONE 0.0s
+ Image bnbu-v81-full-integration-integration-tests Built 
+ Container bnbu-v81-full-integration-integration-tests-run-0f4191864a42 Creating 
+ Container bnbu-v81-full-integration-integration-tests-run-0f4191864a42 Created 
+
+> @bnbu/sports-backend@0.1.0 prebuild
+> npm run db:generate && npm run generate
+
+
+> @bnbu/sports-backend@0.1.0 db:generate
+> prisma generate
+
+Loaded Prisma config from prisma.config.ts.
+
+Prisma schema loaded from prisma/schema.prisma.
+
+┌─────────────────────────────────────────────────────────┐
+│  Update available 7.9.1 -> 8.0.0-rc.13                  │
+│                                                         │
+│  This is a major update - please follow the guide at    │
+│  https://pris.ly/d/major-version-upgrade                │
+│                                                         │
+│  Run the following to update                            │
+│    npm i --save-dev prisma@latest                       │
+│    npm i @prisma/client@latest                          │
+└─────────────────────────────────────────────────────────┘
+✔ Generated Prisma Client (7.9.1) to ./src/generated/prisma in 885ms
+
+
+> @bnbu/sports-backend@0.1.0 generate
+> npm run openapi:generate && npm run db:manifest:generate
+
+
+> @bnbu/sports-backend@0.1.0 openapi:generate
+> node ./scripts/generate-openapi.mjs
+
+Generated 3 OpenAPI artifacts from 249 operations.
+
+> @bnbu/sports-backend@0.1.0 db:manifest:generate
+> node ./scripts/generate-migration-manifest.mjs
+
+Generated migration manifest updated.
+
+> @bnbu/sports-backend@0.1.0 build
+> nest build
+
+▶ ExerciseSession HTTP E2E
+  ✔ runs start, active recovery, pause, resume, conservative reconcile, and finish atomically (1244.823027ms)
+  ✔ cancels without deleting history and rejects stale, duplicate-active, foreign-role, removed, and unknown input (778.546135ms)
+  ✖ fails closed outside the configured window and rejects unverified offline intervals (562.273225ms)
+  ✔ allows further exercise with 20 hours of historical VALID records (700.876126ms)
+✖ ExerciseSession HTTP E2E (4274.957263ms)
+ℹ tests 4
+ℹ suites 1
+ℹ pass 3
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 4852.478227
+
+✖ failing tests:
+
+test at test/e2e/exercise-session.e2e.test.ts:1:10649
+✖ fails closed outside the configured window and rejects unverified offline intervals (562.273225ms)
+  PrismaClientKnownRequestError: 
+  Invalid `prisma.classSection.update()` invocation in
+  /workspace/backend/test/e2e/exercise-session.e2e.test.ts:382:31
+  
+    379   where: { id: foundation.teacherAActiveSectionId },
+    380   data: { checkInWindowMode: 'UNAVAILABLE' },
+    381 }));
+  → 382 await prisma.classSection.update(
+  Database error. Code: `23514`. Message: `new row for relation "class_sections" violates check constraint "class_sections_close_shape_check"`
+      at Jr.handleRequestError (/workspace/backend/node_modules/@prisma/client/src/runtime/RequestHandler.ts:237:13)
+      at Jr.handleAndLogRequestError (/workspace/backend/node_modules/@prisma/client/src/runtime/RequestHandler.ts:183:12)
+      at Jr.request (/workspace/backend/node_modules/@prisma/client/src/runtime/RequestHandler.ts:152:12)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async a (/workspace/backend/node_modules/@prisma/client/src/runtime/getPrismaClient.ts:1014:24)
+      at async TestContext.<anonymous> (/workspace/backend/test/e2e/exercise-session.e2e.test.ts:382:5)
+      at async Test.run (node:internal/test_runner/test:1332:7)
+      at async Suite.processPendingSubtests (node:internal/test_runner/test:911:7)
+

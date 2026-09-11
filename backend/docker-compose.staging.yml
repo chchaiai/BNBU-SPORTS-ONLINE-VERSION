@@ -1,0 +1,189 @@
+name: bnbu-sports-staging
+
+services:
+  migrator:
+    profiles: [migration]
+    image: ${BACKEND_MIGRATOR_IMAGE:?Set an immutable Backend migrator image reference}
+    cpus: 1.00
+    mem_limit: 768m
+    pids_limit: 256
+    group_add:
+      - '10001'
+    env_file:
+      - ${STAGING_ENV_FILE:-./config/staging.env}
+    secrets:
+      - source: bnbu_migrator
+        target: bnbu_migrator.json
+      - source: tencentdb_ca
+        target: tencentdb-ca-chain.pem
+    read_only: true
+    tmpfs:
+      - /tmp:rw,noexec,nosuid,nodev,size=32m
+    cap_drop: [ALL]
+    security_opt:
+      - no-new-privileges:true
+    logging:
+      driver: json-file
+      options:
+        max-size: '10m'
+        max-file: '5'
+    restart: 'no'
+
+  backend:
+    image: ${BACKEND_RUNTIME_IMAGE:?Set an immutable Backend runtime image reference}
+    cpus: 1.50
+    mem_limit: 1536m
+    pids_limit: 256
+    group_add:
+      - '10001'
+    env_file:
+      - ${STAGING_ENV_FILE:-./config/staging.env}
+    secrets:
+      - source: bnbu_runtime
+        target: bnbu_runtime.json
+      - source: tencentdb_ca
+        target: tencentdb-ca-chain.pem
+    ports:
+      - 127.0.0.1:${BACKEND_BIND_PORT:-3000}:3000
+    read_only: true
+    tmpfs:
+      - /tmp:rw,noexec,nosuid,nodev,size=64m
+    cap_drop: [ALL]
+    security_opt:
+      - no-new-privileges:true
+    logging:
+      driver: json-file
+      options:
+        max-size: '10m'
+        max-file: '5'
+    restart: unless-stopped
+    stop_grace_period: 30s
+
+  health-operator:
+    profiles: [operations]
+    image: ${BACKEND_RUNTIME_IMAGE:?Set an immutable Backend runtime image reference}
+    cpus: 1.00
+    mem_limit: 768m
+    pids_limit: 256
+    entrypoint: [node, --enable-source-maps, dist/tools/staging-health-operator.js]
+    group_add:
+      - '10001'
+    env_file:
+      - ${STAGING_ENV_FILE:-./config/staging.env}
+    environment:
+      STAGING_BOOTSTRAP_CONFIRMATION: ${STAGING_BOOTSTRAP_CONFIRMATION:-NOT_CONFIRMED}
+      STAGING_FIXTURE_SECRET_FILE: /run/secrets/bnbu_staging_fixture.json
+      STAGING_BACKEND_INTERNAL_BASE_URL: http://backend:3000/api/v1
+    secrets:
+      - source: bnbu_runtime
+        target: bnbu_runtime.json
+      - source: bnbu_staging_fixture
+        target: bnbu_staging_fixture.json
+      - source: tencentdb_ca
+        target: tencentdb-ca-chain.pem
+    depends_on:
+      backend:
+        condition: service_healthy
+    read_only: true
+    tmpfs:
+      - /tmp:rw,noexec,nosuid,nodev,size=32m
+    cap_drop: [ALL]
+    security_opt:
+      - no-new-privileges:true
+    logging:
+      driver: json-file
+      options:
+        max-size: '10m'
+        max-file: '5'
+    restart: 'no'
+
+  business-operator:
+    profiles: [operations]
+    image: ${BACKEND_RUNTIME_IMAGE:?Set an immutable Backend runtime image reference}
+    cpus: 1.00
+    mem_limit: 768m
+    pids_limit: 256
+    entrypoint: [node, --enable-source-maps, dist/tools/staging-business-closure-operator.js]
+    group_add:
+      - '10001'
+    stdin_open: true
+    tty: true
+    env_file:
+      - ${STAGING_ENV_FILE:-./config/staging.env}
+    environment:
+      STAGING_BUSINESS_CONFIRMATION: ${STAGING_BUSINESS_CONFIRMATION:-NOT_CONFIRMED}
+      STAGING_QR_PATH_LOG_REDACTION_CONFIRMED: ${STAGING_QR_PATH_LOG_REDACTION_CONFIRMED:-NOT_CONFIRMED}
+      STAGING_BUSINESS_FIXTURE_SECRET_FILE: /run/secrets/bnbu_staging_business_fixture.json
+      STAGING_BUSINESS_PUBLIC_BASE_URL: https://api.verityai.cn/api/v1
+    secrets:
+      - source: bnbu_runtime
+        target: bnbu_runtime.json
+      - source: bnbu_staging_business_fixture
+        target: bnbu_staging_business_fixture.json
+      - source: tencentdb_ca
+        target: tencentdb-ca-chain.pem
+    depends_on:
+      backend:
+        condition: service_healthy
+    read_only: true
+    tmpfs:
+      - /tmp:rw,noexec,nosuid,nodev,size=32m
+    cap_drop: [ALL]
+    security_opt:
+      - no-new-privileges:true
+    logging:
+      driver: json-file
+      options:
+        max-size: '10m'
+        max-file: '5'
+    restart: 'no'
+
+  r01-provisioner:
+    profiles: [operations]
+    image: ${BACKEND_RUNTIME_IMAGE:?Set an immutable Backend runtime image reference}
+    pull_policy: never
+    cpus: 1.00
+    mem_limit: 768m
+    pids_limit: 256
+    entrypoint: [node, --enable-source-maps, dist/tools/staging-r01-provisioning-operator.js]
+    group_add:
+      - '10001'
+    env_file:
+      - ${STAGING_ENV_FILE:-./config/staging.env}
+    environment:
+      STAGING_R01_CONFIRMATION: ${STAGING_R01_CONFIRMATION:-NOT_CONFIRMED}
+      STAGING_R01_FIXTURE_SECRET_FILE: /run/secrets/bnbu_staging_r01_fixture.json
+    secrets:
+      - source: bnbu_runtime
+        target: bnbu_runtime.json
+      # Staff credentials only; Student identities must use the real OTP flow.
+      - source: bnbu_staging_r01_fixture
+        target: bnbu_staging_r01_fixture.json
+      - source: tencentdb_ca
+        target: tencentdb-ca-chain.pem
+    read_only: true
+    tmpfs:
+      - /tmp:rw,noexec,nosuid,nodev,size=32m
+    cap_drop: [ALL]
+    security_opt:
+      - no-new-privileges:true
+    logging:
+      driver: json-file
+      options:
+        max-size: '10m'
+        max-file: '5'
+    restart: 'no'
+
+secrets:
+  bnbu_runtime:
+    file: ${BNBU_RUNTIME_SECRET_FILE:?Set the host runtime JSON secret file}
+  bnbu_migrator:
+    file: ${BNBU_MIGRATOR_SECRET_FILE:?Set the host migrator JSON secret file}
+  bnbu_staging_fixture:
+    file: ${BNBU_STAGING_FIXTURE_SECRET_FILE:-/nonexistent/bnbu-staging-fixture-not-configured.json}
+  bnbu_staging_business_fixture:
+    file: ${BNBU_STAGING_BUSINESS_FIXTURE_SECRET_FILE:-/nonexistent/bnbu-staging-business-fixture-not-configured.json}
+  bnbu_staging_r01_fixture:
+    file: ${BNBU_STAGING_R01_FIXTURE_SECRET_FILE:-/nonexistent/bnbu-staging-r01-fixture-not-configured.json}
+  tencentdb_ca:
+    file: ${BNBU_TENCENTDB_CA_FILE:?Set the host TencentDB CA chain file}

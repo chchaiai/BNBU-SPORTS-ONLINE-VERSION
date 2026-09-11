@@ -1,0 +1,89 @@
+{
+  "date": "2026-09-09",
+  "baselineCommit": "f0f628ae44f9fe6f55a94dbca5bc1ef0288f8457",
+  "release": "/opt/bnbu-sports-production/releases/f0f628ae-scanner1",
+  "runtimeChecks": [
+    {
+      "check": "formal-https-admin-password-login",
+      "status": "PASS"
+    },
+    {
+      "check": "initial-admin-first-password-change-required",
+      "status": "PASS"
+    },
+    {
+      "check": "initial-admin-business-access-denied-before-password-change",
+      "status": "PASS"
+    },
+    {
+      "check": "production-role-COS-put-head-get-real-scanner",
+      "status": "PASS",
+      "syntheticObjectKey": "media/806adabb-b70e-4459-a78b-76438ce2a2d6/cc906ad5-42bf-4a92-a083-37477de334c7/image"
+    },
+    {
+      "check": "COS-signed-https-byte-roundtrip",
+      "status": "PASS"
+    },
+    {
+      "check": "COS-anonymous-access-denied",
+      "status": "PASS"
+    },
+    {
+      "check": "COS-production-origin-CORS",
+      "status": "PASS"
+    },
+    {
+      "check": "admin-session-logout",
+      "status": "PASS"
+    }
+  ],
+  "mediaApiChecks": [
+    {
+      "check": "HTTPS-media-initiate-and-idempotent-replay",
+      "status": "PASS"
+    },
+    {
+      "check": "COS-upload-confirm-production-worker-scanner-AVAILABLE",
+      "status": "PASS",
+      "mediaId": "01a086b0-53cb-727c-864b-2c397ce6f5fb"
+    },
+    {
+      "check": "API-authorized-COS-download-identical-bytes",
+      "status": "PASS"
+    },
+    {
+      "check": "PostgreSQL-media-result-readback",
+      "status": "PASS",
+      "organizationId": "01a086b0-513f-7502-8741-de8d5be0ecb9"
+    },
+    {
+      "check": "synthetic-accounts-disabled",
+      "status": "PASS"
+    }
+  ],
+  "scannerChecks": [
+    "clean-stream PASS",
+    "real-EICAR-rejected PASS",
+    "unavailable-fails-closed PASS"
+  ],
+  "unitTests": {
+    "fail": 0,
+    "pass": 21
+  },
+  "database": {
+    "migrationsApplied": 59,
+    "tls": "TLSv1.3"
+  },
+  "mail": {
+    "recipientConfirmedInbox": true,
+    "requestId": "b418f4fd-c9f0-45b0-8d57-0537b021dab4",
+    "recipient": "1376293426@qq.com",
+    "messageId": "qcloudses-30-1443273655-date-20260909225220-ITGLqmvUAl4Y1",
+    "sender": "no-reply@verityai.cn"
+  },
+  "restart": {
+    "backend": "healthy",
+    "portal": "healthy",
+    "ready": "UP"
+  }
+}

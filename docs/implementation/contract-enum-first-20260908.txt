@@ -1,0 +1,3 @@
+Contract checks failed (2):
+1. Inline enum at paths./class-sections/{classSectionId}/roster-basis.get.responses.200.content.application/json.schema.properties.data.properties.sourceKind contains null outside enum V81RosterSourceKind
+2. Inline enum at paths./class-sections/{classSectionId}/roster-basis.post.responses.201.content.application/json.schema.properties.data.properties.sourceKind contains null outside enum V81RosterSourceKind

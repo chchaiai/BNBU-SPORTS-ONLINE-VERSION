@@ -1,0 +1,1772 @@
+{
+  "contractVersion": "1.4.0-contract",
+  "summary": {
+    "operationCount": 123,
+    "enabledCount": 106,
+    "intentionallyDisabledCount": 17,
+    "successCoveredCount": 106,
+    "errorCoveredCount": 123,
+    "conformantEventCount": 478,
+    "invalidEventCount": 0
+  },
+  "operations": [
+    {
+      "operationId": "getHealthLive",
+      "method": "GET",
+      "path": "/health/live",
+      "disabled": false,
+      "completionStatus": "IMPLEMENTED_AND_CONFORMANT",
+      "conformanceStatus": "BOTH_VALIDATED",
+      "successStatuses": [
+        200
+      ],
+      "errorStatuses": [
+        500
+      ]
+    },
+    {
+      "operationId": "getHealthReady",
+      "method": "GET",
+      "path": "/health/ready",
+      "disabled": false,
+      "completionStatus": "IMPLEMENTED_AND_CONFORMANT",
+      "conformanceStatus": "BOTH_VALIDATED",
+      "successStatuses": [
+        200
+      ],
+      "errorStatuses": [
+        503
+      ]
+    },
+    {
+      "operationId": "getSystemMode",
+      "method": "GET",
+      "path": "/system-mode",
+      "disabled": false,
+      "completionStatus": "IMPLEMENTED_AND_CONFORMANT",
+      "conformanceStatus": "BOTH_VALIDATED",
+      "successStatuses": [
+        200
+      ],
+      "errorStatuses": [
+        503
+      ]
+    },
+    {
+      "operationId": "getCurrentOrganization",
+      "method": "GET",
+      "path": "/organizations/current",
+      "disabled": false,
+      "completionStatus": "IMPLEMENTED_AND_CONFORMANT",
+      "conformanceStatus": "BOTH_VALIDATED",
+      "successStatuses": [
+        200
+      ],
+      "errorStatuses": [
+        401
+      ]
+    },
+    {
+      "operationId": "getCurrentSemester",
+      "method": "GET",
+      "path": "/semesters/current",
+      "disabled": false,
+      "completionStatus": "IMPLEMENTED_AND_CONFORMANT",
+      "conformanceStatus": "BOTH_VALIDATED",
+      "successStatuses": [
+        200
+      ],
+      "errorStatuses": [
+        401
+      ]
+    },
+    {
+      "operationId": "passwordLogin",
+      "method": "POST",
+      "path": "/auth/password-login",
+      "disabled": false,
+      "completionStatus": "IMPLEMENTED_AND_CONFORMANT",
+      "conformanceStatus": "BOTH_VALIDATED",
+      "successStatuses": [
+        200
+      ],
+      "errorStatuses": [
+        401,
+        403,
+        422,
+        503
+      ]
+    },
+    {
+      "operationId": "refreshSession",
+      "method": "POST",
+      "path": "/auth/refresh",
+      "disabled": false,
+      "completionStatus": "IMPLEMENTED_AND_CONFORMANT",
+      "conformanceStatus": "BOTH_VALIDATED",
+      "successStatuses": [
+        200
+      ],
+      "errorStatuses": [
+        401
+      ]
+    },
+    {
+      "operationId": "logoutSession",
+      "method": "POST",
+      "path": "/auth/logout",
+      "disabled": false,
+      "completionStatus": "IMPLEMENTED_AND_CONFORMANT",
+      "conformanceStatus": "BOTH_VALIDATED",
+      "successStatuses": [
+        200
+      ],
+      "errorStatuses": [
+        401
+      ]
+    },
+    {
+      "operationId": "getCurrentUser",
+      "method": "GET",
+      "path": "/me",
+      "disabled": false,
+      "completionStatus": "IMPLEMENTED_AND_CONFORMANT",
+      "conformanceStatus": "BOTH_VALIDATED",
+      "successStatuses": [
+        200
+      ],
+      "errorStatuses": [
+        401
+      ]
+    },
+    {
+      "operationId": "requestCurrentUserEmailChallenge",
+      "method": "POST",
+      "path": "/me/email-verification-challenges",
+      "disabled": false,
+      "completionStatus": "IMPLEMENTED_AND_CONFORMANT",
+      "conformanceStatus": "BOTH_VALIDATED",
+      "successStatuses": [
+        202
+      ],
+      "errorStatuses": [
+        401
+      ]
+    },
+    {
+      "operationId": "verifyCurrentUserEmailChallenge",
+      "method": "POST",
+      "path": "/me/email-verification-challenges/{challengeId}/verify",
+      "disabled": false,
+      "completionStatus": "IMPLEMENTED_AND_CONFORMANT",
+      "conformanceStatus": "BOTH_VALIDATED",
+      "successStatuses": [
+        200
+      ],
+      "errorStatuses": [
+        401
+      ]
+    },
+    {
+      "operationId": "listStudents",
+      "method": "GET",
+      "path": "/students",
+      "disabled": false,
+      "completionStatus": "IMPLEMENTED_AND_CONFORMANT",
+      "conformanceStatus": "BOTH_VALIDATED",
+      "successStatuses": [
+        200
+      ],
+      "errorStatuses": [
+        401
+      ]
+    },
+    {
+      "operationId": "getStudent",
+      "method": "GET",
+      "path": "/students/{studentId}",
+      "disabled": false,
+      "completionStatus": "IMPLEMENTED_AND_CONFORMANT",
+      "conformanceStatus": "BOTH_VALIDATED",
+      "successStatuses": [
+        200
+      ],
+      "errorStatuses": [
+        401,
+        404
+      ]
+    },
+    {
+      "operationId": "updateStudent",
+      "method": "PATCH",
+      "path": "/students/{studentId}",
+      "disabled": true,
+      "completionStatus": "INTENTIONALLY_DISABLED",
+      "conformanceStatus": "INTENTIONALLY_DISABLED_VALIDATED",
+      "successStatuses": [],
+      "errorStatuses": [
+        401,
+        503
+      ]
+    },
+    {
+      "operationId": "getTeacher",
+      "method": "GET",
+      "path": "/teachers/{teacherId}",
+      "disabled": false,
+      "completionStatus": "IMPLEMENTED_AND_CONFORMANT",
+      "conformanceStatus": "BOTH_VALIDATED",
+      "successStatuses": [
+        200
+      ],
+      "errorStatuses": [
+        401,
+        404
+      ]
+    },
+    {
+      "operationId": "listTeacherClassSections",
+      "method": "GET",
+      "path": "/teachers/{teacherId}/class-sections",
+      "disabled": false,
+      "completionStatus": "IMPLEMENTED_AND_CONFORMANT",
+      "conformanceStatus": "BOTH_VALIDATED",
+      "successStatuses": [
+        200
+      ],
+      "errorStatuses": [
+        401,
+        403
+      ]
+    },
+    {
+      "operationId": "listCourses",
+      "method": "GET",
+      "path": "/courses",
+      "disabled": false,
+      "completionStatus": "IMPLEMENTED_AND_CONFORMANT",
+      "conformanceStatus": "BOTH_VALIDATED",
+      "successStatuses": [
+        200
+      ],
+      "errorStatuses": [
+        401,
+        422
+      ]
+    },
+    {
+      "operationId": "createCourse",
+      "method": "POST",
+      "path": "/courses",
+      "disabled": false,
+      "completionStatus": "IMPLEMENTED_AND_CONFORMANT",
+      "conformanceStatus": "BOTH_VALIDATED",
+      "successStatuses": [
+        201
+      ],
+      "errorStatuses": [
+        401,
+        403,
+        409
+      ]
+    },
+    {
+      "operationId": "getCourse",
+      "method": "GET",
+      "path": "/courses/{courseId}",
+      "disabled": false,
+      "completionStatus": "IMPLEMENTED_AND_CONFORMANT",
+      "conformanceStatus": "BOTH_VALIDATED",
+      "successStatuses": [
+        200
+      ],
+      "errorStatuses": [
+        401,
+        404
+      ]
+    },
+    {
+      "operationId": "updateCourse",
+      "method": "PATCH",
+      "path": "/courses/{courseId}",
+      "disabled": false,
+      "completionStatus": "IMPLEMENTED_AND_CONFORMANT",
+      "conformanceStatus": "BOTH_VALIDATED",
+      "successStatuses": [
+        200
+      ],
+      "errorStatuses": [
+        401,
+        409
+      ]
+    },
+    {
+      "operationId": "listClassSections",
+      "method": "GET",
+      "path": "/class-sections",
+      "disabled": false,
+      "completionStatus": "IMPLEMENTED_AND_CONFORMANT",
+      "conformanceStatus": "BOTH_VALIDATED",
+      "successStatuses": [
+        200
+      ],
+      "errorStatuses": [
+        401,
+        422
+      ]
+    },
+    {
+      "operationId": "createClassSection",
+      "method": "POST",
+      "path": "/class-sections",
+      "disabled": false,
+      "completionStatus": "IMPLEMENTED_AND_CONFORMANT",
+      "conformanceStatus": "BOTH_VALIDATED",
+      "successStatuses": [
+        201
+      ],
+      "errorStatuses": [
+        401,
+        403,
+        409,
+        422,
+        503
+      ]
+    },
+    {
+      "operationId": "getClassSection",
+      "method": "GET",
+      "path": "/class-sections/{classSectionId}",
+      "disabled": false,
+      "completionStatus": "IMPLEMENTED_AND_CONFORMANT",
+      "conformanceStatus": "BOTH_VALIDATED",
+      "successStatuses": [
+        200
+      ],
+      "errorStatuses": [
+        401,
+        404
+      ]
+    },
+    {
+      "operationId": "updateClassSection",
+      "method": "PATCH",
+      "path": "/class-sections/{classSectionId}",
+      "disabled": false,
+      "completionStatus": "IMPLEMENTED_AND_CONFORMANT",
+      "conformanceStatus": "BOTH_VALIDATED",
+      "successStatuses": [
+        200
+      ],
+      "errorStatuses": [
+        401,
+        403,
+        409,
+        422
+      ]
+    },
+    {
+      "operationId": "closeClassSection",
+      "method": "POST",
+      "path": "/class-sections/{classSectionId}/close",
+      "disabled": false,
+      "completionStatus": "IMPLEMENTED_AND_CONFORMANT",
+      "conformanceStatus": "BOTH_VALIDATED",
+      "successStatuses": [
+        200
+      ],
+      "errorStatuses": [
+        401,
+        403
+      ]
+    },
+    {
+      "operationId": "listEnrollments",
+      "method": "GET",
+      "path": "/enrollments",
+      "disabled": false,
+      "completionStatus": "IMPLEMENTED_AND_CONFORMANT",
+      "conformanceStatus": "BOTH_VALIDATED",
+      "successStatuses": [
+        200
+      ],
+      "errorStatuses": [
+        401
+      ]
+    },
+    {
+      "operationId": "manuallyEnrollStudent",
+      "method": "POST",
+      "path": "/class-sections/{classSectionId}/enrollments",
+      "disabled": false,
+      "completionStatus": "IMPLEMENTED_AND_CONFORMANT",
+      "conformanceStatus": "BOTH_VALIDATED",
+      "successStatuses": [
+        201
+      ],
+      "errorStatuses": [
+        401
+      ]
+    },
+    {
+      "operationId": "getEnrollment",
+      "method": "GET",
+      "path": "/enrollments/{enrollmentId}",
+      "disabled": false,
+      "completionStatus": "IMPLEMENTED_AND_CONFORMANT",
+      "conformanceStatus": "BOTH_VALIDATED",
+      "successStatuses": [
+        200
+      ],
+      "errorStatuses": [
+        401,
+        404
+      ]
+    },
+    {
+      "operationId": "withdrawEnrollment",
+      "method": "POST",
+      "path": "/enrollments/{enrollmentId}/withdraw",
+      "disabled": true,
+      "completionStatus": "INTENTIONALLY_DISABLED",
+      "conformanceStatus": "INTENTIONALLY_DISABLED_VALIDATED",
+      "successStatuses": [],
+      "errorStatuses": [
+        401,
+        409
+      ]
+    },
+    {
+      "operationId": "removeEnrollment",
+      "method": "POST",
+      "path": "/enrollments/{enrollmentId}/remove",
+      "disabled": false,
+      "completionStatus": "IMPLEMENTED_AND_CONFORMANT",
+      "conformanceStatus": "BOTH_VALIDATED",
+      "successStatuses": [
+        200
+      ],
+      "errorStatuses": [
+        401,
+        403
+      ]
+    },
+    {
+      "operationId": "restoreEnrollment",
+      "method": "POST",
+      "path": "/enrollments/{enrollmentId}/restore",
+      "disabled": false,
+      "completionStatus": "IMPLEMENTED_AND_CONFORMANT",
+      "conformanceStatus": "BOTH_VALIDATED",
+      "successStatuses": [
+        200
+      ],
+      "errorStatuses": [
+        401
+      ]
+    },
+    {
+      "operationId": "createCourseInvite",
+      "method": "POST",
+      "path": "/class-sections/{classSectionId}/course-invites",
+      "disabled": false,
+      "completionStatus": "IMPLEMENTED_AND_CONFORMANT",
+      "conformanceStatus": "BOTH_VALIDATED",
+      "successStatuses": [
+        201
+      ],
+      "errorStatuses": [
+        401
+      ]
+    },
+    {
+      "operationId": "previewCourseInvite",
+      "method": "GET",
+      "path": "/course-invites/{inviteToken}/preview",
+      "disabled": false,
+      "completionStatus": "IMPLEMENTED_AND_CONFORMANT",
+      "conformanceStatus": "BOTH_VALIDATED",
+      "successStatuses": [
+        200
+      ],
+      "errorStatuses": [
+        400,
+        410
+      ]
+    },
+    {
+      "operationId": "issueJoinCapability",
+      "method": "POST",
+      "path": "/course-invites/{inviteToken}/join-capabilities",
+      "disabled": false,
+      "completionStatus": "IMPLEMENTED_AND_CONFORMANT",
+      "conformanceStatus": "BOTH_VALIDATED",
+      "successStatuses": [
+        201
+      ],
+      "errorStatuses": [
+        400
+      ]
+    },
+    {
+      "operationId": "joinClassSectionWithInvite",
+      "method": "POST",
+      "path": "/course-invites/{inviteToken}/join",
+      "disabled": false,
+      "completionStatus": "IMPLEMENTED_AND_CONFORMANT",
+      "conformanceStatus": "BOTH_VALIDATED",
+      "successStatuses": [
+        201
+      ],
+      "errorStatuses": [
+        401,
+        409
+      ]
+    },
+    {
+      "operationId": "listRosterImports",
+      "method": "GET",
+      "path": "/class-sections/{classSectionId}/roster-imports",
+      "disabled": false,
+      "completionStatus": "IMPLEMENTED_AND_CONFORMANT",
+      "conformanceStatus": "BOTH_VALIDATED",
+      "successStatuses": [
+        200
+      ],
+      "errorStatuses": [
+        401,
+        403
+      ]
+    },
+    {
+      "operationId": "createRosterImport",
+      "method": "POST",
+      "path": "/class-sections/{classSectionId}/roster-imports",
+      "disabled": false,
+      "completionStatus": "IMPLEMENTED_AND_CONFORMANT",
+      "conformanceStatus": "BOTH_VALIDATED",
+      "successStatuses": [
+        201
+      ],
+      "errorStatuses": [
+        401,
+        403,
+        404,
+        409,
+        422
+      ]
+    },
+    {
+      "operationId": "getCurrentRosterImport",
+      "method": "GET",
+      "path": "/class-sections/{classSectionId}/roster-imports/current",
+      "disabled": false,
+      "completionStatus": "IMPLEMENTED_AND_CONFORMANT",
+      "conformanceStatus": "BOTH_VALIDATED",
+      "successStatuses": [
+        200
+      ],
+      "errorStatuses": [
+        401
+      ]
+    },
+    {
+      "operationId": "getRosterImport",
+      "method": "GET",
+      "path": "/roster-imports/{rosterImportId}",
+      "disabled": false,
+      "completionStatus": "IMPLEMENTED_AND_CONFORMANT",
+      "conformanceStatus": "BOTH_VALIDATED",
+      "successStatuses": [
+        200
+      ],
+      "errorStatuses": [
+        401,
+        404
+      ]
+    },
+    {
+      "operationId": "rollbackRosterImport",
+      "method": "POST",
+      "path": "/roster-imports/{rosterImportId}/rollback",
+      "disabled": false,
+      "completionStatus": "IMPLEMENTED_AND_CONFORMANT",
+      "conformanceStatus": "BOTH_VALIDATED",
+      "successStatuses": [
+        200
+      ],
+      "errorStatuses": [
+        401
+      ]
+    },
+    {
+      "operationId": "listRosterEntries",
+      "method": "GET",
+      "path": "/roster-imports/{rosterImportId}/entries",
+      "disabled": false,
+      "completionStatus": "IMPLEMENTED_AND_CONFORMANT",
+      "conformanceStatus": "BOTH_VALIDATED",
+      "successStatuses": [
+        200
+      ],
+      "errorStatuses": [
+        401
+      ]
+    },
+    {
+      "operationId": "alignRosterImport",
+      "method": "POST",
+      "path": "/roster-imports/{rosterImportId}/align",
+      "disabled": false,
+      "completionStatus": "IMPLEMENTED_AND_CONFORMANT",
+      "conformanceStatus": "BOTH_VALIDATED",
+      "successStatuses": [
+        202
+      ],
+      "errorStatuses": [
+        401
+      ]
+    },
+    {
+      "operationId": "listRosterAlignmentResults",
+      "method": "GET",
+      "path": "/roster-alignment-results",
+      "disabled": false,
+      "completionStatus": "IMPLEMENTED_AND_CONFORMANT",
+      "conformanceStatus": "BOTH_VALIDATED",
+      "successStatuses": [
+        200
+      ],
+      "errorStatuses": [
+        401
+      ]
+    },
+    {
+      "operationId": "getRosterAlignmentResult",
+      "method": "GET",
+      "path": "/roster-alignment-results/{alignmentResultId}",
+      "disabled": false,
+      "completionStatus": "IMPLEMENTED_AND_CONFORMANT",
+      "conformanceStatus": "BOTH_VALIDATED",
+      "successStatuses": [
+        200
+      ],
+      "errorStatuses": [
+        401
+      ]
+    },
+    {
+      "operationId": "confirmRosterAlignmentResult",
+      "method": "POST",
+      "path": "/roster-alignment-results/{alignmentResultId}/confirm",
+      "disabled": false,
+      "completionStatus": "IMPLEMENTED_AND_CONFORMANT",
+      "conformanceStatus": "BOTH_VALIDATED",
+      "successStatuses": [
+        200
+      ],
+      "errorStatuses": [
+        401
+      ]
+    },
+    {
+      "operationId": "resolveRosterAlignmentResult",
+      "method": "POST",
+      "path": "/roster-alignment-results/{alignmentResultId}/resolve",
+      "disabled": false,
+      "completionStatus": "IMPLEMENTED_AND_CONFORMANT",
+      "conformanceStatus": "BOTH_VALIDATED",
+      "successStatuses": [
+        200
+      ],
+      "errorStatuses": [
+        401
+      ]
+    },
+    {
+      "operationId": "ignoreRosterAlignmentResult",
+      "method": "POST",
+      "path": "/roster-alignment-results/{alignmentResultId}/ignore",
+      "disabled": true,
+      "completionStatus": "INTENTIONALLY_DISABLED",
+      "conformanceStatus": "INTENTIONALLY_DISABLED_VALIDATED",
+      "successStatuses": [],
+      "errorStatuses": [
+        401,
+        409
+      ]
+    },
+    {
+      "operationId": "reopenRosterAlignmentResult",
+      "method": "POST",
+      "path": "/roster-alignment-results/{alignmentResultId}/reopen",
+      "disabled": false,
+      "completionStatus": "IMPLEMENTED_AND_CONFORMANT",
+      "conformanceStatus": "BOTH_VALIDATED",
+      "successStatuses": [
+        200
+      ],
+      "errorStatuses": [
+        401
+      ]
+    },
+    {
+      "operationId": "startExerciseSession",
+      "method": "POST",
+      "path": "/exercise-sessions",
+      "disabled": false,
+      "completionStatus": "IMPLEMENTED_AND_CONFORMANT",
+      "conformanceStatus": "BOTH_VALIDATED",
+      "successStatuses": [
+        201
+      ],
+      "errorStatuses": [
+        401,
+        409,
+        422
+      ]
+    },
+    {
+      "operationId": "getActiveExerciseSession",
+      "method": "GET",
+      "path": "/exercise-sessions/active",
+      "disabled": false,
+      "completionStatus": "IMPLEMENTED_AND_CONFORMANT",
+      "conformanceStatus": "BOTH_VALIDATED",
+      "successStatuses": [
+        200
+      ],
+      "errorStatuses": [
+        401
+      ]
+    },
+    {
+      "operationId": "getExerciseSession",
+      "method": "GET",
+      "path": "/exercise-sessions/{sessionId}",
+      "disabled": false,
+      "completionStatus": "IMPLEMENTED_AND_CONFORMANT",
+      "conformanceStatus": "BOTH_VALIDATED",
+      "successStatuses": [
+        200
+      ],
+      "errorStatuses": [
+        401,
+        403
+      ]
+    },
+    {
+      "operationId": "pauseExerciseSession",
+      "method": "POST",
+      "path": "/exercise-sessions/{sessionId}/pause",
+      "disabled": false,
+      "completionStatus": "IMPLEMENTED_AND_CONFORMANT",
+      "conformanceStatus": "BOTH_VALIDATED",
+      "successStatuses": [
+        200
+      ],
+      "errorStatuses": [
+        401,
+        409
+      ]
+    },
+    {
+      "operationId": "resumeExerciseSession",
+      "method": "POST",
+      "path": "/exercise-sessions/{sessionId}/resume",
+      "disabled": false,
+      "completionStatus": "IMPLEMENTED_AND_CONFORMANT",
+      "conformanceStatus": "BOTH_VALIDATED",
+      "successStatuses": [
+        200
+      ],
+      "errorStatuses": [
+        401
+      ]
+    },
+    {
+      "operationId": "finishExerciseSession",
+      "method": "POST",
+      "path": "/exercise-sessions/{sessionId}/finish",
+      "disabled": false,
+      "completionStatus": "IMPLEMENTED_AND_CONFORMANT",
+      "conformanceStatus": "BOTH_VALIDATED",
+      "successStatuses": [
+        200
+      ],
+      "errorStatuses": [
+        401
+      ]
+    },
+    {
+      "operationId": "cancelExerciseSession",
+      "method": "POST",
+      "path": "/exercise-sessions/{sessionId}/cancel",
+      "disabled": false,
+      "completionStatus": "IMPLEMENTED_AND_CONFORMANT",
+      "conformanceStatus": "BOTH_VALIDATED",
+      "successStatuses": [
+        200
+      ],
+      "errorStatuses": [
+        401
+      ]
+    },
+    {
+      "operationId": "reconcileExerciseSession",
+      "method": "POST",
+      "path": "/exercise-sessions/{sessionId}/reconcile",
+      "disabled": false,
+      "completionStatus": "IMPLEMENTED_AND_CONFORMANT",
+      "conformanceStatus": "BOTH_VALIDATED",
+      "successStatuses": [
+        200
+      ],
+      "errorStatuses": [
+        401,
+        409
+      ]
+    },
+    {
+      "operationId": "listExerciseRecords",
+      "method": "GET",
+      "path": "/exercise-records",
+      "disabled": false,
+      "completionStatus": "IMPLEMENTED_AND_CONFORMANT",
+      "conformanceStatus": "BOTH_VALIDATED",
+      "successStatuses": [
+        200
+      ],
+      "errorStatuses": [
+        401
+      ]
+    },
+    {
+      "operationId": "createExerciseRecordDraft",
+      "method": "POST",
+      "path": "/exercise-records",
+      "disabled": false,
+      "completionStatus": "IMPLEMENTED_AND_CONFORMANT",
+      "conformanceStatus": "BOTH_VALIDATED",
+      "successStatuses": [
+        201
+      ],
+      "errorStatuses": [
+        401
+      ]
+    },
+    {
+      "operationId": "getExerciseRecord",
+      "method": "GET",
+      "path": "/exercise-records/{recordId}",
+      "disabled": false,
+      "completionStatus": "IMPLEMENTED_AND_CONFORMANT",
+      "conformanceStatus": "BOTH_VALIDATED",
+      "successStatuses": [
+        200
+      ],
+      "errorStatuses": [
+        401
+      ]
+    },
+    {
+      "operationId": "updateExerciseRecordDraft",
+      "method": "PATCH",
+      "path": "/exercise-records/{recordId}",
+      "disabled": false,
+      "completionStatus": "IMPLEMENTED_AND_CONFORMANT",
+      "conformanceStatus": "BOTH_VALIDATED",
+      "successStatuses": [
+        200
+      ],
+      "errorStatuses": [
+        401
+      ]
+    },
+    {
+      "operationId": "submitExerciseRecord",
+      "method": "POST",
+      "path": "/exercise-records/{recordId}/submit",
+      "disabled": false,
+      "completionStatus": "IMPLEMENTED_AND_CONFORMANT",
+      "conformanceStatus": "BOTH_VALIDATED",
+      "successStatuses": [
+        200
+      ],
+      "errorStatuses": [
+        401,
+        409,
+        422
+      ]
+    },
+    {
+      "operationId": "discardExerciseRecord",
+      "method": "POST",
+      "path": "/exercise-records/{recordId}/discard",
+      "disabled": false,
+      "completionStatus": "IMPLEMENTED_AND_CONFORMANT",
+      "conformanceStatus": "BOTH_VALIDATED",
+      "successStatuses": [
+        200
+      ],
+      "errorStatuses": [
+        401
+      ]
+    },
+    {
+      "operationId": "withdrawExerciseRecord",
+      "method": "POST",
+      "path": "/exercise-records/{recordId}/withdraw",
+      "disabled": true,
+      "completionStatus": "INTENTIONALLY_DISABLED",
+      "conformanceStatus": "INTENTIONALLY_DISABLED_VALIDATED",
+      "successStatuses": [],
+      "errorStatuses": [
+        401,
+        409
+      ]
+    },
+    {
+      "operationId": "initiateMediaUpload",
+      "method": "POST",
+      "path": "/media-uploads",
+      "disabled": false,
+      "completionStatus": "IMPLEMENTED_AND_CONFORMANT",
+      "conformanceStatus": "BOTH_VALIDATED",
+      "successStatuses": [
+        201
+      ],
+      "errorStatuses": [
+        401,
+        422
+      ]
+    },
+    {
+      "operationId": "confirmMediaUpload",
+      "method": "POST",
+      "path": "/media-uploads/{uploadSessionId}/confirm",
+      "disabled": false,
+      "completionStatus": "IMPLEMENTED_AND_CONFORMANT",
+      "conformanceStatus": "BOTH_VALIDATED",
+      "successStatuses": [
+        200
+      ],
+      "errorStatuses": [
+        401,
+        422
+      ]
+    },
+    {
+      "operationId": "getMediaEvidence",
+      "method": "GET",
+      "path": "/media/{mediaId}",
+      "disabled": false,
+      "completionStatus": "IMPLEMENTED_AND_CONFORMANT",
+      "conformanceStatus": "BOTH_VALIDATED",
+      "successStatuses": [
+        200
+      ],
+      "errorStatuses": [
+        401
+      ]
+    },
+    {
+      "operationId": "bindMediaEvidence",
+      "method": "POST",
+      "path": "/media/{mediaId}/bind",
+      "disabled": false,
+      "completionStatus": "IMPLEMENTED_AND_CONFORMANT",
+      "conformanceStatus": "BOTH_VALIDATED",
+      "successStatuses": [
+        200
+      ],
+      "errorStatuses": [
+        401,
+        422
+      ]
+    },
+    {
+      "operationId": "createMediaAccessUrl",
+      "method": "POST",
+      "path": "/media/{mediaId}/access-url",
+      "disabled": false,
+      "completionStatus": "IMPLEMENTED_AND_CONFORMANT",
+      "conformanceStatus": "BOTH_VALIDATED",
+      "successStatuses": [
+        200
+      ],
+      "errorStatuses": [
+        401,
+        403
+      ]
+    },
+    {
+      "operationId": "listExerciseRecordReviews",
+      "method": "GET",
+      "path": "/exercise-records/{recordId}/reviews",
+      "disabled": false,
+      "completionStatus": "IMPLEMENTED_AND_CONFORMANT",
+      "conformanceStatus": "BOTH_VALIDATED",
+      "successStatuses": [
+        200
+      ],
+      "errorStatuses": [
+        401
+      ]
+    },
+    {
+      "operationId": "reviewExerciseRecord",
+      "method": "POST",
+      "path": "/exercise-records/{recordId}/reviews",
+      "disabled": false,
+      "completionStatus": "IMPLEMENTED_AND_CONFORMANT",
+      "conformanceStatus": "BOTH_VALIDATED",
+      "successStatuses": [
+        201
+      ],
+      "errorStatuses": [
+        401,
+        403,
+        404,
+        409
+      ]
+    },
+    {
+      "operationId": "reopenExerciseRecordReview",
+      "method": "POST",
+      "path": "/exercise-records/{recordId}/reviews/reopen",
+      "disabled": false,
+      "completionStatus": "IMPLEMENTED_AND_CONFORMANT",
+      "conformanceStatus": "BOTH_VALIDATED",
+      "successStatuses": [
+        201
+      ],
+      "errorStatuses": [
+        401
+      ]
+    },
+    {
+      "operationId": "batchReviewExerciseRecords",
+      "method": "POST",
+      "path": "/exercise-reviews/batch",
+      "disabled": false,
+      "completionStatus": "IMPLEMENTED_AND_CONFORMANT",
+      "conformanceStatus": "BOTH_VALIDATED",
+      "successStatuses": [
+        200
+      ],
+      "errorStatuses": [
+        401
+      ]
+    },
+    {
+      "operationId": "listScoreRules",
+      "method": "GET",
+      "path": "/class-sections/{classSectionId}/score-rules",
+      "disabled": false,
+      "completionStatus": "IMPLEMENTED_AND_CONFORMANT",
+      "conformanceStatus": "BOTH_VALIDATED",
+      "successStatuses": [
+        200
+      ],
+      "errorStatuses": [
+        401
+      ]
+    },
+    {
+      "operationId": "createScoreRule",
+      "method": "POST",
+      "path": "/class-sections/{classSectionId}/score-rules",
+      "disabled": false,
+      "completionStatus": "IMPLEMENTED_AND_CONFORMANT",
+      "conformanceStatus": "BOTH_VALIDATED",
+      "successStatuses": [
+        201
+      ],
+      "errorStatuses": [
+        401
+      ]
+    },
+    {
+      "operationId": "getScoreRule",
+      "method": "GET",
+      "path": "/score-rules/{scoreRuleId}",
+      "disabled": false,
+      "completionStatus": "IMPLEMENTED_AND_CONFORMANT",
+      "conformanceStatus": "BOTH_VALIDATED",
+      "successStatuses": [
+        200
+      ],
+      "errorStatuses": [
+        401
+      ]
+    },
+    {
+      "operationId": "submitScoreRuleForApproval",
+      "method": "POST",
+      "path": "/score-rules/{scoreRuleId}/submit-approval",
+      "disabled": false,
+      "completionStatus": "IMPLEMENTED_AND_CONFORMANT",
+      "conformanceStatus": "BOTH_VALIDATED",
+      "successStatuses": [
+        200
+      ],
+      "errorStatuses": [
+        401
+      ]
+    },
+    {
+      "operationId": "approveScoreRule",
+      "method": "POST",
+      "path": "/score-rules/{scoreRuleId}/approve",
+      "disabled": false,
+      "completionStatus": "IMPLEMENTED_AND_CONFORMANT",
+      "conformanceStatus": "BOTH_VALIDATED",
+      "successStatuses": [
+        200
+      ],
+      "errorStatuses": [
+        401,
+        409
+      ]
+    },
+    {
+      "operationId": "rejectScoreRule",
+      "method": "POST",
+      "path": "/score-rules/{scoreRuleId}/reject",
+      "disabled": false,
+      "completionStatus": "IMPLEMENTED_AND_CONFORMANT",
+      "conformanceStatus": "BOTH_VALIDATED",
+      "successStatuses": [
+        200
+      ],
+      "errorStatuses": [
+        401
+      ]
+    },
+    {
+      "operationId": "listStudentScores",
+      "method": "GET",
+      "path": "/student-scores",
+      "disabled": false,
+      "completionStatus": "IMPLEMENTED_AND_CONFORMANT",
+      "conformanceStatus": "BOTH_VALIDATED",
+      "successStatuses": [
+        200
+      ],
+      "errorStatuses": [
+        401
+      ]
+    },
+    {
+      "operationId": "getStudentScore",
+      "method": "GET",
+      "path": "/student-scores/{studentScoreId}",
+      "disabled": false,
+      "completionStatus": "IMPLEMENTED_AND_CONFORMANT",
+      "conformanceStatus": "BOTH_VALIDATED",
+      "successStatuses": [
+        200
+      ],
+      "errorStatuses": [
+        401
+      ]
+    },
+    {
+      "operationId": "recalculateStudentScore",
+      "method": "POST",
+      "path": "/student-scores/{studentScoreId}/recalculate",
+      "disabled": false,
+      "completionStatus": "IMPLEMENTED_AND_CONFORMANT",
+      "conformanceStatus": "BOTH_VALIDATED",
+      "successStatuses": [
+        202
+      ],
+      "errorStatuses": [
+        401
+      ]
+    },
+    {
+      "operationId": "publishStudentScore",
+      "method": "POST",
+      "path": "/student-scores/{studentScoreId}/publish",
+      "disabled": false,
+      "completionStatus": "IMPLEMENTED_AND_CONFORMANT",
+      "conformanceStatus": "BOTH_VALIDATED",
+      "successStatuses": [
+        200
+      ],
+      "errorStatuses": [
+        401
+      ]
+    },
+    {
+      "operationId": "openStudentScoreCorrection",
+      "method": "POST",
+      "path": "/student-scores/{studentScoreId}/open-correction",
+      "disabled": true,
+      "completionStatus": "INTENTIONALLY_DISABLED",
+      "conformanceStatus": "INTENTIONALLY_DISABLED_VALIDATED",
+      "successStatuses": [],
+      "errorStatuses": [
+        401,
+        409
+      ]
+    },
+    {
+      "operationId": "listScoreAdjustments",
+      "method": "GET",
+      "path": "/student-scores/{studentScoreId}/adjustments",
+      "disabled": false,
+      "completionStatus": "IMPLEMENTED_AND_CONFORMANT",
+      "conformanceStatus": "BOTH_VALIDATED",
+      "successStatuses": [
+        200
+      ],
+      "errorStatuses": [
+        401
+      ]
+    },
+    {
+      "operationId": "createScoreAdjustment",
+      "method": "POST",
+      "path": "/student-scores/{studentScoreId}/adjustments",
+      "disabled": false,
+      "completionStatus": "IMPLEMENTED_AND_CONFORMANT",
+      "conformanceStatus": "BOTH_VALIDATED",
+      "successStatuses": [
+        201
+      ],
+      "errorStatuses": [
+        401
+      ]
+    },
+    {
+      "operationId": "approveScoreAdjustment",
+      "method": "POST",
+      "path": "/score-adjustments/{scoreAdjustmentId}/approve",
+      "disabled": false,
+      "completionStatus": "IMPLEMENTED_AND_CONFORMANT",
+      "conformanceStatus": "BOTH_VALIDATED",
+      "successStatuses": [
+        200
+      ],
+      "errorStatuses": [
+        401,
+        403
+      ]
+    },
+    {
+      "operationId": "rejectScoreAdjustment",
+      "method": "POST",
+      "path": "/score-adjustments/{scoreAdjustmentId}/reject",
+      "disabled": false,
+      "completionStatus": "IMPLEMENTED_AND_CONFORMANT",
+      "conformanceStatus": "BOTH_VALIDATED",
+      "successStatuses": [
+        200
+      ],
+      "errorStatuses": [
+        401
+      ]
+    },
+    {
+      "operationId": "listExports",
+      "method": "GET",
+      "path": "/exports",
+      "disabled": true,
+      "completionStatus": "INTENTIONALLY_DISABLED",
+      "conformanceStatus": "INTENTIONALLY_DISABLED_VALIDATED",
+      "successStatuses": [],
+      "errorStatuses": [
+        401,
+        503
+      ]
+    },
+    {
+      "operationId": "createExport",
+      "method": "POST",
+      "path": "/exports",
+      "disabled": true,
+      "completionStatus": "INTENTIONALLY_DISABLED",
+      "conformanceStatus": "INTENTIONALLY_DISABLED_VALIDATED",
+      "successStatuses": [],
+      "errorStatuses": [
+        401,
+        503
+      ]
+    },
+    {
+      "operationId": "getExport",
+      "method": "GET",
+      "path": "/exports/{exportId}",
+      "disabled": true,
+      "completionStatus": "INTENTIONALLY_DISABLED",
+      "conformanceStatus": "INTENTIONALLY_DISABLED_VALIDATED",
+      "successStatuses": [],
+      "errorStatuses": [
+        401,
+        503
+      ]
+    },
+    {
+      "operationId": "createExportDownloadUrl",
+      "method": "POST",
+      "path": "/exports/{exportId}/download-url",
+      "disabled": true,
+      "completionStatus": "INTENTIONALLY_DISABLED",
+      "conformanceStatus": "INTENTIONALLY_DISABLED_VALIDATED",
+      "successStatuses": [],
+      "errorStatuses": [
+        401,
+        503
+      ]
+    },
+    {
+      "operationId": "listAuditLogs",
+      "method": "GET",
+      "path": "/audit-logs",
+      "disabled": false,
+      "completionStatus": "IMPLEMENTED_AND_CONFORMANT",
+      "conformanceStatus": "BOTH_VALIDATED",
+      "successStatuses": [
+        200
+      ],
+      "errorStatuses": [
+        401,
+        403
+      ]
+    },
+    {
+      "operationId": "getAuditLog",
+      "method": "GET",
+      "path": "/audit-logs/{auditLogId}",
+      "disabled": false,
+      "completionStatus": "IMPLEMENTED_AND_CONFORMANT",
+      "conformanceStatus": "BOTH_VALIDATED",
+      "successStatuses": [
+        200
+      ],
+      "errorStatuses": [
+        401,
+        404
+      ]
+    },
+    {
+      "operationId": "requestStudentSignInCode",
+      "method": "POST",
+      "path": "/auth/student-sign-in-codes",
+      "disabled": false,
+      "completionStatus": "IMPLEMENTED_AND_CONFORMANT",
+      "conformanceStatus": "BOTH_VALIDATED",
+      "successStatuses": [
+        202
+      ],
+      "errorStatuses": [
+        422
+      ]
+    },
+    {
+      "operationId": "verifyStudentSignInCode",
+      "method": "POST",
+      "path": "/auth/student-sign-in-codes/verify",
+      "disabled": false,
+      "completionStatus": "IMPLEMENTED_AND_CONFORMANT",
+      "conformanceStatus": "BOTH_VALIDATED",
+      "successStatuses": [
+        200
+      ],
+      "errorStatuses": [
+        422
+      ]
+    },
+    {
+      "operationId": "requestAccountRecovery",
+      "method": "POST",
+      "path": "/auth/account-recovery-requests",
+      "disabled": false,
+      "completionStatus": "IMPLEMENTED_AND_CONFORMANT",
+      "conformanceStatus": "BOTH_VALIDATED",
+      "successStatuses": [
+        202
+      ],
+      "errorStatuses": [
+        422
+      ]
+    },
+    {
+      "operationId": "completeAccountRecovery",
+      "method": "POST",
+      "path": "/auth/account-recovery-requests/complete",
+      "disabled": false,
+      "completionStatus": "IMPLEMENTED_AND_CONFORMANT",
+      "conformanceStatus": "BOTH_VALIDATED",
+      "successStatuses": [
+        200
+      ],
+      "errorStatuses": [
+        422
+      ]
+    },
+    {
+      "operationId": "listNotifications",
+      "method": "GET",
+      "path": "/notifications",
+      "disabled": false,
+      "completionStatus": "IMPLEMENTED_AND_CONFORMANT",
+      "conformanceStatus": "BOTH_VALIDATED",
+      "successStatuses": [
+        200
+      ],
+      "errorStatuses": [
+        401
+      ]
+    },
+    {
+      "operationId": "markNotificationRead",
+      "method": "POST",
+      "path": "/notifications/{notificationId}/read",
+      "disabled": false,
+      "completionStatus": "IMPLEMENTED_AND_CONFORMANT",
+      "conformanceStatus": "BOTH_VALIDATED",
+      "successStatuses": [
+        200
+      ],
+      "errorStatuses": [
+        401,
+        404
+      ]
+    },
+    {
+      "operationId": "registerPushDevice",
+      "method": "POST",
+      "path": "/push-devices",
+      "disabled": false,
+      "completionStatus": "IMPLEMENTED_AND_CONFORMANT",
+      "conformanceStatus": "BOTH_VALIDATED",
+      "successStatuses": [
+        201
+      ],
+      "errorStatuses": [
+        401,
+        409
+      ]
+    },
+    {
+      "operationId": "unregisterPushDevice",
+      "method": "DELETE",
+      "path": "/push-devices/{deviceId}",
+      "disabled": false,
+      "completionStatus": "IMPLEMENTED_AND_CONFORMANT",
+      "conformanceStatus": "BOTH_VALIDATED",
+      "successStatuses": [
+        200
+      ],
+      "errorStatuses": [
+        401
+      ]
+    },
+    {
+      "operationId": "getCurrentUserPreferences",
+      "method": "GET",
+      "path": "/me/preferences",
+      "disabled": false,
+      "completionStatus": "IMPLEMENTED_AND_CONFORMANT",
+      "conformanceStatus": "BOTH_VALIDATED",
+      "successStatuses": [
+        200
+      ],
+      "errorStatuses": [
+        401,
+        409
+      ]
+    },
+    {
+      "operationId": "updateCurrentUserPreferences",
+      "method": "PATCH",
+      "path": "/me/preferences",
+      "disabled": false,
+      "completionStatus": "IMPLEMENTED_AND_CONFORMANT",
+      "conformanceStatus": "BOTH_VALIDATED",
+      "successStatuses": [
+        200
+      ],
+      "errorStatuses": [
+        401
+      ]
+    },
+    {
+      "operationId": "listHelpArticles",
+      "method": "GET",
+      "path": "/help-articles",
+      "disabled": false,
+      "completionStatus": "IMPLEMENTED_AND_CONFORMANT",
+      "conformanceStatus": "BOTH_VALIDATED",
+      "successStatuses": [
+        200
+      ],
+      "errorStatuses": [
+        422
+      ]
+    },
+    {
+      "operationId": "getHelpArticle",
+      "method": "GET",
+      "path": "/help-articles/{articleId}",
+      "disabled": false,
+      "completionStatus": "IMPLEMENTED_AND_CONFORMANT",
+      "conformanceStatus": "BOTH_VALIDATED",
+      "successStatuses": [
+        200
+      ],
+      "errorStatuses": [
+        404
+      ]
+    },
+    {
+      "operationId": "listFeedback",
+      "method": "GET",
+      "path": "/feedback",
+      "disabled": false,
+      "completionStatus": "IMPLEMENTED_AND_CONFORMANT",
+      "conformanceStatus": "BOTH_VALIDATED",
+      "successStatuses": [
+        200
+      ],
+      "errorStatuses": [
+        401
+      ]
+    },
+    {
+      "operationId": "createFeedback",
+      "method": "POST",
+      "path": "/feedback",
+      "disabled": false,
+      "completionStatus": "IMPLEMENTED_AND_CONFORMANT",
+      "conformanceStatus": "BOTH_VALIDATED",
+      "successStatuses": [
+        201
+      ],
+      "errorStatuses": [
+        401
+      ]
+    },
+    {
+      "operationId": "getFeedback",
+      "method": "GET",
+      "path": "/feedback/{feedbackId}",
+      "disabled": false,
+      "completionStatus": "IMPLEMENTED_AND_CONFORMANT",
+      "conformanceStatus": "BOTH_VALIDATED",
+      "successStatuses": [
+        200
+      ],
+      "errorStatuses": [
+        401,
+        404
+      ]
+    },
+    {
+      "operationId": "listExemptionApplications",
+      "method": "GET",
+      "path": "/exemption-applications",
+      "disabled": false,
+      "completionStatus": "IMPLEMENTED_AND_CONFORMANT",
+      "conformanceStatus": "BOTH_VALIDATED",
+      "successStatuses": [
+        200
+      ],
+      "errorStatuses": [
+        401
+      ]
+    },
+    {
+      "operationId": "createExemptionApplication",
+      "method": "POST",
+      "path": "/exemption-applications",
+      "disabled": false,
+      "completionStatus": "IMPLEMENTED_AND_CONFORMANT",
+      "conformanceStatus": "BOTH_VALIDATED",
+      "successStatuses": [
+        201
+      ],
+      "errorStatuses": [
+        401
+      ]
+    },
+    {
+      "operationId": "getExemptionApplication",
+      "method": "GET",
+      "path": "/exemption-applications/{applicationId}",
+      "disabled": false,
+      "completionStatus": "IMPLEMENTED_AND_CONFORMANT",
+      "conformanceStatus": "BOTH_VALIDATED",
+      "successStatuses": [
+        200
+      ],
+      "errorStatuses": [
+        401
+      ]
+    },
+    {
+      "operationId": "updateExemptionApplication",
+      "method": "PATCH",
+      "path": "/exemption-applications/{applicationId}",
+      "disabled": false,
+      "completionStatus": "IMPLEMENTED_AND_CONFORMANT",
+      "conformanceStatus": "BOTH_VALIDATED",
+      "successStatuses": [
+        200
+      ],
+      "errorStatuses": [
+        401
+      ]
+    },
+    {
+      "operationId": "submitExemptionApplication",
+      "method": "POST",
+      "path": "/exemption-applications/{applicationId}/submit",
+      "disabled": false,
+      "completionStatus": "IMPLEMENTED_AND_CONFORMANT",
+      "conformanceStatus": "BOTH_VALIDATED",
+      "successStatuses": [
+        200
+      ],
+      "errorStatuses": [
+        401
+      ]
+    },
+    {
+      "operationId": "reviewExemptionApplication",
+      "method": "POST",
+      "path": "/exemption-applications/{applicationId}/review",
+      "disabled": false,
+      "completionStatus": "IMPLEMENTED_AND_CONFORMANT",
+      "conformanceStatus": "BOTH_VALIDATED",
+      "successStatuses": [
+        200
+      ],
+      "errorStatuses": [
+        401
+      ]
+    },
+    {
+      "operationId": "getAppReleasePolicy",
+      "method": "GET",
+      "path": "/app-release-policy",
+      "disabled": false,
+      "completionStatus": "IMPLEMENTED_AND_CONFORMANT",
+      "conformanceStatus": "BOTH_VALIDATED",
+      "successStatuses": [
+        200
+      ],
+      "errorStatuses": [
+        503
+      ]
+    },
+    {
+      "operationId": "getSportCatalog",
+      "method": "GET",
+      "path": "/sport-catalog",
+      "disabled": true,
+      "completionStatus": "INTENTIONALLY_DISABLED",
+      "conformanceStatus": "INTENTIONALLY_DISABLED_VALIDATED",
+      "successStatuses": [],
+      "errorStatuses": [
+        401,
+        503
+      ]
+    },
+    {
+      "operationId": "getActivityConversionRules",
+      "method": "GET",
+      "path": "/activity-conversion-rules",
+      "disabled": true,
+      "completionStatus": "INTENTIONALLY_DISABLED",
+      "conformanceStatus": "INTENTIONALLY_DISABLED_VALIDATED",
+      "successStatuses": [],
+      "errorStatuses": [
+        401,
+        503
+      ]
+    },
+    {
+      "operationId": "startExerciseLocationTrack",
+      "method": "POST",
+      "path": "/exercise-sessions/{sessionId}/location-track",
+      "disabled": true,
+      "completionStatus": "INTENTIONALLY_DISABLED",
+      "conformanceStatus": "INTENTIONALLY_DISABLED_VALIDATED",
+      "successStatuses": [],
+      "errorStatuses": [
+        401,
+        503
+      ]
+    },
+    {
+      "operationId": "appendExerciseLocationSamples",
+      "method": "POST",
+      "path": "/exercise-sessions/{sessionId}/location-samples",
+      "disabled": true,
+      "completionStatus": "INTENTIONALLY_DISABLED",
+      "conformanceStatus": "INTENTIONALLY_DISABLED_VALIDATED",
+      "successStatuses": [],
+      "errorStatuses": [
+        401,
+        503
+      ]
+    },
+    {
+      "operationId": "finalizeExerciseLocationTrack",
+      "method": "POST",
+      "path": "/exercise-sessions/{sessionId}/location-track/finalize",
+      "disabled": true,
+      "completionStatus": "INTENTIONALLY_DISABLED",
+      "conformanceStatus": "INTENTIONALLY_DISABLED_VALIDATED",
+      "successStatuses": [],
+      "errorStatuses": [
+        401,
+        503
+      ]
+    },
+    {
+      "operationId": "getExerciseRecordLocationSummary",
+      "method": "GET",
+      "path": "/exercise-records/{recordId}/location-summary",
+      "disabled": true,
+      "completionStatus": "INTENTIONALLY_DISABLED",
+      "conformanceStatus": "INTENTIONALLY_DISABLED_VALIDATED",
+      "successStatuses": [],
+      "errorStatuses": [
+        401,
+        503
+      ]
+    },
+    {
+      "operationId": "getLocationPrivacyPolicy",
+      "method": "GET",
+      "path": "/location-privacy-policy",
+      "disabled": true,
+      "completionStatus": "INTENTIONALLY_DISABLED",
+      "conformanceStatus": "INTENTIONALLY_DISABLED_VALIDATED",
+      "successStatuses": [],
+      "errorStatuses": [
+        401,
+        503
+      ]
+    },
+    {
+      "operationId": "updateLocationPrivacyPolicy",
+      "method": "PATCH",
+      "path": "/location-privacy-policy",
+      "disabled": true,
+      "completionStatus": "INTENTIONALLY_DISABLED",
+      "conformanceStatus": "INTENTIONALLY_DISABLED_VALIDATED",
+      "successStatuses": [],
+      "errorStatuses": [
+        401,
+        503
+      ]
+    }
+  ]
+}

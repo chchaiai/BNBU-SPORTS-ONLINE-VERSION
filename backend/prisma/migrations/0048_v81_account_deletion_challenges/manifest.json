@@ -1,0 +1,5 @@
+{
+  "sha256": "e5559f528ddf9a7f0c721cfe98b417be323e0dc092c8ad928b72ee1f17a7fb2e",
+  "destructive": false,
+  "migrationId": "0048_v81_account_deletion_challenges"
+}

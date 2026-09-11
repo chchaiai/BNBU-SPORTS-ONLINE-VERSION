@@ -1,0 +1,15 @@
+www.student.bnbusports.cn 43.129.193.7
+{"scope":"https-ingress","status":"READY","backend":"DEPLOYMENT_PENDING"}
+ HTTPS=200
+HTTP_REDIRECT=308 https://www.student.bnbusports.cn/
+{"status":"BACKEND_DEPLOYMENT_PENDING"}
+ ROOT_HTTP=503
+www.teacher.bnbusports.cn 43.129.193.7
+{"scope":"https-ingress","status":"READY","backend":"DEPLOYMENT_PENDING"}
+ HTTPS=200
+HTTP_REDIRECT=308 https://www.teacher.bnbusports.cn/
+{"status":"BACKEND_DEPLOYMENT_PENDING"}
+ ROOT_HTTP=503
+EXISTING_DISTRIBUTION_HTTP=200
+enabled
+active

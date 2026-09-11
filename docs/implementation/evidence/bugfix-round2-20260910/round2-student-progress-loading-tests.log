@@ -1,0 +1,11 @@
+✔ pending progress does not present an authoritative zero or stale credit (0.7599ms)
+✔ loaded zero remains a genuine zero (0.1334ms)
+✔ loaded accepted half-hour is shown in minutes and the correct category (0.1121ms)
+ℹ tests 3
+ℹ suites 0
+ℹ pass 3
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 78.1946

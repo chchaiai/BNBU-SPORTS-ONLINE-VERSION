@@ -1,0 +1,1 @@
+{"check":"CLOSED_COURSE_EXISTING_WEB_CHAIN","result":"FAIL","stage":"SUPPLEMENT_AFTER_CLOSE","type":"TimeoutError","message":"locator.click: Timeout 60000ms exceeded.\nCall log:\n\u001b[2m  - waiting for getByRole('button', { name: '拍摄补证', exact: true })\u001b[22m\n"}

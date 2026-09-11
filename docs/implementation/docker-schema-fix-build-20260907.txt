@@ -1,0 +1,58 @@
+ Image bnbu-v81-local-validation-domain-tests Building 
+#1 [internal] load local bake definitions
+#1 reading from stdin 624B 0.0s done
+#1 DONE 0.0s
+
+#2 [internal] load build definition from Dockerfile.v81-test
+#2 transferring dockerfile: 484B done
+#2 DONE 0.0s
+
+#3 [internal] load metadata for docker.io/library/node:24.18.0-bookworm-slim
+#3 DONE 1.0s
+
+#4 [internal] load .dockerignore
+#4 transferring context: 153B done
+#4 DONE 0.0s
+
+#5 [1/7] FROM docker.io/library/node:24.18.0-bookworm-slim@sha256:6f7b03f7c2c8e2e784dcf9295400527b9b1270fd37b7e9a7285cf83b6951452d
+#5 resolve docker.io/library/node:24.18.0-bookworm-slim@sha256:6f7b03f7c2c8e2e784dcf9295400527b9b1270fd37b7e9a7285cf83b6951452d 0.0s done
+#5 DONE 0.0s
+
+#6 [internal] load build context
+#6 transferring context: 264.49kB 0.1s done
+#6 DONE 0.1s
+
+#7 [2/7] WORKDIR /workspace/backend
+#7 CACHED
+
+#8 [3/7] COPY backend/package.json backend/package-lock.json ./
+#8 CACHED
+
+#9 [4/7] RUN npm ci --ignore-scripts --no-audit --no-fund
+#9 CACHED
+
+#10 [5/7] COPY backend/ ./
+#10 DONE 0.3s
+
+#11 [6/7] COPY docs/backend-contracts/ /workspace/docs/backend-contracts/
+#11 DONE 0.2s
+
+#12 [7/7] COPY tools/ /workspace/tools/
+#12 DONE 0.1s
+
+#13 exporting to image
+#13 exporting layers
+#13 exporting layers 0.4s done
+#13 exporting manifest sha256:b5b09f9a232b5f89bfe372639ebd3d4fcf3685eb765cffeea8fef634d5934c5a 0.0s done
+#13 exporting config sha256:62c59ad63c89a77977e102efaebe06c5c54bb541fd0945a57d975f350b6a9f43 0.0s done
+#13 exporting attestation manifest sha256:3129d88c91aced64773822151786d96f981ff16c837f73091366e4e138873020 0.0s done
+#13 exporting manifest list sha256:682d0015cd60ab5363f54fa8b41682e55d33a61957858e68f6408b38c379ed88
+#13 exporting manifest list sha256:682d0015cd60ab5363f54fa8b41682e55d33a61957858e68f6408b38c379ed88 0.0s done
+#13 naming to docker.io/library/bnbu-v81-local-validation-domain-tests:latest done
+#13 unpacking to docker.io/library/bnbu-v81-local-validation-domain-tests:latest
+#13 unpacking to docker.io/library/bnbu-v81-local-validation-domain-tests:latest 0.4s done
+#13 DONE 1.0s
+
+#14 resolving provenance for metadata file
+#14 DONE 0.0s
+ Image bnbu-v81-local-validation-domain-tests Built 

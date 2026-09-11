@@ -1,0 +1,6 @@
+{"check":"APPLICATION_REAL_IMAGE_SUBMISSION","environment":"cloud","result":"PASS","type":"team","id":"01a08d8e-4bd0-71a9-b2f4-7a410fa0d700"}
+{"check":"TEACHER_APPLICATION_REVIEW","environment":"cloud","result":"PASS","type":"team","decision":"supplement"}
+{"check":"TEACHER_APPLICATION_REVIEW","environment":"cloud","result":"PASS","type":"team","decision":"approve"}
+{"check":"APPLICATION_REAL_IMAGE_SUBMISSION","environment":"cloud","result":"PASS","type":"club","id":"01a08d8e-ef39-724b-8c36-c89e7bdb25fc"}
+{"check":"TEACHER_APPLICATION_REVIEW","environment":"cloud","result":"PASS","type":"club","decision":"reject"}
+{"check":"APPLICATION_FULL_BROWSER_FLOW","environment":"cloud","result":"PASS","physicalNoCreditChange":true,"teamCourseRecognizedSeconds":1800,"teamGeneralRecognizedSeconds":900,"cumulativeThreeImages":true,"clubRejected":true,"studentNotifications":true}

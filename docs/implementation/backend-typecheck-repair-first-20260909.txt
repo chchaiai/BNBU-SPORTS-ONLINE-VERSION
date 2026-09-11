@@ -1,0 +1,23 @@
+
+> @bnbu/sports-backend@0.1.0 typecheck
+> tsc --noEmit -p tsconfig.json
+
+test/e2e/v81-makeup.e2e.test.ts(229,7): error TS2322: Type '(path: string, token: string | null, input?: Record<string, unknown> | undefined, key?: string | undefined) => Promise<unknown>' is not assignable to type 'ProbeRequest<string | null>'.
+  Type 'Promise<unknown>' is not assignable to type 'Promise<Record<string, unknown>>'.
+    Type 'unknown' is not assignable to type 'Record<string, unknown>'.
+test/e2e/v81-makeup.e2e.test.ts(257,7): error TS2322: Type '(path: string, token: string | null, input?: Record<string, unknown> | undefined, key?: string | undefined) => Promise<unknown>' is not assignable to type 'ProbeRequest<string | null>'.
+  Type 'Promise<unknown>' is not assignable to type 'Promise<Record<string, unknown>>'.
+    Type 'unknown' is not assignable to type 'Record<string, unknown>'.
+test/e2e/v81-subadmin-identity.e2e.test.ts(212,7): error TS2322: Type '(path: string, token: string | null, input?: Record<string, unknown> | undefined, key?: string | undefined) => Promise<unknown>' is not assignable to type 'ProbeRequest<string | null>'.
+  Type 'Promise<unknown>' is not assignable to type 'Promise<Record<string, unknown>>'.
+    Type 'unknown' is not assignable to type 'Record<string, unknown>'.
+test/e2e/v81-subadmin-identity.e2e.test.ts(225,7): error TS2322: Type '(path: string, token: string | null, input?: Record<string, unknown> | undefined, key?: string | undefined) => Promise<unknown>' is not assignable to type 'ProbeRequest<string | null>'.
+  Type 'Promise<unknown>' is not assignable to type 'Promise<Record<string, unknown>>'.
+    Type 'unknown' is not assignable to type 'Record<string, unknown>'.
+test/e2e/v81-system-management.e2e.test.ts(362,30): error TS2353: Object literal may only specify known properties, and 'role' does not exist in type '{ token: string; }'.
+test/e2e/v81-system-management.e2e.test.ts(363,7): error TS2322: Type '(path: string, token: string, input?: Record<string, unknown> | undefined, key?: string | undefined) => Promise<unknown>' is not assignable to type 'ProbeRequest'.
+  Type 'Promise<unknown>' is not assignable to type 'Promise<Record<string, unknown>>'.
+    Type 'unknown' is not assignable to type 'Record<string, unknown>'.
+test/e2e/v81-system-management.e2e.test.ts(376,7): error TS2322: Type '(path: string, token: string) => Promise<unknown>' is not assignable to type 'ProbeRequest'.
+  Type 'Promise<unknown>' is not assignable to type 'Promise<Record<string, unknown>>'.
+    Type 'unknown' is not assignable to type 'Record<string, unknown>'.

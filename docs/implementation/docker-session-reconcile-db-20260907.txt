@@ -1,0 +1,25 @@
+sql-postgres-1  | 
+sql-postgres-1  | PostgreSQL Database directory appears to contain a database; Skipping initialization
+sql-postgres-1  | 
+sql-postgres-1  | 2026-09-07 10:40:38.850 UTC [1] LOG:  starting PostgreSQL 18.4 on x86_64-pc-linux-musl, compiled by gcc (Alpine 15.2.0) 15.2.0, 64-bit
+sql-postgres-1  | 2026-09-07 10:40:38.850 UTC [1] LOG:  listening on IPv4 address "0.0.0.0", port 5432
+sql-postgres-1  | 2026-09-07 10:40:38.850 UTC [1] LOG:  listening on IPv6 address "::", port 5432
+sql-postgres-1  | 2026-09-07 10:40:38.859 UTC [1] LOG:  listening on Unix socket "/var/run/postgresql/.s.PGSQL.5432"
+sql-postgres-1  | 2026-09-07 10:40:38.871 UTC [33] LOG:  database system was shut down at 2026-09-07 10:35:11 UTC
+sql-postgres-1  | 2026-09-07 10:40:38.879 UTC [1] LOG:  database system is ready to accept connections
+sql-postgres-1  | 2026-09-07 10:41:19.757 UTC [1] LOG:  received fast shutdown request
+sql-postgres-1  | 2026-09-07 10:41:19.761 UTC [1] LOG:  aborting any active transactions
+sql-postgres-1  | 2026-09-07 10:41:19.763 UTC [1] LOG:  background worker "logical replication launcher" (PID 36) exited with exit code 1
+sql-postgres-1  | 2026-09-07 10:41:19.764 UTC [31] LOG:  shutting down
+sql-postgres-1  | 2026-09-07 10:41:19.769 UTC [31] LOG:  checkpoint starting: shutdown immediate
+sql-postgres-1  | 2026-09-07 10:41:19.843 UTC [31] LOG:  checkpoint complete: wrote 197 buffers (1.2%), wrote 3 SLRU buffers; 0 WAL file(s) added, 0 removed, 0 recycled; write=0.013 s, sync=0.040 s, total=0.080 s; sync files=144, longest=0.005 s, average=0.001 s; distance=717 kB, estimate=717 kB; lsn=0/3E7D2E0, redo lsn=0/3E7D2E0
+sql-postgres-1  | 2026-09-07 10:41:19.863 UTC [1] LOG:  database system is shut down
+sql-postgres-1  | 
+sql-postgres-1  | PostgreSQL Database directory appears to contain a database; Skipping initialization
+sql-postgres-1  | 
+sql-postgres-1  | 2026-09-07 10:42:17.632 UTC [1] LOG:  starting PostgreSQL 18.4 on x86_64-pc-linux-musl, compiled by gcc (Alpine 15.2.0) 15.2.0, 64-bit
+sql-postgres-1  | 2026-09-07 10:42:17.632 UTC [1] LOG:  listening on IPv4 address "0.0.0.0", port 5432
+sql-postgres-1  | 2026-09-07 10:42:17.632 UTC [1] LOG:  listening on IPv6 address "::", port 5432
+sql-postgres-1  | 2026-09-07 10:42:17.640 UTC [1] LOG:  listening on Unix socket "/var/run/postgresql/.s.PGSQL.5432"
+sql-postgres-1  | 2026-09-07 10:42:17.652 UTC [33] LOG:  database system was shut down at 2026-09-07 10:41:19 UTC
+sql-postgres-1  | 2026-09-07 10:42:17.661 UTC [1] LOG:  database system is ready to accept connections

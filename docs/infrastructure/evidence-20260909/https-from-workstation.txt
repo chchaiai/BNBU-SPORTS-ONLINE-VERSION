@@ -1,0 +1,6 @@
+{"scope":"https-ingress","status":"READY","backend":"DEPLOYMENT_PENDING"}
+
+HTTP=200
+{"scope":"https-ingress","status":"READY","backend":"DEPLOYMENT_PENDING"}
+
+HTTP=200

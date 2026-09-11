@@ -1,0 +1,1 @@
+Contract parity fixture tests: PASS (6 scenarios)

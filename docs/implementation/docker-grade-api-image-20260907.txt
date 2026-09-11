@@ -1,0 +1,80 @@
+ Image bnbu-v81-local-validation-backend-startup Building 
+#1 [internal] load local bake definitions
+#1 reading from stdin 636B 0.0s done
+#1 DONE 0.0s
+
+#2 [internal] load build definition from Dockerfile.v81-test
+#2 transferring dockerfile: 628B done
+#2 DONE 0.0s
+
+#3 [auth] library/node:pull token for registry-1.docker.io
+#3 DONE 0.0s
+
+#4 [internal] load metadata for docker.io/library/node:24.18.0-bookworm-slim
+#4 DONE 1.5s
+
+#5 [internal] load .dockerignore
+#5 transferring context: 153B done
+#5 DONE 0.0s
+
+#6 [internal] load build context
+#6 DONE 0.0s
+
+#7 [1/9] FROM docker.io/library/node:24.18.0-bookworm-slim@sha256:6f7b03f7c2c8e2e784dcf9295400527b9b1270fd37b7e9a7285cf83b6951452d
+#7 resolve docker.io/library/node:24.18.0-bookworm-slim@sha256:6f7b03f7c2c8e2e784dcf9295400527b9b1270fd37b7e9a7285cf83b6951452d 0.0s done
+#7 DONE 0.1s
+
+#6 [internal] load build context
+#6 transferring context: 95.14kB 0.1s done
+#6 DONE 0.1s
+
+#8 [5/9] RUN npm ci --ignore-scripts --no-audit --no-fund
+#8 CACHED
+
+#9 [2/9] RUN apt-get update && apt-get install -y --no-install-recommends openssl ca-certificates && rm -rf /var/lib/apt/lists/*
+#9 CACHED
+
+#10 [3/9] WORKDIR /workspace/backend
+#10 CACHED
+
+#11 [4/9] COPY backend/package.json backend/package-lock.json ./
+#11 CACHED
+
+#12 [6/9] COPY backend/ ./
+#12 CACHED
+
+#13 [7/9] COPY docs/backend-contracts/ /workspace/docs/backend-contracts/
+#13 CACHED
+
+#14 [8/9] COPY tools/ /workspace/tools/
+#14 DONE 0.1s
+
+#15 [9/9] RUN npm run db:generate
+#15 0.341 
+#15 0.341 > @bnbu/sports-backend@0.1.0 db:generate
+#15 0.341 > prisma generate
+#15 0.341 
+#15 0.958 Loaded Prisma config from prisma.config.ts.
+#15 0.958 
+#15 2.765 Prisma schema loaded from prisma/schema.prisma.
+#15 4.456 
+#15 4.456 ✔ Generated Prisma Client (7.9.1) to ./src/generated/prisma in 1.09s
+#15 4.456 
+#15 DONE 4.6s
+
+#16 exporting to image
+#16 exporting layers
+#16 exporting layers 1.6s done
+#16 exporting manifest sha256:24b4c697e8e4915ca7caf877bc44cb392dced62c5d529244579c8aced5ae7c3f 0.0s done
+#16 exporting config sha256:379c02dd86186e0465ee56eecbacfe5d0acfb00a30606a16f2cf7e167aef768d 0.0s done
+#16 exporting attestation manifest sha256:b12f455872f3f0e40fba254362a5fedbc50534f56cc56c24c3604ea00c77ba31 0.0s done
+#16 exporting manifest list sha256:113f3403a51192e4fedcf2d838a7c6f048fc70f851806a2eec153812e94b611c
+#16 exporting manifest list sha256:113f3403a51192e4fedcf2d838a7c6f048fc70f851806a2eec153812e94b611c 0.0s done
+#16 naming to docker.io/library/bnbu-v81-local-validation-backend-startup:latest done
+#16 unpacking to docker.io/library/bnbu-v81-local-validation-backend-startup:latest
+#16 unpacking to docker.io/library/bnbu-v81-local-validation-backend-startup:latest 0.3s done
+#16 DONE 2.0s
+
+#17 resolving provenance for metadata file
+#17 DONE 0.0s
+ Image bnbu-v81-local-validation-backend-startup Built 

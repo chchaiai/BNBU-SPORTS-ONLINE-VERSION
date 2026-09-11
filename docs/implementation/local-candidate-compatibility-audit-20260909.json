@@ -1,0 +1,2815 @@
+{
+  "kind": "LOCAL_CANDIDATE_DIFFERENCE_AUDIT",
+  "releaseApproval": false,
+  "baseline": {
+    "path": "docs/backend-contracts/contract-history/2.0.12-contract-916461bed7c2fd14f28f0d750b7f414fd12f31db1ade09dc52777208fc3790d6/openapi.snapshot.yaml",
+    "byteSource": "Git HEAD blob (avoids working-tree CRLF conversion)",
+    "workingTreeSha256": "de265902bb49cab177f471cd50b09ac7d5909de35e5f9671abe934e68dc8d4c0",
+    "version": "2.0.12-contract",
+    "sha256": "916461bed7c2fd14f28f0d750b7f414fd12f31db1ade09dc52777208fc3790d6"
+  },
+  "candidate": {
+    "path": "docs/backend-contracts/openapi.yaml",
+    "version": "3.0.0-v81-local-draft",
+    "sha256": "9880fa7ce10769ccc34c371bcbf687ad8a9cebd813092132f85600c979523ba8"
+  },
+  "counts": {
+    "BREAKING": 53,
+    "NON_BREAKING": 27,
+    "REVIEW_REQUIRED": 35
+  },
+  "changes": [
+    {
+      "id": "enum-values-added-02bf0a619b20215b",
+      "kind": "ENUM_VALUES_ADDED",
+      "classification": "BREAKING",
+      "direction": "response",
+      "location": "POST /exemption-applications/responses/201/application/json/properties/data/properties/status/enum",
+      "detail": "Enum additions are classified according to request/response direction.",
+      "before": [],
+      "after": [
+        "REVOKED"
+      ]
+    },
+    {
+      "id": "enum-values-added-0d79d583fa3353be",
+      "kind": "ENUM_VALUES_ADDED",
+      "classification": "NON_BREAKING",
+      "direction": "request",
+      "location": "POST /class-sections/{classSectionId}/roster-imports/requestBody/multipart/form-data/properties/fileFormat/enum",
+      "detail": "Enum additions are classified according to request/response direction.",
+      "before": [],
+      "after": [
+        "XLSX"
+      ]
+    },
+    {
+      "id": "enum-values-added-5442ba3551ae4525",
+      "kind": "ENUM_VALUES_ADDED",
+      "classification": "BREAKING",
+      "direction": "response",
+      "location": "POST /roster-imports/{rosterImportId}/align/responses/202/application/json/properties/data/properties/algorithmVersion/enum",
+      "detail": "Enum additions are classified according to request/response direction.",
+      "before": [],
+      "after": [
+        "ROSTER_ALIGNMENT_V1",
+        "ROSTER_ALIGNMENT_V2"
+      ]
+    },
+    {
+      "id": "enum-values-added-568f413ad34df7d8",
+      "kind": "ENUM_VALUES_ADDED",
+      "classification": "NON_BREAKING",
+      "direction": "request",
+      "location": "POST /media-uploads/requestBody/application/json/properties/mimeType/enum",
+      "detail": "Enum additions are classified according to request/response direction.",
+      "before": [],
+      "after": [
+        "image/webp"
+      ]
+    },
+    {
+      "id": "enum-values-added-63548b0038f035d3",
+      "kind": "ENUM_VALUES_ADDED",
+      "classification": "BREAKING",
+      "direction": "response",
+      "location": "POST /exemption-applications/{applicationId}/review/responses/200/application/json/properties/data/properties/status/enum",
+      "detail": "Enum additions are classified according to request/response direction.",
+      "before": [],
+      "after": [
+        "REVOKED"
+      ]
+    },
+    {
+      "id": "enum-values-added-68f11f8d2406b576",
+      "kind": "ENUM_VALUES_ADDED",
+      "classification": "BREAKING",
+      "direction": "response",
+      "location": "POST /exemption-applications/{applicationId}/submit/responses/200/application/json/properties/data/properties/status/enum",
+      "detail": "Enum additions are classified according to request/response direction.",
+      "before": [],
+      "after": [
+        "REVOKED"
+      ]
+    },
+    {
+      "id": "enum-values-added-aee1330dcd1e5f52",
+      "kind": "ENUM_VALUES_ADDED",
+      "classification": "BREAKING",
+      "direction": "response",
+      "location": "GET /exemption-applications/responses/200/application/json/properties/data/items/properties/status/enum",
+      "detail": "Enum additions are classified according to request/response direction.",
+      "before": [],
+      "after": [
+        "REVOKED"
+      ]
+    },
+    {
+      "id": "enum-values-added-d210d82757ccba5c",
+      "kind": "ENUM_VALUES_ADDED",
+      "classification": "BREAKING",
+      "direction": "response",
+      "location": "GET /exemption-application-details/responses/200/application/json/properties/data/items/properties/status/enum",
+      "detail": "Enum additions are classified according to request/response direction.",
+      "before": [],
+      "after": [
+        "REVOKED"
+      ]
+    },
+    {
+      "id": "enum-values-added-d6e95c0a46387a01",
+      "kind": "ENUM_VALUES_ADDED",
+      "classification": "BREAKING",
+      "direction": "response",
+      "location": "GET /exemption-applications/{applicationId}/responses/200/application/json/properties/data/properties/status/enum",
+      "detail": "Enum additions are classified according to request/response direction.",
+      "before": [],
+      "after": [
+        "REVOKED"
+      ]
+    },
+    {
+      "id": "enum-values-added-e2d8cba5386b8275",
+      "kind": "ENUM_VALUES_ADDED",
+      "classification": "BREAKING",
+      "direction": "response",
+      "location": "PATCH /exemption-applications/{applicationId}/responses/200/application/json/properties/data/properties/status/enum",
+      "detail": "Enum additions are classified according to request/response direction.",
+      "before": [],
+      "after": [
+        "REVOKED"
+      ]
+    },
+    {
+      "id": "enum-values-removed-b030a67e2a0a3082",
+      "kind": "ENUM_VALUES_REMOVED",
+      "classification": "NON_BREAKING",
+      "direction": "response",
+      "location": "GET /system-mode/responses/200/application/json/properties/data/properties/mode/enum",
+      "detail": "Published enum values were removed.",
+      "before": [
+        "READ_ONLY"
+      ],
+      "after": []
+    },
+    {
+      "id": "permission-metadata-changed-11141dc4b68f3081",
+      "kind": "PERMISSION_METADATA_CHANGED",
+      "classification": "BREAKING",
+      "direction": "security",
+      "location": "POST /media-uploads/x-access-policy",
+      "detail": "x-access-policy changed.",
+      "before": {
+        "policyId": "MEDIA-UPLOAD-INITIATE",
+        "authentication": "ACCESS_TOKEN",
+        "allowedRoles": [
+          "STUDENT"
+        ],
+        "organizationScope": "PRINCIPAL_ORGANIZATION",
+        "resourceScope": "SELF",
+        "resourceResolver": "EXERCISE_SESSION_FROM_REQUEST",
+        "defaultDeny": true
+      },
+      "after": {
+        "policyId": "MEDIA-UPLOAD-INITIATE",
+        "authentication": "ACCESS_TOKEN",
+        "allowedRoles": [
+          "STUDENT"
+        ],
+        "organizationScope": "PRINCIPAL_ORGANIZATION",
+        "resourceScope": "SELF",
+        "resourceResolver": "MEDIA_TARGET_FROM_REQUEST",
+        "defaultDeny": true
+      }
+    },
+    {
+      "id": "permission-metadata-changed-cbf257b3a841f63c",
+      "kind": "PERMISSION_METADATA_CHANGED",
+      "classification": "BREAKING",
+      "direction": "security",
+      "location": "GET /student-scores/{studentScoreId}/x-access-policy",
+      "detail": "x-access-policy changed.",
+      "before": {
+        "policyId": "STUDENT-SCORE-READ",
+        "authentication": "ACCESS_TOKEN",
+        "allowedRoles": [
+          "STUDENT",
+          "TEACHER",
+          "ADMIN"
+        ],
+        "organizationScope": "PRINCIPAL_ORGANIZATION",
+        "resourceScope": "ROLE_SCOPED",
+        "resourceResolver": "STUDENT_SCORE_FROM_PATH",
+        "defaultDeny": true
+      },
+      "after": {
+        "policyId": "STUDENT-SCORE-READ",
+        "authentication": "ACCESS_TOKEN",
+        "allowedRoles": [
+          "TEACHER",
+          "ADMIN"
+        ],
+        "organizationScope": "PRINCIPAL_ORGANIZATION",
+        "resourceScope": "ROLE_SCOPED",
+        "resourceResolver": "STUDENT_SCORE_FROM_PATH",
+        "defaultDeny": true
+      }
+    },
+    {
+      "id": "permission-metadata-changed-ce148b8890028343",
+      "kind": "PERMISSION_METADATA_CHANGED",
+      "classification": "BREAKING",
+      "direction": "security",
+      "location": "GET /student-scores/x-access-policy",
+      "detail": "x-access-policy changed.",
+      "before": {
+        "policyId": "STUDENT-SCORE-LIST",
+        "authentication": "ACCESS_TOKEN",
+        "allowedRoles": [
+          "STUDENT",
+          "TEACHER",
+          "ADMIN"
+        ],
+        "organizationScope": "PRINCIPAL_ORGANIZATION",
+        "resourceScope": "ROLE_SCOPED",
+        "resourceResolver": "STUDENT_SCORE_LIST_SCOPE",
+        "defaultDeny": true
+      },
+      "after": {
+        "policyId": "STUDENT-SCORE-LIST",
+        "authentication": "ACCESS_TOKEN",
+        "allowedRoles": [
+          "TEACHER",
+          "ADMIN"
+        ],
+        "organizationScope": "PRINCIPAL_ORGANIZATION",
+        "resourceScope": "ROLE_SCOPED",
+        "resourceResolver": "STUDENT_SCORE_LIST_SCOPE",
+        "defaultDeny": true
+      }
+    },
+    {
+      "id": "permission-metadata-changed-f3ee3fc78f6d46b4",
+      "kind": "PERMISSION_METADATA_CHANGED",
+      "classification": "BREAKING",
+      "direction": "security",
+      "location": "GET /activity-conversion-rules/x-access-policy",
+      "detail": "x-access-policy changed.",
+      "before": {
+        "policyId": "ACTIVITY-CONVERSION-RULE-READ",
+        "authentication": "ACCESS_TOKEN",
+        "allowedRoles": [
+          "STUDENT",
+          "TEACHER",
+          "ADMIN"
+        ],
+        "organizationScope": "PRINCIPAL_ORGANIZATION",
+        "resourceScope": "ORGANIZATION",
+        "resourceResolver": "PRINCIPAL_ORGANIZATION",
+        "defaultDeny": true
+      },
+      "after": {
+        "policyId": "ACTIVITY-CONVERSION-RULE-READ",
+        "authentication": "ACCESS_TOKEN",
+        "allowedRoles": [
+          "TEACHER",
+          "ADMIN"
+        ],
+        "organizationScope": "PRINCIPAL_ORGANIZATION",
+        "resourceScope": "ORGANIZATION",
+        "resourceResolver": "PRINCIPAL_ORGANIZATION",
+        "defaultDeny": true
+      }
+    },
+    {
+      "id": "property-added-003433354bb03d6f",
+      "kind": "PROPERTY_ADDED",
+      "classification": "REVIEW_REQUIRED",
+      "direction": "response",
+      "location": "GET /exercise-records/responses/200/application/json/properties/data/items/properties/materialVersion",
+      "detail": "An optional property was added.",
+      "before": null,
+      "after": {
+        "type": "integer",
+        "enum": [
+          1,
+          2
+        ],
+        "x-enum-subset-of": "V81MaterialVersion"
+      }
+    },
+    {
+      "id": "property-added-04b64739685cec33",
+      "kind": "PROPERTY_ADDED",
+      "classification": "NON_BREAKING",
+      "direction": "request",
+      "location": "POST /class-sections/{classSectionId}/roster-imports/requestBody/multipart/form-data/properties/sheetName",
+      "detail": "An optional property was added.",
+      "before": null,
+      "after": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 31,
+        "description": "Required for XLSX; exact source worksheet name. Omit for CSV."
+      }
+    },
+    {
+      "id": "property-added-05fef77de1044e0e",
+      "kind": "PROPERTY_ADDED",
+      "classification": "REVIEW_REQUIRED",
+      "direction": "response",
+      "location": "POST /exercise-records/{recordId}/withdraw/responses/200/application/json/properties/data/properties/eligibleMinutes",
+      "detail": "An optional property was added.",
+      "before": null,
+      "after": {
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 60
+      }
+    },
+    {
+      "id": "property-added-08fcd2a50a4798aa",
+      "kind": "PROPERTY_ADDED",
+      "classification": "REVIEW_REQUIRED",
+      "direction": "response",
+      "location": "POST /exercise-records/{recordId}/submit/responses/200/application/json/properties/data/properties/workflowStage",
+      "detail": "An optional property was added.",
+      "before": null,
+      "after": {
+        "type": "string",
+        "enum": [
+          "PENDING_AI",
+          "TECHNICAL",
+          "PENDING_TEACHER",
+          "AWAITING_SUPPLEMENT",
+          "VALID",
+          "INVALID"
+        ],
+        "x-enum-subset-of": "V81RecordWorkflowStage"
+      }
+    },
+    {
+      "id": "property-added-0a8d200f727ebb80",
+      "kind": "PROPERTY_ADDED",
+      "classification": "REVIEW_REQUIRED",
+      "direction": "response",
+      "location": "GET /exercise-records/responses/200/application/json/properties/data/items/properties/workflowVersion",
+      "detail": "An optional property was added.",
+      "before": null,
+      "after": {
+        "type": "integer",
+        "minimum": 1
+      }
+    },
+    {
+      "id": "property-added-0d1cbbe610966629",
+      "kind": "PROPERTY_ADDED",
+      "classification": "REVIEW_REQUIRED",
+      "direction": "response",
+      "location": "POST /exercise-records/{recordId}/discard/responses/200/application/json/properties/data/properties/eligibleMinutes",
+      "detail": "An optional property was added.",
+      "before": null,
+      "after": {
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 60
+      }
+    },
+    {
+      "id": "property-added-0f379170945a5376",
+      "kind": "PROPERTY_ADDED",
+      "classification": "REVIEW_REQUIRED",
+      "direction": "response",
+      "location": "POST /exercise-records/{recordId}/submit/responses/200/application/json/properties/data/properties/workflowVersion",
+      "detail": "An optional property was added.",
+      "before": null,
+      "after": {
+        "type": "integer",
+        "minimum": 1
+      }
+    },
+    {
+      "id": "property-added-125652baf446672b",
+      "kind": "PROPERTY_ADDED",
+      "classification": "NON_BREAKING",
+      "direction": "request",
+      "location": "POST /exemption-applications/{applicationId}/review/requestBody/application/json/properties/courseMinutes",
+      "detail": "An optional property was added.",
+      "before": null,
+      "after": {
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 1200
+      }
+    },
+    {
+      "id": "property-added-18b1f21dcc306c2d",
+      "kind": "PROPERTY_ADDED",
+      "classification": "REVIEW_REQUIRED",
+      "direction": "response",
+      "location": "POST /exercise-records/{recordId}/withdraw/responses/200/application/json/properties/data/properties/workflowVersion",
+      "detail": "An optional property was added.",
+      "before": null,
+      "after": {
+        "type": "integer",
+        "minimum": 1
+      }
+    },
+    {
+      "id": "property-added-1b1e5a12e84bb978",
+      "kind": "PROPERTY_ADDED",
+      "classification": "REVIEW_REQUIRED",
+      "direction": "response",
+      "location": "PATCH /exercise-records/{recordId}/responses/200/application/json/properties/data/properties/eligibleMinutes",
+      "detail": "An optional property was added.",
+      "before": null,
+      "after": {
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 60
+      }
+    },
+    {
+      "id": "property-added-202c3f8e9509f6a1",
+      "kind": "PROPERTY_ADDED",
+      "classification": "REVIEW_REQUIRED",
+      "direction": "response",
+      "location": "POST /exercise-records/responses/201/application/json/properties/data/properties/eligibleMinutes",
+      "detail": "An optional property was added.",
+      "before": null,
+      "after": {
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 60
+      }
+    },
+    {
+      "id": "property-added-2723edf291005ae3",
+      "kind": "PROPERTY_ADDED",
+      "classification": "REVIEW_REQUIRED",
+      "direction": "response",
+      "location": "GET /exercise-records/{recordId}/responses/200/application/json/properties/data/properties/workflowVersion",
+      "detail": "An optional property was added.",
+      "before": null,
+      "after": {
+        "type": "integer",
+        "minimum": 1
+      }
+    },
+    {
+      "id": "property-added-2a48d989f62fa843",
+      "kind": "PROPERTY_ADDED",
+      "classification": "REVIEW_REQUIRED",
+      "direction": "response",
+      "location": "GET /exercise-records/{recordId}/responses/200/application/json/properties/data/properties/creditReason",
+      "detail": "An optional property was added.",
+      "before": null,
+      "after": {
+        "type": [
+          "string",
+          "null"
+        ]
+      }
+    },
+    {
+      "id": "property-added-372e48fadc72b238",
+      "kind": "PROPERTY_ADDED",
+      "classification": "REVIEW_REQUIRED",
+      "direction": "response",
+      "location": "POST /exercise-records/{recordId}/submit/responses/200/application/json/properties/data/properties/eligibleMinutes",
+      "detail": "An optional property was added.",
+      "before": null,
+      "after": {
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 60
+      }
+    },
+    {
+      "id": "property-added-3a43adfc238c6d7d",
+      "kind": "PROPERTY_ADDED",
+      "classification": "REVIEW_REQUIRED",
+      "direction": "response",
+      "location": "GET /exercise-records/{recordId}/responses/200/application/json/properties/data/properties/workflowStage",
+      "detail": "An optional property was added.",
+      "before": null,
+      "after": {
+        "type": "string",
+        "enum": [
+          "PENDING_AI",
+          "TECHNICAL",
+          "PENDING_TEACHER",
+          "AWAITING_SUPPLEMENT",
+          "VALID",
+          "INVALID"
+        ],
+        "x-enum-subset-of": "V81RecordWorkflowStage"
+      }
+    },
+    {
+      "id": "property-added-3e32088e6e008152",
+      "kind": "PROPERTY_ADDED",
+      "classification": "REVIEW_REQUIRED",
+      "direction": "response",
+      "location": "POST /exercise-records/{recordId}/discard/responses/200/application/json/properties/data/properties/workflowStage",
+      "detail": "An optional property was added.",
+      "before": null,
+      "after": {
+        "type": "string",
+        "enum": [
+          "PENDING_AI",
+          "TECHNICAL",
+          "PENDING_TEACHER",
+          "AWAITING_SUPPLEMENT",
+          "VALID",
+          "INVALID"
+        ],
+        "x-enum-subset-of": "V81RecordWorkflowStage"
+      }
+    },
+    {
+      "id": "property-added-49a7562141ca4f85",
+      "kind": "PROPERTY_ADDED",
+      "classification": "REVIEW_REQUIRED",
+      "direction": "response",
+      "location": "GET /exercise-records/responses/200/application/json/properties/data/items/properties/workflowStage",
+      "detail": "An optional property was added.",
+      "before": null,
+      "after": {
+        "type": "string",
+        "enum": [
+          "PENDING_AI",
+          "TECHNICAL",
+          "PENDING_TEACHER",
+          "AWAITING_SUPPLEMENT",
+          "VALID",
+          "INVALID"
+        ],
+        "x-enum-subset-of": "V81RecordWorkflowStage"
+      }
+    },
+    {
+      "id": "property-added-505e325cfe34e14e",
+      "kind": "PROPERTY_ADDED",
+      "classification": "REVIEW_REQUIRED",
+      "direction": "response",
+      "location": "PATCH /exercise-records/{recordId}/responses/200/application/json/properties/data/properties/materialVersion",
+      "detail": "An optional property was added.",
+      "before": null,
+      "after": {
+        "type": "integer",
+        "enum": [
+          1,
+          2
+        ],
+        "x-enum-subset-of": "V81MaterialVersion"
+      }
+    },
+    {
+      "id": "property-added-5b02b423bd72ded7",
+      "kind": "PROPERTY_ADDED",
+      "classification": "REVIEW_REQUIRED",
+      "direction": "response",
+      "location": "POST /exercise-records/responses/201/application/json/properties/data/properties/workflowStage",
+      "detail": "An optional property was added.",
+      "before": null,
+      "after": {
+        "type": "string",
+        "enum": [
+          "PENDING_AI",
+          "TECHNICAL",
+          "PENDING_TEACHER",
+          "AWAITING_SUPPLEMENT",
+          "VALID",
+          "INVALID"
+        ],
+        "x-enum-subset-of": "V81RecordWorkflowStage"
+      }
+    },
+    {
+      "id": "property-added-75f71f2969dccc28",
+      "kind": "PROPERTY_ADDED",
+      "classification": "REVIEW_REQUIRED",
+      "direction": "response",
+      "location": "POST /exercise-records/responses/201/application/json/properties/data/properties/creditReason",
+      "detail": "An optional property was added.",
+      "before": null,
+      "after": {
+        "type": [
+          "string",
+          "null"
+        ]
+      }
+    },
+    {
+      "id": "property-added-7b6c2d6db7417be4",
+      "kind": "PROPERTY_ADDED",
+      "classification": "REVIEW_REQUIRED",
+      "direction": "response",
+      "location": "POST /exercise-records/{recordId}/submit/responses/200/application/json/properties/data/properties/creditReason",
+      "detail": "An optional property was added.",
+      "before": null,
+      "after": {
+        "type": [
+          "string",
+          "null"
+        ]
+      }
+    },
+    {
+      "id": "property-added-7fedab3aa2842885",
+      "kind": "PROPERTY_ADDED",
+      "classification": "REVIEW_REQUIRED",
+      "direction": "response",
+      "location": "POST /exercise-records/responses/201/application/json/properties/data/properties/materialVersion",
+      "detail": "An optional property was added.",
+      "before": null,
+      "after": {
+        "type": "integer",
+        "enum": [
+          1,
+          2
+        ],
+        "x-enum-subset-of": "V81MaterialVersion"
+      }
+    },
+    {
+      "id": "property-added-8a454c7c90d2c8dd",
+      "kind": "PROPERTY_ADDED",
+      "classification": "REVIEW_REQUIRED",
+      "direction": "response",
+      "location": "POST /exercise-records/{recordId}/withdraw/responses/200/application/json/properties/data/properties/workflowStage",
+      "detail": "An optional property was added.",
+      "before": null,
+      "after": {
+        "type": "string",
+        "enum": [
+          "PENDING_AI",
+          "TECHNICAL",
+          "PENDING_TEACHER",
+          "AWAITING_SUPPLEMENT",
+          "VALID",
+          "INVALID"
+        ],
+        "x-enum-subset-of": "V81RecordWorkflowStage"
+      }
+    },
+    {
+      "id": "property-added-8e2f876909936dd6",
+      "kind": "PROPERTY_ADDED",
+      "classification": "REVIEW_REQUIRED",
+      "direction": "response",
+      "location": "POST /exercise-records/{recordId}/discard/responses/200/application/json/properties/data/properties/materialVersion",
+      "detail": "An optional property was added.",
+      "before": null,
+      "after": {
+        "type": "integer",
+        "enum": [
+          1,
+          2
+        ],
+        "x-enum-subset-of": "V81MaterialVersion"
+      }
+    },
+    {
+      "id": "property-added-8e4678ad0fa441e9",
+      "kind": "PROPERTY_ADDED",
+      "classification": "REVIEW_REQUIRED",
+      "direction": "response",
+      "location": "PATCH /exercise-records/{recordId}/responses/200/application/json/properties/data/properties/workflowVersion",
+      "detail": "An optional property was added.",
+      "before": null,
+      "after": {
+        "type": "integer",
+        "minimum": 1
+      }
+    },
+    {
+      "id": "property-added-a5214e3630786846",
+      "kind": "PROPERTY_ADDED",
+      "classification": "REVIEW_REQUIRED",
+      "direction": "response",
+      "location": "GET /exercise-records/{recordId}/responses/200/application/json/properties/data/properties/materialVersion",
+      "detail": "An optional property was added.",
+      "before": null,
+      "after": {
+        "type": "integer",
+        "enum": [
+          1,
+          2
+        ],
+        "x-enum-subset-of": "V81MaterialVersion"
+      }
+    },
+    {
+      "id": "property-added-a702143122aa0db1",
+      "kind": "PROPERTY_ADDED",
+      "classification": "REVIEW_REQUIRED",
+      "direction": "response",
+      "location": "POST /exercise-records/{recordId}/withdraw/responses/200/application/json/properties/data/properties/creditReason",
+      "detail": "An optional property was added.",
+      "before": null,
+      "after": {
+        "type": [
+          "string",
+          "null"
+        ]
+      }
+    },
+    {
+      "id": "property-added-ac4c34c241759a4b",
+      "kind": "PROPERTY_ADDED",
+      "classification": "REVIEW_REQUIRED",
+      "direction": "response",
+      "location": "POST /exercise-records/{recordId}/discard/responses/200/application/json/properties/data/properties/workflowVersion",
+      "detail": "An optional property was added.",
+      "before": null,
+      "after": {
+        "type": "integer",
+        "minimum": 1
+      }
+    },
+    {
+      "id": "property-added-b23bb6afb8c55f2a",
+      "kind": "PROPERTY_ADDED",
+      "classification": "REVIEW_REQUIRED",
+      "direction": "response",
+      "location": "PATCH /exercise-records/{recordId}/responses/200/application/json/properties/data/properties/workflowStage",
+      "detail": "An optional property was added.",
+      "before": null,
+      "after": {
+        "type": "string",
+        "enum": [
+          "PENDING_AI",
+          "TECHNICAL",
+          "PENDING_TEACHER",
+          "AWAITING_SUPPLEMENT",
+          "VALID",
+          "INVALID"
+        ],
+        "x-enum-subset-of": "V81RecordWorkflowStage"
+      }
+    },
+    {
+      "id": "property-added-b7587d8487d1f348",
+      "kind": "PROPERTY_ADDED",
+      "classification": "NON_BREAKING",
+      "direction": "request",
+      "location": "POST /exemption-applications/{applicationId}/review/requestBody/application/json/properties/generalMinutes",
+      "detail": "An optional property was added.",
+      "before": null,
+      "after": {
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 1200
+      }
+    },
+    {
+      "id": "property-added-c4c3fa9e7054ca1b",
+      "kind": "PROPERTY_ADDED",
+      "classification": "REVIEW_REQUIRED",
+      "direction": "response",
+      "location": "POST /exercise-records/{recordId}/submit/responses/200/application/json/properties/data/properties/materialVersion",
+      "detail": "An optional property was added.",
+      "before": null,
+      "after": {
+        "type": "integer",
+        "enum": [
+          1,
+          2
+        ],
+        "x-enum-subset-of": "V81MaterialVersion"
+      }
+    },
+    {
+      "id": "property-added-ce46914514b20b2c",
+      "kind": "PROPERTY_ADDED",
+      "classification": "REVIEW_REQUIRED",
+      "direction": "response",
+      "location": "POST /exercise-records/responses/201/application/json/properties/data/properties/workflowVersion",
+      "detail": "An optional property was added.",
+      "before": null,
+      "after": {
+        "type": "integer",
+        "minimum": 1
+      }
+    },
+    {
+      "id": "property-added-d2c7a93f3e8f7ca3",
+      "kind": "PROPERTY_ADDED",
+      "classification": "NON_BREAKING",
+      "direction": "request",
+      "location": "POST /exercise-records/{recordId}/submit/requestBody/application/json/properties/swimDelayReason",
+      "detail": "An optional property was added.",
+      "before": null,
+      "after": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 1000
+      }
+    },
+    {
+      "id": "property-added-daa1abb16e68bcfa",
+      "kind": "PROPERTY_ADDED",
+      "classification": "REVIEW_REQUIRED",
+      "direction": "response",
+      "location": "POST /exercise-records/{recordId}/withdraw/responses/200/application/json/properties/data/properties/materialVersion",
+      "detail": "An optional property was added.",
+      "before": null,
+      "after": {
+        "type": "integer",
+        "enum": [
+          1,
+          2
+        ],
+        "x-enum-subset-of": "V81MaterialVersion"
+      }
+    },
+    {
+      "id": "property-added-e133aa436331d362",
+      "kind": "PROPERTY_ADDED",
+      "classification": "REVIEW_REQUIRED",
+      "direction": "response",
+      "location": "GET /exercise-records/{recordId}/responses/200/application/json/properties/data/properties/eligibleMinutes",
+      "detail": "An optional property was added.",
+      "before": null,
+      "after": {
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 60
+      }
+    },
+    {
+      "id": "property-added-e423c094506e63d1",
+      "kind": "PROPERTY_ADDED",
+      "classification": "REVIEW_REQUIRED",
+      "direction": "response",
+      "location": "PATCH /exercise-records/{recordId}/responses/200/application/json/properties/data/properties/creditReason",
+      "detail": "An optional property was added.",
+      "before": null,
+      "after": {
+        "type": [
+          "string",
+          "null"
+        ]
+      }
+    },
+    {
+      "id": "property-added-e7aca05e41a867a8",
+      "kind": "PROPERTY_ADDED",
+      "classification": "REVIEW_REQUIRED",
+      "direction": "response",
+      "location": "POST /exercise-records/{recordId}/discard/responses/200/application/json/properties/data/properties/creditReason",
+      "detail": "An optional property was added.",
+      "before": null,
+      "after": {
+        "type": [
+          "string",
+          "null"
+        ]
+      }
+    },
+    {
+      "id": "property-added-f23a58ab5d6004dd",
+      "kind": "PROPERTY_ADDED",
+      "classification": "REVIEW_REQUIRED",
+      "direction": "response",
+      "location": "GET /exercise-records/responses/200/application/json/properties/data/items/properties/eligibleMinutes",
+      "detail": "An optional property was added.",
+      "before": null,
+      "after": {
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 60
+      }
+    },
+    {
+      "id": "property-added-f293f41f19b6e87e",
+      "kind": "PROPERTY_ADDED",
+      "classification": "REVIEW_REQUIRED",
+      "direction": "response",
+      "location": "GET /exercise-records/responses/200/application/json/properties/data/items/properties/creditReason",
+      "detail": "An optional property was added.",
+      "before": null,
+      "after": {
+        "type": [
+          "string",
+          "null"
+        ]
+      }
+    },
+    {
+      "id": "response-status-added-10e2ea2d73c837a2",
+      "kind": "RESPONSE_STATUS_ADDED",
+      "classification": "NON_BREAKING",
+      "direction": "response",
+      "location": "GET /courses/{courseId}/responses/403",
+      "detail": "A response status was documented additively.",
+      "before": null,
+      "after": {
+        "$ref": "#/components/responses/Forbidden"
+      }
+    },
+    {
+      "id": "response-status-added-1e97bfcc8c1c8748",
+      "kind": "RESPONSE_STATUS_ADDED",
+      "classification": "NON_BREAKING",
+      "direction": "response",
+      "location": "GET /exemption-application-details/responses/403",
+      "detail": "A response status was documented additively.",
+      "before": null,
+      "after": {
+        "$ref": "#/components/responses/Forbidden"
+      }
+    },
+    {
+      "id": "response-status-added-221ba455bed32b8b",
+      "kind": "RESPONSE_STATUS_ADDED",
+      "classification": "NON_BREAKING",
+      "direction": "response",
+      "location": "GET /sport-catalog/responses/403",
+      "detail": "A response status was documented additively.",
+      "before": null,
+      "after": {
+        "$ref": "#/components/responses/Forbidden"
+      }
+    },
+    {
+      "id": "response-status-added-382dbb31a686e993",
+      "kind": "RESPONSE_STATUS_ADDED",
+      "classification": "NON_BREAKING",
+      "direction": "response",
+      "location": "GET /location-privacy-policy/responses/403",
+      "detail": "A response status was documented additively.",
+      "before": null,
+      "after": {
+        "$ref": "#/components/responses/Forbidden"
+      }
+    },
+    {
+      "id": "response-status-added-38ae441767e81c9c",
+      "kind": "RESPONSE_STATUS_ADDED",
+      "classification": "NON_BREAKING",
+      "direction": "response",
+      "location": "GET /notifications/responses/403",
+      "detail": "A response status was documented additively.",
+      "before": null,
+      "after": {
+        "$ref": "#/components/responses/Forbidden"
+      }
+    },
+    {
+      "id": "response-status-added-4b11b8c2eb4c520a",
+      "kind": "RESPONSE_STATUS_ADDED",
+      "classification": "NON_BREAKING",
+      "direction": "response",
+      "location": "GET /exemption-applications/{applicationId}/responses/403",
+      "detail": "A response status was documented additively.",
+      "before": null,
+      "after": {
+        "$ref": "#/components/responses/Forbidden"
+      }
+    },
+    {
+      "id": "response-status-added-4f06a69b7a7ce967",
+      "kind": "RESPONSE_STATUS_ADDED",
+      "classification": "NON_BREAKING",
+      "direction": "response",
+      "location": "DELETE /push-devices/{deviceId}/responses/403",
+      "detail": "A response status was documented additively.",
+      "before": null,
+      "after": {
+        "$ref": "#/components/responses/Forbidden"
+      }
+    },
+    {
+      "id": "response-status-added-734db7b4cc549334",
+      "kind": "RESPONSE_STATUS_ADDED",
+      "classification": "NON_BREAKING",
+      "direction": "response",
+      "location": "POST /notifications/{notificationId}/read/responses/403",
+      "detail": "A response status was documented additively.",
+      "before": null,
+      "after": {
+        "$ref": "#/components/responses/Forbidden"
+      }
+    },
+    {
+      "id": "response-status-added-775c6e6df37a4bf0",
+      "kind": "RESPONSE_STATUS_ADDED",
+      "classification": "NON_BREAKING",
+      "direction": "response",
+      "location": "PATCH /me/preferences/responses/403",
+      "detail": "A response status was documented additively.",
+      "before": null,
+      "after": {
+        "$ref": "#/components/responses/Forbidden"
+      }
+    },
+    {
+      "id": "response-status-added-89512291b41c1b9e",
+      "kind": "RESPONSE_STATUS_ADDED",
+      "classification": "NON_BREAKING",
+      "direction": "response",
+      "location": "GET /feedback/responses/403",
+      "detail": "A response status was documented additively.",
+      "before": null,
+      "after": {
+        "$ref": "#/components/responses/Forbidden"
+      }
+    },
+    {
+      "id": "response-status-added-89c8bb9b36123805",
+      "kind": "RESPONSE_STATUS_ADDED",
+      "classification": "NON_BREAKING",
+      "direction": "response",
+      "location": "GET /class-sections/{classSectionId}/responses/403",
+      "detail": "A response status was documented additively.",
+      "before": null,
+      "after": {
+        "$ref": "#/components/responses/Forbidden"
+      }
+    },
+    {
+      "id": "response-status-added-94085e0768834270",
+      "kind": "RESPONSE_STATUS_ADDED",
+      "classification": "NON_BREAKING",
+      "direction": "response",
+      "location": "GET /activity-conversion-rules/responses/403",
+      "detail": "A response status was documented additively.",
+      "before": null,
+      "after": {
+        "$ref": "#/components/responses/Forbidden"
+      }
+    },
+    {
+      "id": "response-status-added-b017b0965e4fc415",
+      "kind": "RESPONSE_STATUS_ADDED",
+      "classification": "NON_BREAKING",
+      "direction": "response",
+      "location": "GET /me/responses/503",
+      "detail": "A response status was documented additively.",
+      "before": null,
+      "after": {
+        "$ref": "#/components/responses/ServiceUnavailable"
+      }
+    },
+    {
+      "id": "response-status-added-b209b3a380f2a895",
+      "kind": "RESPONSE_STATUS_ADDED",
+      "classification": "NON_BREAKING",
+      "direction": "response",
+      "location": "GET /feedback/{feedbackId}/responses/403",
+      "detail": "A response status was documented additively.",
+      "before": null,
+      "after": {
+        "$ref": "#/components/responses/Forbidden"
+      }
+    },
+    {
+      "id": "response-status-added-b3e4dcd46570f386",
+      "kind": "RESPONSE_STATUS_ADDED",
+      "classification": "NON_BREAKING",
+      "direction": "response",
+      "location": "POST /exercise-sessions/{sessionId}/cancel/responses/422",
+      "detail": "A response status was documented additively.",
+      "before": null,
+      "after": {
+        "$ref": "#/components/responses/UnprocessableEntity"
+      }
+    },
+    {
+      "id": "response-status-added-b545339315d9fb9a",
+      "kind": "RESPONSE_STATUS_ADDED",
+      "classification": "NON_BREAKING",
+      "direction": "response",
+      "location": "POST /push-devices/responses/403",
+      "detail": "A response status was documented additively.",
+      "before": null,
+      "after": {
+        "$ref": "#/components/responses/Forbidden"
+      }
+    },
+    {
+      "id": "response-status-added-bafcb9c42adc0ab2",
+      "kind": "RESPONSE_STATUS_ADDED",
+      "classification": "NON_BREAKING",
+      "direction": "response",
+      "location": "GET /exemption-applications/responses/403",
+      "detail": "A response status was documented additively.",
+      "before": null,
+      "after": {
+        "$ref": "#/components/responses/Forbidden"
+      }
+    },
+    {
+      "id": "response-status-added-bdd587d2d3e1cf35",
+      "kind": "RESPONSE_STATUS_ADDED",
+      "classification": "NON_BREAKING",
+      "direction": "response",
+      "location": "POST /feedback/responses/403",
+      "detail": "A response status was documented additively.",
+      "before": null,
+      "after": {
+        "$ref": "#/components/responses/Forbidden"
+      }
+    },
+    {
+      "id": "response-status-added-c615d8cb05031018",
+      "kind": "RESPONSE_STATUS_ADDED",
+      "classification": "NON_BREAKING",
+      "direction": "response",
+      "location": "GET /me/preferences/responses/403",
+      "detail": "A response status was documented additively.",
+      "before": null,
+      "after": {
+        "$ref": "#/components/responses/Forbidden"
+      }
+    },
+    {
+      "id": "response-status-added-ff713db3b2957272",
+      "kind": "RESPONSE_STATUS_ADDED",
+      "classification": "NON_BREAKING",
+      "direction": "response",
+      "location": "GET /me/responses/403",
+      "detail": "A response status was documented additively.",
+      "before": null,
+      "after": {
+        "$ref": "#/components/responses/Forbidden"
+      }
+    },
+    {
+      "id": "response-status-removed-00a0165df800ddb2",
+      "kind": "RESPONSE_STATUS_REMOVED",
+      "classification": "BREAKING",
+      "direction": "response",
+      "location": "POST /courses/responses/201",
+      "detail": "A documented response status was removed.",
+      "before": {
+        "$ref": "#/components/responses/CourseSuccess"
+      },
+      "after": null
+    },
+    {
+      "id": "response-status-removed-13fde09e6cf0f247",
+      "kind": "RESPONSE_STATUS_REMOVED",
+      "classification": "BREAKING",
+      "direction": "response",
+      "location": "POST /score-rules/{scoreRuleId}/submit-approval/responses/200",
+      "detail": "A documented response status was removed.",
+      "before": {
+        "$ref": "#/components/responses/ScoreRuleSuccess"
+      },
+      "after": null
+    },
+    {
+      "id": "response-status-removed-1a0fff438da454c2",
+      "kind": "RESPONSE_STATUS_REMOVED",
+      "classification": "BREAKING",
+      "direction": "response",
+      "location": "POST /student-scores/{studentScoreId}/publish/responses/200",
+      "detail": "A documented response status was removed.",
+      "before": {
+        "$ref": "#/components/responses/StudentScoreSuccess"
+      },
+      "after": null
+    },
+    {
+      "id": "response-status-removed-22f4a3aac4f1ff8a",
+      "kind": "RESPONSE_STATUS_REMOVED",
+      "classification": "BREAKING",
+      "direction": "response",
+      "location": "POST /score-rules/{scoreRuleId}/approve/responses/200",
+      "detail": "A documented response status was removed.",
+      "before": {
+        "$ref": "#/components/responses/ScoreRuleSuccess"
+      },
+      "after": null
+    },
+    {
+      "id": "response-status-removed-27b4e833b8cb35e7",
+      "kind": "RESPONSE_STATUS_REMOVED",
+      "classification": "BREAKING",
+      "direction": "response",
+      "location": "GET /class-sections/{classSectionId}/score-rules/responses/200",
+      "detail": "A documented response status was removed.",
+      "before": {
+        "$ref": "#/components/responses/ScoreRuleListSuccess"
+      },
+      "after": null
+    },
+    {
+      "id": "response-status-removed-3ab730977914fab5",
+      "kind": "RESPONSE_STATUS_REMOVED",
+      "classification": "BREAKING",
+      "direction": "response",
+      "location": "GET /student-scores/responses/200",
+      "detail": "A documented response status was removed.",
+      "before": {
+        "$ref": "#/components/responses/StudentScoreListSuccess"
+      },
+      "after": null
+    },
+    {
+      "id": "response-status-removed-46cf2391b9c4fe5f",
+      "kind": "RESPONSE_STATUS_REMOVED",
+      "classification": "BREAKING",
+      "direction": "response",
+      "location": "PATCH /courses/{courseId}/responses/200",
+      "detail": "A documented response status was removed.",
+      "before": {
+        "$ref": "#/components/responses/CourseSuccess"
+      },
+      "after": null
+    },
+    {
+      "id": "response-status-removed-48b9580dfd3ff426",
+      "kind": "RESPONSE_STATUS_REMOVED",
+      "classification": "BREAKING",
+      "direction": "response",
+      "location": "POST /class-sections/{classSectionId}/score-rules/responses/201",
+      "detail": "A documented response status was removed.",
+      "before": {
+        "$ref": "#/components/responses/ScoreRuleSuccess"
+      },
+      "after": null
+    },
+    {
+      "id": "response-status-removed-8e88e7c92d88834c",
+      "kind": "RESPONSE_STATUS_REMOVED",
+      "classification": "BREAKING",
+      "direction": "response",
+      "location": "POST /score-adjustments/{scoreAdjustmentId}/approve/responses/200",
+      "detail": "A documented response status was removed.",
+      "before": {
+        "$ref": "#/components/responses/ScoreAdjustmentSuccess"
+      },
+      "after": null
+    },
+    {
+      "id": "response-status-removed-9b2b064ea974cf68",
+      "kind": "RESPONSE_STATUS_REMOVED",
+      "classification": "BREAKING",
+      "direction": "response",
+      "location": "GET /score-rules/{scoreRuleId}/responses/200",
+      "detail": "A documented response status was removed.",
+      "before": {
+        "$ref": "#/components/responses/ScoreRuleSuccess"
+      },
+      "after": null
+    },
+    {
+      "id": "response-status-removed-b36dc3797d3ed89f",
+      "kind": "RESPONSE_STATUS_REMOVED",
+      "classification": "BREAKING",
+      "direction": "response",
+      "location": "GET /student-scores/{studentScoreId}/adjustments/responses/200",
+      "detail": "A documented response status was removed.",
+      "before": {
+        "$ref": "#/components/responses/ScoreAdjustmentListSuccess"
+      },
+      "after": null
+    },
+    {
+      "id": "response-status-removed-bb79a9a1c718b9f6",
+      "kind": "RESPONSE_STATUS_REMOVED",
+      "classification": "BREAKING",
+      "direction": "response",
+      "location": "GET /student-scores/{studentScoreId}/responses/200",
+      "detail": "A documented response status was removed.",
+      "before": {
+        "$ref": "#/components/responses/StudentScoreSuccess"
+      },
+      "after": null
+    },
+    {
+      "id": "response-status-removed-c07edef68d43a35c",
+      "kind": "RESPONSE_STATUS_REMOVED",
+      "classification": "BREAKING",
+      "direction": "response",
+      "location": "POST /score-adjustments/{scoreAdjustmentId}/reject/responses/200",
+      "detail": "A documented response status was removed.",
+      "before": {
+        "$ref": "#/components/responses/ScoreAdjustmentSuccess"
+      },
+      "after": null
+    },
+    {
+      "id": "response-status-removed-cdd2896523e3476f",
+      "kind": "RESPONSE_STATUS_REMOVED",
+      "classification": "BREAKING",
+      "direction": "response",
+      "location": "POST /score-rules/{scoreRuleId}/reject/responses/200",
+      "detail": "A documented response status was removed.",
+      "before": {
+        "$ref": "#/components/responses/ScoreRuleSuccess"
+      },
+      "after": null
+    },
+    {
+      "id": "response-status-removed-d83ac4a4da84ffb9",
+      "kind": "RESPONSE_STATUS_REMOVED",
+      "classification": "BREAKING",
+      "direction": "response",
+      "location": "POST /student-scores/{studentScoreId}/recalculate/responses/202",
+      "detail": "A documented response status was removed.",
+      "before": {
+        "$ref": "#/components/responses/StudentScoreSuccess"
+      },
+      "after": null
+    },
+    {
+      "id": "response-status-removed-e878f2ed69a6624b",
+      "kind": "RESPONSE_STATUS_REMOVED",
+      "classification": "BREAKING",
+      "direction": "response",
+      "location": "POST /student-scores/{studentScoreId}/adjustments/responses/201",
+      "detail": "A documented response status was removed.",
+      "before": {
+        "$ref": "#/components/responses/ScoreAdjustmentSuccess"
+      },
+      "after": null
+    },
+    {
+      "id": "schema-composition-changed-016b073ff6bfb079",
+      "kind": "SCHEMA_COMPOSITION_CHANGED",
+      "classification": "BREAKING",
+      "direction": "request",
+      "location": "POST /exercise-records/{recordId}/reviews/requestBody/application/json/properties/creditedDurationOverrideSeconds",
+      "detail": "oneOf/anyOf alternatives changed.",
+      "before": [
+        {
+          "type": "integer",
+          "format": "int64",
+          "minimum": 0,
+          "description": "Authoritative duration in whole seconds."
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "after": null
+    },
+    {
+      "id": "schema-composition-changed-1ac08e634cbc7028",
+      "kind": "SCHEMA_COMPOSITION_CHANGED",
+      "classification": "BREAKING",
+      "direction": "response",
+      "location": "GET /exercise-records/{recordId}/responses/200/application/json/properties/data/properties/currentReview",
+      "detail": "oneOf/anyOf alternatives changed.",
+      "before": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "Student-safe projection of the highest reviewVersion only. It never contains reason, internalNote, storage keys, or review history.",
+          "properties": {
+            "result": {
+              "type": "string",
+              "enum": [
+                "PENDING",
+                "VALID",
+                "INVALID"
+              ]
+            },
+            "reasonCode": {
+              "oneOf": [
+                {
+                  "type": "string",
+                  "enum": [
+                    "INSUFFICIENT_EVIDENCE",
+                    "INVALID_MEDIA",
+                    "DURATION_INCONSISTENT",
+                    "IDENTITY_MISMATCH",
+                    "DUPLICATE_SUBMISSION",
+                    "OUTSIDE_ALLOWED_SCOPE",
+                    "OTHER"
+                  ]
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "publicComment": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "maxLength": 1000
+            }
+          },
+          "required": [
+            "result",
+            "reasonCode",
+            "publicComment"
+          ]
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "after": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "Student-safe projection of the highest reviewVersion only. It never contains reason, internalNote, storage keys, or review history.",
+          "properties": {
+            "result": {
+              "type": "string",
+              "enum": [
+                "PENDING",
+                "VALID",
+                "INVALID"
+              ]
+            },
+            "reasonCode": {
+              "oneOf": [
+                {
+                  "type": "string",
+                  "enum": [
+                    "INSUFFICIENT_EVIDENCE",
+                    "INVALID_MEDIA",
+                    "DURATION_INCONSISTENT",
+                    "IDENTITY_MISMATCH",
+                    "DUPLICATE_SUBMISSION",
+                    "OUTSIDE_ALLOWED_SCOPE",
+                    "OTHER",
+                    "UNCLEAR_EVIDENCE",
+                    "MISSING_REQUIRED_EVIDENCE",
+                    "SESSION_MISMATCH",
+                    "INCONSISTENT_EVIDENCE",
+                    "AUTHENTICITY_REQUIRES_CLARIFICATION",
+                    "CONFIRMED_REUSE_OR_MISUSE"
+                  ]
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "publicComment": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "maxLength": 1000
+            }
+          },
+          "required": [
+            "result",
+            "reasonCode",
+            "publicComment"
+          ]
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    {
+      "id": "schema-composition-changed-23d1ac5e6b4a5de1",
+      "kind": "SCHEMA_COMPOSITION_CHANGED",
+      "classification": "BREAKING",
+      "direction": "response",
+      "location": "PATCH /exercise-records/{recordId}/responses/200/application/json/properties/data/properties/currentReview",
+      "detail": "oneOf/anyOf alternatives changed.",
+      "before": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "Student-safe projection of the highest reviewVersion only. It never contains reason, internalNote, storage keys, or review history.",
+          "properties": {
+            "result": {
+              "type": "string",
+              "enum": [
+                "PENDING",
+                "VALID",
+                "INVALID"
+              ]
+            },
+            "reasonCode": {
+              "oneOf": [
+                {
+                  "type": "string",
+                  "enum": [
+                    "INSUFFICIENT_EVIDENCE",
+                    "INVALID_MEDIA",
+                    "DURATION_INCONSISTENT",
+                    "IDENTITY_MISMATCH",
+                    "DUPLICATE_SUBMISSION",
+                    "OUTSIDE_ALLOWED_SCOPE",
+                    "OTHER"
+                  ]
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "publicComment": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "maxLength": 1000
+            }
+          },
+          "required": [
+            "result",
+            "reasonCode",
+            "publicComment"
+          ]
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "after": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "Student-safe projection of the highest reviewVersion only. It never contains reason, internalNote, storage keys, or review history.",
+          "properties": {
+            "result": {
+              "type": "string",
+              "enum": [
+                "PENDING",
+                "VALID",
+                "INVALID"
+              ]
+            },
+            "reasonCode": {
+              "oneOf": [
+                {
+                  "type": "string",
+                  "enum": [
+                    "INSUFFICIENT_EVIDENCE",
+                    "INVALID_MEDIA",
+                    "DURATION_INCONSISTENT",
+                    "IDENTITY_MISMATCH",
+                    "DUPLICATE_SUBMISSION",
+                    "OUTSIDE_ALLOWED_SCOPE",
+                    "OTHER",
+                    "UNCLEAR_EVIDENCE",
+                    "MISSING_REQUIRED_EVIDENCE",
+                    "SESSION_MISMATCH",
+                    "INCONSISTENT_EVIDENCE",
+                    "AUTHENTICITY_REQUIRES_CLARIFICATION",
+                    "CONFIRMED_REUSE_OR_MISUSE"
+                  ]
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "publicComment": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "maxLength": 1000
+            }
+          },
+          "required": [
+            "result",
+            "reasonCode",
+            "publicComment"
+          ]
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    {
+      "id": "schema-composition-changed-35a016c3a4f6bd2b",
+      "kind": "SCHEMA_COMPOSITION_CHANGED",
+      "classification": "BREAKING",
+      "direction": "response",
+      "location": "POST /exercise-records/{recordId}/reviews/reopen/responses/201/application/json/properties/data/properties/reasonCode",
+      "detail": "oneOf/anyOf alternatives changed.",
+      "before": [
+        {
+          "type": "string",
+          "enum": [
+            "INSUFFICIENT_EVIDENCE",
+            "INVALID_MEDIA",
+            "DURATION_INCONSISTENT",
+            "IDENTITY_MISMATCH",
+            "DUPLICATE_SUBMISSION",
+            "OUTSIDE_ALLOWED_SCOPE",
+            "OTHER"
+          ]
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "after": [
+        {
+          "type": "string",
+          "enum": [
+            "INSUFFICIENT_EVIDENCE",
+            "INVALID_MEDIA",
+            "DURATION_INCONSISTENT",
+            "IDENTITY_MISMATCH",
+            "DUPLICATE_SUBMISSION",
+            "OUTSIDE_ALLOWED_SCOPE",
+            "OTHER",
+            "UNCLEAR_EVIDENCE",
+            "MISSING_REQUIRED_EVIDENCE",
+            "SESSION_MISMATCH",
+            "INCONSISTENT_EVIDENCE",
+            "AUTHENTICITY_REQUIRES_CLARIFICATION",
+            "CONFIRMED_REUSE_OR_MISUSE"
+          ]
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    {
+      "id": "schema-composition-changed-3a2fceb105614965",
+      "kind": "SCHEMA_COMPOSITION_CHANGED",
+      "classification": "BREAKING",
+      "direction": "response",
+      "location": "GET /exercise-records/{recordId}/reviews/responses/200/application/json/properties/data/items/properties/reasonCode",
+      "detail": "oneOf/anyOf alternatives changed.",
+      "before": [
+        {
+          "type": "string",
+          "enum": [
+            "INSUFFICIENT_EVIDENCE",
+            "INVALID_MEDIA",
+            "DURATION_INCONSISTENT",
+            "IDENTITY_MISMATCH",
+            "DUPLICATE_SUBMISSION",
+            "OUTSIDE_ALLOWED_SCOPE",
+            "OTHER"
+          ]
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "after": [
+        {
+          "type": "string",
+          "enum": [
+            "INSUFFICIENT_EVIDENCE",
+            "INVALID_MEDIA",
+            "DURATION_INCONSISTENT",
+            "IDENTITY_MISMATCH",
+            "DUPLICATE_SUBMISSION",
+            "OUTSIDE_ALLOWED_SCOPE",
+            "OTHER",
+            "UNCLEAR_EVIDENCE",
+            "MISSING_REQUIRED_EVIDENCE",
+            "SESSION_MISMATCH",
+            "INCONSISTENT_EVIDENCE",
+            "AUTHENTICITY_REQUIRES_CLARIFICATION",
+            "CONFIRMED_REUSE_OR_MISUSE"
+          ]
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    {
+      "id": "schema-composition-changed-76ea63718002ae1e",
+      "kind": "SCHEMA_COMPOSITION_CHANGED",
+      "classification": "BREAKING",
+      "direction": "response",
+      "location": "POST /exercise-reviews/batch/responses/200/application/json/properties/data/properties/items/items/properties/data",
+      "detail": "oneOf/anyOf alternatives changed.",
+      "before": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "id": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 64,
+              "pattern": "^[A-Za-z0-9._:-]+$",
+              "description": "Opaque internal ID; clients must not parse prefixes or ordering."
+            },
+            "organizationId": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 64,
+              "pattern": "^[A-Za-z0-9._:-]+$",
+              "description": "Opaque internal ID; clients must not parse prefixes or ordering."
+            },
+            "recordId": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 64,
+              "pattern": "^[A-Za-z0-9._:-]+$",
+              "description": "Opaque internal ID; clients must not parse prefixes or ordering."
+            },
+            "teacherId": {
+              "oneOf": [
+                {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 64,
+                  "pattern": "^[A-Za-z0-9._:-]+$",
+                  "description": "Opaque internal ID; clients must not parse prefixes or ordering."
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Null for the initial system VALID row and legacy system PENDING rows; required for teacher-created VALID or INVALID rows."
+            },
+            "reviewVersion": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "previousReviewId": {
+              "oneOf": [
+                {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 64,
+                  "pattern": "^[A-Za-z0-9._:-]+$",
+                  "description": "Opaque internal ID; clients must not parse prefixes or ordering."
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "result": {
+              "type": "string",
+              "enum": [
+                "PENDING",
+                "VALID",
+                "INVALID"
+              ]
+            },
+            "creditedDurationOverrideSeconds": {
+              "type": "null",
+              "readOnly": true,
+              "description": "Blocked until ADR-047 is accepted."
+            },
+            "reasonCode": {
+              "oneOf": [
+                {
+                  "type": "string",
+                  "enum": [
+                    "INSUFFICIENT_EVIDENCE",
+                    "INVALID_MEDIA",
+                    "DURATION_INCONSISTENT",
+                    "IDENTITY_MISMATCH",
+                    "DUPLICATE_SUBMISSION",
+                    "OUTSIDE_ALLOWED_SCOPE",
+                    "OTHER"
+                  ]
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "reason": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "maxLength": 500
+            },
+            "publicComment": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "maxLength": 1000
+            },
+            "internalNote": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "maxLength": 2000,
+              "description": "Never returned to students."
+            },
+            "reviewedAt": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "format": "date-time"
+            }
+          },
+          "required": [
+            "id",
+            "organizationId",
+            "recordId",
+            "teacherId",
+            "reviewVersion",
+            "previousReviewId",
+            "result",
+            "creditedDurationOverrideSeconds",
+            "reasonCode",
+            "reason",
+            "publicComment",
+            "internalNote",
+            "reviewedAt"
+          ]
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "after": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "id": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 64,
+              "pattern": "^[A-Za-z0-9._:-]+$",
+              "description": "Opaque internal ID; clients must not parse prefixes or ordering."
+            },
+            "organizationId": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 64,
+              "pattern": "^[A-Za-z0-9._:-]+$",
+              "description": "Opaque internal ID; clients must not parse prefixes or ordering."
+            },
+            "recordId": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 64,
+              "pattern": "^[A-Za-z0-9._:-]+$",
+              "description": "Opaque internal ID; clients must not parse prefixes or ordering."
+            },
+            "teacherId": {
+              "oneOf": [
+                {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 64,
+                  "pattern": "^[A-Za-z0-9._:-]+$",
+                  "description": "Opaque internal ID; clients must not parse prefixes or ordering."
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Null for the initial system VALID row and legacy system PENDING rows; required for teacher-created VALID or INVALID rows."
+            },
+            "reviewVersion": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "previousReviewId": {
+              "oneOf": [
+                {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 64,
+                  "pattern": "^[A-Za-z0-9._:-]+$",
+                  "description": "Opaque internal ID; clients must not parse prefixes or ordering."
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "result": {
+              "type": "string",
+              "enum": [
+                "PENDING",
+                "VALID",
+                "INVALID"
+              ]
+            },
+            "creditedDurationOverrideSeconds": {
+              "type": "null",
+              "readOnly": true,
+              "description": "Blocked until ADR-047 is accepted."
+            },
+            "reasonCode": {
+              "oneOf": [
+                {
+                  "type": "string",
+                  "enum": [
+                    "INSUFFICIENT_EVIDENCE",
+                    "INVALID_MEDIA",
+                    "DURATION_INCONSISTENT",
+                    "IDENTITY_MISMATCH",
+                    "DUPLICATE_SUBMISSION",
+                    "OUTSIDE_ALLOWED_SCOPE",
+                    "OTHER",
+                    "UNCLEAR_EVIDENCE",
+                    "MISSING_REQUIRED_EVIDENCE",
+                    "SESSION_MISMATCH",
+                    "INCONSISTENT_EVIDENCE",
+                    "AUTHENTICITY_REQUIRES_CLARIFICATION",
+                    "CONFIRMED_REUSE_OR_MISUSE"
+                  ]
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "reason": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "maxLength": 500
+            },
+            "publicComment": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "maxLength": 1000
+            },
+            "internalNote": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "maxLength": 2000,
+              "description": "Never returned to students."
+            },
+            "reviewedAt": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "format": "date-time"
+            }
+          },
+          "required": [
+            "id",
+            "organizationId",
+            "recordId",
+            "teacherId",
+            "reviewVersion",
+            "previousReviewId",
+            "result",
+            "creditedDurationOverrideSeconds",
+            "reasonCode",
+            "reason",
+            "publicComment",
+            "internalNote",
+            "reviewedAt"
+          ]
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    {
+      "id": "schema-composition-changed-9ddc21f35716f8cf",
+      "kind": "SCHEMA_COMPOSITION_CHANGED",
+      "classification": "BREAKING",
+      "direction": "response",
+      "location": "GET /exercise-records/responses/200/application/json/properties/data/items/properties/currentReview",
+      "detail": "oneOf/anyOf alternatives changed.",
+      "before": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "Student-safe projection of the highest reviewVersion only. It never contains reason, internalNote, storage keys, or review history.",
+          "properties": {
+            "result": {
+              "type": "string",
+              "enum": [
+                "PENDING",
+                "VALID",
+                "INVALID"
+              ]
+            },
+            "reasonCode": {
+              "oneOf": [
+                {
+                  "type": "string",
+                  "enum": [
+                    "INSUFFICIENT_EVIDENCE",
+                    "INVALID_MEDIA",
+                    "DURATION_INCONSISTENT",
+                    "IDENTITY_MISMATCH",
+                    "DUPLICATE_SUBMISSION",
+                    "OUTSIDE_ALLOWED_SCOPE",
+                    "OTHER"
+                  ]
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "publicComment": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "maxLength": 1000
+            }
+          },
+          "required": [
+            "result",
+            "reasonCode",
+            "publicComment"
+          ]
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "after": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "Student-safe projection of the highest reviewVersion only. It never contains reason, internalNote, storage keys, or review history.",
+          "properties": {
+            "result": {
+              "type": "string",
+              "enum": [
+                "PENDING",
+                "VALID",
+                "INVALID"
+              ]
+            },
+            "reasonCode": {
+              "oneOf": [
+                {
+                  "type": "string",
+                  "enum": [
+                    "INSUFFICIENT_EVIDENCE",
+                    "INVALID_MEDIA",
+                    "DURATION_INCONSISTENT",
+                    "IDENTITY_MISMATCH",
+                    "DUPLICATE_SUBMISSION",
+                    "OUTSIDE_ALLOWED_SCOPE",
+                    "OTHER",
+                    "UNCLEAR_EVIDENCE",
+                    "MISSING_REQUIRED_EVIDENCE",
+                    "SESSION_MISMATCH",
+                    "INCONSISTENT_EVIDENCE",
+                    "AUTHENTICITY_REQUIRES_CLARIFICATION",
+                    "CONFIRMED_REUSE_OR_MISUSE"
+                  ]
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "publicComment": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "maxLength": 1000
+            }
+          },
+          "required": [
+            "result",
+            "reasonCode",
+            "publicComment"
+          ]
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    {
+      "id": "schema-composition-changed-a2456d02187cbcee",
+      "kind": "SCHEMA_COMPOSITION_CHANGED",
+      "classification": "BREAKING",
+      "direction": "request",
+      "location": "POST /exercise-reviews/batch/requestBody/application/json/properties/items/items/properties/reasonCode",
+      "detail": "oneOf/anyOf alternatives changed.",
+      "before": [
+        {
+          "type": "string",
+          "enum": [
+            "INSUFFICIENT_EVIDENCE",
+            "INVALID_MEDIA",
+            "DURATION_INCONSISTENT",
+            "IDENTITY_MISMATCH",
+            "DUPLICATE_SUBMISSION",
+            "OUTSIDE_ALLOWED_SCOPE",
+            "OTHER"
+          ]
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "after": [
+        {
+          "type": "string",
+          "enum": [
+            "INSUFFICIENT_EVIDENCE",
+            "INVALID_MEDIA",
+            "DURATION_INCONSISTENT",
+            "IDENTITY_MISMATCH",
+            "DUPLICATE_SUBMISSION",
+            "OUTSIDE_ALLOWED_SCOPE",
+            "OTHER",
+            "UNCLEAR_EVIDENCE",
+            "MISSING_REQUIRED_EVIDENCE",
+            "SESSION_MISMATCH",
+            "INCONSISTENT_EVIDENCE",
+            "AUTHENTICITY_REQUIRES_CLARIFICATION",
+            "CONFIRMED_REUSE_OR_MISUSE"
+          ]
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    {
+      "id": "schema-composition-changed-a56660e2f9db27d6",
+      "kind": "SCHEMA_COMPOSITION_CHANGED",
+      "classification": "BREAKING",
+      "direction": "response",
+      "location": "POST /exercise-records/{recordId}/discard/responses/200/application/json/properties/data/properties/currentReview",
+      "detail": "oneOf/anyOf alternatives changed.",
+      "before": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "Student-safe projection of the highest reviewVersion only. It never contains reason, internalNote, storage keys, or review history.",
+          "properties": {
+            "result": {
+              "type": "string",
+              "enum": [
+                "PENDING",
+                "VALID",
+                "INVALID"
+              ]
+            },
+            "reasonCode": {
+              "oneOf": [
+                {
+                  "type": "string",
+                  "enum": [
+                    "INSUFFICIENT_EVIDENCE",
+                    "INVALID_MEDIA",
+                    "DURATION_INCONSISTENT",
+                    "IDENTITY_MISMATCH",
+                    "DUPLICATE_SUBMISSION",
+                    "OUTSIDE_ALLOWED_SCOPE",
+                    "OTHER"
+                  ]
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "publicComment": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "maxLength": 1000
+            }
+          },
+          "required": [
+            "result",
+            "reasonCode",
+            "publicComment"
+          ]
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "after": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "Student-safe projection of the highest reviewVersion only. It never contains reason, internalNote, storage keys, or review history.",
+          "properties": {
+            "result": {
+              "type": "string",
+              "enum": [
+                "PENDING",
+                "VALID",
+                "INVALID"
+              ]
+            },
+            "reasonCode": {
+              "oneOf": [
+                {
+                  "type": "string",
+                  "enum": [
+                    "INSUFFICIENT_EVIDENCE",
+                    "INVALID_MEDIA",
+                    "DURATION_INCONSISTENT",
+                    "IDENTITY_MISMATCH",
+                    "DUPLICATE_SUBMISSION",
+                    "OUTSIDE_ALLOWED_SCOPE",
+                    "OTHER",
+                    "UNCLEAR_EVIDENCE",
+                    "MISSING_REQUIRED_EVIDENCE",
+                    "SESSION_MISMATCH",
+                    "INCONSISTENT_EVIDENCE",
+                    "AUTHENTICITY_REQUIRES_CLARIFICATION",
+                    "CONFIRMED_REUSE_OR_MISUSE"
+                  ]
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "publicComment": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "maxLength": 1000
+            }
+          },
+          "required": [
+            "result",
+            "reasonCode",
+            "publicComment"
+          ]
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    {
+      "id": "schema-composition-changed-c66d0aa99ab2f33d",
+      "kind": "SCHEMA_COMPOSITION_CHANGED",
+      "classification": "BREAKING",
+      "direction": "response",
+      "location": "POST /exercise-records/{recordId}/submit/responses/200/application/json/properties/data/properties/currentReview",
+      "detail": "oneOf/anyOf alternatives changed.",
+      "before": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "Student-safe projection of the highest reviewVersion only. It never contains reason, internalNote, storage keys, or review history.",
+          "properties": {
+            "result": {
+              "type": "string",
+              "enum": [
+                "PENDING",
+                "VALID",
+                "INVALID"
+              ]
+            },
+            "reasonCode": {
+              "oneOf": [
+                {
+                  "type": "string",
+                  "enum": [
+                    "INSUFFICIENT_EVIDENCE",
+                    "INVALID_MEDIA",
+                    "DURATION_INCONSISTENT",
+                    "IDENTITY_MISMATCH",
+                    "DUPLICATE_SUBMISSION",
+                    "OUTSIDE_ALLOWED_SCOPE",
+                    "OTHER"
+                  ]
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "publicComment": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "maxLength": 1000
+            }
+          },
+          "required": [
+            "result",
+            "reasonCode",
+            "publicComment"
+          ]
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "after": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "Student-safe projection of the highest reviewVersion only. It never contains reason, internalNote, storage keys, or review history.",
+          "properties": {
+            "result": {
+              "type": "string",
+              "enum": [
+                "PENDING",
+                "VALID",
+                "INVALID"
+              ]
+            },
+            "reasonCode": {
+              "oneOf": [
+                {
+                  "type": "string",
+                  "enum": [
+                    "INSUFFICIENT_EVIDENCE",
+                    "INVALID_MEDIA",
+                    "DURATION_INCONSISTENT",
+                    "IDENTITY_MISMATCH",
+                    "DUPLICATE_SUBMISSION",
+                    "OUTSIDE_ALLOWED_SCOPE",
+                    "OTHER",
+                    "UNCLEAR_EVIDENCE",
+                    "MISSING_REQUIRED_EVIDENCE",
+                    "SESSION_MISMATCH",
+                    "INCONSISTENT_EVIDENCE",
+                    "AUTHENTICITY_REQUIRES_CLARIFICATION",
+                    "CONFIRMED_REUSE_OR_MISUSE"
+                  ]
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "publicComment": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "maxLength": 1000
+            }
+          },
+          "required": [
+            "result",
+            "reasonCode",
+            "publicComment"
+          ]
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    {
+      "id": "schema-composition-changed-c919e08ff2a67e63",
+      "kind": "SCHEMA_COMPOSITION_CHANGED",
+      "classification": "BREAKING",
+      "direction": "response",
+      "location": "POST /exercise-records/{recordId}/withdraw/responses/200/application/json/properties/data/properties/currentReview",
+      "detail": "oneOf/anyOf alternatives changed.",
+      "before": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "Student-safe projection of the highest reviewVersion only. It never contains reason, internalNote, storage keys, or review history.",
+          "properties": {
+            "result": {
+              "type": "string",
+              "enum": [
+                "PENDING",
+                "VALID",
+                "INVALID"
+              ]
+            },
+            "reasonCode": {
+              "oneOf": [
+                {
+                  "type": "string",
+                  "enum": [
+                    "INSUFFICIENT_EVIDENCE",
+                    "INVALID_MEDIA",
+                    "DURATION_INCONSISTENT",
+                    "IDENTITY_MISMATCH",
+                    "DUPLICATE_SUBMISSION",
+                    "OUTSIDE_ALLOWED_SCOPE",
+                    "OTHER"
+                  ]
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "publicComment": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "maxLength": 1000
+            }
+          },
+          "required": [
+            "result",
+            "reasonCode",
+            "publicComment"
+          ]
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "after": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "Student-safe projection of the highest reviewVersion only. It never contains reason, internalNote, storage keys, or review history.",
+          "properties": {
+            "result": {
+              "type": "string",
+              "enum": [
+                "PENDING",
+                "VALID",
+                "INVALID"
+              ]
+            },
+            "reasonCode": {
+              "oneOf": [
+                {
+                  "type": "string",
+                  "enum": [
+                    "INSUFFICIENT_EVIDENCE",
+                    "INVALID_MEDIA",
+                    "DURATION_INCONSISTENT",
+                    "IDENTITY_MISMATCH",
+                    "DUPLICATE_SUBMISSION",
+                    "OUTSIDE_ALLOWED_SCOPE",
+                    "OTHER",
+                    "UNCLEAR_EVIDENCE",
+                    "MISSING_REQUIRED_EVIDENCE",
+                    "SESSION_MISMATCH",
+                    "INCONSISTENT_EVIDENCE",
+                    "AUTHENTICITY_REQUIRES_CLARIFICATION",
+                    "CONFIRMED_REUSE_OR_MISUSE"
+                  ]
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "publicComment": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "maxLength": 1000
+            }
+          },
+          "required": [
+            "result",
+            "reasonCode",
+            "publicComment"
+          ]
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    {
+      "id": "schema-composition-changed-db3c851376c86331",
+      "kind": "SCHEMA_COMPOSITION_CHANGED",
+      "classification": "BREAKING",
+      "direction": "response",
+      "location": "POST /exercise-records/responses/201/application/json/properties/data/properties/currentReview",
+      "detail": "oneOf/anyOf alternatives changed.",
+      "before": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "Student-safe projection of the highest reviewVersion only. It never contains reason, internalNote, storage keys, or review history.",
+          "properties": {
+            "result": {
+              "type": "string",
+              "enum": [
+                "PENDING",
+                "VALID",
+                "INVALID"
+              ]
+            },
+            "reasonCode": {
+              "oneOf": [
+                {
+                  "type": "string",
+                  "enum": [
+                    "INSUFFICIENT_EVIDENCE",
+                    "INVALID_MEDIA",
+                    "DURATION_INCONSISTENT",
+                    "IDENTITY_MISMATCH",
+                    "DUPLICATE_SUBMISSION",
+                    "OUTSIDE_ALLOWED_SCOPE",
+                    "OTHER"
+                  ]
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "publicComment": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "maxLength": 1000
+            }
+          },
+          "required": [
+            "result",
+            "reasonCode",
+            "publicComment"
+          ]
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "after": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "Student-safe projection of the highest reviewVersion only. It never contains reason, internalNote, storage keys, or review history.",
+          "properties": {
+            "result": {
+              "type": "string",
+              "enum": [
+                "PENDING",
+                "VALID",
+                "INVALID"
+              ]
+            },
+            "reasonCode": {
+              "oneOf": [
+                {
+                  "type": "string",
+                  "enum": [
+                    "INSUFFICIENT_EVIDENCE",
+                    "INVALID_MEDIA",
+                    "DURATION_INCONSISTENT",
+                    "IDENTITY_MISMATCH",
+                    "DUPLICATE_SUBMISSION",
+                    "OUTSIDE_ALLOWED_SCOPE",
+                    "OTHER",
+                    "UNCLEAR_EVIDENCE",
+                    "MISSING_REQUIRED_EVIDENCE",
+                    "SESSION_MISMATCH",
+                    "INCONSISTENT_EVIDENCE",
+                    "AUTHENTICITY_REQUIRES_CLARIFICATION",
+                    "CONFIRMED_REUSE_OR_MISUSE"
+                  ]
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "publicComment": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "maxLength": 1000
+            }
+          },
+          "required": [
+            "result",
+            "reasonCode",
+            "publicComment"
+          ]
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    {
+      "id": "schema-composition-changed-e3e95466342682ad",
+      "kind": "SCHEMA_COMPOSITION_CHANGED",
+      "classification": "BREAKING",
+      "direction": "response",
+      "location": "POST /exercise-records/{recordId}/reviews/responses/201/application/json/properties/data/properties/reasonCode",
+      "detail": "oneOf/anyOf alternatives changed.",
+      "before": [
+        {
+          "type": "string",
+          "enum": [
+            "INSUFFICIENT_EVIDENCE",
+            "INVALID_MEDIA",
+            "DURATION_INCONSISTENT",
+            "IDENTITY_MISMATCH",
+            "DUPLICATE_SUBMISSION",
+            "OUTSIDE_ALLOWED_SCOPE",
+            "OTHER"
+          ]
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "after": [
+        {
+          "type": "string",
+          "enum": [
+            "INSUFFICIENT_EVIDENCE",
+            "INVALID_MEDIA",
+            "DURATION_INCONSISTENT",
+            "IDENTITY_MISMATCH",
+            "DUPLICATE_SUBMISSION",
+            "OUTSIDE_ALLOWED_SCOPE",
+            "OTHER",
+            "UNCLEAR_EVIDENCE",
+            "MISSING_REQUIRED_EVIDENCE",
+            "SESSION_MISMATCH",
+            "INCONSISTENT_EVIDENCE",
+            "AUTHENTICITY_REQUIRES_CLARIFICATION",
+            "CONFIRMED_REUSE_OR_MISUSE"
+          ]
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    {
+      "id": "schema-composition-changed-ead2708a3e6de547",
+      "kind": "SCHEMA_COMPOSITION_CHANGED",
+      "classification": "BREAKING",
+      "direction": "request",
+      "location": "POST /exercise-records/{recordId}/reviews/requestBody/application/json/properties/reasonCode",
+      "detail": "oneOf/anyOf alternatives changed.",
+      "before": [
+        {
+          "type": "string",
+          "enum": [
+            "INSUFFICIENT_EVIDENCE",
+            "INVALID_MEDIA",
+            "DURATION_INCONSISTENT",
+            "IDENTITY_MISMATCH",
+            "DUPLICATE_SUBMISSION",
+            "OUTSIDE_ALLOWED_SCOPE",
+            "OTHER"
+          ]
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "after": [
+        {
+          "type": "string",
+          "enum": [
+            "INSUFFICIENT_EVIDENCE",
+            "INVALID_MEDIA",
+            "DURATION_INCONSISTENT",
+            "IDENTITY_MISMATCH",
+            "DUPLICATE_SUBMISSION",
+            "OUTSIDE_ALLOWED_SCOPE",
+            "OTHER",
+            "UNCLEAR_EVIDENCE",
+            "MISSING_REQUIRED_EVIDENCE",
+            "SESSION_MISMATCH",
+            "INCONSISTENT_EVIDENCE",
+            "AUTHENTICITY_REQUIRES_CLARIFICATION",
+            "CONFIRMED_REUSE_OR_MISUSE"
+          ]
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    {
+      "id": "schema-format-changed-1b6ae0413724cf2e",
+      "kind": "SCHEMA_FORMAT_CHANGED",
+      "classification": "BREAKING",
+      "direction": "request",
+      "location": "POST /auth/password-login/requestBody/application/json/properties/account/format",
+      "detail": "format changed.",
+      "before": "email",
+      "after": null
+    },
+    {
+      "id": "schema-maxitems-changed-10374c29977ff092",
+      "kind": "SCHEMA_MAXITEMS_CHANGED",
+      "classification": "BREAKING",
+      "direction": "request",
+      "location": "PATCH /exemption-applications/{applicationId}/requestBody/application/json/properties/mediaIds/maxItems",
+      "detail": "maxItems changed.",
+      "before": 20,
+      "after": 3
+    },
+    {
+      "id": "schema-maxitems-changed-aa526430a499174a",
+      "kind": "SCHEMA_MAXITEMS_CHANGED",
+      "classification": "BREAKING",
+      "direction": "request",
+      "location": "POST /exemption-applications/requestBody/application/json/properties/mediaIds/maxItems",
+      "detail": "maxItems changed.",
+      "before": 20,
+      "after": 3
+    },
+    {
+      "id": "schema-maxlength-changed-978145106dd57053",
+      "kind": "SCHEMA_MAXLENGTH_CHANGED",
+      "classification": "BREAKING",
+      "direction": "request",
+      "location": "POST /auth/password-login/requestBody/application/json/properties/password/maxLength",
+      "detail": "maxLength changed.",
+      "before": 256,
+      "after": null
+    },
+    {
+      "id": "schema-maxlength-changed-a05891d5508d060e",
+      "kind": "SCHEMA_MAXLENGTH_CHANGED",
+      "classification": "BREAKING",
+      "direction": "request",
+      "location": "POST /auth/password-login/requestBody/application/json/properties/account/maxLength",
+      "detail": "maxLength changed.",
+      "before": 254,
+      "after": null
+    },
+    {
+      "id": "schema-maxlength-changed-bac2e8773ac24750",
+      "kind": "SCHEMA_MAXLENGTH_CHANGED",
+      "classification": "BREAKING",
+      "direction": "request",
+      "location": "POST /exercise-records/{recordId}/reviews/requestBody/application/json/properties/internalNote/maxLength",
+      "detail": "maxLength changed.",
+      "before": 2000,
+      "after": null
+    },
+    {
+      "id": "schema-maxlength-changed-fc8929dd284d0be1",
+      "kind": "SCHEMA_MAXLENGTH_CHANGED",
+      "classification": "BREAKING",
+      "direction": "request",
+      "location": "POST /auth/account-recovery-requests/complete/requestBody/application/json/properties/newPassword/maxLength",
+      "detail": "maxLength changed.",
+      "before": 256,
+      "after": null
+    },
+    {
+      "id": "schema-minlength-changed-3273591fb2b12c3b",
+      "kind": "SCHEMA_MINLENGTH_CHANGED",
+      "classification": "BREAKING",
+      "direction": "request",
+      "location": "POST /auth/account-recovery-requests/complete/requestBody/application/json/properties/newPassword/minLength",
+      "detail": "minLength changed.",
+      "before": 12,
+      "after": 1
+    },
+    {
+      "id": "schema-minlength-changed-4e0d00c320ddecf4",
+      "kind": "SCHEMA_MINLENGTH_CHANGED",
+      "classification": "BREAKING",
+      "direction": "request",
+      "location": "POST /auth/password-login/requestBody/application/json/properties/account/minLength",
+      "detail": "minLength changed.",
+      "before": 3,
+      "after": 1
+    },
+    {
+      "id": "schema-type-changed-0d3c0e76a1cb819c",
+      "kind": "SCHEMA_TYPE_CHANGED",
+      "classification": "BREAKING",
+      "direction": "request",
+      "location": "POST /exercise-records/{recordId}/reviews/requestBody/application/json/properties/internalNote/type",
+      "detail": "type changed.",
+      "before": [
+        "string",
+        "null"
+      ],
+      "after": "null"
+    },
+    {
+      "id": "schema-type-changed-8794bdccb2402880",
+      "kind": "SCHEMA_TYPE_CHANGED",
+      "classification": "BREAKING",
+      "direction": "request",
+      "location": "POST /exercise-records/{recordId}/reviews/requestBody/application/json/properties/creditedDurationOverrideSeconds/type",
+      "detail": "type changed.",
+      "before": null,
+      "after": "null"
+    }
+  ]
+}

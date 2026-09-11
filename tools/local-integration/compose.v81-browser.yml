@@ -1,0 +1,24 @@
+# Combine with compose.v81-test.yml. All published ports are loopback-only.
+services:
+  media-minio:
+    networks: [sql-probe, browser-access]
+    ports: ['127.0.0.1:19000:9000']
+  mailpit:
+    networks: [sql-probe, browser-access]
+    ports: ['127.0.0.1:18025:8025']
+  backend-browser:
+    networks: [sql-probe, browser-access]
+    extends:
+      file: compose.v81-test.yml
+      service: backend-startup
+    command: [sh, -ec, 'npm run build && node --import tsx /workspace/tools/local-integration/run-v81-browser-backend.mjs']
+    ports: ['127.0.0.1:3199:3199']
+    volumes: ['../../.local/v81-browser-state:/workspace/.browser-state']
+    healthcheck:
+      test: [CMD, node, -e, "const fs=require('fs');const s=JSON.parse(fs.readFileSync('/workspace/.browser-state/state.json'));if(!s.bootstrapped)process.exit(1);fetch('http://127.0.0.1:3199/api/v1/health/ready').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"]
+      interval: 5s
+      timeout: 3s
+      retries: 30
+      start_period: 60s
+networks:
+  browser-access: {}

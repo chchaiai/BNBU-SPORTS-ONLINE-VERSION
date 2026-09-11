@@ -1,0 +1,11 @@
+✔ published thresholds use whole minutes and a sixty-minute credit cap (0.5204ms)
+✔ a legitimate active session continues beyond two hours (0.1038ms)
+✔ restoring a server session retains identity, duration and pause without inventing evidence (0.5984ms)
+ℹ tests 3
+ℹ suites 0
+ℹ pass 3
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 62.3724

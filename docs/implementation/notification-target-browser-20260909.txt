@@ -1,0 +1,2 @@
+{"check":"TEACHER_NOTIFICATION_EXACT_TARGET","result":"PASS","targetType":"CLASS_SECTION","targetId":"01a083fc-9ee3-73cf-80bd-fd46e2af0a86","existingClosedCourse":true}
+{"check":"TEACHER_NOTIFICATION_EXACT_TARGET","result":"FAIL","stage":"EXERCISE_RECORD","message":"page.waitForResponse: Timeout 60000ms exceeded while waiting for event \"response\""}

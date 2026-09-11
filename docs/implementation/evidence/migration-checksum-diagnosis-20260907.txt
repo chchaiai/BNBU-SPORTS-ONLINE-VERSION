@@ -1,0 +1,122 @@
+[
+  {
+    "migration": "0001_greenfield_foundation",
+    "rawMatches": false,
+    "lfMatches": true
+  },
+  {
+    "migration": "0002_teaching_structure",
+    "rawMatches": false,
+    "lfMatches": true
+  },
+  {
+    "migration": "0003_identity_enrollment_qr_join",
+    "rawMatches": false,
+    "lfMatches": true
+  },
+  {
+    "migration": "0004_official_roster_alignment",
+    "rawMatches": false,
+    "lfMatches": true
+  },
+  {
+    "migration": "0005_exercise_session",
+    "rawMatches": false,
+    "lfMatches": true
+  },
+  {
+    "migration": "0006_media_evidence",
+    "rawMatches": false,
+    "lfMatches": true
+  },
+  {
+    "migration": "0007_exercise_record",
+    "rawMatches": false,
+    "lfMatches": true
+  },
+  {
+    "migration": "0008_review_core",
+    "rawMatches": false,
+    "lfMatches": true
+  },
+  {
+    "migration": "0009_score",
+    "rawMatches": false,
+    "lfMatches": true
+  },
+  {
+    "migration": "0010_export_audit_governance",
+    "rawMatches": false,
+    "lfMatches": true
+  },
+  {
+    "migration": "0011_client_capabilities",
+    "rawMatches": false,
+    "lfMatches": true
+  },
+  {
+    "migration": "0012_ios_auth_release_exemption",
+    "rawMatches": false,
+    "lfMatches": true
+  },
+  {
+    "migration": "0013_production_rate_limits",
+    "rawMatches": false,
+    "lfMatches": true
+  },
+  {
+    "migration": "0014_email_only_auth",
+    "rawMatches": false,
+    "lfMatches": true
+  },
+  {
+    "migration": "0015_email_verification_fk_alignment",
+    "rawMatches": false,
+    "lfMatches": true
+  },
+  {
+    "migration": "0016_optional_course_exercise_description",
+    "rawMatches": false,
+    "lfMatches": true
+  },
+  {
+    "migration": "0017_exemption_application_details",
+    "rawMatches": false,
+    "lfMatches": true
+  },
+  {
+    "migration": "0018_default_valid_exercise_reviews",
+    "rawMatches": false,
+    "lfMatches": true
+  },
+  {
+    "migration": "0019_default_valid_initial_review_constraint",
+    "rawMatches": false,
+    "lfMatches": true
+  },
+  {
+    "migration": "0020_staging_fixture_audit_action",
+    "rawMatches": false,
+    "lfMatches": true
+  },
+  {
+    "migration": "0021_v81_business_foundation",
+    "rawMatches": true,
+    "lfMatches": true
+  },
+  {
+    "migration": "0022_v81_account_security",
+    "rawMatches": true,
+    "lfMatches": true
+  },
+  {
+    "migration": "0023_v81_application_materials",
+    "rawMatches": true,
+    "lfMatches": true
+  },
+  {
+    "migration": "0024_v81_certification_revocation",
+    "rawMatches": true,
+    "lfMatches": true
+  }
+]

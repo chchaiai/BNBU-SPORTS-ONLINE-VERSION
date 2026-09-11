@@ -1,0 +1,15 @@
+ Container bnbu-v81-local-validation-domain-tests-run-a51e28751091 Creating 
+ Container bnbu-v81-local-validation-domain-tests-run-a51e28751091 Created 
+
+> @bnbu/sports-backend@0.1.0 db:validate
+> prisma validate
+
+Loaded Prisma config from prisma.config.ts.
+
+prisma:warn Prisma failed to detect the libssl/openssl version to use, and may not work as expected. Defaulting to "openssl-1.1.x".
+Please manually install OpenSSL via `apt-get update -y && apt-get install -y openssl` and try installing Prisma again. If you're running Prisma on Docker, add this command to your Dockerfile, or switch to an image that already has OpenSSL installed.
+prisma:warn Prisma failed to detect the libssl/openssl version to use, and may not work as expected. Defaulting to "openssl-1.1.x".
+Please manually install OpenSSL via `apt-get update -y && apt-get install -y openssl` and try installing Prisma again. If you're running Prisma on Docker, add this command to your Dockerfile, or switch to an image that already has OpenSSL installed.
+Prisma schema loaded from prisma/schema.prisma.
+The schema at prisma/schema.prisma is valid 🚀
+Docker exit code: 0

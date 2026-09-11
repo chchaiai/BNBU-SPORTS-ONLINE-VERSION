@@ -1,0 +1,5 @@
+                  id                  |  status   | actual_duration_seconds | credited_duration_seconds |      stage      
+--------------------------------------+-----------+-------------------------+---------------------------+-----------------
+ 01a07ef2-406a-73be-b8f0-ffef5bb13fe1 | SUBMITTED |                       0 |                         0 | PENDING_TEACHER
+(1 row)
+

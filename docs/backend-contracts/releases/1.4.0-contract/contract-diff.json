@@ -1,0 +1,1325 @@
+{
+  "formatVersion": 2,
+  "baseline": {
+    "version": "1.3.0-contract",
+    "sha256": "914084874afda2481813a041da4cc01249aa9ea557d9a8bf29baeed4f10e0dc9",
+    "operationCount": 122
+  },
+  "current": {
+    "version": "1.4.0-contract",
+    "sha256": "c5d18c4894bbe421074cba27da3b39a9076328c499cc742b273665994c29059b",
+    "operationCount": 122
+  },
+  "compatible": true,
+  "summary": {
+    "breaking": 0,
+    "reviewRequired": 0,
+    "nonBreaking": 74,
+    "approvedExceptions": 0,
+    "unapprovedBlockers": 0
+  },
+  "changes": [
+    {
+      "id": "response-status-added-0759e0d10a444243",
+      "kind": "RESPONSE_STATUS_ADDED",
+      "classification": "NON_BREAKING",
+      "direction": "response",
+      "location": "POST /exercise-sessions/{sessionId}/reconcile/responses/503",
+      "detail": "A response status was documented additively.",
+      "before": null,
+      "after": {
+        "$ref": "#/components/responses/ServiceUnavailable"
+      },
+      "approvedException": null
+    },
+    {
+      "id": "response-status-added-0c7d2fc3aac6570c",
+      "kind": "RESPONSE_STATUS_ADDED",
+      "classification": "NON_BREAKING",
+      "direction": "response",
+      "location": "POST /media/{mediaId}/bind/responses/503",
+      "detail": "A response status was documented additively.",
+      "before": null,
+      "after": {
+        "$ref": "#/components/responses/ServiceUnavailable"
+      },
+      "approvedException": null
+    },
+    {
+      "id": "response-status-added-0d6eab27ce9e92ac",
+      "kind": "RESPONSE_STATUS_ADDED",
+      "classification": "NON_BREAKING",
+      "direction": "response",
+      "location": "POST /media-uploads/{uploadSessionId}/confirm/responses/503",
+      "detail": "A response status was documented additively.",
+      "before": null,
+      "after": {
+        "$ref": "#/components/responses/ServiceUnavailable"
+      },
+      "approvedException": null
+    },
+    {
+      "id": "response-status-added-0e38be5d12d00fc7",
+      "kind": "RESPONSE_STATUS_ADDED",
+      "classification": "NON_BREAKING",
+      "direction": "response",
+      "location": "POST /score-rules/{scoreRuleId}/approve/responses/503",
+      "detail": "A response status was documented additively.",
+      "before": null,
+      "after": {
+        "$ref": "#/components/responses/ServiceUnavailable"
+      },
+      "approvedException": null
+    },
+    {
+      "id": "response-status-added-109044a39c3e11ff",
+      "kind": "RESPONSE_STATUS_ADDED",
+      "classification": "NON_BREAKING",
+      "direction": "response",
+      "location": "POST /exercise-sessions/{sessionId}/resume/responses/503",
+      "detail": "A response status was documented additively.",
+      "before": null,
+      "after": {
+        "$ref": "#/components/responses/ServiceUnavailable"
+      },
+      "approvedException": null
+    },
+    {
+      "id": "response-status-added-1185558a8219780d",
+      "kind": "RESPONSE_STATUS_ADDED",
+      "classification": "NON_BREAKING",
+      "direction": "response",
+      "location": "POST /class-sections/{classSectionId}/course-invites/responses/503",
+      "detail": "A response status was documented additively.",
+      "before": null,
+      "after": {
+        "$ref": "#/components/responses/ServiceUnavailable"
+      },
+      "approvedException": null
+    },
+    {
+      "id": "response-status-added-13e6bf974cffa7fd",
+      "kind": "RESPONSE_STATUS_ADDED",
+      "classification": "NON_BREAKING",
+      "direction": "response",
+      "location": "POST /auth/password-login/responses/503",
+      "detail": "A response status was documented additively.",
+      "before": null,
+      "after": {
+        "$ref": "#/components/responses/ServiceUnavailable"
+      },
+      "approvedException": null
+    },
+    {
+      "id": "response-status-added-16dc53e427b86785",
+      "kind": "RESPONSE_STATUS_ADDED",
+      "classification": "NON_BREAKING",
+      "direction": "response",
+      "location": "POST /class-sections/{classSectionId}/enrollments/responses/503",
+      "detail": "A response status was documented additively.",
+      "before": null,
+      "after": {
+        "$ref": "#/components/responses/ServiceUnavailable"
+      },
+      "approvedException": null
+    },
+    {
+      "id": "response-status-added-19143a4352738b46",
+      "kind": "RESPONSE_STATUS_ADDED",
+      "classification": "NON_BREAKING",
+      "direction": "response",
+      "location": "POST /exercise-records/{recordId}/discard/responses/503",
+      "detail": "A response status was documented additively.",
+      "before": null,
+      "after": {
+        "$ref": "#/components/responses/ServiceUnavailable"
+      },
+      "approvedException": null
+    },
+    {
+      "id": "response-status-added-19981b4cd023b5c2",
+      "kind": "RESPONSE_STATUS_ADDED",
+      "classification": "NON_BREAKING",
+      "direction": "response",
+      "location": "POST /score-rules/{scoreRuleId}/submit-approval/responses/503",
+      "detail": "A response status was documented additively.",
+      "before": null,
+      "after": {
+        "$ref": "#/components/responses/ServiceUnavailable"
+      },
+      "approvedException": null
+    },
+    {
+      "id": "response-status-added-26ef27885c532692",
+      "kind": "RESPONSE_STATUS_ADDED",
+      "classification": "NON_BREAKING",
+      "direction": "response",
+      "location": "POST /roster-alignment-results/{alignmentResultId}/resolve/responses/503",
+      "detail": "A response status was documented additively.",
+      "before": null,
+      "after": {
+        "$ref": "#/components/responses/ServiceUnavailable"
+      },
+      "approvedException": null
+    },
+    {
+      "id": "response-status-added-2b63e281bb375b3c",
+      "kind": "RESPONSE_STATUS_ADDED",
+      "classification": "NON_BREAKING",
+      "direction": "response",
+      "location": "POST /exercise-records/{recordId}/submit/responses/503",
+      "detail": "A response status was documented additively.",
+      "before": null,
+      "after": {
+        "$ref": "#/components/responses/ServiceUnavailable"
+      },
+      "approvedException": null
+    },
+    {
+      "id": "response-status-added-2d0ca54eb07d3a50",
+      "kind": "RESPONSE_STATUS_ADDED",
+      "classification": "NON_BREAKING",
+      "direction": "response",
+      "location": "POST /exercise-records/{recordId}/withdraw/responses/503",
+      "detail": "A response status was documented additively.",
+      "before": null,
+      "after": {
+        "$ref": "#/components/responses/ServiceUnavailable"
+      },
+      "approvedException": null
+    },
+    {
+      "id": "response-status-added-2eb01a6e1e581521",
+      "kind": "RESPONSE_STATUS_ADDED",
+      "classification": "NON_BREAKING",
+      "direction": "response",
+      "location": "POST /exercise-reviews/batch/responses/503",
+      "detail": "A response status was documented additively.",
+      "before": null,
+      "after": {
+        "$ref": "#/components/responses/ServiceUnavailable"
+      },
+      "approvedException": null
+    },
+    {
+      "id": "response-status-added-301e0f8ca582adcd",
+      "kind": "RESPONSE_STATUS_ADDED",
+      "classification": "NON_BREAKING",
+      "direction": "response",
+      "location": "POST /roster-alignment-results/{alignmentResultId}/reopen/responses/503",
+      "detail": "A response status was documented additively.",
+      "before": null,
+      "after": {
+        "$ref": "#/components/responses/ServiceUnavailable"
+      },
+      "approvedException": null
+    },
+    {
+      "id": "response-status-added-387e857de4f258a5",
+      "kind": "RESPONSE_STATUS_ADDED",
+      "classification": "NON_BREAKING",
+      "direction": "response",
+      "location": "POST /student-scores/{studentScoreId}/adjustments/responses/503",
+      "detail": "A response status was documented additively.",
+      "before": null,
+      "after": {
+        "$ref": "#/components/responses/ServiceUnavailable"
+      },
+      "approvedException": null
+    },
+    {
+      "id": "response-status-added-3ebe4badfeee4b5f",
+      "kind": "RESPONSE_STATUS_ADDED",
+      "classification": "NON_BREAKING",
+      "direction": "response",
+      "location": "POST /class-sections/{classSectionId}/close/responses/503",
+      "detail": "A response status was documented additively.",
+      "before": null,
+      "after": {
+        "$ref": "#/components/responses/ServiceUnavailable"
+      },
+      "approvedException": null
+    },
+    {
+      "id": "response-status-added-3f09266e6871100c",
+      "kind": "RESPONSE_STATUS_ADDED",
+      "classification": "NON_BREAKING",
+      "direction": "response",
+      "location": "POST /enrollments/{enrollmentId}/withdraw/responses/503",
+      "detail": "A response status was documented additively.",
+      "before": null,
+      "after": {
+        "$ref": "#/components/responses/ServiceUnavailable"
+      },
+      "approvedException": null
+    },
+    {
+      "id": "response-status-added-42fcd503e189f2eb",
+      "kind": "RESPONSE_STATUS_ADDED",
+      "classification": "NON_BREAKING",
+      "direction": "response",
+      "location": "POST /courses/responses/503",
+      "detail": "A response status was documented additively.",
+      "before": null,
+      "after": {
+        "$ref": "#/components/responses/ServiceUnavailable"
+      },
+      "approvedException": null
+    },
+    {
+      "id": "response-status-added-47c4dc8d730c7b5f",
+      "kind": "RESPONSE_STATUS_ADDED",
+      "classification": "NON_BREAKING",
+      "direction": "response",
+      "location": "GET /exports/{exportId}/responses/503",
+      "detail": "A response status was documented additively.",
+      "before": null,
+      "after": {
+        "$ref": "#/components/responses/ServiceUnavailable"
+      },
+      "approvedException": null
+    },
+    {
+      "id": "response-status-added-4e781f25a1874051",
+      "kind": "RESPONSE_STATUS_ADDED",
+      "classification": "NON_BREAKING",
+      "direction": "response",
+      "location": "POST /auth/password-login/responses/403",
+      "detail": "A response status was documented additively.",
+      "before": null,
+      "after": {
+        "$ref": "#/components/responses/Forbidden"
+      },
+      "approvedException": null
+    },
+    {
+      "id": "response-status-added-4f5a72af19310993",
+      "kind": "RESPONSE_STATUS_ADDED",
+      "classification": "NON_BREAKING",
+      "direction": "response",
+      "location": "POST /score-adjustments/{scoreAdjustmentId}/reject/responses/503",
+      "detail": "A response status was documented additively.",
+      "before": null,
+      "after": {
+        "$ref": "#/components/responses/ServiceUnavailable"
+      },
+      "approvedException": null
+    },
+    {
+      "id": "response-status-added-52f20689585477a2",
+      "kind": "RESPONSE_STATUS_ADDED",
+      "classification": "NON_BREAKING",
+      "direction": "response",
+      "location": "POST /class-sections/{classSectionId}/roster-imports/responses/404",
+      "detail": "A response status was documented additively.",
+      "before": null,
+      "after": {
+        "$ref": "#/components/responses/NotFound"
+      },
+      "approvedException": null
+    },
+    {
+      "id": "response-status-added-5bd107ae5499cb9e",
+      "kind": "RESPONSE_STATUS_ADDED",
+      "classification": "NON_BREAKING",
+      "direction": "response",
+      "location": "POST /exercise-records/{recordId}/reviews/responses/503",
+      "detail": "A response status was documented additively.",
+      "before": null,
+      "after": {
+        "$ref": "#/components/responses/ServiceUnavailable"
+      },
+      "approvedException": null
+    },
+    {
+      "id": "response-status-added-61637fec3cbed9bf",
+      "kind": "RESPONSE_STATUS_ADDED",
+      "classification": "NON_BREAKING",
+      "direction": "response",
+      "location": "POST /course-invites/{inviteToken}/join/responses/503",
+      "detail": "A response status was documented additively.",
+      "before": null,
+      "after": {
+        "$ref": "#/components/responses/ServiceUnavailable"
+      },
+      "approvedException": null
+    },
+    {
+      "id": "response-status-added-64bd80f4a2d5bc21",
+      "kind": "RESPONSE_STATUS_ADDED",
+      "classification": "NON_BREAKING",
+      "direction": "response",
+      "location": "PATCH /class-sections/{classSectionId}/responses/503",
+      "detail": "A response status was documented additively.",
+      "before": null,
+      "after": {
+        "$ref": "#/components/responses/ServiceUnavailable"
+      },
+      "approvedException": null
+    },
+    {
+      "id": "response-status-added-67b1bf2a94862155",
+      "kind": "RESPONSE_STATUS_ADDED",
+      "classification": "NON_BREAKING",
+      "direction": "response",
+      "location": "POST /class-sections/{classSectionId}/roster-imports/responses/503",
+      "detail": "A response status was documented additively.",
+      "before": null,
+      "after": {
+        "$ref": "#/components/responses/ServiceUnavailable"
+      },
+      "approvedException": null
+    },
+    {
+      "id": "response-status-added-6d20eb18bfa7b780",
+      "kind": "RESPONSE_STATUS_ADDED",
+      "classification": "NON_BREAKING",
+      "direction": "response",
+      "location": "POST /roster-alignment-results/{alignmentResultId}/ignore/responses/503",
+      "detail": "A response status was documented additively.",
+      "before": null,
+      "after": {
+        "$ref": "#/components/responses/ServiceUnavailable"
+      },
+      "approvedException": null
+    },
+    {
+      "id": "response-status-added-7591067592f1ad36",
+      "kind": "RESPONSE_STATUS_ADDED",
+      "classification": "NON_BREAKING",
+      "direction": "response",
+      "location": "POST /score-rules/{scoreRuleId}/reject/responses/503",
+      "detail": "A response status was documented additively.",
+      "before": null,
+      "after": {
+        "$ref": "#/components/responses/ServiceUnavailable"
+      },
+      "approvedException": null
+    },
+    {
+      "id": "response-status-added-777f250a1218c9c3",
+      "kind": "RESPONSE_STATUS_ADDED",
+      "classification": "NON_BREAKING",
+      "direction": "response",
+      "location": "POST /auth/logout/responses/503",
+      "detail": "A response status was documented additively.",
+      "before": null,
+      "after": {
+        "$ref": "#/components/responses/ServiceUnavailable"
+      },
+      "approvedException": null
+    },
+    {
+      "id": "response-status-added-7825efaeb13f787c",
+      "kind": "RESPONSE_STATUS_ADDED",
+      "classification": "NON_BREAKING",
+      "direction": "response",
+      "location": "POST /exercise-records/responses/503",
+      "detail": "A response status was documented additively.",
+      "before": null,
+      "after": {
+        "$ref": "#/components/responses/ServiceUnavailable"
+      },
+      "approvedException": null
+    },
+    {
+      "id": "response-status-added-7e98bf60993204ca",
+      "kind": "RESPONSE_STATUS_ADDED",
+      "classification": "NON_BREAKING",
+      "direction": "response",
+      "location": "GET /exports/responses/503",
+      "detail": "A response status was documented additively.",
+      "before": null,
+      "after": {
+        "$ref": "#/components/responses/ServiceUnavailable"
+      },
+      "approvedException": null
+    },
+    {
+      "id": "response-status-added-81631d8a8109cbc5",
+      "kind": "RESPONSE_STATUS_ADDED",
+      "classification": "NON_BREAKING",
+      "direction": "response",
+      "location": "POST /media/{mediaId}/access-url/responses/503",
+      "detail": "A response status was documented additively.",
+      "before": null,
+      "after": {
+        "$ref": "#/components/responses/ServiceUnavailable"
+      },
+      "approvedException": null
+    },
+    {
+      "id": "response-status-added-8be0a88e1a881b7e",
+      "kind": "RESPONSE_STATUS_ADDED",
+      "classification": "NON_BREAKING",
+      "direction": "response",
+      "location": "POST /media-uploads/responses/503",
+      "detail": "A response status was documented additively.",
+      "before": null,
+      "after": {
+        "$ref": "#/components/responses/ServiceUnavailable"
+      },
+      "approvedException": null
+    },
+    {
+      "id": "response-status-added-918c20204a5141b6",
+      "kind": "RESPONSE_STATUS_ADDED",
+      "classification": "NON_BREAKING",
+      "direction": "response",
+      "location": "POST /enrollments/{enrollmentId}/remove/responses/503",
+      "detail": "A response status was documented additively.",
+      "before": null,
+      "after": {
+        "$ref": "#/components/responses/ServiceUnavailable"
+      },
+      "approvedException": null
+    },
+    {
+      "id": "response-status-added-93002fb60eaf40c7",
+      "kind": "RESPONSE_STATUS_ADDED",
+      "classification": "NON_BREAKING",
+      "direction": "response",
+      "location": "POST /roster-imports/{rosterImportId}/align/responses/503",
+      "detail": "A response status was documented additively.",
+      "before": null,
+      "after": {
+        "$ref": "#/components/responses/ServiceUnavailable"
+      },
+      "approvedException": null
+    },
+    {
+      "id": "response-status-added-9525330979cdb907",
+      "kind": "RESPONSE_STATUS_ADDED",
+      "classification": "NON_BREAKING",
+      "direction": "response",
+      "location": "POST /roster-imports/{rosterImportId}/rollback/responses/503",
+      "detail": "A response status was documented additively.",
+      "before": null,
+      "after": {
+        "$ref": "#/components/responses/ServiceUnavailable"
+      },
+      "approvedException": null
+    },
+    {
+      "id": "response-status-added-9b807922196fff35",
+      "kind": "RESPONSE_STATUS_ADDED",
+      "classification": "NON_BREAKING",
+      "direction": "response",
+      "location": "POST /student-scores/{studentScoreId}/publish/responses/503",
+      "detail": "A response status was documented additively.",
+      "before": null,
+      "after": {
+        "$ref": "#/components/responses/ServiceUnavailable"
+      },
+      "approvedException": null
+    },
+    {
+      "id": "response-status-added-a3f86bbdf1be8eca",
+      "kind": "RESPONSE_STATUS_ADDED",
+      "classification": "NON_BREAKING",
+      "direction": "response",
+      "location": "POST /auth/logout/responses/404",
+      "detail": "A response status was documented additively.",
+      "before": null,
+      "after": {
+        "$ref": "#/components/responses/NotFound"
+      },
+      "approvedException": null
+    },
+    {
+      "id": "response-status-added-a45ac3b27bd9ed04",
+      "kind": "RESPONSE_STATUS_ADDED",
+      "classification": "NON_BREAKING",
+      "direction": "response",
+      "location": "POST /auth/refresh/responses/503",
+      "detail": "A response status was documented additively.",
+      "before": null,
+      "after": {
+        "$ref": "#/components/responses/ServiceUnavailable"
+      },
+      "approvedException": null
+    },
+    {
+      "id": "response-status-added-b2390a392dd5d185",
+      "kind": "RESPONSE_STATUS_ADDED",
+      "classification": "NON_BREAKING",
+      "direction": "response",
+      "location": "PATCH /courses/{courseId}/responses/503",
+      "detail": "A response status was documented additively.",
+      "before": null,
+      "after": {
+        "$ref": "#/components/responses/ServiceUnavailable"
+      },
+      "approvedException": null
+    },
+    {
+      "id": "response-status-added-b4bf3fc8bf82ec3a",
+      "kind": "RESPONSE_STATUS_ADDED",
+      "classification": "NON_BREAKING",
+      "direction": "response",
+      "location": "POST /exports/{exportId}/download-url/responses/503",
+      "detail": "A response status was documented additively.",
+      "before": null,
+      "after": {
+        "$ref": "#/components/responses/ServiceUnavailable"
+      },
+      "approvedException": null
+    },
+    {
+      "id": "response-status-added-c319a71211592b16",
+      "kind": "RESPONSE_STATUS_ADDED",
+      "classification": "NON_BREAKING",
+      "direction": "response",
+      "location": "PATCH /exercise-records/{recordId}/responses/503",
+      "detail": "A response status was documented additively.",
+      "before": null,
+      "after": {
+        "$ref": "#/components/responses/ServiceUnavailable"
+      },
+      "approvedException": null
+    },
+    {
+      "id": "response-status-added-d19fefa728dd2cd3",
+      "kind": "RESPONSE_STATUS_ADDED",
+      "classification": "NON_BREAKING",
+      "direction": "response",
+      "location": "POST /student-scores/{studentScoreId}/open-correction/responses/503",
+      "detail": "A response status was documented additively.",
+      "before": null,
+      "after": {
+        "$ref": "#/components/responses/ServiceUnavailable"
+      },
+      "approvedException": null
+    },
+    {
+      "id": "response-status-added-deba74f9f9c56e88",
+      "kind": "RESPONSE_STATUS_ADDED",
+      "classification": "NON_BREAKING",
+      "direction": "response",
+      "location": "POST /score-adjustments/{scoreAdjustmentId}/approve/responses/503",
+      "detail": "A response status was documented additively.",
+      "before": null,
+      "after": {
+        "$ref": "#/components/responses/ServiceUnavailable"
+      },
+      "approvedException": null
+    },
+    {
+      "id": "response-status-added-dec20ec0794c26b8",
+      "kind": "RESPONSE_STATUS_ADDED",
+      "classification": "NON_BREAKING",
+      "direction": "response",
+      "location": "POST /exercise-sessions/{sessionId}/cancel/responses/503",
+      "detail": "A response status was documented additively.",
+      "before": null,
+      "after": {
+        "$ref": "#/components/responses/ServiceUnavailable"
+      },
+      "approvedException": null
+    },
+    {
+      "id": "response-status-added-df6b81e1133f807c",
+      "kind": "RESPONSE_STATUS_ADDED",
+      "classification": "NON_BREAKING",
+      "direction": "response",
+      "location": "POST /course-invites/{inviteToken}/join-capabilities/responses/503",
+      "detail": "A response status was documented additively.",
+      "before": null,
+      "after": {
+        "$ref": "#/components/responses/ServiceUnavailable"
+      },
+      "approvedException": null
+    },
+    {
+      "id": "response-status-added-dfa77e80ec113a65",
+      "kind": "RESPONSE_STATUS_ADDED",
+      "classification": "NON_BREAKING",
+      "direction": "response",
+      "location": "POST /class-sections/responses/503",
+      "detail": "A response status was documented additively.",
+      "before": null,
+      "after": {
+        "$ref": "#/components/responses/ServiceUnavailable"
+      },
+      "approvedException": null
+    },
+    {
+      "id": "response-status-added-e09fa4370d338b01",
+      "kind": "RESPONSE_STATUS_ADDED",
+      "classification": "NON_BREAKING",
+      "direction": "response",
+      "location": "POST /student-scores/{studentScoreId}/recalculate/responses/503",
+      "detail": "A response status was documented additively.",
+      "before": null,
+      "after": {
+        "$ref": "#/components/responses/ServiceUnavailable"
+      },
+      "approvedException": null
+    },
+    {
+      "id": "response-status-added-eab16374171c05bd",
+      "kind": "RESPONSE_STATUS_ADDED",
+      "classification": "NON_BREAKING",
+      "direction": "response",
+      "location": "POST /exercise-sessions/{sessionId}/pause/responses/503",
+      "detail": "A response status was documented additively.",
+      "before": null,
+      "after": {
+        "$ref": "#/components/responses/ServiceUnavailable"
+      },
+      "approvedException": null
+    },
+    {
+      "id": "response-status-added-ed5f1eaea772478b",
+      "kind": "RESPONSE_STATUS_ADDED",
+      "classification": "NON_BREAKING",
+      "direction": "response",
+      "location": "POST /exercise-sessions/responses/503",
+      "detail": "A response status was documented additively.",
+      "before": null,
+      "after": {
+        "$ref": "#/components/responses/ServiceUnavailable"
+      },
+      "approvedException": null
+    },
+    {
+      "id": "response-status-added-ef38e729bdc4794a",
+      "kind": "RESPONSE_STATUS_ADDED",
+      "classification": "NON_BREAKING",
+      "direction": "response",
+      "location": "POST /exercise-records/{recordId}/reviews/reopen/responses/503",
+      "detail": "A response status was documented additively.",
+      "before": null,
+      "after": {
+        "$ref": "#/components/responses/ServiceUnavailable"
+      },
+      "approvedException": null
+    },
+    {
+      "id": "response-status-added-f0fe4a88483a0204",
+      "kind": "RESPONSE_STATUS_ADDED",
+      "classification": "NON_BREAKING",
+      "direction": "response",
+      "location": "POST /enrollments/{enrollmentId}/restore/responses/503",
+      "detail": "A response status was documented additively.",
+      "before": null,
+      "after": {
+        "$ref": "#/components/responses/ServiceUnavailable"
+      },
+      "approvedException": null
+    },
+    {
+      "id": "response-status-added-fb5f83c2012ad19b",
+      "kind": "RESPONSE_STATUS_ADDED",
+      "classification": "NON_BREAKING",
+      "direction": "response",
+      "location": "POST /exercise-sessions/{sessionId}/finish/responses/503",
+      "detail": "A response status was documented additively.",
+      "before": null,
+      "after": {
+        "$ref": "#/components/responses/ServiceUnavailable"
+      },
+      "approvedException": null
+    },
+    {
+      "id": "response-status-added-fb7e2481a284daa6",
+      "kind": "RESPONSE_STATUS_ADDED",
+      "classification": "NON_BREAKING",
+      "direction": "response",
+      "location": "POST /roster-alignment-results/{alignmentResultId}/confirm/responses/503",
+      "detail": "A response status was documented additively.",
+      "before": null,
+      "after": {
+        "$ref": "#/components/responses/ServiceUnavailable"
+      },
+      "approvedException": null
+    },
+    {
+      "id": "response-status-added-fbe248a78a1e9e29",
+      "kind": "RESPONSE_STATUS_ADDED",
+      "classification": "NON_BREAKING",
+      "direction": "response",
+      "location": "POST /class-sections/{classSectionId}/score-rules/responses/503",
+      "detail": "A response status was documented additively.",
+      "before": null,
+      "after": {
+        "$ref": "#/components/responses/ServiceUnavailable"
+      },
+      "approvedException": null
+    },
+    {
+      "id": "schema-alternative-added-02ffb656839afb30",
+      "kind": "SCHEMA_ALTERNATIVE_ADDED",
+      "classification": "NON_BREAKING",
+      "direction": "response",
+      "location": "PATCH /class-sections/{classSectionId}/responses/200/application/json/properties/data/properties/dailyEndTime",
+      "detail": "The prior schema alternatives remain accepted and additional compatible alternatives were added.",
+      "before": {
+        "type": [
+          "string",
+          "null"
+        ],
+        "format": "time"
+      },
+      "after": {
+        "oneOf": [
+          {
+            "type": "null"
+          },
+          {
+            "type": "string",
+            "format": "time"
+          },
+          {
+            "type": "string",
+            "pattern": "^(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d)?$"
+          }
+        ],
+        "description": "Organization-local wall time; RFC3339 time remains a deprecated compatibility input."
+      },
+      "approvedException": null
+    },
+    {
+      "id": "schema-alternative-added-157304cd3ba98208",
+      "kind": "SCHEMA_ALTERNATIVE_ADDED",
+      "classification": "NON_BREAKING",
+      "direction": "response",
+      "location": "POST /course-invites/{inviteToken}/join/responses/200/application/json/properties/data/properties/classSection/properties/dailyEndTime",
+      "detail": "The prior schema alternatives remain accepted and additional compatible alternatives were added.",
+      "before": {
+        "type": [
+          "string",
+          "null"
+        ],
+        "format": "time"
+      },
+      "after": {
+        "oneOf": [
+          {
+            "type": "null"
+          },
+          {
+            "type": "string",
+            "format": "time"
+          },
+          {
+            "type": "string",
+            "pattern": "^(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d)?$"
+          }
+        ],
+        "description": "Organization-local wall time; RFC3339 time remains a deprecated compatibility input."
+      },
+      "approvedException": null
+    },
+    {
+      "id": "schema-alternative-added-1d2540d0a5ba15d4",
+      "kind": "SCHEMA_ALTERNATIVE_ADDED",
+      "classification": "NON_BREAKING",
+      "direction": "response",
+      "location": "POST /class-sections/responses/201/application/json/properties/data/properties/dailyEndTime",
+      "detail": "The prior schema alternatives remain accepted and additional compatible alternatives were added.",
+      "before": {
+        "type": [
+          "string",
+          "null"
+        ],
+        "format": "time"
+      },
+      "after": {
+        "oneOf": [
+          {
+            "type": "null"
+          },
+          {
+            "type": "string",
+            "format": "time"
+          },
+          {
+            "type": "string",
+            "pattern": "^(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d)?$"
+          }
+        ],
+        "description": "Organization-local wall time; RFC3339 time remains a deprecated compatibility input."
+      },
+      "approvedException": null
+    },
+    {
+      "id": "schema-alternative-added-1f034bd5993c9047",
+      "kind": "SCHEMA_ALTERNATIVE_ADDED",
+      "classification": "NON_BREAKING",
+      "direction": "response",
+      "location": "GET /class-sections/responses/200/application/json/properties/data/items/properties/dailyStartTime",
+      "detail": "The prior schema alternatives remain accepted and additional compatible alternatives were added.",
+      "before": {
+        "type": [
+          "string",
+          "null"
+        ],
+        "format": "time"
+      },
+      "after": {
+        "oneOf": [
+          {
+            "type": "null"
+          },
+          {
+            "type": "string",
+            "format": "time"
+          },
+          {
+            "type": "string",
+            "pattern": "^(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d)?$"
+          }
+        ],
+        "description": "Organization-local wall time; RFC3339 time remains a deprecated compatibility input."
+      },
+      "approvedException": null
+    },
+    {
+      "id": "schema-alternative-added-2094c2893f590037",
+      "kind": "SCHEMA_ALTERNATIVE_ADDED",
+      "classification": "NON_BREAKING",
+      "direction": "response",
+      "location": "GET /class-sections/{classSectionId}/responses/200/application/json/properties/data/properties/dailyEndTime",
+      "detail": "The prior schema alternatives remain accepted and additional compatible alternatives were added.",
+      "before": {
+        "type": [
+          "string",
+          "null"
+        ],
+        "format": "time"
+      },
+      "after": {
+        "oneOf": [
+          {
+            "type": "null"
+          },
+          {
+            "type": "string",
+            "format": "time"
+          },
+          {
+            "type": "string",
+            "pattern": "^(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d)?$"
+          }
+        ],
+        "description": "Organization-local wall time; RFC3339 time remains a deprecated compatibility input."
+      },
+      "approvedException": null
+    },
+    {
+      "id": "schema-alternative-added-2739624e4a9669a8",
+      "kind": "SCHEMA_ALTERNATIVE_ADDED",
+      "classification": "NON_BREAKING",
+      "direction": "response",
+      "location": "GET /teachers/{teacherId}/class-sections/responses/200/application/json/properties/data/items/properties/dailyEndTime",
+      "detail": "The prior schema alternatives remain accepted and additional compatible alternatives were added.",
+      "before": {
+        "type": [
+          "string",
+          "null"
+        ],
+        "format": "time"
+      },
+      "after": {
+        "oneOf": [
+          {
+            "type": "null"
+          },
+          {
+            "type": "string",
+            "format": "time"
+          },
+          {
+            "type": "string",
+            "pattern": "^(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d)?$"
+          }
+        ],
+        "description": "Organization-local wall time; RFC3339 time remains a deprecated compatibility input."
+      },
+      "approvedException": null
+    },
+    {
+      "id": "schema-alternative-added-2b206cb88367d7fe",
+      "kind": "SCHEMA_ALTERNATIVE_ADDED",
+      "classification": "NON_BREAKING",
+      "direction": "response",
+      "location": "POST /class-sections/responses/201/application/json/properties/data/properties/dailyStartTime",
+      "detail": "The prior schema alternatives remain accepted and additional compatible alternatives were added.",
+      "before": {
+        "type": [
+          "string",
+          "null"
+        ],
+        "format": "time"
+      },
+      "after": {
+        "oneOf": [
+          {
+            "type": "null"
+          },
+          {
+            "type": "string",
+            "format": "time"
+          },
+          {
+            "type": "string",
+            "pattern": "^(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d)?$"
+          }
+        ],
+        "description": "Organization-local wall time; RFC3339 time remains a deprecated compatibility input."
+      },
+      "approvedException": null
+    },
+    {
+      "id": "schema-alternative-added-4bc9561d4f26c970",
+      "kind": "SCHEMA_ALTERNATIVE_ADDED",
+      "classification": "NON_BREAKING",
+      "direction": "response",
+      "location": "GET /class-sections/{classSectionId}/responses/200/application/json/properties/data/properties/dailyStartTime",
+      "detail": "The prior schema alternatives remain accepted and additional compatible alternatives were added.",
+      "before": {
+        "type": [
+          "string",
+          "null"
+        ],
+        "format": "time"
+      },
+      "after": {
+        "oneOf": [
+          {
+            "type": "null"
+          },
+          {
+            "type": "string",
+            "format": "time"
+          },
+          {
+            "type": "string",
+            "pattern": "^(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d)?$"
+          }
+        ],
+        "description": "Organization-local wall time; RFC3339 time remains a deprecated compatibility input."
+      },
+      "approvedException": null
+    },
+    {
+      "id": "schema-alternative-added-64c5392730d9e144",
+      "kind": "SCHEMA_ALTERNATIVE_ADDED",
+      "classification": "NON_BREAKING",
+      "direction": "request",
+      "location": "PATCH /class-sections/{classSectionId}/requestBody/application/json/properties/dailyEndTime",
+      "detail": "The prior schema alternatives remain accepted and additional compatible alternatives were added.",
+      "before": {
+        "type": [
+          "string",
+          "null"
+        ],
+        "format": "time"
+      },
+      "after": {
+        "oneOf": [
+          {
+            "type": "null"
+          },
+          {
+            "type": "string",
+            "format": "time"
+          },
+          {
+            "type": "string",
+            "pattern": "^(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d)?$"
+          }
+        ]
+      },
+      "approvedException": null
+    },
+    {
+      "id": "schema-alternative-added-7bedc9a77d6867bc",
+      "kind": "SCHEMA_ALTERNATIVE_ADDED",
+      "classification": "NON_BREAKING",
+      "direction": "response",
+      "location": "POST /course-invites/{inviteToken}/join/responses/200/application/json/properties/data/properties/classSection/properties/dailyStartTime",
+      "detail": "The prior schema alternatives remain accepted and additional compatible alternatives were added.",
+      "before": {
+        "type": [
+          "string",
+          "null"
+        ],
+        "format": "time"
+      },
+      "after": {
+        "oneOf": [
+          {
+            "type": "null"
+          },
+          {
+            "type": "string",
+            "format": "time"
+          },
+          {
+            "type": "string",
+            "pattern": "^(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d)?$"
+          }
+        ],
+        "description": "Organization-local wall time; RFC3339 time remains a deprecated compatibility input."
+      },
+      "approvedException": null
+    },
+    {
+      "id": "schema-alternative-added-7e80d73d219a7f12",
+      "kind": "SCHEMA_ALTERNATIVE_ADDED",
+      "classification": "NON_BREAKING",
+      "direction": "response",
+      "location": "POST /course-invites/{inviteToken}/join/responses/201/application/json/properties/data/properties/classSection/properties/dailyEndTime",
+      "detail": "The prior schema alternatives remain accepted and additional compatible alternatives were added.",
+      "before": {
+        "type": [
+          "string",
+          "null"
+        ],
+        "format": "time"
+      },
+      "after": {
+        "oneOf": [
+          {
+            "type": "null"
+          },
+          {
+            "type": "string",
+            "format": "time"
+          },
+          {
+            "type": "string",
+            "pattern": "^(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d)?$"
+          }
+        ],
+        "description": "Organization-local wall time; RFC3339 time remains a deprecated compatibility input."
+      },
+      "approvedException": null
+    },
+    {
+      "id": "schema-alternative-added-89f9ab4e9f510a70",
+      "kind": "SCHEMA_ALTERNATIVE_ADDED",
+      "classification": "NON_BREAKING",
+      "direction": "response",
+      "location": "GET /class-sections/responses/200/application/json/properties/data/items/properties/dailyEndTime",
+      "detail": "The prior schema alternatives remain accepted and additional compatible alternatives were added.",
+      "before": {
+        "type": [
+          "string",
+          "null"
+        ],
+        "format": "time"
+      },
+      "after": {
+        "oneOf": [
+          {
+            "type": "null"
+          },
+          {
+            "type": "string",
+            "format": "time"
+          },
+          {
+            "type": "string",
+            "pattern": "^(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d)?$"
+          }
+        ],
+        "description": "Organization-local wall time; RFC3339 time remains a deprecated compatibility input."
+      },
+      "approvedException": null
+    },
+    {
+      "id": "schema-alternative-added-a1097f68cc2c2008",
+      "kind": "SCHEMA_ALTERNATIVE_ADDED",
+      "classification": "NON_BREAKING",
+      "direction": "response",
+      "location": "GET /teachers/{teacherId}/class-sections/responses/200/application/json/properties/data/items/properties/dailyStartTime",
+      "detail": "The prior schema alternatives remain accepted and additional compatible alternatives were added.",
+      "before": {
+        "type": [
+          "string",
+          "null"
+        ],
+        "format": "time"
+      },
+      "after": {
+        "oneOf": [
+          {
+            "type": "null"
+          },
+          {
+            "type": "string",
+            "format": "time"
+          },
+          {
+            "type": "string",
+            "pattern": "^(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d)?$"
+          }
+        ],
+        "description": "Organization-local wall time; RFC3339 time remains a deprecated compatibility input."
+      },
+      "approvedException": null
+    },
+    {
+      "id": "schema-alternative-added-a770a57b771f89f0",
+      "kind": "SCHEMA_ALTERNATIVE_ADDED",
+      "classification": "NON_BREAKING",
+      "direction": "response",
+      "location": "POST /class-sections/{classSectionId}/close/responses/200/application/json/properties/data/properties/dailyEndTime",
+      "detail": "The prior schema alternatives remain accepted and additional compatible alternatives were added.",
+      "before": {
+        "type": [
+          "string",
+          "null"
+        ],
+        "format": "time"
+      },
+      "after": {
+        "oneOf": [
+          {
+            "type": "null"
+          },
+          {
+            "type": "string",
+            "format": "time"
+          },
+          {
+            "type": "string",
+            "pattern": "^(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d)?$"
+          }
+        ],
+        "description": "Organization-local wall time; RFC3339 time remains a deprecated compatibility input."
+      },
+      "approvedException": null
+    },
+    {
+      "id": "schema-alternative-added-b8e3c6847ddff9a6",
+      "kind": "SCHEMA_ALTERNATIVE_ADDED",
+      "classification": "NON_BREAKING",
+      "direction": "request",
+      "location": "PATCH /class-sections/{classSectionId}/requestBody/application/json/properties/dailyStartTime",
+      "detail": "The prior schema alternatives remain accepted and additional compatible alternatives were added.",
+      "before": {
+        "type": [
+          "string",
+          "null"
+        ],
+        "format": "time"
+      },
+      "after": {
+        "oneOf": [
+          {
+            "type": "null"
+          },
+          {
+            "type": "string",
+            "format": "time"
+          },
+          {
+            "type": "string",
+            "pattern": "^(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d)?$"
+          }
+        ]
+      },
+      "approvedException": null
+    },
+    {
+      "id": "schema-alternative-added-c4c099b69e12f971",
+      "kind": "SCHEMA_ALTERNATIVE_ADDED",
+      "classification": "NON_BREAKING",
+      "direction": "response",
+      "location": "POST /class-sections/{classSectionId}/close/responses/200/application/json/properties/data/properties/dailyStartTime",
+      "detail": "The prior schema alternatives remain accepted and additional compatible alternatives were added.",
+      "before": {
+        "type": [
+          "string",
+          "null"
+        ],
+        "format": "time"
+      },
+      "after": {
+        "oneOf": [
+          {
+            "type": "null"
+          },
+          {
+            "type": "string",
+            "format": "time"
+          },
+          {
+            "type": "string",
+            "pattern": "^(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d)?$"
+          }
+        ],
+        "description": "Organization-local wall time; RFC3339 time remains a deprecated compatibility input."
+      },
+      "approvedException": null
+    },
+    {
+      "id": "schema-alternative-added-cdcdc3319f49ed54",
+      "kind": "SCHEMA_ALTERNATIVE_ADDED",
+      "classification": "NON_BREAKING",
+      "direction": "response",
+      "location": "POST /course-invites/{inviteToken}/join/responses/201/application/json/properties/data/properties/classSection/properties/dailyStartTime",
+      "detail": "The prior schema alternatives remain accepted and additional compatible alternatives were added.",
+      "before": {
+        "type": [
+          "string",
+          "null"
+        ],
+        "format": "time"
+      },
+      "after": {
+        "oneOf": [
+          {
+            "type": "null"
+          },
+          {
+            "type": "string",
+            "format": "time"
+          },
+          {
+            "type": "string",
+            "pattern": "^(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d)?$"
+          }
+        ],
+        "description": "Organization-local wall time; RFC3339 time remains a deprecated compatibility input."
+      },
+      "approvedException": null
+    },
+    {
+      "id": "schema-alternative-added-cfea68c6bbd12e5a",
+      "kind": "SCHEMA_ALTERNATIVE_ADDED",
+      "classification": "NON_BREAKING",
+      "direction": "response",
+      "location": "PATCH /class-sections/{classSectionId}/responses/200/application/json/properties/data/properties/dailyStartTime",
+      "detail": "The prior schema alternatives remain accepted and additional compatible alternatives were added.",
+      "before": {
+        "type": [
+          "string",
+          "null"
+        ],
+        "format": "time"
+      },
+      "after": {
+        "oneOf": [
+          {
+            "type": "null"
+          },
+          {
+            "type": "string",
+            "format": "time"
+          },
+          {
+            "type": "string",
+            "pattern": "^(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d)?$"
+          }
+        ],
+        "description": "Organization-local wall time; RFC3339 time remains a deprecated compatibility input."
+      },
+      "approvedException": null
+    }
+  ]
+}

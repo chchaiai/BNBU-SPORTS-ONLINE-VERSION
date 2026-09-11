@@ -1,0 +1,1 @@
+Docker runtime smoke: PASS (live=200, uid=10001, fileSecret=mounted, database=not-contacted)

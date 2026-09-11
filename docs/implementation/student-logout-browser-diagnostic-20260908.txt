@@ -1,0 +1,4 @@
+{"check":"STUDENT_BROWSER_SMTP_LOGIN","result":"PASS"}
+{"check":"STUDENT_HOME_CONTENT","hasCourse":true,"hasProgress":true,"hasLoginForm":false}
+{"check":"STUDENT_SERVER_LOGOUT","result":"PASS","status":200,"oldSessionStatus":401}
+{"check":"STUDENT_EMAIL_CHANGE","result":"FAIL","stage":"RELOAD_LOGGED_OUT","type":"TimeoutError","pageText":"北师香港浸会大学\nBNBU · 学生体育\n登录 BNBU 体育\n查看体育打卡与运动进度，一处完成。\n选择登录方式\n我已阅读并同意 《隐私政策》\n已同意隐私政策\n邮箱验证码登录\n使用学校邮箱\n其他方式\n扫码加入课程\n直接打开课程邀请\n学生端测试入口\n本地界面预览\n无需真实账号。只看当前规则和 UI，不写入 Backend，不是正式入班或打卡成功。\n直接进入本地预览\n使用本地预览数据，可加 ?preview=student\n无法使用已验证邮箱？","message":"locator.waitFor: Timeout 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for getByText('直接登录', { exact: true }) to be visible\u001b[22m\n","emailRequests":[],"failedRequests":[]}

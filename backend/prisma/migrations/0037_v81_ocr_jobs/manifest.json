@@ -1,0 +1,5 @@
+{
+  "sha256": "4c3d8e3f52e0cb08ee4ebb28e2873e41ed3feff6845df2aa825b96f9ccf88f51",
+  "destructive": false,
+  "migrationId": "0037_v81_ocr_jobs"
+}

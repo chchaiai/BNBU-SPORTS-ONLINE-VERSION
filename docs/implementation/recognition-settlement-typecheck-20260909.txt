@@ -1,0 +1,101 @@
+
+> @bnbu/sports-backend@0.1.0 typecheck
+> tsc --noEmit -p tsconfig.json
+
+test/e2e/exercise-record.e2e.test.ts(885,18): error TS2532: Object is possibly 'undefined'.
+test/e2e/exercise-record.e2e.test.ts(910,18): error TS2532: Object is possibly 'undefined'.
+test/e2e/exercise-record.e2e.test.ts(955,18): error TS2532: Object is possibly 'undefined'.
+test/e2e/exercise-record.e2e.test.ts(1056,25): error TS2532: Object is possibly 'undefined'.
+test/e2e/v81-makeup.e2e.test.ts(215,46): error TS7016: Could not find a declaration file for module '../../../tools/local-integration/v81-makeup-http-probe.mjs'. 'C:/Users/23328/Desktop/new_version/tools/local-integration/v81-makeup-http-probe.mjs' implicitly has an 'any' type.
+test/e2e/v81-makeup.e2e.test.ts(243,49): error TS7016: Could not find a declaration file for module '../../../tools/local-integration/v81-makeup-session-probe.mjs'. 'C:/Users/23328/Desktop/new_version/tools/local-integration/v81-makeup-session-probe.mjs' implicitly has an 'any' type.
+test/e2e/v81-ocr-governance.e2e.test.ts(231,18): error TS2532: Object is possibly 'undefined'.
+test/e2e/v81-ocr-governance.e2e.test.ts(239,18): error TS2532: Object is possibly 'undefined'.
+test/e2e/v81-ocr-intake.e2e.test.ts(231,43): error TS7016: Could not find a declaration file for module '../../../tools/local-integration/synthetic-png.mjs'. 'C:/Users/23328/Desktop/new_version/tools/local-integration/synthetic-png.mjs' implicitly has an 'any' type.
+test/e2e/v81-ocr-intake.e2e.test.ts(248,18): error TS18048: 'page' is possibly 'undefined'.
+test/e2e/v81-ocr-intake.e2e.test.ts(249,18): error TS18048: 'page' is possibly 'undefined'.
+test/e2e/v81-ocr-intake.e2e.test.ts(255,18): error TS18048: 'detailPage' is possibly 'undefined'.
+test/e2e/v81-ocr-intake.e2e.test.ts(255,33): error TS18048: 'page' is possibly 'undefined'.
+test/e2e/v81-ocr-intake.e2e.test.ts(256,18): error TS18048: 'detailPage' is possibly 'undefined'.
+test/e2e/v81-ocr-intake.e2e.test.ts(256,37): error TS18048: 'page' is possibly 'undefined'.
+test/e2e/v81-ocr-intake.e2e.test.ts(257,18): error TS18048: 'detailPage' is possibly 'undefined'.
+test/e2e/v81-ocr-intake.e2e.test.ts(258,18): error TS18048: 'detailPage' is possibly 'undefined'.
+test/e2e/v81-ocr-intake.e2e.test.ts(260,42): error TS18048: 'page' is possibly 'undefined'.
+test/e2e/v81-ocr-intake.e2e.test.ts(261,56): error TS18048: 'page' is possibly 'undefined'.
+test/e2e/v81-ocr-intake.e2e.test.ts(303,197): error TS18048: 'page' is possibly 'undefined'.
+test/e2e/v81-ocr-intake.e2e.test.ts(306,47): error TS7016: Could not find a declaration file for module '../../../tools/local-integration/v81-ocr-draft-api-probe.mjs'. 'C:/Users/23328/Desktop/new_version/tools/local-integration/v81-ocr-draft-api-probe.mjs' implicitly has an 'any' type.
+test/e2e/v81-ocr-intake.e2e.test.ts(313,116): error TS18048: 'page' is possibly 'undefined'.
+test/e2e/v81-ocr-intake.e2e.test.ts(314,49): error TS7016: Could not find a declaration file for module '../../../tools/local-integration/v81-ocr-roster-http-probe.mjs'. 'C:/Users/23328/Desktop/new_version/tools/local-integration/v81-ocr-roster-http-probe.mjs' implicitly has an 'any' type.
+test/e2e/v81-ocr-intake.e2e.test.ts(318,51): error TS7016: Could not find a declaration file for module '../../../tools/local-integration/v81-ocr-roster-switch-probe.mjs'. 'C:/Users/23328/Desktop/new_version/tools/local-integration/v81-ocr-roster-switch-probe.mjs' implicitly has an 'any' type.
+test/e2e/v81-ocr-intake.e2e.test.ts(328,29): error TS18048: 'sourceRow' is possibly 'undefined'.
+test/e2e/v81-ocr-intake.e2e.test.ts(328,72): error TS18048: 'sourceRow' is possibly 'undefined'.
+test/e2e/v81-ocr-intake.e2e.test.ts(359,42): error TS2769: No overload matches this call.
+  Overload 1 of 3, '(worksheet: WorkSheet, opts?: Sheet2JSONOpts | undefined): string[][]', gave the following error.
+    Argument of type 'WorkSheet | undefined' is not assignable to parameter of type 'WorkSheet'.
+      Type 'undefined' is not assignable to type 'WorkSheet'.
+  Overload 2 of 3, '(worksheet: WorkSheet, opts?: Sheet2JSONOpts | undefined): any[][]', gave the following error.
+    Argument of type 'WorkSheet | undefined' is not assignable to parameter of type 'WorkSheet'.
+      Type 'undefined' is not assignable to type 'WorkSheet'.
+  Overload 3 of 3, '(worksheet: WorkSheet, opts?: Sheet2JSONOpts | undefined): any[]', gave the following error.
+    Argument of type 'WorkSheet | undefined' is not assignable to parameter of type 'WorkSheet'.
+      Type 'undefined' is not assignable to type 'WorkSheet'.
+test/e2e/v81-ocr-intake.e2e.test.ts(365,52): error TS18048: 'physicalPage' is possibly 'undefined'.
+test/e2e/v81-ocr-intake.e2e.test.ts(368,17): error TS18048: 'sourceRow' is possibly 'undefined'.
+test/e2e/v81-ocr-intake.e2e.test.ts(368,50): error TS18048: 'sourceRow' is possibly 'undefined'.
+test/e2e/v81-ocr-intake.e2e.test.ts(377,30): error TS18048: 'physicalPage' is possibly 'undefined'.
+test/e2e/v81-ocr-intake.e2e.test.ts(381,32): error TS18048: 'physicalRow' is possibly 'undefined'.
+test/e2e/v81-ocr-intake.e2e.test.ts(393,20): error TS18048: 'physicalRow' is possibly 'undefined'.
+test/e2e/v81-ocr-intake.e2e.test.ts(393,44): error TS18048: 'physicalRow' is possibly 'undefined'.
+test/e2e/v81-physical-imports.e2e.test.ts(238,22): error TS2532: Object is possibly 'undefined'.
+test/e2e/v81-physical-imports.e2e.test.ts(239,16): error TS2532: Object is possibly 'undefined'.
+test/e2e/v81-physical-imports.e2e.test.ts(251,34): error TS2532: Object is possibly 'undefined'.
+test/e2e/v81-physical-imports.e2e.test.ts(253,18): error TS2532: Object is possibly 'undefined'.
+test/e2e/v81-physical-imports.e2e.test.ts(269,18): error TS2532: Object is possibly 'undefined'.
+test/e2e/v81-physical-imports.e2e.test.ts(293,22): error TS2532: Object is possibly 'undefined'.
+test/e2e/v81-physical-imports.e2e.test.ts(294,18): error TS2532: Object is possibly 'undefined'.
+test/e2e/v81-physical-imports.e2e.test.ts(295,18): error TS2532: Object is possibly 'undefined'.
+test/e2e/v81-physical-imports.e2e.test.ts(304,18): error TS2532: Object is possibly 'undefined'.
+test/e2e/v81-physical-results.e2e.test.ts(228,20): error TS2532: Object is possibly 'undefined'.
+test/e2e/v81-runtime-archives.e2e.test.ts(242,50): error TS7016: Could not find a declaration file for module '../../../tools/local-integration/v81-runtime-archive-probe.mjs'. 'C:/Users/23328/Desktop/new_version/tools/local-integration/v81-runtime-archive-probe.mjs' implicitly has an 'any' type.
+test/e2e/v81-runtime-archives.e2e.test.ts(247,18): error TS2532: Object is possibly 'undefined'.
+test/e2e/v81-runtime-archives.e2e.test.ts(253,38): error TS2532: Object is possibly 'undefined'.
+test/e2e/v81-runtime-archives.e2e.test.ts(254,124): error TS2532: Object is possibly 'undefined'.
+test/e2e/v81-runtime-archives.e2e.test.ts(256,158): error TS2532: Object is possibly 'undefined'.
+test/e2e/v81-runtime-archives.e2e.test.ts(258,22): error TS2532: Object is possibly 'undefined'.
+test/e2e/v81-runtime-archives.e2e.test.ts(258,52): error TS2532: Object is possibly 'undefined'.
+test/e2e/v81-runtime-archives.e2e.test.ts(258,85): error TS2532: Object is possibly 'undefined'.
+test/e2e/v81-semesters.e2e.test.ts(232,55): error TS7016: Could not find a declaration file for module '../../../tools/local-integration/v81-semester-switch-check-probe.mjs'. 'C:/Users/23328/Desktop/new_version/tools/local-integration/v81-semester-switch-check-probe.mjs' implicitly has an 'any' type.
+test/e2e/v81-semesters.e2e.test.ts(234,50): error TS7016: Could not find a declaration file for module '../../../tools/local-integration/v81-semester-switch-probe.mjs'. 'C:/Users/23328/Desktop/new_version/tools/local-integration/v81-semester-switch-probe.mjs' implicitly has an 'any' type.
+test/e2e/v81-settlement.e2e.test.ts(231,81): error TS7016: Could not find a declaration file for module '../../../tools/local-integration/v81-settlement-http-probe.mjs'. 'C:/Users/23328/Desktop/new_version/tools/local-integration/v81-settlement-http-probe.mjs' implicitly has an 'any' type.
+test/e2e/v81-settlement.e2e.test.ts(287,54): error TS7016: Could not find a declaration file for module '../../../tools/local-integration/v81-physical-correction-probe.mjs'. 'C:/Users/23328/Desktop/new_version/tools/local-integration/v81-physical-correction-probe.mjs' implicitly has an 'any' type.
+test/e2e/v81-settlement.e2e.test.ts(290,56): error TS7016: Could not find a declaration file for module '../../../tools/local-integration/v81-final-grade-correction-probe.mjs'. 'C:/Users/23328/Desktop/new_version/tools/local-integration/v81-final-grade-correction-probe.mjs' implicitly has an 'any' type.
+test/e2e/v81-subadmin-identity.e2e.test.ts(198,52): error TS7016: Could not find a declaration file for module '../../../tools/local-integration/v81-subadmin-identity-probe.mjs'. 'C:/Users/23328/Desktop/new_version/tools/local-integration/v81-subadmin-identity-probe.mjs' implicitly has an 'any' type.
+test/e2e/v81-subadmin-identity.e2e.test.ts(223,55): error TS7016: Could not find a declaration file for module '../../../tools/local-integration/v81-subadmin-permissions-probe.mjs'. 'C:/Users/23328/Desktop/new_version/tools/local-integration/v81-subadmin-permissions-probe.mjs' implicitly has an 'any' type.
+test/e2e/v81-system-management.e2e.test.ts(303,48): error TS2375: Type '{ userId: string | undefined; }' is not assignable to type 'V81AccountSecurityWhereUniqueInput' with 'exactOptionalPropertyTypes: true'. Consider adding 'undefined' to the types of the target's properties.
+  Type '{ userId: string | undefined; }' is not assignable to type '{ userId: string; loginAccount: string; } & { userId?: string; loginAccount?: string; AND?: V81AccountSecurityWhereInput | V81AccountSecurityWhereInput[]; ... 7 more ...; organization?: ((Without<...> & OrganizationWhereInput) | (Without<...> & OrganizationScalarRelationFilter)) & object; }'.
+    Property 'loginAccount' is missing in type '{ userId: string | undefined; }' but required in type '{ userId: string; loginAccount: string; }'.
+test/e2e/v81-system-management.e2e.test.ts(360,49): error TS7016: Could not find a declaration file for module '../../../tools/local-integration/v81-rule-template-probe.mjs'. 'C:/Users/23328/Desktop/new_version/tools/local-integration/v81-rule-template-probe.mjs' implicitly has an 'any' type.
+test/e2e/v81-system-management.e2e.test.ts(374,47): error TS7016: Could not find a declaration file for module '../../../tools/local-integration/v81-audit-events-probe.mjs'. 'C:/Users/23328/Desktop/new_version/tools/local-integration/v81-audit-events-probe.mjs' implicitly has an 'any' type.
+test/e2e/v81-teacher-imports.e2e.test.ts(223,60): error TS2375: Type '{ id: string | undefined; }' is not assignable to type 'UserWhereUniqueInput' with 'exactOptionalPropertyTypes: true'. Consider adding 'undefined' to the types of the target's properties.
+  Type '{ id: string | undefined; }' is not assignable to type '{ id: string; id_organizationId: UserIdOrganizationIdCompoundUniqueInput; organizationId_primaryEmailNormalized: UserOrganizationIdPrimaryEmailNormalizedCompoundUniqueInput; organizationId_retiredPrimaryPhoneNormalized: UserOrganizationIdRetiredPrimaryPhoneNormalizedCompoundUniqueInput; } & { ...; }'.
+    Type '{ id: string | undefined; }' is missing the following properties from type '{ id: string; id_organizationId: UserIdOrganizationIdCompoundUniqueInput; organizationId_primaryEmailNormalized: UserOrganizationIdPrimaryEmailNormalizedCompoundUniqueInput; organizationId_retiredPrimaryPhoneNormalized: UserOrganizationIdRetiredPrimaryPhoneNormalizedCompoundUniqueInput; }': id_organizationId, organizationId_primaryEmailNormalized, organizationId_retiredPrimaryPhoneNormalized
+test/e2e/v81-teacher-imports.e2e.test.ts(239,18): error TS2532: Object is possibly 'undefined'.
+test/unit/ocr-table-source.test.ts(13,20): error TS2532: Object is possibly 'undefined'.
+test/unit/ocr-table-source.test.ts(16,16): error TS2532: Object is possibly 'undefined'.
+test/unit/ocr-table-source.test.ts(16,16): error TS2532: Object is possibly 'undefined'.
+test/unit/ocr-table-source.test.ts(17,3): error TS2532: Object is possibly 'undefined'.
+test/unit/ocr-table-source.test.ts(17,3): error TS2532: Object is possibly 'undefined'.
+test/unit/ocr-table-source.test.ts(17,3): error TS2532: Object is possibly 'undefined'.
+test/unit/ocr-table-source.test.ts(18,16): error TS2532: Object is possibly 'undefined'.
+test/unit/ocr-table-source.test.ts(18,16): error TS2532: Object is possibly 'undefined'.
+test/unit/ocr-table-source.test.ts(18,16): error TS2532: Object is possibly 'undefined'.
+test/unit/ocr-table-source.test.ts(21,16): error TS2532: Object is possibly 'undefined'.
+test/unit/ocr-table-source.test.ts(21,16): error TS2532: Object is possibly 'undefined'.
+test/unit/ocr-table-source.test.ts(21,67): error TS2322: Type 'null' is not assignable to type 'number'.
+test/unit/ocr-table-source.test.ts(24,60): error TS2322: Type '{ Confidence: number; RowTl: number; RowBr: number; ColBr: number; Text: string; Polygon: { X: number; Y: number; }[]; ColTl: number; } | { RowTl: number; Confidence: number; RowBr: number; ColBr: number; Text: string; Polygon: { ...; }[]; ColTl: number; } | { ...; } | { ...; } | { ...; } | { ...; }' is not assignable to type '{ Text: string; RowTl: number; RowBr: number; ColTl: number; ColBr: number; Confidence: number; Polygon: { X: number; Y: number; }[]; }'.
+  Type '{ Text: number; Confidence: number; RowTl: number; RowBr: number; ColBr: number; Polygon: { X: number; Y: number; }[]; ColTl: number; }' is not assignable to type '{ Text: string; RowTl: number; RowBr: number; ColTl: number; ColBr: number; Confidence: number; Polygon: { X: number; Y: number; }[]; }'.
+    Types of property 'Text' are incompatible.
+      Type 'number' is not assignable to type 'string'.
+test/unit/semester-switch-readiness.test.ts(23,15): error TS2379: Argument of type '{ limit: number; after: string | undefined; }' is not assignable to parameter of type 'V81SemesterListQuery' with 'exactOptionalPropertyTypes: true'. Consider adding 'undefined' to the types of the target's properties.
+  Types of property 'after' are incompatible.
+    Type 'string | undefined' is not assignable to type 'string'.
+      Type 'undefined' is not assignable to type 'string'.

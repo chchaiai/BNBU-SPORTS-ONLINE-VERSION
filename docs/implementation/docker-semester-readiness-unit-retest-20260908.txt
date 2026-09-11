@@ -1,0 +1,14 @@
+time="2026-09-08T14:46:25+08:00" level=warning msg="Found orphan containers (bnbu-v81-local-validation-backend-browser-1) for this project. If you removed or renamed this service in your compose file, you can run this command with the --remove-orphans flag to clean it up."
+ Container bnbu-v81-local-validation-backend-startup-run-1d1bc5d46311 Creating 
+ Container bnbu-v81-local-validation-backend-startup-run-1d1bc5d46311 Created 
+✔ saved reports with all work complete permit readiness on any page (1.472991ms)
+✔ off-page work and unavailable facts block readiness even when reports exist (0.940121ms)
+✔ a semester without courses has no course settlement blockers (0.254748ms)
+ℹ tests 3
+ℹ suites 0
+ℹ pass 3
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 489.276334

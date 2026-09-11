@@ -1,0 +1,2 @@
+{"stage":"SAVE_RESPONSE_LOST","error":"locator.waitFor: Timeout 25000ms exceeded.\nCall log:\n\u001b[2m  - waiting for getByRole('dialog').getByRole('alert') to be visible\u001b[22m\n"}
+RESTORED_SYNTHETIC_NOTE

@@ -1,0 +1,2 @@
+{"pageText":"加入课程\n直接登录\n课程二维码或邀请码\n由老师提供\n扫码或手动输入\n下一步核对课程信息\n两种方式都可加入课程\n准备课程二维码或邀请码\n先加入课程\n老师会提供课程二维码或邀请码。扫码或手动输入后，即可找到对应课程。\n核对课程信息\n课程、教学班和老师\n确认个人资料\n确认身份并加入\n加入成功后完成邮箱验证\n核对信息后再加入\n确认并直接加入\n核对课程和个人资料后直接加入教学班；Backend 会校验身份、学期冲突和课程开放状态。\n1 / 2\n继续"}
+{"stage":"MAINTENANCE","error":"locator.waitFor: Timeout 25000ms exceeded.\nCall log:\n\u001b[2m  - waiting for getByText('请等待本校维护完成 a2ebb7e6', { exact: true }) to be visible\u001b[22m\n"}

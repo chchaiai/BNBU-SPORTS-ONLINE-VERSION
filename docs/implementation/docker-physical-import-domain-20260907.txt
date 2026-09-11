@@ -1,0 +1,96 @@
+ Image bnbu-v81-local-validation-domain-tests Building 
+#1 [internal] load local bake definitions
+#1 reading from stdin 624B 0.0s done
+#1 DONE 0.0s
+
+#2 [internal] load build definition from Dockerfile.v81-test
+#2 transferring dockerfile: 828B done
+#2 DONE 0.0s
+
+#3 [auth] library/node:pull token for registry-1.docker.io
+#3 DONE 0.0s
+
+#4 [internal] load metadata for docker.io/library/node:24.18.0-bookworm-slim
+#4 DONE 1.6s
+
+#5 [internal] load .dockerignore
+#5 transferring context: 153B done
+#5 DONE 0.0s
+
+#6 [ 1/11] FROM docker.io/library/node:24.18.0-bookworm-slim@sha256:6f7b03f7c2c8e2e784dcf9295400527b9b1270fd37b7e9a7285cf83b6951452d
+#6 resolve docker.io/library/node:24.18.0-bookworm-slim@sha256:6f7b03f7c2c8e2e784dcf9295400527b9b1270fd37b7e9a7285cf83b6951452d 0.0s done
+#6 DONE 0.0s
+
+#7 [internal] load build context
+#7 transferring context: 92.07kB 0.1s done
+#7 DONE 0.1s
+
+#8 [ 2/11] RUN apt-get update && apt-get install -y --no-install-recommends openssl ca-certificates && rm -rf /var/lib/apt/lists/*
+#8 CACHED
+
+#9 [ 3/11] WORKDIR /workspace/backend
+#9 CACHED
+
+#10 [ 4/11] COPY backend/package.json backend/package-lock.json ./
+#10 CACHED
+
+#11 [ 5/11] RUN npm ci --ignore-scripts --no-audit --no-fund
+#11 CACHED
+
+#12 [ 6/11] COPY backend/ ./
+#12 DONE 0.2s
+
+#13 [ 7/11] COPY docs/backend-contracts/ /workspace/docs/backend-contracts/
+#13 DONE 0.2s
+
+#14 [ 8/11] COPY tools/ /workspace/tools/
+#14 DONE 0.2s
+
+#15 [ 9/11] COPY BNBU-Sports-Web-new/frontend/student/ /workspace/BNBU-Sports-Web-new/frontend/student/
+#15 DONE 0.1s
+
+#16 [10/11] COPY BNBU-Sports-Web-new/portal-teacher-admin/app/ /workspace/BNBU-Sports-Web-new/portal-teacher-admin/app/
+#16 DONE 0.1s
+
+#17 [11/11] RUN npm run db:generate
+#17 0.348 
+#17 0.348 > @bnbu/sports-backend@0.1.0 db:generate
+#17 0.348 > prisma generate
+#17 0.348 
+#17 0.952 Loaded Prisma config from prisma.config.ts.
+#17 0.952 
+#17 3.080 Prisma schema loaded from prisma/schema.prisma.
+#17 4.485 
+#17 4.485 ✔ Generated Prisma Client (7.9.1) to ./src/generated/prisma in 845ms
+#17 4.485 
+#17 DONE 4.6s
+
+#18 exporting to image
+#18 exporting layers
+#18 exporting layers 1.7s done
+#18 exporting manifest sha256:9d7d2d8a1777ea9919780c2dce4a745e5cc7847098fe99e43666b3059e2b714c 0.0s done
+#18 exporting config sha256:edaf78e0e9f6a777d797891c4af1cd032e52374e1575db3d9e24db66ac9028b2 0.0s done
+#18 exporting attestation manifest sha256:a2fb7182c0ab42c6bd459d88e859f009251378c4179243dd45044716effaa586 0.0s done
+#18 exporting manifest list sha256:e4f64efd08e17492cf5298cfe519f7c46e29c147a5755e42732602f40b297cf3
+#18 exporting manifest list sha256:e4f64efd08e17492cf5298cfe519f7c46e29c147a5755e42732602f40b297cf3 0.0s done
+#18 naming to docker.io/library/bnbu-v81-local-validation-domain-tests:latest done
+#18 unpacking to docker.io/library/bnbu-v81-local-validation-domain-tests:latest
+#18 unpacking to docker.io/library/bnbu-v81-local-validation-domain-tests:latest 0.7s done
+#18 DONE 2.6s
+
+#19 resolving provenance for metadata file
+#19 DONE 0.0s
+ Image bnbu-v81-local-validation-domain-tests Built 
+ Container bnbu-v81-local-validation-domain-tests-run-ab982b329e79 Creating 
+ Container bnbu-v81-local-validation-domain-tests-run-ab982b329e79 Created 
+✔ parses explicit seconds and minutes while refusing ambiguous decimal notation (0.963851ms)
+✔ matches exact student numbers, flags every duplicate, and never confirms rows automatically (0.615061ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 2
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 136.141158
+Docker exit code: 0

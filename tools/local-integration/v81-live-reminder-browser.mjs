@@ -1,0 +1,24 @@
+import fs from 'node:fs';import assert from 'node:assert/strict';import {chromium} from '../../.local/browser-test/node_modules/playwright-core/index.mjs';
+const state=JSON.parse(fs.readFileSync('.local/v81-browser-state/state.json')),fixture=JSON.parse(fs.readFileSync('.local/v81-browser-state/live-reminder.json')),joined={email:fixture.student.email};
+const browser=await chromium.launch({executablePath:'C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe',headless:true});
+let stage='LOGIN',diagnosticPage;
+async function home(page){await page.locator('[data-action="guide.skip"], [data-action="root.tab"][data-tab="profile"]').first().waitFor();if(await page.locator('[data-action="guide.skip"]').isVisible())await page.locator('[data-action="guide.skip"]').click();await page.locator('[data-action="root.tab"][data-tab="profile"]').waitFor();}
+try{
+ const student=await browser.newPage(),teacher=await browser.newPage();for(const page of [student,teacher])page.setDefaultTimeout(60000);diagnosticPage=student;
+ stage='STUDENT_LOGIN';await student.context().grantPermissions(['camera','microphone'],{origin:'http://127.0.0.1:4274'});await student.goto('http://127.0.0.1:4274/student/');await student.getByRole('button',{name:'同意并继续'}).click();await student.getByText('直接登录',{exact:true}).click();await student.locator('[data-action="login.email"]').click();await student.getByPlaceholder('name@bnbu.edu.cn').fill(joined.email);const before=await(await fetch('http://127.0.0.1:18025/api/v1/messages?limit=100')).json(),ids=new Set(before.messages.map(m=>m.ID));await student.getByRole('button',{name:'获取验证码',exact:true}).click();let code;for(let i=0;i<30&&!code;i++){const listing=await(await fetch('http://127.0.0.1:18025/api/v1/messages?limit=100')).json();const message=listing.messages.find(m=>!ids.has(m.ID)&&JSON.stringify(m.To??[]).includes(joined.email));if(message){const mail=await(await fetch(`http://127.0.0.1:18025/api/v1/message/${message.ID}`)).json();code=mail.Text.match(/\b\d{6}\b/)?.[0];}if(!code)await new Promise(r=>setTimeout(r,500));}assert.ok(code);await student.getByPlaceholder('4–10 位数字').fill(code);await student.getByRole('button',{name:'登录',exact:true}).click();await home(student);await student.reload();await student.locator('[data-action="guide.skip"]').waitFor();await student.locator('[data-action="guide.skip"]').click();await student.locator('[data-action="root.tab"][data-tab="profile"]').waitFor();
+
+
+ stage='STUDENT_NOTICE';const own=fixture.notices.find(n=>n.targetType==='ENROLLMENT');assert.ok(own);
+ await student.locator('[data-action="dashboard.openNotifications"]').click();const row=student.locator(`[data-notice-id="${own.id}"]`);await row.waitFor();
+ assert.match(await row.innerText(),/课程截止提醒/);
+ await row.click();
+ await student.getByText(/剩余目标 1200 分钟/).waitFor();await student.getByText(/常规截止/).waitFor();
+ await student.screenshot({path:'.local/v81-browser-state/live-reminder-student.png'});
+ console.log(JSON.stringify({check:'ACTUAL_WORKER_STUDENT_NOTICE_WEB_READ',result:'PASS',remainingMinutes:1200}));
+ stage='TEACHER_LOGIN';diagnosticPage=teacher;await teacher.goto('http://localhost:3300/');await teacher.locator('#login-account').fill(state.accounts.teacher.email);await teacher.locator('#login-password').fill(state.accounts.teacher.password);await teacher.getByRole('button',{name:'登录',exact:true}).click();await teacher.getByRole('button',{name:'学生管理',exact:true}).waitFor();
+ stage='TEACHER_NOTICE';await teacher.getByRole('button',{name:'通知',exact:true}).click();const notice=fixture.notices.find(n=>n.targetType==='CLASS_SECTION');assert.ok(notice);
+ const sheet=teacher.getByRole('dialog',{name:'我的通知'}),article=sheet.locator(`[data-notification-id="${notice.id}"]`);await article.waitFor();assert.match(await article.innerText(),/课程截止提醒/);
+ const loaded=teacher.waitForResponse(r=>new URL(r.url()).pathname===`/api/v1/class-sections/${fixture.sectionId}/settlement-check`&&r.request().method()==='GET');await article.getByRole('button',{name:'打开相关业务'}).click();const checked=await loaded;assert.equal(checked.status(),200);assert.equal((await checked.json()).data.classSectionId,fixture.sectionId);await sheet.waitFor({state:'hidden'});
+ const detail=teacher.getByRole('dialog',{name:'课程设置'});await detail.waitFor();await detail.getByText('课程结算与综合名单',{exact:true}).waitFor();await detail.screenshot({path:'.local/v81-browser-state/live-reminder-teacher.png'});
+ console.log(JSON.stringify({check:'ACTUAL_WORKER_TEACHER_NOTICE_WEB_EXACT_COURSE',result:'PASS',syntheticSchedule:true}));
+}catch(error){console.error(JSON.stringify({check:'LIVE_REMINDER_BROWSER',result:'FAIL',stage,message:error.message}));if(diagnosticPage)await diagnosticPage.screenshot({path:'.local/v81-browser-state/live-reminder-failure.png'});process.exitCode=1;}finally{await browser.close();}

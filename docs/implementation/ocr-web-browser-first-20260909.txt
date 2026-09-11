@@ -1,0 +1,1 @@
+{"check":"OCR_WEB","result":"FAIL","stage":"LOGIN","message":"locator.click: Timeout 60000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('.course-card').filter({ has: getByRole('heading', { name: 'Synthetic OCR Web', exact: true }) }).getByRole('button', { name: '名单对齐', exact: true })\u001b[22m\n"}

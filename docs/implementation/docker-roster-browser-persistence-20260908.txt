@@ -1,0 +1,6 @@
+       status        | resolution_status | normalized_student_number 
+---------------------+-------------------+---------------------------
+ MISSING_IN_PLATFORM | CONFIRMED         | 000001
+ MISSING_IN_PLATFORM | PENDING           | 000002
+(2 rows)
+

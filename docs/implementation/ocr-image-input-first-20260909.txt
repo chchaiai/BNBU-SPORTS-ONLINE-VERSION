@@ -1,0 +1,33 @@
+(node:50656) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+✔ OCR defaults disabled and validates explicit region/timeout without requiring credentials at startup (1.2631ms)
+✔ provider sends exact private bytes, validates source binding, and retains unconfirmed recognized evidence (0.595ms)
+✔ provider errors are sanitized and failed responses do not become recognized evidence (0.5726ms)
+✖ WebP is losslessly prepared for OCR while evidence stays bound to the original source (8.5372ms)
+✖ oversized source uses lossless preparation without resizing and malformed data never reaches provider (7.2469ms)
+ℹ tests 5
+ℹ suites 0
+ℹ pass 3
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 575.1065
+
+✖ failing tests:
+
+test at tools\local-integration\tencent-ocr-provider.test.mjs:43:1
+✖ WebP is losslessly prepared for OCR while evidence stays bound to the original source (8.5372ms)
+  Error: OCR_PROVIDER_IMAGE_FORMAT_UNSUPPORTED
+      at TencentOcrProvider.recognize (C:\Users\23328\Desktop\new_version\backend\src\modules\v8\tencent-ocr-provider.ts:39:64)
+      at TestContext.<anonymous> (file:///C:/Users/23328/Desktop/new_version/tools/local-integration/tencent-ocr-provider.test.mjs:48:35)
+      at async Test.run (node:internal/test_runner/test:1110:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:785:7)
+
+test at tools\local-integration\tencent-ocr-provider.test.mjs:53:1
+✖ oversized source uses lossless preparation without resizing and malformed data never reaches provider (7.2469ms)
+  Error: OCR_PROVIDER_IMAGE_SIZE_LIMIT
+      at TencentOcrProvider.recognize (C:\Users\23328\Desktop\new_version\backend\src\modules\v8\tencent-ocr-provider.ts:40:76)
+      at TestContext.<anonymous> (file:///C:/Users/23328/Desktop/new_version/tools/local-integration/tencent-ocr-provider.test.mjs:57:18)
+      at async Test.run (node:internal/test_runner/test:1110:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:785:7)

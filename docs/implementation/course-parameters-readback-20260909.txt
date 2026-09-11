@@ -1,0 +1,1 @@
+{"check":"NEW_COURSE_WEB_PUBLICATION_DATABASE_READBACK","result":"PASS","minimumMinutes":45,"weeklyLimit":4,"courseTarget":480,"generalTarget":720,"closingDays":7,"enrollment":"ACTIVE"}

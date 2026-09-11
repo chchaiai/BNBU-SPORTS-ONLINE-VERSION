@@ -1,0 +1,5 @@
+{
+  "sha256": "bec4a3aa12113dbfbb99cd3b8c602488b240d24ce66ee0cbc164c1160391f2db",
+  "migrationId": "0055_v81_invite_revocation",
+  "destructive": false
+}

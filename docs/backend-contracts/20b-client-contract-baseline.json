@@ -1,0 +1,72 @@
+{
+  "schemaVersion": 1,
+  "project": "BNBU Sports Greenfield",
+  "approvedBy": "PROJECT_OWNER",
+  "approvedAt": "2026-08-05",
+  "approvalEvidence": "Explicit project-owner instruction in the Stage 20A approval task",
+  "sourceBaselineCommit": "ce133432d0aa247d29db78cc7e14a47d398bc5fc",
+  "api": {
+    "prefix": "/api/v1",
+    "openapiPath": "docs/backend-contracts/openapi.yaml",
+    "openapiVersion": "1.0.0-contract",
+    "openapiSha256": "1171cb76a485911ef44f5df9fc65f99ad5cbb9f7ab9d6a4e0d479c06eb4dad8c",
+    "operationCount": 92,
+    "implementedVerified": 82,
+    "implementedDefaultDeny": 10,
+    "notImplemented": 0,
+    "blockedByAdr": 0
+  },
+  "generatedClients": {
+    "strategy": "GENERATED_DTO_SCHEMA_WITH_HANDWRITTEN_TRANSPORT",
+    "requiredInputs": ["sourceBaselineCommit", "api.openapiSha256"],
+    "android": {
+      "modelLanguage": "Kotlin",
+      "transport": "HANDWRITTEN",
+      "generationStatus": "NOT_GENERATED_IN_APPROVAL_STAGE"
+    },
+    "web": {
+      "modelLanguage": "TypeScript",
+      "transport": "HANDWRITTEN",
+      "generationStatus": "NOT_GENERATED_IN_APPROVAL_STAGE"
+    },
+    "ios": {
+      "modelLanguage": "Swift",
+      "transport": "HANDWRITTEN",
+      "generationStatus": "NO_PROJECT"
+    }
+  },
+  "integrationOrder": [
+    "AUTH",
+    "TEACHING_ENROLLMENT",
+    "SESSION_MEDIA_RECORD",
+    "REVIEW",
+    "SCORE"
+  ],
+  "moduleClientOrder": [
+    "ANDROID_STUDENT_FACT_PRODUCER",
+    "WEB_TEACHER_ADMIN_CONSUMER"
+  ],
+  "environments": ["local", "staging", "production"],
+  "staging": {
+    "dataClass": "SYNTHETIC_ONLY",
+    "constructionApproved": true,
+    "runtimeReady": false,
+    "httpsRequired": true,
+    "independentDatabaseRequired": true,
+    "independentPrivateObjectStorageRequired": true,
+    "independentSecretsRequired": true,
+    "safeSeedResetRequired": true,
+    "requestIdTracingRequired": true,
+    "exportDisposition": "SYSTEM_MODE_UNSUPPORTED"
+  },
+  "gates": {
+    "clientIntegrationApproval": true,
+    "clientIntegrationPreparationReadiness": true,
+    "clientIntegrationExecutionReadiness": false,
+    "threeClientDefinitionOfDone": false,
+    "exportApproval": false,
+    "exportImplementationReadiness": false,
+    "productionApproval": false,
+    "fullProduction": false
+  }
+}

@@ -1,0 +1,5 @@
+{
+  "migrationId": "0053_v81_subadmin_identity",
+  "sha256": "53d597f9af53418012556c46294dc33402ce5c211d2257b043e03c3a3fa2b9a7",
+  "destructive": false
+}

@@ -1,0 +1,5 @@
+{
+  "migrationId": "0024_v81_certification_revocation",
+  "destructive": false,
+  "sha256": "26694a1c5af1ed627b265ee68d94a7ef7db9ed13bc8bae717454975b2961544a"
+}

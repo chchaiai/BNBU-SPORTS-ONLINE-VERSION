@@ -1,0 +1,32 @@
+{
+  "subadminCreationWithoutOtp": "PASS",
+  "sharedStudentEmail": "PASS",
+  "subadminDisabled": "PASS",
+  "studentRemainsActive": "PASS",
+  "correctedIdentityAttestationBanner": "PASS",
+  "realCourseCompletionRows": [
+    {
+      "completed": 0,
+      "members": 3
+    },
+    {
+      "completed": 0,
+      "members": 5
+    }
+  ],
+  "manualCourses": 2,
+  "existingPendingAiRecordsMovedToTeacher": 2,
+  "systemMode": "NORMAL",
+  "policyVersion": 7,
+  "supplementalThirtyMinuteBrowserCheckin": "PASS",
+  "actualDurationSeconds": 1814,
+  "creditedDurationSeconds": 1800,
+  "teacherPhotoAndVideoPlayback": "PASS",
+  "studentNotificationAndPublicComment": "PASS",
+  "studentProgress": "PASS",
+  "progressLoadingPlaceholder": "PASS",
+  "recordCreditAndTimestamps": "PASS",
+  "temporaryAccountsDisabled": true,
+  "disabledStudentSessionHttpStatus": 401,
+  "finalRelease": "/opt/bnbu-sports-production/releases/2d4a49cabd79-round2"
+}

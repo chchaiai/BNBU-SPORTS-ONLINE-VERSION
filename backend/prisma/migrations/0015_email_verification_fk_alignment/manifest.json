@@ -1,0 +1,5 @@
+{
+  "migrationId": "0015_email_verification_fk_alignment",
+  "sha256": "f96b84e50b1510c340c54eea8e7a99301c8db7185362c1db47540b2c43065b95",
+  "destructive": false
+}

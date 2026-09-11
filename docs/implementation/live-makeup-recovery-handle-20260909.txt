@@ -1,0 +1,2 @@
+{"check":"LIVE_MAKEUP_RECOVERY_HANDLE","status":"IN_PROGRESS","sessionCount":1,"sourceWindowConfirmed":true}
+{"check":"LIVE_MAKEUP_BROWSER_FIXTURE","result":"READY","scheduleSeeded":true,"windowCurrentlyOpenForGrant":true,"fixtureFingerprint":"48f8e452671c"}

@@ -1,0 +1,405 @@
+ok - student persists the complete versioned refresh session
+ok - student rejects malformed or refresh-expired persisted sessions
+ok - temporary student startup failure preserves the persisted session
+ok - disabled student account clears the persisted session
+ok - i18n resolves zh by default and en after switch
+ok - semester presentation preserves the administrator-managed name
+ok - student login keeps real-account testing and gates local UI preview
+FAIL - local UI preview workspace is labeled and does not invent student scores: app.isApiMode is not a function
+ok - check-in sport icons share one stroke set and keep each activity recognizable
+ok - time window evaluator blocks unavailable policy
+ok - class check-in window preserves the teacher's backend values without fixed fallbacks
+ok - server progress and teacher targets map seconds to real student hours
+FAIL - dashboard keeps the full backend total and never invents a missing target: app.isApiMode is not a function
+ok - system mode opens only for an explicit NORMAL projection
+ok - dashboard progress state follows active membership
+ok - course detail omits related exercise records
+FAIL - session timing: pause/resume, 2h cap, credited hours: Expected values to be strictly equal:
++ actual - expected
+
++ 11400000
+- 9007199254740991
+
+ok - profile mirrors the Android account-card hierarchy and instant service navigation stays scoped
+ok - exemption form mirrors Android fields and accepted Contract limits
+ok - exemption detail mirrors the Android information hierarchy
+ok - course and independent exercise descriptions are both required
+ok - account details show gender and endurance exemption distance follows it
+ok - live camera duration uses the measured recording interval
+ok - help categories stay aligned with the published projection
+ok - help Markdown renders formatting while escaping administrator HTML
+FAIL - published help API requests the current-language non-paginated projection: Network request failed
+ok - daily submission observation follows the Beijing business day
+ok - daily client observation never hard-blocks a backend-authorized submission
+ok - hourText matches Kotlin Double.hourText()
+ok - time window blocks excluded dates and passed deadlines
+ok - proof rules follow the exact current API media allowlist
+ok - check-in proof UI follows the Android preview-then-delete flow
+FAIL - check-in stages follow the Android information hierarchy: The input did not match the regular expression /durationMs < SESSION_MIN_CREDIT_MILLIS \? 0 : creditedHours\(durationMs\)/u. Input:
+
+'// Exercise check-in flow (#20–#24) — feature/checkin/CheckInScreen.kt,\r\n' +
+  '// ExerciseCheckInScreen.kt, CheckInRecords.kt, SessionMediaManager.kt and the\r\n' +
+  '// session controller. States: Idle → Active ↔ Paused → Finished → Submitted.\r\n' +
+  '// Drafts remain local until explicit discard or successful server submission.\n' +
+  '\r\n' +
+  'import { tx, currentLocale, getLanguage } from "../i18n.js";\r\n' +
+  'import { icon } from "../icons.js";\r\n' +
+  'import { esc, spinner, emptyPlaceholder, validationPanel, sectionTitle, statusBadge, userFacingErrorPanel, fieldLabel, fieldControlAttrs, fieldSupport } from "../ui.js";\r\n' +
+  'import { hourText } from "../data.js";\r\n' +
+  'import { resolvePublicReasonModel, reviewStageFromRecord, reviewStageLabel } from "../v81-review.js";\r\n' +
+  'import { canNormalizeCapturedImage, validateProofFile } from "../proofs.js";\r\n' +
+  'import {\r\n' +
+  '  canStartExercise, hasSubmittedCheckInToday, loadSession, saveSession, clearSession,\r\n' +
+  '  startSession, restoreServerSession, pauseSession, resumeSession, sessionDurationMs,\n' +
+  '  creditedHours, formatTimer, businessToday,\n' +
+  '} from "../session.js";\r\n' +
+  'import {\r\n' +
+  '  startServerSession, pauseServerSession, resumeServerSession, finishServerSession,\r\n' +
+  '  cancelServerSession, createRecordDraft, submitRecord,\r\n' +
+  '  uploadMediaDraft, cacheRecordProofs, createMediaAccessUrl, proxyObjectUrl,\n' +
+  '  getRecordWorkflow, getRecordEvidenceContext, submitRecordSupplement,\n' +
+  '  loadServerRecordProofs,\r\n' +
+  '  listMyRecords, getActiveSession, ApiError, toUserFacingError,\r\n' +
+  '  isQualificationReached, sessionStartErrorText,\r\n' +
+  '  MAX_PROOF_VIDEO_SECONDS, MAX_PROOF_IMAGES, MAX_PROOF_VIDEOS,\r\n' +
+  '} from "../api.js";\r\n' +
+  '\r\n' +
+  'const MAX_DESCRIPTION = 200;\r\n' +
+  "// Mirrors the backend's MEDIA-001 limits (see api.js).\r\n" +
+  'const MAX_IMAGES = MAX_PROOF_IMAGES;\r\n' +
+  'const MAX_VIDEOS = MAX_PROOF_VIDEOS;\r\n' +
+  'const OTHER = "other";\r\n' +
+  '\r\n' +
+  'function selectedProofTodo(app) {\r\n' +
+  '  const todos = Array.isArray(app.state.workspace?.proofTodos) ? app.state.workspace.proofTodos : [];\r\n' +
+  '  const focused = checkinState(app).focusProofRecordId;\r\n' +
+  '  return todos.find((item) => item.recordId === focused) || todos[0] || null;\r\n' +
+  '}\r\n' +
+  '\r\n' +
+  'function proofSubmitPanel(app) {\r\n' +
+  '  const todo = selectedProofTodo(app);\r\n' +
+  '  if (!todo) return "";\r\n' +
+  '  const ui = checkinState(app);\r\n' +
+  '  const retained = (ui.drafts || []).filter((draft) => draft.url);\r\n' +
+  '  return `<div class="body-small text-muted" style="margin-top:12px">${tx("当前有一次补证机会。请在有效期内现场拍摄并提交补充材料，原材料会一并保留供教师复核。", "One supplement opportunity is available. Capture and submit additional evidence before the deadline. Original evidence is retained for teacher review.")}</div>\n' +
+  '    <button class="outlined-btn pressable" type="button" data-action="checkin.submitProof" ${app.isWriteAllowed() && !ui.finish.submitting ? "" : "disabled"} style="min-height:44px;margin-top:8px">${retained.length ? tx("提交补证", "Submit proof") : tx("拍摄补证", "Capture supplement")}</button>`;\n' +
+  '}\r\n' +
+  '\r\n' +
+  'function creditPolicyChips(policy) {\r\n' +
+  '  const threshold = Number(policy?.minCreditThresholdMinutes);\r\n' +
+  '  const cap = Number(policy?.maxCreditMinutes);\r\n' +
+  '  const knownThreshold = [30, 45, 60].includes(threshold);\r\n' +
+  '  return `<div class="row" style="gap:8px;flex-wrap:wrap">\r\n' +
+  '    <button class="outlined-btn" type="button" ${knownThreshold && threshold === 30 ? "" : "disabled"} style="min-height:40px">${tx("30 分钟门槛", "30-minute threshold")}${threshold === 30 ? tx("（课程已锁定）", " (locked for course)") : ""}</button>\r\n' +
+  '    <button class="outlined-btn" type="button" ${knownThreshold && threshold === 45 ? "" : "disabled"} style="min-height:40px">${tx("45 分钟门槛", "45-minute threshold")}${threshold === 45 ? tx("（课程已锁定）", " (locked for course)") : ""}</button>\r\n' +
+  '    <button class="outlined-btn" type="button" ${cap === 60 ? "" : "disabled"} style="min-height:40px">${tx("60 分钟封顶", "60-minute cap")}${cap === 60 ? tx("（课程已锁定）", " (locked for course)") : ""}</button>\r\n' +
+  '  </div>\r\n' +
+  '  <div class="body-small text-muted" style="margin-top:8px">${policy\r\n' +
+  '    ? tx(`服务端课程门槛 ${threshold} 分钟，封顶 ${cap || 60} 分钟。`, `Server course threshold ${threshold} min, cap ${cap || 60} min.`)\r\n' +
+  '    : tx("尚未读到 Contract 课程 creditPolicy；不把本地按钮当成已计入。", "Course creditPolicy has not loaded from Contract; these buttons are not credited minutes.")}</div>`;\r\n' +
+  '}\r\n' +
+  '\r\n' +
+  'function initialLiveCameraState() {\r\n' +
+  '  return {\r\n' +
+  '    mode: null,\r\n' +
+  '    status: "idle",\r\n' +
+  '    stream: null,\r\n' +
+  '    recorder: null,\r\n' +
+  '    chunks: [],\r\n' +
+  '    timer: null,\r\n' +
+  '    countdownTimer: null,\r\n' +
+  '    recordingStartedAt: null,\r\n' +
+  '    pausedAt: null,\r\n' +
+  '    pausedDurationMs: 0,\r\n' +
+  '    finalDurationSeconds: null,\r\n' +
+  '    discardOnStop: false,\r\n' +
+  '  };\r\n' +
+  '}\r\n' +
+  '\r\n' +
+  'const SPORT_OPTIONS = [\r\n' +
+  '  { value: "running", zh: "跑步", en: "Running", icon: "sport-running" },\r\n' +
+  '  { value: "basketball", zh: "篮球", en: "Basketball", icon: "sport-basketball" },\r\n' +
+  '  { value: "football", zh: "足球", en: "Football", icon: "sport-football" },\r\n' +
+  '  { value: "badminton", zh: "羽毛球", en: "Badminton", icon: "sport-badminton" },\r\n' +
+  '  { value: "table_tennis", zh: "乒乓球", en: "Table tennis", icon: "sport-table-tennis" },\r\n' +
+  '  { value: "swimming", zh: "游泳", en: "Swimming", icon: "sport-swimming" },\r\n' +
+  '  { value: "fitness", zh: "健身", en: "Fitness", icon: "sport-fitness" },\r\n' +
+  '  { value: "cycling", zh: "骑行", en: "Cycling", icon: "sport-cycling" },\r\n' +
+  '  { value: OTHER, zh: "其他", en: "Other", icon: "sport-other" },\r\n' +
+  '];\r\n' +
+  '\r\n' +
+  'const creditTypeLabel = (creditType) =>\r\n' +
+  '  creditType === "course" ? tx("课程相关", "Course-related") : creditType === "general" ? tx("其他运动", "Other exercise") : tx("系统抵扣", "System offset");\r\n' +
+  '\r\n' +
+  'const estimatedCreditedHours = (app,durationMs) => {\n' +
+  '  const hours=creditedHours(durationMs,app.state.workspace?.creditPolicy?.minCreditThresholdMinutes);\n' +
+  '  return hours === null ? "—" : Number(hours.toFixed(2));\n' +
+  '};\n' +
+  '\r\n' +
+  "/** Use only the Backend's submitted-record fact; missing data never falls back to a local timer. */\r\n" +
+  'export function authoritativeCreditedHours(record) {\r\n' +
+  '  const seconds = record?.creditedDurationSeconds;\r\n' +
+  '  return Number.isInteger(seconds) && seconds >= 0 ? seconds / 3600 : null;\r\n' +
+  '}\r\n' +
+  '\r\n' +
+  'function sportLabel(details) {\r\n' +
+  '  if (details.sportType === OTHER) return details.customSportName || "";\r\n' +
+  '  const option = SPORT_OPTIONS.find((o) => o.value === details.sportType);\r\n' +
+  '  return option ? tx(option.zh, option.en) : details.sportType;\r\n' +
+  '}\r\n' +
+  '\r\n' +
+  'function sportIconName(value) {\r\n' +
+  '  const raw = String(value || "").trim();\r\n' +
+  '  const key = raw.toLowerCase();\r\n' +
+  '  const option = SPORT_OPTIONS.find((item) => item.value === key || item.zh === raw);\r\n' +
+  '  return option?.icon || "sport-other";\r\n' +
+  '}\r\n' +
+  '\r\n' +
+  '/** courseSportSelection (ExerciseSessionState.kt): sport inferred from course name. */\r\n' +
+  'function courseSportSelection(courseName) {\r\n' +
+  '  const name = courseName.trim();\r\n' +
+  '  const known = [\r\n' +
+  '    ["table_tennis", "乒乓球", ["乒乓球", "table tennis", "ping pong", "ping-pong"]],\r\n' +
+  '    ["badminton", "羽毛球", ["羽毛球", "badminton"]],\r\n' +
+  '    ["basketball", "篮球", ["篮球", "basketball"]],\r\n' +
+  '    ["football", "足球", ["足球", "football", "soccer"]],\r\n' +
+  '    ["swimming", "游泳", ["游泳", "swimming"]],\r\n' +
+  '    ["running", "跑步", ["跑步", "长跑", "running"]],\r\n' +
+  '    ["cycling", "骑行", ["骑行", "cycling"]],\r\n' +
+  '    ["fitness", "健身", ["健身", "体能", "力量训练", "fitness"]],\r\n' +
+  '  ];\r\n' +
+  '  const lower = name.toLowerCase();\r\n' +
+  '  for (const [sportType, displayName, keywords] of known) {\r\n' +
+  '    if (keywords.some((k) => lower.includes(k.toLowerCase()))) return { sportType, displayName, customSportName: null };\r\n' +
+  '  }\r\n' +
+  '  const paren = [...name.matchAll(/[（(]([^（）()]+)[）)]/g)].pop()?.[1]?.trim();\r\n' +
+  '  const displayName = paren || name || "课程运动";\r\n' +
+  '  return { sportType: OTHER, displayName, customSportName: displayName };\r\n' +
+  '}\r\n' +
+  '\r\n' +
+  'function checkinState(app) {\r\n' +
+  '  if (!app.ui.checkin) {\r\n' +
+  '    app.ui.checkin = {\r\n' +
+  '      tab: "exercise",\r\n' +
+  '      selectedRecordId: null,\r\n' +
+  '      setup: { creditType: "course", generalSportType: "running", generalCustomSportName: "" },\r\n' +
+  '      finish: { submitting: false },\r\n' +
+  '      mediaNotice: null,\r\n' +
+  '      captureError: null,\r\n' +
+  '      recordOpenError: null,\r\n' +
+  '      recordProofLoadingId: null,\r\n' +
+  '      sessionTransitioning: false,\r\n' +
+  '      activeSessionConflict: null,\r\n' +
+  '      drafts: [],\r\n' +
+  '      previewDraftId: null,\r\n' +
+  '      focusProofRecordId: null,\r\n' +
+  '      liveCamera: initialLiveCameraState(),\r\n' +
+  '    };\r\n' +
+  '  }\r\n' +
+  '  if (!app.ui.checkin.liveCamera) {\r\n' +
+  '    app.ui.checkin.liveCamera = initialLiveCameraState();\r\n' +
+  '  }\r\n' +
+  '  return app.ui.checkin;\r\n' +
+  '}\r\n' +
+  '\r\n' +
+  '/** The single current enrolled-and-open course (shared lookup). */\r\n' +
+  'function findCurrentCourse(workspace) {\r\n' +
+  '  return workspace.courses.find(\r\n' +
+  '    (c) => c.isCurrent && c.enrollmentStatus === "enrolled" && ["active", "open", "enabled"].includes(String(c.status).trim().toLowerCase())\r\n' +
+  '  ) || null;\r\n' +
+  '}\r\n' +
+  '\r\n' +
+  'function accountId(app) {\r\n' +
+  '  return app.state.workspace.student.id;\r\n' +
+  '}\r\n' +
+  '\r\n' +
+  'function healthAcknowledged(app) {\r\n' +
+  '  return app.overlay.healthReminderAck === true;\r\n' +
+  '}\r\n' +
+  '\r\n' +
+  '// ── Readiness (evaluateCheckInReadiness) ──\r\n' +
+  'function evaluateReadiness(app) {\r\n' +
+  '  const workspace = app.state.workspace;\r\n' +
+  '  if (String(workspace.student.accountStatus).toUpperCase() !== "ACTIVE") {\r\n' +
+  '    return { canStart: false, blockedReason: tx("账号状态异常，无法打卡", "Account status prevents check-in.") };\r\n' +
+  '  }\r\n' +
+  '  if (!app.hasActiveEnrollment()) {\n' +
+  '    return { canStart: false, blockedReason: tx("你尚未加入本学期体育课程，请先扫码或输入邀请码加入", "You have not joined a sports course this semester. Scan a QR code or enter an invitation code first.") };\n' +
+  '  }\n' +
+  "  if (workspace.activeServerSession && ['IN_PROGRESS','PAUSED'].includes(workspace.activeServerSession.status))\n" +
+  '    return {canStart:true, blockedReason:null};\n' +
+  '  if (!findCurrentCourse(workspace)) {\n' +
+  '    return { canStart: false, blockedReason: tx("当前课程尚未开放打卡，请联系任课教师", "Check-in is not open for the current course. Contact your instructor.") };\r\n' +
+  '  }\n' +
+  '  // The start endpoint evaluates current regular and per-student makeup windows.\n' +
+  '  // Cached legacy dates cannot veto a server-authorized makeup session.\n' +
+  '  if (app.isApiMode()) return { canStart: true, blockedReason: null };\n' +
+  '  const windowReason = canStartExercise(workspace.checkInTimeWindow);\r\n' +
+  '  if (windowReason) return { canStart: false, blockedReason: windowReason };\r\n' +
+  '  return { canStart: true, blockedReason: null };\r\n' +
+  '}\r\n' +
+  '\r\n' +
+  'const formatDateTime = (m'... 104090 more characters
+
+ok - a student can preview and delete one local proof before submission
+ok - /me mapping uses the current API masked email and verification fields
+ok - student membership state is ACTIVE only while enrolled, otherwise PENDING
+ok - a submitted record is valid on arrival and credits the server's hours
+ok - submission summary never invents credited hours from the local timer
+ok - a teacher's INVALID verdict reaches the student verbatim
+ok - published scores read finalScore/baseScore and never invent a zero
+ok - cross-device record media maps from the authoritative evidence context
+ok - authenticated API base stays same-origin and ignores query or persisted overrides
+ok - only explicit loopback MinIO URLs with valid ports use the same-origin proxy
+ok - object upload ETag normalization fails closed on a missing value
+ok - confirmed Session evidence stays locked while PROCESSING or FAILED
+ok - unconfirmed capture remains deletable and AVAILABLE evidence remains locked
+ok - proof preview deletion uses the shared lock and fake local +60 is removed
+ok - public runtime config loads before the student application
+ok - user-facing errors cover status families without exposing raw server text
+ok - structured client routes remove query values and dynamic identifiers
+ok - error panel string compatibility never renders the supplied raw string
+ok - major Student backend failures and binding fields use the shared safe UI
+ok - managed email binding opens the Android-aligned change form directly
+ok - a missing object-store ETag stops before media confirmation
+ok - current score requires an exact semester and uses backend total-only qualification
+FAIL - student cursor lists collect every page from meta.pagination.nextCursor: Expected values to be strictly deep-equal:
++ actual - expected
+
++ []
+- [
+-   'score-1',
+-   'score-2'
+- ]
+
+ok - student cursor lists reject repeated cursors instead of looping
+FAIL - student cursor lists stop after the defensive page limit: Missing expected rejection.
+ok - 401 refresh retries one student mutation with the same Idempotency-Key
+ok - ambiguous student refresh failure keeps the session and reuses its intent key
+ok - terminal student refresh rejection clears the local session
+ok - logout wins a race with refresh and stale tokens cannot return
+FAIL - active-session conflict fails closed without implicit cancellation: The input was expected to not match the regular expression /getActiveSession|cancelServerSession|orphaned session cleanup/. Input:
+
+'"checkin.start": (app) => {\r\n' +
+  '    const ui = checkinState(app);\r\n' +
+  '    const readiness = evaluateReadiness(app);\r\n' +
+  '    if (!readiness.canStart) {\r\n' +
+  '      app.render();\r\n' +
+  '      return;\r\n' +
+  '    }\r\n' +
+  '    const workspace = app.state.workspace;\r\n' +
+  '    const currentCourse = findCurrentCourse(workspace);\r\n' +
+  '    const isCourse = ui.setup.creditType === "course";\r\n' +
+  '    const courseSport = currentCourse ? courseSportSelection(currentCourse.name) : null;\r\n' +
+  '    const details = {\r\n' +
+  '      creditType: ui.setup.creditType,\r\n' +
+  '      sportType: isCourse ? courseSport?.sportType || OTHER : ui.setup.generalSportType,\r\n' +
+  '      customSportName: isCourse\r\n' +
+  '        ? courseSport?.customSportName || null\r\n' +
+  '        : ui.setup.generalSportType === OTHER\r\n' +
+  '          ? ui.setup.generalCustomSportName.trim()\r\n' +
+  '          : null,\r\n' +
+  '      description: "",\r\n' +
+  '    };\r\n' +
+  '    const afterStart = (serverSession) => {\r\n' +
+  '      const local = startSession(details);\r\n' +
+  '      if (serverSession) {\r\n' +
+  '        local.serverId = serverSession.id;\r\n' +
+  '        local.serverVersion = serverSession.version;\r\n' +
+  '        local.enrollmentId = serverSession.enrollmentId;\r\n' +
+  '      }\r\n' +
+  '      persist(app, local);\r\n' +
+  '      // Submission and explicit discard are the clearing points for local drafts.\n' +
+  '      app.render();\r\n' +
+  '    };\r\n' +
+  '    const begin = () => {\n' +
+  '      if (!app.isApiMode()) {\r\n' +
+  '        if (app.isLocalPreview()) {\r\n' +
+  '          afterStart(null);\r\n' +
+  '          return;\r\n' +
+  '        }\r\n' +
+  '        apiFailureDialog(app, new ApiError(401, { code: "AUTH_SESSION_REQUIRED", message: "" }), tx("无法开始运动", "Cannot start"));\n' +
+  '        return;\n' +
+  '      }\n' +
+  '      if (workspace.activeServerSession) {\n' +
+  '        const expectedId = workspace.activeServerSession.id;\n' +
+  '        getActiveSession().then(server => {\n' +
+  "          if (server.id !== expectedId) throw new ApiError(409, {code:'SESSION_VERSION_CONFLICT',message:''});\n" +
+  '          persist(app, restoreServerSession(server, details));\n' +
+  '          app.render();\n' +
+  '        }).catch(error => apiFailureDialog(app,error,tx("无法恢复运动", "Cannot restore exercise")));\n' +
+  '        return;\n' +
+  '      }\n' +
+  '      const enrollmentId = currentCourse?.enrollmentId\r\n' +
+  '        || workspace.courses.find((c) => c.enrollmentId)?.enrollmentId;\r\n' +
+  '      if (!enrollmentId) {\r\n' +
+  '        apiFailureDialog(app, new ApiError(400, { code: "NO_ENROLLMENT", message: "" }), tx("无法开始运动", "Cannot start"));\r\n' +
+  '        return;\r\n' +
+  '      }\r\n' +
+  '      const startOnServer = () => startServerSession(enrollmentId).then(afterStart);\r\n' +
+  '      startOnServer().catch((error) => {\r\n' +
+  '        // The backend refuses a new session once the qualifying total is\r\n' +
+  '        // reached, reusing SESSION_ALREADY_COMPLETED.\r\n' +
+  '        if (isQualificationReached(error)) throw error;\r\n' +
+  '        if (isActiveSessionConflict(error)) {\r\n' +
+  '          // The active session may still belong to this browser, another\r\n' +
+  '          // device, or a recoverable server-side workflow. Starting a new\r\n' +
+  '          // session must fail closed: never cancel or replace it implicitly.\r\n' +
+  '          throw error;\r\n' +
+  '        }\r\n' +
+  '        throw error;\r\n' +
+  '      }).catch((error) => {\r\n' +
+  '        if (isQualificationReached(error)) {\r\n' +
+  '          app.showDialog({\r\n' +
+  '            title: tx("已达到合格时长", "Qualifying hours reached"),\r\n' +
+  '            body: sessionStartErrorText(error),\r\n' +
+  '            buttons: [{ label: tx("我知道了", "Got it"), action: "dialog.close" }],\r\n' +
+  '          });\r\n' +
+  '          return;\r\n' +
+  '        }\r\n' +
+  '        if (isActiveSessionConflict(error)) {\r\n' +
+  '          showActiveSessionConflict(app, error);\r\n' +
+  '          return;\r\n' +
+  '        }\r\n' +
+  '        apiFailureDialog(app, error, tx("无法开始运动", "Cannot start"));\r\n' +
+  '      });\r\n' +
+  '    };\r\n' +
+  '    if (!healthAcknowledged(app)) {\r\n' +
+  '      // First-time health and safety reminder ("我知道了" only).\r\n' +
+  '      app.showDialog({\r\n' +
+  '        title: tx("健康安全提醒", "Health and safety reminder"),\r\n' +
+  '        body: tx("请根据自身身体状况适量运动。如感不适应立即停止，必要时及时就医。", "Exercise within your limits. Stop immediately if you feel unwell and seek medical help when necessary."),\r\n' +
+  '        dismissible: false,\r\n' +
+  '        buttons: [{ label: tx("我知道了", "Got it"), action: "checkin.ackHealth" }],\r\n' +
+  '      });\r\n' +
+  '      return;\r\n' +
+  '    }\r\n' +
+  '    begin();\r\n' +
+  '  },\r\n' +
+  '  '
+
+ok - new QR student enters real email binding before protected workspace calls
+ok - student account deletion uses the exact two-stage API flow and clears local auth only after a valid terminal result
+ok - student account deletion keeps local auth when the Backend terminal proof is incomplete
+ok - student deletion re-authentication failure is never refreshed or replayed
+ok - invalid access token is terminal and is not refreshed
+ok - student account deletion strictly validates challenge data and keeps success requestId
+ok - deletion cleanup removes only the current account's durable workspace
+ok - account cleanup releases nested transient Blob URLs
+ok - Student form primitives focus the first invalid control and endurance view hides scores
+ok - feedback transport sends only the frozen privacy-bounded fields
+ok - exemption transport creates, uploads, associates, and submits one current draft
+ok - structured exemption projection keeps subtype, immutable media references, and review status
+ok - student target reads use authenticated same-origin backend routes
+ok - organization certification cards use only the signed-in student's backend applications
+ok - organization certification and recognition reads use authenticated backend routes
+ok - student account deletion UI requires explanation, OTP, and final confirmation
+ok - store self-heals corrupted keys and drops legacy synthetic overlay fields
+ok - exercise session round-trips through the store per account
+ok - v8 contract-wired student pages keep grace non-refreshable and show server proof todos
+ok - v8.1 public reasons keep six bilingual categories and action scopes
+ok - v8.1 review stages stay separate and do not guess missing wire values
+ok - v8.1 notices keep proof wording and drop only explicit score disclosures
+ok - v8.1 maintenance page shows paused proof timing or an unavailable state
+
+8 smoke check(s) failed

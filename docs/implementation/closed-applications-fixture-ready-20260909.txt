@@ -1,0 +1,46 @@
+/workspace/backend/node_modules/@prisma/client/src/runtime/RequestHandler.ts:237
+      throw new PrismaClientKnownRequestError(message, {
+            ^
+
+PrismaClientKnownRequestError: 
+Invalid `prisma.mediaEvidence.create()` invocation:
+
+
+Database error. Code: `23514`. Message: `new row for relation "media_evidence" violates check constraint "media_evidence_state_shape_check"`
+    at Jr.handleRequestError (/workspace/backend/node_modules/@prisma/client/src/runtime/RequestHandler.ts:237:13)
+    at Jr.handleAndLogRequestError (/workspace/backend/node_modules/@prisma/client/src/runtime/RequestHandler.ts:183:12)
+    at Jr.request (/workspace/backend/node_modules/@prisma/client/src/runtime/RequestHandler.ts:152:12)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async a (/workspace/backend/node_modules/@prisma/client/src/runtime/getPrismaClient.ts:1014:24)
+    at async file:///workspace/tools/local-integration/seed-v81-closed-applications-browser.mjs:34:3 {
+  code: 'P2039',
+  meta: {
+    modelName: 'MediaEvidence',
+    driverAdapterError: DriverAdapterError: new row for relation "media_evidence" violates check constraint "media_evidence_state_shape_check"
+        at PrismaPgAdapter.onError (file:///workspace/backend/node_modules/@prisma/adapter-pg/dist/index.mjs:639:11)
+        at PrismaPgAdapter.performIO (file:///workspace/backend/node_modules/@prisma/adapter-pg/dist/index.mjs:634:12)
+        at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+        at async PrismaPgAdapter.queryRaw (file:///workspace/backend/node_modules/@prisma/adapter-pg/dist/index.mjs:568:30)
+        at async e.interpretNode (/workspace/backend/node_modules/@prisma/client-engine-runtime/src/interpreter/query-interpreter.ts:186:26)
+        at async e.interpretNode (/workspace/backend/node_modules/@prisma/client-engine-runtime/src/interpreter/query-interpreter.ts:213:41)
+        at async e.interpretNode (/workspace/backend/node_modules/@prisma/client-engine-runtime/src/interpreter/query-interpreter.ts:272:41)
+        at async e.run (/workspace/backend/node_modules/@prisma/client-engine-runtime/src/interpreter/query-interpreter.ts:94:23)
+        at async e.execute (/workspace/backend/node_modules/@prisma/client/src/runtime/core/engines/client/LocalExecutor.ts:81:12)
+        at async Ut.request (/workspace/backend/node_modules/@prisma/client/src/runtime/core/engines/client/ClientEngine.ts:510:22) {
+      cause: {
+        originalCode: '23514',
+        originalMessage: 'new row for relation "media_evidence" violates check constraint "media_evidence_state_shape_check"',
+        kind: 'postgres',
+        code: '23514',
+        severity: 'ERROR',
+        message: 'new row for relation "media_evidence" violates check constraint "media_evidence_state_shape_check"',
+        detail: 'Failing row contains (01a0840b-0493-730e-9b09-2b463e58c138, 01a07e71-e996-75ea-954d-84a6a185b623, 01a08409-f042-73f3-b079-95f12e48cf68, null, 01a08409-f042-73f3-b079-91bd3a77685c, EXEMPTION_APPLICATION, IMAGE, FILE_PICKER, image/png, image/png, 45, 45, f0ec647d66e554724b2a645540aaa5c10b2f7179c81c3f77a9e077d48cf3517f, f0ec647d66e554724b2a645540aaa5c10b2f7179c81c3f77a9e077d48cf3517f, null, null, AVAILABLE, synthetic/01a0840b-0493-730e-9b09-2b463e58c138/evidence.png, 2026-09-09 02:41:49.715+00, 2026-09-09 02:41:49.715+00, null, 2026-09-09 02:41:49.715+00, null, null, 2026-09-09 02:41:49.715+00, 2026-09-09 02:41:49.715+00, 1, 01a08409-f042-73f3-b079-9a028cc8cf90).',
+        column: undefined,
+        hint: undefined
+      }
+    }
+  },
+  clientVersion: '7.9.1'
+}
+
+Node.js v24.18.0

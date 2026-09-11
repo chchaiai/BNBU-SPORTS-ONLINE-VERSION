@@ -1,0 +1,1 @@
+{"check":"REAL_SESSION_RELOAD_MEDIA_CONTINUITY","result":"REPRODUCED_MEDIA_LOSS","before":{"id":"01a08ef7-8908-76a0-aeef-dc60a3a6e8e3","ms":497,"drafts":1},"after":{"id":"01a08ef7-8908-76a0-aeef-dc60a3a6e8e3","ms":1913,"drafts":0}}

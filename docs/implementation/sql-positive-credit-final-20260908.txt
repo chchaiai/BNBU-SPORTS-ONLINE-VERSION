@@ -1,0 +1,3 @@
+ERROR:  column r.review_status does not exist
+LINE 1: ...ctual_duration_seconds,r.id AS record_id,r.status,r.review_s...
+                                                             ^

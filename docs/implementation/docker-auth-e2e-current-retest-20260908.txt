@@ -1,0 +1,126 @@
+ Container bnbu-v81-full-integration-integration-tests-run-02cb041c7eab Creating 
+ Container bnbu-v81-full-integration-integration-tests-run-02cb041c7eab Created 
+
+> @bnbu/sports-backend@0.1.0 prebuild
+> npm run db:generate && npm run generate
+
+
+> @bnbu/sports-backend@0.1.0 db:generate
+> prisma generate
+
+Loaded Prisma config from prisma.config.ts.
+
+Prisma schema loaded from prisma/schema.prisma.
+
+✔ Generated Prisma Client (7.9.1) to ./src/generated/prisma in 899ms
+
+┌─────────────────────────────────────────────────────────┐
+│  Update available 7.9.1 -> 8.0.0-rc.13                  │
+│                                                         │
+│  This is a major update - please follow the guide at    │
+│  https://pris.ly/d/major-version-upgrade                │
+│                                                         │
+│  Run the following to update                            │
+│    npm i --save-dev prisma@latest                       │
+│    npm i @prisma/client@latest                          │
+└─────────────────────────────────────────────────────────┘
+
+> @bnbu/sports-backend@0.1.0 generate
+> npm run openapi:generate && npm run db:manifest:generate
+
+
+> @bnbu/sports-backend@0.1.0 openapi:generate
+> node ./scripts/generate-openapi.mjs
+
+Generated 3 OpenAPI artifacts from 249 operations.
+
+> @bnbu/sports-backend@0.1.0 db:manifest:generate
+> node ./scripts/generate-migration-manifest.mjs
+
+Generated migration manifest updated.
+
+> @bnbu/sports-backend@0.1.0 build
+> nest build
+
+▶ Foundation HTTP E2E with real PostgreSQL
+  ✖ serves public probes and restricts dependency health to administrators (672.419333ms)
+  ✔ logs in only with the seeded password and returns a safe /me projection (464.869177ms)
+  ✖ denies missing or pending password security and unassigned administrator access (374.399006ms)
+  ✖ validates unauthenticated access responses for every secured operation (564.692976ms)
+  ✔ validates error responses for public operations with request input (359.324076ms)
+  ✔ returns stable generic errors for wrong passwords and a specific disabled-account result (417.226155ms)
+  ✔ rejects expired, tampered, and cross-organization access tokens (397.315693ms)
+  ✔ rotates refresh tokens atomically and revokes the family on reuse (443.320923ms)
+  ✔ revokes logout sessions and makes the operation safely replayable (387.912215ms)
+  ✔ reserves concurrent idempotency keys without creating duplicate sessions (510.138826ms)
+  ✔ enforces mode allowlists, strict validation, request IDs, CORS, and body limits (428.623859ms)
+✖ Foundation HTTP E2E with real PostgreSQL (6531.875999ms)
+ℹ tests 11
+ℹ suites 1
+ℹ pass 8
+ℹ fail 3
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 7113.634351
+
+✖ failing tests:
+
+test at test/e2e/auth.e2e.test.ts:1:3605
+✖ serves public probes and restricts dependency health to administrators (672.419333ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  401 !== 200
+  
+      at TestContext.<anonymous> (/workspace/backend/test/e2e/auth.e2e.test.ts:183:12)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async Test.run (node:internal/test_runner/test:1332:7)
+      at async Promise.all (index 0)
+      at async Suite.run (node:internal/test_runner/test:1794:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:385:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 401,
+    expected: 200,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at test/e2e/auth.e2e.test.ts:1:7386
+✖ denies missing or pending password security and unassigned administrator access (374.399006ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + undefined
+  - 'FIRST_PASSWORD_CHANGE_REQUIRED'
+  
+      at TestContext.<anonymous> (/workspace/backend/test/e2e/auth.e2e.test.ts:270:14)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async Test.run (node:internal/test_runner/test:1332:7)
+      at async Suite.processPendingSubtests (node:internal/test_runner/test:911:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: 'FIRST_PASSWORD_CHANGE_REQUIRED',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at test/e2e/auth.e2e.test.ts:1:8859
+✖ validates unauthenticated access responses for every secured operation (564.692976ms)
+  AssertionError [ERR_ASSERTION]: getV81MaintenanceAnnouncement returned 200: {"data":{"mode":"NORMAL","policyVersion":1,"updatedAt":"2026-08-02T12:00:00.000Z","announcement":null},"meta":{"requestId":"01a08041-0b13-7248-8c87-3441bd1a51fe"}}
+  
+  200 !== 401
+  
+      at TestContext.<anonymous> (/workspace/backend/test/e2e/auth.e2e.test.ts:324:14)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async Test.run (node:internal/test_runner/test:1332:7)
+      at async Suite.processPendingSubtests (node:internal/test_runner/test:911:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 200,
+    expected: 401,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+

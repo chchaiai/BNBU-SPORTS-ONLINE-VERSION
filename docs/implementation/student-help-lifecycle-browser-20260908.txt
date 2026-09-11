@@ -1,0 +1,2 @@
+{"check":"STUDENT_BROWSER_SMTP_LOGIN","result":"PASS"}
+{"stage":"ADMIN_TRANSITION","error":"response.status is not a function"}

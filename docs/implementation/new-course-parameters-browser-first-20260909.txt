@@ -1,0 +1,5 @@
+{"stage":"PUBLISH_FIELDS","fields":[{"id":"course-close-reason","type":"textarea","value":""},{"id":"","type":"checkbox","value":"on"},{"id":"course-published-template","type":"select-one","value":"01a084e6-d620-736b-9c45-680f553e9fd7"},{"id":"course-v8-total-minutes","type":"number","value":"1200"},{"id":"course-target-course-hours","type":"number","value":"8"},{"id":"course-target-other-hours","type":"number","value":"12"},{"id":"course-minimum-minutes","type":"select-one","value":"45"},{"id":"course-weekly-limit","type":"select-one","value":"4"},{"id":"field-_r_5_","type":"date","value":"2027-01-23"},{"id":"field-_r_6_","type":"date","value":"2026-09-09"},{"id":"field-_r_7_","type":"date","value":"2027-01-30"},{"id":"field-_r_8_","type":"time","value":"00:00"},{"id":"field-_r_9_","type":"time","value":"23:59"}]}
+{"stage":"PUBLISH_ERRORS","errors":["当前状态不支持该操作。"]}
+stage STUDENT_JOIN
+stage INITIAL_EMAIL
+{"check":"NEW_STUDENT_WEB_TEACHER_INVITE_JOIN_INITIAL_SMTP_EMAIL_REFRESH_ROSTER","result":"PASS","syntheticStudent":true,"realDockerBackend":true,"existingPublishedCourse":false}

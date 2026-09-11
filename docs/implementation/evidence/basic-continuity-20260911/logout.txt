@@ -1,0 +1,4 @@
+{"check":"STUDENT_BROWSER_SMTP_LOGIN","result":"PASS"}
+{"check":"STUDENT_HOME_CONTENT","hasCourse":true,"hasProgress":true,"hasLoginForm":false}
+{"check":"STUDENT_SERVER_LOGOUT","result":"PASS","status":200,"oldSessionStatus":401}
+{"check":"STUDENT_LOGOUT_REVOKES_SERVER_SESSION_AND_LOCAL_LOGIN","result":"PASS","oldSessionStatus":401}

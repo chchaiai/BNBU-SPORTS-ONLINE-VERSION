@@ -1,0 +1,5 @@
+{
+  "migrationId": "0050_v81_event_actor_snapshot",
+  "sha256": "04a087a6f87d6aa78414250a1e37657f2562397a7db39fe3d421179356a1f3cd",
+  "destructive": false
+}

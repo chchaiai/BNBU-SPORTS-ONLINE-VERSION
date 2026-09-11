@@ -1,0 +1,1 @@
+{"check":"ROSTER_BROWSER_CONTROLS","buttons":["课程管理","学生管理","打卡审核","内部成绩册","免测与认证","SSynthetic Test Teacher ASynthetic Physical Education · SYNTH-TEACHER-ASynthetic Test Teacher ASynthetic Physical Education · SYNTH-TEACHER-A","","中文","English","浅色","深色","跟随系统","返回课程管理","导入官方名单"]}

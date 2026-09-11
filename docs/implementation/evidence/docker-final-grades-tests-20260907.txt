@@ -1,0 +1,14 @@
+ Container bnbu-v81-local-validation-sql-tests-run-fcc6ed75a23f Creating 
+ Container bnbu-v81-local-validation-sql-tests-run-fcc6ed75a23f Created 
+✔ final grade contract accepts the full signed integer range without a 0-100 cap (1.283842ms)
+✔ final grade contract rejects non-integers, overflow and free-form notes (0.268902ms)
+✔ final-grade protocol grants neither student nor administrator access (0.814369ms)
+ℹ tests 3
+ℹ suites 0
+ℹ pass 3
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 372.829653
+Docker exit code: 0

@@ -1,0 +1,1 @@
+{"check":"CLOSED_APPLICATIONS_BROWSER","result":"FAIL","stage":"APPROVE_EXERCISE_CHECK_IN","type":"AssertionError","message":"Expected values to be strictly equal:\n\n0 !== 1800\n"}

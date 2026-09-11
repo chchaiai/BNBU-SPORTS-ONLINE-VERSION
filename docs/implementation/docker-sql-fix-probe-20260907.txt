@@ -1,0 +1,36 @@
+ Container bnbu-v81-local-validation-sql-postgres-1 Recreate 
+ Container bnbu-v81-local-validation-sql-postgres-1 Recreated 
+ Container bnbu-v81-local-validation-sql-postgres-1 Starting 
+ Container bnbu-v81-local-validation-sql-postgres-1 Started 
+ Container bnbu-v81-local-validation-sql-postgres-1 Waiting 
+ Container bnbu-v81-local-validation-sql-postgres-1 Healthy 
+ Container bnbu-v81-local-validation-sql-tests-run-d1b99bf4a699 Creating 
+ Container bnbu-v81-local-validation-sql-tests-run-d1b99bf4a699 Created 
+{"migration":"0001_greenfield_foundation","sha256":"0573e3d13018e0db103ef4b605eb35278723174507b37379425a489b10e1462d","result":"APPLIED"}
+{"migration":"0002_teaching_structure","sha256":"bc62c8cc42989da02eb5be92c7c68f64a72b90e6a41b3913c169333d5fbfbc41","result":"APPLIED"}
+{"migration":"0003_identity_enrollment_qr_join","sha256":"032b2f001638de63495bdb8d9bd3979ab54679eaaa7802d7526c6e5e24aaa5b7","result":"APPLIED"}
+{"migration":"0004_official_roster_alignment","sha256":"bcfcde0c5cbb2a6bb0097f57b97f4d1f576dd90a4ff8e290a5c34f7605554b3a","result":"APPLIED"}
+{"migration":"0005_exercise_session","sha256":"d26ea3da255e6522c893cae9f89d7d1229c4db2f6e43c4d25edfca811cac41f4","result":"APPLIED"}
+{"migration":"0006_media_evidence","sha256":"81fb6be00696084be87248445941909e04dfb130aff448585d602caa4c73cf31","result":"APPLIED"}
+{"migration":"0007_exercise_record","sha256":"d78b14c17acd1fa1f39760504525a2b1df3755472149b343da9709157bcf534f","result":"APPLIED"}
+{"migration":"0008_review_core","sha256":"6e9e15d01fb41ec26cf6dedd2969f7471d69dc6595004eb477b5ec8d2c766eff","result":"APPLIED"}
+{"migration":"0009_score","sha256":"1a4a21a6c4097cbeaaf1c8b8e7b3faef3db774f84296988f7edb9c288c06282d","result":"APPLIED"}
+{"migration":"0010_export_audit_governance","sha256":"42aea4159d943b1c1c541ef8558c123d0e88d8e5aed06fd462aeabc1f98fe3df","result":"APPLIED"}
+{"migration":"0011_client_capabilities","sha256":"78acf3c51ef2c3be25c7b9c534f487c65653bec7486535ccb889df12eeb56da6","result":"APPLIED"}
+{"migration":"0012_ios_auth_release_exemption","sha256":"7b36c521540b5d20916c1858da90d464fce9952c4ab686d8d16125dd2c1aabfa","result":"APPLIED"}
+{"migration":"0013_production_rate_limits","sha256":"e6333720a29643af6d6eddef0a67710b742c76348060e9eef89a35c5c2b6abae","result":"APPLIED"}
+{"migration":"0014_email_only_auth","sha256":"c0ce94ec0551f293453839ff19d361dd1da109c69eed308f3dc92176de916927","result":"APPLIED"}
+{"migration":"0015_email_verification_fk_alignment","sha256":"f96b84e50b1510c340c54eea8e7a99301c8db7185362c1db47540b2c43065b95","result":"APPLIED"}
+{"migration":"0016_optional_course_exercise_description","sha256":"7e7292a85b086a830b84c52eebc1bd63d967775165aafb779346d3c2e85291ef","result":"APPLIED"}
+{"migration":"0017_exemption_application_details","sha256":"1f04f19f20c0a13006779d11c2bddb643650463e3051eed8c3e6a14e5730f959","result":"APPLIED"}
+{"migration":"0018_default_valid_exercise_reviews","sha256":"c3d1e0e589a8c4e86ab3b86c3429a29e2eadd5c8f2157483e39ad86b4eebec20","result":"APPLIED"}
+{"migration":"0019_default_valid_initial_review_constraint","sha256":"3fb294065f22698fb924672911455588745cb39a40d343c91261b3b774cd3be0","result":"APPLIED"}
+{"migration":"0020_staging_fixture_audit_action","sha256":"16c52db05868a0c6c70324480808195e657c8e520def4f38b5be353d8afb95e7","result":"APPLIED"}
+{"migration":"0021_v81_business_foundation","sha256":"e186ec0643c5078f3f0ae66dc42d7d64f520b1769c984480b53e7e462da00c48","result":"APPLIED"}
+{"migration":"0022_v81_account_security","sha256":"ee028dd013e8f05c0b01842e59eb36b62725dc423f72491058fec1681b96ea84","result":"APPLIED"}
+{"migration":"0023_v81_application_materials","sha256":"1498ef026619fbaea92273771a214c4c52142f9b317040531fa6b35f9da70333","result":"APPLIED"}
+{"migration":"0024_v81_certification_revocation","sha256":"26694a1c5af1ed627b265ee68d94a7ef7db9ed13bc8bae717454975b2961544a","result":"APPLIED"}
+{"migration":"0025_v81_swim_intake","sha256":"5543531edb6f15f2b26c3ac96109e613c31dc7677a557cd981aabbb61076e103","result":"APPLIED"}
+{"migration":"0026_v81_final_grades","sha256":"7abf9cd899f19cf98700f475bffd93c1fab8ff29f73da65a66af5aa8e8cfd2dd","result":"APPLIED"}
+{"result":"SQL_FILES_APPLIED","migrations":26,"tableCount":90,"v81Tables":["v81_account_security","v81_admin_access","v81_application_materials","v81_certification_credits","v81_course_rules","v81_credit_projections","v81_events","v81_final_grade_revisions","v81_interruptions","v81_manual_modes","v81_material_items","v81_material_versions","v81_record_workflows","v81_swim_intake_items","v81_swim_intakes"],"prismaValidated":false,"applicationValidated":false}
+Docker exit code: 0

@@ -1,0 +1,2 @@
+Runtime coverage roadmap updated (249 operations).
+Static evidence registration: PASS (operations=249, foundation=9, teachingStructure=10, registered=95, defaultDeny=31, notRegistered=123, blockedByAdr=0)

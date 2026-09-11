@@ -1,0 +1,10 @@
+✔ published thresholds use whole minutes and a sixty-minute credit cap (0.9255ms)
+✔ a legitimate active session continues beyond two hours (0.1154ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 2
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 63.8034

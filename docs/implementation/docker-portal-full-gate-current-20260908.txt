@@ -1,0 +1,43 @@
+time="2026-09-08T16:33:06+08:00" level=warning msg="Found orphan containers (bnbu-v81-local-validation-backend-browser-1) for this project. If you removed or renamed this service in your compose file, you can run this command with the --remove-orphans flag to clean it up."
+ Container bnbu-v81-local-validation-portal-tests-run-78dd6d1789f0 Creating 
+ Container bnbu-v81-local-validation-portal-tests-run-78dd6d1789f0 Created 
+
+> bnbu-pe-management-portal@0.1.0 typecheck
+> npm run contract:check && npm run phase5gb:contract:check && tsc --noEmit -p tsconfig.json && tsc --noEmit -p tsconfig.worker.json && tsc --noEmit -p tsconfig.phase5b-student.json
+
+
+> bnbu-pe-management-portal@0.1.0 contract:check
+> npm run contract:verify && npm run contract:generate -- --check
+
+
+> bnbu-pe-management-portal@0.1.0 contract:verify
+> node scripts/verify-contract.mjs
+
+pinned version   : 3.0.0-web-snapshot
+declared version : 3.0.0-web-snapshot
+sha256           : baba5b43b23046d97d1b403430b0d819328abdab420fd40b790c5977ebbc74de
+bytes            : 348282
+paths/ops/schemas: 116/133/313
+source commit    : 72ddb5e468e0188e6b5a8ea8321f6056700ccb96
+
+Snapshot binding OK.
+
+> bnbu-pe-management-portal@0.1.0 contract:generate
+> openapi-typescript ./openapi/openapi.snapshot.yaml --output ./app/openapi.generated.ts --immutable --alphabetize --check
+
+✨ openapi-typescript 7.13.0
+
+> bnbu-pe-management-portal@0.1.0 phase5gb:contract:check
+> node scripts/verify-phase5b-contract.mjs && npm run phase5b:contract:generate -- --check && npm run phase5b:student-contract:generate -- --check
+
+Phase 5B Contract binding OK: 1.2.0-contract / RC / 667ae751f3e623e3d603db4d68e6e9314d4b3fd6da433a1def8c36b81597d74a
+
+> bnbu-pe-management-portal@0.1.0 phase5b:contract:generate
+> openapi-typescript ../../contracts/openapi.yaml --output ./app/phase5b-contract.generated.ts --immutable --alphabetize --check
+
+✨ openapi-typescript 7.13.0
+
+> bnbu-pe-management-portal@0.1.0 phase5b:student-contract:generate
+> openapi-typescript ../../contracts/openapi.yaml --output ../frontend/student/phase5b-contract.generated.ts --immutable --alphabetize --check
+
+✨ openapi-typescript 7.13.0

@@ -1,0 +1,1 @@
+{"check":"APPLICATION_REAL_UPLOAD_SUPPLEMENT","result":"FAIL","stage":"INITIAL_PNG_WEBP_UPLOAD","message":"page.waitForResponse: Timeout 60000ms exceeded while waiting for event \"response\""}

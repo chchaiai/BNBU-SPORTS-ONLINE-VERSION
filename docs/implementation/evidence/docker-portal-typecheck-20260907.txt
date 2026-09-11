@@ -1,0 +1,41 @@
+ Container bnbu-v81-local-validation-portal-tests-run-47cf73486c51 Creating 
+ Container bnbu-v81-local-validation-portal-tests-run-47cf73486c51 Created 
+
+> bnbu-pe-management-portal@0.1.0 typecheck
+> npm run contract:check && npm run phase5gb:contract:check && tsc --noEmit -p tsconfig.json && tsc --noEmit -p tsconfig.worker.json && tsc --noEmit -p tsconfig.phase5b-student.json
+
+
+> bnbu-pe-management-portal@0.1.0 contract:check
+> npm run contract:verify && npm run contract:generate -- --check
+
+
+> bnbu-pe-management-portal@0.1.0 contract:verify
+> node scripts/verify-contract.mjs
+
+pinned version   : 3.0.0-web-snapshot
+declared version : 3.0.0-web-snapshot
+sha256           : 6cd4ac8cf9b64391bc20383ba32129ddf8efaa09f015917f323bba6d3886da39
+bytes            : 348260
+paths/ops/schemas: 116/133/313
+source commit    : 72ddb5e468e0188e6b5a8ea8321f6056700ccb96
+
+Snapshot binding OK.
+
+> bnbu-pe-management-portal@0.1.0 contract:generate
+> openapi-typescript ./openapi/openapi.snapshot.yaml --output ./app/openapi.generated.ts --immutable --alphabetize --check
+
+✨ openapi-typescript 7.13.0
+
+> bnbu-pe-management-portal@0.1.0 phase5gb:contract:check
+> node scripts/verify-phase5b-contract.mjs && npm run phase5b:contract:generate -- --check && npm run phase5b:student-contract:generate -- --check
+
+file:///workspace/BNBU-Sports-Web-new/portal-teacher-admin/scripts/verify-phase5b-contract.mjs:29
+  throw new Error(`Phase 5B OpenAPI SHA mismatch: expected ${expected.openapiSha256}, received ${actualSha256}`);
+        ^
+
+Error: Phase 5B OpenAPI SHA mismatch: expected 667ae751f3e623e3d603db4d68e6e9314d4b3fd6da433a1def8c36b81597d74a, received 9dc75779a6ca21f7f5f83ffe57be345d9008727af1f65d4858ea42e5e76d0433
+    at file:///workspace/BNBU-Sports-Web-new/portal-teacher-admin/scripts/verify-phase5b-contract.mjs:29:9
+
+Node.js v24.18.0
+
+Docker exit code: 1

@@ -1,0 +1,410 @@
+ Container bnbu-v81-e2e-report-20260908 Creating 
+ Container bnbu-v81-e2e-report-20260908 Created 
+
+> @bnbu/sports-backend@0.1.0 pretest:e2e
+> npm run build
+
+
+> @bnbu/sports-backend@0.1.0 prebuild
+> npm run db:generate && npm run generate
+
+
+> @bnbu/sports-backend@0.1.0 db:generate
+> prisma generate
+
+Loaded Prisma config from prisma.config.ts.
+
+Prisma schema loaded from prisma/schema.prisma.
+
+┌─────────────────────────────────────────────────────────┐
+✔ Generated Prisma Client (7.9.1) to ./src/generated/prisma in 914ms
+│  Update available 7.9.1 -> 8.0.0-rc.13                  │
+
+│                                                         │
+│  This is a major update - please follow the guide at    │
+│  https://pris.ly/d/major-version-upgrade                │
+│                                                         │
+│  Run the following to update                            │
+│    npm i --save-dev prisma@latest                       │
+│    npm i @prisma/client@latest                          │
+└─────────────────────────────────────────────────────────┘
+
+> @bnbu/sports-backend@0.1.0 generate
+> npm run openapi:generate && npm run db:manifest:generate
+
+
+> @bnbu/sports-backend@0.1.0 openapi:generate
+> node ./scripts/generate-openapi.mjs
+
+Generated 3 OpenAPI artifacts from 249 operations.
+
+> @bnbu/sports-backend@0.1.0 db:manifest:generate
+> node ./scripts/generate-migration-manifest.mjs
+
+Generated migration manifest updated.
+
+> @bnbu/sports-backend@0.1.0 build
+> nest build
+
+
+> @bnbu/sports-backend@0.1.0 test:e2e
+> node ./scripts/run-test-layer.mjs e2e
+
+▶ Foundation HTTP E2E with real PostgreSQL
+  ✔ serves public probes and restricts dependency health to administrators (919.671487ms)
+  ✔ logs in only with the seeded password and returns a safe /me projection (460.926984ms)
+  ✔ denies missing or pending password security and unassigned administrator access (624.231587ms)
+  ✔ validates unauthenticated access responses for every secured operation (830.32635ms)
+  ✔ validates error responses for public operations with request input (334.872559ms)
+  ✔ returns stable generic errors for wrong passwords and a specific disabled-account result (417.624159ms)
+  ✔ rejects expired, tampered, and cross-organization access tokens (400.167949ms)
+  ✔ rotates refresh tokens atomically and revokes the family on reuse (460.005148ms)
+  ✔ revokes logout sessions and makes the operation safely replayable (412.356729ms)
+  ✔ reserves concurrent idempotency keys without creating duplicate sessions (525.719385ms)
+  ✔ enforces mode allowlists, strict validation, request IDs, CORS, and body limits (466.609784ms)
+✔ Foundation HTTP E2E with real PostgreSQL (7349.442161ms)
+▶ Stage 21 client capabilities with real PostgreSQL
+  ✔ keeps student account deletion deferred with no challenge or account mutation (692.779444ms)
+  ✔ accepts an organization-scoped student challenge without exposing its code and keeps an empty release policy fail-closed (368.627561ms)
+  ✔ rejects PHONE without creating a challenge and activates a pending student through first email binding (484.27494ms)
+  ✔ requires both current and new mailbox codes for email rebinding (448.351909ms)
+  ✔ uses the numeric iOS build number for enforcement and keeps marketing version display-only (343.76155ms)
+  ✔ establishes a student OTP session and completes the private exemption-media review flow (660.25376ms)
+  ✔ completes recovery only for a teacher and revokes prior sessions (484.467699ms)
+  ✔ lists and marks only the authenticated user notification with durable evidence (451.168652ms)
+  ✔ registers and revokes an IOS push token without exposing plaintext or ciphertext (626.044795ms)
+  ✔ persists preferences and feedback while exposing only published help content (499.422095ms)
+  ✔ keeps all location and conversion capabilities explicitly fail-closed (645.743487ms)
+✔ Stage 21 client capabilities with real PostgreSQL (7251.166097ms)
+▶ Student identity, Enrollment, and QR Join HTTP E2E
+  ✔ rotates digest-only invites and issues one replayable capability without creating identity (775.175488ms)
+  ✔ rejects non-binary QR join genders and malformed cohort years before issuing a capability (491.645529ms)
+  ✔ joins atomically, replays the exact encrypted result, and grants only Enrollment projections (540.870061ms)
+  ✔ manually enrolls an existing student and enforces remove, restore, read, and withdraw scopes (684.485141ms)
+  ✔ rolls back a second same-semester join and refuses self rejoin after teacher removal (667.088761ms)
+✔ Student identity, Enrollment, and QR Join HTTP E2E (4614.625022ms)
+▶ ExerciseRecord HTTP E2E
+  ✔ creates, edits, lists, submits, and replays one immutable evidence chain (1157.261927ms)
+  ✔ requires the exact complete set of available session media (688.090351ms)
+  ✔ does not let an unselected processing upload block valid evidence submission (642.408966ms)
+  ✔ returns a stable conflict when a second draft is created for one session (590.560701ms)
+  ✔ discards a draft atomically with append-only evidence (623.716822ms)
+  ✔ routes withdrawal to stable default deny with zero domain side effects (594.374907ms)
+  ✔ retains below-threshold submissions with zero credited duration (657.185717ms)
+  ✔ accepts same-day submissions for review without reserving legacy daily slots (677.931927ms)
+✔ ExerciseRecord HTTP E2E (6481.871041ms)
+▶ ExerciseReview HTTP E2E
+  ✔ lets the responsible teacher append INVALID to a system-valid submission (855.846975ms)
+  ✔ appends VALID, lists history, reopens, and appends INVALID without changing duration facts (751.263125ms)
+  ✔ replays one decision and permits only one concurrent stale decision (586.196538ms)
+  ✔ returns ordered partial batch outcomes and exact replay (570.992553ms)
+  ✔ denies STUDENT and ADMIN review operations before business mutation (610.053696ms)
+✔ ExerciseReview HTTP E2E (4199.1551ms)
+▶ ExerciseSession HTTP E2E
+  ✔ runs start, active recovery, pause, resume, conservative reconcile, and finish atomically (1189.360834ms)
+  ✔ cancels without deleting history and rejects stale, duplicate-active, foreign-role, removed, and unknown input (788.927209ms)
+  ✔ fails closed outside the configured window and rejects unverified offline intervals (644.483688ms)
+  ✔ allows further exercise with 20 hours of historical VALID records (682.956703ms)
+✔ ExerciseSession HTTP E2E (4201.697665ms)
+▶ Stage 19 Export, Audit Read, and governance HTTP E2E
+  ✔ enforces role and organization scope for Student and Teacher projections (995.8624ms)
+  ✔ denies administrator student-profile mutation without side effects (449.144372ms)
+  ✔ denies unassigned legacy Export operations without persistence (482.630966ms)
+  ✔ allows only organization ADMIN audit read, redacts recursively, and audits each read (547.062443ms)
+✔ Stage 19 Export, Audit Read, and governance HTTP E2E (3313.036867ms)
+▶ MediaEvidence HTTP E2E
+  ✔ runs idempotent initiate, verified confirm, same-Session bind, worker, and private access (1071.273602ms)
+  ✔ accepts a byte-verified 15-second audible WebM upload (429.078874ms)
+  ✔ fails spoofed MIME without partial verified facts and rejects cross-Session binding (441.454896ms)
+  ✔ rejects new or newly bound evidence after the session record is submitted (425.112811ms)
+✔ MediaEvidence HTTP E2E (3187.856228ms)
+▶ Official Roster Import and Alignment HTTP E2E
+  ✔ uploads private immutable versions and enforces Teacher/Admin/Student projections and scope (1144.672458ms)
+  ✔ aligns a frozen current snapshot and appends confirm/resolve/reopen while ignore is side-effect free (739.769926ms)
+✔ Official Roster Import and Alignment HTTP E2E (2726.076476ms)
+▶ Public system endpoint error conformance
+  ✔ validates documented liveness, readiness, and system-mode failures over HTTP (45.795423ms)
+✔ Public system endpoint error conformance (931.090966ms)
+▶ Current internal final grade HTTP E2E
+  ✔ preserves teacher draft and publication history with replay and student privacy (918.754107ms)
+  ✔ serializes competing revisions and rejects stale writes, notes and unauthorized actors (724.361836ms)
+  ✔ denies obsolete administrator score governance without creating score rules (401.515194ms)
+✔ Current internal final grade HTTP E2E (2890.731517ms)
+▶ Course and ClassSection HTTP E2E
+  ✔ applies role-scoped Course reads and stable bound cursor pagination (711.734097ms)
+  ✔ creates and updates the teacher course with replay while administrators remain read-only (587.22048ms)
+  ✔ derives the responsible teacher and replaces excluded dates atomically (520.298818ms)
+  ✔ closes a ClassSection idempotently and preserves the historical projection (442.825955ms)
+  ✔ enforces teacher ownership, administrator read-only governance, and organization isolation (651.238833ms)
+  ✔ keeps archived Semester and inactive Course creation failures free of side effects (401.585362ms)
+  ✔ returns an empty student projection without ACTIVE Enrollment and rejects writes (401.551461ms)
+  ✔ rejects unsupported mode values and maintenance mutations without side effects (412.749695ms)
+✔ Course and ClassSection HTTP E2E (5550.864409ms)
+▶ V81 help and feedback HTTP E2E
+  ✔ publishes bilingual help, replays writes and removes archived content from student reads (1145.220937ms)
+  ✔ paginates help without omissions, serializes edits and applies revoked admin permissions immediately (528.4273ms)
+  ✔ delivers feedback handling history and notifications once, with owner isolation and version conflicts (828.43661ms)
+✔ V81 help and feedback HTTP E2E (3352.64527ms)
+ℹ tests 69
+ℹ suites 13
+ℹ pass 69
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 62868.123781
+Runtime conformance coverage failed (126):
+- createCourse: enabled public path lacks successful response
+- updateCourse: enabled public path lacks successful response
+- listScoreRules: enabled public path lacks successful response
+- createScoreRule: enabled public path lacks successful response
+- getScoreRule: enabled public path lacks successful response
+- submitScoreRuleForApproval: enabled public path lacks successful response
+- approveScoreRule: enabled public path lacks successful response
+- rejectScoreRule: enabled public path lacks successful response
+- listStudentScores: enabled public path lacks successful response
+- getStudentScore: enabled public path lacks successful response
+- recalculateStudentScore: enabled public path lacks successful response
+- publishStudentScore: enabled public path lacks successful response
+- listScoreAdjustments: enabled public path lacks successful response
+- createScoreAdjustment: enabled public path lacks successful response
+- approveScoreAdjustment: enabled public path lacks successful response
+- rejectScoreAdjustment: enabled public path lacks successful response
+- getV81CourseRules: enabled public path lacks successful response
+- reviewV81Record: enabled public path lacks successful response
+- getV81RecordWorkflow: enabled public path lacks successful response
+- submitV81Supplement: enabled public path lacks successful response
+- correctV81Record: enabled public path lacks successful response
+- getV81MaintenanceAnnouncement: enabled public path lacks successful response
+- getV81MaintenanceAnnouncement: lacks error or access-control response
+- getV81SystemModeHistory: enabled public path lacks successful response
+- changeV81SystemMode: enabled public path lacks successful response
+- getV81SupplementClock: enabled public path lacks successful response
+- getV81AccountSecurity: enabled public path lacks successful response
+- changeOwnV81Password: enabled public path lacks successful response
+- listV81Subadmins: enabled public path lacks successful response
+- createV81VerifiedSubadmin: enabled public path lacks successful response
+- setV81SubadminStatus: enabled public path lacks successful response
+- listV81StudentProgress: enabled public path lacks successful response
+- getV81ProgressTarget: enabled public path lacks successful response
+- listV81Certifications: enabled public path lacks successful response
+- listV81RecognitionRevisions: enabled public path lacks successful response
+- revokeV81Certification: enabled public path lacks successful response
+- getV81ManualMode: enabled public path lacks successful response
+- acceptV81SwimIntake: enabled public path lacks successful response
+- getV81SwimIntake: enabled public path lacks successful response
+- listV81ProofTodos: enabled public path lacks successful response
+- getV81SettlementCheck: enabled public path lacks successful response
+- listV81EnduranceTables: enabled public path lacks successful response
+- createV81EnduranceRule: enabled public path lacks successful response
+- updateV81EnduranceRule: enabled public path lacks successful response
+- deleteV81EnduranceRule: enabled public path lacks successful response
+- listV81PhysicalResults: enabled public path lacks successful response
+- appendV81PhysicalResult: enabled public path lacks successful response
+- getV81StudentPhysicalResult: enabled public path lacks successful response
+- createV81PhysicalImport: enabled public path lacks successful response
+- listV81PhysicalImports: enabled public path lacks successful response
+- getV81PhysicalImport: enabled public path lacks successful response
+- reviseV81PhysicalImport: enabled public path lacks successful response
+- listV81PhysicalImportRevisions: enabled public path lacks successful response
+- confirmV81PhysicalImport: enabled public path lacks successful response
+- getV81PhysicalImportSource: enabled public path lacks successful response
+- createV81PhysicalXlsxImport: enabled public path lacks successful response
+- previewV81TeacherImport: enabled public path lacks successful response
+- confirmV81TeacherImport: enabled public path lacks successful response
+- listV81TeacherAccounts: enabled public path lacks successful response
+- createV81Semester: enabled public path lacks successful response
+- listV81Semesters: enabled public path lacks successful response
+- updateV81Semester: enabled public path lacks successful response
+- previewV81RosterRegistration: enabled public path lacks successful response
+- getV81RosterConfirmation: enabled public path lacks successful response
+- confirmV81Roster: enabled public path lacks successful response
+- previewV81CompositeRoster: enabled public path lacks successful response
+- exportV81CompositeRosterPreview: enabled public path lacks successful response
+- getV81RosterSource: enabled public path lacks successful response
+- getV81OwnRosterStatus: enabled public path lacks successful response
+- getV81AdminRosterSummary: enabled public path lacks successful response
+- getV81AdminCourseDirectory: enabled public path lacks successful response
+- getV81AdminPhysicalSummary: enabled public path lacks successful response
+- createV81OcrRosterBatch: enabled public path lacks successful response
+- createV81OcrPhysicalBatch: enabled public path lacks successful response
+- listV81OcrBatches: enabled public path lacks successful response
+- getV81OcrBatch: enabled public path lacks successful response
+- getV81OcrPageSource: enabled public path lacks successful response
+- getV81OcrPageRecognition: enabled public path lacks successful response
+- createV81OcrJob: enabled public path lacks successful response
+- getV81OcrJob: enabled public path lacks successful response
+- getV81OcrDraft: enabled public path lacks successful response
+- createV81OcrDraft: enabled public path lacks successful response
+- reviseV81OcrDraft: enabled public path lacks successful response
+- getV81OcrPhysicalConfirmation: enabled public path lacks successful response
+- confirmV81OcrPhysicalRows: enabled public path lacks successful response
+- getV81OcrRosterConfirmation: enabled public path lacks successful response
+- confirmV81OcrRoster: enabled public path lacks successful response
+- getV81RosterBasis: enabled public path lacks successful response
+- selectV81RosterBasis: enabled public path lacks successful response
+- listV81ConfirmedRosterSnapshots: enabled public path lacks successful response
+- listV81MakeupWindows: enabled public path lacks successful response
+- createV81MakeupWindow: enabled public path lacks successful response
+- revokeV81MakeupWindow: enabled public path lacks successful response
+- listV81OwnMakeupWindows: enabled public path lacks successful response
+- getV81SemesterSwitchCheck: enabled public path lacks successful response
+- listV81RuleTemplates: enabled public path lacks successful response
+- getV81RuleTemplate: enabled public path lacks successful response
+- listV81AuditEvents: enabled public path lacks successful response
+- getV81AuditEvent: enabled public path lacks successful response
+- createV81RuntimeArchive: enabled public path lacks successful response
+- getV81RuntimeArchive: enabled public path lacks successful response
+- cancelV81RuntimeArchive: enabled public path lacks successful response
+- createV81RuntimeArchiveDownload: enabled public path lacks successful response
+- downloadV81RuntimeArchive: enabled public path lacks successful response
+- setV81SubadminPermissions: enabled public path lacks successful response
+- requestCurrentUserAccountDeletionChallenge: enabled public path lacks successful response
+- getV81OcrService: enabled public path lacks successful response
+- listV81OcrServiceRevisions: enabled public path lacks successful response
+- saveV81OcrService: enabled public path lacks successful response
+- requestV81SubadminIdentity: enabled public path lacks successful response
+- verifyV81SubadminIdentity: enabled public path lacks successful response
+- updateV81VerifiedSubadmin: enabled public path lacks successful response
+- deleteV81Subadmin: enabled public path lacks successful response
+- revokeV81CourseInvite: enabled public path lacks successful response
+- confirmV81Settlement: enabled public path lacks successful response
+- listV81SettlementReports: enabled public path lacks successful response
+- getV81SettlementReport: enabled public path lacks successful response
+- exportV81SettlementReport: enabled public path lacks successful response
+- previewV81Settlement: enabled public path lacks successful response
+- getV81StudentSettlementResult: enabled public path lacks successful response
+- switchV81Semester: enabled public path lacks successful response
+- getV81AdminSettlementSummary: enabled public path lacks successful response
+- correctV81FinalGrade: enabled public path lacks successful response
+- correctV81PhysicalResult: enabled public path lacks successful response
+- operation count 249 does not match expected 126
+- runtime manifest count 126 does not match OpenAPI 249
+Runtime conformance coverage failed (126):
+- createCourse: enabled public path lacks successful response
+- updateCourse: enabled public path lacks successful response
+- listScoreRules: enabled public path lacks successful response
+- createScoreRule: enabled public path lacks successful response
+- getScoreRule: enabled public path lacks successful response
+- submitScoreRuleForApproval: enabled public path lacks successful response
+- approveScoreRule: enabled public path lacks successful response
+- rejectScoreRule: enabled public path lacks successful response
+- listStudentScores: enabled public path lacks successful response
+- getStudentScore: enabled public path lacks successful response
+- recalculateStudentScore: enabled public path lacks successful response
+- publishStudentScore: enabled public path lacks successful response
+- listScoreAdjustments: enabled public path lacks successful response
+- createScoreAdjustment: enabled public path lacks successful response
+- approveScoreAdjustment: enabled public path lacks successful response
+- rejectScoreAdjustment: enabled public path lacks successful response
+- getV81CourseRules: enabled public path lacks successful response
+- reviewV81Record: enabled public path lacks successful response
+- getV81RecordWorkflow: enabled public path lacks successful response
+- submitV81Supplement: enabled public path lacks successful response
+- correctV81Record: enabled public path lacks successful response
+- getV81MaintenanceAnnouncement: enabled public path lacks successful response
+- getV81MaintenanceAnnouncement: lacks error or access-control response
+- getV81SystemModeHistory: enabled public path lacks successful response
+- changeV81SystemMode: enabled public path lacks successful response
+- getV81SupplementClock: enabled public path lacks successful response
+- getV81AccountSecurity: enabled public path lacks successful response
+- changeOwnV81Password: enabled public path lacks successful response
+- listV81Subadmins: enabled public path lacks successful response
+- createV81VerifiedSubadmin: enabled public path lacks successful response
+- setV81SubadminStatus: enabled public path lacks successful response
+- listV81StudentProgress: enabled public path lacks successful response
+- getV81ProgressTarget: enabled public path lacks successful response
+- listV81Certifications: enabled public path lacks successful response
+- listV81RecognitionRevisions: enabled public path lacks successful response
+- revokeV81Certification: enabled public path lacks successful response
+- getV81ManualMode: enabled public path lacks successful response
+- acceptV81SwimIntake: enabled public path lacks successful response
+- getV81SwimIntake: enabled public path lacks successful response
+- listV81ProofTodos: enabled public path lacks successful response
+- getV81SettlementCheck: enabled public path lacks successful response
+- listV81EnduranceTables: enabled public path lacks successful response
+- createV81EnduranceRule: enabled public path lacks successful response
+- updateV81EnduranceRule: enabled public path lacks successful response
+- deleteV81EnduranceRule: enabled public path lacks successful response
+- listV81PhysicalResults: enabled public path lacks successful response
+- appendV81PhysicalResult: enabled public path lacks successful response
+- getV81StudentPhysicalResult: enabled public path lacks successful response
+- createV81PhysicalImport: enabled public path lacks successful response
+- listV81PhysicalImports: enabled public path lacks successful response
+- getV81PhysicalImport: enabled public path lacks successful response
+- reviseV81PhysicalImport: enabled public path lacks successful response
+- listV81PhysicalImportRevisions: enabled public path lacks successful response
+- confirmV81PhysicalImport: enabled public path lacks successful response
+- getV81PhysicalImportSource: enabled public path lacks successful response
+- createV81PhysicalXlsxImport: enabled public path lacks successful response
+- previewV81TeacherImport: enabled public path lacks successful response
+- confirmV81TeacherImport: enabled public path lacks successful response
+- listV81TeacherAccounts: enabled public path lacks successful response
+- createV81Semester: enabled public path lacks successful response
+- listV81Semesters: enabled public path lacks successful response
+- updateV81Semester: enabled public path lacks successful response
+- previewV81RosterRegistration: enabled public path lacks successful response
+- getV81RosterConfirmation: enabled public path lacks successful response
+- confirmV81Roster: enabled public path lacks successful response
+- previewV81CompositeRoster: enabled public path lacks successful response
+- exportV81CompositeRosterPreview: enabled public path lacks successful response
+- getV81RosterSource: enabled public path lacks successful response
+- getV81OwnRosterStatus: enabled public path lacks successful response
+- getV81AdminRosterSummary: enabled public path lacks successful response
+- getV81AdminCourseDirectory: enabled public path lacks successful response
+- getV81AdminPhysicalSummary: enabled public path lacks successful response
+- createV81OcrRosterBatch: enabled public path lacks successful response
+- createV81OcrPhysicalBatch: enabled public path lacks successful response
+- listV81OcrBatches: enabled public path lacks successful response
+- getV81OcrBatch: enabled public path lacks successful response
+- getV81OcrPageSource: enabled public path lacks successful response
+- getV81OcrPageRecognition: enabled public path lacks successful response
+- createV81OcrJob: enabled public path lacks successful response
+- getV81OcrJob: enabled public path lacks successful response
+- getV81OcrDraft: enabled public path lacks successful response
+- createV81OcrDraft: enabled public path lacks successful response
+- reviseV81OcrDraft: enabled public path lacks successful response
+- getV81OcrPhysicalConfirmation: enabled public path lacks successful response
+- confirmV81OcrPhysicalRows: enabled public path lacks successful response
+- getV81OcrRosterConfirmation: enabled public path lacks successful response
+- confirmV81OcrRoster: enabled public path lacks successful response
+- getV81RosterBasis: enabled public path lacks successful response
+- selectV81RosterBasis: enabled public path lacks successful response
+- listV81ConfirmedRosterSnapshots: enabled public path lacks successful response
+- listV81MakeupWindows: enabled public path lacks successful response
+- createV81MakeupWindow: enabled public path lacks successful response
+- revokeV81MakeupWindow: enabled public path lacks successful response
+- listV81OwnMakeupWindows: enabled public path lacks successful response
+- getV81SemesterSwitchCheck: enabled public path lacks successful response
+- listV81RuleTemplates: enabled public path lacks successful response
+- getV81RuleTemplate: enabled public path lacks successful response
+- listV81AuditEvents: enabled public path lacks successful response
+- getV81AuditEvent: enabled public path lacks successful response
+- createV81RuntimeArchive: enabled public path lacks successful response
+- getV81RuntimeArchive: enabled public path lacks successful response
+- cancelV81RuntimeArchive: enabled public path lacks successful response
+- createV81RuntimeArchiveDownload: enabled public path lacks successful response
+- downloadV81RuntimeArchive: enabled public path lacks successful response
+- setV81SubadminPermissions: enabled public path lacks successful response
+- requestCurrentUserAccountDeletionChallenge: enabled public path lacks successful response
+- getV81OcrService: enabled public path lacks successful response
+- listV81OcrServiceRevisions: enabled public path lacks successful response
+- saveV81OcrService: enabled public path lacks successful response
+- requestV81SubadminIdentity: enabled public path lacks successful response
+- verifyV81SubadminIdentity: enabled public path lacks successful response
+- updateV81VerifiedSubadmin: enabled public path lacks successful response
+- deleteV81Subadmin: enabled public path lacks successful response
+- revokeV81CourseInvite: enabled public path lacks successful response
+- confirmV81Settlement: enabled public path lacks successful response
+- listV81SettlementReports: enabled public path lacks successful response
+- getV81SettlementReport: enabled public path lacks successful response
+- exportV81SettlementReport: enabled public path lacks successful response
+- previewV81Settlement: enabled public path lacks successful response
+- getV81StudentSettlementResult: enabled public path lacks successful response
+- switchV81Semester: enabled public path lacks successful response
+- getV81AdminSettlementSummary: enabled public path lacks successful response
+- correctV81FinalGrade: enabled public path lacks successful response
+- correctV81PhysicalResult: enabled public path lacks successful response
+- operation count 249 does not match expected 126
+- runtime manifest count 126 does not match OpenAPI 249
+

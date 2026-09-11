@@ -1,0 +1,1755 @@
+{
+  "sourceHead": "bfa9d459",
+  "runtimeEvidence": "runtime-conformance-ninth-20260908.json",
+  "note": "Controller mapping only; not business completion. Ninth runtime evidence predates later targeted tests.",
+  "missingRegistrations": [
+    {
+      "operationId": "getV81CourseRules",
+      "method": "GET",
+      "path": "/class-sections/{classSectionId}/v81-rules",
+      "controller": "backend/src/modules/v8/v81.controller.ts",
+      "ninthConformance": "BOTH_VALIDATED",
+      "ninthSuccessStatuses": [
+        200
+      ],
+      "ninthErrorStatuses": [
+        401,
+        404
+      ]
+    },
+    {
+      "operationId": "saveV81CourseRules",
+      "method": "POST",
+      "path": "/class-sections/{classSectionId}/v81-rules",
+      "controller": "backend/src/modules/v8/v81.controller.ts",
+      "ninthConformance": "BOTH_VALIDATED",
+      "ninthSuccessStatuses": [
+        201
+      ],
+      "ninthErrorStatuses": [
+        401,
+        404,
+        409,
+        422
+      ]
+    },
+    {
+      "operationId": "setV81ManualMode",
+      "method": "POST",
+      "path": "/admin/review-services/manual-mode",
+      "controller": "backend/src/modules/v8/v81.controller.ts",
+      "ninthConformance": "BOTH_VALIDATED",
+      "ninthSuccessStatuses": [
+        201
+      ],
+      "ninthErrorStatuses": [
+        401
+      ]
+    },
+    {
+      "operationId": "reviewV81Record",
+      "method": "POST",
+      "path": "/exercise-records/{recordId}/v81-reviews",
+      "controller": "backend/src/modules/v8/v81.controller.ts",
+      "ninthConformance": "BOTH_VALIDATED",
+      "ninthSuccessStatuses": [
+        201
+      ],
+      "ninthErrorStatuses": [
+        401,
+        403,
+        422
+      ]
+    },
+    {
+      "operationId": "getV81RecordWorkflow",
+      "method": "GET",
+      "path": "/exercise-records/{recordId}/workflow",
+      "controller": "backend/src/modules/v8/v81.controller.ts",
+      "ninthConformance": "BOTH_VALIDATED",
+      "ninthSuccessStatuses": [
+        200
+      ],
+      "ninthErrorStatuses": [
+        401
+      ]
+    },
+    {
+      "operationId": "submitV81Supplement",
+      "method": "POST",
+      "path": "/exercise-records/{recordId}/supplements",
+      "controller": "backend/src/modules/v8/v81.controller.ts",
+      "ninthConformance": "BOTH_VALIDATED",
+      "ninthSuccessStatuses": [
+        201
+      ],
+      "ninthErrorStatuses": [
+        401
+      ]
+    },
+    {
+      "operationId": "correctV81Record",
+      "method": "POST",
+      "path": "/exercise-records/{recordId}/corrections",
+      "controller": "backend/src/modules/v8/v81.controller.ts",
+      "ninthConformance": "BOTH_VALIDATED",
+      "ninthSuccessStatuses": [
+        201
+      ],
+      "ninthErrorStatuses": [
+        401,
+        403,
+        409,
+        422
+      ]
+    },
+    {
+      "operationId": "getV81MaintenanceAnnouncement",
+      "method": "GET",
+      "path": "/system-mode/announcement",
+      "controller": "backend/src/modules/system-mode/system-mode.controller.ts",
+      "ninthConformance": "BOTH_VALIDATED",
+      "ninthSuccessStatuses": [
+        200
+      ],
+      "ninthErrorStatuses": [
+        503
+      ]
+    },
+    {
+      "operationId": "getV81SystemModeHistory",
+      "method": "GET",
+      "path": "/system-mode/history",
+      "controller": "backend/src/modules/system-mode/system-mode.controller.ts",
+      "ninthConformance": "BOTH_VALIDATED",
+      "ninthSuccessStatuses": [
+        200
+      ],
+      "ninthErrorStatuses": [
+        401,
+        403
+      ]
+    },
+    {
+      "operationId": "changeV81SystemMode",
+      "method": "POST",
+      "path": "/system-mode/changes",
+      "controller": "backend/src/modules/system-mode/system-mode.controller.ts",
+      "ninthConformance": "BOTH_VALIDATED",
+      "ninthSuccessStatuses": [
+        201
+      ],
+      "ninthErrorStatuses": [
+        401,
+        403,
+        409,
+        422
+      ]
+    },
+    {
+      "operationId": "getV81SupplementClock",
+      "method": "GET",
+      "path": "/exercise-records/{recordId}/supplement-clock",
+      "controller": "backend/src/modules/v8/v81.controller.ts",
+      "ninthConformance": "BOTH_VALIDATED",
+      "ninthSuccessStatuses": [
+        200
+      ],
+      "ninthErrorStatuses": [
+        401
+      ]
+    },
+    {
+      "operationId": "getV81AccountSecurity",
+      "method": "GET",
+      "path": "/auth/account-security",
+      "controller": "backend/src/modules/auth/auth.controller.ts",
+      "ninthConformance": "BOTH_VALIDATED",
+      "ninthSuccessStatuses": [
+        200
+      ],
+      "ninthErrorStatuses": [
+        401,
+        403,
+        503
+      ]
+    },
+    {
+      "operationId": "changeOwnV81Password",
+      "method": "POST",
+      "path": "/auth/own-password",
+      "controller": "backend/src/modules/auth/auth.controller.ts",
+      "ninthConformance": "BOTH_VALIDATED",
+      "ninthSuccessStatuses": [
+        201
+      ],
+      "ninthErrorStatuses": [
+        401,
+        403,
+        422,
+        503
+      ]
+    },
+    {
+      "operationId": "listV81Subadmins",
+      "method": "GET",
+      "path": "/admin/subadmins",
+      "controller": "backend/src/modules/v8/v81-subadmins.ts",
+      "ninthConformance": "BOTH_VALIDATED",
+      "ninthSuccessStatuses": [
+        200
+      ],
+      "ninthErrorStatuses": [
+        401,
+        403
+      ]
+    },
+    {
+      "operationId": "createV81VerifiedSubadmin",
+      "method": "POST",
+      "path": "/admin/subadmins",
+      "controller": "backend/src/modules/v8/v81-subadmin-identity.ts",
+      "ninthConformance": "BOTH_VALIDATED",
+      "ninthSuccessStatuses": [
+        201
+      ],
+      "ninthErrorStatuses": [
+        401,
+        403,
+        422
+      ]
+    },
+    {
+      "operationId": "setV81SubadminStatus",
+      "method": "POST",
+      "path": "/admin/subadmins/{id}/status",
+      "controller": "backend/src/modules/v8/v81-subadmins.ts",
+      "ninthConformance": "BOTH_VALIDATED",
+      "ninthSuccessStatuses": [
+        201
+      ],
+      "ninthErrorStatuses": [
+        401,
+        409,
+        422
+      ]
+    },
+    {
+      "operationId": "listV81StudentProgress",
+      "method": "GET",
+      "path": "/student-progress",
+      "controller": "backend/src/modules/v8/v81-progress.ts",
+      "ninthConformance": "BOTH_VALIDATED",
+      "ninthSuccessStatuses": [
+        200
+      ],
+      "ninthErrorStatuses": [
+        401,
+        403
+      ]
+    },
+    {
+      "operationId": "getV81ProgressTarget",
+      "method": "GET",
+      "path": "/class-sections/{id}/progress-target",
+      "controller": "backend/src/modules/v8/v81-progress.ts",
+      "ninthConformance": "BOTH_VALIDATED",
+      "ninthSuccessStatuses": [
+        200
+      ],
+      "ninthErrorStatuses": [
+        401
+      ]
+    },
+    {
+      "operationId": "listV81Certifications",
+      "method": "GET",
+      "path": "/activity-certification-applications",
+      "controller": "backend/src/modules/v8/v81-certifications.ts",
+      "ninthConformance": "BOTH_VALIDATED",
+      "ninthSuccessStatuses": [
+        200
+      ],
+      "ninthErrorStatuses": [
+        401
+      ]
+    },
+    {
+      "operationId": "listV81RecognitionRevisions",
+      "method": "GET",
+      "path": "/activity-certification-applications/{id}/recognition-allocation-revisions",
+      "controller": "backend/src/modules/v8/v81-certifications.ts",
+      "ninthConformance": "BOTH_VALIDATED",
+      "ninthSuccessStatuses": [
+        200
+      ],
+      "ninthErrorStatuses": [
+        401
+      ]
+    },
+    {
+      "operationId": "revokeV81Certification",
+      "method": "POST",
+      "path": "/activity-certification-applications/{id}/revoke",
+      "controller": "backend/src/modules/v8/v81-certifications.ts",
+      "ninthConformance": "BOTH_VALIDATED",
+      "ninthSuccessStatuses": [
+        201
+      ],
+      "ninthErrorStatuses": [
+        401,
+        403,
+        409
+      ]
+    },
+    {
+      "operationId": "getV81ManualMode",
+      "method": "GET",
+      "path": "/admin/review-services/manual-mode/{classSectionId}",
+      "controller": "backend/src/modules/v8/v81.controller.ts",
+      "ninthConformance": "BOTH_VALIDATED",
+      "ninthSuccessStatuses": [
+        200
+      ],
+      "ninthErrorStatuses": [
+        401
+      ]
+    },
+    {
+      "operationId": "acceptV81SwimIntake",
+      "method": "POST",
+      "path": "/exercise-records/{recordId}/swim-intake",
+      "controller": "backend/src/modules/v8/v81.controller.ts",
+      "ninthConformance": "BOTH_VALIDATED",
+      "ninthSuccessStatuses": [
+        201
+      ],
+      "ninthErrorStatuses": [
+        401,
+        403,
+        409,
+        422
+      ]
+    },
+    {
+      "operationId": "getV81SwimIntake",
+      "method": "GET",
+      "path": "/exercise-records/{recordId}/swim-intake",
+      "controller": "backend/src/modules/v8/v81.controller.ts",
+      "ninthConformance": "BOTH_VALIDATED",
+      "ninthSuccessStatuses": [
+        200
+      ],
+      "ninthErrorStatuses": [
+        401,
+        404
+      ]
+    },
+    {
+      "operationId": "listV81ProofTodos",
+      "method": "GET",
+      "path": "/student/proof-todos",
+      "controller": "backend/src/modules/v8/v81.controller.ts",
+      "ninthConformance": "BOTH_VALIDATED",
+      "ninthSuccessStatuses": [
+        200
+      ],
+      "ninthErrorStatuses": [
+        401
+      ]
+    },
+    {
+      "operationId": "listV81FinalGrades",
+      "method": "GET",
+      "path": "/enrollments/{enrollmentId}/final-grades",
+      "controller": "backend/src/modules/v8/v81-final-grades.ts",
+      "ninthConformance": "BOTH_VALIDATED",
+      "ninthSuccessStatuses": [
+        200
+      ],
+      "ninthErrorStatuses": [
+        401,
+        403,
+        404
+      ]
+    },
+    {
+      "operationId": "appendV81FinalGrade",
+      "method": "POST",
+      "path": "/enrollments/{enrollmentId}/final-grades",
+      "controller": "backend/src/modules/v8/v81-final-grades.ts",
+      "ninthConformance": "BOTH_VALIDATED",
+      "ninthSuccessStatuses": [
+        201
+      ],
+      "ninthErrorStatuses": [
+        401,
+        403,
+        404,
+        409,
+        422
+      ]
+    },
+    {
+      "operationId": "getV81SettlementCheck",
+      "method": "GET",
+      "path": "/class-sections/{classSectionId}/settlement-check",
+      "controller": "backend/src/modules/v8/v81-settlement-check.ts",
+      "ninthConformance": "BOTH_VALIDATED",
+      "ninthSuccessStatuses": [
+        200
+      ],
+      "ninthErrorStatuses": [
+        401
+      ]
+    },
+    {
+      "operationId": "getV81FeedbackDetail",
+      "method": "GET",
+      "path": "/admin/feedback/{feedbackId}",
+      "controller": "backend/src/modules/v8/v81-feedback.ts",
+      "ninthConformance": "BOTH_VALIDATED",
+      "ninthSuccessStatuses": [
+        200
+      ],
+      "ninthErrorStatuses": [
+        401,
+        403,
+        404
+      ]
+    },
+    {
+      "operationId": "handleV81Feedback",
+      "method": "POST",
+      "path": "/admin/feedback/{feedbackId}/handling",
+      "controller": "backend/src/modules/v8/v81-feedback.ts",
+      "ninthConformance": "BOTH_VALIDATED",
+      "ninthSuccessStatuses": [
+        201
+      ],
+      "ninthErrorStatuses": [
+        401,
+        403,
+        404,
+        409
+      ]
+    },
+    {
+      "operationId": "listV81Feedback",
+      "method": "GET",
+      "path": "/admin/feedback",
+      "controller": "backend/src/modules/v8/v81-feedback.ts",
+      "ninthConformance": "BOTH_VALIDATED",
+      "ninthSuccessStatuses": [
+        200
+      ],
+      "ninthErrorStatuses": [
+        401,
+        403
+      ]
+    },
+    {
+      "operationId": "getV81StudentFeedbackHistory",
+      "method": "GET",
+      "path": "/student/feedback/{feedbackId}/history",
+      "controller": "backend/src/modules/v8/v81-feedback.ts",
+      "ninthConformance": "BOTH_VALIDATED",
+      "ninthSuccessStatuses": [
+        200
+      ],
+      "ninthErrorStatuses": [
+        401,
+        403,
+        404
+      ]
+    },
+    {
+      "operationId": "createV81HelpArticle",
+      "method": "POST",
+      "path": "/admin/help-articles",
+      "controller": "backend/src/modules/v8/v81-help.ts",
+      "ninthConformance": "BOTH_VALIDATED",
+      "ninthSuccessStatuses": [
+        201
+      ],
+      "ninthErrorStatuses": [
+        401,
+        403
+      ]
+    },
+    {
+      "operationId": "listV81HelpArticles",
+      "method": "GET",
+      "path": "/admin/help-articles",
+      "controller": "backend/src/modules/v8/v81-help.ts",
+      "ninthConformance": "BOTH_VALIDATED",
+      "ninthSuccessStatuses": [
+        200
+      ],
+      "ninthErrorStatuses": [
+        401,
+        403
+      ]
+    },
+    {
+      "operationId": "saveV81HelpArticle",
+      "method": "POST",
+      "path": "/admin/help-articles/{articleId}",
+      "controller": "backend/src/modules/v8/v81-help.ts",
+      "ninthConformance": "BOTH_VALIDATED",
+      "ninthSuccessStatuses": [
+        201
+      ],
+      "ninthErrorStatuses": [
+        401,
+        403,
+        404,
+        409
+      ]
+    },
+    {
+      "operationId": "getV81HelpArticle",
+      "method": "GET",
+      "path": "/admin/help-articles/{articleId}",
+      "controller": "backend/src/modules/v8/v81-help.ts",
+      "ninthConformance": "BOTH_VALIDATED",
+      "ninthSuccessStatuses": [
+        200
+      ],
+      "ninthErrorStatuses": [
+        401,
+        403,
+        404
+      ]
+    },
+    {
+      "operationId": "listV81StudentHelpArticles",
+      "method": "GET",
+      "path": "/student/help-articles",
+      "controller": "backend/src/modules/v8/v81-help.ts",
+      "ninthConformance": "BOTH_VALIDATED",
+      "ninthSuccessStatuses": [
+        200
+      ],
+      "ninthErrorStatuses": [
+        401,
+        403
+      ]
+    },
+    {
+      "operationId": "getV81StudentHelpArticle",
+      "method": "GET",
+      "path": "/student/help-articles/{articleId}",
+      "controller": "backend/src/modules/v8/v81-help.ts",
+      "ninthConformance": "BOTH_VALIDATED",
+      "ninthSuccessStatuses": [
+        200
+      ],
+      "ninthErrorStatuses": [
+        401,
+        403,
+        404
+      ]
+    },
+    {
+      "operationId": "listV81EnduranceTables",
+      "method": "GET",
+      "path": "/admin/endurance-tables",
+      "controller": "backend/src/modules/v8/v81-endurance.ts",
+      "ninthConformance": "BOTH_VALIDATED",
+      "ninthSuccessStatuses": [
+        200
+      ],
+      "ninthErrorStatuses": [
+        401,
+        403
+      ]
+    },
+    {
+      "operationId": "createV81EnduranceRule",
+      "method": "POST",
+      "path": "/admin/endurance-tables/rules",
+      "controller": "backend/src/modules/v8/v81-endurance.ts",
+      "ninthConformance": "BOTH_VALIDATED",
+      "ninthSuccessStatuses": [
+        201
+      ],
+      "ninthErrorStatuses": [
+        401,
+        403
+      ]
+    },
+    {
+      "operationId": "updateV81EnduranceRule",
+      "method": "POST",
+      "path": "/admin/endurance-tables/rules/{ruleId}",
+      "controller": "backend/src/modules/v8/v81-endurance.ts",
+      "ninthConformance": "BOTH_VALIDATED",
+      "ninthSuccessStatuses": [
+        201
+      ],
+      "ninthErrorStatuses": [
+        401,
+        403,
+        409,
+        422
+      ]
+    },
+    {
+      "operationId": "deleteV81EnduranceRule",
+      "method": "POST",
+      "path": "/admin/endurance-tables/rules/{ruleId}/delete",
+      "controller": "backend/src/modules/v8/v81-endurance.ts",
+      "ninthConformance": "BOTH_VALIDATED",
+      "ninthSuccessStatuses": [
+        201
+      ],
+      "ninthErrorStatuses": [
+        401,
+        422
+      ]
+    },
+    {
+      "operationId": "listV81PhysicalResults",
+      "method": "GET",
+      "path": "/enrollments/{enrollmentId}/physical-results",
+      "controller": "backend/src/modules/v8/v81-physical-results.ts",
+      "ninthConformance": "BOTH_VALIDATED",
+      "ninthSuccessStatuses": [
+        200
+      ],
+      "ninthErrorStatuses": [
+        401,
+        404
+      ]
+    },
+    {
+      "operationId": "appendV81PhysicalResult",
+      "method": "POST",
+      "path": "/enrollments/{enrollmentId}/physical-results",
+      "controller": "backend/src/modules/v8/v81-physical-results.ts",
+      "ninthConformance": "BOTH_VALIDATED",
+      "ninthSuccessStatuses": [
+        201
+      ],
+      "ninthErrorStatuses": [
+        401,
+        403,
+        404,
+        409,
+        422
+      ]
+    },
+    {
+      "operationId": "getV81StudentPhysicalResult",
+      "method": "GET",
+      "path": "/student/enrollments/{enrollmentId}/physical-result",
+      "controller": "backend/src/modules/v8/v81-physical-results.ts",
+      "ninthConformance": "BOTH_VALIDATED",
+      "ninthSuccessStatuses": [
+        200
+      ],
+      "ninthErrorStatuses": [
+        401,
+        403,
+        404
+      ]
+    },
+    {
+      "operationId": "createV81PhysicalImport",
+      "method": "POST",
+      "path": "/class-sections/{classSectionId}/physical-imports",
+      "controller": "backend/src/modules/v8/v81-physical-imports.ts",
+      "ninthConformance": "BOTH_VALIDATED",
+      "ninthSuccessStatuses": [
+        201
+      ],
+      "ninthErrorStatuses": [
+        401
+      ]
+    },
+    {
+      "operationId": "listV81PhysicalImports",
+      "method": "GET",
+      "path": "/class-sections/{classSectionId}/physical-imports",
+      "controller": "backend/src/modules/v8/v81-physical-imports.ts",
+      "ninthConformance": "BOTH_VALIDATED",
+      "ninthSuccessStatuses": [
+        200
+      ],
+      "ninthErrorStatuses": [
+        401
+      ]
+    },
+    {
+      "operationId": "getV81PhysicalImport",
+      "method": "GET",
+      "path": "/physical-imports/{importId}",
+      "controller": "backend/src/modules/v8/v81-physical-imports.ts",
+      "ninthConformance": "BOTH_VALIDATED",
+      "ninthSuccessStatuses": [
+        200
+      ],
+      "ninthErrorStatuses": [
+        401,
+        403,
+        404
+      ]
+    },
+    {
+      "operationId": "reviseV81PhysicalImport",
+      "method": "POST",
+      "path": "/physical-imports/{importId}/revisions",
+      "controller": "backend/src/modules/v8/v81-physical-imports.ts",
+      "ninthConformance": "BOTH_VALIDATED",
+      "ninthSuccessStatuses": [
+        201
+      ],
+      "ninthErrorStatuses": [
+        401,
+        409
+      ]
+    },
+    {
+      "operationId": "listV81PhysicalImportRevisions",
+      "method": "GET",
+      "path": "/physical-imports/{importId}/revisions",
+      "controller": "backend/src/modules/v8/v81-physical-imports.ts",
+      "ninthConformance": "BOTH_VALIDATED",
+      "ninthSuccessStatuses": [
+        200
+      ],
+      "ninthErrorStatuses": [
+        401
+      ]
+    },
+    {
+      "operationId": "confirmV81PhysicalImport",
+      "method": "POST",
+      "path": "/physical-imports/{importId}/confirm",
+      "controller": "backend/src/modules/v8/v81-physical-imports.ts",
+      "ninthConformance": "BOTH_VALIDATED",
+      "ninthSuccessStatuses": [
+        201
+      ],
+      "ninthErrorStatuses": [
+        401,
+        409,
+        422
+      ]
+    },
+    {
+      "operationId": "getV81PhysicalImportSource",
+      "method": "GET",
+      "path": "/physical-imports/{importId}/source",
+      "controller": "backend/src/modules/v8/v81-physical-imports.ts",
+      "ninthConformance": "BOTH_VALIDATED",
+      "ninthSuccessStatuses": [
+        200
+      ],
+      "ninthErrorStatuses": [
+        401
+      ]
+    },
+    {
+      "operationId": "createV81PhysicalXlsxImport",
+      "method": "POST",
+      "path": "/class-sections/{classSectionId}/physical-imports/xlsx",
+      "controller": "backend/src/modules/v8/v81-physical-imports.ts",
+      "ninthConformance": "BOTH_VALIDATED",
+      "ninthSuccessStatuses": [
+        201
+      ],
+      "ninthErrorStatuses": [
+        401,
+        422
+      ]
+    },
+    {
+      "operationId": "previewV81TeacherImport",
+      "method": "POST",
+      "path": "/admin/teacher-imports/preview",
+      "controller": "backend/src/modules/v8/v81-teacher-imports.ts",
+      "ninthConformance": "BOTH_VALIDATED",
+      "ninthSuccessStatuses": [
+        201
+      ],
+      "ninthErrorStatuses": [
+        401,
+        403
+      ]
+    },
+    {
+      "operationId": "confirmV81TeacherImport",
+      "method": "POST",
+      "path": "/admin/teacher-imports/confirm",
+      "controller": "backend/src/modules/v8/v81-teacher-imports.ts",
+      "ninthConformance": "BOTH_VALIDATED",
+      "ninthSuccessStatuses": [
+        201
+      ],
+      "ninthErrorStatuses": [
+        401,
+        403,
+        409,
+        422
+      ]
+    },
+    {
+      "operationId": "listV81TeacherAccounts",
+      "method": "GET",
+      "path": "/admin/teacher-accounts",
+      "controller": "backend/src/modules/v8/v81-teacher-imports.ts",
+      "ninthConformance": "BOTH_VALIDATED",
+      "ninthSuccessStatuses": [
+        200
+      ],
+      "ninthErrorStatuses": [
+        401,
+        403
+      ]
+    },
+    {
+      "operationId": "createV81Semester",
+      "method": "POST",
+      "path": "/admin/semesters",
+      "controller": "backend/src/modules/v8/v81-semesters.ts",
+      "ninthConformance": "BOTH_VALIDATED",
+      "ninthSuccessStatuses": [
+        201
+      ],
+      "ninthErrorStatuses": [
+        401,
+        403
+      ]
+    },
+    {
+      "operationId": "listV81Semesters",
+      "method": "GET",
+      "path": "/admin/semesters",
+      "controller": "backend/src/modules/v8/v81-semesters.ts",
+      "ninthConformance": "BOTH_VALIDATED",
+      "ninthSuccessStatuses": [
+        200
+      ],
+      "ninthErrorStatuses": [
+        401,
+        403
+      ]
+    },
+    {
+      "operationId": "updateV81Semester",
+      "method": "POST",
+      "path": "/admin/semesters/{id}",
+      "controller": "backend/src/modules/v8/v81-semesters.ts",
+      "ninthConformance": "BOTH_VALIDATED",
+      "ninthSuccessStatuses": [
+        201
+      ],
+      "ninthErrorStatuses": [
+        401,
+        403,
+        404,
+        409
+      ]
+    },
+    {
+      "operationId": "previewV81RosterRegistration",
+      "method": "GET",
+      "path": "/roster-imports/{rosterImportId}/registration-preview",
+      "controller": "backend/src/modules/v8/v81-roster-registration.ts",
+      "ninthConformance": "ERROR_RESPONSE_VALIDATED",
+      "ninthSuccessStatuses": [],
+      "ninthErrorStatuses": [
+        401
+      ]
+    },
+    {
+      "operationId": "getV81RosterConfirmation",
+      "method": "GET",
+      "path": "/roster-imports/{rosterImportId}/confirmation",
+      "controller": "backend/src/modules/v8/v81-roster-confirmation.ts",
+      "ninthConformance": "BOTH_VALIDATED",
+      "ninthSuccessStatuses": [
+        200
+      ],
+      "ninthErrorStatuses": [
+        401
+      ]
+    },
+    {
+      "operationId": "confirmV81Roster",
+      "method": "POST",
+      "path": "/roster-imports/{rosterImportId}/confirmation",
+      "controller": "backend/src/modules/v8/v81-roster-confirmation.ts",
+      "ninthConformance": "BOTH_VALIDATED",
+      "ninthSuccessStatuses": [
+        201
+      ],
+      "ninthErrorStatuses": [
+        401
+      ]
+    },
+    {
+      "operationId": "previewV81CompositeRoster",
+      "method": "GET",
+      "path": "/class-sections/{classSectionId}/composite-roster",
+      "controller": "backend/src/modules/v8/v81-composite-roster.ts",
+      "ninthConformance": "BOTH_VALIDATED",
+      "ninthSuccessStatuses": [
+        200
+      ],
+      "ninthErrorStatuses": [
+        401
+      ]
+    },
+    {
+      "operationId": "exportV81CompositeRosterPreview",
+      "method": "GET",
+      "path": "/class-sections/{classSectionId}/composite-roster/export",
+      "controller": "backend/src/modules/v8/v81-composite-roster.ts",
+      "ninthConformance": "BOTH_VALIDATED",
+      "ninthSuccessStatuses": [
+        200
+      ],
+      "ninthErrorStatuses": [
+        401
+      ]
+    },
+    {
+      "operationId": "getV81RosterSource",
+      "method": "GET",
+      "path": "/roster-imports/{rosterImportId}/source",
+      "controller": "backend/src/modules/v8/v81-roster-confirmation.ts",
+      "ninthConformance": "BOTH_VALIDATED",
+      "ninthSuccessStatuses": [
+        200
+      ],
+      "ninthErrorStatuses": [
+        401
+      ]
+    },
+    {
+      "operationId": "getV81OwnRosterStatus",
+      "method": "GET",
+      "path": "/enrollments/{enrollmentId}/roster-status",
+      "controller": "backend/src/modules/v8/v81-roster-registration.ts",
+      "ninthConformance": "BOTH_VALIDATED",
+      "ninthSuccessStatuses": [
+        200
+      ],
+      "ninthErrorStatuses": [
+        401,
+        404
+      ]
+    },
+    {
+      "operationId": "getV81AdminRosterSummary",
+      "method": "GET",
+      "path": "/admin/class-sections/{classSectionId}/roster-summary",
+      "controller": "backend/src/modules/v8/v81-admin-roster-summary.ts",
+      "ninthConformance": "BOTH_VALIDATED",
+      "ninthSuccessStatuses": [
+        200
+      ],
+      "ninthErrorStatuses": [
+        401
+      ]
+    },
+    {
+      "operationId": "getV81AdminCourseDirectory",
+      "method": "GET",
+      "path": "/admin/course-directory",
+      "controller": "backend/src/modules/v8/v81-admin-course-directory.ts",
+      "ninthConformance": "BOTH_VALIDATED",
+      "ninthSuccessStatuses": [
+        200
+      ],
+      "ninthErrorStatuses": [
+        401,
+        403
+      ]
+    },
+    {
+      "operationId": "getV81AdminPhysicalSummary",
+      "method": "GET",
+      "path": "/admin/class-sections/{classSectionId}/physical-summary",
+      "controller": "backend/src/modules/v8/v81-admin-physical-summary.ts",
+      "ninthConformance": "BOTH_VALIDATED",
+      "ninthSuccessStatuses": [
+        200
+      ],
+      "ninthErrorStatuses": [
+        401
+      ]
+    },
+    {
+      "operationId": "createV81OcrRosterBatch",
+      "method": "POST",
+      "path": "/class-sections/{classSectionId}/ocr-roster-batches",
+      "controller": "backend/src/modules/v8/v81-ocr-intake.ts",
+      "ninthConformance": "BOTH_VALIDATED",
+      "ninthSuccessStatuses": [
+        201
+      ],
+      "ninthErrorStatuses": [
+        401,
+        403,
+        404
+      ]
+    },
+    {
+      "operationId": "createV81OcrPhysicalBatch",
+      "method": "POST",
+      "path": "/class-sections/{classSectionId}/ocr-physical-batches",
+      "controller": "backend/src/modules/v8/v81-ocr-intake.ts",
+      "ninthConformance": "BOTH_VALIDATED",
+      "ninthSuccessStatuses": [
+        201
+      ],
+      "ninthErrorStatuses": [
+        401
+      ]
+    },
+    {
+      "operationId": "listV81OcrBatches",
+      "method": "GET",
+      "path": "/class-sections/{classSectionId}/ocr-batches",
+      "controller": "backend/src/modules/v8/v81-ocr-read.ts",
+      "ninthConformance": "BOTH_VALIDATED",
+      "ninthSuccessStatuses": [
+        200
+      ],
+      "ninthErrorStatuses": [
+        401
+      ]
+    },
+    {
+      "operationId": "getV81OcrBatch",
+      "method": "GET",
+      "path": "/ocr-batches/{batchId}",
+      "controller": "backend/src/modules/v8/v81-ocr-read.ts",
+      "ninthConformance": "BOTH_VALIDATED",
+      "ninthSuccessStatuses": [
+        200
+      ],
+      "ninthErrorStatuses": [
+        401,
+        403,
+        404
+      ]
+    },
+    {
+      "operationId": "getV81OcrPageSource",
+      "method": "GET",
+      "path": "/ocr-batches/{batchId}/pages/{pageId}/source",
+      "controller": "backend/src/modules/v8/v81-ocr-read.ts",
+      "ninthConformance": "BOTH_VALIDATED",
+      "ninthSuccessStatuses": [
+        200
+      ],
+      "ninthErrorStatuses": [
+        401
+      ]
+    },
+    {
+      "operationId": "getV81OcrPageRecognition",
+      "method": "GET",
+      "path": "/ocr-batches/{batchId}/pages/{pageId}/recognition",
+      "controller": "backend/src/modules/v8/v81-ocr-read.ts",
+      "ninthConformance": "BOTH_VALIDATED",
+      "ninthSuccessStatuses": [
+        200
+      ],
+      "ninthErrorStatuses": [
+        401
+      ]
+    },
+    {
+      "operationId": "createV81OcrJob",
+      "method": "POST",
+      "path": "/ocr-batches/{batchId}/pages/{pageId}/recognition",
+      "controller": "backend/src/modules/v8/v81-ocr-jobs.ts",
+      "ninthConformance": "BOTH_VALIDATED",
+      "ninthSuccessStatuses": [
+        201
+      ],
+      "ninthErrorStatuses": [
+        401,
+        409
+      ]
+    },
+    {
+      "operationId": "getV81OcrJob",
+      "method": "GET",
+      "path": "/ocr-jobs/{jobId}",
+      "controller": "backend/src/modules/v8/v81-ocr-jobs.ts",
+      "ninthConformance": "BOTH_VALIDATED",
+      "ninthSuccessStatuses": [
+        200
+      ],
+      "ninthErrorStatuses": [
+        401
+      ]
+    },
+    {
+      "operationId": "getV81OcrDraft",
+      "method": "GET",
+      "path": "/ocr-batches/{batchId}/draft",
+      "controller": "backend/src/modules/v8/v81-ocr-drafts.ts",
+      "ninthConformance": "BOTH_VALIDATED",
+      "ninthSuccessStatuses": [
+        200
+      ],
+      "ninthErrorStatuses": [
+        401,
+        403,
+        404,
+        422
+      ]
+    },
+    {
+      "operationId": "createV81OcrDraft",
+      "method": "POST",
+      "path": "/ocr-batches/{batchId}/draft",
+      "controller": "backend/src/modules/v8/v81-ocr-drafts.ts",
+      "ninthConformance": "BOTH_VALIDATED",
+      "ninthSuccessStatuses": [
+        201
+      ],
+      "ninthErrorStatuses": [
+        401,
+        403,
+        404,
+        409,
+        422
+      ]
+    },
+    {
+      "operationId": "reviseV81OcrDraft",
+      "method": "POST",
+      "path": "/ocr-batches/{batchId}/draft/revisions",
+      "controller": "backend/src/modules/v8/v81-ocr-drafts.ts",
+      "ninthConformance": "BOTH_VALIDATED",
+      "ninthSuccessStatuses": [
+        201
+      ],
+      "ninthErrorStatuses": [
+        401,
+        409,
+        422
+      ]
+    },
+    {
+      "operationId": "getV81OcrPhysicalConfirmation",
+      "method": "GET",
+      "path": "/ocr-batches/{batchId}/physical-confirmations",
+      "controller": "backend/src/modules/v8/v81-ocr-physical-confirmation.ts",
+      "ninthConformance": "BOTH_VALIDATED",
+      "ninthSuccessStatuses": [
+        200
+      ],
+      "ninthErrorStatuses": [
+        401,
+        404
+      ]
+    },
+    {
+      "operationId": "confirmV81OcrPhysicalRows",
+      "method": "POST",
+      "path": "/ocr-batches/{batchId}/physical-confirmations",
+      "controller": "backend/src/modules/v8/v81-ocr-physical-confirmation.ts",
+      "ninthConformance": "BOTH_VALIDATED",
+      "ninthSuccessStatuses": [
+        201
+      ],
+      "ninthErrorStatuses": [
+        401,
+        403,
+        404,
+        409,
+        422
+      ]
+    },
+    {
+      "operationId": "getV81OcrRosterConfirmation",
+      "method": "GET",
+      "path": "/ocr-batches/{batchId}/roster-confirmation",
+      "controller": "backend/src/modules/v8/v81-ocr-roster-confirmation.ts",
+      "ninthConformance": "BOTH_VALIDATED",
+      "ninthSuccessStatuses": [
+        200
+      ],
+      "ninthErrorStatuses": [
+        401,
+        403,
+        404
+      ]
+    },
+    {
+      "operationId": "confirmV81OcrRoster",
+      "method": "POST",
+      "path": "/ocr-batches/{batchId}/roster-confirmation",
+      "controller": "backend/src/modules/v8/v81-ocr-roster-confirmation.ts",
+      "ninthConformance": "BOTH_VALIDATED",
+      "ninthSuccessStatuses": [
+        201
+      ],
+      "ninthErrorStatuses": [
+        401,
+        403,
+        404,
+        409,
+        422
+      ]
+    },
+    {
+      "operationId": "getV81RosterBasis",
+      "method": "GET",
+      "path": "/class-sections/{classSectionId}/roster-basis",
+      "controller": "backend/src/modules/v8/v81-roster-basis.ts",
+      "ninthConformance": "BOTH_VALIDATED",
+      "ninthSuccessStatuses": [
+        200
+      ],
+      "ninthErrorStatuses": [
+        401
+      ]
+    },
+    {
+      "operationId": "selectV81RosterBasis",
+      "method": "POST",
+      "path": "/class-sections/{classSectionId}/roster-basis",
+      "controller": "backend/src/modules/v8/v81-roster-basis.ts",
+      "ninthConformance": "BOTH_VALIDATED",
+      "ninthSuccessStatuses": [
+        201
+      ],
+      "ninthErrorStatuses": [
+        401,
+        403,
+        404,
+        409,
+        422
+      ]
+    },
+    {
+      "operationId": "listV81ConfirmedRosterSnapshots",
+      "method": "GET",
+      "path": "/class-sections/{classSectionId}/roster-basis/snapshots",
+      "controller": "backend/src/modules/v8/v81-roster-basis.ts",
+      "ninthConformance": "BOTH_VALIDATED",
+      "ninthSuccessStatuses": [
+        200
+      ],
+      "ninthErrorStatuses": [
+        401,
+        403,
+        422
+      ]
+    },
+    {
+      "operationId": "listV81MakeupWindows",
+      "method": "GET",
+      "path": "/class-sections/{classSectionId}/makeup-windows",
+      "controller": "backend/src/modules/v8/v81-makeup-windows.ts",
+      "ninthConformance": "BOTH_VALIDATED",
+      "ninthSuccessStatuses": [
+        200
+      ],
+      "ninthErrorStatuses": [
+        401,
+        403,
+        404
+      ]
+    },
+    {
+      "operationId": "createV81MakeupWindow",
+      "method": "POST",
+      "path": "/class-sections/{classSectionId}/makeup-windows",
+      "controller": "backend/src/modules/v8/v81-makeup-windows.ts",
+      "ninthConformance": "BOTH_VALIDATED",
+      "ninthSuccessStatuses": [
+        201
+      ],
+      "ninthErrorStatuses": [
+        401,
+        403,
+        404,
+        409,
+        422
+      ]
+    },
+    {
+      "operationId": "revokeV81MakeupWindow",
+      "method": "POST",
+      "path": "/makeup-windows/{windowId}/revocation",
+      "controller": "backend/src/modules/v8/v81-makeup-windows.ts",
+      "ninthConformance": "BOTH_VALIDATED",
+      "ninthSuccessStatuses": [
+        201
+      ],
+      "ninthErrorStatuses": [
+        401,
+        403,
+        404,
+        409
+      ]
+    },
+    {
+      "operationId": "listV81OwnMakeupWindows",
+      "method": "GET",
+      "path": "/enrollments/{enrollmentId}/makeup-windows",
+      "controller": "backend/src/modules/v8/v81-makeup-windows.ts",
+      "ninthConformance": "BOTH_VALIDATED",
+      "ninthSuccessStatuses": [
+        200
+      ],
+      "ninthErrorStatuses": [
+        401,
+        403,
+        404,
+        422
+      ]
+    },
+    {
+      "operationId": "getV81SemesterSwitchCheck",
+      "method": "GET",
+      "path": "/admin/semesters/{id}/switch-check",
+      "controller": "backend/src/modules/v8/v81-semesters.ts",
+      "ninthConformance": "BOTH_VALIDATED",
+      "ninthSuccessStatuses": [
+        200
+      ],
+      "ninthErrorStatuses": [
+        401,
+        403,
+        404,
+        422
+      ]
+    },
+    {
+      "operationId": "listV81RuleTemplates",
+      "method": "GET",
+      "path": "/rule-templates",
+      "controller": "backend/src/modules/v8/v81-rule-templates.ts",
+      "ninthConformance": "BOTH_VALIDATED",
+      "ninthSuccessStatuses": [
+        200
+      ],
+      "ninthErrorStatuses": [
+        401,
+        403
+      ]
+    },
+    {
+      "operationId": "publishV81RuleTemplate",
+      "method": "POST",
+      "path": "/rule-templates",
+      "controller": "backend/src/modules/v8/v81-rule-templates.ts",
+      "ninthConformance": "BOTH_VALIDATED",
+      "ninthSuccessStatuses": [
+        201
+      ],
+      "ninthErrorStatuses": [
+        401,
+        403,
+        409,
+        422
+      ]
+    },
+    {
+      "operationId": "getV81RuleTemplate",
+      "method": "GET",
+      "path": "/rule-templates/{id}",
+      "controller": "backend/src/modules/v8/v81-rule-templates.ts",
+      "ninthConformance": "BOTH_VALIDATED",
+      "ninthSuccessStatuses": [
+        200
+      ],
+      "ninthErrorStatuses": [
+        401,
+        404
+      ]
+    },
+    {
+      "operationId": "listV81AuditEvents",
+      "method": "GET",
+      "path": "/admin/audit-events",
+      "controller": "backend/src/modules/v8/v81-audit-events.ts",
+      "ninthConformance": "BOTH_VALIDATED",
+      "ninthSuccessStatuses": [
+        200
+      ],
+      "ninthErrorStatuses": [
+        401,
+        403,
+        422
+      ]
+    },
+    {
+      "operationId": "getV81AuditEvent",
+      "method": "GET",
+      "path": "/admin/audit-events/{source}/{eventId}",
+      "controller": "backend/src/modules/v8/v81-audit-events.ts",
+      "ninthConformance": "BOTH_VALIDATED",
+      "ninthSuccessStatuses": [
+        200
+      ],
+      "ninthErrorStatuses": [
+        401,
+        404
+      ]
+    },
+    {
+      "operationId": "createV81RuntimeArchive",
+      "method": "POST",
+      "path": "/admin/runtime-archives",
+      "controller": "backend/src/modules/v8/v81-runtime-archives.ts",
+      "ninthConformance": "ERROR_RESPONSE_VALIDATED",
+      "ninthSuccessStatuses": [],
+      "ninthErrorStatuses": [
+        401
+      ]
+    },
+    {
+      "operationId": "getV81RuntimeArchive",
+      "method": "GET",
+      "path": "/admin/runtime-archives/{id}",
+      "controller": "backend/src/modules/v8/v81-runtime-archives.ts",
+      "ninthConformance": "ERROR_RESPONSE_VALIDATED",
+      "ninthSuccessStatuses": [],
+      "ninthErrorStatuses": [
+        401
+      ]
+    },
+    {
+      "operationId": "cancelV81RuntimeArchive",
+      "method": "POST",
+      "path": "/admin/runtime-archives/{id}/cancellation",
+      "controller": "backend/src/modules/v8/v81-runtime-archives.ts",
+      "ninthConformance": "ERROR_RESPONSE_VALIDATED",
+      "ninthSuccessStatuses": [],
+      "ninthErrorStatuses": [
+        401
+      ]
+    },
+    {
+      "operationId": "createV81RuntimeArchiveDownload",
+      "method": "POST",
+      "path": "/admin/runtime-archives/{id}/download-url",
+      "controller": "backend/src/modules/v8/v81-runtime-archives.ts",
+      "ninthConformance": "ERROR_RESPONSE_VALIDATED",
+      "ninthSuccessStatuses": [],
+      "ninthErrorStatuses": [
+        401
+      ]
+    },
+    {
+      "operationId": "downloadV81RuntimeArchive",
+      "method": "GET",
+      "path": "/admin/runtime-archives/{id}/content",
+      "controller": "backend/src/modules/v8/v81-runtime-archives.ts",
+      "ninthConformance": "ERROR_RESPONSE_VALIDATED",
+      "ninthSuccessStatuses": [],
+      "ninthErrorStatuses": [
+        401
+      ]
+    },
+    {
+      "operationId": "setV81SubadminPermissions",
+      "method": "POST",
+      "path": "/admin/subadmins/{id}/permissions",
+      "controller": "backend/src/modules/v8/v81-subadmins.ts",
+      "ninthConformance": "BOTH_VALIDATED",
+      "ninthSuccessStatuses": [
+        201
+      ],
+      "ninthErrorStatuses": [
+        401
+      ]
+    },
+    {
+      "operationId": "requestCurrentUserAccountDeletionChallenge",
+      "method": "POST",
+      "path": "/me/account-deletion-challenges",
+      "controller": "backend/src/modules/v8/v81-account-deletion.ts",
+      "ninthConformance": "ERROR_RESPONSE_VALIDATED",
+      "ninthSuccessStatuses": [],
+      "ninthErrorStatuses": [
+        401,
+        403,
+        503
+      ]
+    },
+    {
+      "operationId": "getV81OcrService",
+      "method": "GET",
+      "path": "/admin/review-services/ocr",
+      "controller": "backend/src/modules/v8/v81-ocr-governance.ts",
+      "ninthConformance": "BOTH_VALIDATED",
+      "ninthSuccessStatuses": [
+        200
+      ],
+      "ninthErrorStatuses": [
+        401,
+        403
+      ]
+    },
+    {
+      "operationId": "listV81OcrServiceRevisions",
+      "method": "GET",
+      "path": "/admin/review-services/ocr/revisions",
+      "controller": "backend/src/modules/v8/v81-ocr-governance.ts",
+      "ninthConformance": "BOTH_VALIDATED",
+      "ninthSuccessStatuses": [
+        200
+      ],
+      "ninthErrorStatuses": [
+        401,
+        403
+      ]
+    },
+    {
+      "operationId": "saveV81OcrService",
+      "method": "POST",
+      "path": "/admin/review-services/ocr/revisions",
+      "controller": "backend/src/modules/v8/v81-ocr-governance.ts",
+      "ninthConformance": "BOTH_VALIDATED",
+      "ninthSuccessStatuses": [
+        201
+      ],
+      "ninthErrorStatuses": [
+        401,
+        403,
+        409,
+        422
+      ]
+    },
+    {
+      "operationId": "requestV81SubadminIdentity",
+      "method": "POST",
+      "path": "/admin/subadmin-identity-challenges",
+      "controller": "backend/src/modules/v8/v81-subadmin-identity.ts",
+      "ninthConformance": "BOTH_VALIDATED",
+      "ninthSuccessStatuses": [
+        201
+      ],
+      "ninthErrorStatuses": [
+        401,
+        403,
+        429
+      ]
+    },
+    {
+      "operationId": "verifyV81SubadminIdentity",
+      "method": "POST",
+      "path": "/admin/subadmin-identity-challenges/{id}/verify",
+      "controller": "backend/src/modules/v8/v81-subadmin-identity.ts",
+      "ninthConformance": "BOTH_VALIDATED",
+      "ninthSuccessStatuses": [
+        201
+      ],
+      "ninthErrorStatuses": [
+        401
+      ]
+    },
+    {
+      "operationId": "updateV81VerifiedSubadmin",
+      "method": "POST",
+      "path": "/admin/subadmins/{id}/profile",
+      "controller": "backend/src/modules/v8/v81-subadmin-identity.ts",
+      "ninthConformance": "BOTH_VALIDATED",
+      "ninthSuccessStatuses": [
+        201
+      ],
+      "ninthErrorStatuses": [
+        401,
+        403,
+        409
+      ]
+    },
+    {
+      "operationId": "deleteV81Subadmin",
+      "method": "POST",
+      "path": "/admin/subadmins/{id}/delete",
+      "controller": "backend/src/modules/v8/v81-subadmin-identity.ts",
+      "ninthConformance": "BOTH_VALIDATED",
+      "ninthSuccessStatuses": [
+        201
+      ],
+      "ninthErrorStatuses": [
+        401,
+        403,
+        422
+      ]
+    },
+    {
+      "operationId": "createV81TeacherCourse",
+      "method": "POST",
+      "path": "/teacher/courses",
+      "controller": "backend/src/modules/v8/v81-teacher-courses.ts",
+      "ninthConformance": "BOTH_VALIDATED",
+      "ninthSuccessStatuses": [
+        201
+      ],
+      "ninthErrorStatuses": [
+        401,
+        403,
+        409,
+        503
+      ]
+    },
+    {
+      "operationId": "revokeV81CourseInvite",
+      "method": "POST",
+      "path": "/class-sections/{classSectionId}/course-invites/revocations",
+      "controller": "backend/src/modules/v8/v81-invite-revocation.ts",
+      "ninthConformance": "ERROR_RESPONSE_VALIDATED",
+      "ninthSuccessStatuses": [],
+      "ninthErrorStatuses": [
+        401
+      ]
+    },
+    {
+      "operationId": "confirmV81Settlement",
+      "method": "POST",
+      "path": "/class-sections/{classSectionId}/settlement-reports",
+      "controller": "backend/src/modules/v8/v81-settlement-command.ts",
+      "ninthConformance": "BOTH_VALIDATED",
+      "ninthSuccessStatuses": [
+        201
+      ],
+      "ninthErrorStatuses": [
+        401,
+        403,
+        404,
+        409,
+        422
+      ]
+    },
+    {
+      "operationId": "listV81SettlementReports",
+      "method": "GET",
+      "path": "/class-sections/{classSectionId}/settlement-reports",
+      "controller": "backend/src/modules/v8/v81-settlement-report-read.ts",
+      "ninthConformance": "BOTH_VALIDATED",
+      "ninthSuccessStatuses": [
+        200
+      ],
+      "ninthErrorStatuses": [
+        401
+      ]
+    },
+    {
+      "operationId": "getV81SettlementReport",
+      "method": "GET",
+      "path": "/class-sections/{classSectionId}/settlement-reports/{version}",
+      "controller": "backend/src/modules/v8/v81-settlement-report-read.ts",
+      "ninthConformance": "BOTH_VALIDATED",
+      "ninthSuccessStatuses": [
+        200
+      ],
+      "ninthErrorStatuses": [
+        401
+      ]
+    },
+    {
+      "operationId": "exportV81SettlementReport",
+      "method": "GET",
+      "path": "/class-sections/{classSectionId}/settlement-reports/{version}/export",
+      "controller": "backend/src/modules/v8/v81-settlement-report-read.ts",
+      "ninthConformance": "BOTH_VALIDATED",
+      "ninthSuccessStatuses": [
+        200
+      ],
+      "ninthErrorStatuses": [
+        401
+      ]
+    },
+    {
+      "operationId": "previewV81Settlement",
+      "method": "GET",
+      "path": "/class-sections/{classSectionId}/settlement-preview",
+      "controller": "backend/src/modules/v8/v81-settlement-command.ts",
+      "ninthConformance": "BOTH_VALIDATED",
+      "ninthSuccessStatuses": [
+        200
+      ],
+      "ninthErrorStatuses": [
+        401
+      ]
+    },
+    {
+      "operationId": "getV81StudentSettlementResult",
+      "method": "GET",
+      "path": "/student/enrollments/{enrollmentId}/settlement-result",
+      "controller": "backend/src/modules/v8/v81-student-settlement.ts",
+      "ninthConformance": "BOTH_VALIDATED",
+      "ninthSuccessStatuses": [
+        200
+      ],
+      "ninthErrorStatuses": [
+        401,
+        403,
+        404
+      ]
+    },
+    {
+      "operationId": "switchV81Semester",
+      "method": "POST",
+      "path": "/admin/semesters/{id}/switch",
+      "controller": "backend/src/modules/v8/v81-semesters.ts",
+      "ninthConformance": "BOTH_VALIDATED",
+      "ninthSuccessStatuses": [
+        201
+      ],
+      "ninthErrorStatuses": [
+        401,
+        403,
+        404,
+        409,
+        422,
+        500,
+        503
+      ]
+    },
+    {
+      "operationId": "getV81AdminSettlementSummary",
+      "method": "GET",
+      "path": "/admin/class-sections/{classSectionId}/settlement-summary",
+      "controller": "backend/src/modules/v8/v81-admin-settlement-summary.ts",
+      "ninthConformance": "BOTH_VALIDATED",
+      "ninthSuccessStatuses": [
+        200
+      ],
+      "ninthErrorStatuses": [
+        401,
+        403,
+        404
+      ]
+    },
+    {
+      "operationId": "correctV81FinalGrade",
+      "method": "POST",
+      "path": "/enrollments/{enrollmentId}/final-grades/corrections",
+      "controller": "backend/src/modules/v8/v81-final-grades.ts",
+      "ninthConformance": "ERROR_RESPONSE_VALIDATED",
+      "ninthSuccessStatuses": [],
+      "ninthErrorStatuses": [
+        401
+      ]
+    },
+    {
+      "operationId": "correctV81PhysicalResult",
+      "method": "POST",
+      "path": "/enrollments/{enrollmentId}/physical-results/corrections",
+      "controller": "backend/src/modules/v8/v81-physical-results.ts",
+      "ninthConformance": "ERROR_RESPONSE_VALIDATED",
+      "ninthSuccessStatuses": [],
+      "ninthErrorStatuses": [
+        401
+      ]
+    }
+  ]
+}

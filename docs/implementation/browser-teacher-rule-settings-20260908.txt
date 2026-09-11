@@ -1,0 +1,7 @@
+{"check":"TEACHER_PAGE_READ","page":"学生管理","responses":[{"path":"/api/v1/students/01a07e71-ea40-73ab-bf7a-dd74555bb45f","status":200}],"hasErrorPanel":false}
+{"check":"TEACHER_PAGE_READ","page":"打卡审核","responses":[],"hasErrorPanel":false}
+{"check":"TEACHER_PAGE_READ","page":"内部成绩册","responses":[],"hasErrorPanel":false}
+{"check":"TEACHER_PAGE_READ","page":"免测与认证","responses":[],"hasErrorPanel":false}
+{"check":"TEACHER_PAGE_READ","page":"课程管理","responses":[],"hasErrorPanel":false}
+{"check":"TEACHER_PUBLISHED_TEMPLATE_REAL_RULES_LOCKED","result":"PASS"}
+{"check":"TEACHER_NAVIGATION","result":"PASS","failedRequests":[]}

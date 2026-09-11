@@ -1,0 +1,4 @@
+{"check":"STUDENT_BROWSER_SMTP_LOGIN","result":"PASS"}
+{"check":"STUDENT_HOME_CONTENT","hasCourse":true,"hasProgress":true,"hasLoginForm":false}
+{"check":"STUDENT_BROWSER_SMTP_LOGIN","result":"FAIL","stage":"RELOAD","type":"TimeoutError"}
+{"reloadPage":"运动指引\n跳过\n选择课程和运动项目\n从首页或“运动”进入\n开始运动计时\n从首页或“运动”开始\n开始一次运动\n选择课程和运动项目后开始计时，完成本次运动任务。\n运动中\n00:32:18\n拍照\n录像\n暂停后可继续本次运动\n计时、暂停后继续\n记录运动过程\n运动中可暂停后继续，并使用照片或视频记录现场过程。\n完成记录\n补充说明\n提交全部保留凭证\n提交本次打卡\n在“记录”中查看历史\n完成后确认并提交\n提交并查看记录\n补充运动说明后，系统会提交当前保留的全部凭证；在“记录”中查看历史运动、时长和媒体。\n个人中心 · 服务\n免测申请\n校队或社团\n查看状态、补充材料或重新提交\n个人中心 · 服务\n需要时提交申请\n可提交免测、校队或社团认证申请，并查看状态、补充材料或重新提交。\n1 / 4\n继续"}

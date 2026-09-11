@@ -1,0 +1,183 @@
+ Image postgres:18.4-alpine3.24 Pulling 
+ 21225587b6ee Pulling fs layer 0B
+ d5392b8b2486 Pulling fs layer 0B
+ c789cfcee1a8 Pulling fs layer 0B
+ 55afa1ecc21d Pulling fs layer 0B
+ 8c4cf0b70797 Pulling fs layer 0B
+ 76b8b44efa5a Pulling fs layer 0B
+ d5c3772878da Pulling fs layer 0B
+ c24407d2ec97 Pulling fs layer 0B
+ 9530417d1dbb Pulling fs layer 0B
+ 71608f5c0921 Download complete 0B
+ d5392b8b2486 Download complete 0B
+ 21225587b6ee Download complete 0B
+ 32a5a1abaaf0 Downloading 617.3kB
+ 32a5a1abaaf0 Download complete 0B
+ 8c4cf0b70797 Download complete 0B
+ c789cfcee1a8 Download complete 0B
+ 55afa1ecc21d Downloading 1.049MB
+ 9530417d1dbb Download complete 0B
+ 55afa1ecc21d Downloading 2.097MB
+ 55afa1ecc21d Downloading 2.097MB
+ 76b8b44efa5a Download complete 0B
+ c24407d2ec97 Downloading 6.11kB
+ 55afa1ecc21d Downloading 3.846MB
+ c24407d2ec97 Download complete 0B
+ 55afa1ecc21d Download complete 0B
+ 55afa1ecc21d Extracting 1B
+ d5392b8b2486 Pull complete 0B
+ 8c4cf0b70797 Pull complete 0B
+ c789cfcee1a8 Pull complete 0B
+ 55afa1ecc21d Pull complete 0B
+ d5c3772878da Downloading 1.049MB
+ d5c3772878da Downloading 1.049MB
+ d5c3772878da Downloading 3.146MB
+ d5c3772878da Downloading 4.194MB
+ d5c3772878da Downloading 4.194MB
+ d5c3772878da Downloading 5.243MB
+ d5c3772878da Downloading 6.291MB
+ d5c3772878da Downloading 8.389MB
+ d5c3772878da Downloading 9.437MB
+ d5c3772878da Downloading 10.49MB
+ d5c3772878da Downloading 11.53MB
+ d5c3772878da Downloading 12.58MB
+ d5c3772878da Downloading 13.63MB
+ d5c3772878da Downloading 14.68MB
+ d5c3772878da Downloading 15.73MB
+ d5c3772878da Downloading 16.78MB
+ d5c3772878da Downloading 17.83MB
+ d5c3772878da Downloading 18.87MB
+ d5c3772878da Downloading 19.92MB
+ d5c3772878da Downloading 22.02MB
+ d5c3772878da Downloading 23.07MB
+ d5c3772878da Downloading 24.12MB
+ d5c3772878da Downloading 25.17MB
+ d5c3772878da Downloading 26.21MB
+ d5c3772878da Downloading 27.26MB
+ d5c3772878da Downloading 28.31MB
+ d5c3772878da Downloading 29.36MB
+ d5c3772878da Downloading 30.41MB
+ d5c3772878da Downloading 31.46MB
+ d5c3772878da Downloading 31.46MB
+ d5c3772878da Downloading 33.55MB
+ d5c3772878da Downloading 34.6MB
+ d5c3772878da Downloading 35.65MB
+ d5c3772878da Downloading 36.7MB
+ d5c3772878da Downloading 38.8MB
+ d5c3772878da Downloading 39.85MB
+ d5c3772878da Downloading 40.89MB
+ d5c3772878da Downloading 42.99MB
+ d5c3772878da Downloading 44.04MB
+ d5c3772878da Downloading 45.09MB
+ d5c3772878da Downloading 45.09MB
+ d5c3772878da Downloading 47.19MB
+ d5c3772878da Downloading 48.23MB
+ d5c3772878da Downloading 49.28MB
+ d5c3772878da Downloading 50.33MB
+ d5c3772878da Downloading 51.38MB
+ d5c3772878da Downloading 52.43MB
+ d5c3772878da Downloading 53.48MB
+ d5c3772878da Downloading 55.57MB
+ d5c3772878da Downloading 56.62MB
+ d5c3772878da Downloading 57.67MB
+ d5c3772878da Downloading 57.67MB
+ d5c3772878da Downloading 59.77MB
+ d5c3772878da Downloading 60.82MB
+ d5c3772878da Downloading 61.87MB
+ d5c3772878da Downloading 62.91MB
+ d5c3772878da Downloading 63.96MB
+ d5c3772878da Downloading 65.01MB
+ d5c3772878da Downloading 66.06MB
+ d5c3772878da Downloading 68.16MB
+ d5c3772878da Downloading 69.21MB
+ d5c3772878da Downloading 69.21MB
+ d5c3772878da Downloading 70.25MB
+ d5c3772878da Downloading 71.3MB
+ d5c3772878da Downloading 73.4MB
+ d5c3772878da Downloading 74.45MB
+ d5c3772878da Downloading 75.5MB
+ d5c3772878da Downloading 76.55MB
+ d5c3772878da Downloading 77.59MB
+ d5c3772878da Downloading 78.64MB
+ d5c3772878da Downloading 80.74MB
+ d5c3772878da Downloading 80.74MB
+ d5c3772878da Downloading 82.84MB
+ d5c3772878da Downloading 83.89MB
+ d5c3772878da Downloading 83.89MB
+ d5c3772878da Downloading 85.98MB
+ d5c3772878da Downloading 87.03MB
+ d5c3772878da Downloading 88.08MB
+ d5c3772878da Downloading 89.13MB
+ d5c3772878da Downloading 90.18MB
+ d5c3772878da Downloading 91.23MB
+ d5c3772878da Downloading 92.27MB
+ d5c3772878da Downloading 94.37MB
+ d5c3772878da Downloading 94.37MB
+ d5c3772878da Downloading 95.42MB
+ d5c3772878da Downloading 97.52MB
+ d5c3772878da Downloading 98.57MB
+ d5c3772878da Downloading 99.61MB
+ d5c3772878da Downloading 100.7MB
+ d5c3772878da Downloading 100.7MB
+ d5c3772878da Downloading 100.7MB
+ d5c3772878da Downloading 100.7MB
+ d5c3772878da Downloading 101.7MB
+ d5c3772878da Downloading 103.8MB
+ d5c3772878da Downloading 103.8MB
+ d5c3772878da Downloading 104.9MB
+ d5c3772878da Downloading 107MB
+ d5c3772878da Downloading 108MB
+ d5c3772878da Downloading 109.1MB
+ d5c3772878da Downloading 110.1MB
+ d5c3772878da Downloading 111.9MB
+ d5c3772878da Downloading 113.2MB
+ d5c3772878da Downloading 114.3MB
+ d5c3772878da Downloading 114.3MB
+ d5c3772878da Downloading 115.2MB
+ d5c3772878da Download complete 0B
+ d5c3772878da Extracting 1B
+ d5c3772878da Extracting 1B
+ d5c3772878da Extracting 1B
+ d5c3772878da Extracting 1B
+ d5c3772878da Extracting 1B
+ d5c3772878da Extracting 1B
+ d5c3772878da Extracting 1B
+ d5c3772878da Extracting 1B
+ d5c3772878da Extracting 1B
+ d5c3772878da Extracting 1B
+ d5c3772878da Extracting 1B
+ d5c3772878da Extracting 2B
+ d5c3772878da Extracting 2B
+ d5c3772878da Extracting 2B
+ d5c3772878da Pull complete 0B
+ 21225587b6ee Pull complete 0B
+ 9530417d1dbb Pull complete 0B
+ 76b8b44efa5a Pull complete 0B
+ c24407d2ec97 Pull complete 0B
+ Image postgres:18.4-alpine3.24 Pulled 
+ Network bnbu-v81-local-validation_sql-probe Creating 
+ Volume bnbu-v81-local-validation_sql_probe_data Creating 
+ Volume bnbu-v81-local-validation_sql_probe_data Creating 
+ Network bnbu-v81-local-validation_sql-probe Creating 
+ Volume bnbu-v81-local-validation_sql_probe_data Created 
+ Volume bnbu-v81-local-validation_sql_probe_data Created 
+ Network bnbu-v81-local-validation_sql-probe Created 
+ Network bnbu-v81-local-validation_sql-probe Created 
+ Container bnbu-v81-local-validation-sql-postgres-1 Creating 
+ Container bnbu-v81-local-validation-sql-postgres-1 Created 
+ Container bnbu-v81-local-validation-sql-tests-1 Creating 
+ Container bnbu-v81-local-validation-sql-tests-1 Created 
+Attaching to sql-tests-1
+ Container bnbu-v81-local-validation-sql-postgres-1 Starting 
+ Container bnbu-v81-local-validation-sql-postgres-1 Started 
+ Container bnbu-v81-local-validation-sql-postgres-1 Waiting 
+ Container bnbu-v81-local-validation-sql-postgres-1 Healthy 
+ Container bnbu-v81-local-validation-sql-tests-1 Starting 
+ Container bnbu-v81-local-validation-sql-tests-1 Started 
+sql-tests-1  | {"result":"FAILED","step":"0001_greenfield_foundation","code":null,"message":"Migration manifest checksum differs from SQL bytes"}
+ Compose Stopping Aborting on container exit...
+
+[Ksql-tests-1 exited with code 1
+ Container bnbu-v81-local-validation-sql-tests-1 Stopping 
+ Container bnbu-v81-local-validation-sql-tests-1 Stopped 
+

@@ -1,0 +1,5 @@
+{
+  "destructive": false,
+  "sha256": "272231dc372198eddc8ab24170081d848b5b2433dc8cdcebed8dd83dfccd3aa3",
+  "migrationId": "0058_client_diagnostics_rate_limit"
+}

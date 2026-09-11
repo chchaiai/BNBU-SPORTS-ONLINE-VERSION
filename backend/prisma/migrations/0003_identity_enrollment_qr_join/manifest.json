@@ -1,0 +1,6 @@
+{
+  "migrationId": "0003_identity_enrollment_qr_join",
+  "sha256": "032b2f001638de63495bdb8d9bd3979ab54679eaaa7802d7526c6e5e24aaa5b7",
+  "destructive": false,
+  "scope": "Stage 12 student identity, Enrollment, CourseInvite, and QR Join only"
+}

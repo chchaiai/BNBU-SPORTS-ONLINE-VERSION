@@ -1,0 +1,3 @@
+{"check":"ADMIN_MAINTENANCE_BROWSER_LOST_RESPONSE_SAME_KEY_NOTICE","result":"PASS"}
+{"stage":"RETRY","error":"locator.click: Timeout 15000ms exceeded.\nCall log:\n\u001b[2m  - waiting for getByRole('button', { name: '系统模式', exact: true })\u001b[22m\n"}
+{"check":"RESTORE_NORMAL_CLEANUP","result":"PASS"}

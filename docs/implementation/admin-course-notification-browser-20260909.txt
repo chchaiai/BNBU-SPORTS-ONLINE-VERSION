@@ -1,0 +1,2 @@
+{"check":"ADMIN_COURSE_NOTIFICATION_TARGET","result":"PASS","closed":true,"readOnlyBusiness":true}
+{"check":"ADMIN_COURSE_NOTIFICATION_TARGET","result":"PASS","closed":false,"readOnlyBusiness":true}

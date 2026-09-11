@@ -1,0 +1,155 @@
+time="2026-09-08T13:08:22+08:00" level=warning msg="Found orphan containers (bnbu-v81-local-validation-backend-browser-1) for this project. If you removed or renamed this service in your compose file, you can run this command with the --remove-orphans flag to clean it up."
+ Image bnbu-v81-local-validation-backend-startup Building 
+#1 [internal] load local bake definitions
+#1 reading from stdin 636B 0.0s done
+#1 DONE 0.0s
+
+#2 [internal] load build definition from Dockerfile.v81-test
+#2 transferring dockerfile: 828B done
+#2 DONE 0.0s
+
+#3 [internal] load metadata for docker.io/library/node:24.18.0-bookworm-slim
+#3 DONE 1.0s
+
+#4 [internal] load .dockerignore
+#4 transferring context: 153B done
+#4 DONE 0.0s
+
+#5 [internal] load build context
+#5 DONE 0.0s
+
+#6 [ 1/11] FROM docker.io/library/node:24.18.0-bookworm-slim@sha256:6f7b03f7c2c8e2e784dcf9295400527b9b1270fd37b7e9a7285cf83b6951452d
+#6 resolve docker.io/library/node:24.18.0-bookworm-slim@sha256:6f7b03f7c2c8e2e784dcf9295400527b9b1270fd37b7e9a7285cf83b6951452d 0.0s done
+#6 DONE 0.1s
+
+#5 [internal] load build context
+#5 transferring context: 116.48kB 0.1s done
+#5 DONE 0.1s
+
+#7 [ 3/11] WORKDIR /workspace/backend
+#7 CACHED
+
+#8 [ 4/11] COPY backend/package.json backend/package-lock.json ./
+#8 CACHED
+
+#9 [ 2/11] RUN apt-get update && apt-get install -y --no-install-recommends openssl ca-certificates && rm -rf /var/lib/apt/lists/*
+#9 CACHED
+
+#10 [ 5/11] RUN npm ci --ignore-scripts --no-audit --no-fund
+#10 CACHED
+
+#11 [ 6/11] COPY backend/ ./
+#11 DONE 0.3s
+
+#12 [ 7/11] COPY docs/backend-contracts/ /workspace/docs/backend-contracts/
+#12 DONE 0.2s
+
+#13 [ 8/11] COPY tools/ /workspace/tools/
+#13 DONE 0.1s
+
+#14 [ 9/11] COPY BNBU-Sports-Web-new/frontend/student/ /workspace/BNBU-Sports-Web-new/frontend/student/
+#14 DONE 0.1s
+
+#15 [10/11] COPY BNBU-Sports-Web-new/portal-teacher-admin/app/ /workspace/BNBU-Sports-Web-new/portal-teacher-admin/app/
+#15 DONE 0.1s
+
+#16 [11/11] RUN npm run db:generate
+#16 0.348 
+#16 0.348 > @bnbu/sports-backend@0.1.0 db:generate
+#16 0.348 > prisma generate
+#16 0.348 
+#16 0.954 Loaded Prisma config from prisma.config.ts.
+#16 0.954 
+#16 2.965 Prisma schema loaded from prisma/schema.prisma.
+#16 4.363 
+#16 4.363 ✔ Generated Prisma Client (7.9.1) to ./src/generated/prisma in 833ms
+#16 4.363 
+#16 DONE 4.5s
+
+#17 exporting to image
+#17 exporting layers
+#17 exporting layers 1.8s done
+#17 exporting manifest sha256:4becf1ef3adc3b9be529850612afce6af92859695348721f37ff016bd3c0389b 0.0s done
+#17 exporting config sha256:046d38cf486e04bfa56f8738cb03e7930e7926dddca1d969ae5bde8ce4581140 0.0s done
+#17 exporting attestation manifest sha256:efb75a2b011b03207a27244511ac407e92fdec95d0ff5f8c0b340da6f288562c 0.0s done
+#17 exporting manifest list sha256:d4db4165df78033424e25b1f9b549b01ed3771c2a9a7cbcb8a8a4edef11b2444
+#17 exporting manifest list sha256:d4db4165df78033424e25b1f9b549b01ed3771c2a9a7cbcb8a8a4edef11b2444 0.0s done
+#17 naming to docker.io/library/bnbu-v81-local-validation-backend-startup:latest done
+#17 unpacking to docker.io/library/bnbu-v81-local-validation-backend-startup:latest
+#17 unpacking to docker.io/library/bnbu-v81-local-validation-backend-startup:latest 0.8s done
+#17 DONE 2.7s
+
+#18 resolving provenance for metadata file
+#18 DONE 0.0s
+ Image bnbu-v81-local-validation-backend-startup Built 
+ Container bnbu-v81-local-validation-backend-startup-run-4e7988be6019 Creating 
+ Container bnbu-v81-local-validation-backend-startup-run-4e7988be6019 Created 
+
+> @bnbu/sports-backend@0.1.0 prebuild
+> npm run db:generate && npm run generate
+
+
+> @bnbu/sports-backend@0.1.0 db:generate
+> prisma generate
+
+Loaded Prisma config from prisma.config.ts.
+
+Prisma schema loaded from prisma/schema.prisma.
+
+✔ Generated Prisma Client (7.9.1) to ./src/generated/prisma in 861ms
+
+┌─────────────────────────────────────────────────────────┐
+│  Update available 7.9.1 -> 8.0.0-rc.13                  │
+│                                                         │
+│  This is a major update - please follow the guide at    │
+│  https://pris.ly/d/major-version-upgrade                │
+│                                                         │
+│  Run the following to update                            │
+│    npm i --save-dev prisma@latest                       │
+│    npm i @prisma/client@latest                          │
+└─────────────────────────────────────────────────────────┘
+
+> @bnbu/sports-backend@0.1.0 generate
+> npm run openapi:generate && npm run db:manifest:generate
+
+
+> @bnbu/sports-backend@0.1.0 openapi:generate
+> node ./scripts/generate-openapi.mjs
+
+Generated 3 OpenAPI artifacts from 239 operations.
+
+> @bnbu/sports-backend@0.1.0 db:manifest:generate
+> node ./scripts/generate-migration-manifest.mjs
+
+Generated migration manifest updated.
+
+> @bnbu/sports-backend@0.1.0 build
+> nest build
+
+▶ Stage 13 alignment run lifecycle
+  ✔ freezes a RUNNING revision before computation and persists FAILED plus outbox on a domain failure (6.235764ms)
+  ✔ maps a non-retried serializable snapshot race to the stable stale-snapshot error (0.27979ms)
+  ✔ projects exactly the public run contract and drops internal snapshot scope and failure details (0.22587ms)
+✔ Stage 13 alignment run lifecycle (7.544195ms)
+▶ Stage 13 deterministic roster alignment
+  ✔ classifies every subject into exactly one of the six frozen outcomes (1.560559ms)
+  ✔ keeps fingerprints, subject keys, normalization, and result order deterministic (0.607649ms)
+  ✔ classifies official duplicates without merging identities, regardless of input order or platform match (0.310387ms)
+✔ Stage 13 deterministic roster alignment (3.112763ms)
+▶ Official roster staged import lifecycle
+  ✔ commits RECEIVED and its outbox event before parsing, then completes atomically (1.786949ms)
+✔ Official roster staged import lifecycle (2.265689ms)
+▶ Stage 13 private roster ingestion
+  ✔ streams a strict CSV upload into a server-generated private key (8.129161ms)
+  ✔ rejects path-like names and unsupported OFFICIAL_API without retaining an object (2.695307ms)
+  ✔ normalizes leading-zero identifiers and marks every duplicate row non-valid (3.287988ms)
+  ✔ uses static four-digit grade-year bounds for roster rows (2.386752ms)
+✔ Stage 13 private roster ingestion (17.18371ms)
+ℹ tests 11
+ℹ suites 4
+ℹ pass 11
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 585.167513

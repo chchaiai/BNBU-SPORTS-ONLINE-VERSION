@@ -1,0 +1,1 @@
+{"check":"CLOSED_APPLICATIONS_FIXTURE","result":"PASS","realHttpSubmitted":2,"syntheticMediaMetadata":true}

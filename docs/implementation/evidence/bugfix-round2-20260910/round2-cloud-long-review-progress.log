@@ -1,0 +1,5 @@
+{"check":"CLOUD_TEACHER_ORIGINAL_PHOTO_VIDEO_PLAYBACK","result":"PASS","observed":[{"mediaId":"01a08c4e-7a4b-7048-a81c-297a47ee4af6","type":"IMAGE"},{"mediaId":"01a08c4e-83f3-72ee-a473-3003c9c5bb43","type":"VIDEO"}]}
+{"check":"CLOUD_TEACHER_BROWSER_PUBLIC_REVIEW","result":"PASS","recordId":"01a08c4e-79a4-715a-9c1f-8683361e6eeb","creditedDurationSeconds":1800,"mediaCount":2}
+{"check":"CLOUD_STUDENT_PROGRESS_VISIBLE","text":"记录与进度\n本学期完成情况\n查看已计入的运动时长和教师确认的体测用时。\n800 米 / 1000 米 跑步\n仅显示已确认用时或免测\n暂未记录\n打卡进度\n已按有效打卡累计，还需 1170 分钟\n30 分钟\n/ 1200 分钟\n课程相关\n0 分钟\n其他运动\n30 分钟"}
+{"check":"CLOUD_STUDENT_PROGRESS_AND_NOTIFICATION_READ","result":"PASS","generalEffectiveSeconds":1800,"courseEffectiveSeconds":0,"notificationRead":true}
+{"check":"CLOUD_STUDENT_BROWSER_FEEDBACK_AND_CREDIT","result":"PASS","recordId":"01a08c4e-79a4-715a-9c1f-8683361e6eeb","creditedDurationSeconds":1800,"publicCommentMatched":true}

@@ -1,0 +1,320 @@
+{
+  "scope": "Local synthetic test evidence; production status is stated in the handoff, not inferred from this index.",
+  "files": [
+    {
+      "file": "logs/bugfix-fragment-unit.log",
+      "bytes": 30277,
+      "sha256": "baac40a023fd3019b1288fe4b13ced3b71e1258a2c9bf0b2ccba92121a4f7bd6"
+    },
+    {
+      "file": "logs/bugfix-fragment-docker-suites.log",
+      "bytes": 43764,
+      "sha256": "5cd2a03631e6507ca479483e851b556cf07764c2f503d708d0952642befaf844"
+    },
+    {
+      "file": "logs/bugfix-fragment-lint.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "file": "logs/bugfix-final-backend-typecheck.log",
+      "bytes": 77,
+      "sha256": "8a66bf22e3891a74450d046b2e50c7e81e609ddf691a52f0ff256140b1c946f6"
+    },
+    {
+      "file": "logs/bugfix-final-portal-retest.log",
+      "bytes": 14040,
+      "sha256": "60ca0709d6e864e2d1c7c72a232b70360bc7176a6efdd299a96e8506595a7b65"
+    },
+    {
+      "file": "logs/bugfix-final-student-smoke.log",
+      "bytes": 6577,
+      "sha256": "84dc958e623c2206b0b310b1f786f47cdb198ae0fbf2d9d80b2615d4f78124ed"
+    },
+    {
+      "file": "logs/bugfix-final-student-unit.log",
+      "bytes": 1103,
+      "sha256": "0bf4ab6e00e4f1bc935491ec7e89e32ab779b8e5bb5f7e54e8fb3f79fe5b51b3"
+    },
+    {
+      "file": "logs/bugfix-final-contract-schema.log",
+      "bytes": 1668,
+      "sha256": "d5e82528c5b43fab5dad8f9f3a9333a5af19a1dcd4d4aaffd4e24bb549d86edb"
+    },
+    {
+      "file": "logs/bugfix-final-openapi-lint.log",
+      "bytes": 9192,
+      "sha256": "eda5c26745b25c63bd12c7d3628bf59368e3380a69263a4996437f5af85917f0"
+    },
+    {
+      "file": "logs/bugfix-contract-parity.log",
+      "bytes": 356,
+      "sha256": "3bda83d17e18b33317b62c32f19e255fa4f73deb8ab4ce0b5210008b2f95cc6b"
+    },
+    {
+      "file": "logs/bugfix-new-course-browser.log",
+      "bytes": 1124,
+      "sha256": "6b00cae2827084673fb51d0b245e8fefba05c01ad45a9ec0fd18c306e30fe161"
+    },
+    {
+      "file": "logs/bugfix-join-browser.log",
+      "bytes": 270,
+      "sha256": "3ee5f146f743ffa4ca2a828f4eb107b6bdbc17efa597421506264afb47b215b1"
+    },
+    {
+      "file": "logs/bugfix-applications-browser.log",
+      "bytes": 244,
+      "sha256": "4c59ee069a302096aaee458b2e6a7363dad09947c4f92cbc0c9f1bfc800d57c9"
+    },
+    {
+      "file": "logs/bugfix-1000m-browser.log",
+      "bytes": 160,
+      "sha256": "ecda4473c4b7a501d7a7589e7feffedfd7b20521ddd1aef78a95f786623fa805"
+    },
+    {
+      "file": "logs/bugfix-1000m-join-browser.log",
+      "bytes": 270,
+      "sha256": "3ee5f146f743ffa4ca2a828f4eb107b6bdbc17efa597421506264afb47b215b1"
+    },
+    {
+      "file": "logs/bugfix-maintenance-browser.log",
+      "bytes": 162,
+      "sha256": "3f3b2e97e7f59b52ee46417cd8abc802a83052e3c196b859c64899cdade99bc7"
+    },
+    {
+      "file": "logs/bugfix-runtime-archive-browser.log",
+      "bytes": 197,
+      "sha256": "44bf6c796c3f9cdcd9c034f86028afb56ea8f96d579797991d81961765ea5c26"
+    },
+    {
+      "file": "logs/bugfix-portal-browser.log",
+      "bytes": 5350,
+      "sha256": "70470fd72d3b466e60e9242a1cd3f5b958c7f66a781bc08acb1beea1c0e3580c"
+    },
+    {
+      "file": "logs/bugfix-mp4-camera-qr-final.log",
+      "bytes": 269,
+      "sha256": "9f94fd05ed68e7bde60715ac62e5f4361742a65a0301c80f608928adf35dc6b0"
+    },
+    {
+      "file": "logs/bugfix-student-policy-browser-retest.log",
+      "bytes": 92,
+      "sha256": "0716c5ec3183f41d25ff1737c9d368cd91cb25d243dc2a156801ac1bec707ec5"
+    },
+    {
+      "file": "logs/bugfix-teacher-delete-browser.log",
+      "bytes": 143,
+      "sha256": "8a4897d42b99d0cd1cf8da9c58201eb61d741d5375a986af19b819b22cadafc5"
+    },
+    {
+      "file": "logs/bugfix-student-remove-browser-pass.log",
+      "bytes": 148,
+      "sha256": "a8bb3ea9f7bf366e3ea4b7c4b7a4cadfaa9b544dcd63d0f88d560fdfc2aaf851"
+    },
+    {
+      "file": "logs/bugfix-teacher-real-video.log",
+      "bytes": 261,
+      "sha256": "1aee4dc8c3af35bbffaf269cf57a7838619ab77a3b3a41ffd36d7788f3febd14"
+    },
+    {
+      "file": "logs/bugfix-fragment-mp4-submit.log",
+      "bytes": 2391,
+      "sha256": "c8a088283a658e04cb164e76f2b38fdd4d51c13d37a329550257aade556eaf28"
+    },
+    {
+      "file": "logs/bugfix-production-smoke-local-media-final.log",
+      "bytes": 648,
+      "sha256": "1049446e3551ab0d0ad34708a586c59cde8e3a006b0713fe1bbb490c8cae95f7"
+    },
+    {
+      "file": "logs/bugfix-production-smoke-local-archives-retest.log",
+      "bytes": 344,
+      "sha256": "ebc329c5c968f9c8bca328d1eae945e644e6bf67e38177af5fa36b0e7f9440c7"
+    },
+    {
+      "file": "logs/bugfix-real-30min-camera.log",
+      "bytes": 4761,
+      "sha256": "c5c89236d12ce9866a1b0f1478b08c259df1eed5ccf415ccf14863eae9215c08"
+    },
+    {
+      "file": "logs/bugfix-native-mp4-submit.log",
+      "bytes": 2521,
+      "sha256": "1b801fc73cbbc86120d7445ad80f13186be3e1ecf1c5ce113df2dc5e76f3a55c"
+    },
+    {
+      "file": "logs/bugfix-native-mp4-diagnostic.log",
+      "bytes": 1105,
+      "sha256": "8a4f728ce38f6e4e553169166975a43a2648162e42017e147e33dbbab29ca6e0"
+    },
+    {
+      "file": "logs/bugfix-student-remove-browser-final.log",
+      "bytes": 651,
+      "sha256": "6dc97643641a74b1706cbd9b0e252e09ce51077e9d7b2a372c02934d8ea019e6"
+    },
+    {
+      "file": "logs/bugfix-final-docker-suites.log",
+      "bytes": 38652,
+      "sha256": "48893b2e385233fb6ea6701f8d2ab03e1259921d6818f031fd6d4e592c749ee8"
+    },
+    {
+      "file": "logs/bugfix-real-30min-mp4.log",
+      "bytes": 4607,
+      "sha256": "cf4a97e92f6166c53f503722ef230da41823e67f9f19d57d00adb831d509eaaf"
+    },
+    {
+      "file": "logs/bugfix-release-backend-build.log",
+      "bytes": 18779,
+      "sha256": "b89920842a76f7bdacdb8760f235d25db634832410857eb9ff6c3fd25ee65863"
+    },
+    {
+      "file": "logs/bugfix-release-portal-build.log",
+      "bytes": 5923,
+      "sha256": "5400067138f5eb935a0fc56d6caa615fc3466edefc29f98377fd0eee72c3fffb"
+    },
+    {
+      "file": "logs/bugfix-release-runtime-smoke.log",
+      "bytes": 94,
+      "sha256": "d1d1a1b9e1910b8b12a0a4b67ca48efb0b495c94d8751b2e0e180454772b1c20"
+    },
+    {
+      "file": "logs/bugfix-production-deployment.log",
+      "bytes": 1549,
+      "sha256": "d9b210d7189b11905dfe0ba8a6c91f706de79a0f9517b77ca71408a3678d7550"
+    },
+    {
+      "file": "logs/bugfix-real-30min-teacher-video.log",
+      "bytes": 261,
+      "sha256": "e67307a8cf955394c3c06322c86c066e4b54f64b849f88e4558f81f65853849a"
+    },
+    {
+      "file": "logs/bugfix-real-30min-teacher-review-final.log",
+      "bytes": 71,
+      "sha256": "48eaf987fdf7651d57b38ffe2f60f7a7aefa58aea4e6c983f8939aeb966864a7"
+    },
+    {
+      "file": "logs/bugfix-real-30min-student-credit.log",
+      "bytes": 2071,
+      "sha256": "fa7d334e31fd384e3a41a9c4c9c32335312e9093776410b41ee4b923264e40c8"
+    },
+    {
+      "file": "logs/bugfix-production-deployment-first-rollback.log",
+      "bytes": 2458,
+      "sha256": "b1743525392c3fc3f2767536fc756990cfe216cab776c438ee40ee8ae50d1a72"
+    },
+    {
+      "file": "logs/bugfix-production-smoke-media.log",
+      "bytes": 787,
+      "sha256": "253eec16e96635b14ebf5d0d7b1b4567eb2e2dd8f8a63a46a8f57aa2d1c76849"
+    },
+    {
+      "file": "logs/bugfix-production-smoke-archives.log",
+      "bytes": 483,
+      "sha256": "7f546ae79418e35c8eced62d444d4069ba6e00875afff9365a07742a41be6b11"
+    },
+    {
+      "file": "logs/bugfix-production-static.log",
+      "bytes": 784,
+      "sha256": "0f7904c87f48ead70e76c31656bfde81bb136070f44b34f46adcc05cf51f7760"
+    },
+    {
+      "file": "logs/bugfix-production-policy.log",
+      "bytes": 467,
+      "sha256": "f94d32c37dbf21f6f485abeb46344d45ceffdcc868b58688bb5ee7a0b68f1a4d"
+    },
+    {
+      "file": "logs/bugfix-production-final-state.log",
+      "bytes": 687,
+      "sha256": "870f982136cd2d286abe5b93f6eea8cfbf009ca6b254b542bf4e8959587a88c6"
+    },
+    {
+      "file": "logs/bugfix-nginx-syntax.log",
+      "bytes": 1959,
+      "sha256": "e608507b36236d7afbff0d7c70f04c3c3c11954e990b0ae3c874cb8a9db70aba"
+    },
+    {
+      "file": "screenshots/1000m-exemption-approved.png",
+      "bytes": 43839,
+      "sha256": "cbc6e7a4b39cf67e6d147292bd813a934c6e45cf29821ff38a52bf3ac8c71d19"
+    },
+    {
+      "file": "screenshots/admin-create-footer.png",
+      "bytes": 46741,
+      "sha256": "57649f9ac99ab8f58d896de87833a4939641cf38330717215437cda1788b8ad2"
+    },
+    {
+      "file": "screenshots/admin-notifications.png",
+      "bytes": 10084,
+      "sha256": "fbf6933a106b57704f56c09ddd8dfc4665327357010dda4a3d334e6454ad1966"
+    },
+    {
+      "file": "screenshots/mobile-video.png",
+      "bytes": 36033,
+      "sha256": "7b21fc5b4c1a7279f06789d908224ce8ace1b0ecd95a3bb510a606b1a3587d1a"
+    },
+    {
+      "file": "screenshots/student-enrollment-removed.png",
+      "bytes": 73812,
+      "sha256": "6b633ab3ee9c7205aba38a1b1e1e964141b3d1df6a12c48b030e044264d1fd52"
+    },
+    {
+      "file": "screenshots/student-progress-without-score-button.png",
+      "bytes": 33493,
+      "sha256": "79603e6804bac276c2d368e35034620d28d4bdb22912c69566746873ee1e85de"
+    },
+    {
+      "file": "screenshots/student-teacher-minimum-45.png",
+      "bytes": 48442,
+      "sha256": "71c0d4ca5f1ab9a28fccc64e0f1ddfbaafbde1736f0aad5c38198030ac3beb69"
+    },
+    {
+      "file": "screenshots/teacher-application-list.png",
+      "bytes": 60703,
+      "sha256": "86dbd5e550faf64d8ce20cdabc1b42a54d4369fa25e83d5afc8b7f5bb5ffdce0"
+    },
+    {
+      "file": "screenshots/teacher-delete-retry.png",
+      "bytes": 37442,
+      "sha256": "33aefb0496c7270cdd81576ae80b85146d2a943d181b1554ffd8bf40e8a00887"
+    },
+    {
+      "file": "screenshots/teacher-notifications.png",
+      "bytes": 10064,
+      "sha256": "6894d6bb4f7067ea76464112c4b6897290f52742636fa1f9332a6cf7bb4713bd"
+    },
+    {
+      "file": "screenshots/teacher-original-application-images.png",
+      "bytes": 64156,
+      "sha256": "41cb8989b3f3152a597344920718020aec22552165391d3d0c69d0b650a1e080"
+    },
+    {
+      "file": "screenshots/teacher-real-image.png",
+      "bytes": 67616,
+      "sha256": "e2d8a174ee4013e645ef030c8f9c76eab7fac3e35e9ebaeb4c80b11537bdb9c8"
+    },
+    {
+      "file": "screenshots/teacher-real-video.png",
+      "bytes": 60492,
+      "sha256": "f5509dfd351a5240866310bf0dd15ae2126c66800fd91b936aa6d86bff1cbb06"
+    },
+    {
+      "file": "screenshots/student-three-application-images.png",
+      "bytes": 30476,
+      "sha256": "addd31bcc641f50ccab0e6a30bd44e6d7ab8612bda6e0b7c3c59c8411439d52d"
+    },
+    {
+      "file": "screenshots/runtime-archive-download.png",
+      "bytes": 627595,
+      "sha256": "ce92a384af0548173b3fc93baafc1c374ac2a594fb614f31d09674ccb5c42c87"
+    },
+    {
+      "file": "local-validation.json",
+      "bytes": 538,
+      "sha256": "fbd484abd3e70237e3ef5e2f0be5c5db7d73be94c2e54db11bd7d3761134fdb5"
+    },
+    {
+      "file": "production-nginx.conf",
+      "bytes": 2301,
+      "sha256": "0dd88d3444ad98c8888ffa1840c0233f7c82462bdaa8e289d19f7a796ba89ef9"
+    }
+  ]
+}

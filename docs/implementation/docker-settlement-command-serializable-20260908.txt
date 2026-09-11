@@ -1,0 +1,150 @@
+time="2026-09-08T13:33:11+08:00" level=warning msg="Found orphan containers (bnbu-v81-local-validation-backend-browser-1) for this project. If you removed or renamed this service in your compose file, you can run this command with the --remove-orphans flag to clean it up."
+ Image bnbu-v81-local-validation-backend-startup Building 
+#1 [internal] load local bake definitions
+#1 reading from stdin 636B 0.0s done
+#1 DONE 0.0s
+
+#2 [internal] load build definition from Dockerfile.v81-test
+#2 transferring dockerfile: 828B done
+#2 DONE 0.0s
+
+#3 [internal] load metadata for docker.io/library/node:24.18.0-bookworm-slim
+#3 DONE 1.0s
+
+#4 [internal] load .dockerignore
+#4 transferring context: 153B done
+#4 DONE 0.0s
+
+#5 [internal] load build context
+#5 DONE 0.0s
+
+#6 [ 1/11] FROM docker.io/library/node:24.18.0-bookworm-slim@sha256:6f7b03f7c2c8e2e784dcf9295400527b9b1270fd37b7e9a7285cf83b6951452d
+#6 resolve docker.io/library/node:24.18.0-bookworm-slim@sha256:6f7b03f7c2c8e2e784dcf9295400527b9b1270fd37b7e9a7285cf83b6951452d 0.1s done
+#6 DONE 0.1s
+
+#5 [internal] load build context
+#5 transferring context: 114.14kB 0.1s done
+#5 DONE 0.1s
+
+#7 [ 2/11] RUN apt-get update && apt-get install -y --no-install-recommends openssl ca-certificates && rm -rf /var/lib/apt/lists/*
+#7 CACHED
+
+#8 [ 3/11] WORKDIR /workspace/backend
+#8 CACHED
+
+#9 [ 4/11] COPY backend/package.json backend/package-lock.json ./
+#9 CACHED
+
+#10 [ 5/11] RUN npm ci --ignore-scripts --no-audit --no-fund
+#10 CACHED
+
+#11 [ 6/11] COPY backend/ ./
+#11 DONE 0.3s
+
+#12 [ 7/11] COPY docs/backend-contracts/ /workspace/docs/backend-contracts/
+#12 DONE 0.2s
+
+#13 [ 8/11] COPY tools/ /workspace/tools/
+#13 DONE 0.1s
+
+#14 [ 9/11] COPY BNBU-Sports-Web-new/frontend/student/ /workspace/BNBU-Sports-Web-new/frontend/student/
+#14 DONE 0.1s
+
+#15 [10/11] COPY BNBU-Sports-Web-new/portal-teacher-admin/app/ /workspace/BNBU-Sports-Web-new/portal-teacher-admin/app/
+#15 DONE 0.1s
+
+#16 [11/11] RUN npm run db:generate
+#16 0.383 
+#16 0.383 > @bnbu/sports-backend@0.1.0 db:generate
+#16 0.383 > prisma generate
+#16 0.383 
+#16 1.056 Loaded Prisma config from prisma.config.ts.
+#16 1.056 
+#16 2.864 Prisma schema loaded from prisma/schema.prisma.
+#16 4.429 
+#16 4.429 ✔ Generated Prisma Client (7.9.1) to ./src/generated/prisma in 964ms
+#16 4.429 
+#16 DONE 4.6s
+
+#17 exporting to image
+#17 exporting layers
+#17 exporting layers 1.8s done
+#17 exporting manifest sha256:562df42ac1e56c6c565c84ced9ac7a3348dbfc836c7e7e903920b3f065c331ff 0.0s done
+#17 exporting config sha256:4c7a0567d845df3ab1f8db5a87af5b4c1ec233c5974c5de8028bbfac492b7b53 0.0s done
+#17 exporting attestation manifest sha256:90d93edd1a433166a13adaf103f7b63afc0afedb6859e8cf21c1551c60c2b5b7 0.0s done
+#17 exporting manifest list sha256:f886c05b09c8bda0dc3e6fd8a47c26e664917a3cf5634969e6bd1dec226b59ef
+#17 exporting manifest list sha256:f886c05b09c8bda0dc3e6fd8a47c26e664917a3cf5634969e6bd1dec226b59ef 0.0s done
+#17 naming to docker.io/library/bnbu-v81-local-validation-backend-startup:latest done
+#17 unpacking to docker.io/library/bnbu-v81-local-validation-backend-startup:latest
+#17 unpacking to docker.io/library/bnbu-v81-local-validation-backend-startup:latest 0.8s done
+#17 DONE 2.8s
+
+#18 resolving provenance for metadata file
+#18 DONE 0.0s
+ Image bnbu-v81-local-validation-backend-startup Built 
+ Container bnbu-v81-local-validation-backend-startup-run-1b639b898222 Creating 
+ Container bnbu-v81-local-validation-backend-startup-run-1b639b898222 Created 
+
+> @bnbu/sports-backend@0.1.0 prebuild
+> npm run db:generate && npm run generate
+
+
+> @bnbu/sports-backend@0.1.0 db:generate
+> prisma generate
+
+Loaded Prisma config from prisma.config.ts.
+
+Prisma schema loaded from prisma/schema.prisma.
+
+┌─────────────────────────────────────────────────────────┐
+│  Update available 7.9.1 -> 8.0.0-rc.13                  │
+│                                                         │
+│  This is a major update - please follow the guide at    │
+│  https://pris.ly/d/major-version-upgrade                │
+│                                                         │
+│  Run the following to update                            │
+│    npm i --save-dev prisma@latest                       │
+│    npm i @prisma/client@latest                          │
+└─────────────────────────────────────────────────────────┘
+✔ Generated Prisma Client (7.9.1) to ./src/generated/prisma in 1.05s
+
+
+> @bnbu/sports-backend@0.1.0 generate
+> npm run openapi:generate && npm run db:manifest:generate
+
+
+> @bnbu/sports-backend@0.1.0 openapi:generate
+> node ./scripts/generate-openapi.mjs
+
+Generated 3 OpenAPI artifacts from 239 operations.
+
+> @bnbu/sports-backend@0.1.0 db:manifest:generate
+> node ./scripts/generate-migration-manifest.mjs
+
+Generated migration manifest updated.
+
+> @bnbu/sports-backend@0.1.0 build
+> nest build
+
+{"check":"LOCAL_OBJECT_STORAGE_ROUNDTRIP","result":"PASS"}
+Loaded Prisma config from prisma.config.ts.
+
+Prisma schema loaded from prisma/schema.prisma.
+Datasource "db": PostgreSQL database "v81_runtime_test", schema "public" at "sql-postgres:5432"
+
+57 migrations found in prisma/migrations
+
+
+No pending migrations to apply.
+{"live":200,"ready":200,"businessValidated":false}
+{"check":"LOGIN_AND_FIRST_PASSWORD_CHANGE","role":"ADMIN","result":"PASS"}
+{"check":"LOGIN_AND_FIRST_PASSWORD_CHANGE","role":"TEACHER","result":"PASS"}
+{"check":"LOGIN_AND_FIRST_PASSWORD_CHANGE","role":"OTHER_TEACHER","result":"PASS"}
+{"check":"LOGIN_AND_FIRST_PASSWORD_CHANGE","role":"OTHER_ORGANIZATION","result":"PASS"}
+{"check":"ROSTER_REGISTRATION_DATABASE_EMAIL_VERIFICATION_EXTRAS_TEACHER_SCOPE_READONLY","result":"PASS"}
+{"check":"ADMIN_ROSTER_AGGREGATE_UNAVAILABLE_COUNTS_NO_PERSONAL_FIELDS_COURSE_VIEW_REVOCATION_SCOPE","result":"PASS"}
+{"check":"SETTLEMENT_INTERNAL_COMMAND_TIME_SCOPE_STALE_PREVIEW_SNAPSHOT_HASH_AUDIT_DUPLICATE","result":"PASS","boundary":"internal transaction only; HTTP not exposed"}
+{"check":"SETTLEMENT_REAL_FACTS_PHYSICAL_COUNTS_IDENTITY_PENDING_POLICY_SERVER_TIME_BOUNDARY","result":"PASS","clock":"injected for synthetic transaction test","fixtureChanges":"rolled back"}
+{"check":"COMPOSITE_ROSTER_CONFIRMED_SOURCE_REGISTRATION_PHYSICAL_PROGRESS_SEPARATE_TEACHER_SCOPE","result":"PASS"}
+{"check":"ROSTER_TEACHER_CONFIRMATION_SOURCE_VERSION_ROWS_REPLAY_IMMUTABLE_NO_MEMBERSHIP_CHANGE","result":"PASS"}
+{"check":"ROSTER_SETTLEMENT_FOLLOWS_CURRENT_SOURCE_AND_REJECTS_POST_CLOSE_INTAKE","result":"PASS"}

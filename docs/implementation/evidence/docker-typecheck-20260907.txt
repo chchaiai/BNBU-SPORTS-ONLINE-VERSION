@@ -1,0 +1,6 @@
+ Container bnbu-v81-local-validation-sql-tests-run-e865b2ee654e Creating 
+ Container bnbu-v81-local-validation-sql-tests-run-e865b2ee654e Created 
+
+> @bnbu/sports-backend@0.1.0 typecheck
+> tsc --noEmit -p tsconfig.json
+

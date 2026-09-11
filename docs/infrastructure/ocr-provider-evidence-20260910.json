@@ -1,0 +1,23 @@
+{
+  "scope": "Provider smoke only; management UI upload chain pending COS permission",
+  "attempts": [
+    {
+      "at": "2026-09-10T05:27:16.886Z",
+      "status": "FAIL",
+      "code": "ASSERTION_FAILED",
+      "observation": "Container-generated SVG raster emitted Fontconfig error; expected synthetic student identifier absent. No raw response retained."
+    },
+    {
+      "at": "2026-09-10T05:28:27.761Z",
+      "status": "PASS",
+      "requestId": "88ccba24-797c-4919-bd77-dac758ea364d",
+      "sourceSha256": "26d441ace93e01e909901829a61ff67141fff57122e6b24c6bf19c549408cbca",
+      "tableCount": 1,
+      "cellCount": 9,
+      "requiresTeacherConfirmation": true,
+      "region": "ap-guangzhou",
+      "credentialSource": "CVM role metadata temporary credentials",
+      "fixture": "Visually verified synthetic PNG rendered on build host"
+    }
+  ]
+}

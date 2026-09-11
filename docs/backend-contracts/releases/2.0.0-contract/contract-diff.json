@@ -1,0 +1,1968 @@
+{
+  "formatVersion": 2,
+  "baseline": {
+    "version": "1.4.0-contract",
+    "sha256": "c5d18c4894bbe421074cba27da3b39a9076328c499cc742b273665994c29059b",
+    "operationCount": 122
+  },
+  "current": {
+    "version": "2.0.0-contract",
+    "sha256": "0e350cecf84a615dea53346ceff0a221de449976ce3d28be4cb84ba6aa3a4dd9",
+    "operationCount": 126
+  },
+  "compatible": true,
+  "majorChangeApproval": {
+    "targetVersion": "2.0.0-contract",
+    "approvedBy": "repository-owner",
+    "approvedDate": "2026-08-18",
+    "approvalBasis": "The repository owner explicitly approved the 55 breaking changes reported for the Contract 2.0 formal scope; this approval does not authorize deployment or database migration execution.",
+    "approvedChangeCount": 55
+  },
+  "summary": {
+    "breaking": 55,
+    "reviewRequired": 0,
+    "nonBreaking": 17,
+    "approvedExceptions": 55,
+    "unapprovedBlockers": 0
+  },
+  "changes": [
+    {
+      "id": "enum-values-added-114f60e70927f40e",
+      "kind": "ENUM_VALUES_ADDED",
+      "classification": "BREAKING",
+      "direction": "response",
+      "location": "POST /auth/refresh/responses/200/application/json/properties/data/properties/user/properties/status/enum",
+      "detail": "Enum additions are classified according to request/response direction.",
+      "before": [],
+      "after": [
+        "PENDING_CONTACT_BINDING"
+      ],
+      "approvedException": {
+        "approvalType": "MAJOR_VERSION_SCOPE",
+        "approvedBy": "repository-owner",
+        "approvedDate": "2026-08-18",
+        "approvalBasis": "The repository owner explicitly approved the 55 breaking changes reported for the Contract 2.0 formal scope; this approval does not authorize deployment or database migration execution.",
+        "targetVersion": "2.0.0-contract"
+      }
+    },
+    {
+      "id": "enum-values-added-399238cb24dfceb6",
+      "kind": "ENUM_VALUES_ADDED",
+      "classification": "NON_BREAKING",
+      "direction": "request",
+      "location": "POST /media-uploads/requestBody/application/json/properties/mimeType/enum",
+      "detail": "Enum additions are classified according to request/response direction.",
+      "before": [],
+      "after": [
+        "image/jpeg",
+        "image/png",
+        "video/mp4",
+        "video/quicktime",
+        "video/3gpp",
+        "video/webm"
+      ],
+      "approvedException": null
+    },
+    {
+      "id": "enum-values-added-4d204ee37d30b860",
+      "kind": "ENUM_VALUES_ADDED",
+      "classification": "BREAKING",
+      "direction": "response",
+      "location": "POST /auth/student-sign-in-codes/verify/responses/200/application/json/properties/data/properties/user/properties/status/enum",
+      "detail": "Enum additions are classified according to request/response direction.",
+      "before": [],
+      "after": [
+        "PENDING_CONTACT_BINDING"
+      ],
+      "approvedException": {
+        "approvalType": "MAJOR_VERSION_SCOPE",
+        "approvedBy": "repository-owner",
+        "approvedDate": "2026-08-18",
+        "approvalBasis": "The repository owner explicitly approved the 55 breaking changes reported for the Contract 2.0 formal scope; this approval does not authorize deployment or database migration execution.",
+        "targetVersion": "2.0.0-contract"
+      }
+    },
+    {
+      "id": "enum-values-added-a3773a192eae004d",
+      "kind": "ENUM_VALUES_ADDED",
+      "classification": "BREAKING",
+      "direction": "response",
+      "location": "POST /auth/password-login/responses/200/application/json/properties/data/properties/user/properties/status/enum",
+      "detail": "Enum additions are classified according to request/response direction.",
+      "before": [],
+      "after": [
+        "PENDING_CONTACT_BINDING"
+      ],
+      "approvedException": {
+        "approvalType": "MAJOR_VERSION_SCOPE",
+        "approvedBy": "repository-owner",
+        "approvedDate": "2026-08-18",
+        "approvalBasis": "The repository owner explicitly approved the 55 breaking changes reported for the Contract 2.0 formal scope; this approval does not authorize deployment or database migration execution.",
+        "targetVersion": "2.0.0-contract"
+      }
+    },
+    {
+      "id": "enum-values-added-ba1b5fb38d335530",
+      "kind": "ENUM_VALUES_ADDED",
+      "classification": "BREAKING",
+      "direction": "response",
+      "location": "POST /course-invites/{inviteToken}/join/responses/200/application/json/properties/data/properties/authSession/properties/user/properties/status/enum",
+      "detail": "Enum additions are classified according to request/response direction.",
+      "before": [],
+      "after": [
+        "PENDING_CONTACT_BINDING"
+      ],
+      "approvedException": {
+        "approvalType": "MAJOR_VERSION_SCOPE",
+        "approvedBy": "repository-owner",
+        "approvedDate": "2026-08-18",
+        "approvalBasis": "The repository owner explicitly approved the 55 breaking changes reported for the Contract 2.0 formal scope; this approval does not authorize deployment or database migration execution.",
+        "targetVersion": "2.0.0-contract"
+      }
+    },
+    {
+      "id": "enum-values-added-c8bb8f2d9563b454",
+      "kind": "ENUM_VALUES_ADDED",
+      "classification": "BREAKING",
+      "direction": "response",
+      "location": "GET /me/responses/200/application/json/properties/data/properties/user/properties/status/enum",
+      "detail": "Enum additions are classified according to request/response direction.",
+      "before": [],
+      "after": [
+        "PENDING_CONTACT_BINDING"
+      ],
+      "approvedException": {
+        "approvalType": "MAJOR_VERSION_SCOPE",
+        "approvedBy": "repository-owner",
+        "approvedDate": "2026-08-18",
+        "approvalBasis": "The repository owner explicitly approved the 55 breaking changes reported for the Contract 2.0 formal scope; this approval does not authorize deployment or database migration execution.",
+        "targetVersion": "2.0.0-contract"
+      }
+    },
+    {
+      "id": "enum-values-added-fb983bec811ab6d9",
+      "kind": "ENUM_VALUES_ADDED",
+      "classification": "BREAKING",
+      "direction": "response",
+      "location": "POST /course-invites/{inviteToken}/join/responses/201/application/json/properties/data/properties/authSession/properties/user/properties/status/enum",
+      "detail": "Enum additions are classified according to request/response direction.",
+      "before": [],
+      "after": [
+        "PENDING_CONTACT_BINDING"
+      ],
+      "approvedException": {
+        "approvalType": "MAJOR_VERSION_SCOPE",
+        "approvedBy": "repository-owner",
+        "approvedDate": "2026-08-18",
+        "approvalBasis": "The repository owner explicitly approved the 55 breaking changes reported for the Contract 2.0 formal scope; this approval does not authorize deployment or database migration execution.",
+        "targetVersion": "2.0.0-contract"
+      }
+    },
+    {
+      "id": "enum-values-removed-1df9053b65a2b9ab",
+      "kind": "ENUM_VALUES_REMOVED",
+      "classification": "BREAKING",
+      "direction": "request",
+      "location": "POST /auth/account-recovery-requests/requestBody/application/json/properties/channel/enum",
+      "detail": "Published enum values were removed.",
+      "before": [
+        "PHONE"
+      ],
+      "after": [],
+      "approvedException": {
+        "approvalType": "MAJOR_VERSION_SCOPE",
+        "approvedBy": "repository-owner",
+        "approvedDate": "2026-08-18",
+        "approvalBasis": "The repository owner explicitly approved the 55 breaking changes reported for the Contract 2.0 formal scope; this approval does not authorize deployment or database migration execution.",
+        "targetVersion": "2.0.0-contract"
+      }
+    },
+    {
+      "id": "enum-values-removed-a259718a82500839",
+      "kind": "ENUM_VALUES_REMOVED",
+      "classification": "BREAKING",
+      "direction": "request",
+      "location": "POST /course-invites/{inviteToken}/join-capabilities/requestBody/application/json/properties/gender/enum",
+      "detail": "Published enum values were removed.",
+      "before": [
+        "OTHER"
+      ],
+      "after": [],
+      "approvedException": {
+        "approvalType": "MAJOR_VERSION_SCOPE",
+        "approvedBy": "repository-owner",
+        "approvedDate": "2026-08-18",
+        "approvalBasis": "The repository owner explicitly approved the 55 breaking changes reported for the Contract 2.0 formal scope; this approval does not authorize deployment or database migration execution.",
+        "targetVersion": "2.0.0-contract"
+      }
+    },
+    {
+      "id": "enum-values-removed-ae13e512f631dd11",
+      "kind": "ENUM_VALUES_REMOVED",
+      "classification": "BREAKING",
+      "direction": "request",
+      "location": "POST /auth/student-sign-in-codes/requestBody/application/json/properties/channel/enum",
+      "detail": "Published enum values were removed.",
+      "before": [
+        "PHONE"
+      ],
+      "after": [],
+      "approvedException": {
+        "approvalType": "MAJOR_VERSION_SCOPE",
+        "approvedBy": "repository-owner",
+        "approvedDate": "2026-08-18",
+        "approvalBasis": "The repository owner explicitly approved the 55 breaking changes reported for the Contract 2.0 formal scope; this approval does not authorize deployment or database migration execution.",
+        "targetVersion": "2.0.0-contract"
+      }
+    },
+    {
+      "id": "operation-removed-ea73ccd9bdec9a3a",
+      "kind": "OPERATION_REMOVED",
+      "classification": "BREAKING",
+      "direction": "operation",
+      "location": "PATCH /me",
+      "detail": "A path or HTTP method was removed.",
+      "before": true,
+      "after": false,
+      "approvedException": {
+        "approvalType": "MAJOR_VERSION_SCOPE",
+        "approvedBy": "repository-owner",
+        "approvedDate": "2026-08-18",
+        "approvalBasis": "The repository owner explicitly approved the 55 breaking changes reported for the Contract 2.0 formal scope; this approval does not authorize deployment or database migration execution.",
+        "targetVersion": "2.0.0-contract"
+      }
+    },
+    {
+      "id": "property-added-1908909463b5e388",
+      "kind": "PROPERTY_ADDED",
+      "classification": "NON_BREAKING",
+      "direction": "request",
+      "location": "PATCH /exemption-applications/{applicationId}/requestBody/application/json/properties/applicationSubtype",
+      "detail": "An optional property was added.",
+      "before": null,
+      "after": {
+        "type": "string",
+        "enum": [
+          "RUN_800M",
+          "RUN_1000M",
+          "SCHOOL_TEAM",
+          "STUDENT_CLUB",
+          "SPECIAL_CIRCUMSTANCE"
+        ],
+        "x-transport-constraint": true
+      },
+      "approvedException": null
+    },
+    {
+      "id": "property-added-2a03006f9f3de4b0",
+      "kind": "PROPERTY_ADDED",
+      "classification": "NON_BREAKING",
+      "direction": "request",
+      "location": "PATCH /exemption-applications/{applicationId}/requestBody/application/json/properties/organizationName",
+      "detail": "An optional property was added.",
+      "before": null,
+      "after": {
+        "type": [
+          "string",
+          "null"
+        ],
+        "minLength": 1,
+        "maxLength": 128
+      },
+      "approvedException": null
+    },
+    {
+      "id": "property-added-b37be7dc9f0cf420",
+      "kind": "PROPERTY_ADDED",
+      "classification": "NON_BREAKING",
+      "direction": "request",
+      "location": "POST /exemption-applications/requestBody/application/json/properties/applicationSubtype",
+      "detail": "An optional property was added.",
+      "before": null,
+      "after": {
+        "type": "string",
+        "enum": [
+          "RUN_800M",
+          "RUN_1000M",
+          "SCHOOL_TEAM",
+          "STUDENT_CLUB",
+          "SPECIAL_CIRCUMSTANCE"
+        ],
+        "x-transport-constraint": true,
+        "description": "Updated Contract 1.5 clients send this field. RUN_800M/RUN_1000M require PHYSICAL_TEST; SCHOOL_TEAM/STUDENT_CLUB require EXERCISE_CHECK_IN; SPECIAL_CIRCUMSTANCE requires the matching applicationType. Omission is accepted only for backward-compatible legacy clients and persists null."
+      },
+      "approvedException": null
+    },
+    {
+      "id": "property-added-bc4db8bbd8ae4bad",
+      "kind": "PROPERTY_ADDED",
+      "classification": "NON_BREAKING",
+      "direction": "request",
+      "location": "POST /exemption-applications/requestBody/application/json/properties/organizationName",
+      "detail": "An optional property was added.",
+      "before": null,
+      "after": {
+        "type": [
+          "string",
+          "null"
+        ],
+        "minLength": 1,
+        "maxLength": 128,
+        "description": "Updated Contract 1.5 clients send a name for SCHOOL_TEAM and STUDENT_CLUB and null otherwise. Omission is accepted only with an omitted applicationSubtype for backward-compatible legacy clients."
+      },
+      "approvedException": null
+    },
+    {
+      "id": "property-removed-24b7355070b45b91",
+      "kind": "PROPERTY_REMOVED",
+      "classification": "BREAKING",
+      "direction": "response",
+      "location": "POST /course-invites/{inviteToken}/join/responses/200/application/json/properties/data/properties/authSession/properties/user/properties/primaryPhoneMasked",
+      "detail": "A published property was removed.",
+      "before": {
+        "type": [
+          "string",
+          "null"
+        ],
+        "maxLength": 32,
+        "readOnly": true,
+        "description": "Masked projection only; plaintext phone is never returned."
+      },
+      "after": null,
+      "approvedException": {
+        "approvalType": "MAJOR_VERSION_SCOPE",
+        "approvedBy": "repository-owner",
+        "approvedDate": "2026-08-18",
+        "approvalBasis": "The repository owner explicitly approved the 55 breaking changes reported for the Contract 2.0 formal scope; this approval does not authorize deployment or database migration execution.",
+        "targetVersion": "2.0.0-contract"
+      }
+    },
+    {
+      "id": "property-removed-3540dbcd706e1250",
+      "kind": "PROPERTY_REMOVED",
+      "classification": "BREAKING",
+      "direction": "response",
+      "location": "POST /course-invites/{inviteToken}/join/responses/201/application/json/properties/data/properties/authSession/properties/user/properties/primaryPhoneMasked",
+      "detail": "A published property was removed.",
+      "before": {
+        "type": [
+          "string",
+          "null"
+        ],
+        "maxLength": 32,
+        "readOnly": true,
+        "description": "Masked projection only; plaintext phone is never returned."
+      },
+      "after": null,
+      "approvedException": {
+        "approvalType": "MAJOR_VERSION_SCOPE",
+        "approvedBy": "repository-owner",
+        "approvedDate": "2026-08-18",
+        "approvalBasis": "The repository owner explicitly approved the 55 breaking changes reported for the Contract 2.0 formal scope; this approval does not authorize deployment or database migration execution.",
+        "targetVersion": "2.0.0-contract"
+      }
+    },
+    {
+      "id": "property-removed-41c83a02537eed1c",
+      "kind": "PROPERTY_REMOVED",
+      "classification": "BREAKING",
+      "direction": "response",
+      "location": "POST /auth/student-sign-in-codes/verify/responses/200/application/json/properties/data/properties/user/properties/phoneVerified",
+      "detail": "A published property was removed.",
+      "before": {
+        "type": "boolean",
+        "readOnly": true,
+        "description": "Derived from the current contact verification fact; the verification timestamp is not exposed."
+      },
+      "after": null,
+      "approvedException": {
+        "approvalType": "MAJOR_VERSION_SCOPE",
+        "approvedBy": "repository-owner",
+        "approvedDate": "2026-08-18",
+        "approvalBasis": "The repository owner explicitly approved the 55 breaking changes reported for the Contract 2.0 formal scope; this approval does not authorize deployment or database migration execution.",
+        "targetVersion": "2.0.0-contract"
+      }
+    },
+    {
+      "id": "property-removed-41dce74b825ec16c",
+      "kind": "PROPERTY_REMOVED",
+      "classification": "BREAKING",
+      "direction": "response",
+      "location": "POST /exercise-records/{recordId}/withdraw/responses/200/application/json/properties/data/properties/studentRemark",
+      "detail": "A published property was removed.",
+      "before": {
+        "type": [
+          "string",
+          "null"
+        ],
+        "maxLength": 200
+      },
+      "after": null,
+      "approvedException": {
+        "approvalType": "MAJOR_VERSION_SCOPE",
+        "approvedBy": "repository-owner",
+        "approvedDate": "2026-08-18",
+        "approvalBasis": "The repository owner explicitly approved the 55 breaking changes reported for the Contract 2.0 formal scope; this approval does not authorize deployment or database migration execution.",
+        "targetVersion": "2.0.0-contract"
+      }
+    },
+    {
+      "id": "property-removed-44137575780297e4",
+      "kind": "PROPERTY_REMOVED",
+      "classification": "BREAKING",
+      "direction": "response",
+      "location": "POST /course-invites/{inviteToken}/join/responses/201/application/json/properties/data/properties/authSession/properties/user/properties/phoneVerified",
+      "detail": "A published property was removed.",
+      "before": {
+        "type": "boolean",
+        "readOnly": true,
+        "description": "Derived from the current contact verification fact; the verification timestamp is not exposed."
+      },
+      "after": null,
+      "approvedException": {
+        "approvalType": "MAJOR_VERSION_SCOPE",
+        "approvedBy": "repository-owner",
+        "approvedDate": "2026-08-18",
+        "approvalBasis": "The repository owner explicitly approved the 55 breaking changes reported for the Contract 2.0 formal scope; this approval does not authorize deployment or database migration execution.",
+        "targetVersion": "2.0.0-contract"
+      }
+    },
+    {
+      "id": "property-removed-4b16e834eb8998ef",
+      "kind": "PROPERTY_REMOVED",
+      "classification": "BREAKING",
+      "direction": "response",
+      "location": "POST /auth/refresh/responses/200/application/json/properties/data/properties/user/properties/phoneVerified",
+      "detail": "A published property was removed.",
+      "before": {
+        "type": "boolean",
+        "readOnly": true,
+        "description": "Derived from the current contact verification fact; the verification timestamp is not exposed."
+      },
+      "after": null,
+      "approvedException": {
+        "approvalType": "MAJOR_VERSION_SCOPE",
+        "approvedBy": "repository-owner",
+        "approvedDate": "2026-08-18",
+        "approvalBasis": "The repository owner explicitly approved the 55 breaking changes reported for the Contract 2.0 formal scope; this approval does not authorize deployment or database migration execution.",
+        "targetVersion": "2.0.0-contract"
+      }
+    },
+    {
+      "id": "property-removed-501d8727387f2e4a",
+      "kind": "PROPERTY_REMOVED",
+      "classification": "BREAKING",
+      "direction": "response",
+      "location": "POST /auth/student-sign-in-codes/verify/responses/200/application/json/properties/data/properties/user/properties/primaryPhoneMasked",
+      "detail": "A published property was removed.",
+      "before": {
+        "type": [
+          "string",
+          "null"
+        ],
+        "maxLength": 32,
+        "readOnly": true,
+        "description": "Masked projection only; plaintext phone is never returned."
+      },
+      "after": null,
+      "approvedException": {
+        "approvalType": "MAJOR_VERSION_SCOPE",
+        "approvedBy": "repository-owner",
+        "approvedDate": "2026-08-18",
+        "approvalBasis": "The repository owner explicitly approved the 55 breaking changes reported for the Contract 2.0 formal scope; this approval does not authorize deployment or database migration execution.",
+        "targetVersion": "2.0.0-contract"
+      }
+    },
+    {
+      "id": "property-removed-634284f77d2ae9ca",
+      "kind": "PROPERTY_REMOVED",
+      "classification": "BREAKING",
+      "direction": "response",
+      "location": "POST /course-invites/{inviteToken}/join/responses/200/application/json/properties/data/properties/authSession/properties/user/properties/phoneVerified",
+      "detail": "A published property was removed.",
+      "before": {
+        "type": "boolean",
+        "readOnly": true,
+        "description": "Derived from the current contact verification fact; the verification timestamp is not exposed."
+      },
+      "after": null,
+      "approvedException": {
+        "approvalType": "MAJOR_VERSION_SCOPE",
+        "approvedBy": "repository-owner",
+        "approvedDate": "2026-08-18",
+        "approvalBasis": "The repository owner explicitly approved the 55 breaking changes reported for the Contract 2.0 formal scope; this approval does not authorize deployment or database migration execution.",
+        "targetVersion": "2.0.0-contract"
+      }
+    },
+    {
+      "id": "property-removed-69d196e5f183a251",
+      "kind": "PROPERTY_REMOVED",
+      "classification": "BREAKING",
+      "direction": "response",
+      "location": "POST /auth/refresh/responses/200/application/json/properties/data/properties/user/properties/primaryPhoneMasked",
+      "detail": "A published property was removed.",
+      "before": {
+        "type": [
+          "string",
+          "null"
+        ],
+        "maxLength": 32,
+        "readOnly": true,
+        "description": "Masked projection only; plaintext phone is never returned."
+      },
+      "after": null,
+      "approvedException": {
+        "approvalType": "MAJOR_VERSION_SCOPE",
+        "approvedBy": "repository-owner",
+        "approvedDate": "2026-08-18",
+        "approvalBasis": "The repository owner explicitly approved the 55 breaking changes reported for the Contract 2.0 formal scope; this approval does not authorize deployment or database migration execution.",
+        "targetVersion": "2.0.0-contract"
+      }
+    },
+    {
+      "id": "property-removed-71cc6ba8bc2d62d4",
+      "kind": "PROPERTY_REMOVED",
+      "classification": "BREAKING",
+      "direction": "response",
+      "location": "POST /auth/password-login/responses/200/application/json/properties/data/properties/user/properties/primaryPhoneMasked",
+      "detail": "A published property was removed.",
+      "before": {
+        "type": [
+          "string",
+          "null"
+        ],
+        "maxLength": 32,
+        "readOnly": true,
+        "description": "Masked projection only; plaintext phone is never returned."
+      },
+      "after": null,
+      "approvedException": {
+        "approvalType": "MAJOR_VERSION_SCOPE",
+        "approvedBy": "repository-owner",
+        "approvedDate": "2026-08-18",
+        "approvalBasis": "The repository owner explicitly approved the 55 breaking changes reported for the Contract 2.0 formal scope; this approval does not authorize deployment or database migration execution.",
+        "targetVersion": "2.0.0-contract"
+      }
+    },
+    {
+      "id": "property-removed-77effd74e4a9b2f4",
+      "kind": "PROPERTY_REMOVED",
+      "classification": "BREAKING",
+      "direction": "response",
+      "location": "POST /exercise-records/{recordId}/discard/responses/200/application/json/properties/data/properties/studentRemark",
+      "detail": "A published property was removed.",
+      "before": {
+        "type": [
+          "string",
+          "null"
+        ],
+        "maxLength": 200
+      },
+      "after": null,
+      "approvedException": {
+        "approvalType": "MAJOR_VERSION_SCOPE",
+        "approvedBy": "repository-owner",
+        "approvedDate": "2026-08-18",
+        "approvalBasis": "The repository owner explicitly approved the 55 breaking changes reported for the Contract 2.0 formal scope; this approval does not authorize deployment or database migration execution.",
+        "targetVersion": "2.0.0-contract"
+      }
+    },
+    {
+      "id": "property-removed-901462e082bf0322",
+      "kind": "PROPERTY_REMOVED",
+      "classification": "BREAKING",
+      "direction": "response",
+      "location": "POST /exercise-records/responses/201/application/json/properties/data/properties/studentRemark",
+      "detail": "A published property was removed.",
+      "before": {
+        "type": [
+          "string",
+          "null"
+        ],
+        "maxLength": 200
+      },
+      "after": null,
+      "approvedException": {
+        "approvalType": "MAJOR_VERSION_SCOPE",
+        "approvedBy": "repository-owner",
+        "approvedDate": "2026-08-18",
+        "approvalBasis": "The repository owner explicitly approved the 55 breaking changes reported for the Contract 2.0 formal scope; this approval does not authorize deployment or database migration execution.",
+        "targetVersion": "2.0.0-contract"
+      }
+    },
+    {
+      "id": "property-removed-a30c4329d74e9af8",
+      "kind": "PROPERTY_REMOVED",
+      "classification": "BREAKING",
+      "direction": "response",
+      "location": "POST /exercise-records/{recordId}/submit/responses/200/application/json/properties/data/properties/studentRemark",
+      "detail": "A published property was removed.",
+      "before": {
+        "type": [
+          "string",
+          "null"
+        ],
+        "maxLength": 200
+      },
+      "after": null,
+      "approvedException": {
+        "approvalType": "MAJOR_VERSION_SCOPE",
+        "approvedBy": "repository-owner",
+        "approvedDate": "2026-08-18",
+        "approvalBasis": "The repository owner explicitly approved the 55 breaking changes reported for the Contract 2.0 formal scope; this approval does not authorize deployment or database migration execution.",
+        "targetVersion": "2.0.0-contract"
+      }
+    },
+    {
+      "id": "property-removed-aa2a15ac1f6d11b0",
+      "kind": "PROPERTY_REMOVED",
+      "classification": "BREAKING",
+      "direction": "response",
+      "location": "GET /exercise-records/{recordId}/responses/200/application/json/properties/data/properties/studentRemark",
+      "detail": "A published property was removed.",
+      "before": {
+        "type": [
+          "string",
+          "null"
+        ],
+        "maxLength": 200
+      },
+      "after": null,
+      "approvedException": {
+        "approvalType": "MAJOR_VERSION_SCOPE",
+        "approvedBy": "repository-owner",
+        "approvedDate": "2026-08-18",
+        "approvalBasis": "The repository owner explicitly approved the 55 breaking changes reported for the Contract 2.0 formal scope; this approval does not authorize deployment or database migration execution.",
+        "targetVersion": "2.0.0-contract"
+      }
+    },
+    {
+      "id": "property-removed-ad6d840d5a61623c",
+      "kind": "PROPERTY_REMOVED",
+      "classification": "BREAKING",
+      "direction": "request",
+      "location": "POST /exercise-records/requestBody/application/json/properties/studentRemark",
+      "detail": "A published property was removed.",
+      "before": {
+        "type": [
+          "string",
+          "null"
+        ],
+        "maxLength": 200
+      },
+      "after": null,
+      "approvedException": {
+        "approvalType": "MAJOR_VERSION_SCOPE",
+        "approvedBy": "repository-owner",
+        "approvedDate": "2026-08-18",
+        "approvalBasis": "The repository owner explicitly approved the 55 breaking changes reported for the Contract 2.0 formal scope; this approval does not authorize deployment or database migration execution.",
+        "targetVersion": "2.0.0-contract"
+      }
+    },
+    {
+      "id": "property-removed-b00f908f804e6e87",
+      "kind": "PROPERTY_REMOVED",
+      "classification": "BREAKING",
+      "direction": "request",
+      "location": "PATCH /exercise-records/{recordId}/requestBody/application/json/properties/studentRemark",
+      "detail": "A published property was removed.",
+      "before": {
+        "type": [
+          "string",
+          "null"
+        ],
+        "maxLength": 200
+      },
+      "after": null,
+      "approvedException": {
+        "approvalType": "MAJOR_VERSION_SCOPE",
+        "approvedBy": "repository-owner",
+        "approvedDate": "2026-08-18",
+        "approvalBasis": "The repository owner explicitly approved the 55 breaking changes reported for the Contract 2.0 formal scope; this approval does not authorize deployment or database migration execution.",
+        "targetVersion": "2.0.0-contract"
+      }
+    },
+    {
+      "id": "property-removed-bfd4ac63769e0917",
+      "kind": "PROPERTY_REMOVED",
+      "classification": "BREAKING",
+      "direction": "response",
+      "location": "GET /me/responses/200/application/json/properties/data/properties/user/properties/primaryPhoneMasked",
+      "detail": "A published property was removed.",
+      "before": {
+        "type": [
+          "string",
+          "null"
+        ],
+        "maxLength": 32,
+        "readOnly": true,
+        "description": "Masked projection only; plaintext phone is never returned."
+      },
+      "after": null,
+      "approvedException": {
+        "approvalType": "MAJOR_VERSION_SCOPE",
+        "approvedBy": "repository-owner",
+        "approvedDate": "2026-08-18",
+        "approvalBasis": "The repository owner explicitly approved the 55 breaking changes reported for the Contract 2.0 formal scope; this approval does not authorize deployment or database migration execution.",
+        "targetVersion": "2.0.0-contract"
+      }
+    },
+    {
+      "id": "property-removed-c2bd2df6aee70f40",
+      "kind": "PROPERTY_REMOVED",
+      "classification": "BREAKING",
+      "direction": "response",
+      "location": "GET /exercise-records/responses/200/application/json/properties/data/items/properties/studentRemark",
+      "detail": "A published property was removed.",
+      "before": {
+        "type": [
+          "string",
+          "null"
+        ],
+        "maxLength": 200
+      },
+      "after": null,
+      "approvedException": {
+        "approvalType": "MAJOR_VERSION_SCOPE",
+        "approvedBy": "repository-owner",
+        "approvedDate": "2026-08-18",
+        "approvalBasis": "The repository owner explicitly approved the 55 breaking changes reported for the Contract 2.0 formal scope; this approval does not authorize deployment or database migration execution.",
+        "targetVersion": "2.0.0-contract"
+      }
+    },
+    {
+      "id": "property-removed-c47759d425bdd954",
+      "kind": "PROPERTY_REMOVED",
+      "classification": "BREAKING",
+      "direction": "response",
+      "location": "GET /me/responses/200/application/json/properties/data/properties/user/properties/phoneVerified",
+      "detail": "A published property was removed.",
+      "before": {
+        "type": "boolean",
+        "readOnly": true,
+        "description": "Derived from the current contact verification fact; the verification timestamp is not exposed."
+      },
+      "after": null,
+      "approvedException": {
+        "approvalType": "MAJOR_VERSION_SCOPE",
+        "approvedBy": "repository-owner",
+        "approvedDate": "2026-08-18",
+        "approvalBasis": "The repository owner explicitly approved the 55 breaking changes reported for the Contract 2.0 formal scope; this approval does not authorize deployment or database migration execution.",
+        "targetVersion": "2.0.0-contract"
+      }
+    },
+    {
+      "id": "property-removed-e77bcdde4321d88c",
+      "kind": "PROPERTY_REMOVED",
+      "classification": "BREAKING",
+      "direction": "response",
+      "location": "POST /auth/password-login/responses/200/application/json/properties/data/properties/user/properties/phoneVerified",
+      "detail": "A published property was removed.",
+      "before": {
+        "type": "boolean",
+        "readOnly": true,
+        "description": "Derived from the current contact verification fact; the verification timestamp is not exposed."
+      },
+      "after": null,
+      "approvedException": {
+        "approvalType": "MAJOR_VERSION_SCOPE",
+        "approvedBy": "repository-owner",
+        "approvedDate": "2026-08-18",
+        "approvalBasis": "The repository owner explicitly approved the 55 breaking changes reported for the Contract 2.0 formal scope; this approval does not authorize deployment or database migration execution.",
+        "targetVersion": "2.0.0-contract"
+      }
+    },
+    {
+      "id": "property-removed-f926b518920a8cea",
+      "kind": "PROPERTY_REMOVED",
+      "classification": "BREAKING",
+      "direction": "response",
+      "location": "PATCH /exercise-records/{recordId}/responses/200/application/json/properties/data/properties/studentRemark",
+      "detail": "A published property was removed.",
+      "before": {
+        "type": [
+          "string",
+          "null"
+        ],
+        "maxLength": 200
+      },
+      "after": null,
+      "approvedException": {
+        "approvalType": "MAJOR_VERSION_SCOPE",
+        "approvedBy": "repository-owner",
+        "approvedDate": "2026-08-18",
+        "approvalBasis": "The repository owner explicitly approved the 55 breaking changes reported for the Contract 2.0 formal scope; this approval does not authorize deployment or database migration execution.",
+        "targetVersion": "2.0.0-contract"
+      }
+    },
+    {
+      "id": "response-status-added-6fe12d29a99e7316",
+      "kind": "RESPONSE_STATUS_ADDED",
+      "classification": "NON_BREAKING",
+      "direction": "response",
+      "location": "GET /me/preferences/responses/409",
+      "detail": "A response status was documented additively.",
+      "before": null,
+      "after": {
+        "$ref": "#/components/responses/Conflict"
+      },
+      "approvedException": null
+    },
+    {
+      "id": "response-status-added-8c6140e97f4bd71c",
+      "kind": "RESPONSE_STATUS_ADDED",
+      "classification": "NON_BREAKING",
+      "direction": "response",
+      "location": "PATCH /exemption-applications/{applicationId}/responses/422",
+      "detail": "A response status was documented additively.",
+      "before": null,
+      "after": {
+        "$ref": "#/components/responses/UnprocessableEntity"
+      },
+      "approvedException": null
+    },
+    {
+      "id": "response-status-added-f94a97fe6c147e30",
+      "kind": "RESPONSE_STATUS_ADDED",
+      "classification": "NON_BREAKING",
+      "direction": "response",
+      "location": "POST /exemption-applications/{applicationId}/submit/responses/422",
+      "detail": "A response status was documented additively.",
+      "before": null,
+      "after": {
+        "$ref": "#/components/responses/UnprocessableEntity"
+      },
+      "approvedException": null
+    },
+    {
+      "id": "schema-alternative-added-3235075c6f00436f",
+      "kind": "SCHEMA_ALTERNATIVE_ADDED",
+      "classification": "NON_BREAKING",
+      "direction": "response",
+      "location": "POST /exercise-records/{recordId}/withdraw/responses/200/application/json/properties/data/properties/description",
+      "detail": "The prior schema alternatives remain accepted and additional compatible alternatives were added.",
+      "before": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 200
+      },
+      "after": {
+        "type": [
+          "string",
+          "null"
+        ],
+        "minLength": 1,
+        "maxLength": 200
+      },
+      "approvedException": null
+    },
+    {
+      "id": "schema-alternative-added-38a1c4c4bbde872e",
+      "kind": "SCHEMA_ALTERNATIVE_ADDED",
+      "classification": "NON_BREAKING",
+      "direction": "request",
+      "location": "PATCH /exercise-records/{recordId}/requestBody/application/json/properties/description",
+      "detail": "The prior schema alternatives remain accepted and additional compatible alternatives were added.",
+      "before": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 200
+      },
+      "after": {
+        "description": "Omit to preserve the current value. Null or blank is accepted only when the resulting creditType is COURSE_RELATED.",
+        "oneOf": [
+          {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200
+          },
+          {
+            "type": "null"
+          }
+        ]
+      },
+      "approvedException": null
+    },
+    {
+      "id": "schema-alternative-added-5355a4f0c2013b6f",
+      "kind": "SCHEMA_ALTERNATIVE_ADDED",
+      "classification": "NON_BREAKING",
+      "direction": "request",
+      "location": "POST /exercise-records/requestBody/application/json/properties/description",
+      "detail": "The prior schema alternatives remain accepted and additional compatible alternatives were added.",
+      "before": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 200
+      },
+      "after": {
+        "description": "Student-authored explanation. Required and nonblank for GENERAL; optional for COURSE_RELATED, where omitted, null, or blank input is normalized to null.",
+        "oneOf": [
+          {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200
+          },
+          {
+            "type": "null"
+          }
+        ]
+      },
+      "approvedException": null
+    },
+    {
+      "id": "schema-alternative-added-759a5f2c9b2ff41c",
+      "kind": "SCHEMA_ALTERNATIVE_ADDED",
+      "classification": "NON_BREAKING",
+      "direction": "response",
+      "location": "GET /exercise-records/{recordId}/responses/200/application/json/properties/data/properties/description",
+      "detail": "The prior schema alternatives remain accepted and additional compatible alternatives were added.",
+      "before": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 200
+      },
+      "after": {
+        "type": [
+          "string",
+          "null"
+        ],
+        "minLength": 1,
+        "maxLength": 200
+      },
+      "approvedException": null
+    },
+    {
+      "id": "schema-alternative-added-addbe0729e55f31c",
+      "kind": "SCHEMA_ALTERNATIVE_ADDED",
+      "classification": "NON_BREAKING",
+      "direction": "response",
+      "location": "POST /exercise-records/responses/201/application/json/properties/data/properties/description",
+      "detail": "The prior schema alternatives remain accepted and additional compatible alternatives were added.",
+      "before": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 200
+      },
+      "after": {
+        "type": [
+          "string",
+          "null"
+        ],
+        "minLength": 1,
+        "maxLength": 200
+      },
+      "approvedException": null
+    },
+    {
+      "id": "schema-alternative-added-bd5ebc904984e427",
+      "kind": "SCHEMA_ALTERNATIVE_ADDED",
+      "classification": "NON_BREAKING",
+      "direction": "response",
+      "location": "POST /exercise-records/{recordId}/discard/responses/200/application/json/properties/data/properties/description",
+      "detail": "The prior schema alternatives remain accepted and additional compatible alternatives were added.",
+      "before": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 200
+      },
+      "after": {
+        "type": [
+          "string",
+          "null"
+        ],
+        "minLength": 1,
+        "maxLength": 200
+      },
+      "approvedException": null
+    },
+    {
+      "id": "schema-alternative-added-d702e945eb7098b8",
+      "kind": "SCHEMA_ALTERNATIVE_ADDED",
+      "classification": "NON_BREAKING",
+      "direction": "response",
+      "location": "GET /exercise-records/responses/200/application/json/properties/data/items/properties/description",
+      "detail": "The prior schema alternatives remain accepted and additional compatible alternatives were added.",
+      "before": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 200
+      },
+      "after": {
+        "type": [
+          "string",
+          "null"
+        ],
+        "minLength": 1,
+        "maxLength": 200
+      },
+      "approvedException": null
+    },
+    {
+      "id": "schema-alternative-added-d77fd63280256076",
+      "kind": "SCHEMA_ALTERNATIVE_ADDED",
+      "classification": "NON_BREAKING",
+      "direction": "response",
+      "location": "PATCH /exercise-records/{recordId}/responses/200/application/json/properties/data/properties/description",
+      "detail": "The prior schema alternatives remain accepted and additional compatible alternatives were added.",
+      "before": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 200
+      },
+      "after": {
+        "type": [
+          "string",
+          "null"
+        ],
+        "minLength": 1,
+        "maxLength": 200
+      },
+      "approvedException": null
+    },
+    {
+      "id": "schema-alternative-added-e8feb08bf8f67650",
+      "kind": "SCHEMA_ALTERNATIVE_ADDED",
+      "classification": "NON_BREAKING",
+      "direction": "response",
+      "location": "POST /exercise-records/{recordId}/submit/responses/200/application/json/properties/data/properties/description",
+      "detail": "The prior schema alternatives remain accepted and additional compatible alternatives were added.",
+      "before": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 200
+      },
+      "after": {
+        "type": [
+          "string",
+          "null"
+        ],
+        "minLength": 1,
+        "maxLength": 200
+      },
+      "approvedException": null
+    },
+    {
+      "id": "schema-composition-changed-0404ff52260db0b3",
+      "kind": "SCHEMA_COMPOSITION_CHANGED",
+      "classification": "BREAKING",
+      "direction": "response",
+      "location": "GET /me/responses/200/application/json/properties/data/properties/studentProfile",
+      "detail": "oneOf/anyOf alternatives changed.",
+      "before": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "id": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 64,
+              "pattern": "^[A-Za-z0-9._:-]+$",
+              "description": "Opaque internal ID; clients must not parse prefixes or ordering."
+            },
+            "organizationId": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 64,
+              "pattern": "^[A-Za-z0-9._:-]+$",
+              "description": "Opaque internal ID; clients must not parse prefixes or ordering."
+            },
+            "userId": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 64,
+              "pattern": "^[A-Za-z0-9._:-]+$",
+              "description": "Opaque internal ID; clients must not parse prefixes or ordering."
+            },
+            "studentNumber": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 32
+            },
+            "fullName": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 100
+            },
+            "gender": {
+              "type": "string",
+              "enum": [
+                "MALE",
+                "FEMALE",
+                "OTHER"
+              ]
+            },
+            "gradeYear": {
+              "type": "integer",
+              "minimum": 2000,
+              "maximum": 2027,
+              "description": "Contract-year bound; update annually and enforce the current-year-plus-one rule at runtime."
+            },
+            "collegeName": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "maxLength": 200
+            },
+            "majorName": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "maxLength": 200
+            },
+            "administrativeClassName": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "maxLength": 200
+            },
+            "status": {
+              "type": "string",
+              "pattern": "^[A-Z][A-Z0-9_]*$"
+            },
+            "createdAt": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "updatedAt": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "deletedAt": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "format": "date-time"
+            },
+            "version": {
+              "type": "integer",
+              "format": "int64",
+              "minimum": 1
+            }
+          },
+          "required": [
+            "id",
+            "organizationId",
+            "userId",
+            "studentNumber",
+            "fullName",
+            "gender",
+            "gradeYear",
+            "collegeName",
+            "majorName",
+            "administrativeClassName",
+            "status",
+            "createdAt",
+            "updatedAt",
+            "deletedAt",
+            "version"
+          ]
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "after": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "id": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 64,
+              "pattern": "^[A-Za-z0-9._:-]+$",
+              "description": "Opaque internal ID; clients must not parse prefixes or ordering."
+            },
+            "organizationId": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 64,
+              "pattern": "^[A-Za-z0-9._:-]+$",
+              "description": "Opaque internal ID; clients must not parse prefixes or ordering."
+            },
+            "userId": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 64,
+              "pattern": "^[A-Za-z0-9._:-]+$",
+              "description": "Opaque internal ID; clients must not parse prefixes or ordering."
+            },
+            "studentNumber": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 32
+            },
+            "fullName": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 100
+            },
+            "gender": {
+              "type": "string",
+              "enum": [
+                "MALE",
+                "FEMALE",
+                "OTHER"
+              ]
+            },
+            "gradeYear": {
+              "type": "integer",
+              "minimum": 1000,
+              "maximum": 9999,
+              "description": "Four-digit cohort year with stable format-only bounds; it is not restricted by the current date."
+            },
+            "collegeName": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "maxLength": 200
+            },
+            "majorName": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "maxLength": 200
+            },
+            "administrativeClassName": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "maxLength": 200
+            },
+            "status": {
+              "type": "string",
+              "pattern": "^[A-Z][A-Z0-9_]*$"
+            },
+            "createdAt": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "updatedAt": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "deletedAt": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "format": "date-time"
+            },
+            "version": {
+              "type": "integer",
+              "format": "int64",
+              "minimum": 1
+            }
+          },
+          "required": [
+            "id",
+            "organizationId",
+            "userId",
+            "studentNumber",
+            "fullName",
+            "gender",
+            "gradeYear",
+            "collegeName",
+            "majorName",
+            "administrativeClassName",
+            "status",
+            "createdAt",
+            "updatedAt",
+            "deletedAt",
+            "version"
+          ]
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "approvedException": {
+        "approvalType": "MAJOR_VERSION_SCOPE",
+        "approvedBy": "repository-owner",
+        "approvedDate": "2026-08-18",
+        "approvalBasis": "The repository owner explicitly approved the 55 breaking changes reported for the Contract 2.0 formal scope; this approval does not authorize deployment or database migration execution.",
+        "targetVersion": "2.0.0-contract"
+      }
+    },
+    {
+      "id": "schema-composition-changed-ddd6315e3a007326",
+      "kind": "SCHEMA_COMPOSITION_CHANGED",
+      "classification": "BREAKING",
+      "direction": "response",
+      "location": "POST /exercise-reviews/batch/responses/200/application/json/properties/data/properties/items/items/properties/data",
+      "detail": "oneOf/anyOf alternatives changed.",
+      "before": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "id": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 64,
+              "pattern": "^[A-Za-z0-9._:-]+$",
+              "description": "Opaque internal ID; clients must not parse prefixes or ordering."
+            },
+            "organizationId": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 64,
+              "pattern": "^[A-Za-z0-9._:-]+$",
+              "description": "Opaque internal ID; clients must not parse prefixes or ordering."
+            },
+            "recordId": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 64,
+              "pattern": "^[A-Za-z0-9._:-]+$",
+              "description": "Opaque internal ID; clients must not parse prefixes or ordering."
+            },
+            "teacherId": {
+              "oneOf": [
+                {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 64,
+                  "pattern": "^[A-Za-z0-9._:-]+$",
+                  "description": "Opaque internal ID; clients must not parse prefixes or ordering."
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Null for initial and reopened PENDING rows; required for teacher-created VALID or INVALID rows."
+            },
+            "reviewVersion": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "previousReviewId": {
+              "oneOf": [
+                {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 64,
+                  "pattern": "^[A-Za-z0-9._:-]+$",
+                  "description": "Opaque internal ID; clients must not parse prefixes or ordering."
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "result": {
+              "type": "string",
+              "enum": [
+                "PENDING",
+                "VALID",
+                "INVALID"
+              ]
+            },
+            "creditedDurationOverrideSeconds": {
+              "type": "null",
+              "readOnly": true,
+              "description": "Blocked until ADR-047 is accepted."
+            },
+            "reasonCode": {
+              "oneOf": [
+                {
+                  "type": "string",
+                  "enum": [
+                    "INSUFFICIENT_EVIDENCE",
+                    "INVALID_MEDIA",
+                    "DURATION_INCONSISTENT",
+                    "IDENTITY_MISMATCH",
+                    "DUPLICATE_SUBMISSION",
+                    "OUTSIDE_ALLOWED_SCOPE",
+                    "OTHER"
+                  ]
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "reason": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "maxLength": 500
+            },
+            "publicComment": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "maxLength": 1000
+            },
+            "internalNote": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "maxLength": 2000,
+              "description": "Never returned to students."
+            },
+            "reviewedAt": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "format": "date-time"
+            }
+          },
+          "required": [
+            "id",
+            "organizationId",
+            "recordId",
+            "teacherId",
+            "reviewVersion",
+            "previousReviewId",
+            "result",
+            "creditedDurationOverrideSeconds",
+            "reasonCode",
+            "reason",
+            "publicComment",
+            "internalNote",
+            "reviewedAt"
+          ]
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "after": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "id": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 64,
+              "pattern": "^[A-Za-z0-9._:-]+$",
+              "description": "Opaque internal ID; clients must not parse prefixes or ordering."
+            },
+            "organizationId": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 64,
+              "pattern": "^[A-Za-z0-9._:-]+$",
+              "description": "Opaque internal ID; clients must not parse prefixes or ordering."
+            },
+            "recordId": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 64,
+              "pattern": "^[A-Za-z0-9._:-]+$",
+              "description": "Opaque internal ID; clients must not parse prefixes or ordering."
+            },
+            "teacherId": {
+              "oneOf": [
+                {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 64,
+                  "pattern": "^[A-Za-z0-9._:-]+$",
+                  "description": "Opaque internal ID; clients must not parse prefixes or ordering."
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Null for the initial system VALID row and legacy system PENDING rows; required for teacher-created VALID or INVALID rows."
+            },
+            "reviewVersion": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "previousReviewId": {
+              "oneOf": [
+                {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 64,
+                  "pattern": "^[A-Za-z0-9._:-]+$",
+                  "description": "Opaque internal ID; clients must not parse prefixes or ordering."
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "result": {
+              "type": "string",
+              "enum": [
+                "PENDING",
+                "VALID",
+                "INVALID"
+              ]
+            },
+            "creditedDurationOverrideSeconds": {
+              "type": "null",
+              "readOnly": true,
+              "description": "Blocked until ADR-047 is accepted."
+            },
+            "reasonCode": {
+              "oneOf": [
+                {
+                  "type": "string",
+                  "enum": [
+                    "INSUFFICIENT_EVIDENCE",
+                    "INVALID_MEDIA",
+                    "DURATION_INCONSISTENT",
+                    "IDENTITY_MISMATCH",
+                    "DUPLICATE_SUBMISSION",
+                    "OUTSIDE_ALLOWED_SCOPE",
+                    "OTHER"
+                  ]
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "reason": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "maxLength": 500
+            },
+            "publicComment": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "maxLength": 1000
+            },
+            "internalNote": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "maxLength": 2000,
+              "description": "Never returned to students."
+            },
+            "reviewedAt": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "format": "date-time"
+            }
+          },
+          "required": [
+            "id",
+            "organizationId",
+            "recordId",
+            "teacherId",
+            "reviewVersion",
+            "previousReviewId",
+            "result",
+            "creditedDurationOverrideSeconds",
+            "reasonCode",
+            "reason",
+            "publicComment",
+            "internalNote",
+            "reviewedAt"
+          ]
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "approvedException": {
+        "approvalType": "MAJOR_VERSION_SCOPE",
+        "approvedBy": "repository-owner",
+        "approvedDate": "2026-08-18",
+        "approvalBasis": "The repository owner explicitly approved the 55 breaking changes reported for the Contract 2.0 formal scope; this approval does not authorize deployment or database migration execution.",
+        "targetVersion": "2.0.0-contract"
+      }
+    },
+    {
+      "id": "schema-format-changed-45f6b1a170bfc60e",
+      "kind": "SCHEMA_FORMAT_CHANGED",
+      "classification": "BREAKING",
+      "direction": "request",
+      "location": "POST /auth/account-recovery-requests/requestBody/application/json/properties/account/format",
+      "detail": "format changed.",
+      "before": null,
+      "after": "email",
+      "approvedException": {
+        "approvalType": "MAJOR_VERSION_SCOPE",
+        "approvedBy": "repository-owner",
+        "approvedDate": "2026-08-18",
+        "approvalBasis": "The repository owner explicitly approved the 55 breaking changes reported for the Contract 2.0 formal scope; this approval does not authorize deployment or database migration execution.",
+        "targetVersion": "2.0.0-contract"
+      }
+    },
+    {
+      "id": "schema-format-changed-96429a8db1425d4e",
+      "kind": "SCHEMA_FORMAT_CHANGED",
+      "classification": "BREAKING",
+      "direction": "request",
+      "location": "POST /auth/student-sign-in-codes/requestBody/application/json/properties/account/format",
+      "detail": "format changed.",
+      "before": null,
+      "after": "email",
+      "approvedException": {
+        "approvalType": "MAJOR_VERSION_SCOPE",
+        "approvedBy": "repository-owner",
+        "approvedDate": "2026-08-18",
+        "approvalBasis": "The repository owner explicitly approved the 55 breaking changes reported for the Contract 2.0 formal scope; this approval does not authorize deployment or database migration execution.",
+        "targetVersion": "2.0.0-contract"
+      }
+    },
+    {
+      "id": "schema-format-changed-aef80021814edf44",
+      "kind": "SCHEMA_FORMAT_CHANGED",
+      "classification": "BREAKING",
+      "direction": "request",
+      "location": "POST /auth/password-login/requestBody/application/json/properties/account/format",
+      "detail": "format changed.",
+      "before": null,
+      "after": "email",
+      "approvedException": {
+        "approvalType": "MAJOR_VERSION_SCOPE",
+        "approvedBy": "repository-owner",
+        "approvedDate": "2026-08-18",
+        "approvalBasis": "The repository owner explicitly approved the 55 breaking changes reported for the Contract 2.0 formal scope; this approval does not authorize deployment or database migration execution.",
+        "targetVersion": "2.0.0-contract"
+      }
+    },
+    {
+      "id": "schema-maximum-changed-08697f6959164752",
+      "kind": "SCHEMA_MAXIMUM_CHANGED",
+      "classification": "BREAKING",
+      "direction": "response",
+      "location": "PATCH /students/{studentId}/responses/200/application/json/properties/data/properties/gradeYear/maximum",
+      "detail": "maximum changed.",
+      "before": 2027,
+      "after": 9999,
+      "approvedException": {
+        "approvalType": "MAJOR_VERSION_SCOPE",
+        "approvedBy": "repository-owner",
+        "approvedDate": "2026-08-18",
+        "approvalBasis": "The repository owner explicitly approved the 55 breaking changes reported for the Contract 2.0 formal scope; this approval does not authorize deployment or database migration execution.",
+        "targetVersion": "2.0.0-contract"
+      }
+    },
+    {
+      "id": "schema-maximum-changed-180a909f73f00070",
+      "kind": "SCHEMA_MAXIMUM_CHANGED",
+      "classification": "BREAKING",
+      "direction": "response",
+      "location": "POST /course-invites/{inviteToken}/join/responses/201/application/json/properties/data/properties/studentProfile/properties/gradeYear/maximum",
+      "detail": "maximum changed.",
+      "before": 2027,
+      "after": 9999,
+      "approvedException": {
+        "approvalType": "MAJOR_VERSION_SCOPE",
+        "approvedBy": "repository-owner",
+        "approvedDate": "2026-08-18",
+        "approvalBasis": "The repository owner explicitly approved the 55 breaking changes reported for the Contract 2.0 formal scope; this approval does not authorize deployment or database migration execution.",
+        "targetVersion": "2.0.0-contract"
+      }
+    },
+    {
+      "id": "schema-maximum-changed-186b1211558b1b62",
+      "kind": "SCHEMA_MAXIMUM_CHANGED",
+      "classification": "BREAKING",
+      "direction": "response",
+      "location": "GET /students/{studentId}/responses/200/application/json/properties/data/properties/gradeYear/maximum",
+      "detail": "maximum changed.",
+      "before": 2027,
+      "after": 9999,
+      "approvedException": {
+        "approvalType": "MAJOR_VERSION_SCOPE",
+        "approvedBy": "repository-owner",
+        "approvedDate": "2026-08-18",
+        "approvalBasis": "The repository owner explicitly approved the 55 breaking changes reported for the Contract 2.0 formal scope; this approval does not authorize deployment or database migration execution.",
+        "targetVersion": "2.0.0-contract"
+      }
+    },
+    {
+      "id": "schema-maximum-changed-467d3e5fd18f9e26",
+      "kind": "SCHEMA_MAXIMUM_CHANGED",
+      "classification": "BREAKING",
+      "direction": "request",
+      "location": "PATCH /students/{studentId}/requestBody/application/json/properties/gradeYear/maximum",
+      "detail": "maximum changed.",
+      "before": 2027,
+      "after": 9999,
+      "approvedException": {
+        "approvalType": "MAJOR_VERSION_SCOPE",
+        "approvedBy": "repository-owner",
+        "approvedDate": "2026-08-18",
+        "approvalBasis": "The repository owner explicitly approved the 55 breaking changes reported for the Contract 2.0 formal scope; this approval does not authorize deployment or database migration execution.",
+        "targetVersion": "2.0.0-contract"
+      }
+    },
+    {
+      "id": "schema-maximum-changed-479a579a25059962",
+      "kind": "SCHEMA_MAXIMUM_CHANGED",
+      "classification": "BREAKING",
+      "direction": "response",
+      "location": "GET /roster-imports/{rosterImportId}/entries/responses/200/application/json/properties/data/items/properties/gradeYear/maximum",
+      "detail": "maximum changed.",
+      "before": 2027,
+      "after": 9999,
+      "approvedException": {
+        "approvalType": "MAJOR_VERSION_SCOPE",
+        "approvedBy": "repository-owner",
+        "approvedDate": "2026-08-18",
+        "approvalBasis": "The repository owner explicitly approved the 55 breaking changes reported for the Contract 2.0 formal scope; this approval does not authorize deployment or database migration execution.",
+        "targetVersion": "2.0.0-contract"
+      }
+    },
+    {
+      "id": "schema-maximum-changed-510b365bda44b516",
+      "kind": "SCHEMA_MAXIMUM_CHANGED",
+      "classification": "BREAKING",
+      "direction": "response",
+      "location": "GET /students/responses/200/application/json/properties/data/items/properties/gradeYear/maximum",
+      "detail": "maximum changed.",
+      "before": 2027,
+      "after": 9999,
+      "approvedException": {
+        "approvalType": "MAJOR_VERSION_SCOPE",
+        "approvedBy": "repository-owner",
+        "approvedDate": "2026-08-18",
+        "approvalBasis": "The repository owner explicitly approved the 55 breaking changes reported for the Contract 2.0 formal scope; this approval does not authorize deployment or database migration execution.",
+        "targetVersion": "2.0.0-contract"
+      }
+    },
+    {
+      "id": "schema-maximum-changed-6c8b67e276f95ea8",
+      "kind": "SCHEMA_MAXIMUM_CHANGED",
+      "classification": "BREAKING",
+      "direction": "response",
+      "location": "POST /course-invites/{inviteToken}/join/responses/200/application/json/properties/data/properties/studentProfile/properties/gradeYear/maximum",
+      "detail": "maximum changed.",
+      "before": 2027,
+      "after": 9999,
+      "approvedException": {
+        "approvalType": "MAJOR_VERSION_SCOPE",
+        "approvedBy": "repository-owner",
+        "approvedDate": "2026-08-18",
+        "approvalBasis": "The repository owner explicitly approved the 55 breaking changes reported for the Contract 2.0 formal scope; this approval does not authorize deployment or database migration execution.",
+        "targetVersion": "2.0.0-contract"
+      }
+    },
+    {
+      "id": "schema-maximum-changed-d35c358288cef08b",
+      "kind": "SCHEMA_MAXIMUM_CHANGED",
+      "classification": "BREAKING",
+      "direction": "request",
+      "location": "POST /course-invites/{inviteToken}/join-capabilities/requestBody/application/json/properties/gradeYear/maximum",
+      "detail": "maximum changed.",
+      "before": 2027,
+      "after": 9999,
+      "approvedException": {
+        "approvalType": "MAJOR_VERSION_SCOPE",
+        "approvedBy": "repository-owner",
+        "approvedDate": "2026-08-18",
+        "approvalBasis": "The repository owner explicitly approved the 55 breaking changes reported for the Contract 2.0 formal scope; this approval does not authorize deployment or database migration execution.",
+        "targetVersion": "2.0.0-contract"
+      }
+    },
+    {
+      "id": "schema-minimum-changed-07ab154dd9b372fc",
+      "kind": "SCHEMA_MINIMUM_CHANGED",
+      "classification": "BREAKING",
+      "direction": "request",
+      "location": "PATCH /students/{studentId}/requestBody/application/json/properties/gradeYear/minimum",
+      "detail": "minimum changed.",
+      "before": 2000,
+      "after": 1000,
+      "approvedException": {
+        "approvalType": "MAJOR_VERSION_SCOPE",
+        "approvedBy": "repository-owner",
+        "approvedDate": "2026-08-18",
+        "approvalBasis": "The repository owner explicitly approved the 55 breaking changes reported for the Contract 2.0 formal scope; this approval does not authorize deployment or database migration execution.",
+        "targetVersion": "2.0.0-contract"
+      }
+    },
+    {
+      "id": "schema-minimum-changed-07cc5e5a155139e1",
+      "kind": "SCHEMA_MINIMUM_CHANGED",
+      "classification": "BREAKING",
+      "direction": "response",
+      "location": "POST /course-invites/{inviteToken}/join/responses/200/application/json/properties/data/properties/studentProfile/properties/gradeYear/minimum",
+      "detail": "minimum changed.",
+      "before": 2000,
+      "after": 1000,
+      "approvedException": {
+        "approvalType": "MAJOR_VERSION_SCOPE",
+        "approvedBy": "repository-owner",
+        "approvedDate": "2026-08-18",
+        "approvalBasis": "The repository owner explicitly approved the 55 breaking changes reported for the Contract 2.0 formal scope; this approval does not authorize deployment or database migration execution.",
+        "targetVersion": "2.0.0-contract"
+      }
+    },
+    {
+      "id": "schema-minimum-changed-3ff3837f26c8a978",
+      "kind": "SCHEMA_MINIMUM_CHANGED",
+      "classification": "BREAKING",
+      "direction": "request",
+      "location": "POST /course-invites/{inviteToken}/join-capabilities/requestBody/application/json/properties/gradeYear/minimum",
+      "detail": "minimum changed.",
+      "before": 2000,
+      "after": 1000,
+      "approvedException": {
+        "approvalType": "MAJOR_VERSION_SCOPE",
+        "approvedBy": "repository-owner",
+        "approvedDate": "2026-08-18",
+        "approvalBasis": "The repository owner explicitly approved the 55 breaking changes reported for the Contract 2.0 formal scope; this approval does not authorize deployment or database migration execution.",
+        "targetVersion": "2.0.0-contract"
+      }
+    },
+    {
+      "id": "schema-minimum-changed-4737b9b0c04ec5e8",
+      "kind": "SCHEMA_MINIMUM_CHANGED",
+      "classification": "BREAKING",
+      "direction": "response",
+      "location": "GET /roster-imports/{rosterImportId}/entries/responses/200/application/json/properties/data/items/properties/gradeYear/minimum",
+      "detail": "minimum changed.",
+      "before": 2000,
+      "after": 1000,
+      "approvedException": {
+        "approvalType": "MAJOR_VERSION_SCOPE",
+        "approvedBy": "repository-owner",
+        "approvedDate": "2026-08-18",
+        "approvalBasis": "The repository owner explicitly approved the 55 breaking changes reported for the Contract 2.0 formal scope; this approval does not authorize deployment or database migration execution.",
+        "targetVersion": "2.0.0-contract"
+      }
+    },
+    {
+      "id": "schema-minimum-changed-8df0919d11a83df3",
+      "kind": "SCHEMA_MINIMUM_CHANGED",
+      "classification": "BREAKING",
+      "direction": "response",
+      "location": "POST /course-invites/{inviteToken}/join/responses/201/application/json/properties/data/properties/studentProfile/properties/gradeYear/minimum",
+      "detail": "minimum changed.",
+      "before": 2000,
+      "after": 1000,
+      "approvedException": {
+        "approvalType": "MAJOR_VERSION_SCOPE",
+        "approvedBy": "repository-owner",
+        "approvedDate": "2026-08-18",
+        "approvalBasis": "The repository owner explicitly approved the 55 breaking changes reported for the Contract 2.0 formal scope; this approval does not authorize deployment or database migration execution.",
+        "targetVersion": "2.0.0-contract"
+      }
+    },
+    {
+      "id": "schema-minimum-changed-94856ef8536503a9",
+      "kind": "SCHEMA_MINIMUM_CHANGED",
+      "classification": "BREAKING",
+      "direction": "response",
+      "location": "GET /students/responses/200/application/json/properties/data/items/properties/gradeYear/minimum",
+      "detail": "minimum changed.",
+      "before": 2000,
+      "after": 1000,
+      "approvedException": {
+        "approvalType": "MAJOR_VERSION_SCOPE",
+        "approvedBy": "repository-owner",
+        "approvedDate": "2026-08-18",
+        "approvalBasis": "The repository owner explicitly approved the 55 breaking changes reported for the Contract 2.0 formal scope; this approval does not authorize deployment or database migration execution.",
+        "targetVersion": "2.0.0-contract"
+      }
+    },
+    {
+      "id": "schema-minimum-changed-c9a42d113c7a3057",
+      "kind": "SCHEMA_MINIMUM_CHANGED",
+      "classification": "BREAKING",
+      "direction": "response",
+      "location": "GET /students/{studentId}/responses/200/application/json/properties/data/properties/gradeYear/minimum",
+      "detail": "minimum changed.",
+      "before": 2000,
+      "after": 1000,
+      "approvedException": {
+        "approvalType": "MAJOR_VERSION_SCOPE",
+        "approvedBy": "repository-owner",
+        "approvedDate": "2026-08-18",
+        "approvalBasis": "The repository owner explicitly approved the 55 breaking changes reported for the Contract 2.0 formal scope; this approval does not authorize deployment or database migration execution.",
+        "targetVersion": "2.0.0-contract"
+      }
+    },
+    {
+      "id": "schema-minimum-changed-d83366ff85a25e57",
+      "kind": "SCHEMA_MINIMUM_CHANGED",
+      "classification": "BREAKING",
+      "direction": "response",
+      "location": "PATCH /students/{studentId}/responses/200/application/json/properties/data/properties/gradeYear/minimum",
+      "detail": "minimum changed.",
+      "before": 2000,
+      "after": 1000,
+      "approvedException": {
+        "approvalType": "MAJOR_VERSION_SCOPE",
+        "approvedBy": "repository-owner",
+        "approvedDate": "2026-08-18",
+        "approvalBasis": "The repository owner explicitly approved the 55 breaking changes reported for the Contract 2.0 formal scope; this approval does not authorize deployment or database migration execution.",
+        "targetVersion": "2.0.0-contract"
+      }
+    },
+    {
+      "id": "schema-minlength-changed-2db7d9a92e125a18",
+      "kind": "SCHEMA_MINLENGTH_CHANGED",
+      "classification": "BREAKING",
+      "direction": "request",
+      "location": "POST /auth/account-recovery-requests/requestBody/application/json/properties/account/minLength",
+      "detail": "minLength changed.",
+      "before": 1,
+      "after": 3,
+      "approvedException": {
+        "approvalType": "MAJOR_VERSION_SCOPE",
+        "approvedBy": "repository-owner",
+        "approvedDate": "2026-08-18",
+        "approvalBasis": "The repository owner explicitly approved the 55 breaking changes reported for the Contract 2.0 formal scope; this approval does not authorize deployment or database migration execution.",
+        "targetVersion": "2.0.0-contract"
+      }
+    },
+    {
+      "id": "schema-minlength-changed-c63f586d8afb97db",
+      "kind": "SCHEMA_MINLENGTH_CHANGED",
+      "classification": "BREAKING",
+      "direction": "request",
+      "location": "POST /auth/password-login/requestBody/application/json/properties/account/minLength",
+      "detail": "minLength changed.",
+      "before": 1,
+      "after": 3,
+      "approvedException": {
+        "approvalType": "MAJOR_VERSION_SCOPE",
+        "approvedBy": "repository-owner",
+        "approvedDate": "2026-08-18",
+        "approvalBasis": "The repository owner explicitly approved the 55 breaking changes reported for the Contract 2.0 formal scope; this approval does not authorize deployment or database migration execution.",
+        "targetVersion": "2.0.0-contract"
+      }
+    },
+    {
+      "id": "schema-minlength-changed-c8d21486259f5185",
+      "kind": "SCHEMA_MINLENGTH_CHANGED",
+      "classification": "BREAKING",
+      "direction": "request",
+      "location": "POST /auth/student-sign-in-codes/requestBody/application/json/properties/account/minLength",
+      "detail": "minLength changed.",
+      "before": 1,
+      "after": 3,
+      "approvedException": {
+        "approvalType": "MAJOR_VERSION_SCOPE",
+        "approvedBy": "repository-owner",
+        "approvedDate": "2026-08-18",
+        "approvalBasis": "The repository owner explicitly approved the 55 breaking changes reported for the Contract 2.0 formal scope; this approval does not authorize deployment or database migration execution.",
+        "targetVersion": "2.0.0-contract"
+      }
+    }
+  ]
+}

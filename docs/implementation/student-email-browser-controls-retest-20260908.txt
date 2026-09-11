@@ -1,0 +1,4 @@
+{"check":"STUDENT_BROWSER_SMTP_LOGIN","result":"PASS"}
+{"check":"STUDENT_HOME_CONTENT","hasCourse":true,"hasProgress":true,"hasLoginForm":false}
+{"check":"EMAIL_CHANGE_COMMITTED","stage":"CHANGE_EMAIL","status":200}
+{"check":"STUDENT_EMAIL_CHANGE","result":"FAIL","stage":"CHANGE_EMAIL","type":"TimeoutError","message":"locator.waitFor: Timeout 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for getByText('当前邮箱：synthetic.email-change.6cbb51f7-201e-4f0a-97c6-09b24a405b08@bnbu.invalid', { exact: true }) to be visible\u001b[22m\n","emailRequests":[{"path":"/api/v1/me/email-verification-challenges","status":202},{"path":"/api/v1/me/email-verification-challenges/01a08181-c7be-7371-88dd-54af2b69032f/verify","status":200}],"failedRequests":[]}
