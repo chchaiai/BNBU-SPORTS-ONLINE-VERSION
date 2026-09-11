@@ -1,0 +1,80 @@
+{
+  "start": "2026-09-11T07:05:45",
+  "end": "2026-09-11T07:06:27",
+  "requests": 2979,
+  "operations": {
+    "getHealthLive": {
+      "requests": 3,
+      "statuses": {
+        "200": 3
+      },
+      "maxMs": 0.08,
+      "p95Ms": 0.08
+    },
+    "getHealthReady": {
+      "requests": 9,
+      "statuses": {
+        "200": 9
+      },
+      "maxMs": 39.68,
+      "p95Ms": 39.68
+    },
+    "listV81StudentProgress": {
+      "requests": 303,
+      "statuses": {
+        "200": 303
+      },
+      "maxMs": 42.42,
+      "p95Ms": 8.96
+    },
+    "listEnrollments": {
+      "requests": 450,
+      "statuses": {
+        "200": 450
+      },
+      "maxMs": 26.35,
+      "p95Ms": 7.44
+    },
+    "getCurrentUser": {
+      "requests": 290,
+      "statuses": {
+        "200": 290
+      },
+      "maxMs": 24.71,
+      "p95Ms": 3.66
+    },
+    "getActiveExerciseSession": {
+      "requests": 591,
+      "statuses": {
+        "200": 591
+      },
+      "maxMs": 18.92,
+      "p95Ms": 6.29
+    },
+    "listExerciseRecords": {
+      "requests": 741,
+      "statuses": {
+        "200": 741
+      },
+      "maxMs": 23.55,
+      "p95Ms": 9.31
+    },
+    "listNotifications": {
+      "requests": 295,
+      "statuses": {
+        "200": 295
+      },
+      "maxMs": 5.5,
+      "p95Ms": 1.51
+    },
+    "listV81ProofTodos": {
+      "requests": 297,
+      "statuses": {
+        "200": 297
+      },
+      "maxMs": 33.16,
+      "p95Ms": 6.21
+    }
+  },
+  "slowOrErrors": []
+}

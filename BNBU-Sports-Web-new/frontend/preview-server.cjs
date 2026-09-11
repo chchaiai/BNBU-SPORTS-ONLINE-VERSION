@@ -35,6 +35,7 @@ const contentTypes = {
   ".webm": "video/webm",
   ".mov": "video/quicktime",
   ".mjs": "text/javascript; charset=utf-8",
+  ".wasm": "application/wasm",
   ".ico": "image/x-icon",
 };
 
@@ -48,7 +49,7 @@ const securityHeaders = {
   "Cross-Origin-Opener-Policy": "same-origin",
   "Permissions-Policy": "camera=(self), microphone=(self), geolocation=(), payment=()",
   "Content-Security-Policy":
-    "default-src 'self'; base-uri 'none'; object-src 'none'; frame-ancestors 'none'; img-src 'self' data: blob:; media-src 'self' blob:; style-src 'self' 'unsafe-inline'; script-src 'self'; connect-src 'self' http://127.0.0.1:8080 http://localhost:8080 https:; form-action 'self'; worker-src 'none'",
+    "default-src 'self'; base-uri 'none'; object-src 'none'; frame-ancestors 'none'; img-src 'self' data: blob:; media-src 'self' blob:; style-src 'self' 'unsafe-inline'; script-src 'self' 'wasm-unsafe-eval'; connect-src 'self' http://127.0.0.1:8080 http://localhost:8080 https:; form-action 'self'; worker-src 'self'",
 };
 
 function send(response, status, body, headers = {}) {

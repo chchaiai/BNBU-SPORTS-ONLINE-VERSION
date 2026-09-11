@@ -1,0 +1,62 @@
+{
+  "runId": "2026-09-11T06-40-16-194Z-smoke-1",
+  "started": "2026-09-11T06:40:16.207Z",
+  "ended": "2026-09-11T06:40:20.037Z",
+  "mode": "smoke",
+  "vus": 1,
+  "seconds": 20,
+  "thinkMs": 5000,
+  "elapsed": 1.2302078,
+  "stopped": "smoke_route_failed_student_progress",
+  "peakInflight": 1,
+  "issued": 5,
+  "requests": 5,
+  "errors": 1,
+  "p50": 161.74,
+  "p95": 569.45,
+  "p99": 569.45,
+  "maxMs": 569.45,
+  "rps": 4.0643540058842085,
+  "byRoute": {
+    "student_me": {
+      "requests": 1,
+      "errors": 0,
+      "p50": 569.45,
+      "p95": 569.45,
+      "p99": 569.45,
+      "maxMs": 569.45
+    },
+    "student_enrollments": {
+      "requests": 1,
+      "errors": 0,
+      "p50": 181.65,
+      "p95": 181.65,
+      "p99": 181.65,
+      "maxMs": 181.65
+    },
+    "student_records": {
+      "requests": 1,
+      "errors": 0,
+      "p50": 155.74,
+      "p95": 155.74,
+      "p99": 155.74,
+      "maxMs": 155.74
+    },
+    "student_active": {
+      "requests": 1,
+      "errors": 0,
+      "p50": 158.58,
+      "p95": 158.58,
+      "p99": 158.58,
+      "maxMs": 158.58
+    },
+    "student_progress": {
+      "requests": 1,
+      "errors": 1,
+      "p50": 161.74,
+      "p95": 161.74,
+      "p99": 161.74,
+      "maxMs": 161.74
+    }
+  }
+}

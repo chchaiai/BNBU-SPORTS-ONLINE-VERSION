@@ -68,6 +68,8 @@ export interface IdempotencyInput {
   request: unknown;
   requestId: string;
   retrySerializationFailure?: boolean;
+  /** Trusted server-side override for bounded atomic bulk account erasure. */
+  transactionTimeoutMs?: number;
 }
 
 export interface IdempotentSuccess<T> {
@@ -362,7 +364,8 @@ export class IdempotencyService {
 
         return stored;
       },
-      { isolationLevel: Prisma.TransactionIsolationLevel.Serializable },
+      { isolationLevel: Prisma.TransactionIsolationLevel.Serializable,
+        ...(input.transactionTimeoutMs === undefined ? {} : { timeout: input.transactionTimeoutMs }) },
     );
   }
 

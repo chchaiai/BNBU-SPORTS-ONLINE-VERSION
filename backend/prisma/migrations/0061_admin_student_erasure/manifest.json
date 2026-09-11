@@ -1,0 +1,5 @@
+{
+  "destructive": false,
+  "sha256": "006ed69386a50f0c94389c7f707b97b2f24a41ce40c6abee1d86cfb657c98f5c",
+  "migrationId": "0061_admin_student_erasure"
+}

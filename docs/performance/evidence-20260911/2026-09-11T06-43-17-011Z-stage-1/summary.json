@@ -1,0 +1,86 @@
+{
+  "runId": "2026-09-11T06-43-17-011Z-stage-1",
+  "started": "2026-09-11T06:43:17.025Z",
+  "ended": "2026-09-11T06:44:21.018Z",
+  "mode": "stage",
+  "vus": 1,
+  "seconds": 60,
+  "thinkMs": 5000,
+  "elapsed": 60.0992578,
+  "stopped": null,
+  "peakInflight": 1,
+  "issued": 12,
+  "requests": 12,
+  "errors": 0,
+  "p50": 144.02,
+  "p95": 506.05,
+  "p99": 506.05,
+  "maxMs": 506.05,
+  "rps": 0.1996696871021925,
+  "byRoute": {
+    "student_me": {
+      "requests": 2,
+      "errors": 0,
+      "p50": 146.32,
+      "p95": 506.05,
+      "p99": 506.05,
+      "maxMs": 506.05
+    },
+    "student_enrollments": {
+      "requests": 2,
+      "errors": 0,
+      "p50": 141.94,
+      "p95": 144.02,
+      "p99": 144.02,
+      "maxMs": 144.02
+    },
+    "student_records": {
+      "requests": 2,
+      "errors": 0,
+      "p50": 141.23,
+      "p95": 145.68,
+      "p99": 145.68,
+      "maxMs": 145.68
+    },
+    "student_active": {
+      "requests": 2,
+      "errors": 0,
+      "p50": 141.73,
+      "p95": 145.09,
+      "p99": 145.09,
+      "maxMs": 145.09
+    },
+    "student_progress": {
+      "requests": 1,
+      "errors": 0,
+      "p50": 148.47,
+      "p95": 148.47,
+      "p99": 148.47,
+      "maxMs": 148.47
+    },
+    "student_notifications": {
+      "requests": 1,
+      "errors": 0,
+      "p50": 139.28,
+      "p95": 139.28,
+      "p99": 139.28,
+      "maxMs": 139.28
+    },
+    "student_todos": {
+      "requests": 1,
+      "errors": 0,
+      "p50": 141.2,
+      "p95": 141.2,
+      "p99": 141.2,
+      "maxMs": 141.2
+    },
+    "teacher_roster": {
+      "requests": 1,
+      "errors": 0,
+      "p50": 161.75,
+      "p95": 161.75,
+      "p99": 161.75,
+      "maxMs": 161.75
+    }
+  }
+}

@@ -5,6 +5,7 @@ import path from 'node:path';
 import crypto from 'node:crypto';
 import {fileURLToPath} from 'node:url';
 import {execFileSync} from 'node:child_process';
+import {migrationIds} from './migration-registry.mjs';
 
 const scripts=path.dirname(fileURLToPath(import.meta.url));
 const workspace=path.resolve(scripts,'../..');
@@ -28,7 +29,12 @@ function fixture(t){
       if(updateChecksum){const file=path.join(dir,'manifest.json'),manifest=JSON.parse(fs.readFileSync(file,'utf8'));manifest.sha256=crypto.createHash('sha256').update(sql).digest('hex');fs.writeFileSync(file,JSON.stringify(manifest));}
     }};
 }
-test('all registered migrations pass the real checker',t=>{assert.match(fixture(t).run(),/Migration safety: PASS \(58 registered migrations/);});
+test('all registered migrations pass the real checker',t=>{assert.ok(fixture(t).run().includes(`Migration safety: PASS (${migrationIds.length} registered migrations`));});
+
+test('student erasure migration cannot execute deletion during deployment',t=>{
+  const f=fixture(t);f.change('0061_admin_student_erasure',sql=>sql+'\nDELETE FROM exercise_records;');
+  assert.throws(f.run,/forbidden destructive SQL/);
+});
 test('unknown migration directory is rejected',t=>{const f=fixture(t);fs.mkdirSync(path.join(f.migrations,'9999_unregistered'));assert.throws(f.run,/Expected exactly/);});
 test('SQL checksum changes are rejected',t=>{const f=fixture(t);f.change('0055_v81_invite_revocation',sql=>sql+'\n-- altered\n',false);assert.throws(f.run,/checksum mismatch/);});
 for(const sql of ['DROP TABLE course_invites;','TRUNCATE course_invites;','DELETE FROM course_invites;','ALTER TABLE course_invites DROP COLUMN token_hash;']){

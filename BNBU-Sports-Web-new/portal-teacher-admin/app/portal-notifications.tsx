@@ -26,17 +26,17 @@ export function PortalNotifications({role,locale,onNavigate,onChanged}:{role:"te
   if(saved.id!==item.id||saved.recipientUserId!==actor||!saved.readAt)throw new Error("通知已读状态未确认，请重试。");
   if(!valid())return;setItems(current=>unread?current.filter(row=>row.id!==item.id):current.map(row=>row.id===saved.id?saved:row));onChanged();
  };
- return <div className="form-grid" aria-label={text("我的通知","My notifications")}>
-  <div className="horizontal-actions">
+ return <div className="portal-notifications" aria-busy={busy} aria-label={text("我的通知","My notifications")}>
+  <div className="notification-actions">
    <button type="button" className="secondary-button" disabled={busy} aria-pressed={!unread} onClick={()=>void run(()=>load(false,false))}>{text("全部通知","All notifications")}</button>
    <button type="button" className="secondary-button" disabled={busy} aria-pressed={unread} onClick={()=>void run(()=>load(false,true))}>{text("未读通知","Unread notifications")}</button>
    <button type="button" className="text-button" disabled={busy} onClick={()=>void run(()=>load())}>{text("刷新通知","Refresh notifications")}</button>
   </div>
   {error&&<ErrorPanel error={error} locale={locale}/>} {busy&&<p role="status">{text("正在加载通知…","Loading notifications…")}</p>}
-  {!busy&&!error&&!items.length&&<p>{text("暂无通知。","No notifications.")}</p>}
-  {items.map(item=><article className="detail-card" key={item.id} data-notification-id={item.id}>
-   <h3>{item.title}</h3><p>{item.body}</p><p>{new Date(item.createdAt).toLocaleString()} · {item.readAt?text("已读","Read"):text("未读","Unread")}</p>
-   <div className="horizontal-actions">
+  {!busy&&!error&&!items.length&&<div className="notification-empty" role="status"><span aria-hidden="true">✓</span><h3>{unread?text("暂无未读通知","You're all caught up"):text("暂无业务通知","No notifications yet")}</h3><p>{unread?text("所有已收到的通知均已读，可切换到全部通知查看。","Switch to all notifications to view previous updates."):text("有新的审核、课程或业务消息时，会显示在这里。","New review, course and account updates will appear here.")}</p></div>}
+  {items.map(item=><article className={`notification-card ${item.readAt?"is-read":"is-unread"}`} key={item.id} data-notification-id={item.id}>
+   <h3>{item.title}</h3><p>{item.body}</p><p>{new Date(item.createdAt).toLocaleString(locale==="zh"?"zh-CN":"en-GB")} · {item.readAt?text("已读","Read"):text("未读","Unread")}</p>
+   <div className="notification-actions">
     {!item.readAt&&<button type="button" className="text-button" disabled={busy} onClick={()=>void run(()=>read(item))}>{text("标记已读","Mark as read")}</button>}
     {item.targetId&&item.targetType&&routes[role][item.targetType]&&<button type="button" className="text-button" disabled={busy} onClick={()=>void run(async()=>{await read(item);if(valid())onNavigate(routes[role][item.targetType!],{id:item.id,targetType:item.targetType!,targetId:item.targetId!});})}>{text("打开相关业务","Open related work")}</button>}
    </div>

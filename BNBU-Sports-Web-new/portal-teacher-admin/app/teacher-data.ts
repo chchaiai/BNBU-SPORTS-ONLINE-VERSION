@@ -814,6 +814,14 @@ export async function loadTeacherStudents(
   for (const classSectionId of classSectionIds) {
     const enrollments = authorizedEnrollments.filter(enrollment=>enrollment.classSectionId===classSectionId);
     for (const enrollment of enrollments) {
+      // The enrollment remains authorized history after removal, but the current
+      // student profile endpoint deliberately requires an active membership.
+      if (enrollment.status !== "ACTIVE") {
+        rows.push({id:enrollment.studentId,enrollmentId:enrollment.id,name:"历史成员",number:"—",email:"",
+          gender:"未知",grade:"—",courseId:enrollment.classSectionId,status:mapEnrollmentStatus(enrollment.status),
+          joinedAt:enrollment.joinedAt,joinMethod:mapJoinMethod(enrollment.source),courseHours:0,otherHours:0,version:enrollment.version});
+        continue;
+      }
       if (!profileCache.has(enrollment.studentId)) {
         profileCache.set(
           enrollment.studentId,

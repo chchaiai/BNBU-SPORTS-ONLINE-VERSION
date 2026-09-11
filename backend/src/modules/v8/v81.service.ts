@@ -1,3 +1,4 @@
+import { permitsExistingCourseSession } from '../enrollments/application/course-closure-memberships.js';
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../../common/database/prisma.service.js';
 import { ApplicationError } from '../../common/errors/application-error.js';
@@ -295,11 +296,12 @@ export class V81Service {
         throw new ApplicationError('CONFLICT_STATE_TRANSITION', 409);
       const section = await this.section(tx, principal, record.classSectionId);
       const enrollment = await tx.enrollment.findUnique({ where: { id: record.enrollmentId } });
-      if (section.semester.status === 'ARCHIVED' || enrollment?.status !== 'ACTIVE' || record.student.status !== 'ACTIVE')
+      const admittedSession = await tx.exerciseSession.findUnique({ where: { id: record.sessionId } });
+      if (section.semester.status === 'ARCHIVED' || !enrollment || !admittedSession || !permitsExistingCourseSession(enrollment, section, admittedSession.startedAt) || record.student.status !== 'ACTIVE')
         throw new ApplicationError('ENROLLMENT_NOT_ACTIVE', 409);
       const existing = await tx.$queryRaw<{ record_id: string }[]>`SELECT record_id FROM v81_swim_intakes WHERE record_id=${id}::uuid`;
       if (existing.length) throw new ApplicationError('CONFLICT_STATE_TRANSITION', 409);
-      const session = await tx.exerciseSession.findUnique({ where: { id: record.sessionId } });
+      const session = admittedSession;
       if (!session?.completedAt || session.status !== 'COMPLETED')
         throw new ApplicationError('SESSION_NOT_COMPLETED', 409);
       const now = this.clock.now();

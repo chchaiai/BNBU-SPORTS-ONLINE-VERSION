@@ -8,7 +8,7 @@ import {
   Post,
   Req,
 } from '@nestjs/common';
-import { IsInt, IsString, MaxLength, Min, MinLength } from 'class-validator';
+import { Equals, IsInt, IsString, MaxLength, Min, MinLength } from 'class-validator';
 import { Transform } from 'class-transformer';
 import { randomUUID } from 'node:crypto';
 import { ApplicationError } from '../../common/errors/application-error.js';
@@ -21,11 +21,11 @@ import type {
   FoundationRequest,
 } from '../../common/http/request-context.js';
 import { requireAdminAccess } from './v81-admin-access.js';
-import { V81SettlementCheckService } from './v81-settlement-check.js';
 
 interface TeacherDeletionResult { id: string; deleted: boolean; deletedAt: string; version: number }
 
 class DeleteTeacherInput {
+  @Equals(true) confirmStudentErasure!: boolean;
   @IsInt() @Min(1) expectedVersion!: number;
   @Transform(({ value }: { value: unknown }) => (typeof value === 'string' ? value.trim() : value))
   @IsString()
@@ -43,7 +43,6 @@ export class V81TeacherDeletionService {
   constructor(
     private readonly idempotency: IdempotencyService,
     private readonly clock: Clock,
-    private readonly settlement: V81SettlementCheckService,
   ) {}
   remove(
     p: AuthenticatedPrincipal,
@@ -62,6 +61,7 @@ export class V81TeacherDeletionService {
         request: input,
         requestId,
         key,
+        transactionTimeoutMs: 120000,
       },
       async (tx) => {
         await tx.$queryRaw`SELECT id FROM organizations WHERE id=${p.organizationId}::uuid FOR UPDATE`;
@@ -94,29 +94,29 @@ export class V81TeacherDeletionService {
             ],
           });
         const sections = await tx.$queryRaw<
-          { id: string; status: string; end_date: Date }[]
-        >`SELECT c.id,c.status,s.end_date FROM class_sections c JOIN semesters s ON s.id=c.semester_id
+          { id: string; status: string }[]
+        >`SELECT c.id,c.status FROM class_sections c
         WHERE c.teacher_id=${id}::uuid AND c.organization_id=${p.organizationId}::uuid FOR UPDATE OF c`;
         const now = this.clock.now();
-        for (const section of sections) {
-          const semesterFinished =
-            now.getTime() >= section.end_date.getTime() + 86400000 - 8 * 3600000;
-          const complete =
-            semesterFinished &&
-            ['CLOSED', 'ARCHIVED'].includes(section.status) &&
-            (await this.settlement.checkInTransaction(tx, p.organizationId, section.id)).ready;
-          if (!complete)
-            throw new ApplicationError('CONFLICT_STATE_TRANSITION', 409, {
-              reason: 'TEACHER_RESPONSIBILITY_INCOMPLETE',
-              fieldErrors: [
-                {
-                  field: 'teacher',
-                  code: 'TEACHER_RESPONSIBILITY_INCOMPLETE',
-                  i18nKey: 'error.validation.failed',
-                  params: {},
-                },
-              ],
-            });
+        const students = await tx.studentProfile.findMany({
+          where: { organizationId: p.organizationId, enrollments: { some: {
+            organizationId: p.organizationId, classSectionId: { in: sections.map(section => section.id) },
+            status: 'ACTIVE',
+          } } }, select: { id: true, version: true }, orderBy: { id: 'asc' },
+        });
+        const closed = await tx.classSection.updateMany({
+          where: { organizationId: p.organizationId, teacherId: id, status: { in: ['ACTIVE', 'UPCOMING'] } },
+          data: { status: 'CLOSED', isEnrollmentOpen: false, closedAt: now, closedBy: p.userId,
+            closeReason: input.reason, updatedBy: p.userId, updatedAt: now, version: { increment: 1 } },
+        });
+        for (const student of students) {
+          const [result] = await tx.$queryRaw<{ counts: Record<string, number> }[]>`
+            SELECT erase_v81_student(${p.organizationId}::uuid,${student.id}::uuid,${p.userId}::uuid) AS counts`;
+          // Each erasure has its own exact-row plan; release it before the next student.
+          await tx.$executeRaw`DROP TABLE pg_temp.v81_erasure_rows`;
+          await tx.$executeRaw`INSERT INTO v81_events(id,organization_id,resource_type,resource_id,event_type,actor_id,request_id,version,facts,occurred_at,event_outcome)
+            VALUES(${randomUUID()}::uuid,${p.organizationId}::uuid,'STUDENT',${student.id}::uuid,'ACCOUNT_AND_HISTORY_DELETED',${p.userId}::uuid,${requestId},${student.version + 1},
+              ${JSON.stringify({ reason: input.reason, teacherDeletionId: id, deletedCounts: result?.counts ?? {}, mediaCleanup: 'QUEUED' })}::jsonb,${now},'SUCCEEDED')`;
         }
         const userId = teacher.user_id;
         // Existing 0046–0049 history subjects preserve all business references on deletion.
@@ -145,7 +145,7 @@ export class V81TeacherDeletionService {
         await tx.user.delete({ where: { id: userId } });
         await tx.$executeRaw`INSERT INTO v81_events(id,organization_id,resource_type,resource_id,event_type,actor_id,request_id,version,facts,occurred_at,event_outcome)
         VALUES(${randomUUID()}::uuid,${p.organizationId}::uuid,'TEACHER',${id}::uuid,'ACCOUNT_DELETED',${p.userId}::uuid,${requestId},${teacher.version + 1},
-        ${JSON.stringify({ reason: input.reason, teachingCompleted: true, retainedCourseCount: sections.length })}::jsonb,${now},'SUCCEEDED')`;
+        ${JSON.stringify({ reason: input.reason, closedCourseCount: closed.count, deletedStudentCount: students.length, retainedCourseCount: sections.length })}::jsonb,${now},'SUCCEEDED')`;
         return this.idempotency.success({
           id,
           deleted: true,

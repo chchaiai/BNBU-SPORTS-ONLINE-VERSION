@@ -19,7 +19,7 @@ const FOUNDATION_METADATA_ALLOWLIST = {
   COURSE_STATUS_CHANGED: new Set(['changedFields', 'previousStatus', 'nextStatus']),
   CLASS_SECTION_CREATED: new Set(['changedFields']),
   CLASS_SECTION_UPDATED: new Set(['changedFields']),
-  CLASS_SECTION_CLOSED: new Set(['changedFields', 'previousStatus', 'nextStatus']),
+  CLASS_SECTION_CLOSED: new Set(['changedFields', 'previousStatus', 'nextStatus', 'removedMemberCount']),
   COURSE_INVITE_CHANGED: new Set(['classSectionId']),
   ENROLLMENT_CREATED: new Set(['classSectionId', 'source']),
   ENROLLMENT_STATUS_CHANGED: new Set([

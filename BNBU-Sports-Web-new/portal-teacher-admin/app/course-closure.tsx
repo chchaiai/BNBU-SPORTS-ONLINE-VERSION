@@ -15,12 +15,12 @@ export function CourseClosure({classSectionId,onClosed,archived=false}:{classSec
   let intent:Intent;const stored=sessionStorage.getItem(storageKey);
   if(stored){intent=JSON.parse(stored);if(!intent.key||!Number.isSafeInteger(intent.body?.expectedVersion)||typeof intent.body.reason!=='string'||!intent.body.reason.trim()){setError('关闭请求恢复记录异常，请联系管理员核查。');return;}}
   else{if(!section||!confirmed||!reason.trim()){setError('请填写关闭原因并确认业务影响。');return;}intent={key:crypto.randomUUID(),body:{reason:reason.trim(),expectedVersion:section.version}};sessionStorage.setItem(storageKey,JSON.stringify(intent));setPending(true);}
-  try{const result=await request<Section>(path+'/close',{method:'POST',body:intent.body,headers:{'Idempotency-Key':intent.key}});if(valid()){sessionStorage.removeItem(storageKey);setPending(false);setSection(result);setMessage('课程已关闭，关闭前合法业务仍可继续处理。');onClosed();}}
+  try{const result=await request<Section>(path+'/close',{method:'POST',body:intent.body,headers:{'Idempotency-Key':intent.key}});if(valid()){sessionStorage.removeItem(storageKey);setPending(false);setSection(result);setMessage('课程已关闭，全部在课学生已移出，关闭前合法业务仍可继续处理。');onClosed();}}
   catch(failure){if(valid()&&failure instanceof ApiError&&[409,422].includes(failure.status)){sessionStorage.removeItem(storageKey);setPending(false);await load();}throw failure;}
  };
  const closed=archived||(section&&['CLOSED','ARCHIVED'].includes(section.status));
  return <section aria-label="课程关闭" className="course-target-section">
-  <h3>课程关闭</h3><p>关闭后停止新入班、新运动和新申请。关闭前合法业务继续按原期限处理，审核、补证及结算仍需完成。</p>
+  <h3>课程关闭</h3><p>关闭后自动移出全部在课学生，停止新入班、新运动和新申请。关闭前合法业务继续按原期限处理，审核、补证及结算仍需完成。</p>
   {error&&<p role="alert">{error}</p>}{message&&<p role="status">{message}</p>}
   {closed&&!pending?<p>{archived||section?.status==='ARCHIVED'?'课程已归档，仅保留历史查询和旧事实更正。':'课程已关闭，仍可处理原有待办和结算。'}</p>:<>
    <label htmlFor="course-close-reason">关闭原因<textarea id="course-close-reason" maxLength={1000} value={reason} disabled={busy||pending} onChange={event=>setReason(event.target.value)}/></label>

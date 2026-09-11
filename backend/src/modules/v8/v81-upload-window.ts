@@ -1,3 +1,4 @@
+import { permitsExistingCourseSession } from '../enrollments/application/course-closure-memberships.js';
 import type { Prisma } from '../../generated/prisma/client.js';
 import { ApplicationError } from '../../common/errors/application-error.js';
 import { supplementClock } from './domain/deadlines.js';
@@ -12,13 +13,13 @@ export async function exerciseUploadWindow(
 ) {
   const session = await tx.exerciseSession.findUnique({
     where: { id: sessionId },
-    include: { enrollment: true, exerciseRecord: true },
+    include: { enrollment: true, exerciseRecord: true, classSection: true },
   });
   if (!session || !['IN_PROGRESS', 'PAUSED', 'COMPLETED'].includes(session.status))
     throw new ApplicationError('MEDIA_BIND_TARGET_INVALID', 422);
   const record = session.exerciseRecord;
   if (!record || record.status === 'DRAFT') {
-    if (session.enrollment.status !== 'ACTIVE')
+    if (!permitsExistingCourseSession(session.enrollment, session.classSection, session.startedAt))
       throw new ApplicationError('ENROLLMENT_NOT_ACTIVE', 409);
     if (record?.sportType === 'SWIMMING') {
       const intake = await readSwimTransfer(tx, record.id, now);

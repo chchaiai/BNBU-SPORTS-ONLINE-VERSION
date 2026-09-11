@@ -301,6 +301,11 @@ export const foundationMigrations = [
     sha256: 'da973fb7910e539d72b44278b5b734e4ccc70c9ad5fddd91086115687b6bc0b5',
     destructive: false,
   },
+  {
+    migrationId: '0061_admin_student_erasure',
+    sha256: '006ed69386a50f0c94389c7f707b97b2f24a41ce40c6abee1d86cfb657c98f5c',
+    destructive: false,
+  },
 ] as const;
 
 export const foundationMigration = foundationMigrations[0];

@@ -3175,6 +3175,19 @@ export const operationPolicies = {
     "resourceResolver": "PRINCIPAL_USER",
     "defaultDeny": true
   },
+  "deleteV81StudentAccount": {
+    "method": "POST",
+    "route": "/admin/students/{id}/delete",
+    "policyId": "DELETE-V81-STUDENT-ACCOUNT",
+    "authentication": "ACCESS_TOKEN",
+    "allowedRoles": [
+      "ADMIN"
+    ],
+    "organizationScope": "PRINCIPAL_ORGANIZATION",
+    "resourceScope": "SELF",
+    "resourceResolver": "PRINCIPAL_USER",
+    "defaultDeny": true
+  },
   "deleteV81Subadmin": {
     "method": "POST",
     "route": "/admin/subadmins/{id}/delete",

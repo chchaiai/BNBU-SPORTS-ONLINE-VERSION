@@ -1,3 +1,4 @@
+import { permitsExistingCourseSession } from '../../enrollments/application/course-closure-memberships.js';
 import { Injectable } from '@nestjs/common';
 
 import { AuditService, type FoundationAuditAction } from '../../../common/audit/audit.service.js';
@@ -702,6 +703,8 @@ export class ExerciseRecordsService {
       session: { status: string; startedAt: Date; actualDurationSeconds: bigint; pausedDurationSeconds: bigint };
       enrollment: {
         status: string;
+        endReason?: string | null;
+        endedAt?: Date | null;
         student: {
           status: string;
           deletedAt: Date | null;
@@ -721,7 +724,7 @@ export class ExerciseRecordsService {
   ): Promise<void> {
     if (
       record.session.status !== 'COMPLETED' ||
-      record.enrollment.status !== 'ACTIVE' ||
+      !permitsExistingCourseSession(record.enrollment, record.classSection, record.session.startedAt) ||
       record.enrollment.student.status !== 'ACTIVE' ||
       record.enrollment.student.deletedAt !== null ||
       record.enrollment.student.user.status !== 'ACTIVE' ||

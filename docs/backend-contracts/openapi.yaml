@@ -15101,8 +15101,12 @@ paths:
             schema:
               type: object
               additionalProperties: false
-              required: [expectedVersion, confirmationEmployeeNumber, reason]
+              required: [expectedVersion, confirmationEmployeeNumber, reason, confirmStudentErasure]
               properties:
+                confirmStudentErasure:
+                  type: boolean
+                  enum: [true]
+                  description: Confirms permanent erasure of current students across all their courses.
                 expectedVersion:
                   type: integer
                   minimum: 1
@@ -15117,6 +15121,80 @@ paths:
       responses:
         "201":
           description: Teacher deletion receipt
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [data]
+                properties:
+                  data:
+                    type: object
+                    required: [id, deleted, deletedAt, version]
+                    properties:
+                      id: { type: string, format: uuid }
+                      deleted: { type: boolean }
+                      deletedAt: { type: string, format: date-time }
+                      version: { type: integer, minimum: 1 }
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "409":
+          $ref: "#/components/responses/Conflict"
+        "422":
+          $ref: "#/components/responses/UnprocessableEntity"
+        "503":
+          $ref: "#/components/responses/ServiceUnavailable"
+  /admin/students/{id}/delete:
+    post:
+      operationId: deleteV81StudentAccount
+      tags:
+        - V8.1 local implementation
+      summary: Delete a student account and its exercise, review and credit history
+      description: Requires USER_ACCOUNTS permission, NORMAL mode, same organization, latest student profile version, exact student-number confirmation and reason. Permanently removes the account, all enrollments, exercise, review and credit data, and queues private media erasure. Retains administrator audit provenance. Same-key replay returns the original receipt.
+      x-access-policy:
+        policyId: DELETE-V81-STUDENT-ACCOUNT
+        authentication: ACCESS_TOKEN
+        allowedRoles:
+          - ADMIN
+        organizationScope: PRINCIPAL_ORGANIZATION
+        resourceScope: SELF
+        resourceResolver: PRINCIPAL_USER
+        defaultDeny: true
+      parameters:
+        - $ref: "#/components/parameters/RequestIdHeader"
+        - $ref: "#/components/parameters/IdempotencyKeyHeader"
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: false
+              required: [expectedVersion, confirmationStudentNumber, reason]
+              properties:
+                expectedVersion:
+                  type: integer
+                  minimum: 1
+                confirmationStudentNumber:
+                  type: string
+                  minLength: 1
+                  maxLength: 32
+                reason:
+                  type: string
+                  minLength: 1
+                  maxLength: 1000
+      responses:
+        "201":
+          description: Student deletion receipt
           content:
             application/json:
               schema:
