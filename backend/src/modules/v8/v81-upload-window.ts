@@ -1,3 +1,4 @@
+import {requireHistoricalSubmissionWindow} from './v81-history-backfill.js';
 import { permitsExistingCourseSession } from '../enrollments/application/course-closure-memberships.js';
 import type { Prisma } from '../../generated/prisma/client.js';
 import { ApplicationError } from '../../common/errors/application-error.js';
@@ -19,6 +20,7 @@ export async function exerciseUploadWindow(
     throw new ApplicationError('MEDIA_BIND_TARGET_INVALID', 422);
   const record = session.exerciseRecord;
   if (!record || record.status === 'DRAFT') {
+    await requireHistoricalSubmissionWindow(tx,sessionId,now);
     if (!permitsExistingCourseSession(session.enrollment, session.classSection, session.startedAt))
       throw new ApplicationError('ENROLLMENT_NOT_ACTIVE', 409);
     if (record?.sportType === 'SWIMMING') {

@@ -1,0 +1,52 @@
+{"check":"NEW_STUDENT_PROFILE_PERSISTED","result":"PASS"}
+{"check":"FIRST_EMAIL_BINDING_REAL_SMTP","result":"PASS"}
+/workspace/backend/node_modules/@prisma/client/src/runtime/core/errorRendering/throwValidationException.ts:46
+  throw new PrismaClientValidationError(messageWithContext, { clientVersion })
+        ^
+
+PrismaClientValidationError: 
+Invalid `prisma.semester.create()` invocation:
+
+{
+  data: {
+    id: "04c81258-0a19-4ed2-9901-9efbe2a183dd",
+    organizationId: "01a093f1-a93c-763a-a195-e88b56902d63",
+    academicYear: "2026-2027",
+    termCode: "FIRST",
+    displayName: "Synthetic next semester",
+    startDate: new Date("2026-08-01T00:00:00.000Z"),
+    endDate: new Date("2027-01-31T00:00:00.000Z"),
+    status: "CURRENT",
+    createdBy: "01a093f1-a93c-763a-a195-f1d25f65f973",
+    version: 1,
+    createdAt: new Date("2026-08-02T12:00:00.000Z"),
+    updatedAt: new Date("2026-08-02T12:00:00.000Z"),
+    semesterCode: "N1933FF6B",
+    ~~~~~~~~~~~~
+?   classSections?: ClassSectionUncheckedCreateNestedManyWithoutSemesterInput,
+?   enrollments?: EnrollmentUncheckedCreateNestedManyWithoutSemesterInput,
+?   rosterAlignmentRuns?: RosterAlignmentRunUncheckedCreateNestedManyWithoutSemesterInput,
+?   rosterAlignmentPlatformEntries?: RosterAlignmentPlatformEntryUncheckedCreateNestedManyWithoutSemesterInput,
+?   exerciseSessions?: ExerciseSessionUncheckedCreateNestedManyWithoutSemesterInput,
+?   exerciseRecords?: ExerciseRecordUncheckedCreateNestedManyWithoutSemesterInput,
+?   scoreRules?: ScoreRuleUncheckedCreateNestedManyWithoutSemesterInput,
+?   studentScores?: StudentScoreUncheckedCreateNestedManyWithoutSemesterInput,
+?   exemptionApplications?: ExemptionApplicationUncheckedCreateNestedManyWithoutSemesterInput,
+?   locationTracks?: LocationTrackUncheckedCreateNestedManyWithoutSemesterInput
+  }
+}
+
+Unknown argument `semesterCode`. Available options are marked with ?.
+    at throwValidationException (/workspace/backend/node_modules/@prisma/client/src/runtime/core/errorRendering/throwValidationException.ts:46:9)
+    at Jr.handleRequestError (/workspace/backend/node_modules/@prisma/client/src/runtime/RequestHandler.ts:211:7)
+    at Jr.handleAndLogRequestError (/workspace/backend/node_modules/@prisma/client/src/runtime/RequestHandler.ts:183:12)
+    at Jr.request (/workspace/backend/node_modules/@prisma/client/src/runtime/RequestHandler.ts:152:12)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async a (/workspace/backend/node_modules/@prisma/client/src/runtime/getPrismaClient.ts:1014:24)
+    at async file:///workspace/tools/local-integration/demand-profile-http.mjs:81:5
+    at async Proxy._transactionWithCallback (/workspace/backend/node_modules/@prisma/client/src/runtime/getPrismaClient.ts:861:18)
+    at async file:///workspace/tools/local-integration/demand-profile-http.mjs:78:3 {
+  clientVersion: '7.9.1'
+}
+
+Node.js v24.18.0

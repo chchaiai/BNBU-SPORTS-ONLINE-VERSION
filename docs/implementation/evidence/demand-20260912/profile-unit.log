@@ -1,0 +1,23 @@
+✔ long-term personal details normalize without changing stable identity (1.9913ms)
+✔ rejects impossible, future and malformed birth dates (0.5939ms)
+✔ region list covers 31 mainland areas, Hong Kong, Macao, Taiwan and other (0.3267ms)
+▶ Stage 12 student identity and QR security
+  ✔ normalizes the student number without losing leading zeros and applies NFC (0.944ms)
+  ✔ narrows QR join gender while accepting the full four-digit cohort range (2.4999ms)
+  ✔ accepts any four-digit cohort year and rejects malformed identity fields (0.4489ms)
+  ✔ issues public-id plus 256-bit secret tokens and verifies only their HMAC digest (0.6319ms)
+  ✔ authenticates encrypted identity and result escrows with purpose-bound AAD (0.5423ms)
+✔ Stage 12 student identity and QR security (5.7386ms)
+▶ Stage 12 lifecycle entities
+  ✔ rotates an invite without deleting history (0.2035ms)
+  ✔ keeps one Enrollment id across remove and restore transitions (0.2363ms)
+  ✔ issues an ACTIVE capability without any consumed result fields (0.1554ms)
+✔ Stage 12 lifecycle entities (0.729ms)
+ℹ tests 11
+ℹ suites 2
+ℹ pass 11
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1611.3294

@@ -1,0 +1,33 @@
+{
+  "check": "CLOUD_CLOSURE_APPLICATION_CLEANUP",
+  "observedAt": "2026-09-12T18:12:19.911Z",
+  "organizationId": "01a096c2-20a2-706b-8c69-802f67dee12c",
+  "sectionId": "01a096c2-20a3-76a6-a0b4-15a89a04610b",
+  "applications": [
+    {
+      "id": "01a096d1-dfd1-712f-8c43-3fa0cdafcfd6",
+      "subtype": "SCHOOL_TEAM"
+    },
+    {
+      "id": "01a096d1-ea38-76bc-a67c-ff5504f95b2d",
+      "subtype": "STUDENT_CLUB"
+    },
+    {
+      "id": "01a096d1-f32b-75dc-9ac8-66e0295da02a",
+      "subtype": "RUN_800M"
+    }
+  ],
+  "mediaIds": [
+    "01a096d1-d62f-74f5-8a4f-29fa314da5d4",
+    "01a096d1-e28d-76db-a4f3-cbcab48d81a9",
+    "01a096d1-eb97-77b8-9e64-9195848b160b"
+  ],
+  "checks": [
+    "THREE_REAL_COS_SCANNED_APPLICATIONS_SUBMITTED_TEAM_APPROVED_REPLAY",
+    "APPROVED_RECOGNITION_PROGRESS",
+    "COURSE_CLOSED_AND_REPLAY",
+    "STUDENT_TEACHER_APPLICATIONS_AND_CERTIFICATIONS_CLEARED",
+    "CLOSED_MEMBERSHIP_ROSTER_PHYSICAL_EXERCISE_HISTORY_RETAINED"
+  ],
+  "allChecksCompleted": true
+}

@@ -1,0 +1,11 @@
+{
+  "observedAt": "2026-09-12T22:02:50.596Z",
+  "check": "SUBMIT_ATOMIC_DEPLOYMENT",
+  "result": "PASS",
+  "release": "/opt/bnbu-sports-production/releases/submit-atomic-20260913",
+  "previous": "/opt/bnbu-sports-production/releases/portal-permission-20260913",
+  "imageId": "sha256:c2b0ddd96f31b875f3846bf007cbeb766a11022f6404a3455426276c37bddc32",
+  "sourcePatch": "d0f3150f514f3f862ec5196063006a033931866b",
+  "rollbackExercised": false,
+  "onlineRegression": "cloud-swim-transfer-expiry.json"
+}

@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import { operationPolicies } from '../../src/generated/operation-policies.generated.js';
 import { readFile } from 'node:fs/promises';
 import { describe, it } from 'node:test';
 
@@ -115,6 +116,6 @@ describe('Stage 12 Enrollment and QR Join contract', () => {
         }
       }
     }
-    assert.equal(operationCount, 126);
+    assert.equal(operationCount, Object.keys(operationPolicies).length);
   });
 });

@@ -1,0 +1,21 @@
+{
+  "finishedObservedAt": "2026-09-12T21:19:28.741Z",
+  "verifyAfter": "2026-09-12T21:34:33.741Z",
+  "elapsedAfterFinishResponseMs": 955022,
+  "check": "CLOUD_REAL_ELAPSED_SWIM_DELAY",
+  "phase": "verify",
+  "observedAt": "2026-09-12T21:35:23.764Z",
+  "organizationId": "01a096c2-20a2-706b-8c69-802f67dee12c",
+  "sessionId": "01a0977c-610a-724b-b6f4-3d3e8f126f50",
+  "recordId": "01a0977d-535c-77a2-b142-e0c2cdcad89b",
+  "checks": [
+    "AFTER_REAL_15_MINUTES_MISSING_REASON_REJECTED_422",
+    "DELAY_REASON_ACCEPTED_LOCKED_BATCH_REPLAY",
+    "DELAYED_SWIM_TEACHER_REVIEW_VALID"
+  ],
+  "allChecksCompleted": true,
+  "limitations": [
+    "24-hour expiry and incomplete-batch continuation remain separate",
+    "Synthetic PNG proves transport, not native camera capture"
+  ]
+}

@@ -14,6 +14,7 @@ import {
   V81SupplementInput,
   SwimIntakeInput,
   ProofTodoQuery,
+  V81ExerciseGoalInput,
 } from './v81.dto.js';
 import { V81Service } from './v81.service.js';
 import { AllowSystemModes } from '../../common/policy/system-mode-policy.decorator.js';
@@ -25,6 +26,19 @@ const uuidParam = new ParseUUIDPipe({
 @Controller()
 export class V81Controller {
   constructor(private readonly service: V81Service) {}
+  @Get('admin/exercise-goal')
+  @OperationPolicy('getV81ExerciseGoal')
+  exerciseGoal(@CurrentPrincipal() principal: AuthenticatedPrincipal) {
+    return this.service.exerciseGoal(principal);
+  }
+  @Post('admin/exercise-goal')
+  @OperationPolicy('saveV81ExerciseGoal')
+  saveExerciseGoal(@CurrentPrincipal() principal: AuthenticatedPrincipal,
+    @Body() input: V81ExerciseGoalInput,
+    @Headers('idempotency-key') key: string | undefined,
+    @Req() req: FoundationRequest) {
+    return this.service.saveExerciseGoal(principal,input,{requestId:req.requestId,idempotencyKey:key});
+  }
   @Get('student/proof-todos')
   @OperationPolicy('listV81ProofTodos')
   @AllowSystemModes('NORMAL', 'MAINTENANCE')

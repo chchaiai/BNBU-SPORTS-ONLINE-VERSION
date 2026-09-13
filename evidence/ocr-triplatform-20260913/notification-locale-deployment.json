@@ -1,0 +1,16 @@
+{
+  "result": "PASS",
+  "release": "/opt/bnbu-sports-production/releases/notification-locale-20260913",
+  "images": {
+    "backend": "sha256:59eedded13c53c0c7a93ea71083e9f9eabe7532cc12041bbae2a0e6957c0fc9b",
+    "migrator": "sha256:b4a2afaec4cc9a3b4d5ad4a8118382c9c0efafaa4d9150067e2f14396763a3d2"
+  },
+  "backup": {
+    "check": "PRE_RELEASE_DATABASE_BACKUP",
+    "result": "PASS",
+    "path": "/opt/bnbu-sports-production/backups/before-bugfix-20260913T042343Z.dump",
+    "bytes": 4653872
+  },
+  "historyBackfill": "PENDING",
+  "browserRegression": "PENDING"
+}

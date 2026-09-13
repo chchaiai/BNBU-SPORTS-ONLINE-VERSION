@@ -23,7 +23,12 @@ type ProgressRow = {
   generalTarget: number;
   minimumMinutes: number;
   weeklyLimit: number;
+  dailyLimit: number;
   ruleVersion: number;
+  maximumMinutes: number;
+  totalTargetMinutes: number;
+  allocationPending: boolean;
+  globalTargetVersion: number;
 };
 type Totals = { enrollmentId: string; course: bigint; general: bigint };
 
@@ -60,8 +65,14 @@ export class V81ProgressService {
         const rows = await tx.$queryRaw<
           ProgressRow[]
         >`SELECT e.id AS "enrollmentId",e.class_section_id AS "classSectionId",e.semester_id AS "semesterId",
-        r.course_target AS "courseTarget",r.general_target AS "generalTarget",r.minimum_minutes AS "minimumMinutes",r.weekly_limit AS "weeklyLimit",r.version AS "ruleVersion"
+        r.course_target AS "courseTarget",r.general_target AS "generalTarget",r.minimum_minutes AS "minimumMinutes",r.weekly_limit AS "weeklyLimit",r.daily_limit AS "dailyLimit",r.version AS "ruleVersion",
+        COALESCE(r.maximum_minutes,GREATEST(60,r.minimum_minutes)) AS "maximumMinutes",
+        CASE WHEN c.closed_at IS NULL AND semester.status='CURRENT' AND NOT EXISTS(SELECT 1 FROM v81_settlement_report_revisions settled WHERE settled.class_section_id=c.id) THEN COALESCE(g.total_target_minutes,1200) ELSE r.course_target+r.general_target END AS "totalTargetMinutes",
+        (c.closed_at IS NULL AND semester.status='CURRENT' AND NOT EXISTS(SELECT 1 FROM v81_settlement_report_revisions settled WHERE settled.class_section_id=c.id) AND (r.target_global_version<>COALESCE(g.version,0) OR r.course_target::bigint+r.general_target<>COALESCE(g.total_target_minutes,1200))) AS "allocationPending",
+        COALESCE(g.version,0) AS "globalTargetVersion"
         FROM enrollments e JOIN student_profiles s ON s.id=e.student_id JOIN v81_course_rules r ON r.class_section_id=e.class_section_id
+        JOIN class_sections c ON c.id=r.class_section_id JOIN semesters semester ON semester.id=c.semester_id
+        LEFT JOIN v81_exercise_goal_settings g ON g.organization_id=r.organization_id
         WHERE e.organization_id=${principal.organizationId}::uuid AND r.published_at IS NOT NULL
           AND ${teacher ? Prisma.sql`EXISTS (SELECT 1 FROM class_sections c JOIN teacher_profiles t ON t.id=c.teacher_id
             WHERE c.id=e.class_section_id AND c.organization_id=${principal.organizationId}::uuid AND t.user_id=${principal.userId}::uuid)`
@@ -102,14 +113,18 @@ export class V81ProgressService {
             semesterId: row.semesterId,
             ruleVersion: row.ruleVersion,
             minimumMinutes: row.minimumMinutes,
+            maximumMinutes: row.maximumMinutes,
+            allocationPending: row.allocationPending,
+            globalTargetVersion: row.globalTargetVersion,
             weeklyLimit: row.weeklyLimit,
+            dailyLimit: row.dailyLimit,
             courseRelated,
             general,
-            totalTargetSeconds: 72000,
+            totalTargetSeconds: row.totalTargetMinutes * 60,
             totalEffectiveSeconds: effectiveSeconds,
-            remainingSeconds: 72000 - effectiveSeconds,
-            completionPercent: Math.min(100, effectiveSeconds / 720),
-            status: effectiveSeconds >= 72000 ? 'COMPLETED' : 'IN_PROGRESS',
+            remainingSeconds: Math.max(0,row.totalTargetMinutes * 60 - effectiveSeconds),
+            completionPercent: Math.min(100, effectiveSeconds / (row.totalTargetMinutes * 60) * 100),
+            status: !row.allocationPending && effectiveSeconds >= row.totalTargetMinutes * 60 ? 'COMPLETED' : 'IN_PROGRESS',
           };
         });
         const last = page.at(-1)!;
@@ -140,15 +155,20 @@ export class V81ProgressService {
     )
       throw new ApplicationError('PERMISSION_RESOURCE_NOT_FOUND', 404);
     const rows = await this.prisma.$queryRaw<
-      { course_target: number; general_target: number; version: number }[]
-    >`SELECT course_target,general_target,version FROM v81_course_rules WHERE class_section_id=${id}::uuid AND published_at IS NOT NULL`;
+      { course_target: number; general_target: number; version: number; total_target: number }[]
+    >`SELECT r.course_target,r.general_target,r.version,
+      CASE WHEN c.closed_at IS NULL AND s.status='CURRENT' AND NOT EXISTS(SELECT 1 FROM v81_settlement_report_revisions settled WHERE settled.class_section_id=c.id)
+      THEN COALESCE(g.total_target_minutes,1200) ELSE r.course_target+r.general_target END AS total_target
+      FROM v81_course_rules r JOIN class_sections c ON c.id=r.class_section_id JOIN semesters s ON s.id=c.semester_id
+      LEFT JOIN v81_exercise_goal_settings g ON g.organization_id=r.organization_id
+      WHERE r.class_section_id=${id}::uuid AND r.published_at IS NOT NULL`;
     const rule = rows[0];
     if (!rule) throw new ApplicationError('PERMISSION_RESOURCE_NOT_FOUND', 404);
     return {
       classSectionId: id,
       courseTargetSeconds: rule.course_target * 60,
       generalTargetSeconds: rule.general_target * 60,
-      totalTargetSeconds: 72000,
+      totalTargetSeconds: rule.total_target * 60,
       ruleVersion: rule.version,
     };
   }

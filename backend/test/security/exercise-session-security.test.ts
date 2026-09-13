@@ -172,6 +172,7 @@ describe('Stage 14 ExerciseSession security', () => {
         expiredAt: null,
         endReason: 'USER_COMPLETED',
         actualDurationSeconds: 3600n,
+        maximumDurationSeconds: null,
         pausedDurationSeconds: 60n,
         currentIntervalStartedAt: null,
         lastHeartbeatAt: new Date('2026-08-04T01:00:00.000Z'),

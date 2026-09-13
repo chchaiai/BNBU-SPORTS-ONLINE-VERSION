@@ -1,5 +1,6 @@
 "use client";
 import {OcrImportPanel} from "./ocr-import-panel";
+import {PhysicalImportPanel} from "./physical-import-panel";
 import {useEffect,useRef,useState} from "react";
 import {ApiError,apiSessionUserId,currentApiSessionEpoch,request,toUserFacingError} from "./api-client";
 class PhysicalValidationError extends Error {}
@@ -46,8 +47,7 @@ export function PhysicalResultForm({enrollmentId,courseId,gender,exempt,onSaved}
    throw failure;
   }
  };
- return <section aria-label="原始体测资料" className="form-grid">
-  <OcrImportPanel courseId={courseId} purpose="PHYSICAL" onSaved={()=>{void run(load);onSaved();}}/>
+ return <section aria-label="原始体测资料" className="form-grid grade-physical-editor">
   <h3>原始体测资料</h3><p>{exempt?"该学生已免测。":runType?`${runType} · 填写实际测试用时和日期。`:"学生项目待核对，请先完善身份资料。"}</p>
   {error&&<p role="alert">{error}</p>}{message&&<p role="status">{message}</p>}
   <div className="form-grid two-columns">
@@ -59,7 +59,11 @@ export function PhysicalResultForm({enrollmentId,courseId,gender,exempt,onSaved}
   {pending&&<p>上次保存结果待确认，重试将提交原请求。</p>}
   <button type="button" className="secondary-button" disabled={busy||(!pending&&(!loaded||!runType||exempt))} onClick={()=>void run(save)}>{pending?"重试原体测保存":"保存原始体测"}</button>
   <button type="button" className="text-button" disabled={busy} onClick={()=>void run(load)}>刷新体测资料</button>
+  <details className="physical-result-history"><summary>查看体测历史（{rows.length} 条）</summary>
   {rows.map(row=><p key={row.version} data-physical-version={row.version}>v{row.version} · {row.runType} · {Math.floor(row.elapsedSeconds/60)} 分 {row.elapsedSeconds%60} 秒 · {row.testedOn}</p>)}
   {before!==null&&<button type="button" className="text-button" disabled={busy} onClick={()=>void run(async()=>{const page=await request<{items:Result[];nextBeforeVersion:number|null}>(`${path}?limit=20&beforeVersion=${before}`);if(valid()){setRows(current=>[...current,...page.items]);setBefore(page.nextBeforeVersion);}})}>加载更早体测记录</button>}
+  </details>
+  <PhysicalImportPanel key={courseId} courseId={courseId} onSaved={()=>{void run(load);onSaved();}}/>
+  <OcrImportPanel courseId={courseId} purpose="PHYSICAL" onSaved={()=>{void run(load);onSaved();}}/>
  </section>;
 }

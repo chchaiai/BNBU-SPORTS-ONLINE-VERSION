@@ -1,0 +1,13 @@
+{
+  "checks": [
+    "REAL_COS_ROSTER_UPLOAD",
+    "SOURCE_BYTES_IDENTICAL",
+    "FORMAL_ROSTER_CONFIRMED",
+    "PHYSICAL_RESULT_SAVED"
+  ],
+  "rosterId": "01a0991b-359f-746e-8918-60b6304fb294",
+  "organizationId": "01a09918-10d0-75ae-93a0-a4bf948d2495",
+  "sectionId": "01a09918-10d1-735e-8790-0176abb8e77a",
+  "teacherDisabled": true,
+  "passed": true
+}

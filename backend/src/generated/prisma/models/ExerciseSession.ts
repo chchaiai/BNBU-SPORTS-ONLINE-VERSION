@@ -27,18 +27,21 @@ export type AggregateExerciseSession = {
 }
 
 export type ExerciseSessionAvgAggregateOutputType = {
+  maximumDurationSeconds: number | null
   actualDurationSeconds: number | null
   pausedDurationSeconds: number | null
   version: number | null
 }
 
 export type ExerciseSessionSumAggregateOutputType = {
+  maximumDurationSeconds: number | null
   actualDurationSeconds: bigint | null
   pausedDurationSeconds: bigint | null
   version: number | null
 }
 
 export type ExerciseSessionMinAggregateOutputType = {
+  maximumDurationSeconds: number | null
   id: string | null
   organizationId: string | null
   studentId: string | null
@@ -63,6 +66,7 @@ export type ExerciseSessionMinAggregateOutputType = {
 }
 
 export type ExerciseSessionMaxAggregateOutputType = {
+  maximumDurationSeconds: number | null
   id: string | null
   organizationId: string | null
   studentId: string | null
@@ -87,6 +91,7 @@ export type ExerciseSessionMaxAggregateOutputType = {
 }
 
 export type ExerciseSessionCountAggregateOutputType = {
+  maximumDurationSeconds: number
   id: number
   organizationId: number
   studentId: number
@@ -113,18 +118,21 @@ export type ExerciseSessionCountAggregateOutputType = {
 
 
 export type ExerciseSessionAvgAggregateInputType = {
+  maximumDurationSeconds?: true
   actualDurationSeconds?: true
   pausedDurationSeconds?: true
   version?: true
 }
 
 export type ExerciseSessionSumAggregateInputType = {
+  maximumDurationSeconds?: true
   actualDurationSeconds?: true
   pausedDurationSeconds?: true
   version?: true
 }
 
 export type ExerciseSessionMinAggregateInputType = {
+  maximumDurationSeconds?: true
   id?: true
   organizationId?: true
   studentId?: true
@@ -149,6 +157,7 @@ export type ExerciseSessionMinAggregateInputType = {
 }
 
 export type ExerciseSessionMaxAggregateInputType = {
+  maximumDurationSeconds?: true
   id?: true
   organizationId?: true
   studentId?: true
@@ -173,6 +182,7 @@ export type ExerciseSessionMaxAggregateInputType = {
 }
 
 export type ExerciseSessionCountAggregateInputType = {
+  maximumDurationSeconds?: true
   id?: true
   organizationId?: true
   studentId?: true
@@ -284,6 +294,7 @@ export type ExerciseSessionGroupByArgs<ExtArgs extends runtime.Types.Extensions.
 }
 
 export type ExerciseSessionGroupByOutputType = {
+  maximumDurationSeconds: number | null
   id: string
   organizationId: string
   studentId: string
@@ -331,6 +342,7 @@ export type ExerciseSessionWhereInput = {
   AND?: Prisma.ExerciseSessionWhereInput | Prisma.ExerciseSessionWhereInput[]
   OR?: Prisma.ExerciseSessionWhereInput[]
   NOT?: Prisma.ExerciseSessionWhereInput | Prisma.ExerciseSessionWhereInput[]
+  maximumDurationSeconds?: Prisma.IntNullableFilter<"ExerciseSession"> | number | null
   id?: Prisma.UuidFilter<"ExerciseSession"> | string
   organizationId?: Prisma.UuidFilter<"ExerciseSession"> | string
   studentId?: Prisma.UuidFilter<"ExerciseSession"> | string
@@ -366,6 +378,7 @@ export type ExerciseSessionWhereInput = {
 }
 
 export type ExerciseSessionOrderByWithRelationInput = {
+  maximumDurationSeconds?: Prisma.SortOrderInput | Prisma.SortOrder
   id?: Prisma.SortOrder
   organizationId?: Prisma.SortOrder
   studentId?: Prisma.SortOrder
@@ -408,6 +421,7 @@ export type ExerciseSessionWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.ExerciseSessionWhereInput | Prisma.ExerciseSessionWhereInput[]
   OR?: Prisma.ExerciseSessionWhereInput[]
   NOT?: Prisma.ExerciseSessionWhereInput | Prisma.ExerciseSessionWhereInput[]
+  maximumDurationSeconds?: Prisma.IntNullableFilter<"ExerciseSession"> | number | null
   organizationId?: Prisma.UuidFilter<"ExerciseSession"> | string
   studentId?: Prisma.UuidFilter<"ExerciseSession"> | string
   enrollmentId?: Prisma.UuidFilter<"ExerciseSession"> | string
@@ -442,6 +456,7 @@ export type ExerciseSessionWhereUniqueInput = Prisma.AtLeast<{
 }, "id" | "id_organizationId" | "id_studentId_organizationId" | "id_enrollmentId_semesterId_classSectionId_studentId_organizationId">
 
 export type ExerciseSessionOrderByWithAggregationInput = {
+  maximumDurationSeconds?: Prisma.SortOrderInput | Prisma.SortOrder
   id?: Prisma.SortOrder
   organizationId?: Prisma.SortOrder
   studentId?: Prisma.SortOrder
@@ -474,6 +489,7 @@ export type ExerciseSessionScalarWhereWithAggregatesInput = {
   AND?: Prisma.ExerciseSessionScalarWhereWithAggregatesInput | Prisma.ExerciseSessionScalarWhereWithAggregatesInput[]
   OR?: Prisma.ExerciseSessionScalarWhereWithAggregatesInput[]
   NOT?: Prisma.ExerciseSessionScalarWhereWithAggregatesInput | Prisma.ExerciseSessionScalarWhereWithAggregatesInput[]
+  maximumDurationSeconds?: Prisma.IntNullableWithAggregatesFilter<"ExerciseSession"> | number | null
   id?: Prisma.UuidWithAggregatesFilter<"ExerciseSession"> | string
   organizationId?: Prisma.UuidWithAggregatesFilter<"ExerciseSession"> | string
   studentId?: Prisma.UuidWithAggregatesFilter<"ExerciseSession"> | string
@@ -498,6 +514,7 @@ export type ExerciseSessionScalarWhereWithAggregatesInput = {
 }
 
 export type ExerciseSessionCreateInput = {
+  maximumDurationSeconds?: number | null
   id: string
   status: string
   startedAt: Date | string
@@ -527,6 +544,7 @@ export type ExerciseSessionCreateInput = {
 }
 
 export type ExerciseSessionUncheckedCreateInput = {
+  maximumDurationSeconds?: number | null
   id: string
   organizationId: string
   studentId: string
@@ -556,6 +574,7 @@ export type ExerciseSessionUncheckedCreateInput = {
 }
 
 export type ExerciseSessionUpdateInput = {
+  maximumDurationSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.StringFieldUpdateOperationsInput | string
   startedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -585,6 +604,7 @@ export type ExerciseSessionUpdateInput = {
 }
 
 export type ExerciseSessionUncheckedUpdateInput = {
+  maximumDurationSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
   organizationId?: Prisma.StringFieldUpdateOperationsInput | string
   studentId?: Prisma.StringFieldUpdateOperationsInput | string
@@ -614,6 +634,7 @@ export type ExerciseSessionUncheckedUpdateInput = {
 }
 
 export type ExerciseSessionCreateManyInput = {
+  maximumDurationSeconds?: number | null
   id: string
   organizationId: string
   studentId: string
@@ -638,6 +659,7 @@ export type ExerciseSessionCreateManyInput = {
 }
 
 export type ExerciseSessionUpdateManyMutationInput = {
+  maximumDurationSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.StringFieldUpdateOperationsInput | string
   startedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -656,6 +678,7 @@ export type ExerciseSessionUpdateManyMutationInput = {
 }
 
 export type ExerciseSessionUncheckedUpdateManyInput = {
+  maximumDurationSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
   organizationId?: Prisma.StringFieldUpdateOperationsInput | string
   studentId?: Prisma.StringFieldUpdateOperationsInput | string
@@ -710,6 +733,7 @@ export type ExerciseSessionIdEnrollmentIdSemesterIdClassSectionIdStudentIdOrgani
 }
 
 export type ExerciseSessionCountOrderByAggregateInput = {
+  maximumDurationSeconds?: Prisma.SortOrder
   id?: Prisma.SortOrder
   organizationId?: Prisma.SortOrder
   studentId?: Prisma.SortOrder
@@ -734,12 +758,14 @@ export type ExerciseSessionCountOrderByAggregateInput = {
 }
 
 export type ExerciseSessionAvgOrderByAggregateInput = {
+  maximumDurationSeconds?: Prisma.SortOrder
   actualDurationSeconds?: Prisma.SortOrder
   pausedDurationSeconds?: Prisma.SortOrder
   version?: Prisma.SortOrder
 }
 
 export type ExerciseSessionMaxOrderByAggregateInput = {
+  maximumDurationSeconds?: Prisma.SortOrder
   id?: Prisma.SortOrder
   organizationId?: Prisma.SortOrder
   studentId?: Prisma.SortOrder
@@ -764,6 +790,7 @@ export type ExerciseSessionMaxOrderByAggregateInput = {
 }
 
 export type ExerciseSessionMinOrderByAggregateInput = {
+  maximumDurationSeconds?: Prisma.SortOrder
   id?: Prisma.SortOrder
   organizationId?: Prisma.SortOrder
   studentId?: Prisma.SortOrder
@@ -788,6 +815,7 @@ export type ExerciseSessionMinOrderByAggregateInput = {
 }
 
 export type ExerciseSessionSumOrderByAggregateInput = {
+  maximumDurationSeconds?: Prisma.SortOrder
   actualDurationSeconds?: Prisma.SortOrder
   pausedDurationSeconds?: Prisma.SortOrder
   version?: Prisma.SortOrder
@@ -1055,6 +1083,14 @@ export type ExerciseSessionUncheckedUpdateManyWithoutEnrollmentNestedInput = {
   deleteMany?: Prisma.ExerciseSessionScalarWhereInput | Prisma.ExerciseSessionScalarWhereInput[]
 }
 
+export type NullableIntFieldUpdateOperationsInput = {
+  set?: number | null
+  increment?: number
+  decrement?: number
+  multiply?: number
+  divide?: number
+}
+
 export type BigIntFieldUpdateOperationsInput = {
   set?: bigint | number
   increment?: bigint | number
@@ -1136,6 +1172,7 @@ export type ExerciseSessionUpdateOneRequiredWithoutLocationTrackNestedInput = {
 }
 
 export type ExerciseSessionCreateWithoutOrganizationInput = {
+  maximumDurationSeconds?: number | null
   id: string
   status: string
   startedAt: Date | string
@@ -1164,6 +1201,7 @@ export type ExerciseSessionCreateWithoutOrganizationInput = {
 }
 
 export type ExerciseSessionUncheckedCreateWithoutOrganizationInput = {
+  maximumDurationSeconds?: number | null
   id: string
   studentId: string
   enrollmentId: string
@@ -1221,6 +1259,7 @@ export type ExerciseSessionScalarWhereInput = {
   AND?: Prisma.ExerciseSessionScalarWhereInput | Prisma.ExerciseSessionScalarWhereInput[]
   OR?: Prisma.ExerciseSessionScalarWhereInput[]
   NOT?: Prisma.ExerciseSessionScalarWhereInput | Prisma.ExerciseSessionScalarWhereInput[]
+  maximumDurationSeconds?: Prisma.IntNullableFilter<"ExerciseSession"> | number | null
   id?: Prisma.UuidFilter<"ExerciseSession"> | string
   organizationId?: Prisma.UuidFilter<"ExerciseSession"> | string
   studentId?: Prisma.UuidFilter<"ExerciseSession"> | string
@@ -1245,6 +1284,7 @@ export type ExerciseSessionScalarWhereInput = {
 }
 
 export type ExerciseSessionCreateWithoutStudentInput = {
+  maximumDurationSeconds?: number | null
   id: string
   status: string
   startedAt: Date | string
@@ -1273,6 +1313,7 @@ export type ExerciseSessionCreateWithoutStudentInput = {
 }
 
 export type ExerciseSessionUncheckedCreateWithoutStudentInput = {
+  maximumDurationSeconds?: number | null
   id: string
   enrollmentId: string
   classSectionId: string
@@ -1326,6 +1367,7 @@ export type ExerciseSessionUpdateManyWithWhereWithoutStudentInput = {
 }
 
 export type ExerciseSessionCreateWithoutStartedByAuthSessionInput = {
+  maximumDurationSeconds?: number | null
   id: string
   status: string
   startedAt: Date | string
@@ -1354,6 +1396,7 @@ export type ExerciseSessionCreateWithoutStartedByAuthSessionInput = {
 }
 
 export type ExerciseSessionUncheckedCreateWithoutStartedByAuthSessionInput = {
+  maximumDurationSeconds?: number | null
   id: string
   studentId: string
   enrollmentId: string
@@ -1407,6 +1450,7 @@ export type ExerciseSessionUpdateManyWithWhereWithoutStartedByAuthSessionInput =
 }
 
 export type ExerciseSessionCreateWithoutSemesterInput = {
+  maximumDurationSeconds?: number | null
   id: string
   status: string
   startedAt: Date | string
@@ -1435,6 +1479,7 @@ export type ExerciseSessionCreateWithoutSemesterInput = {
 }
 
 export type ExerciseSessionUncheckedCreateWithoutSemesterInput = {
+  maximumDurationSeconds?: number | null
   id: string
   studentId: string
   enrollmentId: string
@@ -1488,6 +1533,7 @@ export type ExerciseSessionUpdateManyWithWhereWithoutSemesterInput = {
 }
 
 export type ExerciseSessionCreateWithoutClassSectionInput = {
+  maximumDurationSeconds?: number | null
   id: string
   status: string
   startedAt: Date | string
@@ -1516,6 +1562,7 @@ export type ExerciseSessionCreateWithoutClassSectionInput = {
 }
 
 export type ExerciseSessionUncheckedCreateWithoutClassSectionInput = {
+  maximumDurationSeconds?: number | null
   id: string
   studentId: string
   enrollmentId: string
@@ -1568,6 +1615,7 @@ export type ExerciseSessionUpdateManyWithWhereWithoutClassSectionInput = {
 }
 
 export type ExerciseSessionCreateWithoutEnrollmentInput = {
+  maximumDurationSeconds?: number | null
   id: string
   status: string
   startedAt: Date | string
@@ -1596,6 +1644,7 @@ export type ExerciseSessionCreateWithoutEnrollmentInput = {
 }
 
 export type ExerciseSessionUncheckedCreateWithoutEnrollmentInput = {
+  maximumDurationSeconds?: number | null
   id: string
   startedByAuthSessionId: string
   status: string
@@ -1646,6 +1695,7 @@ export type ExerciseSessionUpdateManyWithWhereWithoutEnrollmentInput = {
 }
 
 export type ExerciseSessionCreateWithoutSegmentsInput = {
+  maximumDurationSeconds?: number | null
   id: string
   status: string
   startedAt: Date | string
@@ -1674,6 +1724,7 @@ export type ExerciseSessionCreateWithoutSegmentsInput = {
 }
 
 export type ExerciseSessionUncheckedCreateWithoutSegmentsInput = {
+  maximumDurationSeconds?: number | null
   id: string
   organizationId: string
   studentId: string
@@ -1718,6 +1769,7 @@ export type ExerciseSessionUpdateToOneWithWhereWithoutSegmentsInput = {
 }
 
 export type ExerciseSessionUpdateWithoutSegmentsInput = {
+  maximumDurationSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.StringFieldUpdateOperationsInput | string
   startedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1746,6 +1798,7 @@ export type ExerciseSessionUpdateWithoutSegmentsInput = {
 }
 
 export type ExerciseSessionUncheckedUpdateWithoutSegmentsInput = {
+  maximumDurationSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
   organizationId?: Prisma.StringFieldUpdateOperationsInput | string
   studentId?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1774,6 +1827,7 @@ export type ExerciseSessionUncheckedUpdateWithoutSegmentsInput = {
 }
 
 export type ExerciseSessionCreateWithoutEventsInput = {
+  maximumDurationSeconds?: number | null
   id: string
   status: string
   startedAt: Date | string
@@ -1802,6 +1856,7 @@ export type ExerciseSessionCreateWithoutEventsInput = {
 }
 
 export type ExerciseSessionUncheckedCreateWithoutEventsInput = {
+  maximumDurationSeconds?: number | null
   id: string
   organizationId: string
   studentId: string
@@ -1846,6 +1901,7 @@ export type ExerciseSessionUpdateToOneWithWhereWithoutEventsInput = {
 }
 
 export type ExerciseSessionUpdateWithoutEventsInput = {
+  maximumDurationSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.StringFieldUpdateOperationsInput | string
   startedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1874,6 +1930,7 @@ export type ExerciseSessionUpdateWithoutEventsInput = {
 }
 
 export type ExerciseSessionUncheckedUpdateWithoutEventsInput = {
+  maximumDurationSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
   organizationId?: Prisma.StringFieldUpdateOperationsInput | string
   studentId?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1902,6 +1959,7 @@ export type ExerciseSessionUncheckedUpdateWithoutEventsInput = {
 }
 
 export type ExerciseSessionCreateWithoutMediaEvidenceInput = {
+  maximumDurationSeconds?: number | null
   id: string
   status: string
   startedAt: Date | string
@@ -1930,6 +1988,7 @@ export type ExerciseSessionCreateWithoutMediaEvidenceInput = {
 }
 
 export type ExerciseSessionUncheckedCreateWithoutMediaEvidenceInput = {
+  maximumDurationSeconds?: number | null
   id: string
   organizationId: string
   studentId: string
@@ -1974,6 +2033,7 @@ export type ExerciseSessionUpdateToOneWithWhereWithoutMediaEvidenceInput = {
 }
 
 export type ExerciseSessionUpdateWithoutMediaEvidenceInput = {
+  maximumDurationSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.StringFieldUpdateOperationsInput | string
   startedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2002,6 +2062,7 @@ export type ExerciseSessionUpdateWithoutMediaEvidenceInput = {
 }
 
 export type ExerciseSessionUncheckedUpdateWithoutMediaEvidenceInput = {
+  maximumDurationSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
   organizationId?: Prisma.StringFieldUpdateOperationsInput | string
   studentId?: Prisma.StringFieldUpdateOperationsInput | string
@@ -2030,6 +2091,7 @@ export type ExerciseSessionUncheckedUpdateWithoutMediaEvidenceInput = {
 }
 
 export type ExerciseSessionCreateWithoutExerciseRecordInput = {
+  maximumDurationSeconds?: number | null
   id: string
   status: string
   startedAt: Date | string
@@ -2058,6 +2120,7 @@ export type ExerciseSessionCreateWithoutExerciseRecordInput = {
 }
 
 export type ExerciseSessionUncheckedCreateWithoutExerciseRecordInput = {
+  maximumDurationSeconds?: number | null
   id: string
   organizationId: string
   studentId: string
@@ -2102,6 +2165,7 @@ export type ExerciseSessionUpdateToOneWithWhereWithoutExerciseRecordInput = {
 }
 
 export type ExerciseSessionUpdateWithoutExerciseRecordInput = {
+  maximumDurationSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.StringFieldUpdateOperationsInput | string
   startedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2130,6 +2194,7 @@ export type ExerciseSessionUpdateWithoutExerciseRecordInput = {
 }
 
 export type ExerciseSessionUncheckedUpdateWithoutExerciseRecordInput = {
+  maximumDurationSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
   organizationId?: Prisma.StringFieldUpdateOperationsInput | string
   studentId?: Prisma.StringFieldUpdateOperationsInput | string
@@ -2158,6 +2223,7 @@ export type ExerciseSessionUncheckedUpdateWithoutExerciseRecordInput = {
 }
 
 export type ExerciseSessionCreateWithoutLocationTrackInput = {
+  maximumDurationSeconds?: number | null
   id: string
   status: string
   startedAt: Date | string
@@ -2186,6 +2252,7 @@ export type ExerciseSessionCreateWithoutLocationTrackInput = {
 }
 
 export type ExerciseSessionUncheckedCreateWithoutLocationTrackInput = {
+  maximumDurationSeconds?: number | null
   id: string
   organizationId: string
   studentId: string
@@ -2230,6 +2297,7 @@ export type ExerciseSessionUpdateToOneWithWhereWithoutLocationTrackInput = {
 }
 
 export type ExerciseSessionUpdateWithoutLocationTrackInput = {
+  maximumDurationSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.StringFieldUpdateOperationsInput | string
   startedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2258,6 +2326,7 @@ export type ExerciseSessionUpdateWithoutLocationTrackInput = {
 }
 
 export type ExerciseSessionUncheckedUpdateWithoutLocationTrackInput = {
+  maximumDurationSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
   organizationId?: Prisma.StringFieldUpdateOperationsInput | string
   studentId?: Prisma.StringFieldUpdateOperationsInput | string
@@ -2286,6 +2355,7 @@ export type ExerciseSessionUncheckedUpdateWithoutLocationTrackInput = {
 }
 
 export type ExerciseSessionCreateManyOrganizationInput = {
+  maximumDurationSeconds?: number | null
   id: string
   studentId: string
   enrollmentId: string
@@ -2309,6 +2379,7 @@ export type ExerciseSessionCreateManyOrganizationInput = {
 }
 
 export type ExerciseSessionUpdateWithoutOrganizationInput = {
+  maximumDurationSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.StringFieldUpdateOperationsInput | string
   startedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2337,6 +2408,7 @@ export type ExerciseSessionUpdateWithoutOrganizationInput = {
 }
 
 export type ExerciseSessionUncheckedUpdateWithoutOrganizationInput = {
+  maximumDurationSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
   studentId?: Prisma.StringFieldUpdateOperationsInput | string
   enrollmentId?: Prisma.StringFieldUpdateOperationsInput | string
@@ -2365,6 +2437,7 @@ export type ExerciseSessionUncheckedUpdateWithoutOrganizationInput = {
 }
 
 export type ExerciseSessionUncheckedUpdateManyWithoutOrganizationInput = {
+  maximumDurationSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
   studentId?: Prisma.StringFieldUpdateOperationsInput | string
   enrollmentId?: Prisma.StringFieldUpdateOperationsInput | string
@@ -2388,6 +2461,7 @@ export type ExerciseSessionUncheckedUpdateManyWithoutOrganizationInput = {
 }
 
 export type ExerciseSessionCreateManyStudentInput = {
+  maximumDurationSeconds?: number | null
   id: string
   enrollmentId: string
   classSectionId: string
@@ -2410,6 +2484,7 @@ export type ExerciseSessionCreateManyStudentInput = {
 }
 
 export type ExerciseSessionUpdateWithoutStudentInput = {
+  maximumDurationSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.StringFieldUpdateOperationsInput | string
   startedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2438,6 +2513,7 @@ export type ExerciseSessionUpdateWithoutStudentInput = {
 }
 
 export type ExerciseSessionUncheckedUpdateWithoutStudentInput = {
+  maximumDurationSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
   enrollmentId?: Prisma.StringFieldUpdateOperationsInput | string
   classSectionId?: Prisma.StringFieldUpdateOperationsInput | string
@@ -2465,6 +2541,7 @@ export type ExerciseSessionUncheckedUpdateWithoutStudentInput = {
 }
 
 export type ExerciseSessionUncheckedUpdateManyWithoutStudentInput = {
+  maximumDurationSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
   enrollmentId?: Prisma.StringFieldUpdateOperationsInput | string
   classSectionId?: Prisma.StringFieldUpdateOperationsInput | string
@@ -2487,6 +2564,7 @@ export type ExerciseSessionUncheckedUpdateManyWithoutStudentInput = {
 }
 
 export type ExerciseSessionCreateManyStartedByAuthSessionInput = {
+  maximumDurationSeconds?: number | null
   id: string
   studentId: string
   enrollmentId: string
@@ -2509,6 +2587,7 @@ export type ExerciseSessionCreateManyStartedByAuthSessionInput = {
 }
 
 export type ExerciseSessionUpdateWithoutStartedByAuthSessionInput = {
+  maximumDurationSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.StringFieldUpdateOperationsInput | string
   startedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2537,6 +2616,7 @@ export type ExerciseSessionUpdateWithoutStartedByAuthSessionInput = {
 }
 
 export type ExerciseSessionUncheckedUpdateWithoutStartedByAuthSessionInput = {
+  maximumDurationSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
   studentId?: Prisma.StringFieldUpdateOperationsInput | string
   enrollmentId?: Prisma.StringFieldUpdateOperationsInput | string
@@ -2564,6 +2644,7 @@ export type ExerciseSessionUncheckedUpdateWithoutStartedByAuthSessionInput = {
 }
 
 export type ExerciseSessionUncheckedUpdateManyWithoutStartedByAuthSessionInput = {
+  maximumDurationSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
   studentId?: Prisma.StringFieldUpdateOperationsInput | string
   enrollmentId?: Prisma.StringFieldUpdateOperationsInput | string
@@ -2586,6 +2667,7 @@ export type ExerciseSessionUncheckedUpdateManyWithoutStartedByAuthSessionInput =
 }
 
 export type ExerciseSessionCreateManySemesterInput = {
+  maximumDurationSeconds?: number | null
   id: string
   studentId: string
   enrollmentId: string
@@ -2608,6 +2690,7 @@ export type ExerciseSessionCreateManySemesterInput = {
 }
 
 export type ExerciseSessionUpdateWithoutSemesterInput = {
+  maximumDurationSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.StringFieldUpdateOperationsInput | string
   startedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2636,6 +2719,7 @@ export type ExerciseSessionUpdateWithoutSemesterInput = {
 }
 
 export type ExerciseSessionUncheckedUpdateWithoutSemesterInput = {
+  maximumDurationSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
   studentId?: Prisma.StringFieldUpdateOperationsInput | string
   enrollmentId?: Prisma.StringFieldUpdateOperationsInput | string
@@ -2663,6 +2747,7 @@ export type ExerciseSessionUncheckedUpdateWithoutSemesterInput = {
 }
 
 export type ExerciseSessionUncheckedUpdateManyWithoutSemesterInput = {
+  maximumDurationSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
   studentId?: Prisma.StringFieldUpdateOperationsInput | string
   enrollmentId?: Prisma.StringFieldUpdateOperationsInput | string
@@ -2685,6 +2770,7 @@ export type ExerciseSessionUncheckedUpdateManyWithoutSemesterInput = {
 }
 
 export type ExerciseSessionCreateManyClassSectionInput = {
+  maximumDurationSeconds?: number | null
   id: string
   studentId: string
   enrollmentId: string
@@ -2706,6 +2792,7 @@ export type ExerciseSessionCreateManyClassSectionInput = {
 }
 
 export type ExerciseSessionUpdateWithoutClassSectionInput = {
+  maximumDurationSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.StringFieldUpdateOperationsInput | string
   startedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2734,6 +2821,7 @@ export type ExerciseSessionUpdateWithoutClassSectionInput = {
 }
 
 export type ExerciseSessionUncheckedUpdateWithoutClassSectionInput = {
+  maximumDurationSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
   studentId?: Prisma.StringFieldUpdateOperationsInput | string
   enrollmentId?: Prisma.StringFieldUpdateOperationsInput | string
@@ -2760,6 +2848,7 @@ export type ExerciseSessionUncheckedUpdateWithoutClassSectionInput = {
 }
 
 export type ExerciseSessionUncheckedUpdateManyWithoutClassSectionInput = {
+  maximumDurationSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
   studentId?: Prisma.StringFieldUpdateOperationsInput | string
   enrollmentId?: Prisma.StringFieldUpdateOperationsInput | string
@@ -2781,6 +2870,7 @@ export type ExerciseSessionUncheckedUpdateManyWithoutClassSectionInput = {
 }
 
 export type ExerciseSessionCreateManyEnrollmentInput = {
+  maximumDurationSeconds?: number | null
   id: string
   startedByAuthSessionId: string
   status: string
@@ -2800,6 +2890,7 @@ export type ExerciseSessionCreateManyEnrollmentInput = {
 }
 
 export type ExerciseSessionUpdateWithoutEnrollmentInput = {
+  maximumDurationSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.StringFieldUpdateOperationsInput | string
   startedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2828,6 +2919,7 @@ export type ExerciseSessionUpdateWithoutEnrollmentInput = {
 }
 
 export type ExerciseSessionUncheckedUpdateWithoutEnrollmentInput = {
+  maximumDurationSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
   startedByAuthSessionId?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.StringFieldUpdateOperationsInput | string
@@ -2852,6 +2944,7 @@ export type ExerciseSessionUncheckedUpdateWithoutEnrollmentInput = {
 }
 
 export type ExerciseSessionUncheckedUpdateManyWithoutEnrollmentInput = {
+  maximumDurationSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   id?: Prisma.StringFieldUpdateOperationsInput | string
   startedByAuthSessionId?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.StringFieldUpdateOperationsInput | string
@@ -2920,6 +3013,7 @@ export type ExerciseSessionCountOutputTypeCountMediaEvidenceArgs<ExtArgs extends
 
 
 export type ExerciseSessionSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  maximumDurationSeconds?: boolean
   id?: boolean
   organizationId?: boolean
   studentId?: boolean
@@ -2956,6 +3050,7 @@ export type ExerciseSessionSelect<ExtArgs extends runtime.Types.Extensions.Inter
 }, ExtArgs["result"]["exerciseSession"]>
 
 export type ExerciseSessionSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  maximumDurationSeconds?: boolean
   id?: boolean
   organizationId?: boolean
   studentId?: boolean
@@ -2986,6 +3081,7 @@ export type ExerciseSessionSelectCreateManyAndReturn<ExtArgs extends runtime.Typ
 }, ExtArgs["result"]["exerciseSession"]>
 
 export type ExerciseSessionSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  maximumDurationSeconds?: boolean
   id?: boolean
   organizationId?: boolean
   studentId?: boolean
@@ -3016,6 +3112,7 @@ export type ExerciseSessionSelectUpdateManyAndReturn<ExtArgs extends runtime.Typ
 }, ExtArgs["result"]["exerciseSession"]>
 
 export type ExerciseSessionSelectScalar = {
+  maximumDurationSeconds?: boolean
   id?: boolean
   organizationId?: boolean
   studentId?: boolean
@@ -3039,7 +3136,7 @@ export type ExerciseSessionSelectScalar = {
   version?: boolean
 }
 
-export type ExerciseSessionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "organizationId" | "studentId" | "enrollmentId" | "classSectionId" | "semesterId" | "startedByAuthSessionId" | "status" | "startedAt" | "businessDate" | "completedAt" | "cancelledAt" | "expiredAt" | "endReason" | "actualDurationSeconds" | "pausedDurationSeconds" | "currentIntervalStartedAt" | "lastHeartbeatAt" | "createdAt" | "updatedAt" | "version", ExtArgs["result"]["exerciseSession"]>
+export type ExerciseSessionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"maximumDurationSeconds" | "id" | "organizationId" | "studentId" | "enrollmentId" | "classSectionId" | "semesterId" | "startedByAuthSessionId" | "status" | "startedAt" | "businessDate" | "completedAt" | "cancelledAt" | "expiredAt" | "endReason" | "actualDurationSeconds" | "pausedDurationSeconds" | "currentIntervalStartedAt" | "lastHeartbeatAt" | "createdAt" | "updatedAt" | "version", ExtArgs["result"]["exerciseSession"]>
 export type ExerciseSessionInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
   student?: boolean | Prisma.StudentProfileDefaultArgs<ExtArgs>
@@ -3087,6 +3184,7 @@ export type $ExerciseSessionPayload<ExtArgs extends runtime.Types.Extensions.Int
     locationTrack: Prisma.$LocationTrackPayload<ExtArgs> | null
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
+    maximumDurationSeconds: number | null
     id: string
     organizationId: string
     studentId: string
@@ -3191,8 +3289,8 @@ export interface ExerciseSessionDelegate<ExtArgs extends runtime.Types.Extension
    * // Get first 10 ExerciseSessions
    * const exerciseSessions = await prisma.exerciseSession.findMany({ take: 10 })
    * 
-   * // Only select the `id`
-   * const exerciseSessionWithIdOnly = await prisma.exerciseSession.findMany({ select: { id: true } })
+   * // Only select the `maximumDurationSeconds`
+   * const exerciseSessionWithMaximumDurationSecondsOnly = await prisma.exerciseSession.findMany({ select: { maximumDurationSeconds: true } })
    * 
    */
   findMany<T extends ExerciseSessionFindManyArgs>(args?: Prisma.SelectSubset<T, ExerciseSessionFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ExerciseSessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
@@ -3236,9 +3334,9 @@ export interface ExerciseSessionDelegate<ExtArgs extends runtime.Types.Extension
    *   ]
    * })
    * 
-   * // Create many ExerciseSessions and only return the `id`
-   * const exerciseSessionWithIdOnly = await prisma.exerciseSession.createManyAndReturn({
-   *   select: { id: true },
+   * // Create many ExerciseSessions and only return the `maximumDurationSeconds`
+   * const exerciseSessionWithMaximumDurationSecondsOnly = await prisma.exerciseSession.createManyAndReturn({
+   *   select: { maximumDurationSeconds: true },
    *   data: [
    *     // ... provide data here
    *   ]
@@ -3327,9 +3425,9 @@ export interface ExerciseSessionDelegate<ExtArgs extends runtime.Types.Extension
    *   ]
    * })
    * 
-   * // Update zero or more ExerciseSessions and only return the `id`
-   * const exerciseSessionWithIdOnly = await prisma.exerciseSession.updateManyAndReturn({
-   *   select: { id: true },
+   * // Update zero or more ExerciseSessions and only return the `maximumDurationSeconds`
+   * const exerciseSessionWithMaximumDurationSecondsOnly = await prisma.exerciseSession.updateManyAndReturn({
+   *   select: { maximumDurationSeconds: true },
    *   where: {
    *     // ... provide filter here
    *   },
@@ -3542,6 +3640,7 @@ export interface Prisma__ExerciseSessionClient<T, Null = never, ExtArgs extends 
  * Fields of the ExerciseSession model
  */
 export interface ExerciseSessionFieldRefs {
+  readonly maximumDurationSeconds: Prisma.FieldRef<"ExerciseSession", 'Int'>
   readonly id: Prisma.FieldRef<"ExerciseSession", 'String'>
   readonly organizationId: Prisma.FieldRef<"ExerciseSession", 'String'>
   readonly studentId: Prisma.FieldRef<"ExerciseSession", 'String'>

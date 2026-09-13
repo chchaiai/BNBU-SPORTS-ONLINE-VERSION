@@ -1,0 +1,3 @@
+Teacher session ready
+API scope and rollback checks passed
+{"check":"COURSE_DELETE_BROWSER","environment":"local","result":"PASS","recordsRemoved":true,"studentAccountsRetained":true,"otherCourseRetained":true,"lostResponseReplay":true}

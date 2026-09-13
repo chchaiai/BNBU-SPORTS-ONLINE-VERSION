@@ -1,0 +1,5 @@
+{
+  "sha256": "e776fbabe5a5da6935b63a82e8385015d6511087dbd84139e64687dde99b854d",
+  "destructive": false,
+  "migrationId": "0073_exercise_goal_recognition"
+}

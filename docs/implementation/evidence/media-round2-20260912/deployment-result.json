@@ -1,0 +1,11 @@
+{
+  "check": "MEDIA_ROUND2_DEPLOYMENT",
+  "result": "PASS",
+  "sourceCommit": "b7d9eb29c7531fe80216a4d35f262e4c320736e1",
+  "release": "/opt/bnbu-sports-production/releases/media-round2-20260912",
+  "previous": "/opt/bnbu-sports-production/releases/demand-followup-20260912",
+  "staticFilesVerified": 212,
+  "images": {
+    "backend": "sha256:067665eed72712b5d55bdadc60c89023f59595b58115910c7a063c8464692944"
+  }
+}

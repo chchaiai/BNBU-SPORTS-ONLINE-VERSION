@@ -3,6 +3,9 @@ import type { Readable } from 'node:stream';
 
 import { Injectable } from '@nestjs/common';
 import sharp from 'sharp';
+import { PDFDocument } from 'pdf-lib';
+import { createRequire } from 'node:module';
+const exifr = createRequire(import.meta.url)('exifr') as { parse: (input: Buffer, options: Record<string, unknown>) => Promise<Record<string, unknown> | undefined> };
 
 import type { MediaConfig } from '../../../common/config/environment.js';
 import { ApplicationError } from '../../../common/errors/application-error.js';
@@ -22,7 +25,7 @@ export interface VerifiedMediaFacts {
   fileSizeBytes: number;
   contentSha256: string;
   durationSeconds: number | null;
-  safeMetadata: Record<string, number>;
+  safeMetadata: Record<string, number | string>;
 }
 
 const IMAGE_MIME = new Set(['image/jpeg', 'image/png']);
@@ -46,20 +49,22 @@ export class MediaValidator {
       (facts.mediaType === 'IMAGE' &&
         !IMAGE_MIME.has(mimeType) &&
         !(facts.businessPurpose === 'EXEMPTION_APPLICATION' && mimeType === 'image/webp')) ||
-      (facts.mediaType === 'VIDEO' && !VIDEO_MIME.has(mimeType))
+      (facts.mediaType === 'VIDEO' && !VIDEO_MIME.has(mimeType)) ||
+      (facts.mediaType === 'DOCUMENT' && (facts.businessPurpose !== 'EXEMPTION_APPLICATION' || mimeType !== 'application/pdf')) ||
+      !['IMAGE', 'VIDEO', 'DOCUMENT'].includes(facts.mediaType)
     ) {
       throw new ApplicationError('MEDIA_TYPE_NOT_ALLOWED', 415);
     }
     if (!Number.isSafeInteger(facts.fileSizeBytes) || facts.fileSizeBytes < 1) {
       throw new ApplicationError('VALIDATION_FAILED', 422);
     }
-    if (facts.mediaType === 'IMAGE' && facts.fileSizeBytes > config.maxImageBytes) {
+    if (facts.mediaType !== 'VIDEO' && facts.fileSizeBytes > config.maxImageBytes) {
       throw new ApplicationError('MEDIA_SIZE_EXCEEDED', 413);
     }
     if (facts.mediaType === 'VIDEO' && facts.fileSizeBytes > config.maxVideoTransportBytes) {
       throw new ApplicationError('MEDIA_SIZE_EXCEEDED', 413);
     }
-    if (facts.mediaType === 'IMAGE' && facts.durationSeconds !== null) {
+    if (facts.mediaType !== 'VIDEO' && facts.durationSeconds !== null) {
       throw new ApplicationError('VALIDATION_FAILED', 422);
     }
     if (facts.mediaType === 'VIDEO') {
@@ -98,6 +103,18 @@ export class MediaValidator {
     }
     if (body.includes(EICAR)) this.integrityFailure();
 
+    if (declared.mediaType === 'DOCUMENT') {
+      if (declared.businessPurpose !== 'EXEMPTION_APPLICATION' || declared.mimeType !== 'application/pdf' ||
+        !body.subarray(0, 5).equals(Buffer.from('%PDF-'))) this.integrityFailure();
+      try {
+        const document = await PDFDocument.load(body, { throwOnInvalidObject: true, updateMetadata: false });
+        const pageCount = document.getPageCount();
+        if (pageCount < 1) this.integrityFailure();
+        return { mimeType: 'application/pdf', fileSizeBytes: length, contentSha256: digest,
+          durationSeconds: null, safeMetadata: { pageCount } };
+      } catch { this.integrityFailure(); }
+    }
+
     const parsed = this.parseImage(body, config.maxImagePixels);
     if (parsed.mimeType !== declared.mimeType.toLowerCase()) this.integrityFailure();
     // Force pixel decoding: metadata alone can accept a valid header with corrupt image data.
@@ -121,8 +138,22 @@ export class MediaValidator {
       fileSizeBytes: length,
       contentSha256: digest,
       durationSeconds: parsed.durationSeconds,
-      safeMetadata: parsed.safeMetadata,
+      safeMetadata: { ...parsed.safeMetadata, ...await this.photoMetadata(body) },
     };
+  }
+
+  private async photoMetadata(body: Buffer): Promise<Record<string, string | number>> {
+    // Only camera facts are published. Location, owner names and serial numbers are excluded.
+    const tags = ['DateTimeOriginal', 'Make', 'Model', 'FocalLength', 'FNumber', 'ISO', 'ExposureTime', 'Orientation'];
+    try {
+      const data = await exifr.parse(body, { pick: tags, gps: false, xmp: false, iptc: false,
+        reviveValues: false, translateValues: false }) as Record<string, unknown> | undefined;
+      return Object.fromEntries(tags.flatMap(tag => {
+        const value = data?.[tag];
+        return (typeof value === 'number' && Number.isFinite(value)) || typeof value === 'string'
+          ? [[tag, typeof value === 'string' ? value.slice(0, 200) : value]] : [];
+      }));
+    } catch { return {}; }
   }
 
   private async readAndVerifyVideo(
@@ -248,11 +279,11 @@ export class MediaValidator {
     } else if (
       body.length >= 4 &&
       body[0] === 0xff &&
-      body[1] === 0xd8 &&
-      body[body.length - 2] === 0xff &&
-      body[body.length - 1] === 0xd9
+      body[1] === 0xd8
     ) {
       mimeType = 'image/jpeg';
+      // Valid phone JPEGs may have an OEM trailer after EOI. The strict pixel
+      // decoder below verifies completeness; EOI need not be the last bytes.
       const parsed = this.jpegInfo(body);
       if (parsed.hasLocationMetadata) this.locationMetadataFailure();
       ({ width, height } = parsed);

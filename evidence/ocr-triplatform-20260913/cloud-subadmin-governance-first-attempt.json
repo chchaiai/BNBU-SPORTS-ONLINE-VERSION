@@ -1,0 +1,71 @@
+{
+  "check": "CLOUD_SUBADMIN_GOVERNANCE",
+  "organizationId": "01a096c2-20a2-706b-8c69-802f67dee12c",
+  "checks": [
+    {
+      "path": "/me",
+      "status": 200,
+      "expected": 200,
+      "requestId": "01a0984e-87b2-7609-a4b3-8b8a99fd3ff6"
+    },
+    {
+      "path": "/admin/subadmins",
+      "status": 403,
+      "expected": 403,
+      "requestId": "01a0984e-89a3-700a-bc98-0b62336209e8"
+    },
+    {
+      "path": "/admin/subadmins",
+      "status": 201,
+      "expected": 201,
+      "requestId": "01a0984e-8a33-7518-9b44-ded83b57dae0"
+    },
+    {
+      "path": "/admin/subadmins",
+      "status": 201,
+      "expected": 201,
+      "requestId": "01a0984e-8b59-773e-a599-2cc2e639f709"
+    },
+    {
+      "path": "/auth/password-login",
+      "status": 200,
+      "expected": 200,
+      "requestId": "01a0984e-8c5f-7633-884c-5b78f863f889"
+    },
+    {
+      "path": "/auth/account-security",
+      "status": 200,
+      "expected": 200,
+      "requestId": "01a0984e-8d7d-70ff-a1f9-d5a58ccfdfa5"
+    },
+    {
+      "path": "/admin/audit-events",
+      "status": 403,
+      "expected": 403,
+      "requestId": "01a0984e-8e0d-73f0-8809-a346066bd44e"
+    },
+    {
+      "path": "/auth/own-password",
+      "status": 201,
+      "expected": 200,
+      "requestId": "01a0984e-8e9c-7533-90a9-59d4f8562b91"
+    },
+    {
+      "path": "/admin/subadmins",
+      "status": 200,
+      "expected": 200,
+      "requestId": "01a0984e-9022-721f-933e-2b3e089d220e"
+    },
+    {
+      "path": "/admin/subadmins/6ba3cbab-5ebc-48b9-b313-2b80fa9c07d6/delete",
+      "status": 201,
+      "expected": 201,
+      "requestId": "01a0984e-90b8-7401-a0bc-c434e5ebea65"
+    }
+  ],
+  "subadminId": "6ba3cbab-5ebc-48b9-b313-2b80fa9c07d6",
+  "result": "FAIL",
+  "error": "{\"path\":\"/auth/own-password\",\"status\":201}\n\n201 !== 200\n",
+  "cleanup": "TEST_ACCOUNT_DELETED",
+  "completedAt": "2026-09-13T01:08:01.396Z"
+}

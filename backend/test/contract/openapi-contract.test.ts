@@ -22,6 +22,11 @@ import { SemestersController } from '../../src/modules/semesters/semesters.contr
 import { SystemModeController } from '../../src/modules/system-mode/system-mode.controller.js';
 import { UsersController } from '../../src/modules/users/users.controller.js';
 
+import { V81Controller } from '../../src/modules/v8/v81.controller.js';
+import { V81CourseDeletionController } from '../../src/modules/v8/v81-course-deletion.js';
+import { V81StudentDeletionController } from '../../src/modules/v8/v81-student-deletion.js';
+import { V81HistoryBackfillController } from '../../src/modules/v8/v81-history-backfill.js';
+
 type JsonObject = Record<string, unknown>;
 
 async function canonicalContract(): Promise<JsonObject> {
@@ -85,12 +90,11 @@ describe('authoritative OpenAPI contract', () => {
       }
     };
     visit(contract);
-    assert.equal(referenceCount, 1_778);
+    assert.ok(referenceCount > 0, 'Every local reference is resolved above');
 
     const operations = collectOperations(contract);
-    assert.equal(operations.length, 126);
-    assert.equal(new Set(operations.map(({ operationId }) => operationId)).size, 126);
-    assert.equal(Object.keys(operationPolicies).length, 126);
+    assert.equal(new Set(operations.map(({ operationId }) => operationId)).size, operations.length);
+    assert.deepEqual(operations.map(({ operationId }) => operationId).sort(), Object.keys(operationPolicies).sort());
     for (const { operationId, policy } of operations) {
       assert.equal(policy.defaultDeny, true);
       assert.equal(typeof policy.policyId, 'string');
@@ -100,6 +104,15 @@ describe('authoritative OpenAPI contract', () => {
 
   it('binds every implemented controller method to its generated operation policy', () => {
     const bindings: [object, string, OperationId][] = [
+      [UsersController.prototype, 'completeProfile', 'completeCurrentStudentProfile'],
+      [V81CourseDeletionController.prototype, 'remove', 'deleteV81Course'],
+      [V81StudentDeletionController.prototype, 'remove', 'deleteV81StudentAccount'],
+      [JoinCapabilitiesController.prototype, 'issueMember', 'issueMemberJoinCapability'],
+      [V81HistoryBackfillController.prototype, 'read', 'getV81HistorySettings'],
+      [V81HistoryBackfillController.prototype, 'save', 'saveV81HistorySettings'],
+      [V81HistoryBackfillController.prototype, 'create', 'createV81HistoricalSession'],
+      [V81Controller.prototype, 'exerciseGoal', 'getV81ExerciseGoal'],
+      [V81Controller.prototype, 'saveExerciseGoal', 'saveV81ExerciseGoal'],
       [HealthController.prototype, 'live', 'getHealthLive'],
       [HealthController.prototype, 'ready', 'getHealthReady'],
       [HealthController.prototype, 'admin', 'getAdminHealth'],

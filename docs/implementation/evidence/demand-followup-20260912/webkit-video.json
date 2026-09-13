@@ -1,0 +1,5 @@
+{
+  "engine": "webkit",
+  "result": "PENDING",
+  "reason": "This browser build cannot generate a synthetic canvas recording; native camera recording needs a device test."
+}

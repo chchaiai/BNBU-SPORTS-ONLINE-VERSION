@@ -1,0 +1,28 @@
+{
+  "check": "STUDENT_BROWSER_REVOKED_INVITE",
+  "observedAt": "2026-09-12T21:02:29.468Z",
+  "browser": "Edge",
+  "checks": [
+    "EMPTY_FORM_NAME_ERROR_AND_FOCUS",
+    "SYNTHETIC_REQUIRED_FIELDS_ACCEPTED",
+    "REVOKED_INVITE_REJECTED_ON_SUBMIT"
+  ],
+  "defect": "Expired/revoked server response retained positive remaining-time claim and enabled submit",
+  "localFix": "Unavailable state replaces countdown and blocks form submission",
+  "localTests": "1/1 rendered state and repeat-submit guard",
+  "deployed": true,
+  "limitations": [
+    "Anonymous rejection flow only; successful UI join and verified-email flows incomplete"
+  ],
+  "onlineRetest": {
+    "observedAt": "2026-09-12T21:06:47.752Z",
+    "checks": [
+      "OPENED_FRESH_TEN_MINUTE_INVITE",
+      "REVOKED_WHILE_FORM_OPEN",
+      "SERVER_REJECTION_REPLACED_POSITIVE_COUNTDOWN",
+      "ALL_INPUTS_AND_SUBMIT_DISABLED",
+      "IDENTITY_VALUES_RETAINED_BACK_ENABLED"
+    ],
+    "pass": true
+  }
+}

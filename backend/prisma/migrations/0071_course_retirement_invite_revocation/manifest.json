@@ -1,0 +1,5 @@
+{
+  "sha256": "22cbade773b775401e61ab377a93942e9243f030f308fd4b44807b47cf39ae0f",
+  "destructive": false,
+  "migrationId": "0071_course_retirement_invite_revocation"
+}

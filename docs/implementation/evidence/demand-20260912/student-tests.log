@@ -1,0 +1,12 @@
+✔ mobile preview failure retains measured recorder duration, without requiring a thumbnail (0.5307ms)
+✔ submitted records remain visible during review and supplementation without earning hours (0.6243ms)
+✔ upload copy preserves pixels and camera time while the original retains all EXIF (15.1821ms)
+✔ a camera image without EXIF remains a valid JPEG (1.7318ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 4
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 211.1254

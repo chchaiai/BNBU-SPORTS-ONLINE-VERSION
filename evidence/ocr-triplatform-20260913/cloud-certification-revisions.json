@@ -1,0 +1,12 @@
+{
+  "check": "CLOUD_CERTIFICATION_REVISIONS",
+  "observedAt": "2026-09-12T19:23:40.151Z",
+  "applicationId": "01a09713-4380-72f5-9572-302860fbd1ff",
+  "mediaId": "01a09713-3a24-70dc-9158-7d96cedc3c12",
+  "checks": [
+    "COS_SCAN_DRAFT_UPDATE_REPLAY_READ",
+    "RECOGNITION_ADJUST_REPLAY_HISTORY_PROGRESS",
+    "REVOCATION_REPLAY_RECOGNITION_REMOVED"
+  ],
+  "allChecksCompleted": true
+}

@@ -1,0 +1,8 @@
+{
+  "result": "PASS",
+  "release": "/opt/bnbu-sports-production/releases/notification-history-20260913",
+  "image": "sha256:c7253e550053e45b5f40bb0d447e4c971db54790554b9d658b7d07d627118ccb",
+  "migrationExecuted": false,
+  "databaseMutated": false,
+  "browserRegression": "PENDING"
+}

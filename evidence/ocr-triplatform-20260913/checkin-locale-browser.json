@@ -1,0 +1,11 @@
+{
+  "release": "checkin-locale-20260913",
+  "browser": "Edge",
+  "student": "TEST ZETA / 9900000006",
+  "chinese": { "notification": "运动记录有效", "status": "有效 · 已计入", "photo": "运动照片 1" },
+  "englishAfterLanguageSwitch": { "notification": "Exercise record accepted", "status": "Valid · Credited", "photo": "Exercise photo 1" },
+  "remainingObservedIssue": "Generated public note retained Chinese after in-session language change",
+  "candidateFix": "Recompute system public note at render time using original review fields, preserve teacher comment verbatim",
+  "candidateValidation": "JavaScript syntax and diff checks passed; not deployed",
+  "currentTestLocale": "en"
+}

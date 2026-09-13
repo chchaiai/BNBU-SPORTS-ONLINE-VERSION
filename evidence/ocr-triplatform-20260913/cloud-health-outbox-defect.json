@@ -1,0 +1,18 @@
+{
+  "check": "HEALTH_OUTBOX_SEMANTICS_DEFECT",
+  "observedAt": "2026-09-12T20:34:51.449Z",
+  "status": "CONFIRMED_BUG",
+  "browserBacklog": 1139,
+  "findings": [
+    "HealthService counts all PENDING/FAILED outbox events as notificationQueue backlog",
+    "UP means count query succeeded; no delivery or consumer liveness probe",
+    "Largest pending types: AUTH_REFRESH_TOKEN_ROTATED 250, EXERCISE_SESSION_STARTED_V1 119, AUTH_SESSION_CREATED 101; observed maximum attempts 0",
+    "Application source has no claimBatch caller; V8.1 business notifications are inserted directly in transactions"
+  ],
+  "limitations": [
+    "Top 35 pending types inspected; no payloads or recipient data read",
+    "No events processed, retried or deleted",
+    "No proof of actual notification delivery failure; mislabeled health evidence confirmed"
+  ],
+  "nextAction": "Correct health projection and UI to distinguish outbox query reachability from notification delivery; validate protocol compatibility before deployment"
+}

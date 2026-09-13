@@ -84,8 +84,14 @@ describe('Stage 19 Export, Audit Read, and governance contract', () => {
     const coverage = JSON.parse(
       readFileSync(new URL('../../runtime-coverage.manifest.json', import.meta.url), 'utf8'),
     ) as { implemented: Record<string, unknown>; implementedDefaultDeny: string[] };
-    assert.equal(Object.keys(coverage.implemented).length, 126);
-    assert.equal(coverage.implementedDefaultDeny.length, 17);
+    assert.deepEqual(Object.keys(coverage.implemented).sort(), Object.keys(operationPolicies).sort());
+    // x-default-deny-error also documents conditional scope denials on live operations.
+    // The manifest records operations with no supported business execution path.
+    assert.equal(new Set(coverage.implementedDefaultDeny).size, coverage.implementedDefaultDeny.length);
+    for (const operationId of coverage.implementedDefaultDeny) {
+      assert.ok(operationId in coverage.implemented, `${operationId} denial has evidence`);
+      assert.ok(operationId in operationPolicies, `${operationId} denial has a policy`);
+    }
     for (const operationId of Object.keys(operationPolicies)) {
       assert.ok(coverage.implemented[operationId]);
     }

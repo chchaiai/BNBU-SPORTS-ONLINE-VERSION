@@ -1,0 +1,5 @@
+{
+  "sha256": "a8d1c5bde58589535e1b821af15fbd723b784041a424fe0f6b769daf57645428",
+  "destructive": false,
+  "migrationId": "0070_student_other_region"
+}

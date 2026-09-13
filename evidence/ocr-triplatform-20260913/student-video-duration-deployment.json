@@ -1,0 +1,12 @@
+{
+  "button": "现场录像",
+  "release": "student-video-duration-20260913",
+  "previous": "student-recognition-copy-20260913",
+  "testsTotal": 10,
+  "check": "STUDENT_VIDEO_DURATION_DEPLOYMENT",
+  "sourceCommit": "4eae442ecebe46bbaad3f781042e78c88296d464",
+  "phoneRetest": "PENDING",
+  "hint": "视频请保留声音，单段最长 10 秒。",
+  "testsPassed": 10,
+  "publicSha256": "edbbb05f4df21454720113bc296b24a9202d21a68a758b826e5b17203289dec4"
+}

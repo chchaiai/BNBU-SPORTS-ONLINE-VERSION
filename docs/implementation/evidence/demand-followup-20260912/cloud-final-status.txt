@@ -1,0 +1,4 @@
+/bnbu-sports-production-backend-1 healthy sha256:22eafa877405f9efaa59bba398631a8e975fb9ec092eb83c09ea9dff9bc29244
+/bnbu-sports-production-portal-1 healthy sha256:65b9ef1a20629b5829b13ed8e88a7d5e6b331d48035f6e9b1a1e05a28e6a40fb
+/opt/bnbu-sports-production/releases/demand-followup-20260912
+600 3471650 /opt/bnbu-sports-production/backups/before-bugfix-20260912T083534Z.dump

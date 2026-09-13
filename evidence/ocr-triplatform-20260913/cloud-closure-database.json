@@ -1,0 +1,1 @@
+{"check":"CLOUD_CLOSURE_DATABASE_READ_ONLY","observedAt":"2026-09-12T18:13:17.065Z","status":"PASS","organizationId":"01a096c2-20a2-706b-8c69-802f67dee12c","members":2,"applications":{"retained":3,"cleared":3},"credits":{"retained":1,"active":0},"historicalExerciseRecords":1,"ocrJobs":[{"status":"SUCCEEDED","count":2}]}

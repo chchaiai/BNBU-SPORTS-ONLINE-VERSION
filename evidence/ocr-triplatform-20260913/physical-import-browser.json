@@ -1,0 +1,27 @@
+{
+  "check": "PORTAL_PHYSICAL_IMPORT_BROWSER",
+  "result": "PARTIAL_PASS",
+  "release": "portal-physical-import-20260913",
+  "previousRelease": "portal-admin-goal-20260913",
+  "imageId": "sha256:d54959ae3985b42dbff8af14c2fe5f008a7c8e42fcbe5e82485e8dcd6185bbe3",
+  "build": "PASS",
+  "focusedTests": "39/39",
+  "publicHealth": "PASS",
+  "batchId": "01a09845-03d2-766c-835c-7285535a441d",
+  "browserChecks": [
+    "CSV and XLSX batch list loaded",
+    "Confirmed first row disabled",
+    "Unmatched second row prevented from confirmation with localized issues",
+    "Unsaved revision disables switching batches",
+    "Second row revision saved from v2 4:31 to v3 4:32",
+    "History displays v3 4:32, v2 4:31, v1 4.30",
+    "Original source text unchanged"
+  ],
+  "remaining": [
+    "Browser upload and confirmation end-to-end",
+    "Browser source download artifact verification",
+    "Large electronic import size support",
+    "Native Android full acceptance"
+  ],
+  "rollbackExercised": false
+}

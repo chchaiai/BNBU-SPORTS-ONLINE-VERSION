@@ -239,4 +239,56 @@ describe('V81 OCR governance HTTP E2E', () => {
     const events = await prisma.$queryRaw<{ count: number }[]>`SELECT count(*)::int AS count FROM v81_events WHERE resource_type='OCR_SERVICE' AND organization_id=${fixture.organizationId}::uuid`;
     assert.equal(required(events[0]).count, 2);
   });
+  it('executes current profile, membership, history, goal and deletion contracts over HTTP', async () => {
+    const admin = await login(fixture.adminEmail), teacher = await login(fixture.teacherEmail);
+    const student = await seedExerciseSessionStudent(prisma, fixture, 'CURRENT-CONTRACT');
+    await prisma.studentProfile.update({where:{id:student.studentId},data:{gender:'MALE',version:{increment:1}}});
+    const own = await tokenFor(student.userId, 'STUDENT');
+    const get = async (path: string, token = teacher) => data(await request('/api/v1' + path, authenticated(token)));
+    const post = async (path: string, body: Record<string, unknown>, token = teacher, status = 201, key = uuidv7()) =>
+      data(await request('/api/v1' + path, authenticated(token, 'POST', body, key)), status);
+    const me = await get('/me', own);
+    const profile = {collegeName:'Synthetic College',majorName:'Software',dateOfBirth:'2004-02-29',
+      regionCode:'OTHER',otherRegionName:'Japan',expectedVersion:object(me.studentProfile).version};
+    const profileKey = uuidv7();
+    const completed = await post('/me/student-profile', profile, own, 200, profileKey);
+    assert.equal(object(completed.studentProfile).otherRegionName, 'Japan');
+    assert.deepEqual(await post('/me/student-profile', profile, own, 200, profileKey), completed);
+    const goal = await get('/admin/exercise-goal', admin);
+    const goalKey = uuidv7(), goalInput = {totalTargetMinutes:1800,expectedVersion:goal.version};
+    const changed = await post('/admin/exercise-goal', goalInput, admin, 201, goalKey);
+    assert.deepEqual(await post('/admin/exercise-goal', goalInput, admin, 201, goalKey), changed);
+    assert.equal(changed.totalTargetMinutes,1800);
+    const template=await post('/rule-templates',{displayName:'Synthetic current contracts',expectedVersion:0},admin);
+    await prisma.classSection.update({where:{id:fixture.teacherAActiveSectionId},data:{
+      dailyStartTime:new Date('1970-01-01T00:00:00Z'),dailyEndTime:new Date('1970-01-01T23:59:59Z')}});
+    await post(`/class-sections/${fixture.teacherAActiveSectionId}/v81-rules`,{templateId:template.id,minimumMinutes:1,
+      weeklyLimit:3,courseTarget:1200,generalTarget:600,regularDeadline:'2027-01-23T00:00:00Z',
+      closingDeadline:'2027-01-30T00:00:00Z',settlementPlannedAt:'2027-01-30T01:00:00Z',publish:true,
+      globalTargetVersion:changed.version,expectedVersion:0});
+    const invite = await post(`/class-sections/${fixture.teacherAActiveSectionId}/course-invites`, {});
+    const currentProfile = await prisma.studentProfile.findUniqueOrThrow({where:{id:student.studentId}});
+    const capability = await post(`/course-invites/${invite.inviteToken}/join-capabilities/member`, {
+      fullName:currentProfile.fullName,studentNumber:currentProfile.studentNumber,gender:currentProfile.gender,gradeYear:currentProfile.gradeYear}, own);
+    assert.equal(typeof capability.joinCapability, 'string');
+    const settingsPath=`/class-sections/${fixture.teacherAActiveSectionId}/history-settings`;
+    const settings=await get(settingsPath,own);
+    await post(settingsPath,{enabled:true,earliestDate:'2026-08-01',latestDate:'2027-01-23',expectedVersion:settings.version});
+    const session=await post(`/enrollments/${student.enrollmentId}/historical-sessions`,{
+      startedAt:'2026-09-08T12:00:00+08:00',durationSeconds:120},own);
+    assert.equal(session.recordOrigin,'HISTORICAL');
+    const course=await get(`/class-sections/${fixture.teacherAActiveSectionId}`);
+    const retired=await post(`/class-sections/${course.id}/delete`,{expectedVersion:course.version,
+      confirmationCourseName:course.displayName,confirmCourseRetirement:true,reason:'Synthetic history preservation acceptance'});
+    assert.equal(retired.deleted,true);
+    assert.ok(await prisma.exerciseSession.findUnique({where:{id:String(session.id)}}));
+    assert.ok(await prisma.studentProfile.findUnique({where:{id:student.studentId}}));
+    const target=await prisma.studentProfile.findUniqueOrThrow({where:{id:student.studentId}});
+    const deleted=await post(`/admin/students/${student.studentId}/delete`,{expectedVersion:target.version,
+      confirmationStudentNumber:target.studentNumber,reason:'Synthetic standalone erasure acceptance'},admin);
+    assert.equal(deleted.deleted,true);
+    assert.equal(await prisma.exerciseSession.findUnique({where:{id:String(session.id)}}),null);
+    assert.equal(await prisma.studentProfile.findUnique({where:{id:student.studentId}}),null);
+  });
+
 });

@@ -1,0 +1,45 @@
+{
+  "check": "TEACHER_FINAL_GRADE_BROWSER_SAVE_PUBLISH",
+  "result": "PASS",
+  "release": "portal-grade-layout-20260913",
+  "observedAt": "2026-09-13T02:09:15.627Z",
+  "workflow": [
+    "Browser save 86 as draft",
+    "Browser publish confirmation",
+    "Browser published 1 result",
+    "HTTP persisted history readback"
+  ],
+  "history": {
+    "items": [
+      {
+        "enrollmentId": "01a096e7-a6ce-73fe-826b-36728b8ba193",
+        "version": 4,
+        "finalGrade": 86,
+        "published": true,
+        "createdAt": "2026-09-13T02:08:38.106Z"
+      },
+      {
+        "enrollmentId": "01a096e7-a6ce-73fe-826b-36728b8ba193",
+        "version": 3,
+        "finalGrade": 86,
+        "published": false,
+        "createdAt": "2026-09-13T02:08:17.739Z"
+      },
+      {
+        "enrollmentId": "01a096e7-a6ce-73fe-826b-36728b8ba193",
+        "version": 2,
+        "finalGrade": 86,
+        "published": true,
+        "createdAt": "2026-09-12T10:39:52.639Z"
+      },
+      {
+        "enrollmentId": "01a096e7-a6ce-73fe-826b-36728b8ba193",
+        "version": 1,
+        "finalGrade": 85,
+        "published": false,
+        "createdAt": "2026-09-12T10:39:52.330Z"
+      }
+    ],
+    "nextBeforeVersion": null
+  }
+}

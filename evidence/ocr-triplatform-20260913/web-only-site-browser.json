@@ -1,0 +1,15 @@
+{
+  "observedAt": "2026-09-13T03:15:30.418Z",
+  "release": "20260913T031113Z-8e939cc9ad46-b348a52f",
+  "chinese": {
+    "nativeMentions": false,
+    "downloadLinks": 0,
+    "studentLinks": 1
+  },
+  "english": {
+    "downloadLinks": 0,
+    "language": "en",
+    "nativeMentions": false,
+    "studentLinks": 1
+  }
+}

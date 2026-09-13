@@ -1,0 +1,10 @@
+{
+  "engine": "firefox",
+  "checks": [
+    "VISIBLE_PROFILE_FIELDS",
+    "LOCAL_IMAGE_AND_PDF_CANVAS_PREVIEW",
+    "DURABLE_UNLOCKED_DRAFT_AND_REAL_PHOTO_PDF_UPLOAD_SUBMIT",
+    "UPLOADED_PDF_SIGNED_ACCESS_PREVIEW"
+  ],
+  "errors": []
+}

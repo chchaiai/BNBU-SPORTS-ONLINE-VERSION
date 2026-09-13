@@ -26,11 +26,16 @@ export async function projectV81Records(
       coalesce(p.eligible_minutes,0) AS eligible_minutes,coalesce(p.credited_minutes,0) AS credited_minutes,p.reason
     FROM v81_record_workflows w LEFT JOIN v81_credit_projections p ON p.record_id=w.record_id
     WHERE w.record_id::text IN (${Prisma.join(records.map((record) => record.id))})`;
+  const sources = await tx.$queryRaw<{session_id:string}[]>`SELECT session_id FROM v81_history_session_sources
+    WHERE session_id::text IN (${Prisma.join(records.map(record=>record.sessionId))})`;
+  const historical = new Set(sources.map(row=>row.session_id));
   const states = new Map(rows.map((row) => [row.record_id, row]));
   return records.map((record) => {
-    const original = projectExerciseRecord(record),
+    const original = {...projectExerciseRecord(record),recordOrigin:historical.has(record.sessionId)?'HISTORICAL':'LIVE'},
       state = states.get(record.id);
-    if (!state) return original;
+    if (!state) return historical.has(record.sessionId)
+      ? { ...original, creditedDurationSeconds: 0 }
+      : original;
     return {
       ...original,
       creditedDurationSeconds: state.stage === 'VALID' ? state.credited_minutes * 60 : 0,

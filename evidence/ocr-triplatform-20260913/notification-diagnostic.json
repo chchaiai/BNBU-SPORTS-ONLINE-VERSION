@@ -1,0 +1,18 @@
+{
+  "check": "READ_ONLY_NOTIFICATION_DIAGNOSTIC",
+  "observedAt": "2026-09-13T03:45:25.071Z",
+  "outbox": {"total": 1458, "eventTypes": 48, "allStatuses": "PENDING", "maximumAttempts": 0, "oldest": "2026-09-09T06:57:29.209Z"},
+  "syntheticNotifications": [
+    {"type":"ACTIVITY_CERTIFICATION_RESULT","count":3,"read":0},
+    {"type":"EXERCISE_RECORD_RESULT","count":26,"read":0},
+    {"type":"FEEDBACK_UPDATED","count":7,"read":0},
+    {"type":"MAKEUP_WINDOW_GRANTED","count":3,"read":0},
+    {"type":"MAKEUP_WINDOW_REVOKED","count":1,"read":0},
+    {"type":"RAW_ENDURANCE_RESULT","count":12,"read":1},
+    {"type":"SYSTEM_MODE","count":46,"read":0}
+  ],
+  "method": "Read-only PostgreSQL transaction; global event type aggregates and synthetic organization notification aggregates, without payloads or recipients",
+  "interpretation": "Outbox backlog is not an undelivered notification count. Current V8.1 result handlers insert notifications directly in business transactions.",
+  "risk": "Outbox consumption and retention lifecycle remain unverified; do not mark events processed or purge them just to remove the backlog.",
+  "followup": "cloud-notification-auth.json records current notification ownership, read replay, preferences restore and session revocation checks. These are not proof of every notification trigger or UI rendering."
+}

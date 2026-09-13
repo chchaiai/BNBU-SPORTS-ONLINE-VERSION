@@ -1,0 +1,55 @@
+{
+  "baseSource": "a46fbe41f44b0724c00ee6d91944f5fdfc58cdf0",
+  "patches": [
+    "867cf39bcc912d43d071a71f1c2b134c98515ca8",
+    "7ba41895e1d25b1d988cb84cdf5ca0604c3b1286"
+  ],
+  "baseImage": "sha256:7cd6dd20f373141d80cf6f8c0d5cedeb91adaf9d882aa324fb7295cee1d81ec6",
+  "changedSourceFiles": [
+    "app/admin-i18n.ts",
+    "app/admin-overview.tsx",
+    "app/admin-subadmins.tsx"
+  ],
+  "checks": {
+    "build": "PASS",
+    "focusedTests": "26/26"
+  },
+  "firstFailures": [],
+  "files": {
+    "deploy-portal-permission-copy.py": "94961a32c329d1be236b88d5814c7790026571629312193de4005e221b9e6c92",
+    "dist/.openai/hosting.json": "ae27924f35848a43294f1efe7969814ddcd7f646184458e0773bb0a40040d4fa",
+    "dist/client/.assetsignore": "4f83140d5f4293ab55bd1207327e995c83258f1e7d3145b1b5d7a3d17fdfe0a7",
+    "dist/client/.vite/manifest.json": "f1dddc2b9bb981cbeadb5bb38b28eb2dd7fdd7debd594e7e099c67b6583ad536",
+    "dist/client/assets/cpexcel.full-CAlsa5X_.js": "e3a61ce01017d596b5d6a513ee4162bf69f91eb0c84e01175e58501c74edb141",
+    "dist/client/assets/endurance-api-CnLEezpG.js": "7b66bab9be04c9b8c0ecc0221d5c33c0be8e9355ec57a7d2dafd8b897686576d",
+    "dist/client/assets/framework-bym5aI3S.js": "a9b4ce28eb1fd24f44bd6afc700324f83feec30c0419725ce29a8c61bfa8996a",
+    "dist/client/assets/index-BH1-XuWw.js": "7166878eb3db1f4ee48b6687a42884de0752373342ded1bb510f9f75371cf2ca",
+    "dist/client/assets/index-BLO56-st.css": "f16b2c133212ade237cfea38e2c8d4b0c4149bab1d66dae2d4b5b974896974f3",
+    "dist/client/assets/rolldown-runtime-hePW80VL.js": "580ad8c58061a4dde99bde0a56905e382f0568516ee2f5b84dbfb52085709021",
+    "dist/client/assets/worker-entry-B4mChJvt.js": "e5d0ed45058eb109aebfc7683e1b9158a29504494f8a6e5cd97ac9b7feecd84e",
+    "dist/client/assets/worker-entry-DzOU2DJ8.css": "a923a1cdd6c53edf9ecd3bcb9731098576dd9c1167d0498692b9d8366a5a16cc",
+    "dist/client/assets/xlsx-DwRHmDrW.js": "7af040a5ba632e8b806def4e97a07b2fa28cfe7af2f5fa952759d47af9ab5105",
+    "dist/client/bnbu-emblem.svg": "f098f06225feb8a0cec5e1f84a8d08114d94fb096ff8354929448822ededa8aa",
+    "dist/client/branding/sports-logo.png": "377ba9c5e34ff40835b821e65729c16ad5f621848bcd46a6f56c3ead546fb17e",
+    "dist/client/checkin-evidence-preview.svg": "0a2c2cc9ce2cb46932e7b27390e5f349ecacebf44a415ef894b98053fda21891",
+    "dist/client/og.png": "d7ec95b61de99a4ec66568e91750d044d7eb533a1a876a25411d2eb5ce6cf0c4",
+    "dist/client/_headers": "9e55124bccd40b43dbc6e002daa777fa8f32a230420152910784ca65501d9e0f",
+    "dist/server/.vite/manifest.json": "7ce98a1f0524e7164a435655e9613f589a088d99f80d60d78a0fd41a0941b1a0",
+    "dist/server/assets/index-BLO56-st.css": "f16b2c133212ade237cfea38e2c8d4b0c4149bab1d66dae2d4b5b974896974f3",
+    "dist/server/image-config.json": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+    "dist/server/index.js": "6b34bd11ccfe381b2b472f51eb63e1b9014b683bad270cbb10666c62cdbbbc75",
+    "dist/server/ssr/assets/cpexcel.full-B_6Sgutp.js": "d4186783d768ce80fc1cd44b71ca8ea0e329b68e9615ce4e5d799c096c71833f",
+    "dist/server/ssr/assets/endurance-api-DeawxD9H.js": "d6eb0a8686d80ff877ac614def52a97206a6275b33fba9678bb2bed1dd217d47",
+    "dist/server/ssr/assets/worker-entry-DoHoBTh-.js": "4668640afcc6878db22e6cb0c832a23fb1405a3af0f4d9cd3b184db45579ef3d",
+    "dist/server/ssr/assets/worker-entry-DzOU2DJ8.css": "a923a1cdd6c53edf9ecd3bcb9731098576dd9c1167d0498692b9d8366a5a16cc",
+    "dist/server/ssr/assets/xlsx-DHCMv_q_.js": "1559fda5d361a5b7b455aed0f06d575c7d742eabc07c1b214e3f059a1adfecfd",
+    "dist/server/ssr/index.js": "d5474fe0202833ba48d6c0b0a6aeb1bfe4f20986d29b55b2acde950bfa57f01b",
+    "dist/server/ssr/vinext-server.json": "1d47e6f65ae84a08c6edf518eec4855f5deca85a25c952db2e03271cbe9ae528",
+    "dist/server/ssr/__vite_rsc_assets_manifest.js": "19fc7cf8a8b429ae9c1571accdc96aff114c882375370f60ffe2d5775b43baeb",
+    "dist/server/vinext-externals.json": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+    "dist/server/vinext-server.json": "1d47e6f65ae84a08c6edf518eec4855f5deca85a25c952db2e03271cbe9ae528",
+    "dist/server/wrangler.json": "eaf4062368300b5dc8fdb355e39c10c391f1c7a0d74ee96cd6c10ebbd833bc75",
+    "dist/server/__vite_rsc_assets_manifest.js": "19fc7cf8a8b429ae9c1571accdc96aff114c882375370f60ffe2d5775b43baeb",
+    "Dockerfile": "6bc8ffc9af3423217d1e3f6c053db8a2fb7b227b8262aa21961a3f70d6061d70"
+  }
+}

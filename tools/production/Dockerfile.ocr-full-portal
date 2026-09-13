@@ -1,0 +1,4 @@
+FROM bnbu-portal-production:course-retired-20260912
+ARG SOURCE_COMMIT
+COPY --chown=10001:10001 dist/ /app/dist/
+LABEL org.opencontainers.image.revision=$SOURCE_COMMIT bnbu.test.batch="ocr-triplatform-20260913"

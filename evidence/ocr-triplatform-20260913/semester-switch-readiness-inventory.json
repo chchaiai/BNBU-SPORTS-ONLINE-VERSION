@@ -1,0 +1,379 @@
+{
+  "scope": "Production read-only switch readiness; synthetic organization only, no semester switch",
+  "observedAt": "2026-09-13T04:43:17.214Z",
+  "organizationId": "01a096c2-20a2-706b-8c69-802f67dee12c",
+  "targetId": "01a096da-f8bb-72ae-a15d-abbed0ea9704",
+  "current": {
+    "id": "01a096c2-20a3-76a6-a0b3-f95eb38344db",
+    "version": 1,
+    "displayName": "Synthetic Current Semester",
+    "status": "CURRENT",
+    "startDate": "2026-08-01",
+    "endDate": "2027-01-31"
+  },
+  "ready": false,
+  "checks": [
+    {
+      "code": "TARGET_UPCOMING",
+      "status": "CLEAR",
+      "count": 0
+    },
+    {
+      "code": "TARGET_START_DATE",
+      "status": "BLOCKED",
+      "count": 1
+    },
+    {
+      "code": "FORMAL_COURSE_SETTLEMENT",
+      "status": "BLOCKED",
+      "count": 8
+    },
+    {
+      "code": "COURSE_UNFINISHED_WORK",
+      "status": "UNAVAILABLE",
+      "count": 8
+    }
+  ],
+  "totalCourseCount": 10,
+  "paginationComplete": true,
+  "courses": [
+    {
+      "classSectionId": "01a096c2-20a3-76a6-a0b4-15a89a04610b",
+      "checks": [
+        {
+          "code": "OCR_DRAFTS",
+          "status": "BLOCKED",
+          "count": 2
+        },
+        {
+          "code": "ROSTER_REGISTRATION_INCOMPLETE",
+          "status": "UNAVAILABLE",
+          "count": 1
+        },
+        {
+          "code": "RAW_PHYSICAL_RESULTS",
+          "status": "UNAVAILABLE",
+          "count": null
+        },
+        {
+          "code": "SETTLEMENT_SCHEDULE",
+          "status": "BLOCKED",
+          "count": 1
+        },
+        {
+          "code": "CONFIRMED_COMPOSITE_ROSTER",
+          "status": "BLOCKED",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "classSectionId": "01a096c2-20a3-76a6-a0b4-1acf5c3a173e",
+      "checks": [
+        {
+          "code": "CURRENT_ROSTER",
+          "status": "BLOCKED",
+          "count": 1
+        },
+        {
+          "code": "CONFIRMED_OFFICIAL_ROSTER",
+          "status": "BLOCKED",
+          "count": 1
+        },
+        {
+          "code": "ROSTER_IDENTITY_AMBIGUITY",
+          "status": "UNAVAILABLE",
+          "count": null
+        },
+        {
+          "code": "ROSTER_REGISTRATION_INCOMPLETE",
+          "status": "UNAVAILABLE",
+          "count": null
+        },
+        {
+          "code": "RAW_PHYSICAL_RESULTS",
+          "status": "UNAVAILABLE",
+          "count": null
+        },
+        {
+          "code": "PUBLISHED_COURSE_RULE",
+          "status": "BLOCKED",
+          "count": 1
+        },
+        {
+          "code": "SETTLEMENT_SCHEDULE",
+          "status": "BLOCKED",
+          "count": 1
+        },
+        {
+          "code": "CONFIRMED_COMPOSITE_ROSTER",
+          "status": "BLOCKED",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "classSectionId": "01a096c2-20a3-76a6-a0b4-1d4b0a89d68f",
+      "checks": [
+        {
+          "code": "CURRENT_ROSTER",
+          "status": "BLOCKED",
+          "count": 1
+        },
+        {
+          "code": "CONFIRMED_OFFICIAL_ROSTER",
+          "status": "BLOCKED",
+          "count": 1
+        },
+        {
+          "code": "ROSTER_IDENTITY_AMBIGUITY",
+          "status": "UNAVAILABLE",
+          "count": null
+        },
+        {
+          "code": "ROSTER_REGISTRATION_INCOMPLETE",
+          "status": "UNAVAILABLE",
+          "count": null
+        },
+        {
+          "code": "RAW_PHYSICAL_RESULTS",
+          "status": "UNAVAILABLE",
+          "count": null
+        },
+        {
+          "code": "PUBLISHED_COURSE_RULE",
+          "status": "BLOCKED",
+          "count": 1
+        },
+        {
+          "code": "SETTLEMENT_SCHEDULE",
+          "status": "BLOCKED",
+          "count": 1
+        },
+        {
+          "code": "CONFIRMED_COMPOSITE_ROSTER",
+          "status": "BLOCKED",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "classSectionId": "01a096d6-6498-7512-aa06-f7c4db6e0be9",
+      "checks": [
+        {
+          "code": "CURRENT_ROSTER",
+          "status": "BLOCKED",
+          "count": 1
+        },
+        {
+          "code": "CONFIRMED_OFFICIAL_ROSTER",
+          "status": "BLOCKED",
+          "count": 1
+        },
+        {
+          "code": "ROSTER_IDENTITY_AMBIGUITY",
+          "status": "UNAVAILABLE",
+          "count": null
+        },
+        {
+          "code": "ROSTER_REGISTRATION_INCOMPLETE",
+          "status": "UNAVAILABLE",
+          "count": null
+        },
+        {
+          "code": "RAW_PHYSICAL_RESULTS",
+          "status": "UNAVAILABLE",
+          "count": null
+        },
+        {
+          "code": "SETTLEMENT_SCHEDULE",
+          "status": "BLOCKED",
+          "count": 1
+        },
+        {
+          "code": "CONFIRMED_COMPOSITE_ROSTER",
+          "status": "BLOCKED",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "classSectionId": "01a096e7-a22e-7535-a65d-ce0da82d59af",
+      "checks": [
+        {
+          "code": "UNSUBMITTED_RECORD",
+          "status": "BLOCKED",
+          "count": 3
+        },
+        {
+          "code": "MATERIAL_PROCESSING",
+          "status": "BLOCKED",
+          "count": 2
+        },
+        {
+          "code": "PHYSICAL_IMPORT_PENDING",
+          "status": "BLOCKED",
+          "count": 1
+        },
+        {
+          "code": "OCR_DRAFTS",
+          "status": "BLOCKED",
+          "count": 2
+        },
+        {
+          "code": "RAW_PHYSICAL_RESULTS",
+          "status": "UNAVAILABLE",
+          "count": 1
+        },
+        {
+          "code": "SETTLEMENT_SCHEDULE",
+          "status": "BLOCKED",
+          "count": 1
+        },
+        {
+          "code": "CONFIRMED_COMPOSITE_ROSTER",
+          "status": "BLOCKED",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "classSectionId": "01a09709-c081-71e7-97ca-04b623e2121b",
+      "checks": [
+        {
+          "code": "CURRENT_ROSTER",
+          "status": "BLOCKED",
+          "count": 1
+        },
+        {
+          "code": "CONFIRMED_OFFICIAL_ROSTER",
+          "status": "BLOCKED",
+          "count": 1
+        },
+        {
+          "code": "ROSTER_IDENTITY_AMBIGUITY",
+          "status": "UNAVAILABLE",
+          "count": null
+        },
+        {
+          "code": "ROSTER_REGISTRATION_INCOMPLETE",
+          "status": "UNAVAILABLE",
+          "count": null
+        },
+        {
+          "code": "RAW_PHYSICAL_RESULTS",
+          "status": "UNAVAILABLE",
+          "count": null
+        },
+        {
+          "code": "PUBLISHED_COURSE_RULE",
+          "status": "BLOCKED",
+          "count": 1
+        },
+        {
+          "code": "SETTLEMENT_SCHEDULE",
+          "status": "BLOCKED",
+          "count": 1
+        },
+        {
+          "code": "CONFIRMED_COMPOSITE_ROSTER",
+          "status": "BLOCKED",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "classSectionId": "01a09744-50c6-7518-9853-7dd2e5d78235",
+      "checks": []
+    },
+    {
+      "classSectionId": "01a09760-8764-727d-aaa9-b00210ac2fc5",
+      "checks": []
+    },
+    {
+      "classSectionId": "01a0976a-b1f1-72af-b08c-55b2b17576c2",
+      "checks": [
+        {
+          "code": "CURRENT_ROSTER",
+          "status": "BLOCKED",
+          "count": 1
+        },
+        {
+          "code": "CONFIRMED_OFFICIAL_ROSTER",
+          "status": "BLOCKED",
+          "count": 1
+        },
+        {
+          "code": "ROSTER_IDENTITY_AMBIGUITY",
+          "status": "UNAVAILABLE",
+          "count": null
+        },
+        {
+          "code": "ROSTER_REGISTRATION_INCOMPLETE",
+          "status": "UNAVAILABLE",
+          "count": null
+        },
+        {
+          "code": "RAW_PHYSICAL_RESULTS",
+          "status": "UNAVAILABLE",
+          "count": null
+        },
+        {
+          "code": "SETTLEMENT_SCHEDULE",
+          "status": "BLOCKED",
+          "count": 1
+        },
+        {
+          "code": "CONFIRMED_COMPOSITE_ROSTER",
+          "status": "BLOCKED",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "classSectionId": "01a0976a-b2b1-738d-abcb-12bb6a60e86a",
+      "checks": [
+        {
+          "code": "CURRENT_ROSTER",
+          "status": "BLOCKED",
+          "count": 1
+        },
+        {
+          "code": "CONFIRMED_OFFICIAL_ROSTER",
+          "status": "BLOCKED",
+          "count": 1
+        },
+        {
+          "code": "ROSTER_IDENTITY_AMBIGUITY",
+          "status": "UNAVAILABLE",
+          "count": null
+        },
+        {
+          "code": "ROSTER_REGISTRATION_INCOMPLETE",
+          "status": "UNAVAILABLE",
+          "count": null
+        },
+        {
+          "code": "RAW_PHYSICAL_RESULTS",
+          "status": "UNAVAILABLE",
+          "count": null
+        },
+        {
+          "code": "PUBLISHED_COURSE_RULE",
+          "status": "BLOCKED",
+          "count": 1
+        },
+        {
+          "code": "SETTLEMENT_SCHEDULE",
+          "status": "BLOCKED",
+          "count": 1
+        },
+        {
+          "code": "CONFIRMED_COMPOSITE_ROSTER",
+          "status": "BLOCKED",
+          "count": 1
+        }
+      ]
+    }
+  ]
+}

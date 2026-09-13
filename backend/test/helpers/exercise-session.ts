@@ -34,7 +34,8 @@ export async function seedExerciseSessionStudent(
         status: 'ACTIVE',
         checkInWindowMode: 'AVAILABLE',
         checkInStartDate: new Date('2026-08-01T00:00:00.000Z'),
-        checkInEndDate: new Date('2027-01-31T00:00:00.000Z'),
+        // Leave the published seven-day closing period inside the semester.
+        checkInEndDate: new Date('2027-01-23T00:00:00.000Z'),
         dailyStartTime: null,
         dailyEndTime: null,
         submissionDeadlineAt: new Date('2027-02-01T00:00:00.000Z'),

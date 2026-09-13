@@ -1,0 +1,26 @@
+{
+  "check": "CLOUD_LEGACY_CORRECTION_DENIAL",
+  "observedAt": "2026-09-12T22:13:53.020Z",
+  "productionRelease": "portal-required-20260913",
+  "organizationId": "01a096c2-20a2-706b-8c69-802f67dee12c",
+  "scoreId": "01a097ae-b46e-76f3-bf06-046d08be476b",
+  "checks": [
+    {
+      "operationId": "openStudentScoreCorrection",
+      "expectedVersion": 2,
+      "status": 409,
+      "code": "CONFLICT_VERSION_MISMATCH",
+      "requestId": "01a097af-239e-731a-a3c7-adfdf0851f94",
+      "disabledGateObserved": false
+    },
+    {
+      "operationId": "openStudentScoreCorrection",
+      "expectedVersion": 1,
+      "status": 409,
+      "code": "SCORE_CORRECTION_NOT_ALLOWED",
+      "requestId": "01a097af-2438-7492-9b75-9ade1da78da4",
+      "disabledGateObserved": true
+    }
+  ],
+  "allChecksCompleted": true
+}

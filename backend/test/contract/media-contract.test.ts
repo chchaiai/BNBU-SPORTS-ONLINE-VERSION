@@ -40,7 +40,7 @@ describe('Stage 15 MediaEvidence contract', () => {
         'initiateMediaUpload',
         'initiate',
         ['STUDENT'],
-        'EXERCISE_SESSION_FROM_REQUEST',
+        'MEDIA_TARGET_FROM_REQUEST',
       ],
       [
         '/media-uploads/{uploadSessionId}/confirm',
@@ -168,12 +168,14 @@ describe('Stage 15 MediaEvidence contract', () => {
       'video/quicktime',
       'video/3gpp',
       'video/webm',
+      'image/webp',
+      'application/pdf',
     ]);
     assert.match(String(mimeType.description), /actual bytes and container/);
     assert.match(String(initiate.description), /No location permission or GPS data is required/);
   });
 
-  it('keeps 126 total operations and exactly five MediaEvidence operations', () => {
+  it('matches the operation registry and keeps exactly five MediaEvidence operations', () => {
     const operations: JsonObject[] = [];
     const methods = new Set(['get', 'post', 'put', 'patch', 'delete', 'options', 'head']);
     for (const pathItem of Object.values(object(contract.paths, 'paths'))) {
@@ -183,7 +185,7 @@ describe('Stage 15 MediaEvidence contract', () => {
         if (typeof operation.operationId === 'string') operations.push(operation);
       }
     }
-    assert.equal(operations.length, 126);
+    assert.equal(operations.length, Object.keys(operationPolicies).length);
     assert.equal(
       operations.filter(
         (operation) =>

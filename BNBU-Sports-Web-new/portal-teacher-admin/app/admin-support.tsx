@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { ApiError, currentApiSessionEpoch } from "./api-client";
-import { listAdminFeedback, getAdminFeedback, handleAdminFeedback, feedbackToTicket, type FeedbackDetail, type FeedbackItem } from "./feedback-api";
+import { listAdminFeedback, getAdminFeedback, handleAdminFeedback, feedbackToTicket, feedbackTicketStatuses, type FeedbackStatus, type FeedbackDetail, type FeedbackItem } from "./feedback-api";
 import { AppSelect } from "./app-select";
 import { pageItems } from "./admin-domain";
 import { adminCopy, adminLabel } from "./admin-i18n";
@@ -339,12 +339,12 @@ function RealFeedbackSupport({ locale,notificationTarget }: TargetProps) {
         <div className="admin-filter-row admin-support-filters">
           <SupportSearchField label={locale === "zh" ? "搜索反馈编号、分类或问题摘要" : "Search feedback ID, category, or problem summary"} value={search} onChange={setSearch} />
           <AppSelect label={adminCopy(locale, "ticket_category_filter")} value={categoryFilter} options={[{ value: "all", label: adminCopy(locale, "all") }, ...ticketCategories.map((value) => ({ value, label: adminLabel(locale, "ticketCategory", value) }))]} onChange={(value) => setCategoryFilter((value ?? "all") as TicketCategoryFilter)} />
-          <AppSelect label={adminCopy(locale, "ticket_status_filter")} value={statusFilter} options={["all", "OPEN", "IN_PROGRESS", "WAITING_TECH", "RESOLVED", "CLOSED"].map((value) => ({ value, label: value === "all" ? adminCopy(locale, "all") : value }))} onChange={(value) => setStatusFilter(String(value ?? "all"))} />
+          <AppSelect label={adminCopy(locale, "ticket_status_filter")} value={statusFilter} options={["all", "OPEN", "IN_PROGRESS", "WAITING_TECH", "RESOLVED", "CLOSED"].map((value) => ({ value, label: value === "all" ? adminCopy(locale, "all") : adminLabel(locale, "ticketStatus", feedbackTicketStatuses[value as FeedbackStatus]) }))} onChange={(value) => setStatusFilter(String(value ?? "all"))} />
           {(search || categoryFilter !== "all" || statusFilter !== "all") && <button className="text-button" type="button" onClick={() => { setSearch(""); setCategoryFilter("all"); setStatusFilter("all"); }}>{adminCopy(locale, "clear_filters")}</button>}
         </div>
         <AdminInlineError message={loadError} />
         {loading ? null : filtered.length === 0 ? <AdminEmpty locale={locale} filtered /> : (
-          <div className="table-wrap admin-support-table-wrap"><table className="admin-table admin-support-table"><thead><tr><th>ID</th><th>{locale === "zh" ? "问题类型" : "Problem category"}</th><th>{adminCopy(locale, "subject")}</th><th>{adminCopy(locale, "status")}</th><th>{adminCopy(locale, "updated_at")}</th></tr></thead><tbody>{filtered.map((item) => <tr key={item.id}><td><button className="text-button" type="button" onClick={() => void open(item.id)}><code>{item.id}</code></button></td><td>{adminLabel(locale, "ticketCategory", item.category)}</td><td><b>{item.content}</b>{item.publicReply && <small className="table-sub">{item.publicReply}</small>}</td><td><AdminBadge tone={item.status === "RESOLVED" ? "green" : item.status === "CLOSED" ? "gray" : "orange"}>{item.status}</AdminBadge></td><td>{formatAdminDate(locale, item.updatedAt, true)}</td></tr>)}</tbody></table></div>
+          <div className="table-wrap admin-support-table-wrap"><table className="admin-table admin-support-table"><thead><tr><th>ID</th><th>{locale === "zh" ? "问题类型" : "Problem category"}</th><th>{adminCopy(locale, "subject")}</th><th>{adminCopy(locale, "status")}</th><th>{adminCopy(locale, "updated_at")}</th></tr></thead><tbody>{filtered.map((item) => <tr key={item.id}><td><button className="text-button" type="button" onClick={() => void open(item.id)}><code>{item.id}</code></button></td><td>{adminLabel(locale, "ticketCategory", item.category)}</td><td><b>{item.content}</b>{item.publicReply && <small className="table-sub">{item.publicReply}</small>}</td><td><AdminBadge tone={item.status === "RESOLVED" ? "green" : item.status === "CLOSED" ? "gray" : "orange"}>{adminLabel(locale, "ticketStatus", feedbackTicketStatuses[item.status])}</AdminBadge></td><td>{formatAdminDate(locale, item.updatedAt, true)}</td></tr>)}</tbody></table></div>
         )}
       </section>
       {selected && <TicketDialog locale={locale} ticket={feedbackToTicket(selected)} requesterEmail={selected.requester.email ?? undefined} close={() => setSelected(null)} onSave={save} />}

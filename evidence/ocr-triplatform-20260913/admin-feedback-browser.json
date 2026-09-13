@@ -1,0 +1,49 @@
+{
+  "result": "PASS",
+  "feedbackId": "01a0988d-45c5-757f-acc6-7e5a4666e1ad",
+  "created": {
+    "id": "01a0988d-45c5-757f-acc6-7e5a4666e1ad",
+    "category": "BUG",
+    "content": "Synthetic browser feedback acceptance 20260913; no real support request",
+    "status": "OPEN",
+    "publicReply": null,
+    "createdAt": "2026-09-13T02:16:30.405Z",
+    "updatedAt": "2026-09-13T02:16:30.405Z",
+    "version": 1
+  },
+  "studentHistory": {
+    "feedbackId": "01a0988d-45c5-757f-acc6-7e5a4666e1ad",
+    "status": "CLOSED",
+    "version": 4,
+    "items": [
+      {
+        "id": "01a0988d-c2e8-71ed-8baa-470b70635d5b",
+        "publicReply": "合成验收：管理页面已受理，仅用于本任务测试。",
+        "status": "IN_PROGRESS",
+        "occurredAt": "2026-09-13T02:17:02.437Z",
+        "version": 2
+      },
+      {
+        "id": "01a0988e-01d8-70fa-bb36-2b610838658a",
+        "publicReply": "合成验收：页面处理流程已验证完成。",
+        "status": "RESOLVED",
+        "occurredAt": "2026-09-13T02:17:18.550Z",
+        "version": 3
+      },
+      {
+        "id": "01a0988e-385c-7457-9fc8-47ae9cef5f8b",
+        "publicReply": "合成验收结束，关闭本任务测试反馈。",
+        "status": "CLOSED",
+        "occurredAt": "2026-09-13T02:17:32.507Z",
+        "version": 4
+      }
+    ]
+  },
+  "workflow": [
+    "Synthetic student HTTP creation",
+    "Admin browser IN_PROGRESS",
+    "Admin browser RESOLVED",
+    "Admin browser CLOSED",
+    "Student history readback 3 replies with actor fields redacted"
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "result": "PASS",
+  "observedAt": "2026-09-13T04:41:14Z",
+  "rollbackImage": "sha256:59eedded13c53c0c7a93ea71083e9f9eabe7532cc12041bbae2a0e6957c0fc9b",
+  "restoredImage": "sha256:c7253e550053e45b5f40bb0d447e4c971db54790554b9d658b7d07d627118ccb",
+  "rollbackReadiness": 200,
+  "restoreReadiness": 200,
+  "portalContainerUnchanged": true,
+  "staticRelease": "public-note-locale-20260913",
+  "scope": "Actual backend application rollback and restore with existing 76-migration database; no database restore or static downgrade"
+}

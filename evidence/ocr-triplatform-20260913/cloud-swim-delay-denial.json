@@ -1,0 +1,10 @@
+{
+  "status": 422,
+  "response": {
+    "code": "VALIDATION_FAILED",
+    "message": "One or more request fields are invalid.",
+    "details": {},
+    "requestId": "01a0978b-a890-7628-93fe-ed92575eb822",
+    "timestamp": "2026-09-12T21:35:07.432Z"
+  }
+}

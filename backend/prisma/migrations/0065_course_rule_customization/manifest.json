@@ -1,0 +1,5 @@
+{
+  "sha256": "dae96f013fedced9d26e400a5a2f70bb19bcbdce74582b7f944c78410145041f",
+  "destructive": false,
+  "migrationId": "0065_course_rule_customization"
+}

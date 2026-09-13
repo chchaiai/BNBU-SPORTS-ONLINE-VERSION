@@ -1,0 +1,33 @@
+// Real timed synthetic swimming locked-batch continuation acceptance.
+import fs from 'node:fs';import assert from 'node:assert/strict';import {randomUUID,createHash} from 'node:crypto';import {setTimeout as delay} from 'node:timers/promises';
+const f=JSON.parse(fs.readFileSync('.local/ocr-beta-course.json')),b=JSON.parse(fs.readFileSync('.local/ocr-beta-private.json')),staff=JSON.parse(fs.readFileSync('.local/ocr-triplatform-20260913-private.json')),checks=[];let s,t,session,record; const resume=["resume","finish"].includes(process.argv[2]);
+async function api(p,token,body,status=body?201:200,key=randomUUID()){const r=await fetch('https://www.teacher.bnbusports.cn/api/v1'+p,{method:body?'POST':'GET',headers:{...(token?{authorization:`Bearer ${token}`} : {}),'content-type':'application/json','idempotency-key':key},...(body?{body:JSON.stringify(body)}:{}),signal:AbortSignal.timeout(20000)});const v=await r.json();assert.equal(r.status,status,JSON.stringify({p,status:r.status,code:v.code,details:v.details}));return v.data;}
+async function initialize(file,expectedStatus=201){const bytes=fs.readFileSync(file);const u=await api('/media-uploads',s,{sessionId:session.id,businessPurpose:'EXERCISE_RECORD',mediaType:'IMAGE',mimeType:'image/png',fileSizeBytes:bytes.length,captureSource:'IN_APP_CAMERA',declaredContentSha256:createHash('sha256').update(bytes).digest('hex')},expectedStatus);return {u,file};}
+async function complete(x){const {u,file}=x,put=await fetch(u.uploadUrl,{method:u.uploadMethod,headers:u.requiredHeaders,body:fs.readFileSync(file),signal:AbortSignal.timeout(20000)});assert.equal(put.status,200);const c=await api('/media-uploads/'+u.uploadSessionId+'/confirm',s,{etag:put.headers.get('etag').replaceAll('"','')},200);await api('/media/'+u.mediaId+'/bind',s,{sessionId:session.id,expectedVersion:c.version},200);for(let i=0;i<40;i++){const m=await api('/media/'+u.mediaId,s);if(m.uploadStatus==='AVAILABLE')return;assert.notEqual(m.uploadStatus,'FAILED');await delay(1000);}throw Error('Media readiness timeout');}
+
+try{
+ b.session=await api('/auth/refresh',null,{refreshToken:b.session.refreshToken},200);fs.writeFileSync('.local/ocr-beta-private.json',JSON.stringify(b),{mode:0o600});s=b.session.accessToken;
+ t=(await api('/auth/password-login',null,{account:staff.teacher.email,password:staff.teacher.password},200)).accessToken;staff.teacherToken=t;fs.writeFileSync('.local/ocr-triplatform-20260913-private.json',JSON.stringify(staff),{mode:0o600});
+ assert.equal((await api('/me',s)).user.organizationId,f.organizationId);assert.match((await api(`/class-sections/${f.sectionId}`,t)).displayName,/^Synthetic electronic/);
+ let uploads; if(resume){({session,record,uploads}=JSON.parse(fs.readFileSync('.local/ocr-swim-continuation-private.json')));}else{
+ session=await api('/exercise-sessions',s,{enrollmentId:f.enrollmentId,clientObservedAt:new Date().toISOString()});console.log(JSON.stringify({phase:'REAL_TIMER_STARTED',sessionId:session.id}));await delay(61000);
+ const finished=await api(`/exercise-sessions/${session.id}/finish`,s,{expectedVersion:session.version,clientObservedAt:new Date().toISOString()},200);assert.ok(finished.actualDurationSeconds>=60);
+ record=await api('/exercise-records',s,{sessionId:session.id,creditType:'GENERAL',sportType:'SWIMMING',sportName:null,description:'Synthetic swimming intake and mixed batch review',clientRequestId:randomUUID()});
+
+ uploads=[await initialize('.local/ocr-smoke/ocr-synthetic-roster.png'),await initialize('.local/ocr-smoke/ocr-synthetic-physical.png')];
+ fs.writeFileSync('.local/ocr-swim-continuation-private.json',JSON.stringify({session,record,uploads}),{mode:0o600});
+ }
+ const mediaIds=uploads.map(x=>x.u.mediaId),p='/exercise-records/'+record.id;
+ const draft=await api(p,s); if(process.argv[2]!=='finish'){
+ const input={items:[{mediaId:mediaIds[0],phase:'BEFORE'},{mediaId:mediaIds[1],phase:'AFTER'}],expectedVersion:record.version}, key=randomUUID();
+ if(!resume){const accepted=await api(p+'/swim-intake',s,input,201,key);assert.deepEqual(await api(p+'/swim-intake',s,input,201,key),accepted);}
+ const initial=await api(p+'/swim-intake',s);assert.equal(initial.readyForReview,false);assert.equal(initial.completedAt,null);assert.equal(initial.items.length,2);checks.push('PENDING_UPLOAD_BATCH_ACCEPTED_AND_LOCKED');
+ await api(p+'/submit',s,{mediaIds,expectedVersion:draft.version},422);assert.equal((await api(p,s)).status,'DRAFT');checks.push('UNFINISHED_BATCH_SUBMISSION_DENIED');
+ await complete(uploads[0]);const partial=await api(p+'/swim-intake',s);assert.equal(partial.readyForReview,false);assert.equal(partial.completedAt,null);assert.equal(partial.acceptedAt,initial.acceptedAt);assert.equal(partial.transferDeadline,initial.transferDeadline);await api(p+'/submit',s,{mediaIds,expectedVersion:draft.version},422);checks.push('ONE_FILE_READY_REMAINS_UNFINISHED_WITH_ORIGINAL_DEADLINE');
+ await complete(uploads[1]);const ready=await api(p+'/swim-intake',s);assert.equal(ready.readyForReview,true);assert.equal(ready.transferLate,false);assert.equal(ready.acceptedAt,initial.acceptedAt);assert.deepEqual(ready.items.map(x=>x.mediaId),mediaIds);
+ }else{checks.push(...JSON.parse(fs.readFileSync('evidence/ocr-triplatform-20260913/cloud-swim-continuation-second-observation.json')).checks);const ready=await api(p+'/swim-intake',s);assert.equal(ready.readyForReview,true);assert.equal(ready.transferLate,false);assert.deepEqual(ready.items.map(x=>x.mediaId),mediaIds);}
+ await initialize('.local/ocr-smoke/ocr-synthetic-roster.png',422);checks.push('NEW_FILE_INITIALIZATION_AFTER_LOCK_REJECTED');
+
+ await api(p+'/submit',s,{mediaIds,expectedVersion:draft.version},200);const pending=await api(p,t),history=await api(p+'/reviews',t);const batch=await api('/exercise-reviews/batch',t,{items:[{recordId:record.id,itemKey:'synthetic-continued-swim',result:'VALID',expectedVersion:pending.version,expectedReviewVersion:history[0]?.reviewVersion??0}]},200);assert.equal(batch.items[0].status,'SUCCEEDED');assert.equal((await api(p+'/workflow',s)).stage,'VALID');checks.push('ORIGINAL_BATCH_CONTINUED_AND_REVIEWED_VALID');
+
+}finally{const report={check:'CLOUD_SWIM_LOCKED_BATCH_CONTINUATION',observedAt:new Date().toISOString(),organizationId:f.organizationId,sessionId:session?.id,recordId:record?.id,checks,allChecksCompleted:checks.includes('ORIGINAL_BATCH_CONTINUED_AND_REVIEWED_VALID'),limitations:['Within 30-minute continuation; exact expiry and maintenance suspension remain separate','Synthetic PNG transport, not native camera capture']};fs.writeFileSync('evidence/ocr-triplatform-20260913/cloud-swim-continuation.json',JSON.stringify(report,null,2)+'\n');console.log(JSON.stringify(report));}

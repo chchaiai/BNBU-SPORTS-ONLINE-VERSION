@@ -1,0 +1,20 @@
+{
+  "check": "SUBADMIN_PROFILE_BROWSER",
+  "observedAt": "2026-09-13T03:43:15.062Z",
+  "subadminId": "e9934396-91b2-483d-b1d0-e3e00219062b",
+  "pass": true,
+  "readback": {
+    "name": "Synthetic UI profile after",
+    "department": "Synthetic UI department after",
+    "version": 2
+  },
+  "emailUnchanged": true,
+  "cleanup": "DELETED",
+  "scope": "Browser name and department update; email challenge not exercised",
+  "browserChecks": [
+    "Edit name and department; save reports Updated",
+    "Reopen dialog retains both edited values",
+    "After API cleanup, full page refresh and reopening list shows zero accounts"
+  ],
+  "limitations": "External deletion was not reflected by navigation alone; full reload fetched empty list. Email challenge and password change not exercised."
+}

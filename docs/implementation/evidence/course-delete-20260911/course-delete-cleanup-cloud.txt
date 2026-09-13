@@ -1,0 +1,1 @@
+{"check":"COURSE_DELETE_FIXTURE_DISABLED","result":"PASS"}

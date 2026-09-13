@@ -7,6 +7,7 @@ import { t, tx, currentLocale, getLanguage } from "../i18n.js";
 import { icon } from "../icons.js";
 import { esc } from "../ui.js";
 import { resolvePublicReasonModel } from "../v81-review.js";
+import {proofTodoContext} from '../proof-todo.js';
 import { canStartExercise, hasSubmittedCheckInToday, loadSession, sessionDurationMs, formatTimer } from "../session.js";
 import { joinRequestEntryPanel } from "./join.js";
 
@@ -110,19 +111,19 @@ export function renderDashboard(app) {
       : canStart
         ? ["var(--color-primary-container)", "var(--color-on-primary-container)"]
         : ["var(--color-error-container)", "var(--color-on-error-container)"];
-    const windowTitle = serverCheck ? tx("开始前核验运动时段", "Exercise hours are checked when starting") : isLoadingPolicy
+    const windowTitle = serverCheck ? tx("选择运动，开始今日打卡", "Choose an activity to check in today") : isLoadingPolicy
       ? tx("正在同步打卡时间窗", "Syncing check-in hours")
       : canStart
         ? tx("当前可开始运动", "You can start exercising now")
         : tx("当前不可开始运动", "You cannot start exercising now");
-    const windowDetail = serverCheck ? tx("课程开放时间及本人补练资格由服务器确认", "The server confirms course hours and your makeup authorization") : isLoadingPolicy
+    const windowDetail = serverCheck ? tx("请在老师设置的开放时间内运动并上传凭证", "Exercise during your course hours and upload your evidence") : isLoadingPolicy
       ? tx("加载完成后将显示当前状态", "Your current status will appear once loading finishes.")
       : canStart
         ? timeWindow.dailyStartTime === null && timeWindow.dailyEndTime === null
           ? tx("老师设置为全天可打卡", "Your teacher allows check-in all day")
           : tx(`每日打卡时间 ${timeWindow.dailyStartTime}–${timeWindow.dailyEndTime}`, `Daily check-in hours ${timeWindow.dailyStartTime}–${timeWindow.dailyEndTime}`)
         : blockedReason || "";
-    const pillText = serverCheck ? tx("待核验", "Pending check") : isLoadingPolicy ? tx("同步中", "Syncing") : canStart ? tx("可开始", "Available") : tx("不可开始", "Unavailable");
+    const pillText = serverCheck ? tx("今日运动", "Today’s activity") : isLoadingPolicy ? tx("同步中", "Syncing") : canStart ? tx("可开始", "Available") : tx("不可开始", "Unavailable");
     todayPanel = homeCard(`
       <div class="row" style="gap:12px">
         <span class="title-large text-on-surface grow">${t("dashboard_today_checkin")}</span>
@@ -142,7 +143,7 @@ export function renderDashboard(app) {
         <span class="home-pill" style="background:${stateColor[0]};color:${stateColor[1]};font-weight:600">${esc(pillText)}</span>
       </div>
       <div style="height:20px"></div>
-      <button class="primary-btn pressable" data-action="dashboard.openCheckIn">${icon("add-box", 20)}<span>${hasCheckedIn ? tx("打开打卡（以服务器判定为准）", "Open check-in (server decides availability)") : t("dashboard_start_checkin")}</span></button>
+      <button class="primary-btn pressable" data-action="dashboard.openCheckIn">${icon("add-box", 20)}<span>${hasCheckedIn ? tx("打开打卡", "Open check-in") : t("dashboard_start_checkin")}</span></button>
     `, 20);
   }
 
@@ -237,24 +238,16 @@ export function renderDashboard(app) {
 
   const proofTodos = Array.isArray(workspace.proofTodos) ? workspace.proofTodos : [];
   const proofTodoRows = proofTodos.map((item) => {
-    const remain = Number(item.remainingSeconds);
-    const minutes = Number.isFinite(remain) ? Math.max(0, Math.ceil(remain / 60)) : 0;
     return `<button class="outlined-btn pressable" type="button" data-action="dashboard.openProofTodo" data-record-id="${esc(item.recordId || "")}" style="min-height:44px;width:100%;text-align:left">
-      <span class="body-medium grow">${esc((() => {
-        const model = resolvePublicReasonModel(item);
-        if (model.kind === "teacher") return getLanguage() === "en-US" ? model.reason.en : model.reason.zh;
-        if (model.kind === "systemOverdue") return tx("补证逾期", "Supplementary evidence deadline missed");
-        return item.studentVisibleReason || tx("待补证", "Proof required");
-      })())}</span>
-      <span class="body-small text-muted">${tx(`剩余约 ${minutes} 分钟`, `About ${minutes} min left`)}</span>
+      ${proofTodoContext(item)}
     </button>`;
   }).join("");
   const proofTodoPanel = homeCard(`
     <div class="title-large text-on-surface">${tx("补证待办", "Proof to-do")}</div>
     <div style="height:8px"></div>
     <div class="body-medium text-muted">${proofTodos.length
-      ? tx("截止时间来自服务器 remainingSeconds，本页不本地倒计时伪造。", "Deadlines come from server remainingSeconds; this page does not invent a local countdown.")
-      : tx("当前没有开放的补证窗口。列表只显示服务器返回的待办。", "There is no open proof window. This list only shows server to-dos.")}</div>
+      ? tx("选择下方记录，查看要求并为该次运动补充材料。", "Select a record to review the request and add evidence for that exercise.")
+      : tx("当前没有需要补证的记录。", "No records currently need supplementary evidence.")}</div>
     ${proofTodoRows ? `<div style="height:12px"></div>${proofTodoRows}` : ""}
     <div style="height:16px"></div>
     <button class="outlined-btn pressable" type="button" data-action="dashboard.openCheckIn" ${proofTodos.length ? "" : "disabled"} style="min-height:48px">${tx("打开补证待办", "Open proof to-do")}</button>
@@ -278,11 +271,7 @@ export const dashboardActions = {
     app.render();
   },
   "dashboard.openCheckIn": (app) => app.selectTab("checkin"),
-  "dashboard.openProofTodo": (app, el) => {
-    if (!app.ui.checkin) app.ui.checkin = {};
-    app.ui.checkin.focusProofRecordId = el?.dataset?.recordId || null;
-    app.selectTab("checkin");
-  },
+  "dashboard.openProofTodo": (app, el) => app.actions['checkin.selectProof'](app,el),
   "dashboard.scanJoin": (app) => {
     app.ui.scan = null;
     app.openSub("scan", {});

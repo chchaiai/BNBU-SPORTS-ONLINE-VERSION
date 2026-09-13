@@ -1,0 +1,27 @@
+{
+  "check": "ZETA_EXERCISE_COURSE_READY",
+  "observedAt": "2026-09-13T00:14:07.930Z",
+  "sectionId": "01a0976a-b1f1-72af-b08c-55b2b17576c2",
+  "courseVersion": 2,
+  "rules": {
+    "class_section_id": "01a0976a-b1f1-72af-b08c-55b2b17576c2",
+    "organization_id": "01a096c2-20a2-706b-8c69-802f67dee12c",
+    "minimum_minutes": 1,
+    "weekly_limit": 3,
+    "course_target": 1200,
+    "general_target": 600,
+    "regular_deadline": "2027-01-23T00:00:00.000Z",
+    "closing_deadline": "2027-01-30T00:00:00.000Z",
+    "settlement_planned_at": "2027-01-30T01:00:00.000Z",
+    "published_at": "2026-09-13T00:14:07.336Z",
+    "version": 1,
+    "template_id": "01a096d7-5bb8-7679-a03f-c9fc5ff37d62",
+    "daily_limit": 1,
+    "maximum_minutes": 60,
+    "target_global_version": 1,
+    "global_target_minutes": 1800,
+    "global_target_version": 1,
+    "allocation_pending": false
+  },
+  "scope": "Synthetic course fixture configuration; no real course or global rule changed"
+}

@@ -28,9 +28,9 @@ const permissionOptions: ReadonlyArray<{
   { id: "courses", zh: "课程查看", en: "Course viewing", zhDescription: "只读查看课程、学生和打卡汇总", enDescription: "Read-only course, student and check-in summaries", risk: "standard" },
   { id: "semesters", zh: "学期管理", en: "Semester management", zhDescription: "创建、修改、切换和归档学期", enDescription: "Create, update, switch and archive semesters", risk: "high" },
   { id: "accounts", zh: "用户与账号", en: "Users and accounts", zhDescription: "管理教师和普通用户账号", enDescription: "Manage teacher and ordinary user accounts", risk: "standard" },
-  { id: "support", zh: "学生问题反馈", en: "Student issue feedback", zhDescription: "受理、回复、转交和关闭反馈", enDescription: "Triage, reply, transfer and close feedback", risk: "standard" },
-  { id: "rules", zh: "全局规则", en: "Global rules", zhDescription: "维护运动计分与换算规则", enDescription: "Maintain sport scoring and conversion rules", risk: "high" },
-  { id: "system", zh: "系统模式", en: "System mode", zhDescription: "切换正常、只读和维护状态", enDescription: "Switch normal, read-only and maintenance modes", risk: "high" },
+  { id: "support", zh: "学生问题反馈", en: "Student issue feedback", zhDescription: "受理、回复、更新状态和关闭反馈", enDescription: "Triage, reply, update status and close feedback", risk: "standard" },
+  { id: "rules", zh: "全局规则", en: "Global rules", zhDescription: "维护运动总目标与耐力跑换算表", enDescription: "Maintain total exercise targets and endurance conversion tables", risk: "high" },
+  { id: "system", zh: "系统模式", en: "System mode", zhDescription: "切换正常和维护状态", enDescription: "Switch normal and maintenance modes", risk: "high" },
   { id: "help", zh: "帮助中心", en: "Help center", zhDescription: "编辑和发布帮助内容", enDescription: "Edit and publish help content", risk: "standard" },
   { id: "audit", zh: "审计查询", en: "Audit queries", zhDescription: "只读查询管理员操作记录", enDescription: "Read-only administrator activity queries", risk: "standard" },
 ];
@@ -850,7 +850,7 @@ export function AdminSubadmins({ locale, mode }: { locale: AdminLocale; mode: Wo
                   <span>{selectedHighRiskPermissions.map((permission) => locale === "en" ? permission.en : permission.zh).join("、")}</span>
                 </div>
               ) : null}
-              <small className="admin-confirmation-boundary">{editor.mode === "create" ? (locale === "en" ? "The assigned password is temporary and mustChangePassword starts true." : "分配的是临时密码，mustChangePassword 初始为 true。") : (locale === "en" ? "UpdateSubAdminRequest contains no password or credential field." : "UpdateSubAdminRequest 不包含密码或凭据字段。")}</small>
+              <small className="admin-confirmation-boundary">{editor.mode === "create" ? (locale === "en" ? "The assigned password is temporary. The administrator must change it on first sign-in." : "分配的是临时密码，新管理员首次登录后必须修改本人密码。") : (locale === "en" ? "Editing this profile does not change the administrator's password." : "编辑资料不会修改该管理员的密码。")}</small>
             </aside>
           </div>
           {error ? <p className="admin-inline-error" role="alert">{error}</p> : null}

@@ -1,0 +1,7 @@
+{
+  "reproduce": "RETIRED_COURSE_REFRESH_REPRODUCED\n{\"check\":\"CLOUD_RETIRED_COURSE_REFRESH\",\"result\":\"PASS\"}\n",
+  "local-retest": "{\"check\":\"LOCAL_DELETE_THEN_REFRESH\",\"result\":\"PASS\"}\n",
+  "unit-final": "✔ retired history is excluded before fetching detail; empty workspace does not fetch records (13.656ms)\n✔ visible submitted record still loads while retired record for the same student is excluded (1.0832ms)\nℹ tests 2\nℹ suites 0\nℹ pass 2\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 229.5727\n",
+  "cloud-final": "{\"check\":\"CLOUD_RETIRED_COURSE_REFRESH\",\"result\":\"PASS\"}\n",
+  "deploy": "Loaded image: bnbu-portal-production:course-retired-20260912\n Container bnbu-sports-production-portal-1 Recreate \n Container bnbu-sports-production-portal-1 Recreated \n Container bnbu-sports-production-portal-1 Starting \n Container bnbu-sports-production-portal-1 Started \n{\"check\": \"RETIRED_COURSE_PORTAL_DEPLOYMENT\", \"result\": \"PASS\", \"release\": \"/opt/bnbu-sports-production/releases/course-retired-20260912\", \"imageId\": \"sha256:dcfa3bbcbf332c182a4cf334f5132b7c1a683df52f436f4bb74143c62c39c27c\"}\n"
+}

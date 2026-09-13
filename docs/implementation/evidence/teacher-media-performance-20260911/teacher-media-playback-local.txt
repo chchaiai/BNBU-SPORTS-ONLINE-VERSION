@@ -1,0 +1,4 @@
+{"phase":"list","samples":[{"kind":"metadata","ms":4161,"method":"GET"},{"kind":"metadata","ms":4459,"method":"GET"},{"kind":"access","ms":4476,"method":"POST"},{"kind":"access","ms":4482,"method":"POST"},{"kind":"object","ms":4,"method":"GET"}]}
+{"phase":"album","samples":[]}
+{"phase":"detail-playback","samples":[{"kind":"object","ms":6,"method":"GET"}],"playing":true}
+{"check":"TEACHER_REAL_MEDIA_AND_NOTIFICATION_UI","environment":"local","result":"PASS","listImageAndVideoDecoded":true,"albumImageAndVideoDecoded":true,"applicationImageDecoded":true,"decorativePatternsRemoved":true,"gradeDisclosureButtonRemoved":true,"notificationFilterAndResponsiveLayout":true}

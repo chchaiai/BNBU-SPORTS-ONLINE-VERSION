@@ -1,0 +1,75 @@
+[
+  {
+    "sourceLog": "membership-application-browser-final2.log",
+    "check": "ACTIVE_ENROLLMENT_TEAM_APPLICATION_AND_LOCAL_PHOTO_COVER",
+    "result": "PASS"
+  },
+  {
+    "sourceLog": "membership-lifecycle-final.log",
+    "check": "REMOVAL_CLEARS_APPROVED_PENDING_DRAFT_QUALIFICATIONS_AND_RESTORE_DOES_NOT_REVIVE",
+    "result": "PASS"
+  },
+  {
+    "sourceLog": "membership-lifecycle-final.log",
+    "check": "ACTIVE_COURSE_REMOVED_MEMBER_RECORD_HIDDEN_HISTORY_PRESERVED",
+    "result": "PASS"
+  },
+  {
+    "sourceLog": "membership-settled-retest.log",
+    "check": "SETTLED_REPORTS_AND_APPLICATION_FACTS_UNCHANGED",
+    "result": "PASS",
+    "members": 5,
+    "reports": 14
+  },
+  {
+    "sourceLog": "membership-cloud-browser-retest.log",
+    "check": "CLOUD_APPLICATION_team_REAL_COS_COVER_PREVIEW_SUBMISSION",
+    "result": "PASS"
+  },
+  {
+    "sourceLog": "membership-cloud-browser-retest2.log",
+    "check": "CLOUD_APPLICATION_club_REAL_COS_COVER_PREVIEW_SUBMISSION",
+    "result": "PASS"
+  },
+  {
+    "sourceLog": "membership-cloud-browser-retest2.log",
+    "check": "CLOUD_REMOVAL_IDEMPOTENT_APPLICATION_CLEAR_RECORD_SCOPE_HISTORY_AND_RESTORE",
+    "result": "PASS"
+  },
+  {
+    "sourceLog": "membership-cloud-audit.log",
+    "check": "CLOUD_APPLICATION_AUDIT_MEDIA_AND_QUALIFICATION_REVOCATION",
+    "result": "PASS",
+    "applications": 3,
+    "reviewHistory": 2,
+    "mediaBindingsRetained": 3,
+    "systemEvents": 3,
+    "activeRecognition": 0
+  },
+  {
+    "sourceLog": "membership-cloud-teacher.log",
+    "check": "CLOUD_TEACHER_REVIEW_BROWSER_EXCLUDES_REMOVED_MEMBER",
+    "result": "PASS"
+  },
+  {
+    "sourceLog": "membership-deploy.log",
+    "check": "PRE_RELEASE_DATABASE_BACKUP",
+    "result": "PASS",
+    "path": "/opt/bnbu-sports-production/backups/before-bugfix-20260912T163105Z.dump",
+    "bytes": 3769711
+  },
+  {
+    "sourceLog": "membership-deploy.log",
+    "check": "MEMBERSHIP_APPLICATION_DEPLOYMENT",
+    "result": "PASS",
+    "sourceCommit": "63d2d26300298bd1fa34b49faf9657a72a0bc061",
+    "release": "/opt/bnbu-sports-production/releases/membership-20260913",
+    "previous": "/opt/bnbu-sports-production/releases/course-retired-20260912",
+    "staticFilesVerified": 2,
+    "images": {
+      "backend": "sha256:e74cf865dd03ae60673f86b74956c523ddbc3162d9d6a1b3a4696759e3823fda",
+      "migrator": "sha256:6619b8e8c2461efaca397b8932b68fa8e02807f5496815a21321d2e9ae861379"
+    },
+    "writesResumed": true
+  }
+]

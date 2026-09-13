@@ -1,0 +1,11 @@
+{
+  "check": "CLOUD_INTERNAL_GRADES",
+  "observedAt": "2026-09-12T18:39:54.031Z",
+  "organizationId": "01a096c2-20a2-706b-8c69-802f67dee12c",
+  "enrollmentId": "01a096e7-a6ce-73fe-826b-36728b8ba193",
+  "checks": [
+    "TEACHER_INTERNAL_GRADE_APPEND_HISTORY_REPLAY",
+    "STUDENT_ADMIN_GRADE_READ_DENIED_NO_STUDENT_SCORE_NOTIFICATION"
+  ],
+  "allChecksCompleted": true
+}

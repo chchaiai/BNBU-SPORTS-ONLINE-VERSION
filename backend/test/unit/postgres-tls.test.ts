@@ -37,6 +37,7 @@ describe('TencentDB PostgreSQL TLS configuration', () => {
     assert.equal(result.pool.user, 'runtime');
     assert.equal(result.pool.password, 'synthetic');
     assert.equal(result.pool.database, 'sports');
+    assert.equal(result.pool.options, '-c timezone=UTC');
     assert.equal(typeof result.pool.ssl, 'object');
     const ssl = result.pool.ssl as Exclude<typeof result.pool.ssl, boolean | undefined>;
     assert.equal(ssl.rejectUnauthorized, true);
@@ -51,8 +52,19 @@ describe('TencentDB PostgreSQL TLS configuration', () => {
   it('preserves local connection-string behavior when no managed CA is configured', () => {
     const databaseUrl = 'postgresql://local:synthetic@127.0.0.1:5432/test?schema=public';
     const result = createPrismaPgConfiguration(databaseUrl, null);
-    assert.equal(result.pool.connectionString, databaseUrl);
+    const actual = new URL(result.pool.connectionString!);
+    assert.equal(actual.searchParams.get('options'), '-c timezone=UTC');
+    actual.searchParams.delete('options');
+    assert.equal(actual.toString(), databaseUrl);
     assert.equal(result.schema, 'public');
+  });
+
+  it('preserves startup options while overriding a non-UTC session timezone', () => {
+    const result = createPrismaPgConfiguration(
+      'postgresql://local:synthetic@127.0.0.1:5432/test?options=-c%20statement_timeout%3D5000%20-c%20timezone%3DPRC', null,
+    );
+    assert.equal(new URL(result.pool.connectionString!).searchParams.get('options'),
+      '-c statement_timeout=5000 -c timezone=PRC -c timezone=UTC');
   });
 
   it('rejects insecure URL overrides and incomplete CA files without exposing input values', () => {

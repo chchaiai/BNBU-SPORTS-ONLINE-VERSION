@@ -1,6 +1,9 @@
+import { projectReviewNotificationContent, type ReviewNotificationContent } from '../v8/domain/notification-content.js';
+
 export type ClientPlatform = 'ANDROID' | 'WEB' | 'IOS';
 
 export interface NotificationRow {
+  reviewContent?: unknown;
   id: string;
   organizationId: string;
   recipientUserId: string;
@@ -15,6 +18,7 @@ export interface NotificationRow {
 }
 
 export interface NotificationProjection {
+  reviewContent?: ReviewNotificationContent | null;
   id: string;
   recipientUserId: string;
   notificationType: string;
@@ -124,7 +128,9 @@ export interface FeedbackProjection {
 }
 
 export function projectNotification(row: NotificationRow): NotificationProjection {
+  const reviewContent = row.notificationType === 'EXERCISE_RECORD_RESULT' ? projectReviewNotificationContent(row.reviewContent) : null;
   return {
+    ...(reviewContent ? { reviewContent } : {}),
     id: row.id,
     recipientUserId: row.recipientUserId,
     notificationType: row.notificationType,

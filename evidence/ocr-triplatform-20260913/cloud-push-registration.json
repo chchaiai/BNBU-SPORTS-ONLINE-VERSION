@@ -1,0 +1,13 @@
+{
+  "check": "CLOUD_PUSH_REGISTRATION",
+  "observedAt": "2026-09-12T19:28:12.875Z",
+  "deviceId": "01a09717-714c-734b-a202-7843138c9302",
+  "checks": [
+    "REGISTER_REPLAY",
+    "UNREGISTER_REPLAY"
+  ],
+  "allChecksCompleted": true,
+  "limitations": [
+    "Inert synthetic token only; no real push delivery acceptance"
+  ]
+}

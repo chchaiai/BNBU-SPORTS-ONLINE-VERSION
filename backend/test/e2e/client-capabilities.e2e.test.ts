@@ -270,7 +270,7 @@ describe('Stage 21 client capabilities with real PostgreSQL', () => {
     assert.equal(blocked.status, 409);
     assert.equal(blocked.body.code, 'USER_STATUS_NOT_ACTIVE');
 
-    const targetEmail = 'pending.student@invalid.test';
+    const targetEmail = 'pending.student@bnbu.invalid';
     const requested = await request('/api/v1/me/email-verification-challenges', {
       method: 'POST',
       headers: {
@@ -346,7 +346,7 @@ describe('Stage 21 client capabilities with real PostgreSQL', () => {
     const accessToken = await studentAccessToken(student.userId, student.authSessionId);
     const current = await request('/api/v1/me', { headers: authorization(accessToken) });
     const user = object(object(current.body.data).user);
-    const targetEmail = 'rebound.student@invalid.test';
+    const targetEmail = 'rebound.student@bnbu.invalid';
     const requested = await request('/api/v1/me/email-verification-challenges', {
       method: 'POST',
       headers: {

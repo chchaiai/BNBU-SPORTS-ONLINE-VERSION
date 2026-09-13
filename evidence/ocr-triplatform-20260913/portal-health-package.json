@@ -1,0 +1,58 @@
+{
+  "baseSource": "a46fbe41f44b0724c00ee6d91944f5fdfc58cdf0",
+  "patches": [
+    "867cf39bcc912d43d071a71f1c2b134c98515ca8",
+    "d2f27bcdc8eff9505d6b89f0c4101f46cabfad67"
+  ],
+  "baseImage": "sha256:7cd6dd20f373141d80cf6f8c0d5cedeb91adaf9d882aa324fb7295cee1d81ec6",
+  "changedSourceFiles": [
+    "app/admin-i18n.ts",
+    "app/admin-overview.tsx",
+    "app/admin-subadmins.tsx"
+  ],
+  "checks": {
+    "build": "PASS",
+    "focusedTests": "26/26"
+  },
+  "firstFailures": [
+    "Isolated build initially missed sibling student imports; restored required committed sibling source",
+    "Optional vendor WASM extraction exceeded buffer; not a portal dependency and not packaged",
+    "First image build could not remove root-owned /app/dist directory as runtime user; image build now uses root for removing inherited artifact and restores USER 10001:10001 before runtime. Production never switched."
+  ],
+  "files": {
+    "dist/.openai/hosting.json": "ae27924f35848a43294f1efe7969814ddcd7f646184458e0773bb0a40040d4fa",
+    "dist/client/.assetsignore": "4f83140d5f4293ab55bd1207327e995c83258f1e7d3145b1b5d7a3d17fdfe0a7",
+    "dist/client/.vite/manifest.json": "44841b681512a29b8ece563ba56eff1e4e7d60a5037481901c2475965ec6e01d",
+    "dist/client/assets/cpexcel.full-CAlsa5X_.js": "e3a61ce01017d596b5d6a513ee4162bf69f91eb0c84e01175e58501c74edb141",
+    "dist/client/assets/endurance-api-4VG4aNAT.js": "0c69647f35b583a2f77253de79f33e1d20310bf8d371a0f561a233b821e97878",
+    "dist/client/assets/framework-bym5aI3S.js": "a9b4ce28eb1fd24f44bd6afc700324f83feec30c0419725ce29a8c61bfa8996a",
+    "dist/client/assets/index-BLO56-st.css": "f16b2c133212ade237cfea38e2c8d4b0c4149bab1d66dae2d4b5b974896974f3",
+    "dist/client/assets/index-z8_Rc3Rk.js": "de32bdd33cbad7e6f897fc98703167c16f187c4b4c44fb53a6eb617d21a75098",
+    "dist/client/assets/rolldown-runtime-hePW80VL.js": "580ad8c58061a4dde99bde0a56905e382f0568516ee2f5b84dbfb52085709021",
+    "dist/client/assets/worker-entry-DvKlWeBn.js": "9dd2050f0292e93e38cd534be223591fbfe2767472285c0e7e189252ddfb8b54",
+    "dist/client/assets/worker-entry-DzOU2DJ8.css": "a923a1cdd6c53edf9ecd3bcb9731098576dd9c1167d0498692b9d8366a5a16cc",
+    "dist/client/assets/xlsx-DwRHmDrW.js": "7af040a5ba632e8b806def4e97a07b2fa28cfe7af2f5fa952759d47af9ab5105",
+    "dist/client/bnbu-emblem.svg": "f098f06225feb8a0cec5e1f84a8d08114d94fb096ff8354929448822ededa8aa",
+    "dist/client/branding/sports-logo.png": "377ba9c5e34ff40835b821e65729c16ad5f621848bcd46a6f56c3ead546fb17e",
+    "dist/client/checkin-evidence-preview.svg": "0a2c2cc9ce2cb46932e7b27390e5f349ecacebf44a415ef894b98053fda21891",
+    "dist/client/og.png": "d7ec95b61de99a4ec66568e91750d044d7eb533a1a876a25411d2eb5ce6cf0c4",
+    "dist/client/_headers": "9e55124bccd40b43dbc6e002daa777fa8f32a230420152910784ca65501d9e0f",
+    "dist/server/.vite/manifest.json": "7ce98a1f0524e7164a435655e9613f589a088d99f80d60d78a0fd41a0941b1a0",
+    "dist/server/assets/index-BLO56-st.css": "f16b2c133212ade237cfea38e2c8d4b0c4149bab1d66dae2d4b5b974896974f3",
+    "dist/server/image-config.json": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+    "dist/server/index.js": "f59e9c2c602c61c864f6ffa054979a56144c15e65ca88c3da34143133298255d",
+    "dist/server/ssr/assets/cpexcel.full-B_6Sgutp.js": "d4186783d768ce80fc1cd44b71ca8ea0e329b68e9615ce4e5d799c096c71833f",
+    "dist/server/ssr/assets/endurance-api-BDpB0YbD.js": "f6d60d4c5c113b67800ccb4e1b89bea10183c0ec4c310392287bfb0e281f2f7b",
+    "dist/server/ssr/assets/worker-entry-D4ELdXOY.js": "e34d9329104f63213152b39c12fa062fb36c2f08388335815ef82386ab9edcad",
+    "dist/server/ssr/assets/worker-entry-DzOU2DJ8.css": "a923a1cdd6c53edf9ecd3bcb9731098576dd9c1167d0498692b9d8366a5a16cc",
+    "dist/server/ssr/assets/xlsx-DHCMv_q_.js": "1559fda5d361a5b7b455aed0f06d575c7d742eabc07c1b214e3f059a1adfecfd",
+    "dist/server/ssr/index.js": "52d57255e8551b54efa64d4694b471f49545516300bf9493f0b78dd6cf7f45af",
+    "dist/server/ssr/vinext-server.json": "d62a83e8a14d291b0c87e5ed4efff8246ad4bf99c411f6628ef59a8b7434ca2b",
+    "dist/server/ssr/__vite_rsc_assets_manifest.js": "fbeb81261350ea1cc9533f3ecf5565963cfb0487ffa48df6e9fcefaaf8686a36",
+    "dist/server/vinext-externals.json": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+    "dist/server/vinext-server.json": "d62a83e8a14d291b0c87e5ed4efff8246ad4bf99c411f6628ef59a8b7434ca2b",
+    "dist/server/wrangler.json": "eaf4062368300b5dc8fdb355e39c10c391f1c7a0d74ee96cd6c10ebbd833bc75",
+    "dist/server/__vite_rsc_assets_manifest.js": "fbeb81261350ea1cc9533f3ecf5565963cfb0487ffa48df6e9fcefaaf8686a36",
+    "Dockerfile": "9a42b5d2563bb235197e1fc18940ddb7b579eb021c0a081cffc36e718cc1437e"
+  }
+}

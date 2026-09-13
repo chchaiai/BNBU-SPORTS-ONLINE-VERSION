@@ -1,0 +1,31 @@
+{
+  "result": "PASS_WITH_REMAINING_DEVICE_CHECK",
+  "release": "portal-grade-layout-20260913",
+  "imageId": "sha256:90bc4546ee0d3cb85bdc2709b10b7e6f0e5a0f9d7fec6664b448c2a93d28c436",
+  "previous": "portal-grade-workflow-20260913",
+  "checks": {
+    "build": "PASS",
+    "focusedTests": "41/41",
+    "desktopDialogOverflow": {
+      "clientWidth": 611,
+      "scrollWidth": 611,
+      "result": "PASS"
+    },
+    "invalidDecimalGrade": "BLOCKED_AS_EXPECTED",
+    "invalidImportRows": "BLOCKED_AS_EXPECTED",
+    "cancelRevision": "PASS",
+    "revisionHistory": "v1-v3 visible",
+    "xlsxBrowserUploadAndConfirm": "PASS",
+    "physicalHistory": "v7 1000m 312 seconds",
+    "finalGrade": "86 published, preserved"
+  },
+  "firstFailures": [
+    "Initial UI deployment had nested grid horizontal overflow, corrected and redeployed.",
+    "Earlier file chooser attempts timed out; final XLSX upload succeeded."
+  ],
+  "remaining": [
+    "390px viewport request did not take effect; actual viewport stayed 922x866. Phone-width visual acceptance remains pending.",
+    "Browser download artifact not captured; original source byte integrity verified via real COS-backed HTTP endpoint."
+  ],
+  "goalComplete": false
+}

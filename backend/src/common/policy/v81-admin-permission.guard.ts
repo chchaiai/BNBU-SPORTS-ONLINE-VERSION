@@ -18,6 +18,8 @@ const operations: Record<string, AdminPermission | 'SUPER' | 'ANY'> = {
   listV81RuleTemplates: 'SUPER',
   getV81RuleTemplate: 'SUPER',
   publishV81RuleTemplate: 'SUPER',
+  getV81ExerciseGoal: 'SUPER',
+  saveV81ExerciseGoal: 'SUPER',
   createV81Semester: 'SEMESTER_MANAGE',
   listV81Semesters: 'SEMESTER_MANAGE',
   getV81SemesterSwitchCheck: 'SEMESTER_MANAGE',

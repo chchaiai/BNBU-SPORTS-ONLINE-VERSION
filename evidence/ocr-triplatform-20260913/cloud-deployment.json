@@ -1,0 +1,11 @@
+{
+  "check": "OCR_FULL_DEPLOYMENT",
+  "status": "PASS",
+  "sourceCommit": "a46fbe41f44b0724c00ee6d91944f5fdfc58cdf0",
+  "release": "/opt/bnbu-sports-production/releases/ocr-full-20260913",
+  "previous": "/opt/bnbu-sports-production/releases/membership-20260913",
+  "ocrUploadLimitApproved": false,
+  "databaseMigration": "0075_ocr_course_closure_confirmation",
+  "runtimeOcrWorker": "ENABLED",
+  "onlineFullRegression": "PENDING"
+}

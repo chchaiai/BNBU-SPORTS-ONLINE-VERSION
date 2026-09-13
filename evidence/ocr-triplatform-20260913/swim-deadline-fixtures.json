@@ -1,0 +1,29 @@
+{
+  "check": "SYNTHETIC_HISTORICAL_SWIM_DEADLINE_FIXTURES",
+  "createdAt": "2026-09-12T21:47:14.223Z",
+  "organizationId": "01a096c2-20a2-706b-8c69-802f67dee12c",
+  "baseline": "New test-only sessions with deliberately historical times; no existing session timestamps changed. Not evidence of real 24-hour elapsed exercise.",
+  "fixtures": [
+    {
+      "name": "inside24h",
+      "sessionId": "01a09796-bfaf-725e-8455-7d1a937aead3",
+      "ageMinutes": 1430,
+      "startedAt": "2026-09-11T21:56:13.223Z",
+      "endedAt": "2026-09-11T21:57:14.223Z",
+      "businessDate": "2026-09-12T00:00:00.000Z"
+    },
+    {
+      "name": "outside24h",
+      "sessionId": "01a09796-bfc3-722e-9205-79c809af918f",
+      "ageMinutes": 1450,
+      "startedAt": "2026-09-11T21:36:13.223Z",
+      "endedAt": "2026-09-11T21:37:14.223Z",
+      "businessDate": "2026-09-12T00:00:00.000Z"
+    }
+  ],
+  "firstPreparationFailure": {
+    "cause": "Synthetic segmentType ACTIVE violated exercise_session_segments_type_check; valid type RUNNING",
+    "transaction": "Atomic transaction rolled back; retry created the listed fresh sessions",
+    "applicationChange": false
+  }
+}

@@ -39,6 +39,7 @@ export interface JoinCapabilityPolicyContext {
   classSectionId: string;
   identityFingerprint: string;
   status: string;
+  issuedAt: Date;
   expiresAt: Date;
   resultReplayExpiresAt: Date | null;
   invite: CourseInvitePolicyContext;

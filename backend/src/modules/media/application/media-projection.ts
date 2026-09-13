@@ -21,6 +21,7 @@ export interface MediaEvidenceProjection {
   verifiedContentSha256: string | null;
   declaredDurationSeconds: number | null;
   verifiedDurationSeconds: number | null;
+  safeMetadata: MediaEvidence['safeMetadata'];
   version: number;
 }
 
@@ -55,6 +56,7 @@ export function mediaProjection(
     verifiedContentSha256: media.verifiedContentSha256,
     declaredDurationSeconds: media.declaredDurationSeconds,
     verifiedDurationSeconds: media.verifiedDurationSeconds,
+    safeMetadata: media.safeMetadata,
     version: media.version,
   };
 }

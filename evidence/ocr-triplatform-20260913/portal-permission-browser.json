@@ -1,0 +1,34 @@
+{
+  "observedAt": "2026-09-12T21:31:31.487Z",
+  "origin": "https://www.teacher.bnbusports.cn",
+  "chinese": [
+    "维护运动总目标与耐力跑换算表",
+    "切换正常和维护状态"
+  ],
+  "english": [
+    "Maintain total exercise targets and endurance conversion tables",
+    "Switch normal and maintenance modes"
+  ],
+  "formClosedWithoutSubmission": true,
+  "languageRestored": "zh",
+  "systemReadOnly": {
+    "mode": "NORMAL",
+    "version": 7,
+    "ocrProvider": "Tencent Table V3",
+    "region": "ap-guangzhou",
+    "timeoutMs": 20000,
+    "workerEnabled": true,
+    "ocrConfigurationVersion": 2,
+    "courseManualMode": "enabled v0",
+    "configurationSubmitted": false
+  },
+  "additionalFinding": "English form accessible required marker remained Chinese; missing exact dictionary entry fixed locally, 8 focused checks and direct translation assertion pass; not yet deployed",
+  "globalRulesReadOnly": {
+    "table": "Male year 1/2 1000m loaded",
+    "totalTargetMinutes": 1200,
+    "totalTargetDescription": "new exercise paused pending teacher target allocation; ongoing exercise continues",
+    "templateVersion": 1,
+    "templateName": "2026-2027 第一学期模板",
+    "changesSubmitted": false
+  }
+}

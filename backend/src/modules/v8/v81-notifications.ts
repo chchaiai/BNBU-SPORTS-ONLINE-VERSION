@@ -38,6 +38,7 @@ export async function notifyRecord(
       organizationId: input.organizationId,
       recipientUserId: input.recipientUserId,
       notificationType: 'EXERCISE_RECORD_RESULT',
+      reviewContent: { version: 1, stage: input.stage, reasonCode: input.reasonCode, publicComment: input.publicComment },
       title,
       body:
         [reason?.[locale === 'en' ? 1 : 0], input.publicComment].filter(Boolean).join('\n') ||

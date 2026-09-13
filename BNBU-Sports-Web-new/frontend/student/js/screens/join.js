@@ -7,6 +7,7 @@ import { tx } from "../i18n.js";
 import { icon } from "../icons.js";
 import { esc, spinner, sectionTitle, statusBadge, validationPanel, actionButton, fieldLabel, fieldControlAttrs, fieldSupport, userFacingErrorPanel, focusFirstInvalidField } from "../ui.js";
 import { previewInvite, previewCourseInvitation, joinWithInvite, storeJoinContext, ApiError, toUserFacingError } from "../api.js";
+import { studentRegionOptions } from '../student-regions.js';
 
 // Real backend invite tokens are "<id>.<secret>" — dots/underscores allowed.
 const INVITE_CODE_PATTERN = /^[A-Za-z0-9][A-Za-z0-9._~-]{15,199}$/;
@@ -428,11 +429,16 @@ function joinConfirmState(app, params) {
   if (!app.ui.joinConfirm) {
     const request = params.correctionRequest;
     app.ui.joinConfirm = {
-      name: request ? request.studentName : "",
-      studentNumber: request ? request.studentNumber : "",
+      name: request ? request.studentName : (app.state.authenticated ? app.state.workspace?.student?.name || '' : ''),
+      studentNumber: request ? request.studentNumber : (app.state.authenticated ? app.state.workspace?.student?.id || '' : ''),
       email: request ? request.email : "",
-      gender: "",
-      gradeYear: "",
+      gender: app.state.authenticated ? String(app.state.workspace?.student?.gender || '').toUpperCase() : '',
+      gradeYear: app.state.authenticated ? String(app.state.workspace?.student?.admissionYear || '') : '',
+      collegeName: app.state.authenticated ? app.state.workspace?.student?.college || '' : '',
+      majorName: app.state.authenticated ? app.state.workspace?.student?.major || '' : '',
+      dateOfBirth: app.state.authenticated ? app.state.workspace?.student?.dateOfBirth || '' : '',
+      otherRegionName: app.state.authenticated ? app.state.workspace?.student?.otherRegionName || '' : '',
+      regionCode: app.state.authenticated ? app.state.workspace?.student?.regionCode || '' : '',
       submitting: false,
       submitted: false,
       error: null,
@@ -473,11 +479,11 @@ function joinFact(label, value) {
   </div>`;
 }
 
-function joinField({ id, label, value, supporting, disabled, inputMode, maxlength, required = true, error = null }) {
+function joinField({ id, label, value, supporting, disabled, inputMode, maxlength, required = true, error = null, type = 'text' }) {
   const fieldId = `join-${id}`;
   return `<div class="col">
     ${fieldLabel({ id: fieldId, label, required })}
-    <input ${fieldControlAttrs({ id: fieldId, error, helper: supporting, required })} class="text-field" type="text" inputmode="${inputMode || "text"}" ${maxlength ? `maxlength="${maxlength}"` : ""}
+    <input ${fieldControlAttrs({ id: fieldId, error, helper: supporting, required })} class="text-field" type="${type}" ${type === 'date' ? `min="1900-01-01" max="${new Date().toLocaleDateString('en-CA')}"` : ''} inputmode="${inputMode || "text"}" ${maxlength ? `maxlength="${maxlength}"` : ""}
       value="${esc(value)}" data-input="joinConfirm.field" data-field="${id}" ${disabled ? "disabled" : ""} />
     ${fieldSupport({ id: fieldId, error, helper: supporting }).replace("class=\"field-supporting\"", `class="field-supporting" data-join-counter="${id}"`)}
   </div>`;
@@ -494,7 +500,7 @@ export function renderCourseJoinConfirm(app, params) {
         semester: params.correctionRequest.semester,
       }
     : params.course;
-  const writeEnabled = app.isWriteAllowed();
+  const writeEnabled = app.isWriteAllowed() && !ui.inviteUnavailable;
   const canSubmitNew = params.correctionRequest ? true : (app.state.authenticated ? app.canStartNewCourseJoin() : true);
   const formEnabled = !ui.submitting && writeEnabled && canSubmitNew;
 
@@ -512,6 +518,14 @@ export function renderCourseJoinConfirm(app, params) {
           ? joinSelect({ id: "gender", label: tx("性别（必填）", "Gender (required)"), value: ui.gender, options: GENDER_OPTIONS(), disabled: ui.submitting || !writeEnabled, error: ui.invalidField === "gender" ? tx("请选择性别。", "Select your gender.") : null })
             + joinSelect({ id: "gradeYear", label: tx("入学年份（必填）", "Admission year (required)"), value: ui.gradeYear, options: GRADE_YEAR_OPTIONS(), disabled: ui.submitting || !writeEnabled, error: ui.invalidField === "gradeYear" ? tx("请选择入学年份。", "Select your admission year.") : null })
           : joinField({ id: "email", label: tx("邮箱（选填）", "Email (optional)"), value: ui.email, disabled: ui.submitting || !writeEnabled, inputMode: "email", required: false, error: ui.invalidField === "email" ? tx("请输入有效的邮箱地址。", "Enter a valid email address.") : null })}
+        ${course?.real ? ['collegeName', 'majorName', 'dateOfBirth'].map((field, index) => joinField({
+          id: field, label: [tx('学院','College'),tx('专业','Major'),tx('出生年月日','Date of birth')][index],
+          value: ui[field], disabled: !formEnabled, maxlength: field === 'dateOfBirth' ? 10 : 200,
+          type: field === 'dateOfBirth' ? 'date' : 'text',
+          error: ui.invalidField === field ? tx('请填写有效资料。','Enter valid details.') : null,
+        })).join('') + joinSelect({ id: 'regionCode', label: tx('地域','Region'), value: ui.regionCode,
+          options: studentRegionOptions(), disabled: !formEnabled,
+          error: ui.invalidField === 'regionCode' ? tx('请选择地域。','Select your region.') : null }) + (ui.regionCode === 'OTHER' ? joinField({id:'otherRegionName',label:tx('国家或地区名称','Country or region name'),value:ui.otherRegionName || '',disabled:!formEnabled,maxlength:100,error:ui.invalidField === 'otherRegionName' ? tx('请填写具体国家或地区。','Enter your country or region.') : null}) : '') : ''}
         <div style="height:2px"></div>
         <button class="primary-btn pressable" data-action="joinConfirm.submit" ${!ui.submitting && writeEnabled ? "" : "disabled"}>
           ${ui.submitting ? spinner(18, "on-primary") : icon("send", 18)}
@@ -530,7 +544,7 @@ export function renderCourseJoinConfirm(app, params) {
           ${joinFact(tx("课程名称", "Course name"), course.name)}
           ${joinFact(tx("授课老师", "Instructor"), course.teacher)}
           ${joinFact(tx("学期", "Term"), course.semester)}
-          ${joinFact(tx("邀请有效期", "Invitation validity"), inviteExpiryCopy(course))}
+          ${joinFact(tx("邀请有效期", "Invitation validity"), ui.inviteUnavailable ? inviteExpiredMessage() : inviteExpiryCopy(course))}
           <div class="body-medium text-muted">${tx("确认课程信息后加入，再验证学校邮箱即可使用运动与申请功能，无需教师审批。", "Confirm the course and join, then verify your school email to use exercise and application features. Teacher approval is not required.")}</div>
         </div></div>
         ${sectionTitle(tx("填写身份资料", "Enter identity details"))}
@@ -793,6 +807,7 @@ export const joinActions = {
     const ui = app.ui.joinConfirm;
     if (!ui) return;
     ui[el.dataset.field] = el.value;
+    if (el.dataset.field === "regionCode") app.render();
     if (ui.invalidField === el.dataset.field) ui.invalidField = null;
   },
   "joinConfirm.submit": (app) => {
@@ -800,7 +815,7 @@ export const joinActions = {
     const params = app.state.authenticated
       ? app.state.subParams
       : { inviteCode: app.state.pendingInvite?.code, course: app.state.pendingInvite?.course, preLogin: true };
-    if (!ui || ui.submitting || ui.submitted) return;
+    if (!ui || ui.submitting || ui.submitted || ui.inviteUnavailable) return;
     if (!app.isWriteAllowed()) return;
     const canSubmitNew = params.correctionRequest ? true : (app.state.authenticated ? app.canStartNewCourseJoin() : true);
     if (!canSubmitNew) {
@@ -824,6 +839,7 @@ export const joinActions = {
               ? "email"
               : null;
     ui.error = null;
+    if (realJoin && !ui.invalidField) ui.invalidField = ['collegeName','majorName','dateOfBirth','regionCode',...(ui.regionCode === 'OTHER' ? ['otherRegionName'] : [])].find(field => !ui[field]?.trim()) || null;
     if (ui.invalidField) {
       app.render();
       focusFirstInvalidField(app._viewport, [`#join-${ui.invalidField}`]);
@@ -840,6 +856,11 @@ export const joinActions = {
         studentNumber,
         gender: ui.gender,
         gradeYear: Number(ui.gradeYear),
+        collegeName: ui.collegeName.trim(),
+        majorName: ui.majorName.trim(),
+        dateOfBirth: ui.dateOfBirth,
+        regionCode: ui.regionCode,
+        ...(ui.regionCode === "OTHER" ? {otherRegionName:ui.otherRegionName.trim()} : {}),
       }).then((joined) => {
         storeJoinContext({
           classSectionId: course.classSectionId,
@@ -856,12 +877,13 @@ export const joinActions = {
         return app.completeApiLogin(joined);
       }).catch((error) => {
         ui.submitting = false;
-        if (error instanceof ApiError && error.status === 410) {
+        if (error instanceof ApiError && (error.status === 410 || ["COURSE_INVITE_EXPIRED", "COURSE_INVITE_REVOKED", "COURSE_INVITE_INVALID"].includes(error.code))) {
+          ui.inviteUnavailable = true;
           ui.error = inviteExpiredMessage();
         } else {
           ui.error = toUserFacingError(error);
           const firstField = ui.error.fieldErrors?.[0]?.field;
-          ui.invalidField = ["fullName", "studentNumber", "gender", "gradeYear"].includes(firstField)
+          ui.invalidField = ["fullName", "studentNumber", "gender", "gradeYear", "collegeName", "majorName", "dateOfBirth", "regionCode", "otherRegionName"].includes(firstField)
             ? (firstField === "fullName" ? "name" : firstField)
             : null;
         }

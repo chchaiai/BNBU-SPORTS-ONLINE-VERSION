@@ -167,6 +167,7 @@ describe('Stage 15 MediaEvidence security', () => {
 
   it('never projects storage facts and redacts every capability field recursively', () => {
     const projected = mediaProjection({
+      safeMetadata: {},
       id: 'media-1',
       organizationId: 'organization-1',
       ownerStudentId: 'student-1',

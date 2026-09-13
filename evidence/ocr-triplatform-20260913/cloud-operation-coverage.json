@@ -1,0 +1,3169 @@
+{
+  "check": "CLOUD_OPERATION_EVIDENCE_INDEX",
+  "generatedAt": "2026-09-13T03:19:34.088Z",
+  "productionBaseSourceCommit": "a46fbe41f44b0724c00ee6d91944f5fdfc58cdf0",
+  "productionPatchCommit": "619cfc1ee2e9315c0f89f9f2cc158f8ba3ed030b",
+  "productionRelease": "student-local-player-20260913",
+  "studentLocalPlayerCommit": "c7566129b7ba157b1325cc668dd617b8d5687d26",
+  "studentVideoPatchCommit": "cfc916c91109153edb087a995dfd2676ae41c261",
+  "studentReceiptPatchCommit": "7009e6a2428145591e5806371dc31fea9b499844",
+  "submissionAtomicPatchCommit": "d0f3150f514f3f862ec5196063006a033931866b",
+  "portalPatchCommits": [
+    "867cf39b",
+    "7ba41895",
+    "9592c912"
+  ],
+  "studentUiPatchCommit": "aa832e80",
+  "studentRecognitionCopyCommit": "365b93aa",
+  "limitations": [
+    "Pre-UTC time-sensitive evidence requires revalidation; inspect individual evidence timestamps and release metadata for later checks",
+    "Observed successful paths do not prove all branches, page interaction or full cloud schema conformance",
+    "Historic snapshots precede intentional synthetic student deletion; do not treat them as current fixture state",
+    "Local runtime conformance is indexed separately and is not cloud evidence"
+  ],
+  "summary": {
+    "total": 263,
+    "successObserved": 219,
+    "denialOnlyObserved": 36,
+    "noCloudEvidence": 8
+  },
+  "operations": [
+    {
+      "operationId": "getHealthLive",
+      "method": "GET",
+      "path": "/health/live",
+      "cloudEvidence": [
+        {
+          "file": "cloud-read-extended.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "getHealthReady",
+      "method": "GET",
+      "path": "/health/ready",
+      "cloudEvidence": [
+        {
+          "file": "cloud-read-extended.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "getAdminHealth",
+      "method": "GET",
+      "path": "/health/admin",
+      "cloudEvidence": [
+        {
+          "file": "cloud-read-regression.json",
+          "kind": "SUCCESS_OBSERVED"
+        },
+        {
+          "file": "cloud-utc-read-regression.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "getSystemMode",
+      "method": "GET",
+      "path": "/system-mode",
+      "cloudEvidence": [
+        {
+          "file": "cloud-read-extended.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "getCurrentOrganization",
+      "method": "GET",
+      "path": "/organizations/current",
+      "cloudEvidence": [
+        {
+          "file": "cloud-read-regression.json",
+          "kind": "SUCCESS_OBSERVED"
+        },
+        {
+          "file": "cloud-utc-read-regression.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "getCurrentSemester",
+      "method": "GET",
+      "path": "/semesters/current",
+      "cloudEvidence": [
+        {
+          "file": "cloud-read-regression.json",
+          "kind": "SUCCESS_OBSERVED"
+        },
+        {
+          "file": "cloud-utc-read-regression.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "passwordLogin",
+      "method": "POST",
+      "path": "/auth/password-login",
+      "cloudEvidence": [
+        {
+          "file": "cloud-read-extended.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "refreshSession",
+      "method": "POST",
+      "path": "/auth/refresh",
+      "cloudEvidence": [
+        {
+          "file": "cloud-notification-auth.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "logoutSession",
+      "method": "POST",
+      "path": "/auth/logout",
+      "cloudEvidence": [
+        {
+          "file": "cloud-notification-auth.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "getCurrentUser",
+      "method": "GET",
+      "path": "/me",
+      "cloudEvidence": [
+        {
+          "file": "cloud-read-regression.json",
+          "kind": "SUCCESS_OBSERVED"
+        },
+        {
+          "file": "cloud-utc-read-regression.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "completeCurrentStudentProfile",
+      "method": "POST",
+      "path": "/me/student-profile",
+      "cloudEvidence": [
+        {
+          "file": "cloud-history-lifecycle.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "requestCurrentUserEmailChallenge",
+      "method": "POST",
+      "path": "/me/email-verification-challenges",
+      "cloudEvidence": [
+        {
+          "file": "student-email-challenge-browser.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "verifyCurrentUserEmailChallenge",
+      "method": "POST",
+      "path": "/me/email-verification-challenges/{challengeId}/verify",
+      "cloudEvidence": [
+        {
+          "file": "student-email-binding-readback.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "listStudents",
+      "method": "GET",
+      "path": "/students",
+      "cloudEvidence": [
+        {
+          "file": "cloud-read-extended.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "getStudent",
+      "method": "GET",
+      "path": "/students/{studentId}",
+      "cloudEvidence": [
+        {
+          "file": "cloud-read-extended.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "updateStudent",
+      "method": "PATCH",
+      "path": "/students/{studentId}",
+      "cloudEvidence": [
+        {
+          "file": "cloud-closed-operations.json",
+          "kind": "DENIAL_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "getTeacher",
+      "method": "GET",
+      "path": "/teachers/{teacherId}",
+      "cloudEvidence": [
+        {
+          "file": "cloud-read-extended.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "listTeacherClassSections",
+      "method": "GET",
+      "path": "/teachers/{teacherId}/class-sections",
+      "cloudEvidence": [
+        {
+          "file": "cloud-read-extended.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "listCourses",
+      "method": "GET",
+      "path": "/courses",
+      "cloudEvidence": [
+        {
+          "file": "cloud-read-extended.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "createCourse",
+      "method": "POST",
+      "path": "/courses",
+      "cloudEvidence": [
+        {
+          "file": "cloud-closed-operations.json",
+          "kind": "DENIAL_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "getCourse",
+      "method": "GET",
+      "path": "/courses/{courseId}",
+      "cloudEvidence": [
+        {
+          "file": "cloud-read-extended.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "updateCourse",
+      "method": "PATCH",
+      "path": "/courses/{courseId}",
+      "cloudEvidence": [
+        {
+          "file": "cloud-closed-operations.json",
+          "kind": "DENIAL_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "listClassSections",
+      "method": "GET",
+      "path": "/class-sections",
+      "cloudEvidence": [
+        {
+          "file": "cloud-read-regression.json",
+          "kind": "SUCCESS_OBSERVED"
+        },
+        {
+          "file": "cloud-utc-read-regression.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "createClassSection",
+      "method": "POST",
+      "path": "/class-sections",
+      "cloudEvidence": [
+        {
+          "file": "cloud-history-lifecycle.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "getClassSection",
+      "method": "GET",
+      "path": "/class-sections/{classSectionId}",
+      "cloudEvidence": [
+        {
+          "file": "cloud-read-extended.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "updateClassSection",
+      "method": "PATCH",
+      "path": "/class-sections/{classSectionId}",
+      "cloudEvidence": [
+        {
+          "file": "cloud-history-lifecycle.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "closeClassSection",
+      "method": "POST",
+      "path": "/class-sections/{classSectionId}/close",
+      "cloudEvidence": [
+        {
+          "file": "cloud-closure-applications.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "listEnrollments",
+      "method": "GET",
+      "path": "/enrollments",
+      "cloudEvidence": [
+        {
+          "file": "cloud-read-extended.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "manuallyEnrollStudent",
+      "method": "POST",
+      "path": "/class-sections/{classSectionId}/enrollments",
+      "cloudEvidence": [
+        {
+          "file": "cloud-utc-public-manual-enrollment.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "getEnrollment",
+      "method": "GET",
+      "path": "/enrollments/{enrollmentId}",
+      "cloudEvidence": [
+        {
+          "file": "cloud-read-regression.json",
+          "kind": "SUCCESS_OBSERVED"
+        },
+        {
+          "file": "cloud-utc-read-regression.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "withdrawEnrollment",
+      "method": "POST",
+      "path": "/enrollments/{enrollmentId}/withdraw",
+      "cloudEvidence": [
+        {
+          "file": "cloud-disabled-existing.json",
+          "kind": "DENIAL_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "removeEnrollment",
+      "method": "POST",
+      "path": "/enrollments/{enrollmentId}/remove",
+      "cloudEvidence": [
+        {
+          "file": "cloud-membership-restore.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "restoreEnrollment",
+      "method": "POST",
+      "path": "/enrollments/{enrollmentId}/restore",
+      "cloudEvidence": [
+        {
+          "file": "cloud-membership-restore.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "createCourseInvite",
+      "method": "POST",
+      "path": "/class-sections/{classSectionId}/course-invites",
+      "cloudEvidence": [
+        {
+          "file": "cloud-history-lifecycle.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "previewCourseInvite",
+      "method": "GET",
+      "path": "/course-invites/{inviteToken}/preview",
+      "cloudEvidence": [
+        {
+          "file": "cloud-invite-revocation.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "issueJoinCapability",
+      "method": "POST",
+      "path": "/course-invites/{inviteToken}/join-capabilities",
+      "cloudEvidence": [
+        {
+          "file": "cloud-utc-public-manual-enrollment.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "joinClassSectionWithInvite",
+      "method": "POST",
+      "path": "/course-invites/{inviteToken}/join",
+      "cloudEvidence": [
+        {
+          "file": "cloud-history-lifecycle.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "listRosterImports",
+      "method": "GET",
+      "path": "/class-sections/{classSectionId}/roster-imports",
+      "cloudEvidence": [
+        {
+          "file": "cloud-read-extended.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "createRosterImport",
+      "method": "POST",
+      "path": "/class-sections/{classSectionId}/roster-imports",
+      "cloudEvidence": [
+        {
+          "file": "cloud-electronic-imports.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "getCurrentRosterImport",
+      "method": "GET",
+      "path": "/class-sections/{classSectionId}/roster-imports/current",
+      "cloudEvidence": [
+        {
+          "file": "cloud-import-readback.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "getRosterImport",
+      "method": "GET",
+      "path": "/roster-imports/{rosterImportId}",
+      "cloudEvidence": [
+        {
+          "file": "cloud-electronic-imports.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "rollbackRosterImport",
+      "method": "POST",
+      "path": "/roster-imports/{rosterImportId}/rollback",
+      "cloudEvidence": [
+        {
+          "file": "cloud-roster-rollback.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "listRosterEntries",
+      "method": "GET",
+      "path": "/roster-imports/{rosterImportId}/entries",
+      "cloudEvidence": [
+        {
+          "file": "cloud-electronic-imports.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "alignRosterImport",
+      "method": "POST",
+      "path": "/roster-imports/{rosterImportId}/align",
+      "cloudEvidence": [
+        {
+          "file": "cloud-electronic-imports.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "listRosterAlignmentResults",
+      "method": "GET",
+      "path": "/roster-alignment-results",
+      "cloudEvidence": [
+        {
+          "file": "cloud-read-extended.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "getRosterAlignmentResult",
+      "method": "GET",
+      "path": "/roster-alignment-results/{alignmentResultId}",
+      "cloudEvidence": [
+        {
+          "file": "cloud-electronic-imports.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "confirmRosterAlignmentResult",
+      "method": "POST",
+      "path": "/roster-alignment-results/{alignmentResultId}/confirm",
+      "cloudEvidence": [
+        {
+          "file": "cloud-roster-difference.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "resolveRosterAlignmentResult",
+      "method": "POST",
+      "path": "/roster-alignment-results/{alignmentResultId}/resolve",
+      "cloudEvidence": [
+        {
+          "file": "cloud-roster-difference.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "ignoreRosterAlignmentResult",
+      "method": "POST",
+      "path": "/roster-alignment-results/{alignmentResultId}/ignore",
+      "cloudEvidence": [
+        {
+          "file": "cloud-deferred-boundaries.json",
+          "kind": "DENIAL_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "reopenRosterAlignmentResult",
+      "method": "POST",
+      "path": "/roster-alignment-results/{alignmentResultId}/reopen",
+      "cloudEvidence": [
+        {
+          "file": "cloud-roster-difference.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "startExerciseSession",
+      "method": "POST",
+      "path": "/exercise-sessions",
+      "cloudEvidence": [
+        {
+          "file": "cloud-media-exercise.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "getActiveExerciseSession",
+      "method": "GET",
+      "path": "/exercise-sessions/active",
+      "cloudEvidence": [
+        {
+          "file": "cloud-read-regression.json",
+          "kind": "SUCCESS_OBSERVED"
+        },
+        {
+          "file": "cloud-utc-read-regression.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "getExerciseSession",
+      "method": "GET",
+      "path": "/exercise-sessions/{sessionId}",
+      "cloudEvidence": [
+        {
+          "file": "cloud-history-lifecycle.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "pauseExerciseSession",
+      "method": "POST",
+      "path": "/exercise-sessions/{sessionId}/pause",
+      "cloudEvidence": [
+        {
+          "file": "cloud-media-exercise.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "resumeExerciseSession",
+      "method": "POST",
+      "path": "/exercise-sessions/{sessionId}/resume",
+      "cloudEvidence": [
+        {
+          "file": "cloud-media-exercise.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "finishExerciseSession",
+      "method": "POST",
+      "path": "/exercise-sessions/{sessionId}/finish",
+      "cloudEvidence": [
+        {
+          "file": "cloud-media-exercise.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "cancelExerciseSession",
+      "method": "POST",
+      "path": "/exercise-sessions/{sessionId}/cancel",
+      "cloudEvidence": [
+        {
+          "file": "cloud-session-reconcile.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "reconcileExerciseSession",
+      "method": "POST",
+      "path": "/exercise-sessions/{sessionId}/reconcile",
+      "cloudEvidence": [
+        {
+          "file": "cloud-session-reconcile.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "listExerciseRecords",
+      "method": "GET",
+      "path": "/exercise-records",
+      "cloudEvidence": [
+        {
+          "file": "cloud-read-regression.json",
+          "kind": "SUCCESS_OBSERVED"
+        },
+        {
+          "file": "cloud-utc-read-regression.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "createExerciseRecordDraft",
+      "method": "POST",
+      "path": "/exercise-records",
+      "cloudEvidence": [
+        {
+          "file": "cloud-media-exercise.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "getExerciseRecord",
+      "method": "GET",
+      "path": "/exercise-records/{recordId}",
+      "cloudEvidence": [
+        {
+          "file": "cloud-record-correction.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "updateExerciseRecordDraft",
+      "method": "PATCH",
+      "path": "/exercise-records/{recordId}",
+      "cloudEvidence": [
+        {
+          "file": "cloud-record-draft.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "getExerciseRecordEvidenceContext",
+      "method": "GET",
+      "path": "/exercise-records/{recordId}/evidence-context",
+      "cloudEvidence": [
+        {
+          "file": "cloud-media-exercise.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "submitExerciseRecord",
+      "method": "POST",
+      "path": "/exercise-records/{recordId}/submit",
+      "cloudEvidence": [
+        {
+          "file": "cloud-media-exercise.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "discardExerciseRecord",
+      "method": "POST",
+      "path": "/exercise-records/{recordId}/discard",
+      "cloudEvidence": [
+        {
+          "file": "cloud-record-draft.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "withdrawExerciseRecord",
+      "method": "POST",
+      "path": "/exercise-records/{recordId}/withdraw",
+      "cloudEvidence": [
+        {
+          "file": "cloud-disabled-existing.json",
+          "kind": "DENIAL_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "initiateMediaUpload",
+      "method": "POST",
+      "path": "/media-uploads",
+      "cloudEvidence": [
+        {
+          "file": "cloud-media-exercise.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "confirmMediaUpload",
+      "method": "POST",
+      "path": "/media-uploads/{uploadSessionId}/confirm",
+      "cloudEvidence": [
+        {
+          "file": "cloud-media-exercise.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "getMediaEvidence",
+      "method": "GET",
+      "path": "/media/{mediaId}",
+      "cloudEvidence": [
+        {
+          "file": "cloud-media-exercise.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "bindMediaEvidence",
+      "method": "POST",
+      "path": "/media/{mediaId}/bind",
+      "cloudEvidence": [
+        {
+          "file": "cloud-media-exercise.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "createMediaAccessUrl",
+      "method": "POST",
+      "path": "/media/{mediaId}/access-url",
+      "cloudEvidence": [
+        {
+          "file": "cloud-media-exercise.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "listExerciseRecordReviews",
+      "method": "GET",
+      "path": "/exercise-records/{recordId}/reviews",
+      "cloudEvidence": [
+        {
+          "file": "cloud-record-correction.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "reviewExerciseRecord",
+      "method": "POST",
+      "path": "/exercise-records/{recordId}/reviews",
+      "cloudEvidence": [
+        {
+          "file": "cloud-supplement-maintenance.json",
+          "kind": "SUCCESS_OBSERVED"
+        },
+        {
+          "file": "cloud-review-boundaries.json",
+          "kind": "DENIAL_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "reopenExerciseRecordReview",
+      "method": "POST",
+      "path": "/exercise-records/{recordId}/reviews/reopen",
+      "cloudEvidence": [
+        {
+          "file": "cloud-review-boundaries.json",
+          "kind": "DENIAL_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "batchReviewExerciseRecords",
+      "method": "POST",
+      "path": "/exercise-reviews/batch",
+      "cloudEvidence": [
+        {
+          "file": "cloud-swim-batch.json",
+          "kind": "SUCCESS_OBSERVED"
+        },
+        {
+          "file": "cloud-review-boundaries.json",
+          "kind": "DENIAL_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "listScoreRules",
+      "method": "GET",
+      "path": "/class-sections/{classSectionId}/score-rules",
+      "cloudEvidence": [
+        {
+          "file": "cloud-read-extended.json",
+          "kind": "DENIAL_OBSERVED"
+        },
+        {
+          "file": "cloud-closed-operations.json",
+          "kind": "DENIAL_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "createScoreRule",
+      "method": "POST",
+      "path": "/class-sections/{classSectionId}/score-rules",
+      "cloudEvidence": [
+        {
+          "file": "cloud-closed-operations.json",
+          "kind": "DENIAL_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "getScoreRule",
+      "method": "GET",
+      "path": "/score-rules/{scoreRuleId}",
+      "cloudEvidence": [
+        {
+          "file": "cloud-closed-operations.json",
+          "kind": "DENIAL_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "submitScoreRuleForApproval",
+      "method": "POST",
+      "path": "/score-rules/{scoreRuleId}/submit-approval",
+      "cloudEvidence": [
+        {
+          "file": "cloud-closed-operations.json",
+          "kind": "DENIAL_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "approveScoreRule",
+      "method": "POST",
+      "path": "/score-rules/{scoreRuleId}/approve",
+      "cloudEvidence": [
+        {
+          "file": "cloud-closed-operations.json",
+          "kind": "DENIAL_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "rejectScoreRule",
+      "method": "POST",
+      "path": "/score-rules/{scoreRuleId}/reject",
+      "cloudEvidence": [
+        {
+          "file": "cloud-closed-operations.json",
+          "kind": "DENIAL_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "listStudentScores",
+      "method": "GET",
+      "path": "/student-scores",
+      "cloudEvidence": [
+        {
+          "file": "cloud-read-extended.json",
+          "kind": "DENIAL_OBSERVED"
+        },
+        {
+          "file": "cloud-closed-operations.json",
+          "kind": "DENIAL_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "getStudentScore",
+      "method": "GET",
+      "path": "/student-scores/{studentScoreId}",
+      "cloudEvidence": [
+        {
+          "file": "cloud-closed-operations.json",
+          "kind": "DENIAL_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "recalculateStudentScore",
+      "method": "POST",
+      "path": "/student-scores/{studentScoreId}/recalculate",
+      "cloudEvidence": [
+        {
+          "file": "cloud-closed-operations.json",
+          "kind": "DENIAL_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "publishStudentScore",
+      "method": "POST",
+      "path": "/student-scores/{studentScoreId}/publish",
+      "cloudEvidence": [
+        {
+          "file": "cloud-closed-operations.json",
+          "kind": "DENIAL_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "openStudentScoreCorrection",
+      "method": "POST",
+      "path": "/student-scores/{studentScoreId}/open-correction",
+      "cloudEvidence": [
+        {
+          "file": "cloud-legacy-correction.json",
+          "kind": "DENIAL_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "listScoreAdjustments",
+      "method": "GET",
+      "path": "/student-scores/{studentScoreId}/adjustments",
+      "cloudEvidence": [
+        {
+          "file": "cloud-closed-operations.json",
+          "kind": "DENIAL_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "createScoreAdjustment",
+      "method": "POST",
+      "path": "/student-scores/{studentScoreId}/adjustments",
+      "cloudEvidence": [
+        {
+          "file": "cloud-closed-operations.json",
+          "kind": "DENIAL_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "approveScoreAdjustment",
+      "method": "POST",
+      "path": "/score-adjustments/{scoreAdjustmentId}/approve",
+      "cloudEvidence": [
+        {
+          "file": "cloud-closed-operations.json",
+          "kind": "DENIAL_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "rejectScoreAdjustment",
+      "method": "POST",
+      "path": "/score-adjustments/{scoreAdjustmentId}/reject",
+      "cloudEvidence": [
+        {
+          "file": "cloud-closed-operations.json",
+          "kind": "DENIAL_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "listExports",
+      "method": "GET",
+      "path": "/exports",
+      "cloudEvidence": [
+        {
+          "file": "cloud-read-extended.json",
+          "kind": "DENIAL_OBSERVED"
+        },
+        {
+          "file": "cloud-closed-operations.json",
+          "kind": "DENIAL_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "createExport",
+      "method": "POST",
+      "path": "/exports",
+      "cloudEvidence": [
+        {
+          "file": "cloud-closed-operations.json",
+          "kind": "DENIAL_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "getExport",
+      "method": "GET",
+      "path": "/exports/{exportId}",
+      "cloudEvidence": [
+        {
+          "file": "cloud-closed-operations.json",
+          "kind": "DENIAL_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "createExportDownloadUrl",
+      "method": "POST",
+      "path": "/exports/{exportId}/download-url",
+      "cloudEvidence": [
+        {
+          "file": "cloud-closed-operations.json",
+          "kind": "DENIAL_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "listAuditLogs",
+      "method": "GET",
+      "path": "/audit-logs",
+      "cloudEvidence": [
+        {
+          "file": "cloud-read-extended.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "getAuditLog",
+      "method": "GET",
+      "path": "/audit-logs/{auditLogId}",
+      "cloudEvidence": [
+        {
+          "file": "cloud-client-diagnostics.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "requestStudentSignInCode",
+      "method": "POST",
+      "path": "/auth/student-sign-in-codes",
+      "cloudEvidence": []
+    },
+    {
+      "operationId": "verifyStudentSignInCode",
+      "method": "POST",
+      "path": "/auth/student-sign-in-codes/verify",
+      "cloudEvidence": []
+    },
+    {
+      "operationId": "requestAccountRecovery",
+      "method": "POST",
+      "path": "/auth/account-recovery-requests",
+      "cloudEvidence": []
+    },
+    {
+      "operationId": "completeAccountRecovery",
+      "method": "POST",
+      "path": "/auth/account-recovery-requests/complete",
+      "cloudEvidence": []
+    },
+    {
+      "operationId": "listNotifications",
+      "method": "GET",
+      "path": "/notifications",
+      "cloudEvidence": [
+        {
+          "file": "cloud-read-regression.json",
+          "kind": "SUCCESS_OBSERVED"
+        },
+        {
+          "file": "cloud-utc-read-regression.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "markNotificationRead",
+      "method": "POST",
+      "path": "/notifications/{notificationId}/read",
+      "cloudEvidence": [
+        {
+          "file": "cloud-notification-auth.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "registerPushDevice",
+      "method": "POST",
+      "path": "/push-devices",
+      "cloudEvidence": [
+        {
+          "file": "cloud-push-registration.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "unregisterPushDevice",
+      "method": "DELETE",
+      "path": "/push-devices/{deviceId}",
+      "cloudEvidence": [
+        {
+          "file": "cloud-push-registration.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "getCurrentUserPreferences",
+      "method": "GET",
+      "path": "/me/preferences",
+      "cloudEvidence": [
+        {
+          "file": "cloud-read-regression.json",
+          "kind": "SUCCESS_OBSERVED"
+        },
+        {
+          "file": "cloud-utc-read-regression.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "updateCurrentUserPreferences",
+      "method": "PATCH",
+      "path": "/me/preferences",
+      "cloudEvidence": [
+        {
+          "file": "cloud-notification-auth.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "listHelpArticles",
+      "method": "GET",
+      "path": "/help-articles",
+      "cloudEvidence": [
+        {
+          "file": "cloud-read-extended.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "getHelpArticle",
+      "method": "GET",
+      "path": "/help-articles/{articleId}",
+      "cloudEvidence": []
+    },
+    {
+      "operationId": "listFeedback",
+      "method": "GET",
+      "path": "/feedback",
+      "cloudEvidence": [
+        {
+          "file": "cloud-read-extended.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "createFeedback",
+      "method": "POST",
+      "path": "/feedback",
+      "cloudEvidence": [
+        {
+          "file": "cloud-help-feedback.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "getFeedback",
+      "method": "GET",
+      "path": "/feedback/{feedbackId}",
+      "cloudEvidence": [
+        {
+          "file": "cloud-help-feedback.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "listStructuredExemptionApplications",
+      "method": "GET",
+      "path": "/exemption-application-details",
+      "cloudEvidence": [
+        {
+          "file": "cloud-read-regression.json",
+          "kind": "SUCCESS_OBSERVED"
+        },
+        {
+          "file": "cloud-utc-read-regression.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "listExemptionApplications",
+      "method": "GET",
+      "path": "/exemption-applications",
+      "cloudEvidence": [
+        {
+          "file": "cloud-read-extended.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "createExemptionApplication",
+      "method": "POST",
+      "path": "/exemption-applications",
+      "cloudEvidence": [
+        {
+          "file": "cloud-closure-applications.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "getExemptionApplication",
+      "method": "GET",
+      "path": "/exemption-applications/{applicationId}",
+      "cloudEvidence": [
+        {
+          "file": "cloud-certification-revisions.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "updateExemptionApplication",
+      "method": "PATCH",
+      "path": "/exemption-applications/{applicationId}",
+      "cloudEvidence": [
+        {
+          "file": "cloud-certification-revisions.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "submitExemptionApplication",
+      "method": "POST",
+      "path": "/exemption-applications/{applicationId}/submit",
+      "cloudEvidence": [
+        {
+          "file": "cloud-closure-applications.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "reviewExemptionApplication",
+      "method": "POST",
+      "path": "/exemption-applications/{applicationId}/review",
+      "cloudEvidence": [
+        {
+          "file": "cloud-closure-applications.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "getAppReleasePolicy",
+      "method": "GET",
+      "path": "/app-release-policy",
+      "cloudEvidence": []
+    },
+    {
+      "operationId": "getSportCatalog",
+      "method": "GET",
+      "path": "/sport-catalog",
+      "cloudEvidence": [
+        {
+          "file": "cloud-read-regression.json",
+          "kind": "DENIAL_OBSERVED"
+        },
+        {
+          "file": "cloud-utc-read-regression.json",
+          "kind": "DENIAL_OBSERVED"
+        },
+        {
+          "file": "cloud-closed-operations.json",
+          "kind": "DENIAL_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "getActivityConversionRules",
+      "method": "GET",
+      "path": "/activity-conversion-rules",
+      "cloudEvidence": [
+        {
+          "file": "cloud-read-regression.json",
+          "kind": "DENIAL_OBSERVED"
+        },
+        {
+          "file": "cloud-utc-read-regression.json",
+          "kind": "DENIAL_OBSERVED"
+        },
+        {
+          "file": "cloud-closed-operations.json",
+          "kind": "DENIAL_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "startExerciseLocationTrack",
+      "method": "POST",
+      "path": "/exercise-sessions/{sessionId}/location-track",
+      "cloudEvidence": [
+        {
+          "file": "cloud-disabled-existing.json",
+          "kind": "DENIAL_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "appendExerciseLocationSamples",
+      "method": "POST",
+      "path": "/exercise-sessions/{sessionId}/location-samples",
+      "cloudEvidence": [
+        {
+          "file": "cloud-disabled-existing.json",
+          "kind": "DENIAL_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "finalizeExerciseLocationTrack",
+      "method": "POST",
+      "path": "/exercise-sessions/{sessionId}/location-track/finalize",
+      "cloudEvidence": [
+        {
+          "file": "cloud-disabled-existing.json",
+          "kind": "DENIAL_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "getExerciseRecordLocationSummary",
+      "method": "GET",
+      "path": "/exercise-records/{recordId}/location-summary",
+      "cloudEvidence": [
+        {
+          "file": "cloud-disabled-existing.json",
+          "kind": "DENIAL_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "getLocationPrivacyPolicy",
+      "method": "GET",
+      "path": "/location-privacy-policy",
+      "cloudEvidence": [
+        {
+          "file": "cloud-read-extended.json",
+          "kind": "DENIAL_OBSERVED"
+        },
+        {
+          "file": "cloud-closed-operations.json",
+          "kind": "DENIAL_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "updateLocationPrivacyPolicy",
+      "method": "PATCH",
+      "path": "/location-privacy-policy",
+      "cloudEvidence": [
+        {
+          "file": "cloud-closed-operations.json",
+          "kind": "DENIAL_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "getV81CourseRules",
+      "method": "GET",
+      "path": "/class-sections/{classSectionId}/v81-rules",
+      "cloudEvidence": [
+        {
+          "file": "cloud-read-regression.json",
+          "kind": "SUCCESS_OBSERVED"
+        },
+        {
+          "file": "cloud-utc-read-regression.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "saveV81CourseRules",
+      "method": "POST",
+      "path": "/class-sections/{classSectionId}/v81-rules",
+      "cloudEvidence": [
+        {
+          "file": "cloud-history-lifecycle.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "setV81ManualMode",
+      "method": "POST",
+      "path": "/admin/review-services/manual-mode",
+      "cloudEvidence": [
+        {
+          "file": "cloud-manual-config.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "reviewV81Record",
+      "method": "POST",
+      "path": "/exercise-records/{recordId}/v81-reviews",
+      "cloudEvidence": [
+        {
+          "file": "cloud-manual-review.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "getV81RecordWorkflow",
+      "method": "GET",
+      "path": "/exercise-records/{recordId}/workflow",
+      "cloudEvidence": [
+        {
+          "file": "cloud-manual-review-readback.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "submitV81Supplement",
+      "method": "POST",
+      "path": "/exercise-records/{recordId}/supplements",
+      "cloudEvidence": [
+        {
+          "file": "cloud-supplement-flow.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "correctV81Record",
+      "method": "POST",
+      "path": "/exercise-records/{recordId}/corrections",
+      "cloudEvidence": [
+        {
+          "file": "cloud-record-correction.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "getV81MaintenanceAnnouncement",
+      "method": "GET",
+      "path": "/system-mode/announcement",
+      "cloudEvidence": [
+        {
+          "file": "cloud-read-extended.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "getV81SystemModeHistory",
+      "method": "GET",
+      "path": "/system-mode/history",
+      "cloudEvidence": [
+        {
+          "file": "cloud-read-extended.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "changeV81SystemMode",
+      "method": "POST",
+      "path": "/system-mode/changes",
+      "cloudEvidence": [
+        {
+          "file": "cloud-system-mode.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "getV81SupplementClock",
+      "method": "GET",
+      "path": "/exercise-records/{recordId}/supplement-clock",
+      "cloudEvidence": [
+        {
+          "file": "cloud-supplement-flow.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "getV81AccountSecurity",
+      "method": "GET",
+      "path": "/auth/account-security",
+      "cloudEvidence": [
+        {
+          "file": "cloud-read-extended.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "changeOwnV81Password",
+      "method": "POST",
+      "path": "/auth/own-password",
+      "cloudEvidence": [
+        {
+          "file": "cloud-own-password.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "listV81Subadmins",
+      "method": "GET",
+      "path": "/admin/subadmins",
+      "cloudEvidence": [
+        {
+          "file": "cloud-read-regression.json",
+          "kind": "SUCCESS_OBSERVED"
+        },
+        {
+          "file": "cloud-read-regression.json",
+          "kind": "DENIAL_OBSERVED"
+        },
+        {
+          "file": "cloud-utc-read-regression.json",
+          "kind": "SUCCESS_OBSERVED"
+        },
+        {
+          "file": "cloud-utc-read-regression.json",
+          "kind": "DENIAL_OBSERVED"
+        },
+        {
+          "file": "cloud-subadmin-governance.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "createV81VerifiedSubadmin",
+      "method": "POST",
+      "path": "/admin/subadmins",
+      "cloudEvidence": [
+        {
+          "file": "cloud-subadmin-governance.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "setV81SubadminStatus",
+      "method": "POST",
+      "path": "/admin/subadmins/{id}/status",
+      "cloudEvidence": [
+        {
+          "file": "cloud-subadmin-governance.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "listV81StudentProgress",
+      "method": "GET",
+      "path": "/student-progress",
+      "cloudEvidence": [
+        {
+          "file": "cloud-read-regression.json",
+          "kind": "SUCCESS_OBSERVED"
+        },
+        {
+          "file": "cloud-utc-read-regression.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "listV81TeacherProgress",
+      "method": "GET",
+      "path": "/teacher-progress",
+      "cloudEvidence": [
+        {
+          "file": "cloud-read-regression.json",
+          "kind": "SUCCESS_OBSERVED"
+        },
+        {
+          "file": "cloud-utc-read-regression.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "getV81ProgressTarget",
+      "method": "GET",
+      "path": "/class-sections/{id}/progress-target",
+      "cloudEvidence": [
+        {
+          "file": "cloud-read-extended.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "listV81Certifications",
+      "method": "GET",
+      "path": "/activity-certification-applications",
+      "cloudEvidence": [
+        {
+          "file": "cloud-read-regression.json",
+          "kind": "SUCCESS_OBSERVED"
+        },
+        {
+          "file": "cloud-utc-read-regression.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "listV81RecognitionRevisions",
+      "method": "GET",
+      "path": "/activity-certification-applications/{id}/recognition-allocation-revisions",
+      "cloudEvidence": [
+        {
+          "file": "cloud-certification-revisions.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "adjustV81Recognition",
+      "method": "POST",
+      "path": "/activity-certification-applications/{id}/recognition-allocation-revisions",
+      "cloudEvidence": [
+        {
+          "file": "cloud-certification-revisions.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "revokeV81Certification",
+      "method": "POST",
+      "path": "/activity-certification-applications/{id}/revoke",
+      "cloudEvidence": [
+        {
+          "file": "cloud-certification-revisions.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "getV81ManualMode",
+      "method": "GET",
+      "path": "/admin/review-services/manual-mode/{classSectionId}",
+      "cloudEvidence": [
+        {
+          "file": "cloud-read-extended.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "acceptV81SwimIntake",
+      "method": "POST",
+      "path": "/exercise-records/{recordId}/swim-intake",
+      "cloudEvidence": [
+        {
+          "file": "cloud-swim-batch.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "getV81SwimIntake",
+      "method": "GET",
+      "path": "/exercise-records/{recordId}/swim-intake",
+      "cloudEvidence": [
+        {
+          "file": "cloud-swim-batch.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "listV81ProofTodos",
+      "method": "GET",
+      "path": "/student/proof-todos",
+      "cloudEvidence": [
+        {
+          "file": "cloud-read-regression.json",
+          "kind": "SUCCESS_OBSERVED"
+        },
+        {
+          "file": "cloud-utc-read-regression.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "listV81FinalGrades",
+      "method": "GET",
+      "path": "/enrollments/{enrollmentId}/final-grades",
+      "cloudEvidence": [
+        {
+          "file": "cloud-internal-grades.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "appendV81FinalGrade",
+      "method": "POST",
+      "path": "/enrollments/{enrollmentId}/final-grades",
+      "cloudEvidence": [
+        {
+          "file": "cloud-internal-grades.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "getV81SettlementCheck",
+      "method": "GET",
+      "path": "/class-sections/{classSectionId}/settlement-check",
+      "cloudEvidence": [
+        {
+          "file": "cloud-read-regression.json",
+          "kind": "SUCCESS_OBSERVED"
+        },
+        {
+          "file": "cloud-utc-read-regression.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "getV81FeedbackDetail",
+      "method": "GET",
+      "path": "/admin/feedback/{feedbackId}",
+      "cloudEvidence": [
+        {
+          "file": "cloud-help-feedback.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "handleV81Feedback",
+      "method": "POST",
+      "path": "/admin/feedback/{feedbackId}/handling",
+      "cloudEvidence": [
+        {
+          "file": "cloud-help-feedback.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "listV81Feedback",
+      "method": "GET",
+      "path": "/admin/feedback",
+      "cloudEvidence": [
+        {
+          "file": "cloud-read-regression.json",
+          "kind": "SUCCESS_OBSERVED"
+        },
+        {
+          "file": "cloud-utc-read-regression.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "getV81StudentFeedbackHistory",
+      "method": "GET",
+      "path": "/student/feedback/{feedbackId}/history",
+      "cloudEvidence": [
+        {
+          "file": "cloud-help-feedback.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "createV81HelpArticle",
+      "method": "POST",
+      "path": "/admin/help-articles",
+      "cloudEvidence": [
+        {
+          "file": "cloud-help-feedback.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "listV81HelpArticles",
+      "method": "GET",
+      "path": "/admin/help-articles",
+      "cloudEvidence": [
+        {
+          "file": "cloud-read-regression.json",
+          "kind": "SUCCESS_OBSERVED"
+        },
+        {
+          "file": "cloud-utc-read-regression.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "saveV81HelpArticle",
+      "method": "POST",
+      "path": "/admin/help-articles/{articleId}",
+      "cloudEvidence": [
+        {
+          "file": "cloud-help-feedback.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "getV81HelpArticle",
+      "method": "GET",
+      "path": "/admin/help-articles/{articleId}",
+      "cloudEvidence": [
+        {
+          "file": "cloud-help-feedback.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "listV81StudentHelpArticles",
+      "method": "GET",
+      "path": "/student/help-articles",
+      "cloudEvidence": [
+        {
+          "file": "cloud-read-regression.json",
+          "kind": "SUCCESS_OBSERVED"
+        },
+        {
+          "file": "cloud-utc-read-regression.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "getV81StudentHelpArticle",
+      "method": "GET",
+      "path": "/student/help-articles/{articleId}",
+      "cloudEvidence": [
+        {
+          "file": "cloud-help-feedback.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "listV81EnduranceTables",
+      "method": "GET",
+      "path": "/admin/endurance-tables",
+      "cloudEvidence": [
+        {
+          "file": "cloud-read-regression.json",
+          "kind": "SUCCESS_OBSERVED"
+        },
+        {
+          "file": "cloud-utc-read-regression.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "createV81EnduranceRule",
+      "method": "POST",
+      "path": "/admin/endurance-tables/rules",
+      "cloudEvidence": [
+        {
+          "file": "cloud-endurance-rules.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "updateV81EnduranceRule",
+      "method": "POST",
+      "path": "/admin/endurance-tables/rules/{ruleId}",
+      "cloudEvidence": [
+        {
+          "file": "cloud-endurance-rules.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "deleteV81EnduranceRule",
+      "method": "POST",
+      "path": "/admin/endurance-tables/rules/{ruleId}/delete",
+      "cloudEvidence": [
+        {
+          "file": "cloud-endurance-rules.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "listV81PhysicalResults",
+      "method": "GET",
+      "path": "/enrollments/{enrollmentId}/physical-results",
+      "cloudEvidence": [
+        {
+          "file": "cloud-unsettled-corrections.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "appendV81PhysicalResult",
+      "method": "POST",
+      "path": "/enrollments/{enrollmentId}/physical-results",
+      "cloudEvidence": [
+        {
+          "file": "cloud-manual-physical.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "getV81StudentPhysicalResult",
+      "method": "GET",
+      "path": "/student/enrollments/{enrollmentId}/physical-result",
+      "cloudEvidence": [
+        {
+          "file": "cloud-read-regression.json",
+          "kind": "SUCCESS_OBSERVED"
+        },
+        {
+          "file": "cloud-utc-read-regression.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "createV81PhysicalImport",
+      "method": "POST",
+      "path": "/class-sections/{classSectionId}/physical-imports",
+      "cloudEvidence": [
+        {
+          "file": "cloud-physical-csv-revision.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "listV81PhysicalImports",
+      "method": "GET",
+      "path": "/class-sections/{classSectionId}/physical-imports",
+      "cloudEvidence": [
+        {
+          "file": "cloud-read-extended.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "getV81PhysicalImport",
+      "method": "GET",
+      "path": "/physical-imports/{importId}",
+      "cloudEvidence": [
+        {
+          "file": "cloud-physical-csv-revision.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "reviseV81PhysicalImport",
+      "method": "POST",
+      "path": "/physical-imports/{importId}/revisions",
+      "cloudEvidence": [
+        {
+          "file": "cloud-physical-csv-revision.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "listV81PhysicalImportRevisions",
+      "method": "GET",
+      "path": "/physical-imports/{importId}/revisions",
+      "cloudEvidence": [
+        {
+          "file": "cloud-physical-csv-revision.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "confirmV81PhysicalImport",
+      "method": "POST",
+      "path": "/physical-imports/{importId}/confirm",
+      "cloudEvidence": [
+        {
+          "file": "cloud-physical-csv-revision.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "getV81PhysicalImportSource",
+      "method": "GET",
+      "path": "/physical-imports/{importId}/source",
+      "cloudEvidence": [
+        {
+          "file": "cloud-physical-csv-revision.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "createV81PhysicalXlsxImport",
+      "method": "POST",
+      "path": "/class-sections/{classSectionId}/physical-imports/xlsx",
+      "cloudEvidence": [
+        {
+          "file": "cloud-electronic-imports.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "previewV81TeacherImport",
+      "method": "POST",
+      "path": "/admin/teacher-imports/preview",
+      "cloudEvidence": [
+        {
+          "file": "cloud-teacher-import.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "confirmV81TeacherImport",
+      "method": "POST",
+      "path": "/admin/teacher-imports/confirm",
+      "cloudEvidence": [
+        {
+          "file": "cloud-teacher-import.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "listV81TeacherAccounts",
+      "method": "GET",
+      "path": "/admin/teacher-accounts",
+      "cloudEvidence": [
+        {
+          "file": "cloud-read-regression.json",
+          "kind": "SUCCESS_OBSERVED"
+        },
+        {
+          "file": "cloud-utc-read-regression.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "createV81Semester",
+      "method": "POST",
+      "path": "/admin/semesters",
+      "cloudEvidence": [
+        {
+          "file": "cloud-semester-governance.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "listV81Semesters",
+      "method": "GET",
+      "path": "/admin/semesters",
+      "cloudEvidence": [
+        {
+          "file": "cloud-read-regression.json",
+          "kind": "SUCCESS_OBSERVED"
+        },
+        {
+          "file": "cloud-utc-read-regression.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "updateV81Semester",
+      "method": "POST",
+      "path": "/admin/semesters/{id}",
+      "cloudEvidence": [
+        {
+          "file": "cloud-semester-governance.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "previewV81RosterRegistration",
+      "method": "GET",
+      "path": "/roster-imports/{rosterImportId}/registration-preview",
+      "cloudEvidence": [
+        {
+          "file": "cloud-electronic-imports.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "getV81RosterConfirmation",
+      "method": "GET",
+      "path": "/roster-imports/{rosterImportId}/confirmation",
+      "cloudEvidence": [
+        {
+          "file": "cloud-electronic-imports.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "confirmV81Roster",
+      "method": "POST",
+      "path": "/roster-imports/{rosterImportId}/confirmation",
+      "cloudEvidence": [
+        {
+          "file": "cloud-electronic-imports.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "previewV81CompositeRoster",
+      "method": "GET",
+      "path": "/class-sections/{classSectionId}/composite-roster",
+      "cloudEvidence": [
+        {
+          "file": "cloud-read-regression.json",
+          "kind": "SUCCESS_OBSERVED"
+        },
+        {
+          "file": "cloud-utc-read-regression.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "exportV81CompositeRosterPreview",
+      "method": "GET",
+      "path": "/class-sections/{classSectionId}/composite-roster/export",
+      "cloudEvidence": [
+        {
+          "file": "cloud-read-extended.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "getV81RosterSource",
+      "method": "GET",
+      "path": "/roster-imports/{rosterImportId}/source",
+      "cloudEvidence": [
+        {
+          "file": "cloud-electronic-imports.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "getV81OwnRosterStatus",
+      "method": "GET",
+      "path": "/enrollments/{enrollmentId}/roster-status",
+      "cloudEvidence": [
+        {
+          "file": "cloud-read-regression.json",
+          "kind": "SUCCESS_OBSERVED"
+        },
+        {
+          "file": "cloud-utc-read-regression.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "getV81AdminRosterSummary",
+      "method": "GET",
+      "path": "/admin/class-sections/{classSectionId}/roster-summary",
+      "cloudEvidence": [
+        {
+          "file": "cloud-read-regression.json",
+          "kind": "SUCCESS_OBSERVED"
+        },
+        {
+          "file": "cloud-utc-read-regression.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "getV81AdminCourseDirectory",
+      "method": "GET",
+      "path": "/admin/course-directory",
+      "cloudEvidence": [
+        {
+          "file": "cloud-read-regression.json",
+          "kind": "SUCCESS_OBSERVED"
+        },
+        {
+          "file": "cloud-utc-read-regression.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "getV81AdminPhysicalSummary",
+      "method": "GET",
+      "path": "/admin/class-sections/{classSectionId}/physical-summary",
+      "cloudEvidence": [
+        {
+          "file": "cloud-read-regression.json",
+          "kind": "SUCCESS_OBSERVED"
+        },
+        {
+          "file": "cloud-utc-read-regression.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "createV81OcrRosterBatch",
+      "method": "POST",
+      "path": "/class-sections/{classSectionId}/ocr-roster-batches",
+      "cloudEvidence": [
+        {
+          "file": "cloud-ocr-http.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "createV81OcrPhysicalBatch",
+      "method": "POST",
+      "path": "/class-sections/{classSectionId}/ocr-physical-batches",
+      "cloudEvidence": [
+        {
+          "file": "cloud-ocr-http.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "listV81OcrBatches",
+      "method": "GET",
+      "path": "/class-sections/{classSectionId}/ocr-batches",
+      "cloudEvidence": [
+        {
+          "file": "cloud-read-regression.json",
+          "kind": "SUCCESS_OBSERVED"
+        },
+        {
+          "file": "cloud-utc-read-regression.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "getV81OcrBatch",
+      "method": "GET",
+      "path": "/ocr-batches/{batchId}",
+      "cloudEvidence": [
+        {
+          "file": "cloud-read-regression.json",
+          "kind": "DENIAL_OBSERVED"
+        },
+        {
+          "file": "cloud-read-extended.json",
+          "kind": "SUCCESS_OBSERVED"
+        },
+        {
+          "file": "cloud-utc-read-regression.json",
+          "kind": "DENIAL_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "getV81OcrPageSource",
+      "method": "GET",
+      "path": "/ocr-batches/{batchId}/pages/{pageId}/source",
+      "cloudEvidence": [
+        {
+          "file": "cloud-ocr-http.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "getV81OcrPageRecognition",
+      "method": "GET",
+      "path": "/ocr-batches/{batchId}/pages/{pageId}/recognition",
+      "cloudEvidence": [
+        {
+          "file": "cloud-ocr-http.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "createV81OcrJob",
+      "method": "POST",
+      "path": "/ocr-batches/{batchId}/pages/{pageId}/recognition",
+      "cloudEvidence": [
+        {
+          "file": "cloud-ocr-http.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "getV81OcrJob",
+      "method": "GET",
+      "path": "/ocr-jobs/{jobId}",
+      "cloudEvidence": [
+        {
+          "file": "cloud-import-readback.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "getV81OcrDraft",
+      "method": "GET",
+      "path": "/ocr-batches/{batchId}/draft",
+      "cloudEvidence": [
+        {
+          "file": "cloud-read-extended.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "createV81OcrDraft",
+      "method": "POST",
+      "path": "/ocr-batches/{batchId}/draft",
+      "cloudEvidence": [
+        {
+          "file": "cloud-ocr-http.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "reviseV81OcrDraft",
+      "method": "POST",
+      "path": "/ocr-batches/{batchId}/draft/revisions",
+      "cloudEvidence": [
+        {
+          "file": "cloud-ocr-http.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "getV81OcrPhysicalConfirmation",
+      "method": "GET",
+      "path": "/ocr-batches/{batchId}/physical-confirmations",
+      "cloudEvidence": [
+        {
+          "file": "cloud-read-extended.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "confirmV81OcrPhysicalRows",
+      "method": "POST",
+      "path": "/ocr-batches/{batchId}/physical-confirmations",
+      "cloudEvidence": [
+        {
+          "file": "cloud-ocr-http.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "getV81OcrRosterConfirmation",
+      "method": "GET",
+      "path": "/ocr-batches/{batchId}/roster-confirmation",
+      "cloudEvidence": [
+        {
+          "file": "cloud-read-extended.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "confirmV81OcrRoster",
+      "method": "POST",
+      "path": "/ocr-batches/{batchId}/roster-confirmation",
+      "cloudEvidence": [
+        {
+          "file": "cloud-ocr-http.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "getV81RosterBasis",
+      "method": "GET",
+      "path": "/class-sections/{classSectionId}/roster-basis",
+      "cloudEvidence": [
+        {
+          "file": "cloud-read-regression.json",
+          "kind": "SUCCESS_OBSERVED"
+        },
+        {
+          "file": "cloud-utc-read-regression.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "selectV81RosterBasis",
+      "method": "POST",
+      "path": "/class-sections/{classSectionId}/roster-basis",
+      "cloudEvidence": [
+        {
+          "file": "cloud-roster-rollback.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "listV81ConfirmedRosterSnapshots",
+      "method": "GET",
+      "path": "/class-sections/{classSectionId}/roster-basis/snapshots",
+      "cloudEvidence": [
+        {
+          "file": "cloud-read-extended.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "listV81MakeupWindows",
+      "method": "GET",
+      "path": "/class-sections/{classSectionId}/makeup-windows",
+      "cloudEvidence": [
+        {
+          "file": "cloud-read-regression.json",
+          "kind": "SUCCESS_OBSERVED"
+        },
+        {
+          "file": "cloud-utc-read-regression.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "createV81MakeupWindow",
+      "method": "POST",
+      "path": "/class-sections/{classSectionId}/makeup-windows",
+      "cloudEvidence": [
+        {
+          "file": "cloud-makeup-windows.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "revokeV81MakeupWindow",
+      "method": "POST",
+      "path": "/makeup-windows/{windowId}/revocation",
+      "cloudEvidence": [
+        {
+          "file": "cloud-makeup-windows.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "listV81OwnMakeupWindows",
+      "method": "GET",
+      "path": "/enrollments/{enrollmentId}/makeup-windows",
+      "cloudEvidence": [
+        {
+          "file": "cloud-read-regression.json",
+          "kind": "SUCCESS_OBSERVED"
+        },
+        {
+          "file": "cloud-utc-read-regression.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "getV81SemesterSwitchCheck",
+      "method": "GET",
+      "path": "/admin/semesters/{id}/switch-check",
+      "cloudEvidence": [
+        {
+          "file": "cloud-semester-governance.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "listV81RuleTemplates",
+      "method": "GET",
+      "path": "/rule-templates",
+      "cloudEvidence": [
+        {
+          "file": "cloud-read-regression.json",
+          "kind": "SUCCESS_OBSERVED"
+        },
+        {
+          "file": "cloud-read-extended.json",
+          "kind": "SUCCESS_OBSERVED"
+        },
+        {
+          "file": "cloud-utc-read-regression.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "publishV81RuleTemplate",
+      "method": "POST",
+      "path": "/rule-templates",
+      "cloudEvidence": [
+        {
+          "file": "cloud-history-lifecycle.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "getV81RuleTemplate",
+      "method": "GET",
+      "path": "/rule-templates/{id}",
+      "cloudEvidence": [
+        {
+          "file": "cloud-read-extended.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "listV81AuditEvents",
+      "method": "GET",
+      "path": "/admin/audit-events",
+      "cloudEvidence": [
+        {
+          "file": "cloud-read-regression.json",
+          "kind": "SUCCESS_OBSERVED"
+        },
+        {
+          "file": "cloud-read-extended.json",
+          "kind": "SUCCESS_OBSERVED"
+        },
+        {
+          "file": "cloud-utc-read-regression.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "getV81AuditEvent",
+      "method": "GET",
+      "path": "/admin/audit-events/{source}/{eventId}",
+      "cloudEvidence": [
+        {
+          "file": "cloud-read-extended.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "createV81RuntimeArchive",
+      "method": "POST",
+      "path": "/admin/runtime-archives",
+      "cloudEvidence": [
+        {
+          "file": "cloud-runtime-archive.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "getV81RuntimeArchive",
+      "method": "GET",
+      "path": "/admin/runtime-archives/{id}",
+      "cloudEvidence": [
+        {
+          "file": "cloud-runtime-archive.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "cancelV81RuntimeArchive",
+      "method": "POST",
+      "path": "/admin/runtime-archives/{id}/cancellation",
+      "cloudEvidence": [
+        {
+          "file": "cloud-runtime-archive.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "createV81RuntimeArchiveDownload",
+      "method": "POST",
+      "path": "/admin/runtime-archives/{id}/download-url",
+      "cloudEvidence": [
+        {
+          "file": "cloud-runtime-archive.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "downloadV81RuntimeArchive",
+      "method": "GET",
+      "path": "/admin/runtime-archives/{id}/content",
+      "cloudEvidence": [
+        {
+          "file": "cloud-runtime-archive.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "setV81SubadminPermissions",
+      "method": "POST",
+      "path": "/admin/subadmins/{id}/permissions",
+      "cloudEvidence": [
+        {
+          "file": "cloud-subadmin-governance.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "requestCurrentUserAccountDeletionChallenge",
+      "method": "POST",
+      "path": "/me/account-deletion-challenges",
+      "cloudEvidence": [
+        {
+          "file": "cloud-deferred-boundaries.json",
+          "kind": "DENIAL_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "getV81OcrService",
+      "method": "GET",
+      "path": "/admin/review-services/ocr",
+      "cloudEvidence": [
+        {
+          "file": "cloud-read-regression.json",
+          "kind": "SUCCESS_OBSERVED"
+        },
+        {
+          "file": "cloud-read-regression.json",
+          "kind": "DENIAL_OBSERVED"
+        },
+        {
+          "file": "cloud-utc-read-regression.json",
+          "kind": "SUCCESS_OBSERVED"
+        },
+        {
+          "file": "cloud-utc-read-regression.json",
+          "kind": "DENIAL_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "listV81OcrServiceRevisions",
+      "method": "GET",
+      "path": "/admin/review-services/ocr/revisions",
+      "cloudEvidence": [
+        {
+          "file": "cloud-read-regression.json",
+          "kind": "SUCCESS_OBSERVED"
+        },
+        {
+          "file": "cloud-utc-read-regression.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "saveV81OcrService",
+      "method": "POST",
+      "path": "/admin/review-services/ocr/revisions",
+      "cloudEvidence": [
+        {
+          "file": "cloud-ocr-http.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "requestV81SubadminIdentity",
+      "method": "POST",
+      "path": "/admin/subadmin-identity-challenges",
+      "cloudEvidence": []
+    },
+    {
+      "operationId": "verifyV81SubadminIdentity",
+      "method": "POST",
+      "path": "/admin/subadmin-identity-challenges/{id}/verify",
+      "cloudEvidence": []
+    },
+    {
+      "operationId": "updateV81VerifiedSubadmin",
+      "method": "POST",
+      "path": "/admin/subadmins/{id}/profile",
+      "cloudEvidence": [
+        {
+          "file": "subadmin-profile-regression.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "deleteV81TeacherAccount",
+      "method": "POST",
+      "path": "/admin/teachers/{id}/delete",
+      "cloudEvidence": [
+        {
+          "file": "cloud-teacher-import.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "deleteV81Course",
+      "method": "POST",
+      "path": "/class-sections/{id}/delete",
+      "cloudEvidence": [
+        {
+          "file": "cloud-history-lifecycle.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "deleteV81StudentAccount",
+      "method": "POST",
+      "path": "/admin/students/{id}/delete",
+      "cloudEvidence": [
+        {
+          "file": "cloud-student-erasure.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "deleteV81Subadmin",
+      "method": "POST",
+      "path": "/admin/subadmins/{id}/delete",
+      "cloudEvidence": [
+        {
+          "file": "cloud-subadmin-governance.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "createV81TeacherCourse",
+      "method": "POST",
+      "path": "/teacher/courses",
+      "cloudEvidence": [
+        {
+          "file": "cloud-teacher-course.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "revokeV81CourseInvite",
+      "method": "POST",
+      "path": "/class-sections/{classSectionId}/course-invites/revocations",
+      "cloudEvidence": [
+        {
+          "file": "cloud-invite-revocation.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "confirmV81Settlement",
+      "method": "POST",
+      "path": "/class-sections/{classSectionId}/settlement-reports",
+      "cloudEvidence": [
+        {
+          "file": "cloud-utc-settlement-corrections.json",
+          "kind": "SUCCESS_OBSERVED"
+        },
+        {
+          "file": "cloud-settlement-corrections.json",
+          "kind": "SUCCESS_OBSERVED"
+        },
+        {
+          "file": "cloud-record-correction.json",
+          "kind": "DENIAL_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "listV81SettlementReports",
+      "method": "GET",
+      "path": "/class-sections/{classSectionId}/settlement-reports",
+      "cloudEvidence": [
+        {
+          "file": "cloud-read-regression.json",
+          "kind": "SUCCESS_OBSERVED"
+        },
+        {
+          "file": "cloud-utc-read-regression.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "getV81SettlementReport",
+      "method": "GET",
+      "path": "/class-sections/{classSectionId}/settlement-reports/{version}",
+      "cloudEvidence": [
+        {
+          "file": "cloud-utc-settlement-corrections.json",
+          "kind": "SUCCESS_OBSERVED"
+        },
+        {
+          "file": "cloud-settlement-corrections.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "exportV81SettlementReport",
+      "method": "GET",
+      "path": "/class-sections/{classSectionId}/settlement-reports/{version}/export",
+      "cloudEvidence": [
+        {
+          "file": "cloud-utc-settlement-corrections.json",
+          "kind": "SUCCESS_OBSERVED"
+        },
+        {
+          "file": "cloud-settlement-corrections.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "previewV81Settlement",
+      "method": "GET",
+      "path": "/class-sections/{classSectionId}/settlement-preview",
+      "cloudEvidence": [
+        {
+          "file": "cloud-read-extended.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "getV81StudentSettlementResult",
+      "method": "GET",
+      "path": "/student/enrollments/{enrollmentId}/settlement-result",
+      "cloudEvidence": [
+        {
+          "file": "cloud-read-regression.json",
+          "kind": "SUCCESS_OBSERVED"
+        },
+        {
+          "file": "cloud-utc-read-regression.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "switchV81Semester",
+      "method": "POST",
+      "path": "/admin/semesters/{id}/switch",
+      "cloudEvidence": [
+        {
+          "file": "cloud-semester-governance.json",
+          "kind": "DENIAL_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "getV81AdminSettlementSummary",
+      "method": "GET",
+      "path": "/admin/class-sections/{classSectionId}/settlement-summary",
+      "cloudEvidence": [
+        {
+          "file": "cloud-read-regression.json",
+          "kind": "SUCCESS_OBSERVED"
+        },
+        {
+          "file": "cloud-utc-read-regression.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "correctV81FinalGrade",
+      "method": "POST",
+      "path": "/enrollments/{enrollmentId}/final-grades/corrections",
+      "cloudEvidence": [
+        {
+          "file": "cloud-utc-settlement-corrections.json",
+          "kind": "SUCCESS_OBSERVED"
+        },
+        {
+          "file": "cloud-settlement-corrections.json",
+          "kind": "SUCCESS_OBSERVED"
+        },
+        {
+          "file": "cloud-unsettled-corrections.json",
+          "kind": "DENIAL_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "correctV81PhysicalResult",
+      "method": "POST",
+      "path": "/enrollments/{enrollmentId}/physical-results/corrections",
+      "cloudEvidence": [
+        {
+          "file": "cloud-utc-settlement-corrections.json",
+          "kind": "SUCCESS_OBSERVED"
+        },
+        {
+          "file": "cloud-settlement-corrections.json",
+          "kind": "SUCCESS_OBSERVED"
+        },
+        {
+          "file": "cloud-unsettled-corrections.json",
+          "kind": "DENIAL_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "reportClientError",
+      "method": "POST",
+      "path": "/audit-logs/client-errors",
+      "cloudEvidence": [
+        {
+          "file": "cloud-client-diagnostics.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "listV81TeacherSemesters",
+      "method": "GET",
+      "path": "/teacher/semesters",
+      "cloudEvidence": [
+        {
+          "file": "cloud-read-regression.json",
+          "kind": "SUCCESS_OBSERVED"
+        },
+        {
+          "file": "cloud-utc-read-regression.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "issueMemberJoinCapability",
+      "method": "POST",
+      "path": "/course-invites/{inviteToken}/join-capabilities/member",
+      "cloudEvidence": [
+        {
+          "file": "cloud-history-lifecycle.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "getV81HistorySettings",
+      "method": "GET",
+      "path": "/class-sections/{classSectionId}/history-settings",
+      "cloudEvidence": [
+        {
+          "file": "cloud-read-regression.json",
+          "kind": "SUCCESS_OBSERVED"
+        },
+        {
+          "file": "cloud-utc-read-regression.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "saveV81HistorySettings",
+      "method": "POST",
+      "path": "/class-sections/{classSectionId}/history-settings",
+      "cloudEvidence": [
+        {
+          "file": "cloud-history-lifecycle.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "createV81HistoricalSession",
+      "method": "POST",
+      "path": "/enrollments/{enrollmentId}/historical-sessions",
+      "cloudEvidence": [
+        {
+          "file": "cloud-history-lifecycle.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "getV81ExerciseGoal",
+      "method": "GET",
+      "path": "/admin/exercise-goal",
+      "cloudEvidence": [
+        {
+          "file": "cloud-read-regression.json",
+          "kind": "SUCCESS_OBSERVED"
+        },
+        {
+          "file": "cloud-utc-read-regression.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    },
+    {
+      "operationId": "saveV81ExerciseGoal",
+      "method": "POST",
+      "path": "/admin/exercise-goal",
+      "cloudEvidence": [
+        {
+          "file": "cloud-history-lifecycle.json",
+          "kind": "SUCCESS_OBSERVED"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "scope": "Read-only production administrator interactions; not all administrator mutations or roles",
+  "observedAt": "2026-09-13T06:23:44.3781504+08:00",
+  "release": "portal-required-20260913",
+  "check": "ADMIN_COURSE_AUDIT_BROWSER_INTERACTIONS",
+  "courseCompletionExplanation": "One active recognition credit contributes 600 course and 600 general minutes, matching both 10-hour targets despite zero exercise records",
+  "checks": [
+    "Course details expand",
+    "Course search unmatched empty state",
+    "Clearing search restores course",
+    "Upcoming filter empty state",
+    "All-status filter restored",
+    "Audit request ID exact match returns one OCR configuration event",
+    "Audit detail safe metadata contains version 2 only",
+    "Unmatched audit query returns zero with pagination disabled",
+    "Audit filters cleared and overview navigation"
+  ]
+}

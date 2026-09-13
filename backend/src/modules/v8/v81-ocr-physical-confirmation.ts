@@ -11,6 +11,7 @@ import type { AuthenticatedPrincipal, FoundationRequest } from '../../common/htt
 import { Clock } from '../../common/time/clock.js';
 import { IdGenerator } from '../../common/time/id-generator.js';
 import { V81PhysicalResultsService } from './v81-physical-results.js';
+import { permitsExistingCourseSession } from '../enrollments/application/course-closure-memberships.js';
 import { inspectOcrPhysicalConfirmation, selectOcrPhysicalConfirmation, type OcrPhysicalWorkingRow } from './domain/ocr-physical-confirmation.js';
 
 export class OcrPhysicalSelection {
@@ -46,8 +47,9 @@ export class V81OcrPhysicalConfirmationService {
       WHERE batch_id=${batch.id}::uuid ORDER BY version DESC LIMIT 1`)[0];
     if (!draft) throw new ApplicationError('PERMISSION_RESOURCE_NOT_FOUND', 404);
     const enrolled = await tx.enrollment.findMany({ where: { classSectionId: batch.class_section_id,
-      organizationId: principal.organizationId, status: 'ACTIVE' }, include: { student: true } });
-    const members = enrolled.map(e => ({ enrollmentId: e.id, studentNumber: e.student.studentNumber, name: e.student.fullName, gender: e.student.gender }));
+      organizationId: principal.organizationId }, include: { student: true, classSection: true } });
+    const members = enrolled.filter(e => permitsExistingCourseSession(e, e.classSection, batch.created_at))
+      .map(e => ({ enrollmentId: e.id, studentNumber: e.student.studentNumber, name: e.student.fullName, gender: e.student.gender }));
     const links = await tx.$queryRaw<{ row_id: string; enrollment_id: string; result_version: number }[]>`
       SELECT row_id,enrollment_id,result_version FROM v81_ocr_physical_confirmations WHERE batch_id=${batch.id}::uuid`;
     const versions = await tx.$queryRaw<{ enrollment_id: string; version: number }[]>`SELECT r.enrollment_id,max(r.version) AS version

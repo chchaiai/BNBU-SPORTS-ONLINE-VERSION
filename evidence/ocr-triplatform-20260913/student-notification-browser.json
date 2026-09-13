@@ -1,0 +1,14 @@
+{
+  "check":"STUDENT_NOTIFICATION_BROWSER",
+  "date":"2026-09-13",
+  "actor":"TEST ZETA",
+  "result":"PASS_SCOPED",
+  "checks":["One unread exercise result displayed","Click opened own valid exercise record with one credited minute","Return to notices showed zero unread","Full reload preserved read state","Unread filter showed empty state","Returned to home"],
+  "fix":"Replace internal API terminology in Chinese and English explanatory text with student-facing instructions",
+  "release":"student-notification-copy-20260913",
+  "previousRelease":"invite-ui-final-20260913",
+  "deployedFileSha256":"954a9e80a366883648589fe51c5fbca48361fdc8c713c676aee813fa2ed8416f",
+  "validation":["JavaScript syntax check passed","Public HTTPS file hash matched","Chinese rendered text verified after reload"],
+  "preflight":"First deployment stopped before mutation due to line-ending hash difference. Normalized source comparison confirmed only intended copy edit before retry.",
+  "limitations":"One exercise-result notice; not all notification types. English copy changed and syntax checked but English rendering not verified in this run. No new backend or database deployment."
+}

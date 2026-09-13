@@ -1,0 +1,12 @@
+{
+  "check": "ZETA_FORMAL_PHOTO_BROWSER_READ",
+  "finding": "Record list and detail round one credited minute to 0.0h, while home correctly displays 1 minute.",
+  "serverTimesVisible": true,
+  "photoCount": 1,
+  "imageArchived": false,
+  "limitations": "Rendered formal photo verified; click did not expose a separate preview overlay. Video phone retest pending.",
+  "recordId": "01a09822-6a8b-7719-93c8-e992bddfe59f",
+  "observedAt": "2026-09-13T08:27:24.4822463+08:00",
+  "status": "VALID",
+  "formalPhotoVisible": true
+}

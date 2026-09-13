@@ -1,0 +1,2 @@
+{"check":"TEACHER_CASCADE_FAILED_LAST_STUDENT_ROLLBACK","result":"PASS","retainedStudents":3}
+{"check":"TEACHER_CASCADE_BROWSER","environment":"local","result":"PASS","studentCount":3,"oldTeacherSessionRejected":true,"peerRetained":true,"lostResponseReplay":true,"passwordVisibilityButtonCount":1,"nativePasswordRevealHidden":true}

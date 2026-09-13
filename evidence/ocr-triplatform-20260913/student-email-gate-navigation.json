@@ -1,0 +1,23 @@
+{
+  "check": "STUDENT_EMAIL_GATE_NAVIGATION",
+  "observedAt": "2026-09-12T21:12:02.866Z",
+  "checks": [
+    "INVALID_EMAIL_SEND_DISABLED",
+    "NON_SCHOOL_EMAIL_SEND_DISABLED",
+    "EMAIL_VALUE_VISUALLY_RETAINED_DESPITE_AX_OMISSION",
+    "HELP_OPEN_RETURN",
+    "PRIVACY_OPEN_RETURN",
+    "TEST_EMAIL_CLEARED_NO_MESSAGE_SENT"
+  ],
+  "privacyReviewRequired": [
+    "Policy claims JPEG re-encoding/removal of original EXIF; current code preserves original and selected non-location metadata",
+    "Policy denies automatic crash reporting while API errors can be reported to client-errors",
+    "Contact unit references Beijing Normal University Zhuhai rather than BNBU"
+  ],
+  "clarification": "Student account recovery is support-only; no contradiction on that point",
+  "limitations": [
+    "Real school mailbox verification awaits user authorization",
+    "Privacy wording not changed or legally reviewed"
+  ],
+  "allChecksCompleted": true
+}

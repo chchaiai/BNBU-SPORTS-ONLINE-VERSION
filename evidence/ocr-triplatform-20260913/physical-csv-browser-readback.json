@@ -1,0 +1,9 @@
+{
+  "result": "PASS",
+  "batchId": "01a09871-8958-718a-ac7f-78fcbd97571e",
+  "sourceSha256": "be464d2cf0ea69a4c816b5bbcb16a2d6dd0920fe95a8b80415efc2c6e5cf2538",
+  "rawVersion": 6,
+  "elapsedSeconds": 311,
+  "workflow": "Browser file chooser -> CSV upload -> select -> confirm -> physical history -> HTTP source byte comparison",
+  "browserDownloadArtifact": "PENDING"
+}

@@ -291,6 +291,7 @@ V8.1 本地草稿的 113 个早期 camelCase 权限编号已规范为大写连�
 | `POST` | `/auth/refresh` | `refreshSession` | `AUTH-REFRESH` | `PUBLIC` | `-` | `NONE` | `SESSION` | `REFRESH_TOKEN` | `true` |
 | `POST` | `/auth/logout` | `logoutSession` | `AUTH-LOGOUT` | `ACCESS_TOKEN` | `STUDENT,TEACHER,ADMIN` | `PRINCIPAL_ORGANIZATION` | `SESSION` | `AUTHENTICATED_SESSION` | `true` |
 | `GET` | `/me` | `getCurrentUser` | `USER-SELF-READ` | `ACCESS_TOKEN` | `STUDENT,TEACHER,ADMIN` | `PRINCIPAL_ORGANIZATION` | `SELF` | `PRINCIPAL_USER` | `true` |
+| `POST` | `/me/student-profile` | `completeCurrentStudentProfile` | `STUDENT-SELF-PROFILE-COMPLETE` | `ACCESS_TOKEN` | `STUDENT` | `PRINCIPAL_ORGANIZATION` | `SELF` | `PRINCIPAL_USER` | `true` |
 | `POST` | `/me/email-verification-challenges` | `requestCurrentUserEmailChallenge` | `USER-EMAIL-VERIFY-REQUEST` | `ACCESS_TOKEN` | `STUDENT,TEACHER,ADMIN` | `PRINCIPAL_ORGANIZATION` | `SELF` | `PRINCIPAL_USER` | `true` |
 | `POST` | `/me/email-verification-challenges/{challengeId}/verify` | `verifyCurrentUserEmailChallenge` | `USER-EMAIL-VERIFY-COMPLETE` | `ACCESS_TOKEN` | `STUDENT,TEACHER,ADMIN` | `PRINCIPAL_ORGANIZATION` | `SELF` | `PRINCIPAL_USER` | `true` |
 | `GET` | `/students` | `listStudents` | `STUDENT-LIST` | `ACCESS_TOKEN` | `TEACHER,ADMIN` | `PRINCIPAL_ORGANIZATION` | `ROLE_SCOPED` | `STUDENT_LIST_SCOPE` | `true` |
@@ -520,6 +521,8 @@ V8.1 本地草稿的 113 个早期 camelCase 权限编号已规范为大写连�
 | `POST` | `/admin/subadmin-identity-challenges/{id}/verify` | `verifyV81SubadminIdentity` | `VERIFY-V81-SUBADMIN-IDENTITY` | `ACCESS_TOKEN` | `ADMIN` | `PRINCIPAL_ORGANIZATION` | `SELF` | `PRINCIPAL_USER` | `true` |
 | `POST` | `/admin/subadmins/{id}/profile` | `updateV81VerifiedSubadmin` | `UPDATE-V81-VERIFIED-SUBADMIN` | `ACCESS_TOKEN` | `ADMIN` | `PRINCIPAL_ORGANIZATION` | `SELF` | `PRINCIPAL_USER` | `true` |
 | `POST` | `/admin/teachers/{id}/delete` | `deleteV81TeacherAccount` | `DELETE-V81-TEACHER-ACCOUNT` | `ACCESS_TOKEN` | `ADMIN` | `PRINCIPAL_ORGANIZATION` | `SELF` | `PRINCIPAL_USER` | `true` |
+| `POST` | `/class-sections/{id}/delete` | `deleteV81Course` | `DELETE-V81-COURSE` | `ACCESS_TOKEN` | `TEACHER` | `PRINCIPAL_ORGANIZATION` | `SELF` | `PRINCIPAL_USER` | `true` |
+| `POST` | `/admin/students/{id}/delete` | `deleteV81StudentAccount` | `DELETE-V81-STUDENT-ACCOUNT` | `ACCESS_TOKEN` | `ADMIN` | `PRINCIPAL_ORGANIZATION` | `SELF` | `PRINCIPAL_USER` | `true` |
 | `POST` | `/admin/subadmins/{id}/delete` | `deleteV81Subadmin` | `DELETE-V81-SUBADMIN` | `ACCESS_TOKEN` | `ADMIN` | `PRINCIPAL_ORGANIZATION` | `SELF` | `PRINCIPAL_USER` | `true` |
 | `POST` | `/teacher/courses` | `createV81TeacherCourse` | `CREATE-V81-TEACHER-COURSE` | `ACCESS_TOKEN` | `TEACHER` | `PRINCIPAL_ORGANIZATION` | `SELF` | `PRINCIPAL_USER` | `true` |
 | `POST` | `/class-sections/{classSectionId}/course-invites/revocations` | `revokeV81CourseInvite` | `REVOKE-V81-COURSE-INVITE` | `ACCESS_TOKEN` | `TEACHER` | `PRINCIPAL_ORGANIZATION` | `SELF` | `PRINCIPAL_USER` | `true` |
@@ -535,4 +538,8 @@ V8.1 本地草稿的 113 个早期 camelCase 权限编号已规范为大写连�
 | `POST` | `/enrollments/{enrollmentId}/physical-results/corrections` | `correctV81PhysicalResult` | `V81-PHYSICAL-RESULT-CORRECT` | `ACCESS_TOKEN` | `TEACHER` | `PRINCIPAL_ORGANIZATION` | `SELF` | `PRINCIPAL_USER` | `true` |
 | `POST` | `/audit-logs/client-errors` | `reportClientError` | `CLIENT-ERROR-REPORT` | `ACCESS_TOKEN` | `STUDENT,TEACHER,ADMIN` | `PRINCIPAL_ORGANIZATION` | `SELF` | `PRINCIPAL_USER` | `true` |
 | `GET` | `/teacher/semesters` | `listV81TeacherSemesters` | `LIST-V81-TEACHER-SEMESTERS` | `ACCESS_TOKEN` | `TEACHER` | `PRINCIPAL_ORGANIZATION` | `SELF` | `PRINCIPAL_USER` | `true` |
+| `POST` | `/course-invites/{inviteToken}/join-capabilities/member` | `issueMemberJoinCapability` | `MEMBER-JOIN-CAPABILITY-ISSUE` | `ACCESS_TOKEN` | `STUDENT` | `PRINCIPAL_ORGANIZATION` | `SELF` | `PRINCIPAL_USER` | `true` |
+| `GET` | `/class-sections/{classSectionId}/history-settings` | `getV81HistorySettings` | `GET-V81HISTORY-SETTINGS` | `ACCESS_TOKEN` | `TEACHER,STUDENT` | `PRINCIPAL_ORGANIZATION` | `SELF` | `PRINCIPAL_USER` | `true` |
+| `POST` | `/class-sections/{classSectionId}/history-settings` | `saveV81HistorySettings` | `SAVE-V81HISTORY-SETTINGS` | `ACCESS_TOKEN` | `TEACHER` | `PRINCIPAL_ORGANIZATION` | `SELF` | `PRINCIPAL_USER` | `true` |
+| `POST` | `/enrollments/{enrollmentId}/historical-sessions` | `createV81HistoricalSession` | `CREATE-V81-HISTORICAL-SESSION` | `ACCESS_TOKEN` | `STUDENT` | `PRINCIPAL_ORGANIZATION` | `SELF` | `PRINCIPAL_USER` | `true` |
 <!-- ACCESS_POLICY_REGISTRY:END -->

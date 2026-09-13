@@ -1,0 +1,20 @@
+{
+  "check": "CLOUD_TECHNICAL_STATE_MANUAL_MIGRATION",
+  "observedAt": "2026-09-12T22:17:47.526Z",
+  "organizationId": "01a096c2-20a2-706b-8c69-802f67dee12c",
+  "sectionId": "01a096e7-a22e-7535-a65d-ce0da82d59af",
+  "sessionId": "01a097b1-a6cf-7228-8ca0-a279dab557cd",
+  "recordId": "01a097b2-9b2a-7349-bbd9-5fb36340d43b",
+  "manualModeRestored": true,
+  "checks": [
+    "REAL_SUBMISSION_PENDING_AI",
+    "EXPLICIT_TECHNICAL_FIXTURE_READBACK",
+    "ADMIN_SCOPED_MIGRATION_TO_TEACHER",
+    "TEACHER_FINAL_NOT_OVERWRITTEN"
+  ],
+  "allChecksCompleted": true,
+  "limitations": [
+    "Explicit TECHNICAL state fixture; no real AI provider failure, retry or recovery observed",
+    "Synthetic COS image and HTTP session do not prove native camera interaction"
+  ]
+}

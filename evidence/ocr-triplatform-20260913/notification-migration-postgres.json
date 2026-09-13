@@ -1,0 +1,13 @@
+{
+  "check": "NOTIFICATION_MIGRATION_POSTGRES",
+  "result": "PASS",
+  "scope": "Exact migration against temporary notifications table inside rollback transaction; not full application integration or production migration",
+  "checks": [
+    "Legacy row unchanged",
+    "Valid review facts accepted",
+    "Five invalid structures rejected",
+    "Other notification type rejected",
+    "Transaction rolled back"
+  ],
+  "output": "BEGIN\nCREATE TABLE\nINSERT 0 1\nALTER TABLE\nALTER TABLE\nDO\nROLLBACK"
+}

@@ -1,0 +1,14 @@
+{
+  "check": "CLOUD_INVITE_REVOCATION",
+  "observedAt": "2026-09-12T19:09:14.272Z",
+  "sectionId": "01a096e7-a22e-7535-a65d-ce0da82d59af",
+  "checks": [
+    "PUBLIC_INVITE_PREVIEW",
+    "REVOCATION_REPLAY_PREVIEW_DENIED"
+  ],
+  "revokedPreview": {
+    "status": 410,
+    "code": "COURSE_INVITE_REVOKED"
+  },
+  "allChecksCompleted": true
+}

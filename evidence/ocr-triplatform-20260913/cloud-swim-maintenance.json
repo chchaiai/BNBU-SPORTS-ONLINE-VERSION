@@ -1,0 +1,155 @@
+{
+  "check": "CLOUD_SWIM_TRANSFER_MAINTENANCE",
+  "observedAt": "2026-09-12T21:43:55.039Z",
+  "organizationId": "01a096c2-20a2-706b-8c69-802f67dee12c",
+  "sessionId": "01a09792-6125-77fd-9093-07ce2afaaafd",
+  "recordId": "01a09793-536d-770d-ab30-9b2ad9777034",
+  "clocks": {
+    "before": {
+      "recordId": "01a09793-536d-770d-ab30-9b2ad9777034",
+      "acceptedAt": "2026-09-12T21:43:30.422Z",
+      "sessionEndedAt": "2026-09-12T21:43:29.384Z",
+      "originalTransferDeadline": "2026-09-12T22:13:30.422Z",
+      "transferDeadline": "2026-09-12T22:13:30.422Z",
+      "intakeKind": "ON_TIME",
+      "delayReason": null,
+      "completedAt": null,
+      "paused": false,
+      "remainingMs": 1799844,
+      "transferLate": false,
+      "readyForReview": false,
+      "items": [
+        {
+          "mediaId": "01a09793-5419-74bf-9658-c4543d4da338",
+          "phase": "BEFORE",
+          "uploadStatus": "PENDING_UPLOAD"
+        },
+        {
+          "mediaId": "01a09793-54cd-775d-878a-07f1bb9ff3d9",
+          "phase": "AFTER",
+          "uploadStatus": "PENDING_UPLOAD"
+        }
+      ]
+    },
+    "pausedFirst": {
+      "recordId": "01a09793-536d-770d-ab30-9b2ad9777034",
+      "acceptedAt": "2026-09-12T21:43:30.422Z",
+      "sessionEndedAt": "2026-09-12T21:43:29.384Z",
+      "originalTransferDeadline": "2026-09-12T22:13:30.422Z",
+      "transferDeadline": "2026-09-12T22:13:32.880Z",
+      "intakeKind": "ON_TIME",
+      "delayReason": null,
+      "completedAt": null,
+      "paused": true,
+      "remainingMs": 1799694,
+      "transferLate": false,
+      "readyForReview": false,
+      "items": [
+        {
+          "mediaId": "01a09793-5419-74bf-9658-c4543d4da338",
+          "phase": "BEFORE",
+          "uploadStatus": "PENDING_UPLOAD"
+        },
+        {
+          "mediaId": "01a09793-54cd-775d-878a-07f1bb9ff3d9",
+          "phase": "AFTER",
+          "uploadStatus": "PENDING_UPLOAD"
+        }
+      ]
+    },
+    "pausedSecond": {
+      "recordId": "01a09793-536d-770d-ab30-9b2ad9777034",
+      "acceptedAt": "2026-09-12T21:43:30.422Z",
+      "sessionEndedAt": "2026-09-12T21:43:29.384Z",
+      "originalTransferDeadline": "2026-09-12T22:13:30.422Z",
+      "transferDeadline": "2026-09-12T22:13:41.190Z",
+      "intakeKind": "ON_TIME",
+      "delayReason": null,
+      "completedAt": null,
+      "paused": true,
+      "remainingMs": 1799694,
+      "transferLate": false,
+      "readyForReview": false,
+      "items": [
+        {
+          "mediaId": "01a09793-5419-74bf-9658-c4543d4da338",
+          "phase": "BEFORE",
+          "uploadStatus": "PENDING_UPLOAD"
+        },
+        {
+          "mediaId": "01a09793-54cd-775d-878a-07f1bb9ff3d9",
+          "phase": "AFTER",
+          "uploadStatus": "PENDING_UPLOAD"
+        }
+      ]
+    },
+    "resumed": {
+      "recordId": "01a09793-536d-770d-ab30-9b2ad9777034",
+      "acceptedAt": "2026-09-12T21:43:30.422Z",
+      "sessionEndedAt": "2026-09-12T21:43:29.384Z",
+      "originalTransferDeadline": "2026-09-12T22:13:30.422Z",
+      "transferDeadline": "2026-09-12T22:13:44.530Z",
+      "intakeKind": "ON_TIME",
+      "delayReason": null,
+      "completedAt": null,
+      "paused": false,
+      "remainingMs": 1799545,
+      "transferLate": false,
+      "readyForReview": false,
+      "items": [
+        {
+          "mediaId": "01a09793-5419-74bf-9658-c4543d4da338",
+          "phase": "BEFORE",
+          "uploadStatus": "PENDING_UPLOAD"
+        },
+        {
+          "mediaId": "01a09793-54cd-775d-878a-07f1bb9ff3d9",
+          "phase": "AFTER",
+          "uploadStatus": "PENDING_UPLOAD"
+        }
+      ]
+    },
+    "resumedLater": {
+      "recordId": "01a09793-536d-770d-ab30-9b2ad9777034",
+      "acceptedAt": "2026-09-12T21:43:30.422Z",
+      "sessionEndedAt": "2026-09-12T21:43:29.384Z",
+      "originalTransferDeadline": "2026-09-12T22:13:30.422Z",
+      "transferDeadline": "2026-09-12T22:13:44.530Z",
+      "intakeKind": "ON_TIME",
+      "delayReason": null,
+      "completedAt": null,
+      "paused": false,
+      "remainingMs": 1796388,
+      "transferLate": false,
+      "readyForReview": false,
+      "items": [
+        {
+          "mediaId": "01a09793-5419-74bf-9658-c4543d4da338",
+          "phase": "BEFORE",
+          "uploadStatus": "PENDING_UPLOAD"
+        },
+        {
+          "mediaId": "01a09793-54cd-775d-878a-07f1bb9ff3d9",
+          "phase": "AFTER",
+          "uploadStatus": "PENDING_UPLOAD"
+        }
+      ]
+    }
+  },
+  "checks": [
+    "SWIM_TRANSFER_REMAINING_FROZEN_PUBLIC_ORGANIZATION_NORMAL",
+    "SWIM_TRANSFER_RESUMES_REMAINING_WITHOUT_RESET",
+    "RESUMED_ORIGINAL_BATCH_REVIEWED_VALID"
+  ],
+  "finalPolicy": {
+    "organizationId": "01a096c2-20a2-706b-8c69-802f67dee12c",
+    "systemMode": "NORMAL",
+    "version": 11
+  },
+  "allChecksCompleted": true,
+  "limitations": [
+    "Maintenance clock observed read-only through actual production readSwimTransfer; student business endpoint is gated during maintenance",
+    "30-minute expiry and 24-hour final deadline remain separate",
+    "Synthetic PNG transport, not native camera capture"
+  ]
+}

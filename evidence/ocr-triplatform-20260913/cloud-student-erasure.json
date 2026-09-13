@@ -1,0 +1,12 @@
+{
+  "check": "CLOUD_SYNTHETIC_STUDENT_ERASURE",
+  "observedAt": "2026-09-12T18:19:21.035Z",
+  "organizationId": "01a096c2-20a2-706b-8c69-802f67dee12c",
+  "studentId": "01a096c2-21dc-762b-8c7c-7889c687418b",
+  "checks": [
+    "TEACHER_ERASURE_DENIED",
+    "ADMIN_STUDENT_ERASURE_AND_REPLAY",
+    "STUDENT_PROFILE_NO_LONGER_READABLE"
+  ],
+  "allChecksCompleted": true
+}

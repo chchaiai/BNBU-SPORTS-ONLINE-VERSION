@@ -1,0 +1,32 @@
+{
+  "check": "PRISMA_TIMESTAMPTZ_TIMEZONE",
+  "status": "CONFIRMED_BUG_LOCAL_FIX",
+  "observedAt": "2026-09-12T20:39:36.634Z",
+  "sameTransaction": {
+    "epoch": 1789245513.529661,
+    "prcParsed": "2026-09-13T04:38:33.529Z",
+    "utcParsed": "2026-09-12T20:38:33.529Z",
+    "offsetHours": 8
+  },
+  "isolatedUtcConnection": {
+    "zone": "UTC",
+    "parsed": "2026-09-12T20:39:36.630Z",
+    "epoch": 1789245576.630845,
+    "differenceMs": 0.844970703125,
+    "pass": true
+  },
+  "unitTestsPassed": 4,
+  "productionChanged": false,
+  "requiredRevalidation": [
+    "Audit timestamps",
+    "Invitation and capability deadlines",
+    "Exercise windows and maintenance clocks",
+    "Settlement deadlines and reports",
+    "All other raw timestamptz projections"
+  ],
+  "limitations": [
+    "Production app remains on PRC sessions",
+    "Prior time-sensitive cloud acceptance is provisional pending fixed deployment and regression",
+    "Database epoch is correct; do not shift stored timestamp facts by eight hours"
+  ]
+}

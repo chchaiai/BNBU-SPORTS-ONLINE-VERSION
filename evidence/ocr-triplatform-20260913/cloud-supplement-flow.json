@@ -1,0 +1,13 @@
+{
+  "check": "CLOUD_ONE_SUPPLEMENT_FLOW",
+  "observedAt": "2026-09-12T18:46:01.912Z",
+  "organizationId": "01a096c2-20a2-706b-8c69-802f67dee12c",
+  "sessionId": "01a096ef-c91c-754b-b97e-74fc09943abb",
+  "recordId": "01a096f0-bb67-73ee-a57f-3f4a8897d6a6",
+  "checks": [
+    "REAL_TIMED_COS_RECORD_RETURN_TODO_CLOCK",
+    "ONE_SUPPLEMENT_NEW_COS_MATERIAL_REPLAY",
+    "SECOND_SUPPLEMENT_DENIED_VALID_REVIEW_PRESERVES_TWO_VERSIONS"
+  ],
+  "allChecksCompleted": true
+}

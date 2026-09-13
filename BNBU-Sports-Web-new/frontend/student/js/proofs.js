@@ -95,7 +95,7 @@ export function validateProofFile(file, kind, facts = {}) {
 // Exemption/certification documents have their own business limits.
 export function validateApplicationProofFile(file) {
   const mimeType = mimeEssence(file?.type);
-  const extensions = { 'image/jpeg': 'jpg', 'image/png': 'png', 'image/webp': 'webp' };
+  const extensions = { 'image/jpeg': 'jpg', 'image/png': 'png', 'image/webp': 'webp', 'application/pdf': 'pdf' };
   if (!Object.hasOwn(extensions, mimeType)) return { ok: false, error: 'format' };
   if (!Number.isSafeInteger(file?.size) || file.size < 1) return { ok: false, error: 'empty' };
   if (file.size > 10 * 1024 * 1024) return { ok: false, error: 'size' };

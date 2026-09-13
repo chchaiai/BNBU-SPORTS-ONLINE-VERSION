@@ -320,3 +320,8 @@
 - `createScoreAdjustment` 只创建 `PENDING_APPROVAL`，approve/reject 是独立 operation。创建请求不得直接改变 StudentScore。
 - Score 成功响应沿用 `data/meta`，错误沿用稳定 envelope。永久禁止的归档修正必须命中真实路由并返回 `SCORE_CORRECTION_NOT_ALLOWED`，通用 404 不算实现。
 - STUDENT 仅访问自己的安全投影；TEACHER 仅访问本人 ClassSection；ADMIN 可治理规则与 Adjustment，并只读查看本组织成绩。
+
+
+## 2026-09-12 需求补充
+
+本轮长期档案、历史保留、教师日/周/时长配置、历史补录、PDF 与照片信息约定见 [需求补充](20-demand-20260912.md)。与旧版课程/教师级联清除描述冲突时，以该补充及用户确认的业务规则为准。

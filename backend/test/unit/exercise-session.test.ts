@@ -38,6 +38,7 @@ function session(overrides: Partial<ExerciseSession> = {}): ExerciseSession {
     expiredAt: null,
     endReason: null,
     actualDurationSeconds: 0n,
+    maximumDurationSeconds: null,
     pausedDurationSeconds: 0n,
     currentIntervalStartedAt: at(0),
     lastHeartbeatAt: at(0),
@@ -49,6 +50,17 @@ function session(overrides: Partial<ExerciseSession> = {}): ExerciseSession {
 }
 
 describe('ExerciseSession authoritative domain', () => {
+  it('stops at the snapshotted limit and excludes paused intervals', () => {
+    assert.deepEqual(cappedRunningDuration(20n, at(100), at(139), 60), {
+      actualDurationSeconds: 59, reachedCap: false, capAt: at(139),
+    });
+    for (const observed of [140, 141, 1000]) {
+      assert.deepEqual(cappedRunningDuration(20n, at(100), at(observed), 60), {
+        actualDurationSeconds: 60, reachedCap: true, capAt: at(140),
+      });
+    }
+    assert.equal(cappedRunningDuration(20n, at(100), at(1000)).actualDurationSeconds, 920);
+  });
   it('freezes the five states and every permitted lifecycle transition', () => {
     assert.deepEqual(EXERCISE_SESSION_STATUSES, [
       'IN_PROGRESS',
@@ -139,6 +151,7 @@ describe('ExerciseSession authoritative domain', () => {
       'startedAt',
       'endedAt',
       'actualDurationSeconds',
+      'maximumDurationSeconds',
       'pausedDurationSeconds',
       'businessDate',
       'lastHeartbeatAt',

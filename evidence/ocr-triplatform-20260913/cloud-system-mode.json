@@ -1,0 +1,10 @@
+{
+  "check": "CLOUD_SCOPED_SYSTEM_MODE",
+  "observedAt": "2026-09-12T19:18:20.702Z",
+  "organizationId": "01a096c2-20a2-706b-8c69-802f67dee12c",
+  "checks": [
+    "SCOPED_MAINTENANCE_REPLAY_BUSINESS_DENIED_PUBLIC_NORMAL",
+    "SYNTHETIC_MODE_RESTORED"
+  ],
+  "allChecksCompleted": true
+}

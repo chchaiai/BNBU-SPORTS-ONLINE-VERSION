@@ -1,0 +1,47 @@
+{
+  "check": "CLOUD_SUPPLEMENT_MAINTENANCE_ORDINARY_REVIEW",
+  "observedAt": "2026-09-12T19:48:24.281Z",
+  "organizationId": "01a096c2-20a2-706b-8c69-802f67dee12c",
+  "sessionId": "01a09728-bc57-777f-ad62-03f14b879b67",
+  "recordId": "01a09729-af12-7355-8061-a02b34f1fad3",
+  "finalModeVersion": 7,
+  "maintenance": false,
+  "clocks": {
+    "before": {
+      "deadline": "2026-09-13T19:48:09.708Z",
+      "remainingMs": 86399822,
+      "paused": false,
+      "expired": false
+    },
+    "pausedFirst": {
+      "deadline": "2026-09-13T19:48:09.869Z",
+      "remainingMs": 86399513,
+      "paused": true,
+      "expired": false
+    },
+    "pausedSecond": {
+      "deadline": "2026-09-13T19:48:15.386Z",
+      "remainingMs": 86399513,
+      "paused": true,
+      "expired": false
+    },
+    "resumed": {
+      "deadline": "2026-09-13T19:48:16.006Z",
+      "remainingMs": 86399343,
+      "paused": false,
+      "expired": false
+    },
+    "resumedLater": {
+      "deadline": "2026-09-13T19:48:16.006Z",
+      "remainingMs": 86396191,
+      "paused": false,
+      "expired": false
+    }
+  },
+  "checks": [
+    "SCOPED_MAINTENANCE_CLOCK_PAUSED_PUBLIC_NORMAL",
+    "NORMAL_RESTORED_CLOCK_RESUMES",
+    "ORDINARY_PENDING_REVIEW_SUCCESS_REPLAY_AFTER_SUPPLEMENT"
+  ],
+  "allChecksCompleted": true
+}

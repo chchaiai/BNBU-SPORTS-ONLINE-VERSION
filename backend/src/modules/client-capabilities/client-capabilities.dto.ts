@@ -296,8 +296,8 @@ export class VersionedRequestDto {
 }
 
 export class ReviewExemptionApplicationRequestDto {
-  @ValidateIf((_object, value: unknown) => value !== undefined) @Type(() => Number) @IsInt() @Min(0) @Max(1200) courseMinutes?: number;
-  @ValidateIf((_object, value: unknown) => value !== undefined) @Type(() => Number) @IsInt() @Min(0) @Max(1200) generalMinutes?: number;
+  @ValidateIf((_object, value: unknown) => value !== undefined) @Type(() => Number) @IsInt() @Min(0) @Max(2147483647) courseMinutes?: number;
+  @ValidateIf((_object, value: unknown) => value !== undefined) @Type(() => Number) @IsInt() @Min(0) @Max(2147483647) generalMinutes?: number;
   @IsIn(['APPROVE', 'REJECT', 'REQUEST_SUPPLEMENT'])
   decision!: string;
 

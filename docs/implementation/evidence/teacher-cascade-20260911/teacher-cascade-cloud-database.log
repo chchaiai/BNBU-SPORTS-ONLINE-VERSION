@@ -1,0 +1,2 @@
+{"check":"TEACHER_CASCADE_DATABASE","environment":"cloud","result":"PASS","remaining":{"teacher":0,"teacherUser":0,"students":0,"users":0,"enrollments":0,"records":0,"media":0,"scores":0},"closedOrArchivedCourses":2,"otherCourseRetained":true,"peerRetained":true,"teacherAuditCount":1}
+{"check":"TEACHER_CASCADE_TEST_ACCOUNTS_DISABLED","result":"PASS","count":4}

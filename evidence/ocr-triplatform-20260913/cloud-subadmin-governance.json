@@ -1,0 +1,800 @@
+{
+  "check": "CLOUD_SUBADMIN_GOVERNANCE",
+  "organizationId": "01a096c2-20a2-706b-8c69-802f67dee12c",
+  "checks": [
+    {
+      "path": "/me",
+      "status": 200,
+      "expected": 200,
+      "requestId": "01a0984f-148e-706b-bccd-05d7f74bd4ef"
+    },
+    {
+      "path": "/admin/subadmins",
+      "status": 403,
+      "expected": 403,
+      "requestId": "01a0984f-16b0-774a-8b47-b5b609349eb2"
+    },
+    {
+      "path": "/admin/subadmins",
+      "status": 201,
+      "expected": 201,
+      "requestId": "01a0984f-1749-76db-b91c-17fe7b955ee0"
+    },
+    {
+      "path": "/admin/subadmins",
+      "status": 201,
+      "expected": 201,
+      "requestId": "01a0984f-187d-7090-8e47-714749fd3145"
+    },
+    {
+      "path": "/auth/password-login",
+      "status": 200,
+      "expected": 200,
+      "requestId": "01a0984f-198a-774b-8ec1-62276cf1810e"
+    },
+    {
+      "path": "/auth/account-security",
+      "status": 200,
+      "expected": 200,
+      "requestId": "01a0984f-1aa5-742d-9859-3a4db55fe4c3"
+    },
+    {
+      "path": "/admin/audit-events",
+      "status": 403,
+      "expected": 403,
+      "requestId": "01a0984f-1b3e-719d-ab43-61ca2d35a8f2"
+    },
+    {
+      "path": "/auth/own-password",
+      "status": 201,
+      "expected": 201,
+      "requestId": "01a0984f-1bcc-75de-9d1d-e1ee590454a0"
+    },
+    {
+      "path": "/admin/audit-events",
+      "status": 200,
+      "expected": 200,
+      "requestId": "01a0984f-1d58-7060-bf23-b89cb9fc8f06"
+    },
+    {
+      "path": "/admin/subadmins",
+      "status": 200,
+      "expected": 200,
+      "requestId": "01a0984f-1e3d-711a-89d0-1719400d070e"
+    },
+    {
+      "path": "/admin/subadmins/ac5e4a61-f29d-4a1e-bc5b-87680c8953d0/permissions",
+      "status": 201,
+      "expected": 201,
+      "requestId": "01a0984f-1ed5-716f-b7e5-eb447a379adb"
+    },
+    {
+      "path": "/admin/subadmins/ac5e4a61-f29d-4a1e-bc5b-87680c8953d0/permissions",
+      "status": 201,
+      "expected": 201,
+      "requestId": "01a0984f-1f73-726f-8e31-0d4703077856"
+    },
+    {
+      "path": "/admin/subadmins/ac5e4a61-f29d-4a1e-bc5b-87680c8953d0/permissions",
+      "status": 409,
+      "expected": 409,
+      "requestId": "01a0984f-2010-729f-9ba0-7bfca8a0753e"
+    },
+    {
+      "path": "/admin/course-directory",
+      "status": 200,
+      "expected": 200,
+      "requestId": "01a0984f-20a6-7491-ba20-8927d2b25187"
+    },
+    {
+      "path": "/admin/semesters",
+      "status": 403,
+      "expected": 403,
+      "requestId": "01a0984f-2155-70cf-a2fb-dd7b828e09be"
+    },
+    {
+      "path": "/admin/teacher-accounts",
+      "status": 403,
+      "expected": 403,
+      "requestId": "01a0984f-21e4-73be-95e2-8d6dc61395d6"
+    },
+    {
+      "path": "/admin/feedback",
+      "status": 403,
+      "expected": 403,
+      "requestId": "01a0984f-2278-745e-9d76-feafbc880eae"
+    },
+    {
+      "path": "/admin/endurance-tables",
+      "status": 403,
+      "expected": 403,
+      "requestId": "01a0984f-2306-75b3-904a-782f7fe50953"
+    },
+    {
+      "path": "/system-mode/history",
+      "status": 403,
+      "expected": 403,
+      "requestId": "01a0984f-239a-771c-b7e3-ca15e1346033"
+    },
+    {
+      "path": "/admin/help-articles",
+      "status": 403,
+      "expected": 403,
+      "requestId": "01a0984f-2428-730f-bff2-ff48a4e16338"
+    },
+    {
+      "path": "/admin/audit-events",
+      "status": 403,
+      "expected": 403,
+      "requestId": "01a0984f-24be-72b7-b022-245f8ee630b0"
+    },
+    {
+      "path": "/admin/subadmins",
+      "status": 403,
+      "expected": 403,
+      "requestId": "01a0984f-2550-7596-af2d-9a674e65fce9"
+    },
+    {
+      "path": "/admin/subadmins/ac5e4a61-f29d-4a1e-bc5b-87680c8953d0/permissions",
+      "status": 201,
+      "expected": 201,
+      "requestId": "01a0984f-25ed-774a-93b3-e1ecda325771"
+    },
+    {
+      "path": "/admin/subadmins/ac5e4a61-f29d-4a1e-bc5b-87680c8953d0/permissions",
+      "status": 201,
+      "expected": 201,
+      "requestId": "01a0984f-268b-7056-b532-6c3e31c274c3"
+    },
+    {
+      "path": "/admin/subadmins/ac5e4a61-f29d-4a1e-bc5b-87680c8953d0/permissions",
+      "status": 409,
+      "expected": 409,
+      "requestId": "01a0984f-2727-7525-9196-92262639cb66"
+    },
+    {
+      "path": "/admin/course-directory",
+      "status": 403,
+      "expected": 403,
+      "requestId": "01a0984f-27bc-7729-9ad2-295c04c53118"
+    },
+    {
+      "path": "/admin/semesters",
+      "status": 200,
+      "expected": 200,
+      "requestId": "01a0984f-284f-728d-bcaf-38093ba246ac"
+    },
+    {
+      "path": "/admin/teacher-accounts",
+      "status": 403,
+      "expected": 403,
+      "requestId": "01a0984f-28e3-756a-a9e8-63de6cdb15c6"
+    },
+    {
+      "path": "/admin/feedback",
+      "status": 403,
+      "expected": 403,
+      "requestId": "01a0984f-2978-730f-ac2a-b304fa26ee62"
+    },
+    {
+      "path": "/admin/endurance-tables",
+      "status": 403,
+      "expected": 403,
+      "requestId": "01a0984f-2a06-754c-bf36-a1fb1118883f"
+    },
+    {
+      "path": "/system-mode/history",
+      "status": 403,
+      "expected": 403,
+      "requestId": "01a0984f-2a9d-750f-bdfe-341d923d99e7"
+    },
+    {
+      "path": "/admin/help-articles",
+      "status": 403,
+      "expected": 403,
+      "requestId": "01a0984f-2b2b-73bd-abfe-d9b5ac125e53"
+    },
+    {
+      "path": "/admin/audit-events",
+      "status": 403,
+      "expected": 403,
+      "requestId": "01a0984f-2bbf-73d9-8f47-d1bfc1348190"
+    },
+    {
+      "path": "/admin/subadmins",
+      "status": 403,
+      "expected": 403,
+      "requestId": "01a0984f-2c4c-7058-ab28-4e9fa8e7a8a5"
+    },
+    {
+      "path": "/admin/subadmins/ac5e4a61-f29d-4a1e-bc5b-87680c8953d0/permissions",
+      "status": 201,
+      "expected": 201,
+      "requestId": "01a0984f-2ce0-7278-98ae-9a46ec76fe6e"
+    },
+    {
+      "path": "/admin/subadmins/ac5e4a61-f29d-4a1e-bc5b-87680c8953d0/permissions",
+      "status": 201,
+      "expected": 201,
+      "requestId": "01a0984f-2d7a-75ae-89fa-04a47564e262"
+    },
+    {
+      "path": "/admin/subadmins/ac5e4a61-f29d-4a1e-bc5b-87680c8953d0/permissions",
+      "status": 409,
+      "expected": 409,
+      "requestId": "01a0984f-2e12-74eb-bc24-da52125cc21d"
+    },
+    {
+      "path": "/admin/course-directory",
+      "status": 403,
+      "expected": 403,
+      "requestId": "01a0984f-2ea6-74df-a6b7-bba24f1c5e48"
+    },
+    {
+      "path": "/admin/semesters",
+      "status": 403,
+      "expected": 403,
+      "requestId": "01a0984f-2f3a-7618-9f73-5c556e040b38"
+    },
+    {
+      "path": "/admin/teacher-accounts",
+      "status": 200,
+      "expected": 200,
+      "requestId": "01a0984f-2fc8-708e-a154-8aec8d6b229a"
+    },
+    {
+      "path": "/admin/feedback",
+      "status": 403,
+      "expected": 403,
+      "requestId": "01a0984f-3061-729c-9d99-acb916558a80"
+    },
+    {
+      "path": "/admin/endurance-tables",
+      "status": 403,
+      "expected": 403,
+      "requestId": "01a0984f-30ee-73d9-8f57-bbcfb32b8a5e"
+    },
+    {
+      "path": "/system-mode/history",
+      "status": 403,
+      "expected": 403,
+      "requestId": "01a0984f-3181-7392-ac19-6f9a05877962"
+    },
+    {
+      "path": "/admin/help-articles",
+      "status": 403,
+      "expected": 403,
+      "requestId": "01a0984f-3210-7399-80dc-4167fa8a766a"
+    },
+    {
+      "path": "/admin/audit-events",
+      "status": 403,
+      "expected": 403,
+      "requestId": "01a0984f-32a3-70e0-8842-e35620dde96e"
+    },
+    {
+      "path": "/admin/subadmins",
+      "status": 403,
+      "expected": 403,
+      "requestId": "01a0984f-3331-754e-acd7-dc9a68d63b8d"
+    },
+    {
+      "path": "/admin/subadmins/ac5e4a61-f29d-4a1e-bc5b-87680c8953d0/permissions",
+      "status": 201,
+      "expected": 201,
+      "requestId": "01a0984f-33c5-77be-aaab-64b0a54bbd0d"
+    },
+    {
+      "path": "/admin/subadmins/ac5e4a61-f29d-4a1e-bc5b-87680c8953d0/permissions",
+      "status": 201,
+      "expected": 201,
+      "requestId": "01a0984f-345f-7253-a913-d61f5ae2cdd8"
+    },
+    {
+      "path": "/admin/subadmins/ac5e4a61-f29d-4a1e-bc5b-87680c8953d0/permissions",
+      "status": 409,
+      "expected": 409,
+      "requestId": "01a0984f-34f8-71e3-a6da-e2bdd76367b6"
+    },
+    {
+      "path": "/admin/course-directory",
+      "status": 403,
+      "expected": 403,
+      "requestId": "01a0984f-358f-72c9-9cd6-5dd68052b865"
+    },
+    {
+      "path": "/admin/semesters",
+      "status": 403,
+      "expected": 403,
+      "requestId": "01a0984f-3624-761e-a096-566d0e581aee"
+    },
+    {
+      "path": "/admin/teacher-accounts",
+      "status": 403,
+      "expected": 403,
+      "requestId": "01a0984f-36b4-712c-8588-a3c1ab738c3f"
+    },
+    {
+      "path": "/admin/feedback",
+      "status": 200,
+      "expected": 200,
+      "requestId": "01a0984f-3748-73eb-81be-961b62e6b50e"
+    },
+    {
+      "path": "/admin/endurance-tables",
+      "status": 403,
+      "expected": 403,
+      "requestId": "01a0984f-37de-73eb-bbfd-ef8cf1c25e3f"
+    },
+    {
+      "path": "/system-mode/history",
+      "status": 403,
+      "expected": 403,
+      "requestId": "01a0984f-3872-75cb-8469-977085426240"
+    },
+    {
+      "path": "/admin/help-articles",
+      "status": 403,
+      "expected": 403,
+      "requestId": "01a0984f-3900-739c-8d48-3601c1bdc4d2"
+    },
+    {
+      "path": "/admin/audit-events",
+      "status": 403,
+      "expected": 403,
+      "requestId": "01a0984f-3994-7721-9b09-0b88b60b1584"
+    },
+    {
+      "path": "/admin/subadmins",
+      "status": 403,
+      "expected": 403,
+      "requestId": "01a0984f-3a25-7402-a2b2-7db53efc8217"
+    },
+    {
+      "path": "/admin/subadmins/ac5e4a61-f29d-4a1e-bc5b-87680c8953d0/permissions",
+      "status": 201,
+      "expected": 201,
+      "requestId": "01a0984f-3ab9-77a3-b215-ca72f691946f"
+    },
+    {
+      "path": "/admin/subadmins/ac5e4a61-f29d-4a1e-bc5b-87680c8953d0/permissions",
+      "status": 201,
+      "expected": 201,
+      "requestId": "01a0984f-3b53-763a-ac3e-4b9cff8045a0"
+    },
+    {
+      "path": "/admin/subadmins/ac5e4a61-f29d-4a1e-bc5b-87680c8953d0/permissions",
+      "status": 409,
+      "expected": 409,
+      "requestId": "01a0984f-3beb-7700-a9b7-3bd1002a1796"
+    },
+    {
+      "path": "/admin/course-directory",
+      "status": 403,
+      "expected": 403,
+      "requestId": "01a0984f-3c80-731d-8f65-3740186e6171"
+    },
+    {
+      "path": "/admin/semesters",
+      "status": 403,
+      "expected": 403,
+      "requestId": "01a0984f-3d13-7189-954c-d6e9f35b9e3d"
+    },
+    {
+      "path": "/admin/teacher-accounts",
+      "status": 403,
+      "expected": 403,
+      "requestId": "01a0984f-3da1-77dc-aded-9b768bada4db"
+    },
+    {
+      "path": "/admin/feedback",
+      "status": 403,
+      "expected": 403,
+      "requestId": "01a0984f-3e3c-7302-8298-49894ec693a9"
+    },
+    {
+      "path": "/admin/endurance-tables",
+      "status": 200,
+      "expected": 200,
+      "requestId": "01a0984f-3ecb-748a-a2f1-a00ff7f98872"
+    },
+    {
+      "path": "/system-mode/history",
+      "status": 403,
+      "expected": 403,
+      "requestId": "01a0984f-3fff-714e-a81c-bd60a858afea"
+    },
+    {
+      "path": "/admin/help-articles",
+      "status": 403,
+      "expected": 403,
+      "requestId": "01a0984f-408d-72ea-82b6-8e22777bd5c6"
+    },
+    {
+      "path": "/admin/audit-events",
+      "status": 403,
+      "expected": 403,
+      "requestId": "01a0984f-4120-74bf-b624-0db230a6e544"
+    },
+    {
+      "path": "/admin/subadmins",
+      "status": 403,
+      "expected": 403,
+      "requestId": "01a0984f-41ae-77fe-b23a-510685cc395d"
+    },
+    {
+      "path": "/admin/subadmins/ac5e4a61-f29d-4a1e-bc5b-87680c8953d0/permissions",
+      "status": 201,
+      "expected": 201,
+      "requestId": "01a0984f-4243-7029-b6b1-52b790dc6e88"
+    },
+    {
+      "path": "/admin/subadmins/ac5e4a61-f29d-4a1e-bc5b-87680c8953d0/permissions",
+      "status": 201,
+      "expected": 201,
+      "requestId": "01a0984f-42dd-707f-af65-cfa3d41af6ab"
+    },
+    {
+      "path": "/admin/subadmins/ac5e4a61-f29d-4a1e-bc5b-87680c8953d0/permissions",
+      "status": 409,
+      "expected": 409,
+      "requestId": "01a0984f-4377-7402-9190-b109805f3ed0"
+    },
+    {
+      "path": "/admin/course-directory",
+      "status": 403,
+      "expected": 403,
+      "requestId": "01a0984f-440f-74ba-b601-d30074ffb5c9"
+    },
+    {
+      "path": "/admin/semesters",
+      "status": 403,
+      "expected": 403,
+      "requestId": "01a0984f-44a4-75ae-8f35-e03a6c8e4ee4"
+    },
+    {
+      "path": "/admin/teacher-accounts",
+      "status": 403,
+      "expected": 403,
+      "requestId": "01a0984f-4531-7589-bf35-e95ac4f1d814"
+    },
+    {
+      "path": "/admin/feedback",
+      "status": 403,
+      "expected": 403,
+      "requestId": "01a0984f-45c5-7668-a7c2-6b9178655312"
+    },
+    {
+      "path": "/admin/endurance-tables",
+      "status": 403,
+      "expected": 403,
+      "requestId": "01a0984f-4654-73ff-89fe-1c9edceea558"
+    },
+    {
+      "path": "/system-mode/history",
+      "status": 200,
+      "expected": 200,
+      "requestId": "01a0984f-46e7-757d-befc-9d7f946d117d"
+    },
+    {
+      "path": "/admin/help-articles",
+      "status": 403,
+      "expected": 403,
+      "requestId": "01a0984f-477a-730a-9016-2772cb65615f"
+    },
+    {
+      "path": "/admin/audit-events",
+      "status": 403,
+      "expected": 403,
+      "requestId": "01a0984f-480f-7393-8fd8-99962018f9a4"
+    },
+    {
+      "path": "/admin/subadmins",
+      "status": 403,
+      "expected": 403,
+      "requestId": "01a0984f-48a2-73e0-8dbf-635d59495440"
+    },
+    {
+      "path": "/admin/subadmins/ac5e4a61-f29d-4a1e-bc5b-87680c8953d0/permissions",
+      "status": 201,
+      "expected": 201,
+      "requestId": "01a0984f-4937-77b7-91a2-8a9bc99e3c09"
+    },
+    {
+      "path": "/admin/subadmins/ac5e4a61-f29d-4a1e-bc5b-87680c8953d0/permissions",
+      "status": 201,
+      "expected": 201,
+      "requestId": "01a0984f-49d0-7239-aae1-5d9ec7dcda01"
+    },
+    {
+      "path": "/admin/subadmins/ac5e4a61-f29d-4a1e-bc5b-87680c8953d0/permissions",
+      "status": 409,
+      "expected": 409,
+      "requestId": "01a0984f-4a67-7148-b4c3-66b311c0aa7f"
+    },
+    {
+      "path": "/admin/course-directory",
+      "status": 403,
+      "expected": 403,
+      "requestId": "01a0984f-4afc-77fa-bfe1-b0747a808e08"
+    },
+    {
+      "path": "/admin/semesters",
+      "status": 403,
+      "expected": 403,
+      "requestId": "01a0984f-4b90-71cd-9cbb-74ffe12f9e4b"
+    },
+    {
+      "path": "/admin/teacher-accounts",
+      "status": 403,
+      "expected": 403,
+      "requestId": "01a0984f-4c1d-7324-91df-c53f479a7cf5"
+    },
+    {
+      "path": "/admin/feedback",
+      "status": 403,
+      "expected": 403,
+      "requestId": "01a0984f-4cb1-72f1-91f7-8795efb74eb1"
+    },
+    {
+      "path": "/admin/endurance-tables",
+      "status": 403,
+      "expected": 403,
+      "requestId": "01a0984f-4d3e-707b-ae0d-02adf4791d0d"
+    },
+    {
+      "path": "/system-mode/history",
+      "status": 403,
+      "expected": 403,
+      "requestId": "01a0984f-4dd4-76de-9d9e-10fa14984542"
+    },
+    {
+      "path": "/admin/help-articles",
+      "status": 200,
+      "expected": 200,
+      "requestId": "01a0984f-4e62-7382-a7b1-8469e4db7145"
+    },
+    {
+      "path": "/admin/audit-events",
+      "status": 403,
+      "expected": 403,
+      "requestId": "01a0984f-4efc-70da-a18b-bda53279e7a0"
+    },
+    {
+      "path": "/admin/subadmins",
+      "status": 403,
+      "expected": 403,
+      "requestId": "01a0984f-4f8a-70f2-820a-8f9ed4a62d9e"
+    },
+    {
+      "path": "/admin/subadmins/ac5e4a61-f29d-4a1e-bc5b-87680c8953d0/permissions",
+      "status": 201,
+      "expected": 201,
+      "requestId": "01a0984f-501d-73ac-9192-8c1de9a5fe02"
+    },
+    {
+      "path": "/admin/subadmins/ac5e4a61-f29d-4a1e-bc5b-87680c8953d0/permissions",
+      "status": 201,
+      "expected": 201,
+      "requestId": "01a0984f-50b7-73df-b1eb-35fdb0495de3"
+    },
+    {
+      "path": "/admin/subadmins/ac5e4a61-f29d-4a1e-bc5b-87680c8953d0/permissions",
+      "status": 409,
+      "expected": 409,
+      "requestId": "01a0984f-514e-70ae-a720-430df791e112"
+    },
+    {
+      "path": "/admin/course-directory",
+      "status": 403,
+      "expected": 403,
+      "requestId": "01a0984f-51e3-73cc-8635-446368205aab"
+    },
+    {
+      "path": "/admin/semesters",
+      "status": 403,
+      "expected": 403,
+      "requestId": "01a0984f-5278-76ea-912f-3234991d84dc"
+    },
+    {
+      "path": "/admin/teacher-accounts",
+      "status": 403,
+      "expected": 403,
+      "requestId": "01a0984f-5309-7750-8845-897b30382f37"
+    },
+    {
+      "path": "/admin/feedback",
+      "status": 403,
+      "expected": 403,
+      "requestId": "01a0984f-539e-7480-b1af-d945a7c38d49"
+    },
+    {
+      "path": "/admin/endurance-tables",
+      "status": 403,
+      "expected": 403,
+      "requestId": "01a0984f-542d-774c-aab0-f1adebeb426a"
+    },
+    {
+      "path": "/system-mode/history",
+      "status": 403,
+      "expected": 403,
+      "requestId": "01a0984f-54c0-7134-a12c-275156e2aac9"
+    },
+    {
+      "path": "/admin/help-articles",
+      "status": 403,
+      "expected": 403,
+      "requestId": "01a0984f-554e-77b1-a036-f93297286f16"
+    },
+    {
+      "path": "/admin/audit-events",
+      "status": 200,
+      "expected": 200,
+      "requestId": "01a0984f-55e0-758d-a35b-446c06e99ce0"
+    },
+    {
+      "path": "/admin/subadmins",
+      "status": 403,
+      "expected": 403,
+      "requestId": "01a0984f-568f-7291-9cd6-bfeb8802c3f9"
+    },
+    {
+      "path": "/admin/subadmins/ac5e4a61-f29d-4a1e-bc5b-87680c8953d0/permissions",
+      "status": 201,
+      "expected": 201,
+      "requestId": "01a0984f-5723-7094-b99d-c1af10d22626"
+    },
+    {
+      "path": "/admin/course-directory",
+      "status": 403,
+      "expected": 403,
+      "requestId": "01a0984f-57bd-753e-8f14-b251622ef215"
+    },
+    {
+      "path": "/admin/semesters",
+      "status": 403,
+      "expected": 403,
+      "requestId": "01a0984f-5851-71ff-a7d2-93ccaeb06c48"
+    },
+    {
+      "path": "/admin/teacher-accounts",
+      "status": 403,
+      "expected": 403,
+      "requestId": "01a0984f-58de-749a-b183-9af10e858029"
+    },
+    {
+      "path": "/admin/feedback",
+      "status": 403,
+      "expected": 403,
+      "requestId": "01a0984f-5974-707c-b5a5-be3044a45a63"
+    },
+    {
+      "path": "/admin/endurance-tables",
+      "status": 403,
+      "expected": 403,
+      "requestId": "01a0984f-5a02-7670-b9cc-e596a2bf0bff"
+    },
+    {
+      "path": "/system-mode/history",
+      "status": 403,
+      "expected": 403,
+      "requestId": "01a0984f-5a95-76de-bab1-5c05ad13a2e1"
+    },
+    {
+      "path": "/admin/help-articles",
+      "status": 403,
+      "expected": 403,
+      "requestId": "01a0984f-5b22-745e-8e29-12be8e8955ca"
+    },
+    {
+      "path": "/admin/audit-events",
+      "status": 403,
+      "expected": 403,
+      "requestId": "01a0984f-5bb7-745c-bc60-b49f210cce4c"
+    },
+    {
+      "path": "/admin/subadmins/ac5e4a61-f29d-4a1e-bc5b-87680c8953d0/status",
+      "status": 422,
+      "expected": 422,
+      "requestId": "01a0984f-5c44-71a2-9f77-00464bc5e2a6"
+    },
+    {
+      "path": "/admin/subadmins/ac5e4a61-f29d-4a1e-bc5b-87680c8953d0/status",
+      "status": 201,
+      "expected": 201,
+      "requestId": "01a0984f-5cda-73c0-a66b-3ac8f98c1cf9"
+    },
+    {
+      "path": "/admin/subadmins/ac5e4a61-f29d-4a1e-bc5b-87680c8953d0/status",
+      "status": 201,
+      "expected": 201,
+      "requestId": "01a0984f-5d7d-726a-9ae1-eb6739565ac6"
+    },
+    {
+      "path": "/auth/account-security",
+      "status": 401,
+      "expected": 401,
+      "requestId": "01a0984f-5e16-7653-9438-e9de2a4b5b37"
+    },
+    {
+      "path": "/admin/subadmins/ac5e4a61-f29d-4a1e-bc5b-87680c8953d0/status",
+      "status": 409,
+      "expected": 409,
+      "requestId": "01a0984f-5ea2-747e-bd17-e88b81f90d55"
+    },
+    {
+      "path": "/admin/subadmins/ac5e4a61-f29d-4a1e-bc5b-87680c8953d0/status",
+      "status": 201,
+      "expected": 201,
+      "requestId": "01a0984f-5f3c-755d-bdb7-f6df62f5cd6a"
+    },
+    {
+      "path": "/auth/password-login",
+      "status": 200,
+      "expected": 200,
+      "requestId": "01a0984f-5fd8-718b-90be-37e147ac0ee4"
+    },
+    {
+      "path": "/admin/subadmins/ac5e4a61-f29d-4a1e-bc5b-87680c8953d0/permissions",
+      "status": 201,
+      "expected": 201,
+      "requestId": "01a0984f-60f1-70a8-8219-ad2097068523"
+    },
+    {
+      "path": "/admin/audit-events",
+      "status": 200,
+      "expected": 200,
+      "requestId": "01a0984f-618f-740b-9eac-e69f76251c96"
+    },
+    {
+      "path": "/admin/subadmins/ac5e4a61-f29d-4a1e-bc5b-87680c8953d0/delete",
+      "status": 422,
+      "expected": 422,
+      "requestId": "01a0984f-6240-76aa-8e92-ae87fa2f89d3"
+    },
+    {
+      "path": "/admin/subadmins/ac5e4a61-f29d-4a1e-bc5b-87680c8953d0/delete",
+      "status": 403,
+      "expected": 403,
+      "requestId": "01a0984f-62d4-7093-ad1f-c57f6f0e2931"
+    },
+    {
+      "path": "/admin/subadmins/ac5e4a61-f29d-4a1e-bc5b-87680c8953d0/delete",
+      "status": 201,
+      "expected": 201,
+      "requestId": "01a0984f-6366-758f-8732-2dc07d328a19"
+    },
+    {
+      "path": "/admin/subadmins/ac5e4a61-f29d-4a1e-bc5b-87680c8953d0/delete",
+      "status": 201,
+      "expected": 201,
+      "requestId": "01a0984f-640c-734a-8475-0f84824a1fdb"
+    },
+    {
+      "path": "/auth/account-security",
+      "status": 401,
+      "expected": 401,
+      "requestId": "01a0984f-64a3-74cb-8ee6-436825357a5b"
+    },
+    {
+      "path": "/admin/subadmins",
+      "status": 200,
+      "expected": 200,
+      "requestId": "01a0984f-652f-7348-8379-268e6d337ef9"
+    }
+  ],
+  "subadminId": "ac5e4a61-f29d-4a1e-bc5b-87680c8953d0",
+  "result": "PASS",
+  "assertions": [
+    "64 single permission matrix checks",
+    "8 revoked permission checks on existing session",
+    "replay and stale versions",
+    "mandatory initial password change preserves current session",
+    "disable revokes session; enable permits new login",
+    "superadmin boundary",
+    "handover required; deletion replay and account absence"
+  ],
+  "cleanup": "TEST_ACCOUNT_DELETED",
+  "completedAt": "2026-09-13T01:08:55.764Z",
+  "allChecksCompleted": true
+}

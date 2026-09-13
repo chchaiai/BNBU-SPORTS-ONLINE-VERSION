@@ -1,0 +1,13 @@
+{
+  "release": "notification-history-20260913",
+  "browser": "Edge",
+  "student": "TEST ZETA / 9900000006",
+  "englishNotification": "Exercise record accepted",
+  "englishBody": "Exercise record accepted",
+  "notificationTarget": "Own record detail, 1 credited minute and 1 photo",
+  "unreadCount": 0,
+  "restoredLocale": "zh",
+  "oldPageObservation": "Existing tab retained old JavaScript and Chinese notification; newly loaded tab displayed translated notification",
+  "remainingDefect": "English record detail still renders review status as 有效 · 已计入 and photo labels in Chinese",
+  "scope": "Live DOM accessibility inspection; English notification and navigation verified, Chinese preference restoration verified"
+}

@@ -1,0 +1,12 @@
+// Synthetic teacher-only internal grades; student disclosure must remain denied.
+import fs from 'node:fs';import assert from 'node:assert/strict';import {randomUUID} from 'node:crypto';
+const staff=JSON.parse(fs.readFileSync('.local/ocr-triplatform-20260913-private.json')),b=JSON.parse(fs.readFileSync('.local/ocr-beta-private.json')),f=JSON.parse(fs.readFileSync('.local/ocr-beta-course.json')),checks=[];
+async function api(path,token,body,status=body?201:200,key=randomUUID()){const r=await fetch('https://www.teacher.bnbusports.cn/api/v1'+path,{method:body?'POST':'GET',headers:{authorization:`Bearer ${token}`,'content-type':'application/json','idempotency-key':key},...(body?{body:JSON.stringify(body)}:{}),signal:AbortSignal.timeout(20000)});const v=await r.json();assert.equal(r.status,status,JSON.stringify({path,status:r.status,code:v.code}));return v.data;}
+try{
+ const me=await api('/me',b.session.accessToken);assert.equal(me.studentProfile.id,f.studentId);const path=`/enrollments/${f.enrollmentId}/final-grades`,before=await api('/notifications',b.session.accessToken);
+ const grades=await api(path,staff.teacherToken);assert.equal(grades.items.length,0);
+ const input={finalGrade:85,published:false,expectedVersion:0},key=randomUUID();const saved=await api(path,staff.teacherToken,input,201,key);assert.equal(saved.finalGrade,85);assert.deepEqual(await api(path,staff.teacherToken,input,201,key),saved);
+ const published=await api(path,staff.teacherToken,{finalGrade:86,published:true,expectedVersion:saved.version});assert.equal(published.published,true);const history=await api(path,staff.teacherToken);assert.deepEqual(history.items.map(row=>row.finalGrade),[86,85]);checks.push('TEACHER_INTERNAL_GRADE_APPEND_HISTORY_REPLAY');
+ await api(path,b.session.accessToken,undefined,403);await api(path,staff.adminToken,undefined,403);
+ assert.deepEqual((await api('/notifications',b.session.accessToken)).map(n=>n.id),before.map(n=>n.id));checks.push('STUDENT_ADMIN_GRADE_READ_DENIED_NO_STUDENT_SCORE_NOTIFICATION');
+}finally{const result={check:'CLOUD_INTERNAL_GRADES',observedAt:new Date().toISOString(),organizationId:f.organizationId,enrollmentId:f.enrollmentId,checks,allChecksCompleted:checks.includes('STUDENT_ADMIN_GRADE_READ_DENIED_NO_STUDENT_SCORE_NOTIFICATION')};fs.writeFileSync('evidence/ocr-triplatform-20260913/cloud-internal-grades.json',JSON.stringify(result,null,2)+'\n');console.log(JSON.stringify(result));}

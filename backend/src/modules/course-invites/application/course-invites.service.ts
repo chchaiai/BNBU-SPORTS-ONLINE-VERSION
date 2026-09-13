@@ -15,6 +15,7 @@ import { Clock } from '../../../common/time/clock.js';
 import { IdGenerator } from '../../../common/time/id-generator.js';
 import { CourseInviteRepository } from '../domain/course-invite.repository.js';
 import { CourseInviteEntity } from '../domain/course-invite.js';
+import { resolveInviteExpiry } from '../domain/invite-timing.js';
 import type { CreateCourseInviteRequestDto } from '../interface/http/course-invites.dto.js';
 import {
   projectCourseInvitePreview,
@@ -56,7 +57,8 @@ export class CourseInvitesService {
         operationId: 'createCourseInvite',
         scope: `${principal.organizationId}:${principal.userId}:${classSectionId}`,
         key: facts.idempotencyKey,
-        request: { classSectionId, expiresAt: normalizedExpiry },
+        request: { classSectionId, expiresAt: normalizedExpiry,
+          ...(input.expiresInMinutes === undefined ? {} : { expiresInMinutes: input.expiresInMinutes }) },
         requestId: facts.requestId,
       },
       async (transaction) => {
@@ -79,7 +81,8 @@ export class CourseInvitesService {
         }
         await requireUnsettledCourse(transaction, principal.organizationId, classSectionId);
         this.assertJoinable(section, now);
-        const expiresAt = this.resolveExpiry(normalizedExpiry, section.semester.endDate, now);
+        const expiresAt = resolveInviteExpiry({ expiresAt: normalizedExpiry,
+          ...(input.expiresInMinutes === undefined ? {} : { expiresInMinutes: input.expiresInMinutes }) }, now, section.semester.endDate);
         const inviteId = this.ids.next();
         const issued = this.crypto.issueToken('course-invite', inviteId);
         const replayExpiresAt = new Date(
@@ -206,17 +209,6 @@ export class CourseInvitesService {
       throw new ApplicationError('VALIDATION_FORMAT_INVALID', 422, { field: 'expiresAt' });
     }
     return date.toISOString();
-  }
-
-  private resolveExpiry(requested: string | null, semesterEnd: Date, now: Date): Date {
-    const expiresAt =
-      requested === null
-        ? new Date(now.getTime() + this.config.courseInviteTtlSeconds * 1_000)
-        : new Date(requested);
-    if (expiresAt <= now || expiresAt > this.semesterEnd(semesterEnd)) {
-      throw new ApplicationError('VALIDATION_FAILED', 422, { field: 'expiresAt' });
-    }
-    return expiresAt;
   }
 
   private semesterEnd(value: Date): Date {

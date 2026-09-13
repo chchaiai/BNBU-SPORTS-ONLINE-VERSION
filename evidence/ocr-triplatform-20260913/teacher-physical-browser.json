@@ -1,0 +1,17 @@
+{
+  "check": "TEACHER_PHYSICAL_BROWSER_READBACK",
+  "result": "PARTIAL",
+  "release": "portal-password-labels-20260913",
+  "checks": [
+    "Beta internal final grade 86 published",
+    "Beta raw physical latest version 5 displays 1000m 5:10 on 2026-09-12",
+    "Versions 1 through 5 visible",
+    "Settlement precheck identifies one pending physical import",
+    "OCR image panel opens with batch selection and supported formats"
+  ],
+  "findings": [
+    "Course total description hardcoded 1200 while server loaded goal is 1800; local source corrected, deployment pending",
+    "Electronic physical CSV/XLSX import and pending-import processing UI absent from current portal source; HTTP success does not cover this missing workflow"
+  ],
+  "mutations": "No business records changed"
+}

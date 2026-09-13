@@ -1,0 +1,24 @@
+{
+  "check": "CLOUD_DEFERRED_VALID_REQUEST_BOUNDARIES",
+  "observedAt": "2026-09-12T19:50:21.238Z",
+  "organizationId": "01a096c2-20a2-706b-8c69-802f67dee12c",
+  "checks": [
+    {
+      "operationId": "ignoreRosterAlignmentResult",
+      "status": 409,
+      "code": "ROSTER_IGNORE_NOT_ALLOWED",
+      "resourceId": "01a0971d-b107-77fa-907b-cf522f51aa29",
+      "unchanged": true
+    },
+    {
+      "operationId": "requestCurrentUserAccountDeletionChallenge",
+      "status": 503,
+      "code": "SYSTEM_SERVICE_UNAVAILABLE",
+      "reason": "FEATURE_DEFERRED"
+    }
+  ],
+  "allChecksCompleted": true,
+  "limitations": [
+    "No synthetic legacy student_scores rows exist; legacy correction denial is not tested using a nonexistent resource"
+  ]
+}

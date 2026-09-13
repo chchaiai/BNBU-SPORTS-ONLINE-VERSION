@@ -1,0 +1,12 @@
+{
+  "check": "CLOUD_TEACHER_IMPORT_LIFECYCLE",
+  "observedAt": "2026-09-12T19:15:27.807Z",
+  "teacherProfileId": "01a0970b-4403-71be-bfee-c64bbba5c657",
+  "checks": [
+    "PREVIEW_DUPLICATES_ROLE_DENIAL",
+    "IMPORT_REPLAY_INITIAL_PASSWORD_BUSINESS_GATE",
+    "EXACT_TEACHER_DELETE_REPLAY_SESSION_LOGIN_REVOKED"
+  ],
+  "allChecksCompleted": true,
+  "initialProbe": "Teacher list route corrected from /admin/teachers to /admin/teacher-accounts; resumed same account"
+}

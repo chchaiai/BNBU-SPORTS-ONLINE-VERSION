@@ -258,3 +258,8 @@
 - Review、ACTIVE 规则或已批准 Adjustment 的输入变化自动触发可幂等重算；责任教师可手动重算。重复相同输入不得创建重复 revision。
 - Adjustment 只允许 `FINAL_SCORE_DELTA`、`FINAL_SCORE_REPLACEMENT`、`CALCULATION_CORRECTION`。结果越界 0.00–100.00 时拒绝，不做隐式 clamp。
 - 历史“提交即有效”只允许迁移可核验事实；Stage 18 不执行历史迁移。Export 仍未实现，未来只能绑定 PUBLISHED/LOCKED revision。
+
+
+## 2026-09-12 需求补充
+
+本轮长期档案、历史保留、教师日/周/时长配置、历史补录、PDF 与照片信息约定见 [需求补充](20-demand-20260912.md)。与旧版课程/教师级联清除描述冲突时，以该补充及用户确认的业务规则为准。

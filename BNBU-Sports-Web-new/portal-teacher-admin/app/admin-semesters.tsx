@@ -62,7 +62,10 @@ function persistPending(pending: PendingSemester) {
 }
 function clearPending() { sessionStorage.removeItem(pendingKey()); }
 
-export function AdminSemesters({ locale }: { locale: AdminLocale }) {
+export function AdminSemesters({ locale, onSemestersLoaded }: {
+  locale: AdminLocale;
+  onSemestersLoaded?: (rows: SemesterRow[]) => void;
+}) {
   const { mode, state, busyKey: demoBusyKey, error: storeError, clearError, run } = useAdminStore();
   const [rows, setRows] = useState<SemesterRow[]>([]);
   const [realBusy, setRealBusy] = useState(false);
@@ -84,7 +87,9 @@ export function AdminSemesters({ locale }: { locale: AdminLocale }) {
     setLoading(true);
     setError(null);
     try {
-      setRows(await listSemesters());
+      const nextRows = await listSemesters();
+      setRows(nextRows);
+      onSemestersLoaded?.(nextRows);
       if (!restored.current) {
         const raw = sessionStorage.getItem(pendingKey());
         if (raw) {
@@ -110,7 +115,7 @@ export function AdminSemesters({ locale }: { locale: AdminLocale }) {
     } finally {
       setLoading(false);
     }
-  }, [locale, mode]);
+  }, [locale, mode, onSemestersLoaded]);
 
   useEffect(() => {
     const timer = globalThis.setTimeout(() => { void load(); }, 0);
@@ -126,7 +131,14 @@ export function AdminSemesters({ locale }: { locale: AdminLocale }) {
     if (inFlight.current) return false;
     inFlight.current = true; setRealBusy(true); setWriteError(null);
     let committed = false;
-    try { await action(); committed = true; setRows(await listSemesters()); clearPending(); setUnresolved(false); return true; }
+    try {
+      await action();
+      committed = true;
+      const nextRows = await listSemesters();
+      setRows(nextRows);
+      onSemestersLoaded?.(nextRows);
+      clearPending(); setUnresolved(false); return true;
+    }
     catch (failure) {
       const uncertain = committed || !(failure instanceof ApiError) || failure.status >= 500 || failure.status === 0 ||
         ['CONFLICT_REQUEST_IN_PROGRESS', 'SYSTEM_INVALID_RESPONSE'].includes(failure.code);

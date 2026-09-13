@@ -1,0 +1,2 @@
+{"engine":"webkit","result":"PENDING","reason":"This browser build cannot generate a synthetic canvas recording; native camera recording needs a device test."}
+{"check":"RECORDED_VIDEO_WITH_AUDIO_NORMALIZATION_AND_PLAYBACK","engine":"firefox","result":"PASS","sourceMime":"video/webm;codecs=vp8,opus","outputMime":"video/mp4","bytes":26198,"width":320,"height":240,"duration":1.62,"currentTime":0.362801,"error":null}

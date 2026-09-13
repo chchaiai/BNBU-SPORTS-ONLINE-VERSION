@@ -1,0 +1,15 @@
+{
+  "check": "CLOUD_FUTURE_MAKEUP_WINDOW",
+  "observedAt": "2026-09-12T18:59:08.161Z",
+  "organizationId": "01a096c2-20a2-706b-8c69-802f67dee12c",
+  "windowId": "01a096fc-d046-77de-b1ef-c6e652839586",
+  "checks": [
+    "FUTURE_GRANT_REPLAY_STUDENT_VISIBILITY",
+    "ADMIN_DENIED_STALE_RULE_OUTSIDE_CLOSING_PERIOD_DENIED",
+    "REVOCATION_REPLAY_STUDENT_READ_EXACT_NOTIFICATIONS"
+  ],
+  "limitations": [
+    "Future grant lifecycle only; current-time closing-period exercise acceptance remains untested"
+  ],
+  "allChecksCompleted": true
+}

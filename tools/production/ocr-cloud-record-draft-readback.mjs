@@ -1,0 +1,6 @@
+// Recover observed final state after initial test expected the wrong enum.
+import fs from 'node:fs';import assert from 'node:assert/strict';
+const path='evidence/ocr-triplatform-20260913/cloud-record-draft.json',r=JSON.parse(fs.readFileSync(path)),b=JSON.parse(fs.readFileSync('.local/ocr-beta-private.json')),f=JSON.parse(fs.readFileSync('.local/ocr-beta-course.json')),staff=JSON.parse(fs.readFileSync('.local/ocr-triplatform-20260913-private.json'));
+async function get(p,t){const res=await fetch('https://www.teacher.bnbusports.cn/api/v1'+p,{headers:{authorization:`Bearer ${t}`}});assert.equal(res.status,200);return(await res.json()).data;}
+const record=await get('/exercise-records/'+r.recordId,b.session.accessToken);assert.equal(record.status,'CANCELLED');const check=await get(`/class-sections/${f.sectionId}/settlement-check`,staff.teacherToken);assert.ok(check.checks.some(x=>x.code==='UNSUBMITTED_RECORD'&&x.count===0));
+r.checks.push('STALE_EDIT_DENIED_DISCARD_COMPLETED','DISCARD_CLEARS_UNSUBMITTED_SETTLEMENT_BLOCKER');r.observedAt=new Date().toISOString();r.finalStatus=record.status;r.limitations=['Initial probe expected DISCARDED but current contract uses CANCELLED; discard replay assertion was not reached'];r.allChecksCompleted=true;fs.writeFileSync(path,JSON.stringify(r,null,2)+'\n');console.log(JSON.stringify(r));

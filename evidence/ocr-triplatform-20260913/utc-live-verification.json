@@ -1,0 +1,14 @@
+{
+  "check": "UTC_PRODUCTION_PRISMA_SERVICE",
+  "parsed": "2026-09-12T20:44:22.703Z",
+  "epoch": 1789245862.703725,
+  "zone": "UTC",
+  "pass": true,
+  "candidateVerified": true,
+  "firstCandidateFailure": "Missing mail.env in isolated run; corrected to match Compose before verification",
+  "limitations": [
+    "Health and timestamp probe only; business regression pending",
+    "Automatic rollback path implemented but not exercised in successful deployment",
+    "Other local invitation and portal changes not included"
+  ]
+}

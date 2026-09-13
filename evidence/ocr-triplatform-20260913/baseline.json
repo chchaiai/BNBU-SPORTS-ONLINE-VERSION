@@ -1,0 +1,36 @@
+{
+  "status": "IN_PROGRESS",
+  "sourceHead": "8a9212a8535e3345f03efeb9f5afd7d5db6d953d",
+  "cloudObservationUtc": "2026-09-12T17:01:26.570Z",
+  "release": "membership-20260913",
+  "runtime": {"backendHealthy": true, "portalHealthy": true, "ocrProvider": "DISABLED", "ocrWorkerEnabled": false},
+  "database": {"completedMigrations": 74, "tls": "TLSv1.3", "ocrBatches": 0, "ocrJobs": 0},
+  "ocrConfiguration": {"provider": "TENCENT_TABLE_V3", "region": "ap-guangzhou", "enabled": false},
+  "checks": {
+    "backendUnit": {"passed": 277, "failed": 0},
+    "backendTypecheck": "PASS",
+    "openapiGeneration": {"result": "PASS", "operations": 263},
+    "migrationStaticChecks": {"result": "PASS", "registered": 74},
+    "postgresIntegration": {"passed": 59, "failed": 0},
+    "portalTypecheck": "PASS",
+    "portalTargeted": {"passed": 11, "failed": 0},
+    "portalFullFirst": {"passed": 125, "failed": 4},
+    "portalFullAfterTranslationAndTestFix": {"passed": 129, "failed": 0},
+    "studentSmoke": {"passed": 86, "failed": 0},
+    "androidDebugBuild": "PASS",
+    "androidConnectedDevices": 0,
+    "httpPostgresE2EFirst": {"passed": 78, "failed": 25},
+    "httpPostgresE2ERetest": {"passed": 99, "failed": 4},
+    "makeupAfterTestTokenLifetimeFix": {"passed": 2, "failed": 0},
+    "portalImageBuild": "sha256:c966626e892d7a7c628f5c7c9312f78451b89779557424722ba2a46efafaedaa"
+  },
+  "console": {"signedIn": true, "tableV3FreeRemaining": 998, "tableV3FreeUsed": 2, "postpaidEnabled": false,
+    "role": "BNBUSportsHKCVMRole", "attachedPolicyCount": 4, "ocrObjectsPolicyAttached": false},
+  "limitations": [
+    "OCR object-prefix permission approval is pending",
+    "Local PostgreSQL/MinIO/Mailpit tests do not prove Tencent OCR or cloud business acceptance",
+    "Android debug build does not prove hardware or release-signing acceptance",
+    "Full E2E retest retains three course-closure business failures pending clarification; makeup retest separately passed",
+    "Portal image built locally; not deployed"
+  ]
+}

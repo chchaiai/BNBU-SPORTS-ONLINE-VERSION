@@ -378,6 +378,10 @@ function inspectRepository() {
   }
 
   function propertyEnum(property) {
+    const exact = findDecorator(property, 'Equals')?.args[0];
+    if (exact?.kind === ts.SyntaxKind.TrueKeyword) return [true];
+    if (exact?.kind === ts.SyntaxKind.FalseKeyword) return [false];
+
     for (const name of ['IsIn', 'IsEnum']) {
       const info = findDecorator(property, name);
       if (info?.args[0] !== undefined) {

@@ -4,7 +4,7 @@ BNBU Sports 体育课程与运动记录管理系统，包含学生 Web、教师�
 
 ## 版本说明
 
-本次更新保存 2026-09-11 的本地代码，包括制作快照时尚未提交的修改。来源提交为 `aab95a284c9c557a2bf53e46bde8acef5748e991`，快照在此基础上包含工作区变更。仓库名称用于标识线上版本代码归档；实际运行版本与验收结论请查阅部署交接及验收记录。
+本次完整快照保存 2026-09-13 的本地仓库，来源本地存档提交为 `57d48c8621e8dc2e5bca57640d111a68eab4a316`。源仓库全部 Git 跟踪文件按该提交同步，并保留此仓库的根 README 作为入口。源码、业务规则、接口定义、测试、工具及已跟踪证据随快照更新；运行凭证、依赖安装目录、本地临时文件和 Python 缓存不属于发布内容。仓库快照不等于本次重新部署或全平台验收。
 
 ## 项目结构
 
@@ -15,9 +15,13 @@ BNBU Sports 体育课程与运动记录管理系统，包含学生 Web、教师�
 | `BNBU-Sports-Web-new/portal-teacher-admin/` | React 教师与管理员门户 |
 | `docs/business/` | V8.1 业务规则 |
 | `docs/backend-contracts/` | API 合同及对应交接资料 |
-| `contracts/` | 客户端使用的合同快照与元数据 |
+| `contracts/` | 历史 `1.2.0-contract` RC 快照；当前实现接口见 `docs/backend-contracts/openapi.yaml` |
 | `docs/infrastructure/` | 基础设施与部署交接 |
 | `tools/` | 本地联调、验证及运维脚本 |
+
+## 接口与安卓交接
+
+当前实现接口为 `docs/backend-contracts/openapi.yaml` 中的 `3.0.0-v81-local-draft`，正式发布登记仍是 `2.0.12-contract`，两者需区分。安卓精选接入资料见独立的 [PR #2](https://github.com/chchaiai/BNBU-SPORTS-ONLINE-VERSION/pull/2)。本完整快照不包含已从本地移除的原生安卓/iOS工程。业务规则顶部的最新确认优先于旧正文说明。
 
 ## 本地开发
 

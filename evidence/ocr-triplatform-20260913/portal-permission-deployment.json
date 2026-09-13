@@ -1,0 +1,15 @@
+{
+  "observedAt": "2026-09-12T21:31:31.486Z",
+  "check": "PORTAL_PERMISSION_COPY_DEPLOYMENT",
+  "result": "PASS",
+  "release": "/opt/bnbu-sports-production/releases/portal-permission-20260913",
+  "previous": "/opt/bnbu-sports-production/releases/portal-health-20260913",
+  "imageId": "sha256:0241f02855f8914bd4c778d43230cb91490a733dff8eb08d1701dd47598f88bd",
+  "baseSource": "a46fbe41f44b0724c00ee6d91944f5fdfc58cdf0",
+  "patches": [
+    "867cf39bcc912d43d071a71f1c2b134c98515ca8",
+    "7ba41895e1d25b1d988cb84cdf5ca0604c3b1286"
+  ],
+  "rollbackExercised": false,
+  "focusedTests": "26/26"
+}

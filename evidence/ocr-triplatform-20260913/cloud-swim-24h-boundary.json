@@ -1,0 +1,60 @@
+{
+  "check": "CLOUD_SYNTHETIC_24H_SWIM_BOUNDARY",
+  "observedAt": "2026-09-12T21:48:12.157Z",
+  "organizationId": "01a096c2-20a2-706b-8c69-802f67dee12c",
+  "observations": [
+    {
+      "fixture": "inside24h",
+      "sessionId": "01a09796-bfaf-725e-8455-7d1a937aead3",
+      "recordId": "01a09797-7995-705c-8f17-a4152d3a5331",
+      "mediaIds": [
+        "01a09797-7a42-708d-86f9-6cb481d48a68",
+        "01a09797-7af4-759a-a64a-02b5a0787972"
+      ],
+      "endedAt": "2026-09-11T21:57:14.223Z",
+      "observedAt": "2026-09-12T21:48:06.880Z",
+      "status": 201,
+      "projection": {
+        "recordId": "01a09797-7995-705c-8f17-a4152d3a5331",
+        "acceptedAt": "2026-09-12T21:48:06.734Z",
+        "transferDeadline": "2026-09-12T22:18:06.734Z",
+        "intakeKind": "OFFLINE_DELAYED",
+        "delayReason": "Synthetic historical-time fixture for explicit 24-hour deadline validation",
+        "items": [
+          {
+            "mediaId": "01a09797-7a42-708d-86f9-6cb481d48a68",
+            "phase": "BEFORE"
+          },
+          {
+            "mediaId": "01a09797-7af4-759a-a64a-02b5a0787972",
+            "phase": "AFTER"
+          }
+        ],
+        "version": 1
+      }
+    },
+    {
+      "fixture": "outside24h",
+      "sessionId": "01a09796-bfc3-722e-9205-79c809af918f",
+      "recordId": "01a09797-8fed-777f-9f1f-b91e7556b629",
+      "mediaIds": [
+        "01a09797-9093-73aa-a5b0-ca6ae462deff",
+        "01a09797-913a-7130-ac66-6e40acf445ee"
+      ],
+      "endedAt": "2026-09-11T21:37:14.223Z",
+      "observedAt": "2026-09-12T21:48:12.018Z",
+      "status": 422,
+      "code": "VALIDATION_FAILED"
+    }
+  ],
+  "checks": [
+    "WITHIN_24H_DELAY_ACCEPTED_AND_TEACHER_REVIEWED",
+    "AFTER_24H_DELAY_REJECTED_RECORD_REMAINS_DRAFT"
+  ],
+  "allChecksCompleted": true,
+  "limitations": [
+    "Historical times are deliberately seeded independent test fixtures, not real 24-hour elapsed sessions",
+    "Millisecond equality is covered by local domain tests; HTTP fixtures use ten-minute margins",
+    "Pending expired draft and its media remain in synthetic cleanup inventory"
+  ]
+}

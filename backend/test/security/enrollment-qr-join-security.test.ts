@@ -48,6 +48,7 @@ function capabilityContext(): JoinCapabilityPolicyContext {
     classSectionId: '0198795d-9900-7000-8000-000000000004',
     identityFingerprint: 'a'.repeat(64),
     status: 'ACTIVE',
+    issuedAt: now,
     expiresAt: new Date(now.getTime() + 60_000),
     resultReplayExpiresAt: null,
     invite: {

@@ -1,0 +1,14 @@
+{
+  "organizationId": "01a09918-10d0-75ae-93a0-a4bf948d2495",
+  "sectionId": "01a09918-10d1-735e-8790-0176abb8e77a",
+  "targetId": "01a0991d-914e-733b-a516-ac832509923a",
+  "reportId": "01a0991d-90da-7749-bf85-0e369919ab48",
+  "checks": [
+    "FORMAL_SETTLEMENT_AND_REPLAY",
+    "SETTLED_COURSE_SWITCH_ARCHIVE_REPLAY",
+    "REPORT_EXPORT_MEMBERS_PRESERVED_ONE_CURRENT"
+  ],
+  "passed": true,
+  "accountsDisabled": true,
+  "scope": "Production HTTP formal settlement and archive; historical rule dates explicitly seeded; browser and archived new-operation denial still pending"
+}

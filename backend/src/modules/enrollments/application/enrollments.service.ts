@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { recomputeCredits } from '../../v8/v81-credit-store.js';
 import { requireUnsettledCourse } from '../../v8/v81-settlement-write-guard.js';
 
 import { AuditService } from '../../../common/audit/audit.service.js';
@@ -340,6 +341,8 @@ export class EnrollmentsService {
         if (changed === null) {
           return this.idempotency.failure(new ApplicationError('CONFLICT_VERSION_MISMATCH', 409));
         }
+        const published = await transaction.$queryRaw<{ id: string }[]>`SELECT class_section_id AS id FROM v81_course_rules WHERE class_section_id=${changed.classSectionId}::uuid AND published_at IS NOT NULL`;
+        if (published.length) await recomputeCredits(transaction, changed.id, now);
         await this.appendEvent(transaction, changed, {
           fromStatus: previousStatus,
           source: target === 'ACTIVE' ? 'TEACHER_RESTORE' : 'TEACHER_REMOVAL',

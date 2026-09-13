@@ -1,0 +1,33 @@
+{
+  "check": "ISOLATED_POSTGRES_RESTORE",
+  "result": "PASS",
+  "backup": "/opt/bnbu-sports-production/backups/before-bugfix-20260913T022602Z.dump",
+  "bytes": 4520746,
+  "mode": "0600",
+  "owner": "root",
+  "sha256": "2a199d43e0442a60e90219c009f322964a4fd21c00c242cda99a51d6d2e6bc86",
+  "imageDigest": "sha256:4ef4dbc939d61acea57712655ddb4b4ab27419c913f94cca0cd57cb3ea3c2280",
+  "publicTables": 130,
+  "restoreExit": 0,
+  "temporaryContainerRemoved": true,
+  "productionDatabaseModified": false,
+  "checks": [
+    {
+      "url": "https://www.teacher.bnbusports.cn/",
+      "status": 200
+    },
+    {
+      "url": "https://www.student.bnbusports.cn/student/",
+      "status": 200
+    },
+    {
+      "url": "https://www.student.bnbusports.cn/api/v1/health/ready",
+      "status": 200
+    }
+  ],
+  "limitations": [
+    "No production cutover or TencentDB managed point-in-time restore performed",
+    "No application-level writes against restored database tested"
+  ],
+  "observedAt": "2026-09-13T02:28:22.572Z"
+}

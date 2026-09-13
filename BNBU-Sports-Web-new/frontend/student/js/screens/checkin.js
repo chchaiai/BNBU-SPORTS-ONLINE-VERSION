@@ -1,24 +1,29 @@
+import {savePhotoOriginal,listPhotoOriginals,removePhotoOriginal,prepareJpegEvidence} from "../photo-originals.js";
+import {SPORT_OPTIONS} from "../sports-catalog.js";
+import {proofTodoContext} from '../proof-todo.js';
 // Exercise check-in flow (#20–#24) — feature/checkin/CheckInScreen.kt,
 // ExerciseCheckInScreen.kt, CheckInRecords.kt, SessionMediaManager.kt and the
 // session controller. States: Idle → Active ↔ Paused → Finished → Submitted.
 // Drafts remain local until explicit discard or successful server submission.
 
+import { mountLocalVideoPlayer } from "../local-video-player.js";
 import { normalizeRecordedVideo } from "../recorded-video.js";
+import { saveSuccessfulEvidence } from "../native-album.js";
 import { saveProofDraft, loadProofDrafts, removeProofDraft, clearProofDrafts } from "../checkin-drafts.js";
 import { tx, currentLocale, getLanguage } from "../i18n.js";
 import { icon } from "../icons.js";
 import { formatMediaSize } from "../media-size.js";
 import { esc, spinner, emptyPlaceholder, validationPanel, sectionTitle, statusBadge, userFacingErrorPanel, fieldLabel, fieldControlAttrs, fieldSupport } from "../ui.js";
-import { hourText } from "../data.js";
+
 import { resolvePublicReasonModel, reviewStageFromRecord, reviewStageLabel } from "../v81-review.js";
 import { canNormalizeCapturedImage, validateProofFile, PROOF_VIDEO_MAX_BYTES } from "../proofs.js";
 import {
   canStartExercise, hasSubmittedCheckInToday, loadSession, saveSession, clearSession,
   startSession, restoreServerSession, pauseSession, resumeSession, sessionDurationMs,
-  creditedHours, formatTimer, businessToday,
+  creditedHours, formatTimer, businessToday, shouldAutoEnd,
 } from "../session.js";
 import {
-  startServerSession, pauseServerSession, resumeServerSession, finishServerSession,
+  request, startServerSession, pauseServerSession, resumeServerSession, finishServerSession,
   cancelServerSession, createRecordDraft, submitRecord,
   uploadMediaDraft, cacheRecordProofs, createMediaAccessUrl, proxyObjectUrl,
   getRecordWorkflow, getRecordEvidenceContext, submitRecordSupplement,
@@ -37,24 +42,25 @@ const OTHER = "other";
 function selectedProofTodo(app) {
   const todos = Array.isArray(app.state.workspace?.proofTodos) ? app.state.workspace.proofTodos : [];
   const focused = checkinState(app).focusProofRecordId;
-  return todos.find((item) => item.recordId === focused) || todos[0] || null;
+  return todos.find((item) => item.recordId === focused) || null;
 }
 
 function proofSubmitPanel(app) {
   const todo = selectedProofTodo(app);
-  if (!todo) return "";
+  if (!todo) return (app.state.workspace.proofTodos||[]).map(item=>`<div class="swiss-panel" style="margin-top:12px">${proofTodoContext(item)}<button class="outlined-btn pressable" data-action="checkin.selectProof" data-record-id="${esc(item.recordId)}" style="margin-top:10px">${tx('为这条记录补证','Add evidence for this record')}</button></div>`).join('');
   const ui = checkinState(app);
   const retained = (ui.drafts || []).filter((draft) => draft.url);
-  return `<div class="body-small text-muted" style="margin-top:12px">${tx("当前有一次补证机会。请在有效期内现场拍摄并提交补充材料，原材料会一并保留供教师复核。", "One supplement opportunity is available. Capture and submit additional evidence before the deadline. Original evidence is retained for teacher review.")}</div>
-    <button class="outlined-btn pressable" type="button" data-action="checkin.submitProof" ${app.isWriteAllowed() && !ui.finish.submitting ? "" : "disabled"} style="min-height:44px;margin-top:8px">${retained.length ? tx("提交补证", "Submit proof") : tx("拍摄补证", "Capture supplement")}</button>`;
+  return `${proofTodoContext(todo)}<div class="body-small text-muted" style="margin-top:12px">${tx("请在有效期内现场拍摄并提交补充材料，原材料会一并保留供教师复核。", "Capture and submit additional evidence before the deadline. Original evidence is retained for teacher review.")}</div>
+    <button class="outlined-btn pressable" type="button" data-action="checkin.submitProof" ${app.isWriteAllowed() && !ui.finish.submitting && !ui.restoringDrafts && !todo.paused && !todo.expired ? "" : "disabled"} style="min-height:44px;margin-top:8px">${retained.length ? tx("提交这条记录的补证", "Submit evidence for this record") : tx("为这条记录拍摄补证", "Capture evidence for this record")}</button>`;
 }
 
 function creditPolicyChips(policy) {
   const threshold = Number(policy?.minCreditThresholdMinutes);
-  const knownThreshold = [30, 45, 60].includes(threshold);
+  const knownThreshold = Number.isInteger(threshold) && threshold >= 1 && threshold <= 1440 &&
+    Number.isInteger(policy?.weeklyLimit) && policy.weeklyLimit > 0 && Number.isInteger(policy?.dailyLimit) && policy.dailyLimit > 0;
   return `<div class="body-medium text-on-surface" data-testid="checkin.minimum-duration">${knownThreshold
-    ? tx(`教师设置的最短运动时长：${threshold} 分钟`, `Minimum exercise duration set by your teacher: ${threshold} minutes`)
-    : tx("最短运动时长暂未获取，请刷新后重试。", "The minimum exercise duration is unavailable. Refresh and try again.")}</div>`;
+    ? `${tx("本课程运动要求", "Current course requirements")}<br>${tx(`每周最多计入：${policy.weeklyLimit} 次`, `Weekly maximum: ${policy.weeklyLimit}`)}<br>${tx(`每天最多计入：${policy.dailyLimit} 次`, `Daily maximum: ${policy.dailyLimit}`)}<br>${tx(`最低运动时长：${threshold} 分钟`, `Minimum exercise duration: ${threshold} minutes`)}`
+    : tx("最短运动时长暂未获取，请刷新后重试。", "The minimum exercise duration is unavailable. Refresh and try again.")}${Number.isInteger(policy?.maxCreditMinutes)?`<br>${tx(`单次最多打卡时长：${policy.maxCreditMinutes} 分钟（到点自动结束）`,`Maximum per check-in: ${policy.maxCreditMinutes} minutes (ends automatically)`)}`:''}</div>`;
 }
 
 function initialLiveCameraState() {
@@ -74,23 +80,15 @@ function initialLiveCameraState() {
   };
 }
 
-const SPORT_OPTIONS = [
-  { value: "running", zh: "跑步", en: "Running", icon: "sport-running" },
-  { value: "basketball", zh: "篮球", en: "Basketball", icon: "sport-basketball" },
-  { value: "football", zh: "足球", en: "Football", icon: "sport-football" },
-  { value: "badminton", zh: "羽毛球", en: "Badminton", icon: "sport-badminton" },
-  { value: "table_tennis", zh: "乒乓球", en: "Table tennis", icon: "sport-table-tennis" },
-  { value: "swimming", zh: "游泳", en: "Swimming", icon: "sport-swimming" },
-  { value: "fitness", zh: "健身", en: "Fitness", icon: "sport-fitness" },
-  { value: "cycling", zh: "骑行", en: "Cycling", icon: "sport-cycling" },
-  { value: OTHER, zh: "其他", en: "Other", icon: "sport-other" },
-];
+
 
 const creditTypeLabel = (creditType) =>
   creditType === "course" ? tx("课程相关", "Course-related") : creditType === "general" ? tx("其他运动", "Other exercise") : tx("系统抵扣", "System offset");
 
 const estimatedCreditedHours = (app,durationMs) => {
-  const hours=creditedHours(durationMs,app.state.workspace?.creditPolicy?.minCreditThresholdMinutes);
+  const local=loadSession(accountId(app));
+  const maximumMinutes=local?((local.maximumDurationSeconds??3600)/60):(app.state.workspace?.creditPolicy?.maxCreditMinutes??60);
+  const hours=creditedHours(durationMs,app.state.workspace?.creditPolicy?.minCreditThresholdMinutes,maximumMinutes);
   return hours === null ? "—" : Number(hours.toFixed(2));
 };
 
@@ -167,14 +165,19 @@ function findCurrentCourse(workspace) {
   ) || null;
 }
 
+function originalOwnerId(app) {
+  return app.state.workspace.student.localOwnerId || accountId(app);
+}
+
 function accountId(app) {
   return app.state.workspace.student.id;
 }
 
 function draftScope(app) {
+  const focused=selectedProofTodo(app);if(focused)return 'proof:'+focused.recordId;
   const session = loadSession(accountId(app));
   return session?.serverId && session.phase !== "submitted" ? session.serverId
-    : selectedProofTodo(app)?.recordId ? "proof:" + selectedProofTodo(app).recordId : "pending";
+    : "pending";
 }
 
 export async function restoreCheckinContinuity(app) {
@@ -182,6 +185,8 @@ export async function restoreCheckinContinuity(app) {
   const local = loadSession(owner), server = app.state.workspace.activeServerSession;
   if (local?.serverId === server?.id && ["active", "paused"].includes(local?.phase) && ["IN_PROGRESS", "PAUSED"].includes(server?.status)) persist(app, reconcileAuthoritativeSession(local, server));
   if (!owner || ui.draftScope === scope) return;
+  for(const draft of ui.drafts)if(draft.url?.startsWith('blob:'))URL.revokeObjectURL(draft.url);
+  ui.drafts=[];ui.proofSubmissionIntent=null;ui.captureError=null;
   ui.draftScope = scope;
   ui.restoringDrafts = true;
   try {
@@ -192,7 +197,7 @@ export async function restoreCheckinContinuity(app) {
     }
     const ids = new Set(ui.drafts.map(draft => draft.id));
     for (const draft of drafts) if (!ids.has(draft.id)) ui.drafts.push(draft); else URL.revokeObjectURL(draft.url);
-    for (const draft of drafts.filter(d=>d.normalizationPending)) await addDraftFromFile(app,draft.blob,"video",draft.capturedDurationSeconds,draft.id);
+    for (const draft of drafts.filter(d=>d.normalizationPending)) await addDraftFromFile(app,draft.blob,"video",draft.capturedDurationSeconds,draft.id,draft.nativeCapture ?? false);
   } catch {
     ui.captureError = tx("无法读取本机保存的凭证，请保持此页面并重试。", "Cannot read saved proof on this device. Keep this page open and retry.");
     ui.draftScope = null;
@@ -232,6 +237,7 @@ function evaluateReadiness(app) {
   }
   if (workspace.activeServerSession && ['IN_PROGRESS','PAUSED'].includes(workspace.activeServerSession.status))
     return {canStart:true, blockedReason:null};
+  if(workspace.creditPolicy?.allocationPending)return {canStart:false,blockedReason:tx('课程总目标已调整，等待教师分配两类目标后即可开始打卡。','The course target changed. New check-ins resume after your teacher allocates both category targets.')};
   if (!findCurrentCourse(workspace)) {
     return { canStart: false, blockedReason: tx("当前课程尚未开放打卡，请联系任课教师", "Check-in is not open for the current course. Contact your instructor.") };
   }
@@ -272,6 +278,7 @@ export function renderCheckIn(app) {
     if (record) return renderRecordDetail(app, record);
     ui.selectedRecordId = null;
   }
+  if(selectedProofTodo(app))return `<div class="tab-content col" style="gap:16px"><button class="outlined-btn" data-action="checkin.leaveProof">${tx('返回打卡','Back to check-in')}</button><h2>${tx('为指定记录补证','Supplement this record')}</h2><div class="swiss-panel">${proofSubmitPanel(app)}</div>${captureButtonsHtml(app,{allowVideo:true})}${draftListHtml(app)}</div>${liveCameraOverlayHtml(app)}${draftPreviewOverlayHtml(app)}`;
 
   const focused = phase === "active" || phase === "paused" || phase === "finished";
   let inner;
@@ -308,19 +315,15 @@ function liveCameraOverlayHtml(app) {
   const statusText = camera.status === "requesting"
     ? tx("正在申请相机权限…", "Requesting camera access…")
     : tx("实时相机画面", "Live camera preview");
-  return `<div data-live-camera-overlay style="position:fixed;inset:0;z-index:1200;background:rgba(0,0,0,.82);display:flex;align-items:center;justify-content:center;padding:18px">
-    <section style="width:min(680px,100%);background:var(--color-surface);border-radius:18px;padding:16px" role="dialog" aria-modal="true" aria-label="${esc(tx("现场拍照", "Take live photo"))}">
-      <div class="row" style="gap:12px;align-items:center"><strong class="title-medium grow">${tx("现场拍照", "Take live photo")}</strong><button class="text-btn pressable" data-action="checkin.cameraClose" type="button">${tx("关闭", "Close")}</button></div>
-      <div style="height:10px"></div>
-      <div style="position:relative;background:#111;border-radius:14px;overflow:hidden;aspect-ratio:4/3">
-        <video data-live-camera-video autoplay playsinline muted style="width:100%;height:100%;object-fit:cover"></video>
-        <span data-live-camera-status class="label-medium" style="position:absolute;left:12px;bottom:12px;color:white;background:rgba(0,0,0,.55);padding:6px 9px;border-radius:999px">${statusText}</span>
-      </div>
-      <div style="height:12px"></div>
-      <div class="row" style="justify-content:center;gap:10px">
-        <button class="outlined-btn pressable" data-action="checkin.cameraFlip" type="button" ${camera.status !== 'ready' ? 'disabled' : ''}>${tx('切换摄像头', 'Switch camera')}</button>
-        <button class="primary-btn pressable" data-action="checkin.cameraTakePhoto" type="button" ${camera.status !== "ready" ? "disabled" : ""}>${icon("camera-alt", 20)}<span>${tx("拍摄照片", "Take photo")}</span></button>
-      </div>
+  return `<div data-live-camera-overlay class="live-video-overlay">
+    <section class="live-video-dialog" role="dialog" aria-modal="true" aria-label="${esc(tx("现场拍照", "Take live photo"))}">
+      <video data-live-camera-video autoplay playsinline muted></video><div class="live-video-scrim" aria-hidden="true"></div>
+      <header class="live-video-topbar"><strong class="live-video-title">${tx("打卡照片", "Check-in photo")}</strong><button class="live-video-close pressable" data-action="checkin.cameraClose" type="button" aria-label="${tx("关闭", "Close")}">${icon("close",28)}</button></header>
+      <div class="live-video-info-card"><span data-live-camera-status>${statusText}</span></div>
+      <div class="live-video-bottom"><div class="live-video-controls">
+        <button class="live-video-action live-video-action-secondary pressable" data-action="checkin.cameraFlip" type="button" ${camera.status !== 'ready' ? 'disabled' : ''}>${tx('切换摄像头', 'Switch camera')}</button>
+        <button class="live-video-action live-video-action-primary pressable" data-action="checkin.cameraTakePhoto" type="button" ${camera.status !== "ready" ? "disabled" : ""}>${icon("camera-alt",24)}<span>${tx("拍摄照片", "Take photo")}</span></button>
+      </div></div>
     </section>
   </div>`;
 }
@@ -353,7 +356,7 @@ function liveVideoCameraOverlayHtml(camera) {
       <video data-live-camera-video autoplay playsinline muted></video>
       <div class="live-video-scrim" aria-hidden="true"></div>
       <header class="live-video-topbar">
-        <strong class="live-video-title">${tx(`打卡视频 · 最长 ${MAX_PROOF_VIDEO_SECONDS} 秒`, `Check-in video · ${MAX_PROOF_VIDEO_SECONDS}s max`)}</strong>
+        <strong class="live-video-title">${tx(`打卡视频 · 最长 10 秒`, `Check-in video · 10s max`)}</strong>
         <button class="live-video-close pressable" data-action="checkin.cameraClose" type="button" aria-label="${esc(tx("取消录像", "Cancel video"))}" ${saving ? "disabled" : ""}>${icon("close", 28)}</button>
       </header>
       <div class="live-video-info-card">
@@ -386,11 +389,11 @@ function renderPreparation(app) {
         <div style="height:8px"></div>
         <div class="body-medium text-muted">${tx("扫码或输入邀请码加入本学期体育课", "Scan a QR code or enter an invitation code for this semester’s sports course.")}</div>
         <div style="height:20px"></div>
-        <button class="primary-btn pressable" data-action="checkin.noop">${icon("qr-code-scanner", 20)}<span>${tx("扫码加入课程", "Scan QR to Join Course")}</span></button>
+        <button class="primary-btn pressable" data-action="courses.scan">${icon("qr-code-scanner", 20)}<span>${tx("扫码加入课程", "Scan QR to Join Course")}</span></button>
         <div style="height:4px"></div>
-        <button class="text-btn pressable" data-action="checkin.noop" style="width:100%;min-height:48px">${icon("text-fields", 18)}<span class="label-large">${tx("输入邀请码", "Enter invitation code")}</span></button>
+        <button class="text-btn pressable" data-action="courses.enterCode" style="width:100%;min-height:48px">${icon("text-fields", 18)}<span class="label-large">${tx("输入邀请码", "Enter invitation code")}</span></button>
       </div>
-      ${selectedProofTodo(app) ? `<div class="swiss-panel">${proofSubmitPanel(app)}</div>` : ""}
+      ${(app.state.workspace.proofTodos||[]).length ? `<div class="swiss-panel">${proofSubmitPanel(app)}</div>` : ""}
     </div>`;
   }
 
@@ -459,7 +462,6 @@ function renderPreparation(app) {
           </div>
         </div>` : ""}
         ${timeWindow.excludedDates.length ? `<div style="height:12px"></div><span class="body-small text-muted">${tx(`排除日期：${timeWindow.excludedDates.slice(0, 3).join("、")}`, `Excluded dates: ${timeWindow.excludedDates.slice(0, 3).join(", ")}`)}${timeWindow.excludedDates.length > 3 ? tx(" 等", " etc.") : ""}</span>` : ""}
-        ${hasSubmittedToday ? `<div style="height:12px"></div><span class="body-small" style="color:${ORANGE};font-weight:500">${tx(`页面显示今日已有 ${hourText(todayHours)} 记录；能否再次提交以服务器 businessDate 判定为准`, `The page shows ${hourText(todayHours)} recorded today; the server's businessDate decides whether another submission is allowed.`)}</span>` : ""}
       </div>
 
       <div class="col" style="gap:10px">
@@ -499,6 +501,7 @@ function renderPreparation(app) {
         <span class="body-small text-muted">${tx("运动中可随时现场拍照或录像。凭证仅保存在本机，结束运动并确认后才会提交。", "You can take photos or videos while exercising. Proof stays on this device until you end the session and confirm submission.")}</span>
       </div>
     </div>
+    ${app.isApiMode() && currentCourse ? `<button class="outlined-btn" data-action="checkin.historyOpen">${tx("补录历史运动", "Add past exercise")}</button>` : ""}
     <div class="start-exercise-bar">
       <div class="start-exercise-divider"></div>
       ${blocked ? `<div class="body-small text-muted" style="text-align:center;padding-top:8px">${esc(blocked)}</div>` : ""}
@@ -547,11 +550,11 @@ function draftListHtml(app, { submissionRequired = false } = {}) {
           ? `<img src="${esc(draft.url)}" alt="">`
           : `${draft.thumbnailUrl
             ? `<img class="proof-card-thumbnail" src="${esc(draft.thumbnailUrl)}" alt="">`
-            : `<span class="proof-card-video-placeholder" aria-hidden="true">${icon("videocam", 32)}</span>`}<span class="proof-card-play">${icon("play-arrow", 24)}</span>`;
+            : `<span class="proof-card-video-placeholder" aria-hidden="true">${icon("videocam", 32)}</span>`}${draft.normalizationPending ? "" : `<span class="proof-card-play">${icon("play-arrow", 24)}</span>`}`;
         return `<button class="proof-card pressable" type="button" data-action="checkin.previewDraft" data-draft-id="${esc(draft.id)}" aria-label="${esc(tx(`预览${typeLabel}，${statusLabel}${locked ? "，已锁定" : ""}`, `Preview ${typeLabel}, ${statusLabel}${locked ? ", locked" : ""}`))}">
           <span class="proof-card-media">${media}<span class="proof-card-type">${badgeLabel}</span></span>
           <span class="proof-card-copy">
-            <span class="label-medium text-on-surface ellipsis">${typeLabel}</span>
+            <span class="label-medium text-on-surface ellipsis">${draft.normalizationPending ? tx("视频待处理", "Video processing pending") : typeLabel}</span>
             <span class="body-small text-muted">${formatMediaSize(draft.byteCount)}${draft.durationSeconds ? ` · ${Math.ceil(draft.durationSeconds)}s` : ""}</span>
           </span>
         </button>`;
@@ -568,10 +571,13 @@ function draftPreviewOverlayHtml(app) {
   if (!draft) return "";
   const locked = ui.finish.submitting || isRetainedEvidenceLocked(draft);
   const typeLabel = draft.type === "video" ? tx("现场视频", "On-site video") : tx("现场照片", "On-site photo");
-  const media = draft.type === "video"
+  const media = draft.normalizationPending
+    ? `<div role="status">${ui.normalizingVideo ? tx("正在处理视频，请稍候…", "Processing video, please wait…") : tx("视频原件已保留，请重试格式处理。", "The original video is retained. Retry processing.")}${!ui.normalizingVideo ? `<button class="outlined-btn" data-action="checkin.retryVideo">${tx("重试视频处理", "Retry video processing")}</button>` : ""}</div>`
+    : draft.type === "video"
     ? `<div class="proof-preview-video-wrap">
-        <video data-proof-preview-video class="proof-preview-media" src="${esc(draft.url)}" ${draft.thumbnailUrl ? `poster="${esc(draft.thumbnailUrl)}"` : ""} controls preload="auto" playsinline></video>
-        <div class="proof-preview-video-error body-medium" data-proof-preview-video-error hidden>${tx("视频无法播放，请删除后重新录制。", "This video cannot be played. Delete it and record again.")}</div>
+        <video data-proof-preview-video data-preview-id="${esc(draft.id)}" data-preview-source="${esc(draft.url)}" class="proof-preview-media" ${draft.thumbnailUrl ? `poster="${esc(draft.thumbnailUrl)}"` : ""} controls preload="auto" playsinline></video>
+        <div class="body-small" data-proof-preview-video-status role="status"></div>
+        <div class="proof-preview-video-error body-medium" data-proof-preview-video-error hidden>${tx("暂时无法播放，原件已保留。请尝试重新打开预览。", "Playback is unavailable. The original is retained. Try reopening the preview.")}</div>
       </div>`
     : `<img class="proof-preview-media" src="${esc(draft.url)}" alt="${esc(typeLabel)}">`;
   return `<div class="proof-preview-overlay" role="dialog" aria-modal="true" aria-label="${esc(tx("凭证预览", "Proof preview"))}">
@@ -587,22 +593,18 @@ function draftPreviewOverlayHtml(app) {
   </div>`;
 }
 
-function attachDraftVideoPreview(app) {
+export function attachDraftVideoPreview(app) {
   const video = app._viewport?.querySelector("[data-proof-preview-video]");
   if (!video) return;
-  const error = app._viewport?.querySelector("[data-proof-preview-video-error]");
-  const showError = () => {
-    if (error) error.hidden = false;
-  };
-  video.addEventListener("loadeddata", () => {
-    if (error) error.hidden = true;
-  }, { once: true });
-  video.addEventListener("error", showError, { once: true });
-  try {
-    video.load();
-  } catch {
-    showError();
-  }
+  const draft=checkinState(app).drafts.find(d=>d.id===video.dataset.previewId);
+  if(!draft?.blob||draft.normalizationPending)return;
+  void mountLocalVideoPlayer(video,draft.blob,state=>{
+    if(!video.isConnected)return;
+    const error=app._viewport?.querySelector('[data-proof-preview-video-error]');
+    const status=app._viewport?.querySelector('[data-proof-preview-video-status]');
+    if(error)error.hidden=state!=='error';
+    if(status)status.textContent=state==='loading'?tx('正在载入本机视频…','Loading local video…'):'';
+  });
 }
 
 /** Confirmed/bound Session evidence is append-only for final submission. */
@@ -638,10 +640,12 @@ function captureButtonsHtml(app, { allowVideo }) {
   return `
     ${ui.captureError ? validationPanel(ui.captureError) : ""}
     ${ui.normalizingVideo ? `<div role="status">${tx("正在处理视频，请稍候…", "Processing video, please wait…")}</div>` : ui.drafts.some(d=>d.normalizationPending) ? `<button class="outlined-btn" data-action="checkin.retryVideo">${tx("重试视频处理", "Retry video processing")}</button>` : ""}
+    ${!selectedProofTodo(app)&&loadSession(accountId(app))?.recordOrigin === 'HISTORICAL' ? `<label class="capture-btn" style="width:100%;min-height:48px;box-sizing:border-box"><span>${tx("选择历史运动凭证", "Choose past exercise evidence")}</span><input style="display:none" type="file" accept="image/*,video/*" multiple data-change="checkin.historyFiles" /></label>` : ""}
     <div class="row" style="gap:10px">
       <button class="capture-btn pressable" data-action="checkin.capturePhoto" ${photoLimit ? "disabled" : ""}>${icon("camera-alt", 20)}<span>${tx("现场拍照", "Take photo")}</span></button>
       ${allowVideo ? `<button class="capture-btn pressable" data-action="checkin.captureVideo" ${videoLimit ? "disabled" : ""}>${icon("videocam", 20)}<span>${tx("现场录像", "Record video")}</span></button>` : ""}
     </div>
+    ${allowVideo ? `<p class="body-small text-muted" style="margin:8px 0 0">${tx("视频请保留声音，单段最长 10 秒。", "Keep audio enabled. Each video can be up to 10 seconds long.")}</p>` : ""}
     ${limitNote ? `<div class="body-small" style="color:${ORANGE};margin-top:8px">${esc(limitNote)}</div>` : ""}`;
 }
 
@@ -687,10 +691,10 @@ function renderRunning(app, session, paused) {
     </div>
     <div style="height:20px"></div>
     ${paused
-      ? `<button class="checkin-cta pressable" data-action="checkin.resume">${icon("play-arrow", 24)}<span>${tx("继续运动", "Continue exercise")}</span></button>`
-      : `<button class="checkin-cta pressable" data-action="checkin.pause">${icon("pause", 24)}<span>${tx("暂停运动", "Pause exercise")}</span></button>`}
+      ? `<button class="checkin-cta pressable" data-action="checkin.resume" ${ui.sessionTransitioning ? "disabled" : ""}>${icon("play-arrow", 24)}<span>${tx("继续运动", "Continue exercise")}</span></button>`
+      : `<button class="checkin-cta pressable" data-action="checkin.pause" ${ui.sessionTransitioning ? "disabled" : ""}>${icon("pause", 24)}<span>${tx("暂停运动", "Pause exercise")}</span></button>`}
     <div style="height:10px"></div>
-    <button class="checkin-end-btn pressable" data-action="checkin.requestFinish" ${ui.sessionTransitioning ? "disabled" : ""}>${ui.sessionTransitioning ? spinner(18) : icon("stop", 20)}<span>${ui.sessionTransitioning ? tx("正在确认结束…", "Confirming end…") : tx("结束运动", "End exercise")}</span></button>
+    <button class="checkin-end-btn pressable" data-action="checkin.requestFinish" ${ui.sessionTransitioning ? "disabled" : ""}>${ui.sessionTransitioning ? spinner(18) : icon("stop", 20)}<span>${ui.sessionTransitioning ? tx("正在同步运动状态…", "Synchronizing exercise state…") : tx("结束运动", "End exercise")}</span></button>
   </div>`;
 }
 
@@ -717,13 +721,20 @@ function renderFinished(app, session) {
   const ui = checkinState(app);
   const details = session.details;
   const credited = estimatedCreditedHours(app,session.activeDurationMillis);
+  if (credited === 0) return `<div class="col" style="gap:16px;padding-bottom:28px">
+    <span class="headline-medium text-on-surface">${tx("本次运动已结束", "Exercise ended")}</span>
+    <div class="swiss-panel"><span class="display-small">${formatTimer(session.activeDurationMillis)}</span>
+      <p>${tx("运动时长未达到课程最低要求，本次不会生成打卡记录，也不会送交教师审核。", "The duration is below the course minimum. No check-in record or teacher review will be created.")}</p></div>
+    ${draftListHtml(app)}
+    <button class="checkin-cta pressable" data-action="checkin.returnHome">${tx("返回打卡", "Back to check-in")}</button>
+  </div>`;
   const retainedImages = ui.drafts.filter((d) => d.type === "image").length;
   const retainedVideos = ui.drafts.filter((d) => d.type === "video").length;
   return `<div class="col" style="gap:16px;padding-bottom:28px">
     <div class="col">
-      <span class="headline-medium text-on-surface">${tx("完成记录", "Complete record")}</span>
+      <span class="headline-medium text-on-surface">${session.recordOrigin === "HISTORICAL" ? tx("历史补录", "Past exercise entry") : tx("完成记录", "Complete record")}</span>
       <div style="height:4px"></div>
-      <span class="body-medium text-muted">${tx("补充说明、确认现场凭证并提交", "Add notes, confirm on-site proof, and submit")}</span>
+      <span class="body-medium text-muted">${session.recordOrigin === "HISTORICAL" ? esc(tx(`运动日期：${formatDateOnly(session.startedAt)}，上传凭证后由教师审核`, `Exercise date: ${formatDateOnly(session.startedAt)}. Teacher review is required.`)) : tx("补充说明、确认现场凭证并提交", "Add notes, confirm on-site proof, and submit")}</span>
     </div>
     <div class="swiss-panel">
       <span class="display-small text-on-surface">${formatTimer(session.activeDurationMillis)}</span>
@@ -739,9 +750,9 @@ function renderFinished(app, session) {
       ${fieldSupport({ id: "checkin-description", helper: `${tx(`已输入 ${(details.description || "").length}/${MAX_DESCRIPTION}`, `${(details.description || "").length}/${MAX_DESCRIPTION} entered`)} · ${tx(`运动说明不能为空，最多 ${MAX_DESCRIPTION} 字`, `Exercise description is required and must be at most ${MAX_DESCRIPTION} characters.`)}` }).replace("class=\"field-supporting\"", 'class="field-supporting" data-description-counter')}
     </div>
     <div class="swiss-panel" style="padding:16px">
-      <span class="title-medium text-on-surface">${tx("现场补拍", "Capture more proof")}</span>
+      <span class="title-medium text-on-surface">${session.recordOrigin === "HISTORICAL" ? tx("历史运动凭证", "Past exercise evidence") : tx("现场补拍", "Capture more proof")}</span>
       <div style="height:8px"></div>
-      <span class="body-small text-muted">${tx("运动结束后仍可现场补拍照片或最长 15 秒的有声视频；不提供相册入口。", "After exercise, you can capture another photo or an audio-enabled video up to 15 seconds. Gallery selection is unavailable.")}</span>
+      <span class="body-small text-muted">${session.recordOrigin === "HISTORICAL" ? tx("请选择能证明所填日期运动的照片或视频，等待教师审核。", "Choose evidence of exercise on the declared date for teacher review.") : tx("运动结束后仍可调用相机补拍照片或最长 10 秒的有声视频。", "After exercise, use the camera for photos or a video with audio up to 10 seconds.")}</span>
       <div style="height:12px"></div>
       ${captureButtonsHtml(app, { allowVideo: true })}
       <div class="course-divider" style="margin:18px 0 16px"></div>
@@ -759,7 +770,7 @@ function renderFinished(app, session) {
         ${summaryRow(tx("开始时间", "Start time"), formatDateTime(session.startedAt))}
         ${summaryRow(tx("结束时间", "End time"), formatDateTime(session.endedAt))}
         ${summaryRow(tx("实际运动时长", "Active duration"), formatTimer(session.activeDurationMillis))}
-        ${summaryRow(tx("计入学时", "Credited hours"), tx(`${credited} 小时`, `${credited} hours`))}
+        ${summaryRow(tx("计入时长", "Credited time"), tx(`${credited} 小时`, `${credited} hours`))}
         ${summaryRow(tx("打卡日期", "Check-in date"), formatDateOnly(session.startedAt))}
         ${summaryRow(tx("凭证数量", "Proof count"), tx(`${retainedImages} 张照片`, `${retainedImages} photos`) + (retainedVideos > 0 ? tx(` + ${retainedVideos} 个视频`, ` + ${retainedVideos} videos`) : ""))}
       </div>
@@ -780,9 +791,7 @@ function renderFinished(app, session) {
 
 function renderSubmitted(app, session) {
   const summary = session.summary;
-  const creditedSummary = summary.creditedHours == null
-    ? tx("已提交；学时以服务端重新读取结果为准", "Submitted; credited hours will be read back from the server")
-    : tx(`已计入 ${summary.creditedHours} 小时`, `${summary.creditedHours} hours credited`);
+  const creditedSummary = tx("记录已提交，审核状态与计入时长请查看打卡记录。", "Record submitted. View check-in records for review status and credited time.");
   return `<div class="col" style="gap:18px;padding:18px 0 28px">
     <div class="col" style="align-items:center;padding:10px 0">
       <span class="submit-success-circle">${icon("check-circle", 34)}</span>
@@ -812,6 +821,11 @@ function renderSubmitted(app, session) {
 // ═══════════════════════════════════════════════════════════════
 //  Records tab (#20 records) and record detail (#24)
 // ═══════════════════════════════════════════════════════════════
+
+export function creditedMinuteText(hours) {
+  const minutes = Math.round(Math.max(0, Number(hours) || 0) * 60);
+  return tx(`${minutes} 分钟`, `${minutes} min`);
+}
 
 const recordSportName = (record) => {
   const value = (record.sportType || "").trim();
@@ -851,13 +865,13 @@ function renderRecordsTab(app) {
   const intro = `<div class="col" style="gap:18px">
     <div class="col" style="gap:6px">
       ${sectionTitle(tx("打卡记录", "Check-in records"))}
-      <span class="body-medium text-muted">${tx("查看每次运动的学时与记录详情", "View the hours and details of every exercise.")}</span>
+      <span class="body-medium text-muted">${tx("查看每次运动的计入分钟与记录详情", "View the credited minutes and details of every exercise.")}</span>
     </div>
     ${records.length ? `<div class="swiss-panel" style="padding:18px 20px">
       <div class="row">
         <div class="col grow" style="gap:3px">
-          <span class="label-medium text-muted">${tx("计入学时", "Credited hours")}</span>
-          <span class="headline-medium text-on-surface">${hourText(totalHours)}</span>
+          <span class="label-medium text-muted">${tx("计入时长", "Credited time")}</span>
+          <span class="headline-medium text-on-surface">${creditedMinuteText(totalHours)}</span>
         </div>
         <div class="col" style="align-items:flex-end;gap:4px">
           <span class="body-medium text-on-surface" style="font-weight:500">${tx(`共 ${records.length} 条记录`, `${records.length} records`)}</span>
@@ -880,7 +894,7 @@ function renderRecordsTab(app) {
           </div>
         </div>
         <div class="row">
-          <span class="title-medium text-on-surface">${hourText(record.hours)}</span>
+          <span class="title-medium text-on-surface">${creditedMinuteText(record.hours)}</span>
           <span style="width:6px"></span>
           <span class="body-small text-muted">${creditLabel(record)}</span>
           <span class="grow"></span>
@@ -911,15 +925,28 @@ function renderRecordsTab(app) {
   </div>`;
 }
 
+function proofDisplayName(proof) {
+  const generated = /^media:/.test(proof.source || "")
+    ? /^(?:运动照片|运动视频|Exercise photo|Exercise video) (\d+)$/.exec(proof.fileName || "")
+    : null;
+  if (!generated) return proof.fileName || tx("媒体文件", "Media file");
+  return proof.type === "video"
+    ? tx(`运动视频 ${generated[1]}`, `Exercise video ${generated[1]}`)
+    : tx(`运动照片 ${generated[1]}`, `Exercise photo ${generated[1]}`);
+}
+
 function mediaThumb(proof, aspect = "16/9") {
-  const displayable = /^(https?:\/\/|content:\/\/|file:\/\/|blob:|data:|\/)/.test(proof.source || "");
-  const thumbnailSource = proof.type === "video" ? proof.thumbnailUrl : proof.source;
+  const source = proof.previewSource || proof.source;
+  const displayable = /^(https?:\/\/|content:\/\/|file:\/\/|blob:|data:|\/)/.test(source || "");
+  const thumbnailSource = proof.type === "video" ? proof.thumbnailUrl : source;
   const thumbnailDisplayable = /^(https?:\/\/|content:\/\/|file:\/\/|blob:|data:|\/)/.test(thumbnailSource || "");
   const inner = (proof.type === "image" ? displayable : thumbnailDisplayable)
-    ? `<img src="${esc(thumbnailSource)}" alt="${esc(proof.fileName)}" style="width:100%;height:100%;object-fit:cover">`
+    ? `<img src="${esc(thumbnailSource)}" alt="${esc(proofDisplayName(proof))}" style="width:100%;height:100%;object-fit:cover">`
+    : proof.type === "video" && displayable
+    ? `<video src="${esc(source)}#t=0.001" muted playsinline preload="metadata" aria-label="${esc(proofDisplayName(proof))}" style="width:100%;height:100%;object-fit:cover;pointer-events:none"></video>`
     : `<div class="col" style="align-items:center;justify-content:center;height:100%;gap:6px">
         ${icon(proof.type === "video" ? "videocam" : "photo", 28)}
-        <span class="label-small" style="max-width:90%;text-align:center;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(proof.fileName || tx("媒体文件", "Media file"))}</span>
+        <span class="label-small" style="max-width:90%;text-align:center;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(proofDisplayName(proof))}</span>
       </div>`;
   const videoOverlay = proof.type === "video"
     ? `<span class="media-play-overlay">${icon("play-arrow", 30)}</span><span class="media-video-tag">${tx("视频", "Video")}</span>`
@@ -947,42 +974,34 @@ function detailInfoRow(iconName, label, value, last = false) {
 function creditLabel(record) {
   return record.reviewResult === "INVALID"
     ? tx("未计入学时", "Not credited")
-    : tx("计入学时", "Credited hours");
+    : tx("计入时长", "Credited time");
 }
 
 function reviewStatusText(record) {
-  return reviewStageLabel(reviewStageFromRecord(record), getLanguage() === "en-US");
+  return reviewStageLabel(reviewStageFromRecord(record), getLanguage() === "en");
 }
 
 function renderPublicReasonPanel(record) {
   const model = resolvePublicReasonModel(record);
-  if (model.kind === "systemOverdue") {
-    return `<div class="swiss-panel" data-testid="reviewReason.card">
-      <div class="label-medium text-muted">${tx("决定来源", "Decision source")}</div>
-      <div class="body-medium text-on-surface" style="margin-top:4px">${tx("系统", "System")}</div>
-      <div class="label-medium text-muted" style="margin-top:10px">${tx("公开结果原因", "Public result reason")}</div>
-      <div class="body-medium text-on-surface" style="margin-top:4px">${tx("补证逾期", "Supplementary evidence deadline missed")}</div>
-      <div class="body-small text-muted" style="margin-top:8px">${tx("该原因不属于教师原因选项，也不会重新开放补证入口。", "This is not a teacher reason option and does not reopen supplementation.")}</div>
-    </div>`;
+  let publicNote = model.publicNote;
+  // Server mappings retain the original comment separately from generated copy.
+  // Recompute only system copy when the user changes language in this session.
+  if (Object.prototype.hasOwnProperty.call(record, "reviewPublicComment")) {
+    if (record.reviewPublicComment) publicNote = record.reviewPublicComment;
+    else if (model.reason) publicNote = tx(model.reason.zh, model.reason.en);
+    else if (record.reviewResult === "VALID") publicNote = Number(record.hours) > 0
+      ? tx("记录有效，已计入运动时长。", "Record valid; hours credited.")
+      : tx("记录有效，当前未计入考核进度。", "Record valid; currently not credited toward the target.");
+    else if (record.reviewResult === "INVALID") publicNote = tx("记录未通过审核。", "Record was rejected.");
+    else if (record.workflowStage === "AWAITING_SUPPLEMENT") publicNote = tx("等待补充材料。", "Supplementary evidence required.");
+    else if (record.workflowStage === "TECHNICAL") publicNote = tx("材料技术处理中。", "Evidence is being processed.");
+    else if (record.reviewResult || record.serverStatus === "SUBMITTED") publicNote = tx("材料已受理，等待审核。", "Evidence received; awaiting review.");
+    else publicNote = tx("记录缺少有效审核状态。", "The record has no valid review state.");
   }
-  if (model.kind === "teacher") {
-    const label = getLanguage() === "en-US" ? model.reason.en : model.reason.zh;
-    return `<div class="swiss-panel" data-testid="reviewReason.card">
-      <div class="label-medium text-muted">${tx("固定公开原因", "Fixed public reason")}</div>
-      <div class="body-medium text-on-surface" style="margin-top:4px">${esc(label)}</div>
-      ${model.publicNote ? `<div class="label-medium text-muted" style="margin-top:10px">${tx("公开补充说明（保留原文）", "Public supplemental note (original language)")}</div>
-      <div class="body-medium text-on-surface" style="margin-top:4px">${esc(model.publicNote)}</div>` : ""}
-    </div>`;
-  }
-  if (!model.publicNote && record.reviewResult !== "INVALID" && record.reviewResult !== "PROOF_OVERDUE_INVALID" && record.reviewResult !== "RETURN_FOR_PROOF") {
-    return "";
-  }
+  if (!publicNote) return "";
   return `<div class="swiss-panel" data-testid="reviewReason.card">
-    <div class="label-medium text-muted">${tx("固定公开原因", "Fixed public reason")}</div>
-    <div class="body-medium text-on-surface" style="margin-top:4px">${tx("暂不可用", "Currently unavailable")}</div>
-    <div class="body-small text-muted" style="margin-top:8px">${tx("当前记录未提供可识别的固定原因分类；不会根据自由文本猜测分类。", "This record has no identifiable fixed reason category; free text is not used to guess one.")}</div>
-    ${model.publicNote ? `<div class="label-medium text-muted" style="margin-top:10px">${tx("公开说明（保留原文）", "Public note (original language)")}</div>
-    <div class="body-medium text-on-surface" style="margin-top:4px">${esc(model.publicNote)}</div>` : ""}
+    <div class="label-medium text-muted">${tx("公开说明", "Public note")}</div>
+    <div class="body-medium text-on-surface" style="margin-top:4px">${esc(publicNote)}</div>
   </div>`;
 }
 
@@ -1025,7 +1044,7 @@ function renderRecordDetail(app, record) {
       <div style="height:4px"></div>
       <span class="body-medium text-muted">${esc(taskTitle)}</span>
       <div class="course-divider" style="margin:20px 0 16px"></div>
-      <span class="headline-medium text-on-surface">${hourText(record.hours)}</span>
+      <span class="headline-medium text-on-surface">${creditedMinuteText(record.hours)}</span>
       <span class="label-medium text-muted">${creditLabel(record)}</span>
     </div>
     <div class="row" style="padding-top:8px"><span class="title-medium text-on-surface grow">${tx("记录信息", "Record information")}</span></div>
@@ -1039,7 +1058,6 @@ function renderRecordDetail(app, record) {
       ${detailInfoRow("info-outline", tx("打卡类别", "Check-in category"), creditTypeLabel(record.creditType))}
       ${detailInfoRow("attach-file", tx("凭证", "Proof"), proofSummaryText(record), true)}
     </div>
-    <div class="row" style="padding-top:8px"><span class="title-medium text-on-surface grow">${tx("公开原因或说明", "Public reason or note")}</span></div>
     ${renderPublicReasonPanel(record)}
     ${record.note ? `
       <div class="row" style="padding-top:8px"><span class="title-medium text-on-surface grow">${tx("运动说明", "Exercise notes")}</span></div>
@@ -1062,7 +1080,7 @@ function renderRecordDetail(app, record) {
               ${mediaThumb(proof)}
               <div class="row" style="padding:12px 14px;gap:8px">
                 <span class="text-muted" style="display:inline-flex">${icon(proof.type === "video" ? "videocam" : "photo", 18)}</span>
-                <span class="body-medium text-on-surface grow ellipsis">${esc(proof.fileName)}</span>
+                <span class="body-medium text-on-surface grow ellipsis">${esc(proofDisplayName(proof))}</span>
                 ${proof.durationSeconds ? `<span class="label-medium text-muted">${proof.durationSeconds >= 60 ? tx(`${Math.floor(proof.durationSeconds / 60)}分${Math.round(proof.durationSeconds % 60)}秒`, `${Math.floor(proof.durationSeconds / 60)}m${Math.round(proof.durationSeconds % 60)}s`) : tx(`${Math.round(proof.durationSeconds)}秒`, `${Math.round(proof.durationSeconds)}s`)}</span>` : ""}
                 <span class="text-muted" style="display:inline-flex">${icon("chevron-right", 20)}</span>
               </div>
@@ -1075,7 +1093,7 @@ function renderRecordDetail(app, record) {
 
 async function hydrateRecordProofs(app, record) {
   const ui = checkinState(app);
-  if (!app.isApiMode() || record.serverProofsLoaded || ui.recordProofLoadingId === record.id) return;
+  if (!app.isApiMode() || ui.recordProofLoadingId === record.id) return;
   ui.recordProofLoadingId = record.id;
   ui.recordOpenError = null;
   app.render();
@@ -1090,6 +1108,16 @@ async function hydrateRecordProofs(app, record) {
     record.proofSummary = proofs.length ? "" : record.proofSummary;
     record.serverProofsLoaded = true;
     cacheRecordProofs(record.id, proofs);
+    // Signed addresses are short-lived: keep them only in memory and renew on open.
+    await Promise.all(proofs.map(async (proof) => {
+      try {
+        const access = await createMediaAccessUrl(proof.mediaId);
+        if (app.ui.checkin !== ui) return;
+        proof.previewSource = proxyObjectUrl(access.accessUrl);
+      } catch (error) {
+        if (app.ui.checkin === ui) ui.recordOpenError = toUserFacingError(error);
+      }
+    }));
   } catch (error) {
           ui.recordOpenError = toUserFacingError(error);
   } finally {
@@ -1274,6 +1302,7 @@ export function reconcileAuthoritativeSession(localSession, authoritativeSession
     lastResumedAt: status === "PAUSED" ? null : now,
     serverVersion: authoritativeSession.version,
     serverActualDurationSeconds: durationSeconds,
+    maximumDurationSeconds: authoritativeSession.maximumDurationSeconds??null,
   };
 }
 
@@ -1322,19 +1351,27 @@ async function transitionLiveSession(app, command) {
   const local = loadSession(accountId(app));
   if (!local?.serverId || ui.sessionTransitioning) return;
   ui.sessionTransitioning = true;
+  // Immediate display feedback; the server still decides credited duration.
+  persist(app, command === 'pause' ? pauseSession(local) : resumeSession(local));
+  app.render();
   try {
-    const current = await getServerSession(local.serverId);
-    const reconciled = reconcileAuthoritativeSession(local, current);
-    persist(app, reconciled);
-    const target = command === 'pause' ? 'PAUSED' : 'IN_PROGRESS';
-    const result = current.status === target ? current : await (
-      command === 'pause' ? pauseServerSession : resumeServerSession
-    )(current.id, current.version);
+    const transition = command === 'pause' ? pauseServerSession : resumeServerSession;
+    let result;
+    try {
+      result = await transition(local.serverId, local.serverVersion);
+    } catch (error) {
+      if (error.status !== 409) throw error;
+      const current = await getServerSession(local.serverId);
+      reconcileAuthoritativeSession(local, current);
+      const target = command === 'pause' ? 'PAUSED' : 'IN_PROGRESS';
+      result = current.status === target ? current : await transition(current.id, current.version);
+    }
     if (loadSession(accountId(app))?.serverId !== local.serverId)
       throw sessionReconciliationError('Local session changed during transition');
     persist(app, reconcileAuthoritativeSession(local, result));
     app.state.workspace.activeServerSession = result;
   } catch (error) {
+    if (loadSession(accountId(app))?.serverId === local.serverId) persist(app, local);
     apiFailureDialog(app, error, command === 'pause' ? tx('暂停失败', 'Pause failed') : tx('继续失败', 'Resume failed'));
   } finally {
     ui.sessionTransitioning = false;
@@ -1365,7 +1402,7 @@ function liveCameraRecordedMs(camera, now = Date.now()) {
 }
 
 function liveCameraRemainingSeconds(camera, now = Date.now()) {
-  const remainingMs = Math.max(0, MAX_PROOF_VIDEO_SECONDS * 1000 - liveCameraRecordedMs(camera, now));
+  const remainingMs = Math.max(0, 10 * 1000 - liveCameraRecordedMs(camera, now));
   return Math.ceil(remainingMs / 1000);
 }
 
@@ -1382,7 +1419,7 @@ function scheduleVideoLimit(app) {
   const camera = checkinState(app).liveCamera;
   if (camera.timer) clearTimeout(camera.timer);
   if (camera.countdownTimer) clearInterval(camera.countdownTimer);
-  const remainingMs = Math.max(0, MAX_PROOF_VIDEO_SECONDS * 1000 - liveCameraRecordedMs(camera));
+  const remainingMs = Math.max(0, 10 * 1000 - liveCameraRecordedMs(camera));
   camera.timer = setTimeout(() => finishLiveVideoRecording(app), remainingMs);
   camera.countdownTimer = setInterval(() => updateLiveCameraReadout(app), 200);
   updateLiveCameraReadout(app);
@@ -1432,7 +1469,7 @@ async function openLiveCamera(app, mode, facingMode = 'environment') {
   try {
     if (!navigator.mediaDevices?.getUserMedia) throw new Error("camera-api-unavailable");
     const stream = await navigator.mediaDevices.getUserMedia({
-      video: { facingMode: { ideal: facingMode } },
+      video: { facingMode: { ideal: facingMode }, ...(mode === "video" ? {width:{ideal:1280},height:{ideal:720},frameRate:{ideal:30,max:30}} : {}) },
       audio: mode === "video",
     });
     if (ui.liveCamera.mode !== mode) {
@@ -1461,6 +1498,8 @@ function preferredRecorderMimeType() {
 
 async function normalizeCapturedPhoto(file) {
   if (!canNormalizeCapturedImage(file)) throw new Error("unsupported-source-image");
+  if(file.type.toLowerCase()==='image/jpeg')return prepareJpegEvidence(file);
+  if(file.type.toLowerCase()==='image/png')return file;
   const sourceUrl = URL.createObjectURL(file);
   try {
     const image = await new Promise((resolve, reject) => {
@@ -1523,53 +1562,44 @@ export function resolveRecordedVideoDuration(previewDuration, capturedDuration) 
     capturedDuration <= MAX_PROOF_VIDEO_SECONDS ? capturedDuration : null;
 }
 
+export function validateVideoDraftDuration(file, durationSeconds, nativeCapture = false) {
+  const verdict = validateProofFile(file, 'video', { durationSeconds });
+  return verdict.ok && nativeCapture && durationSeconds > 10
+    ? { ok: false, error: 'duration' } : verdict;
+}
+
 export async function readVideoPreview(url) {
   return new Promise((resolve) => {
     const video = document.createElement("video");
-    let durationSeconds = null;
-    let seekRequested = false;
-    let settled = false;
-    let timeoutId = null;
+    let durationSeconds = null, thumbnailUrl = null, settled = false, timeoutId;
     const finish = (thumbnailUrl) => {
+      if (settled) return; settled = true; clearTimeout(timeoutId);
+      video.onloadedmetadata = video.onloadeddata = video.ondurationchange = video.oncanplay = video.ontimeupdate = video.onerror = null;
+      video.pause(); video.removeAttribute("src"); video.load(); video.remove();
+      resolve({durationSeconds,thumbnailUrl});
+    };
+    const sample = () => {
       if (settled) return;
-      settled = true;
-      if (timeoutId) clearTimeout(timeoutId);
-      video.onloadedmetadata = null;
-      video.onloadeddata = null;
-      video.ondurationchange = null;
-      video.onseeked = null;
-      video.onerror = null;
-      video.removeAttribute("src");
-      video.load();
-      resolve({ durationSeconds, thumbnailUrl });
-    };
-    const capture = () => {
-      if (!seekRequested && durationSeconds !== null && durationSeconds > 0.2) {
-        seekRequested = true;
-        const target = Math.min(Math.max(0.05, durationSeconds * 0.1), durationSeconds - 0.05);
-        try {
-          video.currentTime = target;
-          return;
-        } catch {
-          // Fall through and use the first decoded frame.
-        }
-      }
-      finish(captureVideoThumbnail(video));
-    };
-    video.preload = "auto";
-    video.muted = true;
-    video.playsInline = true;
-    const updateDuration = () => {
       if (Number.isFinite(video.duration) && video.duration > 0) durationSeconds = video.duration;
+      thumbnailUrl ||= captureVideoThumbnail(video);
+      // A decoded frame can arrive before finite duration metadata on phones.
+      // Keep listening rather than reporting an otherwise valid clip as unknown.
+      if (thumbnailUrl && durationSeconds !== null) finish(thumbnailUrl);
     };
-    video.onloadedmetadata = updateDuration;
-    video.ondurationchange = updateDuration;
-    video.onloadeddata = capture;
-    video.onseeked = () => finish(captureVideoThumbnail(video));
+    // Mobile engines may ignore preload for a detached element. Keep a real
+    // rendering surface and start muted inline playback before reading pixels.
+    video.preload = "auto"; video.muted = true; video.defaultMuted = true; video.playsInline = true;
+    video.setAttribute("playsinline", ""); video.setAttribute("webkit-playsinline", "");
+    video.setAttribute("aria-hidden", "true"); video.tabIndex = -1;
+    video.style.cssText = "position:fixed;left:0;bottom:0;width:2px;height:2px;opacity:.01;pointer-events:none;z-index:2147483646";
+    video.onloadedmetadata = sample;
+    video.onloadeddata = video.oncanplay = video.ontimeupdate = sample;
+    video.ondurationchange = video.onloadedmetadata;
     video.onerror = () => finish(null);
-    timeoutId = setTimeout(() => finish(captureVideoThumbnail(video)), 5_000);
-    video.src = url;
-    video.load();
+    document.body.append(video); video.src = url; video.load();
+    timeoutId = setTimeout(()=>finish(thumbnailUrl || captureVideoThumbnail(video)),20000);
+    video.play().then(sample).catch(()=>{});
+    video.requestVideoFrameCallback?.(sample);
   });
 }
 
@@ -1578,16 +1608,16 @@ export function capturedRecordingDurationSeconds(startedAt, endedAt = Date.now()
   return Math.min(MAX_PROOF_VIDEO_SECONDS, Math.max(0.1, elapsedSeconds));
 }
 
-async function addDraftFromFile(app, file, type, capturedDurationSeconds = null, existingDraftId = null) {
+async function addDraftFromFile(app, file, type, capturedDurationSeconds = null, existingDraftId = null, nativeCapture = false) {
   const ui = checkinState(app);
-  const converting = type === "video" && !file.type.toLowerCase().startsWith("video/mp4") && capturedDurationSeconds !== null;
+  const converting = type === "video";
   if (converting && ui.normalizingVideo) return;
   if (converting) ui.normalizingVideo = true;
-  try { await addDraftFromFileImpl(app, file, type, capturedDurationSeconds, existingDraftId, converting); }
+  try { await addDraftFromFileImpl(app, file, type, capturedDurationSeconds, existingDraftId, converting, nativeCapture); }
   finally { if (converting) { ui.normalizingVideo = false; app.render(); } }
 }
 
-async function addDraftFromFileImpl(app, file, type, capturedDurationSeconds, existingDraftId, converting) {
+async function addDraftFromFileImpl(app, file, type, capturedDurationSeconds, existingDraftId, converting, nativeCapture) {
   const ui = checkinState(app), owner = accountId(app), scope = draftScope(app);
   ui.captureError = null;
   const name = capturedDurationSeconds !== null ? tx('刚录制的视频', 'Recorded video')
@@ -1598,19 +1628,21 @@ async function addDraftFromFileImpl(app, file, type, capturedDurationSeconds, ex
   };
 
   const draftId = existingDraftId || `draft-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
-  let uploadFile = file;
+  let uploadFile = file, normalizedPreview = null;
   if (converting) {
     if (file.size < 1 || file.size > PROOF_VIDEO_MAX_BYTES) { rejectWith(tx("视频为空或超过 100MB，请重新录制。", "The video is empty or exceeds 100MB. Record it again.")); return; }
     let originalSaved = false;
     try {
       const pending = {id:draftId,type,blob:file,url:URL.createObjectURL(file),byteCount:file.size,mimeType:file.type,
-        durationSeconds:capturedDurationSeconds,capturedDurationSeconds,normalizationPending:true};
+        durationSeconds:capturedDurationSeconds,capturedDurationSeconds,nativeCapture,normalizationPending:true};
       await saveProofDraft(owner,scope,pending);
       originalSaved = true;
       if (accountId(app) !== owner || app.ui.checkin !== ui) { URL.revokeObjectURL(pending.url); await removeProofDraft(owner,scope,draftId); return; }
       if (!ui.drafts.some(d=>d.id===draftId)) ui.drafts.push(pending); else URL.revokeObjectURL(pending.url);
       app.render();
-      uploadFile = await normalizeRecordedVideo(file);
+      const normalized = await normalizeRecordedVideo(file);
+      uploadFile = normalized.file;
+      normalizedPreview = normalized.preview;
     } catch {
       rejectWith(originalSaved ? tx("视频原件已保存在本机，暂未完成格式处理。请重试，或重新打开网页继续处理。", "The original video is saved on this device. Retry or reopen the page to finish processing.") : tx("无法保存视频原件，请释放设备存储空间后重新录制。", "Cannot save the original video. Free device storage and record again."));
       return;
@@ -1618,6 +1650,7 @@ async function addDraftFromFileImpl(app, file, type, capturedDurationSeconds, ex
   }
   if (type === "image") {
     try {
+      await savePhotoOriginal(originalOwnerId(app),draftId,file);
       uploadFile = await normalizeCapturedPhoto(file);
     } catch {
       rejectWith(tx(
@@ -1649,21 +1682,25 @@ async function addDraftFromFileImpl(app, file, type, capturedDurationSeconds, ex
   let thumbnailUrl = null;
   let verdict = preVerdict;
   if (type === "video") {
-    const preview = await readVideoPreview(url);
-    // Preview decoding is optional on mobile. An in-app recorder already measured
-    // active recording time; the server independently validates the media bytes.
+    const preview = normalizedPreview || await readVideoPreview(url);
+    // Never mark an undecodable in-app recording ready for submission.
+    if (converting && !preview.thumbnailUrl) {
+      URL.revokeObjectURL(url);
+      rejectWith(tx("视频暂时无法解码，原件已保留，请重试格式处理。", "The video could not be decoded. The original is retained; retry processing."));
+      return;
+    }
     durationSeconds = resolveRecordedVideoDuration(preview.durationSeconds, capturedDurationSeconds);
     thumbnailUrl = preview.thumbnailUrl;
-    // The backend caps exercise videos at 15 recorded seconds; catching it here
+    // Enforce the configured exercise-video duration cap here; catching it here
     // saves the student an upload that would be rejected anyway.
-    verdict = validateProofFile(uploadFile, type, { durationSeconds });
+    verdict = validateVideoDraftDuration(uploadFile, durationSeconds, nativeCapture);
     if (!verdict.ok && verdict.error === "duration") {
       URL.revokeObjectURL(url);
       rejectWith(durationSeconds === null
         ? tx(`无法读取「${name}」的实际时长，请重新录制。`, `The actual duration of “${name}” could not be read. Record it again.`)
         : tx(
-          `「${name}」时长 ${durationSeconds.toFixed(1)} 秒，超过 ${MAX_PROOF_VIDEO_SECONDS} 秒上限，请重新录制。`,
-          `“${name}” is ${durationSeconds.toFixed(1)}s long, over the ${MAX_PROOF_VIDEO_SECONDS}s limit. Record again.`
+          `「${name}」时长 ${durationSeconds.toFixed(1)} 秒，超过 ${nativeCapture ? 10 : MAX_PROOF_VIDEO_SECONDS} 秒上限，请重新录制。`,
+          `“${name}” is ${durationSeconds.toFixed(1)}s long, over the ${nativeCapture ? 10 : MAX_PROOF_VIDEO_SECONDS}s limit. Record again.`
         ));
       return;
     }
@@ -1678,6 +1715,7 @@ async function addDraftFromFileImpl(app, file, type, capturedDurationSeconds, ex
     url,
     blob: uploadFile,
     mimeType: verdict.mimeType,
+    captureSource: !selectedProofTodo(app)&&loadSession(accountId(app))?.recordOrigin === 'HISTORICAL' ? 'FILE_PICKER' : 'IN_APP_CAMERA',
   };
   try {
     if (accountId(app) !== owner || app.ui.checkin !== ui) { URL.revokeObjectURL(url); return; }
@@ -1776,6 +1814,12 @@ async function submitCheckInApi(app, session, retained) {
     app.render();
     const submittedRecord = alreadySubmitted ? record : await submitRecord(record.id, uploaded.map((u) => u.mediaId), record.version, undefined, session.recordSubmission.submitKey);
     cacheRecordProofs(record.id, uploaded);
+    // The server has committed submission. Album failure must never turn this
+    // into a failed check-in; persisted native work retries on the next visit.
+    try {
+      const album = await saveSuccessfulEvidence(originalOwnerId(app), record.id, retained);
+      if (album.pending) ui.mediaNotice = tx('打卡已成功，相册保存待重试。', 'Check-in succeeded. Album saving will retry.');
+    } catch { ui.mediaNotice = tx('打卡已成功，本机凭证暂未存入相册。', 'Check-in succeeded. Evidence has not yet been saved to the album.'); }
     ui.finish.submitting = false;
     const credited = authoritativeCreditedHours(submittedRecord);
     const submitted = {
@@ -1810,6 +1854,11 @@ export function checkinTick(app) {
   const session = loadSession(accountId(app));
   if (!session) return;
   if (session.phase === "active") {
+    const ui=checkinState(app);
+    if(shouldAutoEnd(session)&&!ui.sessionTransitioning&&Date.now()>(ui.nextAutoEndAttempt??0)){
+      ui.nextAutoEndAttempt=Date.now()+15000;
+      void finishSession(app,session);
+    }
     const duration = sessionDurationMs(session);
     const timerEl = app._viewport?.querySelector("[data-timer-value]");
     if (timerEl) timerEl.textContent = formatTimer(duration);
@@ -1825,6 +1874,58 @@ export function checkinTick(app) {
 // ═══════════════════════════════════════════════════════════════
 
 export const checkinActions = {
+  'checkin.selectProof':async(app,el)=>{
+    const ui=checkinState(app);
+    if(ui.finish.submitting)return;
+    const id=el?.dataset?.recordId;
+    if(!(app.state.workspace.proofTodos||[]).some(item=>item.recordId===id))return;
+    stopLiveCamera(ui);ui.focusProofRecordId=id;ui.selectedRecordId=null;
+    app.selectTab('checkin');await restoreCheckinContinuity(app);app.render();
+  },
+  'checkin.leaveProof':async app=>{
+    const ui=checkinState(app);if(ui.finish.submitting)return;
+    stopLiveCamera(ui);ui.focusProofRecordId=null;await restoreCheckinContinuity(app);app.render();
+  },
+  "checkin.originals": async app => {
+    try {
+      const ui=checkinState(app);for(const url of ui.originalUrls||[])URL.revokeObjectURL(url);
+      const photos=await listPhotoOriginals(originalOwnerId(app));ui.originalUrls=[];
+      const items=photos.map(photo=>{const url=URL.createObjectURL(photo.blob);ui.originalUrls.push(url);return `<p><a href="${esc(url)}" download="${esc(photo.name)}">${esc(photo.name)}</a> <button data-action="checkin.originalDelete" data-id="${esc(photo.id)}">${tx("删除本机原图","Delete local original")}</button></p>`;}).join('');
+      app.showDialog({title:tx("本机照片原图","Original photos on this device"),body:`<p>${tx("原图保留原始照片及 EXIF，不随记录提交而清除。点击文件名保存到设备。浏览器清理数据或卸载后可能丢失，请及时保存。上传副本会排除位置等信息。","Original files and EXIF remain after submission. Select a filename to save it to your device. Browser data cleanup may remove these copies. Upload copies exclude location information.")}</p>${items||tx("暂无已保存原图","No saved originals")}`,buttons:[{label:tx("关闭","Close"),action:"dialog.close"}]});
+    }catch(error){apiFailureDialog(app,error,tx("无法读取本机原图","Cannot load local originals"));}
+  },
+  "checkin.originalDelete": async(app,el)=>{await removePhotoOriginal(originalOwnerId(app),el.dataset.id);await checkinActions["checkin.originals"](app);},
+  "checkin.historyOpen": async (app) => {
+    const course=findCurrentCourse(app.state.workspace); if(!course)return;
+    try {
+      const settings=await request(`/class-sections/${course.classSectionId}/history-settings`);
+      if(!settings.enabled) {app.showDialog({title:tx("历史补卡", "Past exercise"),body:tx("教师尚未开放本课程历史补卡。", "Your teacher has not enabled past exercise entries."),buttons:[{label:tx("知道了","OK"),action:"dialog.close"}]});return;}
+      const yesterday=new Date(`${settings.today}T00:00:00Z`);yesterday.setUTCDate(yesterday.getUTCDate()-1);
+      const latest=[settings.latestDate,yesterday.toISOString().slice(0,10)].sort()[0];
+      checkinState(app).historySettings=settings;
+      app.showDialog({title:tx("补录历史运动", "Add past exercise"),body:`<p>${tx("填写实际运动日期和时长，随后上传凭证。补卡须教师审核，按所选日期计算次数。", "Enter the actual date and duration, then upload evidence. Teacher review is required.")}</p><label>${tx("日期","Date")}<input id="history-date" type="date" min="${esc(settings.earliestDate)}" max="${esc(latest)}" value="${esc(latest)}"/></label><label>${tx("开始时间（北京时间）","Start time (Beijing time)")}<input id="history-time" type="time" value="12:00"/></label><label>${tx("运动时长（分钟）","Duration (minutes)")}<input id="history-minutes" type="number" min="1" max="1440" value="60"/></label>`,buttons:[{label:tx("取消","Cancel"),action:"dialog.close"},{label:tx("添加凭证","Add evidence"),action:"checkin.historyCreate"}]});
+    }catch(error){apiFailureDialog(app,error,tx("无法读取补卡范围","Cannot load past exercise settings"));}
+  },
+  "checkin.historyCreate": async (app) => {
+    const ui=checkinState(app),course=findCurrentCourse(app.state.workspace);if(!course||ui.sessionTransitioning)return;
+    const date=document.getElementById('history-date')?.value,time=document.getElementById('history-time')?.value,minutes=Number(document.getElementById('history-minutes')?.value);
+    if(!date||!time||!Number.isInteger(minutes)||minutes<1)return;
+    ui.sessionTransitioning=true;
+    try {
+      const sport=courseSportSelection(course.name),details={creditType:ui.setup.creditType,sportType:ui.setup.creditType==='course'?sport.sportType:ui.setup.generalSportType,
+        customSportName:ui.setup.creditType==='course'?sport.customSportName:ui.setup.generalCustomSportName||null,description:''};
+      const server=await request(`/enrollments/${course.enrollmentId}/historical-sessions`,{method:'POST',headers:{'Idempotency-Key':crypto.randomUUID()},body:{startedAt:`${date}T${time}:00+08:00`,durationSeconds:minutes*60}});
+      const local={...startSession(details),phase:'finished',recordOrigin:'HISTORICAL',serverId:server.id,serverVersion:server.version,enrollmentId:server.enrollmentId,
+        startedAt:Date.parse(server.startedAt),endedAt:Date.parse(server.completedAt),accumulatedMs:server.actualDurationSeconds*1000,lastResumedAt:null,
+        activeDurationMillis:server.actualDurationSeconds*1000,serverActualDurationSeconds:server.actualDurationSeconds};
+      persist(app,local);ui.finish={submitting:false};app.state.dialog=null;
+    }catch(error){apiFailureDialog(app,error,tx("无法创建历史补卡","Cannot create past exercise entry"));}finally{ui.sessionTransitioning=false;app.render();}
+  },
+  "checkin.historyFiles": async (app,el) => {
+    if(loadSession(accountId(app))?.recordOrigin!=='HISTORICAL')return;
+    for(const file of [...(el.files||[])]) await addDraftFromFile(app,file,(file.type.startsWith('video/') || /\.(mp4|mov|m4v|webm|3gp)$/i.test(file.name))?'video':'image');
+    el.value='';
+  },
   "checkin.cameraFlip": (app) => {
     const camera = checkinState(app).liveCamera;
     if (!camera.mode || camera.status !== 'ready') return;
@@ -1890,6 +1991,7 @@ export const checkinActions = {
         local.serverId = serverSession.id;
         local.serverVersion = serverSession.version;
         local.enrollmentId = serverSession.enrollmentId;
+        local.maximumDurationSeconds = serverSession.maximumDurationSeconds??null;
       }
       persist(app, local);
       // Submission and explicit discard are the clearing points for local drafts.
@@ -2001,11 +2103,11 @@ export const checkinActions = {
     if (!session) return;
     const duration = sessionDurationMs(session);
     const threshold = app.state.workspace?.creditPolicy?.minCreditThresholdMinutes;
-    const short = [30,45,60].includes(threshold) && duration < threshold * 60000;
+    const short = Number.isInteger(threshold) && threshold >= 1 && threshold <= 1440 && duration < threshold * 60000;
     app.showDialog({
       title: tx("你确定要结束本次运动吗？", "End this exercise session?"),
       body: short
-        ? tx(`当前预计时长未达课程 ${threshold} 分钟门槛，可能不计入学时。结束时长由服务器确认。`, `The estimated duration is below the course threshold of ${threshold} minutes and may receive no credit. The server confirms the final duration.`)
+        ? tx(`当前预计时长未达课程 ${threshold} 分钟门槛，结束后不会形成打卡记录或送交教师审核。`, `The estimated duration is below the course threshold of ${threshold} minutes and will not create a check-in record or enter teacher review.`)
         : "",
       buttons: [
         { label: tx("取消", "Cancel"), action: "dialog.close" },
@@ -2020,20 +2122,7 @@ export const checkinActions = {
     void finishSession(app, session, { auto: false });
   },
   "checkin.capturePhoto": (app) => { void openLiveCamera(app, "photo"); },
-  "checkin.captureVideo": (app) => {
-    // Just-in-time video/audio disclosure before the live stream opens.
-    app.showDialog({
-      title: tx("录像与声音说明", "Video and audio notice"),
-      body: tx(
-        `继续后将打开网页实时相机与麦克风，并同时录制画面与声音。有效录制累计最多 ${MAX_PROOF_VIDEO_SECONDS} 秒，暂停期间不计时，可提前结束；达到 ${MAX_PROOF_VIDEO_SECONDS} 秒会自动结束。视频仅在你明确提交后才会上传，提交前可重拍或删除草稿。`,
-        `Continuing opens the live web camera and microphone to record video with audio. Active recording is limited to ${MAX_PROOF_VIDEO_SECONDS} seconds; paused time is excluded, you may stop early, and recording ends automatically at the limit. It uploads only after explicit submission and can be retaken or deleted beforehand.`
-      ),
-      buttons: [
-        { label: tx("取消", "Cancel"), action: "dialog.close" },
-        { label: tx("继续录制", "Continue recording"), action: "checkin.videoNoticeContinue" },
-      ],
-    });
-  },
+  "checkin.captureVideo": (app) => { void openLiveCamera(app, "video"); },
   "checkin.videoNoticeContinue": (app) => {
     app.state.dialog = null;
     app.render();
@@ -2060,7 +2149,7 @@ export const checkinActions = {
     }, "image/jpeg", 0.9);
   },
   "checkin.retryVideo": async (app) => {
-    for (const draft of checkinState(app).drafts.filter(d=>d.normalizationPending)) await addDraftFromFile(app,draft.blob,"video",draft.capturedDurationSeconds,draft.id);
+    for (const draft of checkinState(app).drafts.filter(d=>d.normalizationPending)) await addDraftFromFile(app,draft.blob,"video",draft.capturedDurationSeconds,draft.id,draft.nativeCapture ?? false);
   },
   "checkin.cameraStartVideo": (app) => {
     const ui = checkinState(app);
@@ -2211,7 +2300,7 @@ export const checkinActions = {
     const drafts = (ui.drafts || []).filter((draft) => draft.url);
     if (!todo?.recordId || ui.finish.submitting) return;
     if (drafts.some(d=>d.normalizationPending)) { ui.captureError=tx("请完成视频处理后再提交补证。", "Finish processing the video before submitting proof.");app.render();return; }
-    if (!drafts.length) { await openLiveCamera(app,"photo"); return; }
+    if (!drafts.length) { void openLiveCamera(app,"photo"); return; }
     if (!app.isApiMode()) {
       apiFailureDialog(app, new ApiError(409, { code: "PROOF_PREVIEW_NOT_SUBMITTED" }), tx("未提交补证", "Proof not submitted"));
       return;
@@ -2237,6 +2326,8 @@ export const checkinActions = {
         ui.proofSubmissionIntent = intent;
       }
       await submitRecordSupplement(intent.recordId, intent.mediaIds, intent.expectedVersion, intent.key);
+      try { await saveSuccessfulEvidence(originalOwnerId(app), intent.recordId, drafts); }
+      catch { ui.mediaNotice = tx('补证已成功，相册保存待重试。', 'Supplement succeeded. Album saving will retry.'); }
       ui.proofSubmissionIntent = null;
       await clearProofDrafts(accountId(app), draftScope(app));
       ui.drafts = [];

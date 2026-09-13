@@ -1,0 +1,23 @@
+import hashlib,json,os,shutil,urllib.request
+from pathlib import Path
+assert os.geteuid()==0
+base=Path('/opt/bnbu-sports-production')
+previous=base/'releases/checkin-locale-20260913'
+release=base/'releases/public-note-locale-20260913'
+relative='web/student/js/screens/checkin.js'
+source=Path('/home/ubuntu/checkin.js')
+sha=lambda p:hashlib.sha256(p.read_bytes()).hexdigest()
+assert (base/'current').resolve()==previous and not release.exists()
+assert sha(previous/relative)=='c89c82e16e011ec5567da41e89bd0a730183f89208ac83e352c3b2ad319cc795'
+assert sha(source)=='e29a54ae64556aa9d23cacfb0cf81a91d6650f6d58c73aa249c842d7eaeeb17b'
+shutil.copytree(previous,release);shutil.copyfile(source,release/relative)
+def switch(target):
+ link=base/'checkin-locale-current-tmp';assert not link.exists() and not link.is_symlink()
+ link.symlink_to(target);os.replace(link,base/'current')
+try:
+ switch(release)
+ with urllib.request.urlopen('https://www.student.bnbusports.cn/student/js/screens/checkin.js?release=public-note-locale-20260913',timeout=20) as response:
+  assert response.status==200 and hashlib.sha256(response.read()).hexdigest()==sha(source)
+ print(json.dumps({'result':'PASS','release':release.name,'sha256':sha(source),'scope':'Static check-in language display; no container or database mutation'}))
+except Exception:
+ switch(previous);raise

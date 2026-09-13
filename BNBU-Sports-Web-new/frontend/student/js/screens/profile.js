@@ -5,12 +5,43 @@ import { t, tx, getLanguage, currentLocale } from "../i18n.js";
 import { icon } from "../icons.js";
 import { esc, brandMark, sectionTitle, statusBadge, emptyPlaceholder, segmented, spinner, fieldLabel, fieldControlAttrs, fieldSupport, userFacingErrorPanel, focusFirstInvalidField } from "../ui.js";
 import { localStore } from "../store.js";
+import { studentRegionLabel, studentRegionOptions } from '../student-regions.js';
 import {
   ApiError,
+  request,
   requestCurrentUserAccountDeletionChallenge,
   confirmCurrentUserAccountDeletion,
   toUserFacingError,
 } from "../api.js";
+
+const profileFields = [
+  ['collegeName', 'college', () => tx('学院','College')],
+  ['majorName', 'major', () => tx('专业','Major')],
+  ['dateOfBirth', 'dateOfBirth', () => tx('出生年月日','Date of birth')],
+  ['regionCode', 'regionCode', () => tx('地域','Region')],
+];
+function missingProfileFields(student) {
+  return [...profileFields.filter(([,key])=>!String(student[key] || '').trim()).map(([, ,label])=>label()),
+    ...(student.regionCode === 'OTHER' && !student.otherRegionName ? [tx('国家或地区名称','Country or region name')] : [])];
+}
+function profileCompletionNotice(app) {
+  const missing = missingProfileFields(app.state.workspace.student);
+  return app.isApiMode() && missing.length ? `<div class="swiss-panel" role="status"><p>${esc(tx('请完善账户资料：','Complete your profile: ')+missing.join('、'))}</p><button class="primary-btn pressable" data-action="profile.editDetails">${tx('去完善','Complete profile')}</button></div>` : '';
+}
+function profileCompletionForm(app) {
+  const state = app.ui.profileDetails;
+  if (!state) return '';
+  const field = (id,label,type='text',max=200) => `<label class="col" style="gap:6px">${esc(label)}<input class="text-field" placeholder="${esc(label)}" data-input="profile.detailsField" data-field="${id}" type="${type}" maxlength="${max}" required value="${esc(state[id] || '')}" ${state.busy ? 'disabled' : ''}></label>`;
+  return `<form class="swiss-panel col" style="gap:16px" data-profile-details-form data-submit="profile.saveDetails">
+    <h3>${tx('完善个人资料','Complete personal details')}</h3>
+    ${profileFields.slice(0,3).map(([id,,label])=>field(id,label(),id==='dateOfBirth'?'date':'text')).join('')}
+    <label class="col">${tx('地域','Region')}<select class="text-field" required data-input="profile.detailsField" data-field="regionCode" ${state.busy?'disabled':''}><option value="">${tx('请选择','Select')}</option>${studentRegionOptions().map(option=>`<option value="${option.value}" ${state.regionCode===option.value?'selected':''}>${esc(option.label)}</option>`).join('')}</select></label>
+    ${state.regionCode==='OTHER'?field('otherRegionName',tx('国家或地区名称','Country or region name'),'text',100):''}
+    ${state.error?`<p role="alert" class="text-error">${esc(state.error)}</p>`:''}
+    <button type="button" class="primary-btn pressable" data-action="profile.saveDetails" ${state.busy?'disabled':''}>${tx('保存资料','Save details')}</button>
+    <button type="button" class="text-btn pressable" data-action="profile.cancelDetails" ${state.busy?'disabled':''}>${tx('取消','Cancel')}</button>
+  </form>`;
+}
 
 function localizedGradeLabel(student) {
   switch (student.gradeLevel) {
@@ -127,7 +158,7 @@ export function renderProfile(app) {
   const memberships = workspace.memberships;
   const identityPanel = `<div class="col" style="gap:12px">
     ${sectionTitle(t("profile_identity_title"))}
-    <span class="body-small text-muted">${tx("抵扣只作用于其他运动分钟。本页显示服务端返回值，不本地换算或伪造分钟。", "Offsets apply only to other exercise minutes. This page shows the server value and does not convert or invent minutes locally.")}</span>
+    <span class="body-small text-muted">${tx("课程相关运动和其他运动均可获得认可学时，具体以教师审核结果为准。", "Recognized hours may apply to both course-related and other exercise, according to the teacher review.")}</span>
     ${memberships.length === 0
       ? emptyPlaceholder(t("profile_no_memberships"), t("profile_no_memberships_hint"))
       : `<div class="swiss-panel">${memberships
@@ -157,6 +188,7 @@ export function renderProfile(app) {
 
   return `<div class="tab-content col" style="gap:24px">
     ${header}
+    ${profileCompletionNotice(app)}
     ${services}
     ${teacherPanel}
     ${identityPanel}
@@ -186,6 +218,7 @@ export function renderAccountDetails(app) {
           ${icon("chevron-left", 24)}<span class="body-large">${t("common_back")}</span>
         </button>
         <div class="headline-small text-on-surface">${t("profile_account_details")}</div>
+        ${app.ui.profileDetails ? profileCompletionForm(app) : profileCompletionNotice(app)}
         <div class="swiss-panel">
           <div class="row" style="gap:14px">
             ${brandMark(true)}
@@ -195,6 +228,10 @@ export function renderAccountDetails(app) {
         <div class="swiss-panel"><div class="col" style="gap:14px">
           ${accountDetailRow(t("profile_name"), student.name)}
           ${accountDetailRow(t("profile_student_id"), studentNumber)}
+          ${accountDetailRow(tx("学院", "College"), student.college || tx("未填写", "Not provided"))}
+          ${accountDetailRow(tx("专业", "Major"), student.major || tx("未填写", "Not provided"))}
+          ${accountDetailRow(tx("出生年月日", "Date of birth"), student.dateOfBirth ? displayDate(student.dateOfBirth) : tx("未填写", "Not provided"))}
+          ${accountDetailRow(tx("地域", "Region"), (student.regionCode === "OTHER" ? student.otherRegionName || studentRegionLabel(student.regionCode) : studentRegionLabel(student.regionCode)))}
           ${accountDetailRow(tx("学生状态", "Student status"), localizedStudentStatusLabel(student.status))}
           ${accountDetailRow(tx("性别", "Gender"), gender)}
           ${accountDetailRow(t("profile_class"), student.className)}
@@ -339,6 +376,31 @@ export function renderAccountDeletion(app) {
 }
 
 export const profileActions = {
+  "profile.editDetails": (app) => {
+    const student=app.state.workspace.student;
+    app.ui.profileDetails={...Object.fromEntries(profileFields.map(([id,key])=>[id,student[key] || ''])), otherRegionName:student.otherRegionName || '', expectedVersion:student.profileVersion, busy:false, error:null};
+    app.openSub('account'); app.render();
+  },
+  "profile.detailsField": (app,el) => {
+    const state=app.ui.profileDetails;
+    if (!state || state.busy) return;
+    state[el.dataset.field]=el.value; state.error=null;
+    if (el.dataset.field==='regionCode') app.render();
+  },
+  "profile.cancelDetails": (app) => {app.ui.profileDetails=null;app.render();},
+  "profile.saveDetails": async (app) => {
+    const state=app.ui.profileDetails, form=app._viewport?.querySelector('[data-profile-details-form]');
+    if (!state || state.busy || !form?.reportValidity()) return;
+    state.busy=true;state.error=null;app.render();
+    try {
+      await request('/me/student-profile',{method:'POST',idempotent:true,body:{
+        collegeName:state.collegeName.trim(),majorName:state.majorName.trim(),dateOfBirth:state.dateOfBirth,
+        regionCode:state.regionCode,...(state.regionCode==='OTHER'?{otherRegionName:state.otherRegionName.trim()}:{}),expectedVersion:state.expectedVersion}});
+      app.ui.profileDetails=null;
+      await app.reloadApiWorkspace();
+    } catch(error) {state.error=toUserFacingError(error).message;}
+    finally {state.busy=false;app.render();}
+  },
   "profile.openSettings": (app) => app.openSub("settings"),
   "profile.openAccount": (app) => app.openSub("account"),
   "profile.openExemption": (app) => app.openSub("exemption", { targetId: null }),

@@ -31,6 +31,23 @@ function useSave(scope: string, locale: AdminLocale, reload: () => Promise<void>
   return { save, busy, pending, feedback };
 }
 
+function ExerciseGoalForm({ locale, userId }: { locale: AdminLocale; userId: string }) {
+  const zh=locale==='zh';
+  const [current,setCurrent]=useState<{totalTargetMinutes:number;version:number}|null>(null);
+  const [minutes,setMinutes]=useState('1200'),[error,setError]=useState<UserFacingError|null>(null);
+  const reload=useCallback(async()=>{const data=await request<{totalTargetMinutes:number;version:number}>('/admin/exercise-goal');setCurrent(data);setMinutes(String(data.totalTargetMinutes));setError(null);},[]);
+  useEffect(()=>{void reload().catch(f=>setError(toUserFacingError(f,locale)));},[reload,locale]);
+  const mutation=useSave(`admin-exercise-goal:${userId}`,locale,reload);
+  return <section className="admin-surface admin-dialog-body" data-admin-form="exercise-goal">
+    <h2>{zh?'所有课程打卡总时长':'Exercise target for all courses'}</h2>
+    <p>{zh?'默认 1200 分钟（20 小时）。变更后，课程暂停新打卡，待教师重新分配两类目标后恢复；进行中的运动继续。':'Default: 1200 minutes (20 hours). A change pauses new check-ins until teachers reallocate both category targets. Ongoing sessions continue.'}</p>
+    <form className="admin-form-grid" onSubmit={e=>{e.preventDefault();void mutation.save('/admin/exercise-goal',{totalTargetMinutes:Number(minutes),expectedVersion:current?.version??0});}}>
+      <AdminField locale={locale} label={zh?'总目标（分钟）':'Total target (minutes)'} required><input type="number" required min="1" max="2147483647" step="1" value={minutes} disabled={mutation.busy||!!mutation.pending} onChange={e=>setMinutes(e.target.value)}/></AdminField>
+      <button className="primary-button" disabled={!current||mutation.busy}>{mutation.pending?(zh?'重试原提交':'Retry submission'):(zh?'保存所有课程总目标':'Save target for all courses')}</button>
+    </form>{error&&<ErrorPanel error={error} locale={locale}/>} {mutation.feedback}
+  </section>;
+}
+
 function TemplateForm({ locale, userId }: { locale: AdminLocale; userId: string }) {
   const zh = locale === 'zh';
   const [current, setCurrent] = useState<{ version: number; displayName: string } | null>(null);
@@ -92,6 +109,6 @@ export function AdminReviewServices({ locale, templates = false }: { locale: Adm
   const [userId, setUserId] = useState<string | null>(null), [error, setError] = useState<UserFacingError | null>(null);
   useEffect(() => { if (mode === 'real') void getAccountSecurity().then(a => setUserId(a.adminKind === 'SUPER' ? a.userId : null)).catch(f => setError(toUserFacingError(f, locale))); }, [mode, locale]);
   let content: ReactNode = null;
-  if (mode === 'real' && userId) content = templates ? <TemplateForm locale={locale} userId={userId} /> : <><ManualForm locale={locale} userId={userId} /><OcrForm locale={locale} userId={userId} /></>;
+  if (mode === 'real' && userId) content = templates ? <><ExerciseGoalForm locale={locale} userId={userId} /><TemplateForm locale={locale} userId={userId} /></> : <><ManualForm locale={locale} userId={userId} /><OcrForm locale={locale} userId={userId} /></>;
   return <>{error && <ErrorPanel error={error} locale={locale} />}{content}</>;
 }

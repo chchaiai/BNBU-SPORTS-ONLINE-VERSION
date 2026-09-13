@@ -261,8 +261,8 @@ test("teacher workspace exposes invalid records and direct correction wording", 
   assert.match(workspace, /确认纠正为有效/);
   assert.match(workspace, /选择已发布模板/);
   assert.match(workspace, /整分钟计入/);
-  assert.match(workspace, /向学生披露换算分、等级或排名/);
-  assert.match(workspace, /title="当前接口不能把换算分发给学生，发布仍只形成内部成绩版本。"/);
+  assert.match(workspace, /当前接口不能把换算分发给学生，发布仍只形成内部成绩版本。/);
+  assert.match(workspace, /不向学生披露或推送内部成绩/);
   assert.doesNotMatch(workspace, /<input type="checkbox" disabled \/>/);
   assert.match(workspace, /向学生披露内部自定义分/);
   assert.doesNotMatch(workspace, /重开原因|确认重开并标记有效/);

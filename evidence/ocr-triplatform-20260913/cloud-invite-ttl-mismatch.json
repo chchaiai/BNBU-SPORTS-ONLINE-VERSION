@@ -1,0 +1,22 @@
+{
+  "check": "CLOUD_INVITE_TTL_RULE_MISMATCH",
+  "observedAt": "2026-09-12T19:53:05.433Z",
+  "sectionId": "01a096e7-a22e-7535-a65d-ce0da82d59af",
+  "createdAt": "2026-09-12T19:51:32.863Z",
+  "expiresAt": "2026-09-19T19:51:32.863Z",
+  "observedTtlMinutes": 10080,
+  "requiredDefaultMinutes": 30,
+  "requiredRangeMinutes": [
+    5,
+    120
+  ],
+  "studentPageConfirmedMinutes": 10080,
+  "testInviteStatus": "REVOKED",
+  "registrationSubmitted": false,
+  "status": "CONFIRMED_BUG",
+  "sourceFindings": [
+    "CourseInvitesService resolves default from legacy configured TTL without 5-120 minute bounds",
+    "JoinCapabilitiesService caps capability expiry at invite expiry",
+    "Resolver and transactional join reject natural expiry with no 10 minute existing-flow grace"
+  ]
+}

@@ -1,0 +1,5 @@
+{
+  "sha256": "29a5af6ffdc8ec612dca77e95dbb6a370f433d10df3acb6ace5ff3e6c961ac67",
+  "destructive": false,
+  "migrationId": "0067_historical_backfill"
+}

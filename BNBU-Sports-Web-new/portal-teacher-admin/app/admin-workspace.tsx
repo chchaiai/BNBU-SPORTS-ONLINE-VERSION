@@ -28,6 +28,7 @@ import type { AdminLocale, AdminRoute, AdminState } from "./admin-types";
 import type { WorkspaceMode } from "./portal-app";
 
 import type { NotificationTarget } from "./portal-notifications";
+import type { SemesterRow } from "./semester-api";
 
 const adminRoutes: AdminRoute[] = [
   "overview",
@@ -43,12 +44,14 @@ const adminRoutes: AdminRoute[] = [
 ];
 
 function AdminPage({
+  onSemestersLoaded,
   notificationTarget,
   active,
   locale,
   mode,
   onNavigate,
 }: {
+  onSemestersLoaded: (rows: SemesterRow[]) => void;
   notificationTarget?:NotificationTarget|null;
   active: AdminRoute;
   locale: AdminLocale;
@@ -84,7 +87,7 @@ function AdminPage({
     );
   }
   if (active === "courses") return <AdminCourses locale={locale} mode={mode} notificationTarget={notificationTarget} />;
-  if (active === "semesters") return <AdminSemesters locale={locale} />;
+  if (active === "semesters") return <AdminSemesters locale={locale} onSemestersLoaded={onSemestersLoaded} />;
   if (active === "accounts") return <AdminUsers locale={locale} />;
   if (active === "support")
     return <AdminSupport locale={locale} notificationTarget={notificationTarget} />;
@@ -135,6 +138,7 @@ export function AdminWorkspace({
     systemMode?: AdminState["systemMode"]["mode"];
   }>({});
   const latestNotificationCountRef = useRef(0);
+  const semesterRevisionRef = useRef(0);
 
   const publishBackendContext = useCallback(() => {
     onContextChange?.({
@@ -146,15 +150,25 @@ export function AdminWorkspace({
     });
   }, [locale, onContextChange]);
 
+  const handleSemestersLoaded = useCallback((rows: SemesterRow[]) => {
+    semesterRevisionRef.current += 1;
+    backendContextRef.current.semesterName = semesterDisplayName(
+      rows.find((semester) => semester.status === "CURRENT"),
+      adminCopy(locale, "no_current_semester"),
+    );
+    publishBackendContext();
+  }, [locale, publishBackendContext]);
+
   useEffect(() => {
     if (mode === "demo") return;
     let cancelled = false;
+    const semesterRevision = semesterRevisionRef.current;
     void Promise.allSettled([
       getCurrentSemesterProjection(),
       getSystemModeProjection(),
     ]).then(([semester, systemMode]) => {
       if (cancelled) return;
-      if (semester.status === "fulfilled")
+      if (semester.status === "fulfilled" && semesterRevision === semesterRevisionRef.current)
         backendContextRef.current.semesterName = semesterDisplayName(semester.value);
       if (systemMode.status === "fulfilled")
         backendContextRef.current.systemMode = systemMode.value.mode;
@@ -193,6 +207,7 @@ export function AdminWorkspace({
           renderPage={(pageKey) => (
             <div className="teacher-page-layout admin-page-layout admin-business-page">
               <AdminPage
+                onSemestersLoaded={handleSemestersLoaded}
                 notificationTarget={notificationTarget}
                 active={pageKey as AdminRoute}
                 locale={locale}

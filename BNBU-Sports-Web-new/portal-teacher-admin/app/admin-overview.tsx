@@ -49,6 +49,7 @@ export function AdminOverview({
     },
     {
       label: adminCopy(locale, "notification_queue"),
+      queryOnly: true,
       status: state.health.notificationQueueStatus,
       value:
         state.health.notificationQueueStatus === "UP"
@@ -117,8 +118,8 @@ export function AdminOverview({
                 <span className="status-dot" />
                 <b>{row.label}</b>
                 <small>{row.value}</small>
-                <AdminBadge tone={healthTone(row.status)}>
-                  {healthLabel(row.status)}
+                <AdminBadge tone={row.queryOnly && row.status === "UP" ? "gray" : healthTone(row.status)}>
+                  {row.queryOnly && row.status === "UP" ? adminCopy(locale, "event_query_available") : healthLabel(row.status)}
                 </AdminBadge>
               </div>
             ))}
@@ -197,8 +198,8 @@ export function AdminOverview({
                 <span className="status-dot" />
                 <b>{row.label}</b>
                 <small>{row.value}</small>
-                <AdminBadge tone={healthTone(row.status)}>
-                  {healthLabel(row.status)}
+                <AdminBadge tone={row.queryOnly && row.status === "UP" ? "gray" : healthTone(row.status)}>
+                  {row.queryOnly && row.status === "UP" ? adminCopy(locale, "event_query_available") : healthLabel(row.status)}
                 </AdminBadge>
               </div>
             ))}

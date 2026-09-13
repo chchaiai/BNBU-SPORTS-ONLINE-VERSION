@@ -1,0 +1,17 @@
+{
+  "check": "CLOUD_SWIM_AND_MIXED_BATCH",
+  "observedAt": "2026-09-12T19:44:32.821Z",
+  "organizationId": "01a096c2-20a2-706b-8c69-802f67dee12c",
+  "sessionId": "01a09725-5900-7363-9128-1b32e701a44a",
+  "recordId": "01a09726-4b9e-751a-8c2b-5a23ccbf49b8",
+  "checks": [
+    "REAL_TIMED_SWIM_COS_INTAKE_READ_REPLAY",
+    "BATCH_PENDING_SUCCESS_FINAL_FAILURE_REPLAY_ISOLATION"
+  ],
+  "allChecksCompleted": true,
+  "limitations": [
+    "Normal intake only; delayed and expiry branches remain",
+    "Synthetic PNG transport proves COS and API handling, not native camera capture",
+    "Ordinary single-review success remains separate"
+  ]
+}

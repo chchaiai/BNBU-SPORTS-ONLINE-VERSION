@@ -1,0 +1,18 @@
+{
+  "policyName": "BNBUSportsHKOCRObjects",
+  "policyId": "286203116",
+  "policyVersion": 1,
+  "roleName": "BNBUSportsHKCVMRole",
+  "roleId": "4611686018448989343",
+  "associationTimeAsiaShanghai": "2026-09-13 01:24:01",
+  "authorization": "User explicitly approved Hong Kong CVM OCR object permissions in this task",
+  "policySource": "tools/production/ocr-cos-role-policy.json",
+  "browserVerification": "Policy details showed only BNBUSportsHKCVMRole as associated principal",
+  "runtimeProbe": {
+    "check": "CVM_ROLE_OCR_COS",
+    "status": "PASS",
+    "observedAt": "2026-09-12T17:26:19.888Z",
+    "prefix": "v81/ocr/acceptance-20260913/9c762f83-e990-4f62-867f-1c1f37787ee5",
+    "checks": ["PUT", "HEAD", "GET", "MULTIPART_COMPLETE", "MULTIPART_ABORT", "DELETE_CLEANUP"]
+  }
+}

@@ -1,3 +1,6 @@
+import {openMaterialPreview} from '../material-preview.js';
+import {prepareApplicationFile} from '../material-files.js';
+import {readApplicationDraft,writeApplicationDraft,deleteApplicationDraft} from '../application-draft-store.js';
 // Endurance / fitness-test view (#35). Students only see confirmed time or exemption.
 // Exemption applications (#36) — exemption/ExemptionScreen.kt
 // Exemption applications use the authenticated `/api/v1` draft/upload/update/submit workflow.
@@ -11,12 +14,13 @@ import {
   ApiError,
   createExemptionApplication,
   createMediaAccessUrl,
-  mapStructuredExemptionApplication,
+  getMediaEvidence,
   proxyObjectUrl,
   submitExemptionApplication,
   toUserFacingError,
   updateExemptionApplication,
   uploadExemptionApplicationMediaDraft,
+  listMyEnrollments,
 } from "../api.js";
 
 // ═══════════════════════════════════════════════════════════════
@@ -95,6 +99,18 @@ const EXEMPTION_TYPES = {
 const MAX_EXEMPTION_REASON = 1000;
 const MAX_EXEMPTION_MEDIA_ITEMS = 3;
 const exemptionProofCount = (ui) => applicationProofCount(ui.serverDraft?.mediaIds || ui.resubmitting?.mediaIds, ui.form.proofs);
+const applicationOwner = app => {
+  const courses = app.state.workspace.courses.filter(course => course.enrollmentStatus === 'enrolled' && course.enrollmentId);
+  const course = courses.find(item => item.isCurrent) || (courses.length === 1 ? courses[0] : null);
+  const owner = app.state.workspace.student.localOwnerId;
+  return owner && course ? `${owner}:enrollment:${course.enrollmentId}:v${course.enrollmentVersion || 1}` : null;
+};
+function persistApplication(app,ui) {
+  ui.formEdited=true;const owner=applicationOwner(app);if(!owner || ui.resubmitting)return;
+  const form={type:ui.form.type,organization:ui.form.organization,reason:ui.form.reason,proofs:ui.form.proofs.map(({id,name,size,file,captureSource,mediaId})=>({id,name,size,file,captureSource,mediaId}))};
+  void writeApplicationDraft(owner,form).catch(()=>{ui.form.notice=tx('本机草稿保存失败，请保持页面打开后重试。','Local draft saving failed. Keep this page open and retry.');});
+}
+
 
 export function enduranceExemptionTypeForGender(gender) {
   switch (String(gender || "").trim().toLowerCase()) {
@@ -160,6 +176,13 @@ function exemptionState(app, params = {}) {
         notice: null,
       },
     };
+    const current=app.ui.exemption,owner=applicationOwner(app);
+    if(owner)void readApplicationDraft(owner).then(form=>{
+      if(app.ui.exemption!==current || current.formEdited || !form || !EXEMPTION_TYPES[form.type])return;
+      current.form={...form,notice:tx('已恢复本机草稿，可继续编辑或切换申请类型。','Local draft restored. You can edit it or change its type.')};
+      current.serverDraft=app.state.workspace.exemptions.find(item=>item.serverStatus==='DRAFT'&&item.type===form.type)||null;
+      app.render();
+    }).catch(()=>{});
   } else if (params.targetId && app.ui.exemption.selectedId !== params.targetId && !app.ui.exemption._consumedTarget) {
     app.ui.exemption.selectedId = params.targetId;
     app.ui.exemption._consumedTarget = true;
@@ -181,7 +204,7 @@ function exemptionCard(exemption) {
           <span class="body-medium text-muted">${esc(exemption.reason)}</span>
         </div>` : ""}
         ${exemption.organization ? `<span class="body-medium text-muted">${tx(`所属组织：${exemption.organization}`, `Organization: ${exemption.organization}`)}</span>` : ""}
-        ${exemption.proofFiles.length ? `<span class="label-medium text-primary">${tx(`已上传 ${exemption.proofFiles.length} 张证明图片`, `${exemption.proofFiles.length} proof image(s) uploaded`)}</span>` : ""}
+        ${exemption.proofFiles.length ? `<span class="label-medium text-primary">${tx(`已上传 ${exemption.proofFiles.length} 个证明文件`, `${exemption.proofFiles.length} proof file(s) uploaded`)}</span>` : ""}
         ${exemption.reviewComment ? `<div class="membership-comment">
           <span class="text-primary" style="display:inline-flex;flex:none">${icon("warning", 16)}</span>
           <div class="col">
@@ -202,9 +225,9 @@ function exemptionProofDescriptor(proof, index, previewUrls = {}) {
   const source = mediaId ? String(previewUrls[mediaId] || "") : rawSource;
   const sourceName = rawSource.split(/[\\/]/).pop()?.split("?")[0] || "";
   const name = String(objectProof?.name || objectProof?.fileName || (
-    /\.(?:jpe?g|png|webp)$/iu.test(sourceName)
+    /\.(?:jpe?g|png|webp|pdf)$/iu.test(sourceName)
       ? sourceName
-      : tx(`证明图片 ${index + 1}`, `Proof image ${index + 1}`)
+      : tx(`证明文件 ${index + 1}`, `Proof file ${index + 1}`)
   ));
   return { mediaId, name, source };
 }
@@ -212,7 +235,7 @@ function exemptionProofDescriptor(proof, index, previewUrls = {}) {
 function exemptionDetail(app, exemption) {
   const ui = exemptionState(app);
   const proofs = exemption.proofFiles.map((proof, index) =>
-    exemptionProofDescriptor(proof, index, ui.proofPreviewUrls));
+    ({...exemptionProofDescriptor(proof, index, ui.proofPreviewUrls),document:ui.proofMimeTypes?.[exemptionProofDescriptor(proof,index).mediaId] === "application/pdf"}));
   return `<div class="col exemption-detail">
     <button class="row pressable exemption-detail-back" data-action="exemption.detailBack">
       ${icon("chevron-left", 24)}<span class="body-medium">${tx("返回我的申请", "Back to my applications")}</span>
@@ -252,19 +275,19 @@ function exemptionDetail(app, exemption) {
       <div class="exemption-detail-section-head">
         <span class="exemption-detail-section-icon">${icon("description", 20)}</span>
         <span class="title-medium text-on-surface grow">${tx("证明材料", "Supporting documents")}</span>
-        <span class="exemption-detail-count">${tx(`${proofs.length} 张图片`, `${proofs.length} image(s)`)}</span>
+        <span class="exemption-detail-count">${tx(`${proofs.length} 个文件`, `${proofs.length} file(s)`)}</span>
       </div>
       ${proofs.length === 0
-        ? `<div class="body-medium text-muted exemption-detail-empty">${tx("尚未上传证明图片", "No supporting images uploaded")}</div>`
+        ? `<div class="body-medium text-muted exemption-detail-empty">${tx("尚未上传证明文件", "No supporting images uploaded")}</div>`
         : `<div class="col exemption-detail-files">${proofs.map((proof, index) => `<div class="exemption-detail-file">
-            <span class="exemption-detail-thumbnail" data-exemption-proof-thumbnail="${index + 1}">${proof.source
-              ? `<img src="${esc(proof.source)}" alt="${esc(tx(`证明图片 ${index + 1} 缩略图`, `Proof image ${index + 1} thumbnail`))}" loading="lazy" />`
+            <button type="button" class="exemption-detail-thumbnail pressable" data-action="exemption.previewRemote" data-media-id="${esc(proof.mediaId)}" data-name="${esc(proof.name)}" aria-label="${esc(tx('预览材料','Preview material'))}" data-exemption-proof-thumbnail="${index + 1}">${proof.source
+              ? proof.document ? `PDF` : `<img src="${esc(proof.source)}" alt="${esc(tx(`证明文件 ${index + 1} 缩略图`, `Proof file ${index + 1} thumbnail`))}" loading="lazy" />`
               : ui.proofPreviewLoading
                 ? spinner(22)
-                : icon("photo", 24)}</span>
+                : icon("photo", 24)}</button>
             <div class="col grow exemption-detail-file-copy">
               <span class="body-medium text-on-surface exemption-detail-file-name">${esc(proof.name)}</span>
-              <span class="body-small text-muted">${tx(`证明图片 ${index + 1}`, `Supporting image ${index + 1}`)}</span>
+              <span class="body-small text-muted">${tx(`证明文件 ${index + 1}`, `Supporting file ${index + 1}`)}</span>
             </div>
           </div>`).join("")}</div>`}
       ${ui.proofPreviewError ? `<div class="body-small text-muted exemption-detail-preview-note">${esc(ui.proofPreviewError)}</div>` : ""}
@@ -291,8 +314,25 @@ function exemptionDetail(app, exemption) {
 function newExemptionForm(app, ui) {
   const student = app.state.workspace.student;
   const form = ui.form;
+  for (const proof of form.proofs) {
+    if (proof.coverLoaded) continue;
+    proof.coverLoaded = true;
+    void (async () => {
+      if (proof.file?.type?.startsWith('image/')) {
+        proof.coverUrl = await new Promise((resolve, reject) => {
+          const reader = new FileReader(); reader.onload = () => resolve(reader.result);
+          reader.onerror = reject; reader.readAsDataURL(proof.file);
+        });
+      } else if (proof.mediaId) {
+        const media = await getMediaEvidence(proof.mediaId);
+        if (media.verifiedMimeType?.startsWith('image/'))
+          proof.coverUrl = proxyObjectUrl((await createMediaAccessUrl(proof.mediaId)).accessUrl);
+      }
+      if (app.ui.exemption === ui && ui.form === form) app.render();
+    })().catch(() => { proof.coverLoaded = false; });
+  }
   const initial = ui.resubmitting;
-  const draftLocked = Boolean(initial || ui.serverDraft);
+  const draftLocked = Boolean(initial);
   const exemptions = app.state.workspace.exemptions;
   const pendingTypes = new Set(exemptions.filter((e) => e.status === "待审核" || e.status === "审核中").map((e) => e.type));
   const hasPendingSameType = !initial && pendingTypes.has(form.type);
@@ -308,7 +348,7 @@ function newExemptionForm(app, ui) {
   return `<div class="swiss-panel"><div class="col" style="gap:16px">
     ${draftLocked ? `<span class="body-medium text-primary">${initial
       ? tx(`正在为 ${exemptionTypeLabel(initial.type)} 补交证明，请上传新的有效材料。`, `Submitting additional documents for ${exemptionTypeLabel(initial.type)}. Upload new valid documents.`)
-      : tx(`正在继续 ${exemptionTypeLabel(form.type)} 草稿，申请类型已锁定。`, `Continuing the ${exemptionTypeLabel(form.type)} draft; its type is locked.`)}</span>` : `
+      : tx(`正在编辑 ${exemptionTypeLabel(form.type)} 草稿。`, `Continuing the ${exemptionTypeLabel(form.type)} draft; its type is locked.`)}</span>` : `
       <span class="label-medium text-muted">${tx("选择申请类型", "Select application type")}</span>
       <div class="col" style="gap:10px">
         ${typeRows.map((row) => `<div class="row" style="gap:10px">${row
@@ -333,32 +373,33 @@ function newExemptionForm(app, ui) {
     <div class="col application-proof-section" style="gap:6px">
       <div class="row">
         <span class="label-medium text-muted grow">${tx("证明材料", "Supporting documents")}</span>
-        <span class="label-medium text-muted">${tx(`${totalAttachments} / ${maxAttachments} 张图片`, `${totalAttachments} / ${maxAttachments} images`)}</span>
+        <span class="label-medium text-muted">${tx(`${totalAttachments} / ${maxAttachments} 个文件`, `${totalAttachments} / ${maxAttachments} images`)}</span>
       </div>
       <div class="application-proof-actions">
         ${actionButton({ label: tx("拍照", "Take photo"), iconName: "camera-alt", action: "exemption.takePhoto", filled: totalAttachments < maxAttachments, disabled: ui.submitting || totalAttachments >= maxAttachments, extra: `id="exemption-proof-trigger" aria-describedby="exemption-proof-support"` })}
-        ${actionButton({ label: tx("选择照片", "Choose photos"), iconName: "upload-file", action: "exemption.choosePhotos", filled: totalAttachments < maxAttachments, disabled: ui.submitting || totalAttachments >= maxAttachments })}
+        ${actionButton({ label: tx("选择照片或 PDF", "Choose photos or PDF"), iconName: "upload-file", action: "exemption.choosePhotos", filled: totalAttachments < maxAttachments, disabled: ui.submitting || totalAttachments >= maxAttachments })}
       </div>
       <input type="file" accept="image/jpeg,image/png,image/webp" capture="environment" style="display:none" data-change="exemption.photoPicked" data-exemption-input="camera" />
-      <input type="file" accept="image/jpeg,image/png,image/webp" multiple style="display:none" data-change="exemption.photosPicked" data-exemption-input="gallery" />
+      <input type="file" accept="application/pdf,image/*" multiple style="display:none" data-change="exemption.photosPicked" data-exemption-input="gallery" />
       ${form.notice ? `<span class="label-medium text-primary">${esc(form.notice)}</span>` : ""}
       ${form.proofs.length === 0
         ? `<span id="exemption-proof-support" class="body-small ${ui.errorField === "proofs" ? "text-error" : "text-muted"}" ${ui.errorField === "proofs" ? 'role="alert"' : ""}>${isCheckInType
-            ? tx("必填：至少上传一张能够证明相关组织身份的 JPEG、PNG 或 WebP 图片。", "Required: upload at least one JPEG, PNG or WebP image proving organization membership.")
-            : tx("必填：至少上传一张耐力跑免测 JPEG、PNG 或 WebP 证明图片。", "Required: upload at least one JPEG, PNG or WebP image for the endurance-run exemption.")}</span>`
+            ? tx("必填：至少上传一个能够证明相关组织身份的 PDF、JPEG、PNG 或 WebP 文件。", "Required: upload at least one PDF, JPEG, PNG or WebP file proving organization membership.")
+            : tx("必填：至少上传一个耐力跑免测 PDF、JPEG、PNG 或 WebP 证明文件。", "Required: upload at least one PDF, JPEG, PNG or WebP file for the endurance-run exemption.")}</span>`
         : form.proofs.map((proof) => `<div class="exemption-proof-row">
-            <span class="text-on-surface" style="display:inline-flex;flex:none">${icon("photo", 24)}</span>
+            <button type="button" class="exemption-proof-preview pressable" data-action="exemption.previewLocal" data-proof-id="${esc(proof.id)}" aria-label="${esc(tx('预览材料','Preview material')+': '+proof.name)}">${proof.coverUrl ? `<img src="${esc(proof.coverUrl)}" alt="${esc(proof.name)}">` : `<span class="text-on-surface" style="display:inline-flex;flex:none">${icon("photo", 24)}</span>`}
             <div class="col grow" style="gap:3px;min-width:0">
               <span style="font-size:13px;font-weight:500;color:var(--color-on-surface)" class="ellipsis">${esc(proof.name)}</span>
-              <span class="label-medium text-muted">${tx("图片", "Image")} · ${formatMediaSize(proof.size)}</span>
+              <span class="label-medium text-muted">${proof.file?.type === "application/pdf" ? "PDF" : tx("图片", "Image")} · ${formatMediaSize(proof.size)}</span>
             </div>
-            <button class="icon-btn pressable" data-action="exemption.removeProof" data-proof-id="${esc(proof.id)}" ${ui.submitting ? "disabled" : ""} aria-label="${tx("移除", "Remove")}" style="width:32px;height:32px">${icon("delete", 18)}</button>
+            </button><button class="icon-btn pressable" data-action="exemption.removeProof" data-proof-id="${esc(proof.id)}" ${ui.submitting ? "disabled" : ""} aria-label="${tx("移除", "Remove")}" style="width:32px;height:32px">${icon("delete", 18)}</button>
           </div>`).join("")}
     </div>
     <button class="primary-btn pressable${ui.submitting ? " is-loading" : ""}" data-action="exemption.submit" ${!ui.submitting && app.isWriteAllowed() && !hasPendingSameType ? "" : "disabled"}>
       ${ui.submitting ? spinner(18, "on-primary") : icon("add", 20)}
       <span>${ui.submitting ? tx("提交中...", "Submitting...") : initial ? tx("提交补充材料", "Submit additional documents") : tx("提交申请", "Submit application")}</span>
     </button>
+    ${!initial ? `<button class="outlined-btn pressable" data-action="exemption.deleteLocalDraft" ${ui.submitting ? "disabled" : ""}>${icon("delete",18)}<span>${tx("删除草稿", "Delete draft")}</span></button><p class="body-small text-muted">${tx("清除本机未提交的表单和材料。", "Clear the unsubmitted form and materials on this device.")}</p>` : ""}
   </div></div>`;
 }
 
@@ -412,6 +453,16 @@ export function renderExemption(app, params) {
 }
 
 export const servicesActions = {
+  "exemption.previewLocal": async (app,el) => {
+    const proof=exemptionState(app).form.proofs.find(item=>item.id===el.dataset.proofId);if(!proof)return;
+    if(proof.file)return openMaterialPreview({file:proof.file,name:proof.name});
+    if(proof.mediaId)return servicesActions['exemption.previewRemote'](app,{dataset:{mediaId:proof.mediaId,name:proof.name}});
+  },
+  "exemption.previewRemote": async (app,el) => {
+    try {const [access,media]=await Promise.all([createMediaAccessUrl(el.dataset.mediaId),getMediaEvidence(el.dataset.mediaId)]);
+      await openMaterialPreview({url:proxyObjectUrl(access.accessUrl),name:el.dataset.name,mime:media.verifiedMimeType});
+    }catch{exemptionState(app).proofPreviewError=tx('材料加载失败，请重试。','Unable to load proof. Retry.');app.render();}
+  },
   "services.back": (app) => {
     app.ui.endurance = null;
     app.closeSub();
@@ -438,7 +489,7 @@ export const servicesActions = {
       ui.selectedId = null;
       ui.serverDraft = exemption;
       ui.tab = "new";
-      ui.form = { type: exemption.type, organization: exemption.organization || "", reason: exemption.reason || "", proofs: [], notice: null };
+      ui.form = { type: exemption.type, organization: exemption.organization || "", reason: exemption.reason || "", proofs: (exemption.mediaIds||[]).map(mediaId=>({id:mediaId,mediaId,name:tx("已上传材料","Uploaded material"),size:0})), notice: null };
       app.render();
       return;
     }
@@ -451,17 +502,18 @@ export const servicesActions = {
     if (!ui.proofPreviewLoading) return;
     const results = await Promise.all(mediaIds.map(async (mediaId) => {
       try {
-        const access = await createMediaAccessUrl(mediaId);
-        return [mediaId, proxyObjectUrl(access.accessUrl), null];
+        const [access,media] = await Promise.all([createMediaAccessUrl(mediaId),getMediaEvidence(mediaId)]);
+        return [mediaId, proxyObjectUrl(access.accessUrl), null, media.verifiedMimeType];
       } catch (error) {
         return [mediaId, "", error];
       }
     }));
     if (ui.selectedId !== selectedId) return;
     ui.proofPreviewUrls = Object.fromEntries(results.filter(([, url]) => url).map(([mediaId, url]) => [mediaId, url]));
+    ui.proofMimeTypes = Object.fromEntries(results.map(([id,,,mime])=>[id,mime]));
     ui.proofPreviewLoading = false;
     if (results.some(([, , error]) => error)) {
-      ui.proofPreviewError = tx("部分证明图片暂时无法加载。", "Some proof images are temporarily unavailable.");
+      ui.proofPreviewError = tx("部分证明文件暂时无法加载。", "Some proof images are temporarily unavailable.");
     }
     app.render();
   },
@@ -488,7 +540,8 @@ export const servicesActions = {
   },
   "exemption.selectType": (app, el) => {
     const ui = exemptionState(app);
-    if (ui.serverDraft) return;
+    if (ui.submitting || ui.resubmitting) return;
+    ui.serverDraft = null;
     ui.form.type = el.dataset.value;
     const savedDraft = app.state.workspace.exemptions.find((item) => item.serverStatus === "DRAFT" && item.type === ui.form.type);
     if (savedDraft) {
@@ -497,11 +550,13 @@ export const servicesActions = {
       ui.form.reason = savedDraft.reason || "";
     }
     if (!EXEMPTION_TYPES[ui.form.type]?.checkIn) ui.form.organization = "";
+    persistApplication(app,ui);
     app.render();
   },
   "exemption.organization": (app, el) => {
     const ui = exemptionState(app);
     ui.form.organization = el.value.slice(0, 128);
+    persistApplication(app,ui);
     if (ui.errorField === "organization") ui.errorField = null;
     const counter = app._viewport?.querySelector('[data-exemption-counter="organization"]');
     if (counter) {
@@ -512,6 +567,7 @@ export const servicesActions = {
   "exemption.reason": (app, el) => {
     const ui = exemptionState(app);
     ui.form.reason = el.value.slice(0, MAX_EXEMPTION_REASON);
+    persistApplication(app,ui);
     if (ui.errorField === "reason") ui.errorField = null;
     const counter = app._viewport?.querySelector('[data-exemption-counter="reason"]');
     if (counter) {
@@ -521,16 +577,17 @@ export const servicesActions = {
   },
   "exemption.takePhoto": (app) => app._viewport?.querySelector('[data-exemption-input="camera"]')?.click(),
   "exemption.choosePhotos": (app) => app._viewport?.querySelector('[data-exemption-input="gallery"]')?.click(),
-  "exemption.photoPicked": (app, el) => {
+  "exemption.photoPicked": async (app, el) => {
     const ui = exemptionState(app);
-    const file = el.files?.[0];
+    let file = el.files?.[0];
     el.value = "";
     if (!file) return;
+    try {file=await prepareApplicationFile(file);} catch(error){ui.form.notice=error.message;app.render();return;}
     const verdict = validateApplicationProofFile(file);
     if (!verdict.ok) {
       ui.form.notice = verdict.error === "size"
         ? tx("图片不能超过 10 MB。", "Images must not exceed 10 MB.")
-        : tx("材料仅支持 JPEG、PNG 或 WebP 图片。", "Supporting material must be a JPEG, PNG or WebP image.");
+        : tx("材料仅支持 PDF、JPEG、PNG 或 WebP 文件。", "Supporting material must be a PDF, JPEG, PNG or WebP file.");
       app.render();
       return;
     }
@@ -540,28 +597,32 @@ export const servicesActions = {
       ui.form.proofs.push({ id: `proof-${Date.now()}`, name: file.name, size: file.size, file, captureSource: "IN_APP_CAMERA" });
       ui.errorField = null;
       ui.form.notice = tx("已拍摄 1 张凭证照片。", "Captured 1 proof photo.");
+      persistApplication(app,ui);
     }
     app.render();
   },
-  "exemption.photosPicked": (app, el) => {
+  "exemption.photosPicked": async (app, el) => {
     const ui = exemptionState(app);
     const remaining = Math.max(0, MAX_EXEMPTION_MEDIA_ITEMS - exemptionProofCount(ui));
     const selected = [...(el.files || [])];
-    const files = selected.filter((file) => validateApplicationProofFile(file).ok).slice(0, remaining);
+    const files=[];
+    for(const file of selected.slice(0,remaining)){try{const prepared=await prepareApplicationFile(file);if(validateApplicationProofFile(prepared).ok)files.push(prepared);}catch{}}
     el.value = "";
     for (const file of files) {
       ui.form.proofs.push({ id: `proof-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`, name: file.name, size: file.size, file, captureSource: "FILE_PICKER" });
     }
+    persistApplication(app,ui);
     const rejected = selected.length - files.length;
     ui.form.notice = files.length
-      ? tx(`已添加 ${files.length} 张图片${rejected ? `，另有 ${rejected} 个文件因格式、大小或数量限制未添加` : ""}。`, `Added ${files.length} image(s)${rejected ? `; ${rejected} file(s) were rejected by format, size, or count limits` : ""}.`)
-      : tx("材料仅支持不超过 10 MB 的 JPEG、PNG 或 WebP 图片。", "Supporting material must be a JPEG, PNG or WebP image up to 10 MB.");
+      ? tx(`已添加 ${files.length} 个文件${rejected ? `，另有 ${rejected} 个文件因格式、大小或数量限制未添加` : ""}。`, `Added ${files.length} file(s)${rejected ? `; ${rejected} file(s) were rejected by format, size, or count limits` : ""}.`)
+      : tx("材料仅支持不超过 10 MB 的 PDF、JPEG、PNG 或 WebP 文件。", "Supporting material must be a PDF, JPEG, PNG or WebP file up to 10 MB.");
     app.render();
   },
   "exemption.removeProof": (app, el) => {
     const ui = exemptionState(app);
     const removed = ui.form.proofs.find((proof) => proof.id === el.dataset.proofId);
     ui.form.proofs = ui.form.proofs.filter((p) => p.id !== el.dataset.proofId);
+    persistApplication(app,ui);
     if (removed?.mediaId && Array.isArray(ui.serverDraft?.mediaIds)) {
       ui.serverDraft.mediaIds = ui.serverDraft.mediaIds.filter((mediaId) => mediaId !== removed.mediaId);
     }
@@ -569,6 +630,17 @@ export const servicesActions = {
   },
   "exemption.dismissSuccess": (app) => {
     exemptionState(app).success = null;
+    app.render();
+  },
+  "exemption.deleteLocalDraft": async (app) => {
+    const ui=exemptionState(app);
+    if(ui.submitting || ui.resubmitting)return;
+    try {
+      ui.formEdited=true;
+      await deleteApplicationDraft(applicationOwner(app));
+      ui.form={type:ui.form.type,organization:"",reason:"",proofs:[],notice:tx("本机草稿已删除。", "Local draft deleted.")};
+      ui.serverDraft=null;ui.error=null;ui.errorField=null;ui.success=null;
+    } catch(error) {ui.error=toUserFacingError(error);}
     app.render();
   },
   "exemption.submit": async (app) => {
@@ -597,13 +669,32 @@ export const servicesActions = {
       focusFirstInvalidField(app._viewport, ["#exemption-proof-trigger"]);
       return;
     }
-    const enrollmentId = app.state.workspace.courses.find(
-      (course) => course.isCurrent && course.enrollmentStatus === "enrolled" && course.enrollmentId,
-    )?.enrollmentId;
+    // Resolve live membership before using a restored draft or uploading media.
+    // A semester display flag is not authoritative enrollment eligibility.
+    let activeEnrollments;
+    ui.submitting = true;
+    app.render();
+    try { activeEnrollments = (await listMyEnrollments()).filter(item => item.status === 'ACTIVE'); }
+    catch (error) { ui.submitting = false; ui.error = toUserFacingError(error); app.render(); return; }
+    ui.submitting = false;
+    const preferred = app.state.workspace.courses.find(course => course.isCurrent &&
+      activeEnrollments.some(item => item.id === course.enrollmentId));
+    const enrollmentId = preferred?.enrollmentId || (activeEnrollments.length === 1 ? activeEnrollments[0].id : null);
     if (!enrollmentId) {
       ui.error = toUserFacingError(new ApiError(409, { code: "ENROLLMENT_NOT_ACTIVE" }));
       app.render();
       return;
+    }
+
+    if (ui.serverDraft && ui.serverDraft.enrollmentId !== enrollmentId) {
+      ui.serverDraft = null;
+      ui.resubmitting = null;
+      ui.form.proofs = ui.form.proofs.filter(proof => proof.file);
+      for (const proof of ui.form.proofs) delete proof.mediaId;
+      if (!ui.form.proofs.length) {
+        ui.form.notice = tx('班级已变更，请为当前班级重新添加证明材料。', 'Your class has changed. Add proof for your current class.');
+        app.render(); return;
+      }
     }
 
     const facts = EXEMPTION_TYPES[ui.form.type];
@@ -614,6 +705,22 @@ export const servicesActions = {
     app.render();
     try {
       let draft = ui.serverDraft;
+
+      for (const proof of ui.form.proofs) {
+        if (proof.mediaId) {
+          const media = await getMediaEvidence(proof.mediaId);
+          if (media.enrollmentId === enrollmentId) continue;
+          delete proof.mediaId;
+        }
+        if (!proof.file) throw new ApiError(422, { code: "EXEMPTION_APPLICATION_MEDIA_INVALID" });
+        const uploaded = await uploadExemptionApplicationMediaDraft(draft?.enrollmentId || enrollmentId, proof, proof.file);
+        proof.mediaId = uploaded.mediaId;
+      }
+
+      const mediaIds = [...new Set([
+        ...(Array.isArray(draft?.mediaIds) ? draft.mediaIds : []),
+        ...ui.form.proofs.map((proof) => proof.mediaId).filter(Boolean),
+      ])];
       if (!draft) {
         const created = await createExemptionApplication({
           enrollmentId,
@@ -621,23 +728,12 @@ export const servicesActions = {
           applicationSubtype: facts.applicationSubtype,
           organizationName,
           reason,
-          mediaIds: [],
+          mediaIds,
         });
         draft = { ...created, mediaIds: Array.isArray(created.mediaIds) ? created.mediaIds : [] };
         ui.serverDraft = draft;
       }
 
-      for (const proof of ui.form.proofs) {
-        if (proof.mediaId) continue;
-        if (!proof.file) throw new ApiError(422, { code: "EXEMPTION_APPLICATION_MEDIA_INVALID" });
-        const uploaded = await uploadExemptionApplicationMediaDraft(draft.enrollmentId || enrollmentId, proof, proof.file);
-        proof.mediaId = uploaded.mediaId;
-      }
-
-      const mediaIds = [...new Set([
-        ...(Array.isArray(draft.mediaIds) ? draft.mediaIds : []),
-        ...ui.form.proofs.map((proof) => proof.mediaId).filter(Boolean),
-      ])];
       const updated = await updateExemptionApplication(draft.id, {
         applicationSubtype: facts.applicationSubtype,
         organizationName,
@@ -646,23 +742,16 @@ export const servicesActions = {
         expectedVersion: draft.version,
       });
       ui.serverDraft = { ...draft, ...updated, mediaIds };
-      const submitted = await submitExemptionApplication(updated.id, updated.version);
+      await submitExemptionApplication(updated.id, updated.version);
       ui.success = tx("申请已提交，教师审核结果会以后端记录为准。", "Application submitted. The backend review record is authoritative.");
       ui.resubmitting = null;
       ui.serverDraft = null;
       ui.tab = "applications";
       await app.reloadApiWorkspace();
-      const mapped = mapStructuredExemptionApplication({
-        ...submitted,
-        applicationSubtype: facts.applicationSubtype,
-        organizationName,
-      });
-      if (!app.state.workspace.exemptions.some((item) => item.id === mapped.id)) {
-        app.state.workspace.exemptions.unshift(mapped);
-      }
       ui.form.organization = "";
       ui.form.reason = "";
       ui.form.proofs = [];
+      if(applicationOwner(app))await deleteApplicationDraft(applicationOwner(app)).catch(()=>{});
     } catch (error) {
       ui.error = toUserFacingError(error);
       const firstField = ui.error.fieldErrors?.[0]?.field;

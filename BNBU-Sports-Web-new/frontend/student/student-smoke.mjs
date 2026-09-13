@@ -14,6 +14,7 @@ globalThis.localStorage = {
   removeItem(key) { memoryStorage.delete(key); },
 };
 
+import { SPORT_OPTIONS } from "./js/sports-catalog.js";
 import { t, tx, setLanguage } from "./js/i18n.js";
 import {
   canStartExercise, hasSubmittedCheckInToday, startSession, pauseSession,
@@ -386,21 +387,14 @@ check("local UI preview workspace is labeled and does not invent student scores"
 
 check("check-in sport icons share one stroke set and keep each activity recognizable", () => {
   assert.match(checkinScreenSource, /class="sport-grid"/u);
-  assert.match(checkinScreenSource, /icon: "sport-running"/u);
-  assert.match(checkinScreenSource, /icon: "sport-badminton"/u);
-  assert.match(checkinScreenSource, /icon: "sport-table-tennis"/u);
-  assert.match(checkinScreenSource, /icon: "sport-other"/u);
-  assert.doesNotMatch(checkinScreenSource, /value: "(cricket|tennis|volleyball|yoga|jump-rope)"/u);
-  assert.match(checkinScreenSource, /value: "running"/u);
-  assert.match(checkinScreenSource, /value: OTHER/u);
-  for (const name of [
-    "sport-running", "sport-basketball", "sport-football", "sport-badminton",
-    "sport-table-tennis", "sport-swimming", "sport-fitness", "sport-cycling", "sport-other",
-  ]) {
-    const svg = icon(name, 24);
+  assert.ok(SPORT_OPTIONS.length >= 25);
+  assert.equal(new Set(SPORT_OPTIONS.map(sport => icon(sport.icon,24))).size, SPORT_OPTIONS.length);
+  for (const sport of SPORT_OPTIONS) {
+    const svg = icon(sport.icon,24);
     assert.match(svg, /stroke="currentColor"/u);
     assert.match(svg, /stroke-width="2"/u);
     assert.match(svg, /<svg /u);
+    assert.ok(sport.zh && sport.en && sport.value);
   }
 });
 
@@ -515,7 +509,7 @@ check("dashboard keeps the full backend total and never invents a missing target
   });
   assert.match(html, />1560 分钟</u);
   assert.match(html, /待后端同步/u);
-  assert.match(html, /待核验/u);
+  assert.match(html, /选择运动，开始今日打卡/u);
   assert.match(html, /进行中/u);
   assert.doesNotMatch(html, /1200 分钟/u);
   assert.doesNotMatch(html, />26h</u);
@@ -604,7 +598,7 @@ check("session timing preserves elapsed exercise and applies published threshold
 check("profile mirrors the Android account-card hierarchy and instant service navigation stays scoped", () => {
   assert.doesNotMatch(dashboardScreenSource, /分类仅用于展示/u);
   assert.doesNotMatch(gradesScreenSource, /课程相关与其他运动仅作分类展示/u);
-  const profileHtml = renderProfile({ state: { workspace: studentWorkspaceFixture() } });
+  const profileHtml = renderProfile({ state: { workspace: studentWorkspaceFixture() }, ui: {}, isApiMode: () => true });
   assert.match(profileHtml, /status-badge filled[^>]*>已进班</u);
   assert.match(profileHtml, /profile-facts[\s\S]*student-fixture[\s\S]*profile-facts-row/u);
   assert.doesNotMatch(profileHtml, /LOCAL-REVIEW-STUDENT/u);
@@ -625,11 +619,12 @@ check("exemption form mirrors Android fields and accepted Contract limits", () =
   app.ui.exemption.tab = "new";
   const html = renderExemption(app, {});
   assert.match(html, /800m 耐力跑免测/u);
-  assert.match(html, /0 \/ 3 张图片/u);
+  assert.match(html, /0 \/ 3 个文件/u);
   assert.match(html, /请只填写审核所需信息，避免加入无关敏感资料/u);
-  assert.match(html, /必填：至少上传一张耐力跑免测 JPEG、PNG 或 WebP 证明图片/u);
+  assert.match(html, /必填：至少上传一个耐力跑免测 PDF、JPEG、PNG 或 WebP 证明文件/u);
   assert.match(html, /accept="image\/jpeg,image\/png,image\/webp"/u);
-  assert.doesNotMatch(html, /accept="[^"]*(?:application\/pdf|video\/)/u);
+  assert.match(html, /accept="application\/pdf,image\/\*"/u);
+  assert.doesNotMatch(html, /accept="[^"]*video\//u);
   assert.doesNotMatch(html, /添加 Mock 证明|exemption\.addMockProof|至少 2 个字符/u);
 });
 
@@ -644,7 +639,7 @@ check("exemption detail mirrors the Android information hierarchy", () => {
   const html = renderExemption(app, { targetId: "exemption-800m-2026" });
   assert.match(html, /exemption-detail-hero[\s\S]*申请详情[\s\S]*800m 免测[\s\S]*审核中/u);
   assert.match(html, /申请信息[\s\S]*申请理由[\s\S]*因踝关节扭伤申请本学期 800 米测试缓测。[\s\S]*提交时间[\s\S]*2026-07-21 11:05/u);
-  assert.match(html, /证明材料[\s\S]*1 张图片[\s\S]*data-exemption-proof-thumbnail="1"[\s\S]*<img[\s\S]*medical_certificate\.jpg[\s\S]*证明图片 1/u);
+  assert.match(html, /证明材料[\s\S]*1 个文件[\s\S]*data-exemption-proof-thumbnail="1"[\s\S]*<img[\s\S]*medical_certificate\.jpg[\s\S]*证明文件 1/u);
   assert.match(html, /处理意见[\s\S]*当前处理意见[\s\S]*已收到校医院证明，正在审核。/u);
   assert.doesNotMatch(html, /medical_note\.pdf|application\/pdf/u);
 });
@@ -661,6 +656,7 @@ check("course and independent exercise descriptions are both required", () => {
 check("account details show gender and endurance exemption distance follows it", () => {
   setLanguage("zh");
   const accountHtml = renderAccountDetails({
+    ui: {}, isApiMode: () => true,
     state: {
       workspace: {
         student: {
@@ -846,7 +842,7 @@ check("check-in stages follow the Android information hierarchy", () => {
     /creditPolicy\?\.minCreditThresholdMinutes/u,
   );
   assert.doesNotMatch(checkinScreenSource, /提交仍走现有会话接口|本页不把 30\/45\/60/u);
-  assert.match(checkinScreenSource, /教师设置的最短运动时长/u);
+  assert.match(checkinScreenSource, /最低运动时长：/u);
   assert.doesNotMatch(checkinScreenSource, /30 分钟门槛|45 分钟门槛/u);
   assert.match(checkinScreenSource, /creditPolicyChips\(workspace.creditPolicy\)/u);
   assert.match(checkinScreenSource, /data-action="checkin.submitProof"/u);
@@ -855,7 +851,7 @@ check("check-in stages follow the Android information hierarchy", () => {
   assert.match(checkinScreenSource, /hoursEl\.textContent = `\$\{estimatedCreditedHours\(app,duration\)\}h`/u);
 });
 
-check("a student can preview and delete one local proof before submission", () => {
+check("local proof deletion preserves bytes when durable storage is unavailable", async () => {
   let renderCount = 0;
   const app = {
     ui: {
@@ -867,7 +863,7 @@ check("a student can preview and delete one local proof before submission", () =
         ],
       },
     },
-    state: { dialog: null },
+    state: { dialog: null, workspace: studentWorkspaceFixture() },
     render() { renderCount += 1; },
     showDialog(dialog) { this.state.dialog = dialog; this.render(); },
   };
@@ -877,8 +873,9 @@ check("a student can preview and delete one local proof before submission", () =
   checkinActions["checkin.deleteDraft"](app, { dataset: { draftId: "local-proof" } });
   assert.equal(app.ui.checkin.previewDraftId, null);
   assert.equal(app.state.dialog.title, "删除该凭证？");
-  checkinActions["checkin.deleteDraftConfirm"](app, { dataset: { draftId: "local-proof" } });
-  assert.deepEqual(app.ui.checkin.drafts.map((draft) => draft.id), ["locked-proof"]);
+  await checkinActions["checkin.deleteDraftConfirm"](app, { dataset: { draftId: "local-proof" } });
+  assert.deepEqual(app.ui.checkin.drafts.map((draft) => draft.id), ["local-proof", "locked-proof"]);
+  assert.match(app.ui.checkin.captureError, /删除凭证保存失败/u);
 
   app.state.dialog = null;
   checkinActions["checkin.deleteDraft"](app, { dataset: { draftId: "locked-proof" } });
@@ -2166,17 +2163,18 @@ check("exercise session round-trips through the store per account", () => {
 
 check("v8 contract-wired student pages keep grace non-refreshable and show server proof todos", () => {
   assert.match(joinScreenSource, /expiresAt: preview\.expiresAt/u);
-  assert.match(joinScreenSource, /刷新宽限（业务不允许续期）/u);
+  assert.match(joinScreenSource, /宽限不得刷新续期/u);
   assert.match(joinScreenSource, /无需教师审批/u);
   assert.match(joinScreenSource, /服务端待审核（旧状态）/u);
   assert.match(dashboardScreenSource, /打开补证待办/u);
   assert.match(dashboardScreenSource, /data-action="dashboard.openProofTodo"/u);
   assert.doesNotMatch(dashboardScreenSource, /打开补证待办（当前接口没有）/u);
   assert.doesNotMatch(gradesScreenSource, /<button[^>]*>[^\n]*(?:换算分|converted scores)/u);
-  assert.match(coursesScreenSource, /加入另一门课（同学期已有课程）/u);
-  assert.match(notificationsScreenSource, /补证倒计时/u);
+  assert.match(coursesScreenSource, /每学期仅可选择一门课程/u);
+  assert.match(notificationsScreenSource, /最近补证截止还剩约/u);
   assert.doesNotMatch(notificationsScreenSource, /补证倒计时（当前接口没有）/u);
-  assert.match(profileScreenSource, /不本地换算或伪造分钟/u);
+  assert.match(profileScreenSource, /具体以教师审核结果为准/u);
+  assert.doesNotMatch(profileScreenSource, /不本地换算或伪造分钟/u);
 });
 
 check("v8.1 public reasons keep six bilingual categories and action scopes", () => {
@@ -2209,7 +2207,7 @@ check("v8.1 review stages stay separate and do not guess missing wire values", (
   assert.equal(reviewStageFromRecord({ reviewResult: "VALID", hours: 1 }).zh, "有效 · 已计入");
   assert.equal(reviewStageFromRecord({ reviewResult: "VALID", hours: 0 }).zh, "有效 · 未计入");
   assert.equal(reviewStageFromRecord({ reviewResult: null, hours: 1 }).zh, "审核阶段暂不可用");
-  assert.match(checkinScreenSource, /固定公开原因/u);
+  assert.doesNotMatch(checkinScreenSource, /固定公开原因|保留原文/u);
   assert.match(checkinScreenSource, /reviewStageFromRecord/u);
 });
 

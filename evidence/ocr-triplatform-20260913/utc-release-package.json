@@ -1,0 +1,17 @@
+{
+  "baseImage": "sha256:5cdc3b577f4224ec10fba998c28b7c301c6ba31aeb997b5dc8bf3dff7bb098a2",
+  "sourceCommit": "619cfc1ee2e9315c0f89f9f2cc158f8ba3ed030b",
+  "changedRuntimeFiles": [
+    "/app/dist/common/database/postgres-tls.js"
+  ],
+  "files": {
+    "postgres-tls.js": "5d500e82a81894248cac60ea220f1d79712169dc8c5051c365b050c99e56735e",
+    "Dockerfile": "b9259ac188b9544c2934a112949972fed01c62d61f3e15e6dcb6a4812e634750"
+  },
+  "checks": {
+    "backendBuild": "PASS",
+    "configurationTests": "4/4",
+    "liveUtcReadOnly": "PASS"
+  },
+  "status": "PACKAGE_READY_NOT_DEPLOYED"
+}

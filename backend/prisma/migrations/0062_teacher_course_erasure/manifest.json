@@ -1,0 +1,5 @@
+{
+  "migrationId": "0062_teacher_course_erasure",
+  "sha256": "8f94794ea18c167c039cee134e702e653e8e73726077b9b7d8ebed322abd9b57",
+  "destructive": false
+}

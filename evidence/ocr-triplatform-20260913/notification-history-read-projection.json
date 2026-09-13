@@ -1,0 +1,11 @@
+{
+  "result": "PASS",
+  "scope": "Production PostgreSQL read-only transaction using candidate projection bundle; not HTTP deployment acceptance",
+  "total": 38,
+  "matched": 38,
+  "unchangedDatabaseRows": true,
+  "typecheck": "PASS",
+  "existingUnitTests": { "passed": 289, "failed": 0 },
+  "productionBase": "notification-locale-20260913",
+  "pending": ["Deploy history projection service", "HTTP and browser language regression"]
+}

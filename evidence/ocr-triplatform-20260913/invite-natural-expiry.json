@@ -1,0 +1,21 @@
+{
+  "result": "PASS",
+  "observedAt": "2026-09-13T02:55:44.315Z",
+  "expiresAt": "2026-09-13T02:55:40.931Z",
+  "sectionId": "01a096e7-a22e-7535-a65d-ce0da82d59af",
+  "checks": [
+    "REAL_FIVE_MINUTE_NATURAL_EXPIRY",
+    "EXISTING_REGISTRATION_REPLAY_IDENTICAL",
+    "NEW_EXPIRED_REGISTRATION_DENIED",
+    "EXPIRED_PREVIEW_DENIED",
+    "GRACE_JOIN_ACCEPTED",
+    "JOIN_REPLAY_IDENTICAL"
+  ],
+  "graceEndBoundary": {
+    "status": 410,
+    "code": "AUTH_JOIN_CAPABILITY_EXPIRED",
+    "observedAt": "2026-09-13T03:06:04.524Z"
+  },
+  "fixedRegistrationDeadline": "2026-09-13T03:05:40.931Z",
+  "secondRegistrationSameDeadline": true
+}

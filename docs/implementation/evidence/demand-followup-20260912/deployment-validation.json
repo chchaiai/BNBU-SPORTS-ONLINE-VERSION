@@ -1,0 +1,26 @@
+{
+  "sourceCommit": "32dea80860184cef4b6c5dc8f9a09c5626d13cf9",
+  "localResult": "PASS",
+  "images": {
+    "backend": "sha256:22eafa877405f9efaa59bba398631a8e975fb9ec092eb83c09ea9dff9bc29244",
+    "portal": "sha256:65b9ef1a20629b5829b13ed8e88a7d5e6b331d48035f6e9b1a1e05a28e6a40fb",
+    "migrator": "sha256:f9ca34cde6352cd482caa3dfa6a8fd008f58ddfa3def2dbd88050f12a747ea38"
+  },
+  "archives": {
+    "images.tar.gz": "5ce6aa97a13ad4298f245f8f7f814521922d9e3faaf570702195858121169398",
+    "static.tar": "c0d1817b709a3f4e7ce61274bd4e308ce1fa25436bdf0f9d4a3515d62b0da46c"
+  },
+  "staticFiles": {
+    "student/js/api.js": "94e5aef469698d5e7a094c8ac6df9de640e6f77851392df824812ec12d7ef032",
+    "student/js/app.js": "a7b3c16c0834eb59c590fece09b960f6bd00b6786c37d8bbb6bca5105246e529",
+    "student/js/icons.js": "9bd0ae5f3db37a1c6f224077add8afe516e1e96270c38f0f23a32ad1d70f43ca",
+    "student/js/native-album.js": "df5cea5eaadd5cb626f53a23fd377f461d50767c9a8ed514178403810058caad",
+    "student/js/recorded-video.js": "55d7183d10925e1c195a94c5bdf6f07b960c3be98398979859be747490100552",
+    "student/js/screens/binding.js": "d7a6b1e4e8655a5e7e639d7afa573b0fb2d0f32a755e8e70f338cd4861618ad5",
+    "student/js/screens/checkin.js": "de4b831f18fcb5d08b80e3fd8ad94f4dbf2d351b423137baa3e72b4dd2144e11",
+    "student/js/screens/dashboard.js": "73ea825dd43ffcefe7eef2793e7d30933ae341562d76e76f1ec125e94531689e",
+    "student/js/screens/join.js": "adb60c17cbf592af228cca30addaa1ff0ef6b79b416d320a38b8dde726fc0753",
+    "student/js/screens/profile.js": "0264d9bef0d8ee0c4a4506bddb5c8a16b77e1db3d69bb7186d9e3fb2dae10c16",
+    "student/js/sports-catalog.js": "6b959bba98444a0f0ba561637f04845c5f6c7532063fdec70cbe9f589c265b3c"
+  }
+}

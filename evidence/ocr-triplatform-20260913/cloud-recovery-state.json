@@ -1,0 +1,1 @@
+{"check":"SYNTHETIC_RECOVERY_STATE_AUDIT","observedAt":"2026-09-12T19:31:44.482Z","organizationId":"01a096c2-20a2-706b-8c69-802f67dee12c","policy":{"version":5,"systemMode":"NORMAL"},"activeSessions":0,"draftRecords":0,"openInterruptions":0,"ocrJobs":[{"status":"SUCCEEDED","count":2}]}

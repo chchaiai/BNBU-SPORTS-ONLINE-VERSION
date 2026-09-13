@@ -1,0 +1,47 @@
+{
+  "result": "PASS",
+  "articleId": "01a09888-1320-7483-80ce-63fe4391af59",
+  "details": [
+    {
+      "locale": "zh-CN",
+      "data": {
+        "id": "01a09888-1320-7483-80ce-63fe4391af59",
+        "category": "login",
+        "locale": "zh-CN",
+        "title": "合成页面验收 20260913",
+        "bodyMarkdown": "仅用于本任务合成组织的帮助页面验收。已验证重新编辑。",
+        "publishedAt": "2026-09-13T02:11:09.982Z",
+        "version": 2
+      }
+    },
+    {
+      "locale": "en",
+      "data": {
+        "id": "01a09888-1320-7483-80ce-63fe4391af59",
+        "category": "login",
+        "locale": "en",
+        "title": "Synthetic browser acceptance 20260913",
+        "bodyMarkdown": "For this task synthetic organization browser acceptance only.",
+        "publishedAt": "2026-09-13T02:11:09.982Z",
+        "version": 2
+      }
+    }
+  ],
+  "archiveStudentDetailStatus": 404,
+  "workflow": [
+    "Browser create bilingual draft",
+    "Browser reopen edit",
+    "Browser save and publish",
+    "Student bilingual HTTP detail v2",
+    "Browser archive",
+    "Student HTTP detail 404"
+  ],
+  "deployment": {
+    "release": "portal-help-copy-20260913",
+    "imageId": "sha256:c0d7815b8e5a1db46afdb09dd884d5c006fe16ed4710f32095204b636c12d85a",
+    "build": "PASS",
+    "tests": "43/43",
+    "browserDraftCopy": "PASS",
+    "firstFailure": "i18n coverage failed for 17 previous strings; resources added and suite passed"
+  }
+}

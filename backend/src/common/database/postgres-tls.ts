@@ -31,9 +31,13 @@ export function createPrismaPgConfiguration(
   if (!POSTGRES_SCHEMA.test(schema)) {
     throw new Error('DATABASE_URL schema must be a safe PostgreSQL identifier');
   }
+  // Prisma's pg adapter requires UTC session output for timestamptz decoding.
+  // Keep other startup options, but make UTC the final timezone assignment.
+  const options = [parsed.searchParams.get('options'), '-c timezone=UTC'].filter(Boolean).join(' ');
 
   if (caFile === null) {
-    return { pool: { connectionString: databaseUrl }, schema };
+    parsed.searchParams.set('options', options);
+    return { pool: { connectionString: parsed.toString() }, schema };
   }
 
   const ca = loadTencentDbCa(caFile, dependencies);
@@ -64,6 +68,7 @@ export function createPrismaPgConfiguration(
       user,
       password,
       database,
+      options,
       ssl: { ca, rejectUnauthorized: true, checkServerIdentity },
       ...(applicationName === null ? {} : { application_name: applicationName }),
     },

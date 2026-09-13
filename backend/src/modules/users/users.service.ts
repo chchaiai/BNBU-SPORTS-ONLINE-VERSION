@@ -10,6 +10,10 @@ import { projectUser, type UserProjection } from './user-projection.js';
 import type { StudentListQueryDto } from './users.dto.js';
 
 export interface StudentProfileProjection {
+  email?: string | null;
+  dateOfBirth: string | null;
+  regionCode: string | null;
+  otherRegionName: string | null;
   id: string;
   organizationId: string;
   userId: string;
@@ -28,6 +32,7 @@ export interface StudentProfileProjection {
 }
 
 export interface TeacherProfileProjection {
+  email?: string | null;
   id: string;
   organizationId: string;
   userId: string;
@@ -98,12 +103,7 @@ export class UsersService {
       studentProfile:
         user.studentProfile === null
           ? null
-          : {
-              ...user.studentProfile,
-              createdAt: user.studentProfile.createdAt.toISOString(),
-              updatedAt: user.studentProfile.updatedAt.toISOString(),
-              deletedAt: user.studentProfile.deletedAt?.toISOString() ?? null,
-            },
+          : this.projectStudent(user.studentProfile),
       teacherProfile:
         user.teacherProfile === null
           ? null
@@ -214,7 +214,7 @@ export class UsersService {
   ): Promise<StudentProfileProjection> {
     const student = await this.findAuthorizedStudent(principal, studentId);
     if (student === null) throw new ApplicationError('USER_NOT_FOUND', 404);
-    return this.projectStudent(student);
+    return { ...this.projectStudent(student), ...await this.superAdminEmail(principal, student.userId) };
   }
 
   async denyStudentUpdate(principal: AuthenticatedPrincipal, studentId: string): Promise<never> {
@@ -250,7 +250,18 @@ export class UsersService {
       },
     });
     if (teacher === null) throw new ApplicationError('USER_NOT_FOUND', 404);
-    return this.projectTeacher(teacher);
+    return { ...this.projectTeacher(teacher), ...await this.superAdminEmail(principal, teacher.userId) };
+  }
+
+  private async superAdminEmail(principal: AuthenticatedPrincipal, userId: string): Promise<{ email?: string | null }> {
+    if (principal.role !== 'ADMIN') return {};
+    const access = await this.prisma.$queryRaw<{ kind: string }[]>`
+      SELECT kind FROM v81_admin_access WHERE user_id=${principal.userId}::uuid
+      AND organization_id=${principal.organizationId}::uuid AND kind='SUPER' AND must_change_password=false`;
+    if (!access[0]) return {};
+    const user = await this.prisma.user.findFirst({ where: { id: userId,
+      organizationId: principal.organizationId, deletedAt: null }, select: { primaryEmail: true } });
+    return { email: user?.primaryEmail ?? null };
   }
 
   private async findAuthorizedStudent(
@@ -308,6 +319,9 @@ export class UsersService {
   }
 
   private projectStudent(student: {
+    dateOfBirth?: Date | null;
+    regionCode?: string | null;
+    otherRegionName?: string | null;
     id: string;
     organizationId: string;
     userId: string;
@@ -326,6 +340,9 @@ export class UsersService {
   }): StudentProfileProjection {
     return {
       ...student,
+      dateOfBirth: student.dateOfBirth?.toISOString().slice(0, 10) ?? null,
+      regionCode: student.regionCode ?? null,
+      otherRegionName: student.otherRegionName ?? null,
       createdAt: student.createdAt.toISOString(),
       updatedAt: student.updatedAt.toISOString(),
       deletedAt: student.deletedAt?.toISOString() ?? null,

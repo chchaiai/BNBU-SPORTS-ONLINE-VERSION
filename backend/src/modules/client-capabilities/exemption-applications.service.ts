@@ -457,7 +457,7 @@ export class ExemptionApplicationsService {
         });
         if (policy?.systemMode !== 'NORMAL') throw new ApplicationError('SYSTEM_MAINTENANCE', 503);
         const current = await transaction.exemptionApplication.findFirst({
-          where: { id: applicationId, organizationId: principal.organizationId },
+          where: { id: applicationId, organizationId: principal.organizationId, membershipClearedAt: null },
           include: applicationInclude,
         });
         if (current === null) return this.notFoundFailure();
@@ -585,9 +585,9 @@ export class ExemptionApplicationsService {
   }
 
   private roleScope(principal: AuthenticatedPrincipal): Prisma.ExemptionApplicationWhereInput {
-    if (principal.role === 'STUDENT') return { student: { userId: principal.userId } };
+    if (principal.role === 'STUDENT') return { membershipClearedAt: null, enrollment: { status: 'ACTIVE' }, student: { userId: principal.userId } };
     if (principal.role === 'TEACHER')
-      return { classSection: { teacher: { userId: principal.userId } } };
+      return { membershipClearedAt: null, enrollment: { status: 'ACTIVE' }, classSection: { teacher: { userId: principal.userId } } };
     return {};
   }
 
@@ -606,6 +606,7 @@ export class ExemptionApplicationsService {
         id: applicationId,
         organizationId: principal.organizationId,
         student: { userId: principal.userId },
+        membershipClearedAt: null,
       },
       include: applicationInclude,
     });
@@ -661,14 +662,14 @@ export class ExemptionApplicationsService {
       media.length !== mediaIds.length ||
       media.some(
         (item) =>
-          item.mediaType !== 'IMAGE' ||
-          !['image/jpeg', 'image/png', 'image/webp'].includes(item.declaredMimeType) ||
+          !['IMAGE', 'DOCUMENT'].includes(item.mediaType) ||
+          !['image/jpeg', 'image/png', 'image/webp', 'application/pdf'].includes(item.declaredMimeType) ||
           item.declaredFileSizeBytes <= 0n ||
           item.declaredFileSizeBytes > 10485760n ||
           (requireAvailable
             ? item.uploadStatus !== 'AVAILABLE' ||
               !item.verifiedMimeType ||
-              !['image/jpeg', 'image/png', 'image/webp'].includes(item.verifiedMimeType) ||
+              !['image/jpeg', 'image/png', 'image/webp', 'application/pdf'].includes(item.verifiedMimeType) ||
               !item.verifiedFileSizeBytes ||
               item.verifiedFileSizeBytes > 10485760n ||
               !item.verifiedContentSha256

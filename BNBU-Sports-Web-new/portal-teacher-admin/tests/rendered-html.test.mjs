@@ -135,19 +135,11 @@ test("teacher and admin account dialogs use an in-workspace password settings fl
     /role === "teacher" && \(\s*<section\s+className="account-security-card"/,
   );
   assert.match(app, /id="account-security-title">修改密码<\/h3>/);
-  assert.match(app, /function PasswordSettingsPanel\(/);
-  assert.match(app, /openPasswordSettings\(\);\s*setView\("password"\);/);
-  assert.match(app, /无需跳转登录页，在当前工作台完成邮箱验证并设置新密码。/);
-  assert.match(app, /id="password-settings-identify-form"/);
-  assert.match(app, /id="password-settings-reset-form"/);
-  assert.doesNotMatch(app, /await getCurrentOrganization\(\)/);
-  assert.doesNotMatch(app, /id="password-settings-organization"/);
+  assert.match(app, /<OwnPasswordPanel locale=/);
+  assert.match(app, /使用当前密码设置新密码，成功后保留当前登录。/);
   assert.match(app, /requestAccountRecovery\(\{/);
   assert.match(app, /completeAccountRecovery\(\{/);
-  assert.match(app, /disabled=\{busy \|\| isPreview\}/);
-  assert.match(app, /免登录预览仅展示流程，不会发送验证码，也不会修改账号密码。/);
-  assert.doesNotMatch(app, /openPasswordRecoveryFromWorkspace/);
-  assert.doesNotMatch(app, /logout\(\);\s*startRecovery\(requestedRole, requestedAccount\);/);
+  assert.doesNotMatch(app, /openPasswordSettingsFromWorkspace|PasswordSettingsPanel/);
   assert.match(css, /\.account-security-card\s*\{/);
   assert.match(css, /\.password-settings-stepper\s*\{/);
   assert.match(css, /\.password-settings-account\s*\{/);
@@ -321,7 +313,7 @@ test("uses the direct-enrollment roster as the teacher membership surface", asyn
   assert.match(workspace, /移出课程/);
   assert.match(
     workspace,
-    /student\.status === "active"\s*\?\s*\(\s*<button[\s\S]{0,700}className="row-primary-action danger-link roster-remove-action"[\s\S]{0,700}移出课程/,
+    /isCurrentMember\(student\)\s*\?\s*\(\s*<button[\s\S]{0,700}className="row-primary-action danger-link roster-remove-action"[\s\S]{0,700}移出课程/,
   );
   assert.match(workspace, /无需教师审批/);
   assert.match(
@@ -432,13 +424,13 @@ test("uses one portal-backed AppSelect instead of native browser selects", async
   assert.ok((selectionSurfaces.match(/<AppSelect\b/g) ?? []).length >= 30);
   // Published V8.1 parameters retain their existing native controls.
   const originalSelects = workspace.match(/<select\b[\s\S]*?<\/select>/g) ?? [];
-  assert.equal(originalSelects.length, 4);
+  assert.equal(originalSelects.length, 2);
   assert.match(originalSelects[0], /id="course-published-template" disabled/);
-  assert.match(originalSelects[1], /id="course-minimum-minutes"/);
-  assert.match(originalSelects[2], /id="course-weekly-limit"/);
-  assert.match(originalSelects[3], /value=\{form.proofWindowHours \?\? "24"\}/);
-  assert.match(originalSelects[3], /<option value="24">24 小时<\/option>/);
-  assert.match(originalSelects[3], /<option value="72">72 小时<\/option>/);
+  assert.match(workspace, /<input id="course-minimum-minutes" type="number" min="1" max="1440" step="1"/);
+  assert.match(workspace, /<input id="course-weekly-limit" type="number" min="1" max="2147483647" step="1"/);
+  assert.match(originalSelects[1], /value=\{form.proofWindowHours \?\? "24"\}/);
+  assert.match(originalSelects[1], /<option value="24">24 小时<\/option>/);
+  assert.match(originalSelects[1], /<option value="72">72 小时<\/option>/);
   const remainingSurfaces = [workspace.replace(/<select\b[\s\S]*?<\/select>/g, ""), app, ...adminPages].join("\n");
   assert.doesNotMatch(remainingSurfaces, /<(?:select|option)\b/i);
   assert.match(component, /createPortal/);

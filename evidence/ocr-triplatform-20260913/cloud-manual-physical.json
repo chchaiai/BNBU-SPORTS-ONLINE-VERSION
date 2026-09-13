@@ -1,0 +1,22 @@
+{
+  "check": "CLOUD_MANUAL_PHYSICAL_RESULTS",
+  "observedAt": "2026-09-12T20:12:58.414Z",
+  "organizationId": "01a096c2-20a2-706b-8c69-802f67dee12c",
+  "enrollmentId": "01a096e7-a6ce-73fe-826b-36728b8ba193",
+  "versions": [
+    1,
+    2,
+    3
+  ],
+  "checks": [
+    "MANUAL_RAW_RESULT_APPEND_REPLAY",
+    "STUDENT_RAW_RESULT_WITHOUT_SCORE",
+    "STALE_VERSION_WRONG_PROJECT_FUTURE_DATE_REJECTED",
+    "APPEND_ONLY_VERSIONS_HISTORY_CURSOR_LATEST_RESTORED"
+  ],
+  "allChecksCompleted": true,
+  "limitations": [
+    "Manual result only; CSV/XLSX source storage still requires pending COS prefix authorization",
+    "Synthetic current-course result remains as an explicit fixture; future import must use latest result version"
+  ]
+}

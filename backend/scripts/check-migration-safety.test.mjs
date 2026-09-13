@@ -30,6 +30,14 @@ function fixture(t){
     }};
 }
 test('all registered migrations pass the real checker',t=>{assert.ok(fixture(t).run().includes(`Migration safety: PASS (${migrationIds.length} registered migrations`));});
+test('demand constraint replacements cannot execute deletion',t=>{
+  const f=fixture(t);f.change('0067_historical_backfill',sql=>sql+'\nDELETE FROM exercise_records;');
+  assert.throws(f.run,/forbidden destructive SQL/);
+});
+test('demand constraints require an executable replacement',t=>{
+  const f=fixture(t);f.change('0065_course_rule_customization',sql=>sql.replace('ADD CONSTRAINT v81_course_rules_weekly_limit_check','ADD CONSTRAINT unrecognized_weekly_guard'));
+  assert.throws(f.run,/no verified replacement/);
+});
 
 test('student erasure migration cannot execute deletion during deployment',t=>{
   const f=fixture(t);f.change('0061_admin_student_erasure',sql=>sql+'\nDELETE FROM exercise_records;');
@@ -48,3 +56,5 @@ test('history reference cannot acquire cascading deletion',t=>{
   const f=fixture(t);f.change('0047_v81_history_references',sql=>sql.replace('ON DELETE RESTRICT','ON DELETE CASCADE'));
   assert.throws(f.run,/non-cascading deletion/);
 });
+
+test('course erasure migration cannot execute deletion during deployment',t=>{const f=fixture(t);f.change('0062_teacher_course_erasure',sql=>sql+'\nDELETE FROM class_sections;');assert.throws(f.run,/forbidden destructive SQL/);});

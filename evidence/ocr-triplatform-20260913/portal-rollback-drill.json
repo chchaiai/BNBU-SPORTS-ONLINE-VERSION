@@ -1,0 +1,10 @@
+{
+  "check": "LIVE_PORTAL_ROLLBACK_AND_RESTORE",
+  "observedAt": "2026-09-12T22:20:27Z",
+  "steps": [
+    {"release": "submit-atomic-20260913", "portalImage": "sha256:0241f02855f8914bd4c778d43230cb91490a733dff8eb08d1701dd47598f88bd", "health": "healthy", "teacherEntryStatus": 200, "studentEntryStatus": 200, "readinessStatus": 200, "backendUnchanged": true},
+    {"release": "portal-required-20260913", "portalImage": "sha256:b2911babf4c1562cb9a2250ead08effc96e2cd6cf30ce9ca78dd717132e61c56", "health": "healthy", "teacherEntryStatus": 200, "studentEntryStatus": 200, "readinessStatus": 200, "backendUnchanged": true}
+  ],
+  "restored": true,
+  "limitations": "Portal-only drill; backend and database rollback not exercised. Successful readiness does not prove all role workflows."
+}

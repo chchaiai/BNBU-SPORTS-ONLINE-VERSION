@@ -1,0 +1,11 @@
+{
+  "organizationId": "01a09918-10d0-75ae-93a0-a4bf948d2495",
+  "sectionId": "01a09918-10d1-735e-8790-0176abb8e77a",
+  "userId": "01a09919-a664-7359-b545-e19a954c4d5b",
+  "studentId": "01a09919-a664-7359-b545-e6246e2acc59",
+  "enrollmentId": "01a09919-a664-7359-b545-eab757f1c351",
+  "studentNumber": "9900000099",
+  "fullName": "TEST SEMESTER HISTORY",
+  "unusedSectionsMoved": 2,
+  "scope": "Synthetic setup only; email verification is seeded, not mail acceptance; user disabled and no session created"
+}

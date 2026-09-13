@@ -93,6 +93,11 @@ export class EmailVerificationService {
 
     const targetEmail = input.email.trim();
     const targetEmailNormalized = targetEmail.toLowerCase();
+    if (principal.role === 'STUDENT' && !targetEmailNormalized.includes('bnbu')) {
+      throw new ApplicationError('VALIDATION_FAILED', 422, {
+        fieldErrors: [{ field: 'email', code: 'BNBU_EMAIL_REQUIRED', i18nKey: 'error.validation.failed', params: {} }],
+      });
+    }
     const mode = user.emailVerifiedAt === null ? 'FIRST_BIND' : 'REBIND';
     if (mode === 'REBIND' && user.primaryEmailNormalized === targetEmailNormalized) {
       throw new ApplicationError('CONFLICT_RESOURCE_ALREADY_EXISTS', 409, {

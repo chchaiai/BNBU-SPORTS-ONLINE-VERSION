@@ -1,0 +1,12 @@
+{
+  "check": "CLOUD_SESSION_RECONCILE_CANCEL",
+  "observedAt": "2026-09-12T19:00:59.631Z",
+  "sessionId": "01a096fd-9c14-767e-9afd-87c9ad1baefb",
+  "checks": [
+    "STATE_SYNC_AND_IDEMPOTENT_REPLAY",
+    "UNTRUSTED_EVENT_DENIED_CANCEL_REPLAY"
+  ],
+  "allChecksCompleted": true,
+  "finalStatus": "CANCELLED",
+  "initialProbe": "Client timestamp rejected as SESSION_EVENT_OUT_OF_ORDER; resumed same session using server-confirmed startedAt"
+}

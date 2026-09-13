@@ -267,6 +267,70 @@ describe('Student identity, Enrollment, and QR Join HTTP E2E', () => {
     await prisma.$disconnect();
   });
 
+  it('enforces server-relative invite validity and rejects ambiguous or out-of-range input', async () => {
+    const teacher = await login(fixture.teacherEmail);
+    const route = `/api/v1/class-sections/${fixture.teacherAActiveSectionId}/course-invites`;
+    for (const body of [{}, {expiresInMinutes:5}, {expiresInMinutes:120}]) {
+      const result = await request(route, authenticated(teacher, 'POST', body, uuidv7()));
+      assert.equal(result.status, 201);
+      const row = await prisma.courseInvite.findUniqueOrThrow({where:{id:String(object(result.body.data).inviteToken).split('.')[0]!}});
+      assert.equal(row.expiresAt.getTime()-row.createdAt.getTime(), ('expiresInMinutes' in body ? body.expiresInMinutes : 30)*60_000);
+    }
+    const before = await prisma.courseInvite.count();
+    for (const body of [{expiresInMinutes:4}, {expiresInMinutes:121}, {expiresInMinutes:5.5}, {expiresInMinutes:null},
+      {expiresInMinutes:30,expiresAt:new Date(Date.now()+1_800_000).toISOString()},
+      {expiresAt:new Date(Date.now()+604_800_000).toISOString()}]) {
+      assert.equal((await request(route, authenticated(teacher,'POST',body,uuidv7()))).status,422);
+    }
+    assert.equal(await prisma.courseInvite.count(),before);
+  });
+
+  const expireRegisteredFlow = async (inviteToken: string, capability: string, expiredMs = 30_000) => {
+    // Backdate only the resettable loopback test database; production clocks are never altered.
+    const expiry = new Date(Date.now()-expiredMs), issuedAt = new Date(expiry.getTime()-60_000);
+    await prisma.courseInvite.update({where:{id:inviteToken.split('.')[0]!},data:{createdAt:new Date(issuedAt.getTime()-300_000),expiresAt:expiry}});
+    await prisma.joinCapability.update({where:{id:capability.split('.')[0]!},data:{issuedAt,expiresAt:new Date(expiry.getTime()+600_000)}});
+  };
+
+  it('finishes a registered flow during natural-expiry grace without renewing or opening a new flow', async () => {
+    const teacher=await login(fixture.teacherEmail), invite=await createInvite(teacher);
+    const token=String(object(invite.body.data).inviteToken), capabilityKey=uuidv7();
+    const issued=await issueCapability(token,IDENTITY,capabilityKey), capability=String(object(issued.body.data).joinCapability);
+    const before=await prisma.joinCapability.findUniqueOrThrow({where:{id:capability.split('.')[0]!}});
+    const inviteRow=await prisma.courseInvite.findUniqueOrThrow({where:{id:token.split('.')[0]!}});
+    assert.equal(before.expiresAt.getTime(),inviteRow.expiresAt.getTime()+600_000);
+    await expireRegisteredFlow(token,capability);
+    const fixed=await prisma.joinCapability.findUniqueOrThrow({where:{id:before.id}});
+    const recovered=await issueCapability(token,IDENTITY,capabilityKey);
+    assert.equal(recovered.status,201);
+    assert.equal(object(recovered.body.data).joinCapability,capability);
+    assert.equal((await issueCapability(token)).body.code,'COURSE_CLASS_SECTION_NOT_JOINABLE');
+    assert.equal((await request(`/api/v1/course-invites/${encodeURIComponent(token)}/preview`)).body.code,'COURSE_INVITE_EXPIRED');
+    assert.equal(await prisma.joinCapability.count(),1);
+    assert.equal((await prisma.joinCapability.findUniqueOrThrow({where:{id:before.id}})).expiresAt.getTime(),fixed.expiresAt.getTime());
+    const key=uuidv7(),joined=await join(token,capability,key);
+    assert.equal(joined.status,201);
+    assert.deepEqual((await join(token,capability,key)).body.data,joined.body.data);
+    assert.equal((await join(token,capability,uuidv7())).body.code,'AUTH_JOIN_CAPABILITY_ALREADY_USED');
+  });
+
+  for (const stop of ['GRACE_EXPIRED','REVOKED','ENROLLMENT_CLOSED','COURSE_CLOSED','SEMESTER_ARCHIVED'] as const) {
+    it(`rejects registered invitation grace when ${stop}`,async()=>{
+      const teacher=await login(fixture.teacherEmail),token=String(object((await createInvite(teacher)).body.data).inviteToken);
+      const capability=String(object((await issueCapability(token)).body.data).joinCapability);
+      await expireRegisteredFlow(token,capability,stop==='GRACE_EXPIRED'?601_000:30_000);
+      if(stop==='REVOKED') await request(`/api/v1/class-sections/${fixture.teacherAActiveSectionId}/course-invites/revocations`,authenticated(teacher,'POST',{inviteToken:token},uuidv7()));
+      if(stop==='ENROLLMENT_CLOSED') await prisma.classSection.update({where:{id:fixture.teacherAActiveSectionId},data:{isEnrollmentOpen:false}});
+      if(stop==='COURSE_CLOSED') await prisma.classSection.update({where:{id:fixture.teacherAActiveSectionId},data:{status:'CLOSED',isEnrollmentOpen:false,closedAt:new Date(),closedBy:fixture.teacherUserId,closeReason:'Synthetic grace boundary'}});
+      if(stop==='SEMESTER_ARCHIVED') await prisma.semester.update({where:{id:fixture.semesterId},data:{status:'ARCHIVED'}});
+      const result=await join(token,capability,uuidv7());
+      assert.equal(result.status,stop==='GRACE_EXPIRED'?410:401);
+      assert.equal(result.body.code,stop==='GRACE_EXPIRED'?'AUTH_JOIN_CAPABILITY_EXPIRED':'AUTH_JOIN_CAPABILITY_INVALID');
+      assert.equal(await prisma.enrollment.count(),0);
+      assert.equal((await prisma.joinCapability.findUniqueOrThrow({where:{id:capability.split('.')[0]!}})).status,'ACTIVE');
+    });
+  }
+
   it('rotates digest-only invites and issues one replayable capability without creating identity', async () => {
     const teacher = await login(fixture.teacherEmail);
     const firstKey = uuidv7();

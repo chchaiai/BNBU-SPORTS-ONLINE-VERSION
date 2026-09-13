@@ -12,8 +12,8 @@ export function createCoursePublicationIntent<T>(fingerprint:string,writeWindow:
   }};
 }
 export type CourseTemplate = {id:string;version:number;displayName:string;rules:{totalTargetMinutes:number;minimumMinutesOptions:number[];weeklyLimitOptions:number[];defaultMinimumMinutes:number;defaultWeeklyLimit:number};publishedAt:string};
-export type CourseRules = {version:number;template_id:string|null;published_at:string|null;minimum_minutes:number;weekly_limit:number;course_target:number;general_target:number};
-export function publishCourseRules(id:string,input:{templateId:string;minimumMinutes:number;weeklyLimit:number;courseTarget:number;generalTarget:number;
+export type CourseRules = {version:number;template_id:string|null;published_at:string|null;minimum_minutes:number;maximum_minutes:number;global_target_minutes:number;global_target_version:number;allocation_pending:boolean;weekly_limit:number;daily_limit:number;course_target:number;general_target:number;regular_deadline:string;closing_deadline:string;settlement_planned_at:string};
+export function publishCourseRules(id:string,input:{templateId:string;minimumMinutes:number;maximumMinutes?:number;globalTargetVersion?:number;weeklyLimit:number;dailyLimit?:number;courseTarget:number;generalTarget:number;
   regularDeadline:string;closingDeadline:string;settlementPlannedAt:string;expectedVersion:number},key:string){
   return request(`/class-sections/${encodeURIComponent(id)}/v81-rules`,{method:'POST',body:{...input,publish:true},headers:{'Idempotency-Key':key}});
 }
@@ -30,5 +30,6 @@ export async function loadCourseRuleSettings(id:string) {
   let rules:CourseRules|null;
   try{rules=await request(`/class-sections/${encodeURIComponent(id)}/v81-rules`);}
   catch(error){if(error instanceof ApiError&&error.status===404)rules=null;else throw error;}
-  return {templates,rules};
+  const goal=await request<{totalTargetMinutes:number;version:number}>('/admin/exercise-goal');
+  return {templates,rules,goal};
 }

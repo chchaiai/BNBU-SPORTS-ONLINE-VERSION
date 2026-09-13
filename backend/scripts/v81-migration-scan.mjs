@@ -1,5 +1,7 @@
 // Recognize explicitly reviewed V8.1 constraint replacements; retain the destructive SQL scan.
 const replacementMigrations=new Set([
+  '0072_exercise_limits',
+  '0073_exercise_goal_recognition', '0074_membership_application_clear',
   '0021_v81_business_foundation','0024_v81_certification_revocation','0027_v81_feedback_history','0059_v81_recognition_adjustment',
   '0035_v81_roster_source_format','0047_v81_history_references','0049_v81_session_history_subjects','0051_v81_system_event_provenance','0055_v81_invite_revocation','0057_v81_roster_duplicates',
 ]);
@@ -32,12 +34,30 @@ export function maskSql(source,maskStrings=false){
 }
 
 export function prepareV81MigrationScan(migrationId,sql){
+  const demandConstraints = {
+    '0065_course_rule_customization': ['v81_course_rules_minimum_minutes_check','v81_course_rules_weekly_limit_check'],
+    '0066_exemption_documents_metadata': ['media_evidence_media_type_check','media_evidence_duration_check','media_evidence_verified_complete_check'],
+    '0067_historical_backfill': ['media_evidence_capture_source_check'],
+    '0071_course_retirement_invite_revocation': ['course_invites_revoke_shape_check'],
+  }[migrationId];
+  if(demandConstraints)for(const name of demandConstraints){
+    const code=maskSql(sql,true),drop=new RegExp(`\\bDROP\\s+CONSTRAINT\\s+${name}\\b`,'gi');
+    const add=new RegExp(`\\bADD\\s+CONSTRAINT\\s+${name}\\s+CHECK\\s*\\(`,'gi');
+    if([...code.matchAll(drop)].length!==1||[...code.matchAll(add)].length!==1)
+      throw new Error(`${migrationId}: removed constraint ${name} has no verified replacement`);
+    sql=sql.replace(drop,`REPLACE CONSTRAINT ${name}`);
+  }
   if(migrationId==='0061_admin_student_erasure') {
     // Installing this explicitly authorized runtime command does not execute its DELETEs.
     // Leave every statement outside the one named function subject to the normal scan.
     const declaration=/CREATE FUNCTION erase_v81_student\(target_organization uuid,target_student uuid,target_actor uuid\)\s+RETURNS jsonb LANGUAGE plpgsql AS \$\$[\s\S]*?\$\$;/g;
     if([...sql.matchAll(declaration)].length!==1)throw new Error('Student erasure command declaration must occur exactly once');
     sql=sql.replace(declaration,'-- Reviewed runtime student erasure function definition.');
+  }
+  if(migrationId==='0062_teacher_course_erasure') {
+    const declaration=/CREATE FUNCTION erase_v81_course\(target_organization uuid,target_course uuid,target_actor uuid\)\s+RETURNS jsonb LANGUAGE plpgsql AS \$\$[\s\S]*?\$\$;/g;
+    if([...sql.matchAll(declaration)].length!==1)throw new Error('Course erasure command declaration must occur exactly once');
+    sql=sql.replace(declaration,'-- Reviewed runtime course erasure function definition.');
   }
   let scan=maskSql(sql),code=maskSql(sql,true);
   const normalize=value=>value.replaceAll('"','').replace(/\s+/g,' ').trim().toLowerCase();

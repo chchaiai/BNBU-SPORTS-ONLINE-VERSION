@@ -1,0 +1,10 @@
+{
+  "date":"2026-09-13",
+  "result":"BLOCKED_BROWSER_FILE_PERMISSION",
+  "actor":"TEST ZETA",
+  "release":"student-notification-copy-20260913",
+  "observed":["Opened new school-team application","Entered explicitly synthetic organization and reason requesting rejection of test application","File chooser opened but setFiles was denied by Edge extension with Not allowed","No material selected and application not submitted","Deleted this attempt's draft; organization and reason cleared and deletion notice appeared","Returned to profile"],
+  "requiredInput":"User decision to enable Edge extension Allow access to file URLs; request pending",
+  "scope":"Browser permission failure, not an application upload API result. Does not replace full application submission and teacher review acceptance.",
+  "otherAttempt":"Non-www teacher domain TLS handshake failed; no certificate bypass or production configuration change."
+}

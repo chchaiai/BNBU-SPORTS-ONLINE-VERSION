@@ -1,0 +1,173 @@
+[
+  {
+    "source": "bug-20260912-browser-final.log",
+    "check": "REAL_DOCKER_BROWSER_MEDIA_NATIVE_PICKER_PENDING_PREVIEW_SHORT_FINISH",
+    "result": "PASS"
+  },
+  {
+    "source": "bug-20260912-cloud-browser-retest4.log",
+    "check": "CLOUD_STUDENT_PRIVATE_PHOTO_VIDEO_AND_PUBLIC_NOTE",
+    "result": "PASS"
+  },
+  {
+    "source": "bug-20260912-cloud-browser-retest4.log",
+    "check": "CLOUD_TEACHER_BROWSER_RETIRE_WITH_ACTIVE_INVITE_IDEMPOTENCY_STUDENT_HISTORY",
+    "result": "PASS"
+  },
+  {
+    "source": "bug-20260912-video-audio-retest.log",
+    "check": "NATIVE_LOCAL_ENCODING_AND_PLAYBACK",
+    "result": "PASS",
+    "sourceBytes": 64193,
+    "bytes": 53796,
+    "elapsedMs": 2499.8000000044703,
+    "width": 640,
+    "height": 360,
+    "duration": 2.141767,
+    "time": 0.260064,
+    "error": null,
+    "audioRms": 0.6902557121252699,
+    "wasmRequests": 0
+  },
+  {
+    "source": "bug-20260912-fallback.log",
+    "engine": "webkit",
+    "result": "PENDING",
+    "reason": "This browser build cannot generate a synthetic canvas recording; native camera recording needs a device test."
+  },
+  {
+    "source": "bug-20260912-fallback.log",
+    "check": "RECORDED_VIDEO_WITH_AUDIO_NORMALIZATION_AND_PLAYBACK",
+    "engine": "firefox",
+    "result": "PASS",
+    "sourceMime": "video/webm;codecs=vp8,opus",
+    "outputMime": "video/mp4",
+    "bytes": 24554,
+    "width": 320,
+    "height": 240,
+    "duration": 1.62,
+    "currentTime": 0.3634,
+    "error": null
+  },
+  {
+    "source": "exercise-limits-http-final.log",
+    "check": "NEW_SESSION_CAP_SNAPSHOT_SURVIVES_TEACHER_CHANGE",
+    "result": "PASS"
+  },
+  {
+    "source": "exercise-limits-http-final.log",
+    "check": "GLOBAL_TARGET_SUPER_ONLY_IDEMPOTENT_ONGOING_ALLOWED_NEW_BLOCKED",
+    "result": "PASS"
+  },
+  {
+    "source": "exercise-limits-http-final.log",
+    "check": "UNATTENDED_WORKER_COMPLETES_WITH_SYSTEM_PROVENANCE",
+    "result": "PASS"
+  },
+  {
+    "source": "exercise-limits-http-final.log",
+    "check": "REAL_CLOCK_60_SECONDS_AUTO_COMPLETION_AND_RECORD_CAP",
+    "result": "PASS"
+  },
+  {
+    "source": "exercise-limits-browser-first.log",
+    "check": "NATIVE_RETURN_REJECTS_VIDEO_OVER_10_SECONDS",
+    "result": "PASS"
+  },
+  {
+    "source": "exercise-limits-browser-first.log",
+    "check": "SUPPLEMENT_CONTEXT_RECORD_SCOPED_DRAFTS_AND_CORRECT_SUBMISSION",
+    "result": "PASS"
+  },
+  {
+    "source": "exercise-limits-browser-first.log",
+    "check": "REAL_BROWSER_AUTO_FINISH_AT_SNAPSHOTTED_60_SECONDS",
+    "result": "PASS"
+  },
+  {
+    "source": "exercise-limits-portal-final.log",
+    "check": "SUPER_ADMIN_GLOBAL_TARGET_BROWSER",
+    "result": "PASS",
+    "targetMinutes": 1200
+  },
+  {
+    "source": "exercise-limits-portal-final.log",
+    "check": "TEACHER_REALLOCATION_AND_SINGLE_LIMIT_BROWSER",
+    "result": "PASS"
+  },
+  {
+    "source": "exercise-limits-cloud-http.log",
+    "check": "CLOUD_SHORT_EXERCISE_BLOCKED",
+    "result": "PASS"
+  },
+  {
+    "source": "exercise-limits-cloud-http.log",
+    "check": "CLOUD_CAP_SNAPSHOT_SUPER_ONLY_GLOBAL_GOAL_AND_ALLOCATION_GATE",
+    "result": "PASS"
+  },
+  {
+    "source": "exercise-limits-cloud-http.log",
+    "check": "CLOUD_REAL_CLOCK_EXERCISE_STARTED",
+    "result": "PASS"
+  },
+  {
+    "source": "exercise-limits-cloud-http.log",
+    "check": "CLOUD_REAL_CLOCK_COS_PHOTO_VIDEO_SCAN_SUBMISSION_TEACHER_REVIEW",
+    "result": "PASS"
+  },
+  {
+    "source": "exercise-limits-cloud-worker-retest.log",
+    "check": "CLOUD_UNATTENDED_DURATION_LIMIT_SYSTEM_EVENT",
+    "result": "PASS",
+    "sessionId": "01a09630-7c14-73f5-9cc6-918137cb7ce9",
+    "durationSeconds": 60
+  },
+  {
+    "source": "exercise-limits-cloud-portal.log",
+    "check": "SUPER_ADMIN_GLOBAL_TARGET_BROWSER",
+    "result": "PASS",
+    "targetMinutes": 1200
+  },
+  {
+    "source": "exercise-limits-cloud-portal.log",
+    "check": "TEACHER_REALLOCATION_AND_SINGLE_LIMIT_BROWSER",
+    "result": "PASS"
+  },
+  {
+    "source": "exercise-limits-deploy.log",
+    "check": "PRE_RELEASE_DATABASE_BACKUP",
+    "result": "PASS",
+    "path": "/opt/bnbu-sports-production/backups/before-bugfix-20260912T151458Z.dump",
+    "bytes": 3691309
+  },
+  {
+    "source": "exercise-limits-deploy.log",
+    "check": "EXERCISE_LIMITS_DEPLOYMENT",
+    "result": "PASS",
+    "sourceCommit": "9618cc35e4d6f64a15c8392560d6c4500a631326",
+    "release": "/opt/bnbu-sports-production/releases/exercise-limits-20260912",
+    "previous": "/opt/bnbu-sports-production/releases/bug-20260912",
+    "staticFilesVerified": 8,
+    "images": {
+      "backend": "sha256:e75b9d426564189d1b5f62fd2a41964d3e773d7ad5659d347f183b81e777cb8e",
+      "portal": "sha256:a7aea2c04e5361321059f4eec01169df5ed1c0c3105c5ada99b7cb16a094a2d4",
+      "migrator": "sha256:a9072e50cd6c2782d82bd10b620af5f76908eaf99a8079a97ec4fa4bd9a363c7"
+    },
+    "writesResumed": true
+  },
+  {
+    "source": "exercise-limits-cloud-browser.log",
+    "check": "NATIVE_RETURN_REJECTS_VIDEO_OVER_10_SECONDS",
+    "result": "PASS"
+  },
+  {
+    "source": "exercise-limits-cloud-browser.log",
+    "check": "CLOUD_SUPPLEMENT_CONTEXT_AND_CORRECT_RECORD_SUBMISSION",
+    "result": "PASS"
+  },
+  {
+    "source": "exercise-limits-cloud-browser.log",
+    "check": "CLOUD_REAL_BROWSER_AUTO_FINISH_AT_SNAPSHOTTED_60_SECONDS",
+    "result": "PASS"
+  }
+]

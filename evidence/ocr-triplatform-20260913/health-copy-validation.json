@@ -1,0 +1,11 @@
+{
+  "check": "HEALTH_OUTBOX_PRESENTATION_LOCAL",
+  "observedAt": "2026-09-12T20:36:54.012Z",
+  "checks": [
+    "PORTAL_TSC_PASS",
+    "SCOPED_ESLINT_PASS",
+    "I18N_RESOURCE_TESTS_2_PASS"
+  ],
+  "deployment": "NOT_DEPLOYED",
+  "scope": "Accurate outbox query semantics; does not prove notification delivery"
+}

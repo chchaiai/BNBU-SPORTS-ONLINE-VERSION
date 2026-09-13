@@ -1,0 +1,20 @@
+{
+  "baseSource": "a46fbe41f44b0724c00ee6d91944f5fdfc58cdf0",
+  "baseImage": "sha256:51838920fd4be9fb654511225e1185232d61e5b2dc1d683fd211543d1e952fa0",
+  "patches": [
+    "619cfc1ee2e9315c0f89f9f2cc158f8ba3ed030b",
+    "d0f3150f514f3f862ec5196063006a033931866b"
+  ],
+  "changedSourceFiles": [
+    "modules/exercise-records/application/exercise-records.service.js"
+  ],
+  "checks": {
+    "build": "PASS",
+    "focusedTests": "12/12"
+  },
+  "files": {
+    "deploy-submit-atomic.py": "4d89f22405a4a51304ac7b775f4e0b2dcfaa64f8d9b35f6fd551999c4a6a11c4",
+    "Dockerfile": "82820ed2a85b008a3e14dae5cff3a458c52f5c2721156594af22c4e31e383260",
+    "exercise-records.service.js": "81010946f8b1b5b9288b901d169ba10e6c7fd82fb960e960b1ac6933d77d0583"
+  }
+}

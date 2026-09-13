@@ -910,3 +910,8 @@
 | `EmailVerificationChallenge` | `expectedUserVersion` | integer | 验证时必须仍匹配 User 版本，否则 `CONFLICT_VERSION_MISMATCH` | 请求事实，不进入 User 投影 |
 
 历史 `primary_phone`、`phone_verified_at` 和旧 `PHONE` challenge 保持原值且不执行 DROP/清空；Prisma 使用 `@ignore` 阻止应用读写，未来物理删除需单独破坏性迁移审批。
+
+
+## 2026-09-12 需求补充
+
+本轮长期档案、历史保留、教师日/周/时长配置、历史补录、PDF 与照片信息约定见 [需求补充](20-demand-20260912.md)。与旧版课程/教师级联清除描述冲突时，以该补充及用户确认的业务规则为准。

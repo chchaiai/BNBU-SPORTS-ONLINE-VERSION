@@ -1,3 +1,4 @@
+import {SPORT_OPTIONS} from "./sports-catalog.js";
 // Real backend client for the unified BNBU Sports backend (current API,
 // NestJS `/api/v1`). Envelope: success `{data, meta}` / error
 // `{code, message, details, requestId, timestamp}`. Student sessions are
@@ -151,10 +152,12 @@ function writeRefreshIntent(intent) {
 // login and logout start a new epoch. Async work can therefore discard stale
 // results without confusing a normal refresh with a different signed-in user.
 let authSessionEpoch = 0;
+let pendingInviteJoin = null;
 
 export function hasApiSession() { return !!readTokens(); }
 export function clearApiSession() {
   authSessionEpoch += 1;
+  pendingInviteJoin = null;
   writeTokens(null);
   writeRefreshIntent(null);
   writeRaw("apiJoinContext", null);
@@ -898,21 +901,34 @@ export async function getOwnCurrentCourseContract(classSectionId) {
   const path = `/class-sections/${encodeURIComponent(classSectionId)}/v81-rules`;
   const rules = await request(path);
   if (!rules?.published_at) return { creditPolicy: null };
-  if (![30, 45, 60].includes(rules.minimum_minutes)) throw invalidSuccessResponse(rules, path, 'GET');
+  if (!Number.isInteger(rules.minimum_minutes) || rules.minimum_minutes < 1 || rules.minimum_minutes > 1440) throw invalidSuccessResponse(rules, path, 'GET');
   // V8.1 crediting fixes the per-record cap at 60 minutes; the threshold belongs to the published course.
-  return { creditPolicy: { minCreditThresholdMinutes: rules.minimum_minutes, maxCreditMinutes: 60 } };
+  if (!Number.isInteger(rules.weekly_limit) || rules.weekly_limit < 1 ||
+      !Number.isInteger(rules.daily_limit) || rules.daily_limit < 1) throw invalidSuccessResponse(rules, path, 'GET');
+  return { creditPolicy: { minCreditThresholdMinutes: rules.minimum_minutes, maxCreditMinutes: rules.maximum_minutes??Math.max(60,rules.minimum_minutes),allocationPending:rules.allocation_pending===true,
+    weeklyLimit: rules.weekly_limit, dailyLimit: rules.daily_limit } };
 }
 
 export async function joinWithInvite(inviteToken, profile) {
-  // 1. one-time join capability from the public profile facts
-  const capability = await request(`/course-invites/${encodeURIComponent(inviteToken)}/join-capabilities`, {
-    method: "POST", auth: false, idempotent: true, body: profile,
+  const member = Boolean(readTokens()?.accessToken);
+  const identity = JSON.stringify(Object.fromEntries(Object.entries(profile).sort(([a],[b])=>a.localeCompare(b))));
+  // Retain one in-memory registration across transport retries. Never mint a replacement
+  // capability or a different consumption key for an uncertain result in this flow.
+  if (!pendingInviteJoin || pendingInviteJoin.inviteToken !== inviteToken ||
+      pendingInviteJoin.identity !== identity || pendingInviteJoin.epoch !== authSessionEpoch) {
+    pendingInviteJoin = { inviteToken, identity, epoch: authSessionEpoch, issueKey: uuid(), joinKey: uuid(), capability: null };
+  }
+  const flow = pendingInviteJoin;
+  if (!flow.capability) flow.capability = await request(`/course-invites/${encodeURIComponent(inviteToken)}/join-capabilities${member ? '/member' : ''}`, {
+    method: "POST", auth: member, headers:{"Idempotency-Key":flow.issueKey}, body: profile,
   });
-  // 2. consume it — atomically creates User/StudentProfile/Enrollment/AuthSession
+  if (flow.epoch !== authSessionEpoch) throw new Error('AUTH_SESSION_CHANGED');
   const joined = await rawRequest(`/course-invites/${encodeURIComponent(inviteToken)}/join`, {
-    method: "POST", auth: false, idempotent: true,
-    headers: { "X-Join-Capability": capability.joinCapability },
+    method: "POST", auth: false,
+    headers: { "X-Join-Capability": flow.capability.joinCapability, "Idempotency-Key":flow.joinKey },
   });
+  if (flow.epoch !== authSessionEpoch) throw new Error('AUTH_SESSION_CHANGED');
+  pendingInviteJoin = null;
   storeAuthSession(joined.authSession);
   return joined;
 }
@@ -1230,11 +1246,7 @@ export const cancelServerSession = (sessionId, expectedVersion, reason) =>
   });
 
 // ── Exercise records ─────────────────────────────────────────────
-const SPORT_TYPE_MAP = {
-  running: "RUNNING", basketball: "BASKETBALL", football: "FOOTBALL",
-  badminton: "BADMINTON", table_tennis: "TABLE_TENNIS", swimming: "SWIMMING",
-  fitness: "FITNESS", cycling: "CYCLING", other: "OTHER",
-};
+const SPORT_TYPE_MAP = Object.fromEntries(SPORT_OPTIONS.map(sport=>[sport.value,sport.value.toUpperCase()]));
 export const toServerSportType = (value) => SPORT_TYPE_MAP[value] || "OTHER";
 
 export const createRecordDraft = ({ sessionId, creditType, sportType, sportName, description }, idempotencyKey) =>
@@ -1328,7 +1340,7 @@ export async function uploadMediaDraft(serverSessionId, draft, blob) {
         mediaType: isVideo ? "VIDEO" : "IMAGE",
         mimeType: verdict.mimeType,
         fileSizeBytes: blob.size,
-        captureSource: "IN_APP_CAMERA",
+        captureSource: draft.captureSource === "FILE_PICKER" ? "FILE_PICKER" : "IN_APP_CAMERA",
         declaredContentSha256,
         durationSeconds: isVideo ? verdict.durationSeconds : null,
       },
@@ -1416,8 +1428,12 @@ export async function uploadExemptionApplicationMediaDraft(enrollmentId, draft, 
   }
 
   const declaredContentSha256 = await sha256Hex(blob);
-  const signature = `${verdict.mimeType}:${blob.size}:${declaredContentSha256}`;
-  if (draft.pendingUpload?.signature !== signature) draft.pendingUpload = null;
+  const signature = `${enrollmentId}:${verdict.mimeType}:${blob.size}:${declaredContentSha256}`;
+  if (draft.uploadSignature !== signature) {
+    draft.pendingUpload = null;
+    draft.initiateIdempotencyKey = null;
+    draft.uploadSignature = signature;
+  }
   if (!draft.pendingUpload) {
     draft.initiateIdempotencyKey ||= uuid();
     const initiated = await request(
@@ -1428,7 +1444,7 @@ export async function uploadExemptionApplicationMediaDraft(enrollmentId, draft, 
         body: {
           enrollmentId,
           businessPurpose: "EXEMPTION_APPLICATION",
-          mediaType: "IMAGE",
+          mediaType: verdict.mimeType === "application/pdf" ? "DOCUMENT" : "IMAGE",
           mimeType: verdict.mimeType,
           fileSizeBytes: blob.size,
           captureSource: draft.captureSource === "IN_APP_CAMERA" ? "IN_APP_CAMERA" : "FILE_PICKER",
@@ -1588,11 +1604,7 @@ function formatLocal(dateInput) {
   return `${d.getFullYear()}-${pad2(d.getMonth() + 1)}-${pad2(d.getDate())} ${pad2(d.getHours())}:${pad2(d.getMinutes())}`;
 }
 
-const SERVER_SPORT_LABELS = {
-  RUNNING: ["跑步", "Running"], BASKETBALL: ["篮球", "Basketball"], FOOTBALL: ["足球", "Football"],
-  BADMINTON: ["羽毛球", "Badminton"], TABLE_TENNIS: ["乒乓球", "Table tennis"], SWIMMING: ["游泳", "Swimming"],
-  FITNESS: ["健身", "Fitness"], CYCLING: ["骑行", "Cycling"], OTHER: ["其他", "Other"],
-};
+const SERVER_SPORT_LABELS = Object.fromEntries(SPORT_OPTIONS.map(sport=>[sport.value.toUpperCase(),[sport.zh,sport.en]]));
 
 export function mapServerRecord(record, { courseIdBySection = {} } = {}) {
   const credited = (record.creditedDurationSeconds || 0) / 3600;
@@ -1637,6 +1649,7 @@ export function mapServerRecord(record, { courseIdBySection = {} } = {}) {
     hours: credited,
     // The backend's business day (Beijing). Daily rules are evaluated against
     // this, never against the device date.
+    recordOrigin: record.recordOrigin || "LIVE",
     businessDate: record.businessDate,
     // Timestamps stay in the student's local time; only the daily rules and the
     // teacher/admin portal are pinned to Beijing.
@@ -1650,7 +1663,7 @@ export function mapServerRecord(record, { courseIdBySection = {} } = {}) {
     teacherInternalNote: null,
     note: record.description || "",
     remark: "",
-    sportType: label,
+    sportType: record.recordOrigin === "HISTORICAL" ? `${label} · ${tx("历史补录","Past entry")}` : label,
     sportCode: String(record.sportType || "").toLowerCase() || "other",
     customSportName: record.sportType === "OTHER" ? record.sportName || "" : "",
     startTime: null,
@@ -1681,11 +1694,17 @@ export function mapServerStudent(me, profile, semester = null, studentStatus = "
   const gradeLevel = ["freshman", "sophomore", "junior", "senior"][yearIndex] || "";
   return {
     id: profile.studentNumber,
+    localOwnerId: me.user?.id || profile.id,
     name: profile.fullName,
     email: me.user?.primaryEmailMasked || "",
     emailVerified: Boolean(me.user?.emailVerified),
     userVersion: me.user?.version || 1,
     college: profile.collegeName || "",
+    major: profile.majorName || "",
+    dateOfBirth: profile.dateOfBirth?.slice(0, 10) || "",
+    regionCode: profile.regionCode || "",
+    otherRegionName: profile.otherRegionName || "",
+    profileVersion: profile.version,
     className: profile.administrativeClassName || "",
     status: studentStatus === "ACTIVE" ? "ACTIVE" : "PENDING",
     gender: String(profile.gender || "").toLowerCase(),
@@ -1970,6 +1989,7 @@ export function mapServerNotification(notification) {
     createdAt: notification.createdAt,
     category: notificationCategory(notification),
     notificationType: notification.notificationType,
+    reviewContent: notification.reviewContent ?? null,
     targetType: notification.targetType,
     targetId: notification.targetId,
     isUnread: notification.readAt === null,
@@ -2044,6 +2064,7 @@ export async function loadApiWorkspace(preloadedIdentity = null) {
       id: section.courseId,
       classSectionId: section.id,
       enrollmentId: enrollment?.id || null,
+      enrollmentVersion: enrollment?.version || null,
       ownRosterStatus: enrollment ? rosterStatusByEnrollment.get(enrollment.id) ?? null : null,
       code: course?.courseCode || fromInvite?.courseCode || section.classCode,
       section: section.classCode,
@@ -2149,7 +2170,9 @@ export async function loadApiWorkspace(preloadedIdentity = null) {
 
   return {
     workspace: {
-      student: mapServerStudent(me, profile, semester, deriveStudentStatus(activeEnrollments)),
+      student: { ...mapServerStudent(me, profile, semester, deriveStudentStatus(activeEnrollments)),
+        className: currentSection?.displayName || currentSection?.classCode || "",
+      },
       courses,
       progress: {
         id: profile.studentNumber, name: profile.fullName,

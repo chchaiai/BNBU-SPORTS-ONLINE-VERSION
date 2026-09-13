@@ -204,6 +204,9 @@ model StudentProfile {
   gradeYear               Int       @map("grade_year")
   collegeName             String?   @map("college_name") @db.VarChar(200)
   majorName               String?   @map("major_name") @db.VarChar(200)
+  dateOfBirth             DateTime? @map("date_of_birth") @db.Date
+  otherRegionName         String?   @map("other_region_name") @db.VarChar(100)
+  regionCode              String?   @map("region_code") @db.VarChar(32)
   administrativeClassName String?   @map("administrative_class_name") @db.VarChar(200)
   status                  String    @db.VarChar(32)
   version                 Int       @default(1)
@@ -436,6 +439,7 @@ model ClassSection {
   closedAt             DateTime? @map("closed_at") @db.Timestamptz(6)
   closedBy             String?   @map("closed_by") @db.Uuid
   closeReason          String?   @map("close_reason") @db.VarChar(1000)
+  retiredAt            DateTime? @map("retired_at") @db.Timestamptz(6)
 
   organization                   Organization                   @relation(fields: [organizationId], references: [id], onDelete: Restrict)
   course                         Course                         @relation(fields: [courseId, organizationId], references: [id, organizationId], onDelete: Restrict)
@@ -596,6 +600,7 @@ model EnrollmentStatusEvent {
 }
 
 model ExerciseSession {
+  maximumDurationSeconds Int? @map("maximum_duration_seconds")
   id                       String    @id @db.Uuid
   organizationId           String    @map("organization_id") @db.Uuid
   studentId                String    @map("student_id") @db.Uuid
@@ -712,6 +717,7 @@ model MediaEvidence {
   verifiedContentSha256   String?   @map("verified_content_sha256") @db.Char(64)
   declaredDurationSeconds Int?      @map("declared_duration_seconds")
   verifiedDurationSeconds Int?      @map("verified_duration_seconds")
+  safeMetadata Json @default("{}") @map("safe_metadata")
   uploadStatus            String    @map("upload_status") @db.VarChar(24)
   storageKey              String    @unique(map: "media_evidence_storage_key_key") @map("storage_key") @db.VarChar(512)
   uploadedAt              DateTime? @map("uploaded_at") @db.Timestamptz(6)
@@ -1632,6 +1638,7 @@ model Notification {
   notificationType String    @map("notification_type") @db.VarChar(64)
   title            String    @db.VarChar(200)
   body             String    @db.VarChar(2000)
+  reviewContent    Json?     @map("review_content") @db.JsonB
   targetType       String?   @map("target_type") @db.VarChar(64)
   targetId         String?   @map("target_id") @db.Uuid
   readAt           DateTime? @map("read_at") @db.Timestamptz(6)
@@ -1837,6 +1844,7 @@ model ExemptionApplication {
   organizationName   String?   @map("organization_name") @db.VarChar(128)
   reason             String    @db.VarChar(1000)
   status             String    @db.VarChar(24)
+  membershipClearedAt DateTime? @map("membership_cleared_at") @db.Timestamptz(6)
   publicComment      String?   @map("public_comment") @db.VarChar(1000)
   submittedAt        DateTime? @map("submitted_at") @db.Timestamptz(6)
   decidedAt          DateTime? @map("decided_at") @db.Timestamptz(6)
@@ -2245,6 +2253,7 @@ model V81CourseRule {
   organizationId String @map("organization_id") @db.Uuid
   minimumMinutes Int @map("minimum_minutes")
   weeklyLimit Int @map("weekly_limit")
+  dailyLimit Int @default(1) @map("daily_limit")
   courseTarget Int @map("course_target")
   generalTarget Int @map("general_target")
   regularDeadline DateTime @map("regular_deadline") @db.Timestamptz(6)

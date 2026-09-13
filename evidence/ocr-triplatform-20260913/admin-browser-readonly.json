@@ -1,0 +1,25 @@
+{
+  "check": "ADMIN_BROWSER_READONLY_PARTIAL",
+  "observedAt": "2026-09-12T20:34:14.673Z",
+  "browser": "Edge",
+  "origin": "https://www.teacher.bnbusports.cn",
+  "checks": [
+    "SEMESTER_CURRENT_TABLE_RENDERED",
+    "HEALTH_REFRESH_TIMESTAMP_AND_REQUEST_ID_CHANGED",
+    "COURSE_DIRECTORY_DETAILS_EXPAND",
+    "COMPLETION_100_PERCENT_SUPPORTED_BY_600_MINUTE_RECOGNITION_EACH_CATEGORY",
+    "SUBADMIN_EMPTY_LIST_AND_CREATE_FORM_EIGHT_PERMISSIONS",
+    "UNSUBMITTED_CREATE_FORM_CLOSED"
+  ],
+  "health": {
+    "notificationBacklog": 1139,
+    "displayedStatus": "normal",
+    "requestId": "01a09751-e9d4-77aa-ad1b-20d741c9a000"
+  },
+  "limitations": [
+    "Read-only real organization views only; no account or policy mutation",
+    "Full admin interactions and notification backlog delivery investigation remain",
+    "Public legacy help lists empty for zh-CN and en; no success detail evidence"
+  ],
+  "allChecksCompleted": true
+}

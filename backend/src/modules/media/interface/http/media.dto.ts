@@ -26,10 +26,10 @@ export class InitiateMediaUploadRequestDto {
   @IsIn(['EXERCISE_RECORD', 'EXEMPTION_APPLICATION'])
   businessPurpose!: 'EXERCISE_RECORD' | 'EXEMPTION_APPLICATION';
 
-  @IsIn(['IMAGE', 'VIDEO'])
-  mediaType!: 'IMAGE' | 'VIDEO';
+  @IsIn(['IMAGE', 'VIDEO', 'DOCUMENT'])
+  mediaType!: 'IMAGE' | 'VIDEO' | 'DOCUMENT';
 
-  @IsIn(['image/jpeg', 'image/png', 'image/webp', 'video/mp4', 'video/quicktime', 'video/3gpp', 'video/webm'])
+  @IsIn(['application/pdf', 'image/jpeg', 'image/png', 'image/webp', 'video/mp4', 'video/quicktime', 'video/3gpp', 'video/webm'])
   @MinLength(1)
   @MaxLength(127)
   mimeType!: string;

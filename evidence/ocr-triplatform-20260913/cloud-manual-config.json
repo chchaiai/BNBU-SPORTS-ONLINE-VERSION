@@ -1,0 +1,15 @@
+{
+  "check": "CLOUD_MANUAL_MODE_CONFIGURATION",
+  "observedAt": "2026-09-12T19:24:44.128Z",
+  "classSectionId": "01a096e7-a22e-7535-a65d-ce0da82d59af",
+  "enabled": true,
+  "version": 1,
+  "checks": [
+    "EXPLICIT_MANUAL_SAVE_REPLAY_READ",
+    "TEACHER_DENIED_STALE_VERSION_DENIED"
+  ],
+  "limitations": [
+    "No AI activation and no pending AI/technical records migrated in this test"
+  ],
+  "allChecksCompleted": true
+}

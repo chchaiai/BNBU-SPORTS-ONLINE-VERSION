@@ -1,0 +1,20 @@
+{
+  "organizationId": "01a09918-10d0-75ae-93a0-a4bf948d2495",
+  "checks": [
+    {
+      "role": "STUDENT",
+      "path": "/exercise-sessions",
+      "status": 409,
+      "code": "CONFLICT_STATE_TRANSITION"
+    },
+    {
+      "role": "TEACHER",
+      "path": "/class-sections/01a09918-10d1-735e-8790-0176abb8e77a/makeup-windows",
+      "status": 409,
+      "code": "CONFLICT_STATE_TRANSITION"
+    }
+  ],
+  "passed": true,
+  "accountsDisabled": true,
+  "scope": "Settled archived course rejects new exercise and teacher makeup; exercise hits settlement guard before archive time guard"
+}

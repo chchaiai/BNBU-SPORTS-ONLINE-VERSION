@@ -1,0 +1,20 @@
+{
+  "check": "PORTAL_ADMIN_GOAL_DEPLOYMENT",
+  "result": "PASS",
+  "release": "/opt/bnbu-sports-production/releases/portal-admin-goal-20260913",
+  "previous": "/opt/bnbu-sports-production/releases/portal-password-labels-20260913",
+  "imageId": "sha256:89bfd16b9ae75778ac36e13e0c8224982a8f7a65bf25ec8b1ea4f5ed6509bf9c",
+  "patches": [
+    "df63af73",
+    "7cb94fe7"
+  ],
+  "build": "PASS",
+  "focusedTests": "39/39",
+  "browserAssertions": [
+    "Before server response: loading explanation and empty target input",
+    "After server response: explanation 1,800 minutes and target input 1800"
+  ],
+  "publicEntrypoints": "Teacher, student and backend readiness all 200",
+  "rollbackExercised": false,
+  "remaining": "Electronic physical imports UI, Android and final full regression"
+}

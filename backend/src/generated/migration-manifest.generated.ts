@@ -306,6 +306,81 @@ export const foundationMigrations = [
     sha256: '006ed69386a50f0c94389c7f707b97b2f24a41ce40c6abee1d86cfb657c98f5c',
     destructive: false,
   },
+  {
+    migrationId: '0062_teacher_course_erasure',
+    sha256: '8f94794ea18c167c039cee134e702e653e8e73726077b9b7d8ebed322abd9b57',
+    destructive: false,
+  },
+  {
+    migrationId: '0063_demand_course_history',
+    sha256: 'e5c39134bde679acbb6a0fcb29e27c76d9b5ef905edc8c8be00edbf69812b5f7',
+    destructive: false,
+  },
+  {
+    migrationId: '0064_student_long_term_profile',
+    sha256: '546aa0c672be5c6b5e4d68477222e13865d7ab3d8ca4bb4fce5b9dbceaea8c7c',
+    destructive: false,
+  },
+  {
+    migrationId: '0065_course_rule_customization',
+    sha256: 'dae96f013fedced9d26e400a5a2f70bb19bcbdce74582b7f944c78410145041f',
+    destructive: false,
+  },
+  {
+    migrationId: '0066_exemption_documents_metadata',
+    sha256: '8415063ff361d549e0bde81554286f26457ff9087aa76916e05269f7006f1b6b',
+    destructive: false,
+  },
+  {
+    migrationId: '0067_historical_backfill',
+    sha256: '29a5af6ffdc8ec612dca77e95dbb6a370f433d10df3acb6ace5ff3e6c961ac67',
+    destructive: false,
+  },
+  {
+    migrationId: '0068_exemption_document_submission',
+    sha256: '3d299d2a8d461bea616a53adf03e9ab28126e1025c16be67cfcdf9eea9a637a0',
+    destructive: false,
+  },
+  {
+    migrationId: '0069_record_rule_snapshots',
+    sha256: '8305a2c6fa9663e3268596cc5942d22445a8de3b4b2eaea62f7fc4f809791796',
+    destructive: false,
+  },
+  {
+    migrationId: '0070_student_other_region',
+    sha256: 'a8d1c5bde58589535e1b821af15fbd723b784041a424fe0f6b769daf57645428',
+    destructive: false,
+  },
+  {
+    migrationId: '0071_course_retirement_invite_revocation',
+    sha256: '22cbade773b775401e61ab377a93942e9243f030f308fd4b44807b47cf39ae0f',
+    destructive: false,
+  },
+  {
+    migrationId: '0072_exercise_limits',
+    sha256: '92a9f6687f9811271189d636cd7cc531f84a059a02cd112e489f2ea9d28a3834',
+    destructive: false,
+  },
+  {
+    migrationId: '0073_exercise_goal_recognition',
+    sha256: 'e776fbabe5a5da6935b63a82e8385015d6511087dbd84139e64687dde99b854d',
+    destructive: false,
+  },
+  {
+    migrationId: '0074_membership_application_clear',
+    sha256: 'fae044e0c3f16464c8465767fd66c4100299211c9680b62956bde1a79089165b',
+    destructive: false,
+  },
+  {
+    migrationId: '0075_ocr_course_closure_confirmation',
+    sha256: '34dbb3e6b8d49d122d521665750100b78730f53f187a5d24b7991512dd5a76de',
+    destructive: false,
+  },
+  {
+    migrationId: '0076_notification_review_content',
+    sha256: '96852a28e23c1771028b2c58bbfba16cc9735170157920e2898b44fc65cf6210',
+    destructive: false,
+  },
 ] as const;
 
 export const foundationMigration = foundationMigrations[0];

@@ -7264,6 +7264,9 @@ export const StudentProfileScalarFieldEnum = {
   gradeYear: 'gradeYear',
   collegeName: 'collegeName',
   majorName: 'majorName',
+  dateOfBirth: 'dateOfBirth',
+  otherRegionName: 'otherRegionName',
+  regionCode: 'regionCode',
   administrativeClassName: 'administrativeClassName',
   status: 'status',
   version: 'version',
@@ -7407,7 +7410,8 @@ export const ClassSectionScalarFieldEnum = {
   version: 'version',
   closedAt: 'closedAt',
   closedBy: 'closedBy',
-  closeReason: 'closeReason'
+  closeReason: 'closeReason',
+  retiredAt: 'retiredAt'
 } as const
 
 export type ClassSectionScalarFieldEnum = (typeof ClassSectionScalarFieldEnum)[keyof typeof ClassSectionScalarFieldEnum]
@@ -7489,6 +7493,7 @@ export type EnrollmentStatusEventScalarFieldEnum = (typeof EnrollmentStatusEvent
 
 
 export const ExerciseSessionScalarFieldEnum = {
+  maximumDurationSeconds: 'maximumDurationSeconds',
   id: 'id',
   organizationId: 'organizationId',
   studentId: 'studentId',
@@ -7571,6 +7576,7 @@ export const MediaEvidenceScalarFieldEnum = {
   verifiedContentSha256: 'verifiedContentSha256',
   declaredDurationSeconds: 'declaredDurationSeconds',
   verifiedDurationSeconds: 'verifiedDurationSeconds',
+  safeMetadata: 'safeMetadata',
   uploadStatus: 'uploadStatus',
   storageKey: 'storageKey',
   uploadedAt: 'uploadedAt',
@@ -8228,6 +8234,7 @@ export const NotificationScalarFieldEnum = {
   notificationType: 'notificationType',
   title: 'title',
   body: 'body',
+  reviewContent: 'reviewContent',
   targetType: 'targetType',
   targetId: 'targetId',
   readAt: 'readAt',
@@ -8388,6 +8395,7 @@ export const ExemptionApplicationScalarFieldEnum = {
   organizationName: 'organizationName',
   reason: 'reason',
   status: 'status',
+  membershipClearedAt: 'membershipClearedAt',
   publicComment: 'publicComment',
   submittedAt: 'submittedAt',
   decidedAt: 'decidedAt',
@@ -8694,6 +8702,7 @@ export const V81CourseRuleScalarFieldEnum = {
   organizationId: 'organizationId',
   minimumMinutes: 'minimumMinutes',
   weeklyLimit: 'weeklyLimit',
+  dailyLimit: 'dailyLimit',
   courseTarget: 'courseTarget',
   generalTarget: 'generalTarget',
   regularDeadline: 'regularDeadline',

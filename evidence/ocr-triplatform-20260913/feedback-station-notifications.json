@@ -1,0 +1,27 @@
+{
+  "result": "PASS",
+  "check": "FEEDBACK_BROWSER_STATION_NOTIFICATIONS",
+  "feedbackId": "01a0988d-45c5-757f-acc6-7e5a4666e1ad",
+  "count": 3,
+  "scope": "Persisted in-app notifications only; no external Push required by business rules",
+  "items": [
+    {
+      "id": "01a0988e-385d-75b7-ae05-f37448a0889a",
+      "targetId": "01a0988d-45c5-757f-acc6-7e5a4666e1ad",
+      "notificationType": "FEEDBACK_UPDATED",
+      "createdAt": "2026-09-13T02:17:32.507Z"
+    },
+    {
+      "id": "01a0988e-01dc-7531-b672-c3f04e504997",
+      "targetId": "01a0988d-45c5-757f-acc6-7e5a4666e1ad",
+      "notificationType": "FEEDBACK_UPDATED",
+      "createdAt": "2026-09-13T02:17:18.550Z"
+    },
+    {
+      "id": "01a0988d-c2eb-777a-b177-7d0c867776a0",
+      "targetId": "01a0988d-45c5-757f-acc6-7e5a4666e1ad",
+      "notificationType": "FEEDBACK_UPDATED",
+      "createdAt": "2026-09-13T02:17:02.437Z"
+    }
+  ]
+}

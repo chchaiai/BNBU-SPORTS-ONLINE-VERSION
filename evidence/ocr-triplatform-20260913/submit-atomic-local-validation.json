@@ -1,0 +1,10 @@
+{
+  "observedAt": "2026-09-12T21:59:12.418Z",
+  "result": "PASS",
+  "backendBuild": "PASS",
+  "eslint": "PASS",
+  "focusedHttpDatabaseTests": "12/12",
+  "newRegression": "late material validation failure rolls back record, media links, pending review and workflow; same-key failure replay; corrected draft submits successfully",
+  "testRuntimeNote": "A runtime archive worker retry was logged during database fixture resets; all 12 assertions passed",
+  "deployment": "PENDING"
+}

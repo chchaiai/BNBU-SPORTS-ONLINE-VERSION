@@ -1,0 +1,20 @@
+{"check":"NEW_STUDENT_PROFILE_PERSISTED","result":"PASS"}
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+
+202 !== 201
+
+    at file:///workspace/tools/local-integration/demand-profile-http.mjs:53:10
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5) {
+  generatedMessage: true,
+  code: 'ERR_ASSERTION',
+  actual: 202,
+  expected: 201,
+  operator: 'strictEqual',
+  diff: 'simple'
+}
+
+Node.js v24.18.0

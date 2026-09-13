@@ -1,5 +1,5 @@
 import { Transform } from 'class-transformer';
-import { IsISO8601, IsOptional, IsString, IsUUID, Length } from 'class-validator';
+import { IsISO8601, IsOptional, IsString, IsUUID, Length, IsInt, Min, Max, ValidateIf } from 'class-validator';
 
 const trim = ({ value }: { value: unknown }): unknown =>
   typeof value === 'string' ? value.trim() : value;
@@ -17,6 +17,12 @@ export class CourseInviteTokenPathDto {
 }
 
 export class CreateCourseInviteRequestDto {
+  @ValidateIf((_object, value: unknown) => value !== undefined)
+  @IsInt()
+  @Min(5)
+  @Max(120)
+  expiresInMinutes?: number;
+
   @IsOptional()
   @IsISO8601({ strict: true })
   expiresAt?: string | null;

@@ -8,6 +8,7 @@ import type { AuthenticatedPrincipal } from '../../common/http/request-context.j
 import { projectRosterRegistration } from './domain/roster-registration.js';
 import { categoryProgress, exerciseAccounting } from './domain/progress-accounting.js';
 import type { Prisma } from '../../generated/prisma/client.js';
+import { isCourseClosureHistoricalMember } from '../enrollments/application/course-closure-memberships.js';
 type SourceRow = { id: string; studentNumber: string | null; fullName: string | null };
 type RecordFact = { enrollmentId: string; actualSeconds: bigint; creditedMinutes: number; stage: string | null; creditType: string };
 @Injectable()
@@ -88,7 +89,7 @@ export class V81CompositeRosterService {
       const registration = projectRosterRegistration(source.sourceRows.map(row => ({ id: row.id, studentNumber: row.studentNumber ?? '',
         fullName: row.fullName ?? '' })), members.map(row => ({ studentId: row.studentId, enrollmentId: row.id,
         studentNumber: row.student.studentNumber, fullName: row.student.fullName, emailVerified: row.student.user.emailVerifiedAt !== null,
-        enrolledInSection: row.status === 'ACTIVE' })));
+        enrolledInSection: row.status === 'ACTIVE' || isCourseClosureHistoricalMember(row, section) })));
       const records = await tx.$queryRaw<RecordFact[]>`SELECT r.enrollment_id AS "enrollmentId",r.actual_duration_seconds AS "actualSeconds",
         coalesce(p.credited_minutes,0) AS "creditedMinutes",w.stage,r.credit_type AS "creditType"
         FROM exercise_records r LEFT JOIN v81_record_workflows w ON w.record_id=r.id

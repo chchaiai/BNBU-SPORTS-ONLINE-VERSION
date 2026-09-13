@@ -641,7 +641,7 @@ describe('ExerciseRecord HTTP E2E', () => {
     );
   });
 
-  it('retains below-threshold submissions with zero credited duration', async () => {
+  it('rejects below-threshold records before creation and teacher review', async () => {
     const token = await studentToken();
     const evidence = await seedCompletedEvidence(1799);
     const created = await request(
@@ -659,19 +659,10 @@ describe('ExerciseRecord HTTP E2E', () => {
         uuidv7(),
       ),
     );
-    assert.equal(created.status, 201);
-    const draft = object(created.body.data);
-    assert.equal(draft.creditedDurationSeconds, 0);
-    const submitted = await request(
-      `/api/v1/exercise-records/${String(draft.id)}/submit`,
-      authenticated(token, 'POST', { mediaIds: [evidence.mediaId], expectedVersion: 1 }, uuidv7()),
-    );
-    assert.equal(submitted.status, 200);
-    assert.equal(object(submitted.body.data).creditedDurationSeconds, 0);
-    assert.equal(object(submitted.body.data).status, 'SUBMITTED');
-    assert.equal(await prisma.exerciseRecordDailySlot.count(), 0);
-    assert.equal(await prisma.exerciseRecordMedia.count(), 1);
-    assert.equal(await prisma.reviewRecord.count({ where: { result: 'PENDING' } }), 1);
+    assert.equal(created.status, 422);
+    assert.equal(await prisma.exerciseRecord.count(), 0);
+    assert.equal(await prisma.exerciseRecordMedia.count(), 0);
+    assert.equal(await prisma.reviewRecord.count(), 0);
   });
 
   it('accepts same-day submissions for review without reserving legacy daily slots', async () => {
@@ -775,7 +766,7 @@ describe('ExerciseRecord HTTP E2E', () => {
     }, uuidv7()));
     assert.equal(created.status, 201);
     const draft = object(created.body.data);
-    const path = `/api/v1/exercise-records/${draft.id}`;
+    const path = `/api/v1/exercise-records/${String(draft.id)}`;
     const submitted = await request(`${path}/submit`, authenticated(token, 'POST',
       { mediaIds: [mediaId], expectedVersion: draft.version }, uuidv7()));
     assert.equal(submitted.status, 200);
@@ -919,7 +910,7 @@ describe('ExerciseRecord HTTP E2E', () => {
     const teacher = String(object(login.body.data).accessToken);
     const source = await prisma.mediaEvidence.findUniqueOrThrow({ where: { id: mediaId } });
     const proofId = uuidv7();
-    await prisma.mediaEvidence.create({ data: { ...source, id: proofId, sessionId: null, enrollmentId: student.enrollmentId,
+    await prisma.mediaEvidence.create({ data: { ...source, safeMetadata: source.safeMetadata ?? {}, id: proofId, sessionId: null, enrollmentId: student.enrollmentId,
       businessPurpose: 'EXEMPTION_APPLICATION', captureSource: 'FILE_PICKER', storageKey: `synthetic/certification/${proofId}.png` } });
     const created = await request('/api/v1/exemption-applications', authenticated(token, 'POST', {
       enrollmentId: student.enrollmentId, applicationType: 'EXERCISE_CHECK_IN', applicationSubtype: 'SCHOOL_TEAM',
@@ -927,7 +918,7 @@ describe('ExerciseRecord HTTP E2E', () => {
     }, uuidv7()));
     assert.equal(created.status, 201, JSON.stringify(created.body));
     const draft = object(created.body.data);
-    const path = `/api/v1/exemption-applications/${draft.id}`;
+    const path = `/api/v1/exemption-applications/${String(draft.id)}`;
     const submitted = await request(`${path}/submit`, authenticated(token, 'POST', { expectedVersion: draft.version }, uuidv7()));
     assert.equal(submitted.status, 200);
     const approved = await request(`${path}/review`, authenticated(teacher, 'POST', {
@@ -949,12 +940,12 @@ describe('ExerciseRecord HTTP E2E', () => {
     const listing = await request('/api/v1/activity-certification-applications', authenticated(token));
     assert.equal(listing.status, 200);
     assert.ok((listing.body.data as Record<string, unknown>[]).some(row => row.id === draft.id && row.status === 'APPROVED'));
-    const historyPath = `/api/v1/activity-certification-applications/${draft.id}/recognition-allocation-revisions`;
+    const historyPath = `/api/v1/activity-certification-applications/${String(draft.id)}/recognition-allocation-revisions`;
     const history = await request(historyPath, authenticated(token));
     assert.equal(history.status, 200);
     assert.equal((history.body.data as Record<string, unknown>[]).length, 1);
     assert.equal(required((history.body.data as Record<string, unknown>[])[0]).courseSeconds, 7200);
-    const adjustPath = `/api/v1/activity-certification-applications/${draft.id}/recognition-allocation-revisions`;
+    const adjustPath = `/api/v1/activity-certification-applications/${String(draft.id)}/recognition-allocation-revisions`;
     const adjustment = { expectedVersion: object(approved.body.data).version, reason: 'Synthetic corrected recognized minutes', courseMinutes: 90, generalMinutes: 15 };
     assert.equal((await request(adjustPath, authenticated(token, 'POST', adjustment, uuidv7()))).status, 403);
     const otherLogin = await request('/api/v1/auth/password-login', authenticated('', 'POST', {account:fixture.teacherBEmail,password:TEST_PASSWORD}, uuidv7()));
@@ -966,8 +957,6 @@ describe('ExerciseRecord HTTP E2E', () => {
     assert.equal((await request(adjustPath, authenticated(otherToken,'POST',adjustment,uuidv7()))).status,404);
     for(const invalid of [{...adjustment,reason:' '},{...adjustment,courseMinutes:1.5},{...adjustment,courseMinutes:1200,generalMinutes:1}])
       assert.equal((await request(adjustPath,authenticated(teacher,'POST',invalid,uuidv7()))).status,422);
-    const section=await prisma.classSection.findUniqueOrThrow({where:{id:fixture.teacherAActiveSectionId}});
-    assert.equal((await request(`/api/v1/class-sections/${section.id}/close`,authenticated(teacher,'POST',{reason:'Synthetic existing certification adjustment after closure',expectedVersion:section.version},uuidv7()))).status,200);
     const adjustKey=uuidv7(),adjusted=await request(adjustPath,authenticated(teacher,'POST',adjustment,adjustKey));
     assert.equal(adjusted.status,201,JSON.stringify(adjusted.body));
     assert.equal(object(adjusted.body.data).version,Number(adjustment.expectedVersion)+1);
@@ -979,7 +968,7 @@ describe('ExerciseRecord HTTP E2E', () => {
     assert.equal((adjustedHistory.body.data as unknown[]).length,2);
     assert.deepEqual((adjustedHistory.body.data as unknown[])[1],(history.body.data as unknown[])[0]);
     await assert.rejects(prisma.exemptionApplication.update({where:{id:String(draft.id)},data:{reason:'Forbidden rewrite',version:{increment:1}}}));
-    const revokePath = `/api/v1/activity-certification-applications/${draft.id}/revoke`;
+    const revokePath = `/api/v1/activity-certification-applications/${String(draft.id)}/revoke`;
     const input = { expectedVersion: object(adjusted.body.data).version, reason: 'Synthetic corrected participation' };
     assert.equal((await request(revokePath, authenticated(token, 'POST', input, uuidv7()))).status, 403);
     const key = uuidv7();
@@ -1003,7 +992,55 @@ describe('ExerciseRecord HTTP E2E', () => {
     }
     const credits = await prisma.$queryRaw<{ active: boolean }[]>`SELECT active FROM v81_certification_credits WHERE application_id=${String(draft.id)}::uuid`;
     assert.deepEqual(credits, [{ active: false }]);
+    const section=await prisma.classSection.findUniqueOrThrow({where:{id:fixture.teacherAActiveSectionId}});
+    assert.equal((await request(`/api/v1/class-sections/${section.id}/close`,authenticated(teacher,'POST',{
+      reason:'Synthetic application cleanup on course closure',expectedVersion:section.version},uuidv7()))).status,200);
+    for (const reader of [token, teacher]) {
+      const cleared = await request('/api/v1/exemption-application-details?limit=100', authenticated(reader));
+      assert.equal(cleared.status, 200);
+      assert.ok(!(cleared.body.data as Record<string, unknown>[]).some(row => row.id === draft.id));
+    }
+    assert.equal((await request(adjustPath, authenticated(teacher, 'POST', {
+      ...adjustment, expectedVersion: object(revoked.body.data).version }, uuidv7()))).status, 404);
+    assert.ok(await prisma.exemptionApplication.findUnique({where:{id:String(draft.id)}}));
   });
+  it('rolls back submission writes when swimming material validation fails and replays the failure', async () => {
+    const token = await studentToken();
+    const original = await prisma.mediaEvidence.findUniqueOrThrow({ where: { id: mediaId } });
+    const afterId = uuidv7();
+    await prisma.mediaEvidence.create({ data: { ...original, safeMetadata: original.safeMetadata ?? {},
+      id: afterId, storageKey: `synthetic/rollback/${afterId}` } });
+    const created = await request('/api/v1/exercise-records', authenticated(token, 'POST', {
+      sessionId, creditType: 'GENERAL', sportType: 'SWIMMING',
+      description: 'Synthetic failed submission rollback', clientRequestId: uuidv7(),
+    }, uuidv7()));
+    assert.equal(created.status, 201, JSON.stringify(created.body));
+    const record = object(created.body.data);
+    const id = String(record.id);
+    const beforeRecord = await prisma.exerciseRecord.findUniqueOrThrow({ where: { id } });
+    const body = { mediaIds: [mediaId, afterId], expectedVersion: record.version };
+    const key = uuidv7();
+    for (let attempt = 0; attempt < 2; attempt++) {
+      const rejected = await request(`/api/v1/exercise-records/${id}/submit`, authenticated(token, 'POST', body, key));
+      assert.equal(rejected.status, 422, JSON.stringify(rejected.body));
+      assert.equal(rejected.body.code, 'VALIDATION_FAILED');
+      assert.deepEqual(await prisma.exerciseRecord.findUniqueOrThrow({ where: { id } }), beforeRecord);
+      assert.equal(await prisma.exerciseRecordMedia.count({ where: { recordId: id } }), 0);
+      assert.equal(await prisma.reviewRecord.count({ where: { recordId: id } }), 0);
+      assert.equal(await prisma.exerciseRecordEvent.count({ where: { recordId: id, eventType: 'SUBMITTED' } }), 0);
+      const state = await prisma.$queryRaw<{ total: bigint }[]>`
+        SELECT count(*) AS total FROM v81_record_workflows WHERE record_id=${id}::uuid`;
+      assert.equal(Number(required(state[0]).total), 0);
+    }
+    const changed = await request(`/api/v1/exercise-records/${id}`, authenticated(token, 'PATCH',
+      { sportType: 'RUNNING', expectedVersion: record.version }, uuidv7()));
+    assert.equal(changed.status, 200, JSON.stringify(changed.body));
+    const submitted = await request(`/api/v1/exercise-records/${id}/submit`, authenticated(token, 'POST',
+      { ...body, expectedVersion: object(changed.body.data).version }, uuidv7()));
+    assert.equal(submitted.status, 200, JSON.stringify(submitted.body));
+    assert.equal(await prisma.reviewRecord.count({ where: { recordId: id } }), 1);
+  });
+
   it('locks swimming before and after evidence once and exposes the transfer clock', async () => {
     const token = await studentToken();
     const login = async (account: string) => {
@@ -1016,7 +1053,7 @@ describe('ExerciseRecord HTTP E2E', () => {
     const admin = await login(fixture.adminEmail);
     const original = await prisma.mediaEvidence.findUniqueOrThrow({ where: { id: mediaId } });
     const afterId = uuidv7();
-    await prisma.mediaEvidence.create({ data: { ...original, id: afterId,
+    await prisma.mediaEvidence.create({ data: { ...original, safeMetadata: original.safeMetadata ?? {}, id: afterId,
       storageKey: `synthetic/swim/${afterId}`, declaredContentSha256: 'c'.repeat(64),
       verifiedContentSha256: 'c'.repeat(64) } });
     const created = await request('/api/v1/exercise-records', authenticated(token, 'POST', {
@@ -1025,7 +1062,7 @@ describe('ExerciseRecord HTTP E2E', () => {
     }, uuidv7()));
     assert.equal(created.status, 201, JSON.stringify(created.body));
     const record = object(created.body.data);
-    const path = `/api/v1/exercise-records/${record.id}/swim-intake`;
+    const path = `/api/v1/exercise-records/${String(record.id)}/swim-intake`;
     const body = { expectedVersion: record.version, items: [
       { mediaId, phase: 'BEFORE' }, { mediaId: afterId, phase: 'AFTER' },
     ] };

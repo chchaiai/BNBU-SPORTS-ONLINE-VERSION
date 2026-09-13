@@ -92,6 +92,8 @@ export type Semester = {
   academicYear?: string;
   termCode?: string;
   status?: string;
+  startDate?: string;
+  endDate?: string;
   startsOn?: string | null;
   endsOn?: string | null;
   version?: number;
@@ -128,6 +130,7 @@ export type StudentCurrentReview = {
 };
 
 export type ExerciseRecord = {
+  recordOrigin?: string;
   workflowStage?: "PENDING_AI" | "PENDING_TEACHER" | "AWAITING_SUPPLEMENT" | "TECHNICAL" | "VALID" | "INVALID";
   workflowVersion?: number;
   materialVersion?: number;

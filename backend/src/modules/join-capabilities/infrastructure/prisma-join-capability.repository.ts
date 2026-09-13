@@ -95,6 +95,7 @@ export class PrismaJoinCapabilityRepository extends JoinCapabilityRepository {
         classSectionId: row.classSectionId,
         identityFingerprint: row.identityFingerprint,
         status: row.status,
+        issuedAt: row.issuedAt,
         expiresAt: row.expiresAt,
         resultReplayExpiresAt: row.resultReplayExpiresAt,
         invite: this.inviteContext(row),

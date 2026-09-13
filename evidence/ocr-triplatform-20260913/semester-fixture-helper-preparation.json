@@ -1,0 +1,6 @@
+{
+  "result": "PREPARED_ONLY",
+  "sourceSha256": "614b73fa0ba3e3428d6254f4da65ac10106f670cc7236b5cff6fb8bf716cbfde",
+  "helperSha256": "ebf8b2ce453533416a174ec16e40d38b0743ca53ccf83ccb1903b61e2759d97a",
+  "scope": "Create-only fixture helper; caller must supply unique namespace and random password. No execution against any database."
+}

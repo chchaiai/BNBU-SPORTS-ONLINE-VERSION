@@ -1,0 +1,10 @@
+✔ keeps translation resources unique and covers all static system text (114.4773ms)
+✔ keeps portals, accessibility attributes, enum labels, and reverse switching in the i18n boundary (2.7591ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 2
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 782.9428

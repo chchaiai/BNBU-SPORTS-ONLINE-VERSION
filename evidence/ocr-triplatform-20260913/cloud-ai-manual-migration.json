@@ -1,0 +1,20 @@
+{
+  "check": "CLOUD_PENDING_AI_MANUAL_MIGRATION",
+  "observedAt": "2026-09-12T20:30:40.016Z",
+  "organizationId": "01a096c2-20a2-706b-8c69-802f67dee12c",
+  "sectionId": "01a096e7-a22e-7535-a65d-ce0da82d59af",
+  "sessionId": "01a0974f-2e57-710e-8087-a81b675c776d",
+  "recordId": "01a09750-20e6-76ea-a0f0-4e2e5a04f932",
+  "manualModeRestored": true,
+  "checks": [
+    "REAL_SUBMISSION_PENDING_AI",
+    "ADMIN_SCOPED_MIGRATION_TO_TEACHER",
+    "TEACHER_FINAL_NOT_OVERWRITTEN"
+  ],
+  "allChecksCompleted": true,
+  "limitations": [
+    "No AI provider invoked; TECHNICAL state migration not exercised",
+    "Synthetic COS image and HTTP session do not prove native camera interaction"
+  ],
+  "recovery": "Initial harness compared mutation response with read projection; repeated with workflow and review history before/after"
+}

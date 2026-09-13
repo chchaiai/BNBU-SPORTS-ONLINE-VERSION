@@ -1,0 +1,17 @@
+{
+  "check": "ISOLATED_PRODUCTION_SEMESTER_SWITCH",
+  "observedAt": "2026-09-13T03:40:50.801Z",
+  "organizationId": "01a098da-7a63-72c8-8e68-8209f304250b",
+  "userId": "01a098da-7a65-728c-84d6-339e817e8dcf",
+  "checks": [
+    "INITIAL_CURRENT_FROM_EMPTY_ORGANIZATION",
+    "CURRENT_SWITCH_AND_PREVIOUS_ARCHIVE",
+    "IDEMPOTENT_REPLAY_IDENTICAL",
+    "STALE_RETRY_REJECTED",
+    "ARCHIVED_RESTORE_REJECTED",
+    "ONE_CURRENT_TWO_RETAINED_SEMESTERS_TWO_SWITCH_EVENTS"
+  ],
+  "pass": true,
+  "syntheticAccessDisabled": true,
+  "limitations": "Empty-course organization only; no claim of settled-course history or browser acceptance. Synthetic semester and audit facts retained for final cleanup."
+}

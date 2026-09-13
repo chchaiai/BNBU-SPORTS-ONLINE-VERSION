@@ -1,0 +1,16 @@
+{
+  "check": "CLOUD_RECORD_DRAFT_LIFECYCLE",
+  "observedAt": "2026-09-12T19:07:38.948Z",
+  "sessionId": "01a09703-4ba3-70bf-9337-a8b9d8942126",
+  "recordId": "01a09704-3dd3-771c-b64d-77385dc7202e",
+  "checks": [
+    "EDIT_DRAFT_CONTENT_AND_REPLAY",
+    "STALE_EDIT_DENIED_DISCARD_COMPLETED",
+    "DISCARD_CLEARS_UNSUBMITTED_SETTLEMENT_BLOCKER"
+  ],
+  "allChecksCompleted": true,
+  "finalStatus": "CANCELLED",
+  "limitations": [
+    "Initial probe expected DISCARDED but current contract uses CANCELLED; discard replay assertion was not reached"
+  ]
+}

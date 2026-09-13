@@ -6,8 +6,8 @@ import { AdminStudentDeletion } from './admin-student-deletion';
 import { AppSelect } from "./app-select";
 import { pageItems } from "./admin-domain";
 import { adminCopy, adminErrorCopy } from "./admin-i18n";
-import { ApiError, request, toUserFacingError, type UserFacingError } from "./api-client";
-import { deleteTeacherUser, getStudentProfile, importUsers, listAssociatedTeacherProfiles, listStudentProfiles, previewUserImport } from "./admin-service";
+import { ApiError, request, getAccountSecurity, toUserFacingError, type UserFacingError } from "./api-client";
+import { deleteTeacherUser, getStudentProfile, getTeacherProfile, importUsers, listAssociatedTeacherProfiles, listStudentProfiles, previewUserImport } from "./admin-service";
 import { AdminServiceError, type AdminLocale, type AdminUser, type StudentProfileProjection, type TeacherProfileProjection } from "./admin-types";
 import { AdminBadge, AdminDialog, AdminDrawer, AdminEmpty, AdminField, AdminLoading, AdminPagination, AdminSectionHeading, formatAdminDate } from "./admin-components";
 import { ErrorPanel } from "./error-panel";
@@ -56,6 +56,15 @@ function demoTeacher(user: AdminUser): TeacherProfileProjection {
 
 export function AdminUsers({ locale }: { locale: AdminLocale }) {
   const { mode, state, busyKey, error: mutationError, clearError, run } = useAdminStore();
+  const [canEraseStudent, setCanEraseStudent] = useState(false);
+  useEffect(() => {
+    let active = true;
+    setCanEraseStudent(false);
+    if (mode === 'real') void getAccountSecurity().then(access => {
+      if (active) setCanEraseStudent(access.adminKind === 'SUPER' && !access.mustChangePassword);
+    }).catch(() => { if (active) setCanEraseStudent(false); });
+    return () => { active = false; };
+  }, [mode, state?.currentAdminId]);
   const [students, setStudents] = useState<StudentProfileProjection[]>([]);
   const [teachers, setTeachers] = useState<TeacherProfileProjection[]>([]);
   const [loading, setLoading] = useState(true);
@@ -65,6 +74,9 @@ export function AdminUsers({ locale }: { locale: AdminLocale }) {
   const [status, setStatus] = useState("all");
   const [college, setCollege] = useState("all");
   const [page, setPage] = useState(1);
+  const [grade, setGrade] = useState("all");
+  const [gender, setGender] = useState("all");
+  const [department, setDepartment] = useState("all");
   const [studentDetail, setStudentDetail] = useState<StudentProfileProjection | null>(null);
   const [studentDeleteTarget, setStudentDeleteTarget] = useState<StudentProfileProjection | null>(null);
   const [teacherDetail, setTeacherDetail] = useState<TeacherProfileProjection | null>(null);
@@ -86,7 +98,7 @@ export function AdminUsers({ locale }: { locale: AdminLocale }) {
   const [deletingTeacher,setDeletingTeacher]=useState(false);
   const [teacherDeletePending,setTeacherDeletePending]=useState(false);
   const [teacherDeleteError,setTeacherDeleteError]=useState<UserFacingError|null>(null);
-  const teacherDeleteIntent=useRef<{key:string;id:string;body:{expectedVersion:number;confirmationEmployeeNumber:string;reason:string;confirmStudentErasure:true}}|null>(null);
+  const teacherDeleteIntent=useRef<{key:string;id:string;body:{expectedVersion:number;confirmationEmployeeNumber:string;reason:string;confirmTeacherDeletion:true}}|null>(null);
   const [deleteConfirmation, setDeleteConfirmation] = useState("");
 
   const load = useCallback(async () => {
@@ -116,17 +128,25 @@ export function AdminUsers({ locale }: { locale: AdminLocale }) {
     return () => globalThis.clearTimeout(timer);
   }, [load]);
 
-  const statuses = useMemo(() => [...new Set(students.map((student) => student.status))].sort(), [students]);
-  const colleges = useMemo(() => [...new Set(students.map((student) => student.collegeName).filter((value): value is string => Boolean(value)))].sort(), [students]);
+  const statuses = useMemo(() => [...new Set((view === "students" ? students : teachers).map((student) => student.status))].sort(), [students, teachers, view]);
+  const colleges = useMemo(() => [...new Set((view === "students" ? students : teachers).map((student) => student.collegeName).filter((value): value is string => Boolean(value)))].sort(), [students, teachers, view]);
   const filtered = useMemo(() => {
     const normalized = query.trim().toLocaleLowerCase();
     return students.filter((student) => {
+      if (grade !== "all" && String(student.gradeYear) !== grade) return false;
+      if (gender !== "all" && student.gender !== gender) return false;
       if (status !== "all" && student.status !== status) return false;
       if (college !== "all" && student.collegeName !== college) return false;
       return !normalized || [student.studentNumber, student.fullName, student.collegeName, student.majorName, student.administrativeClassName]
         .filter(Boolean).join(" ").toLocaleLowerCase().includes(normalized);
     });
-  }, [college, query, status, students]);
+  }, [college, query, status, students, grade, gender]);
+  const filteredTeachers = teachers.filter(teacher =>
+    (status === 'all' || teacher.status === status) && (college === 'all' || teacher.collegeName === college) &&
+    (department === 'all' || teacher.departmentName === department) &&
+    (!query.trim() || [teacher.employeeNumber, teacher.fullName, teacher.collegeName, teacher.departmentName, teacher.title].filter(Boolean).join(' ').toLowerCase().includes(query.trim().toLowerCase())));
+  const teacherPaged = pageItems(filteredTeachers, page, 10);
+  const resetFilters = () => { setQuery(''); setStatus('all'); setCollege('all'); setGrade('all'); setGender('all'); setDepartment('all'); setPage(1); };
   const paged = pageItems(filtered, page, 10);
   const studentTitle = locale === "zh" ? "学生账户" : "Student accounts";
   const teacherTitle = locale === "zh" ? "教师账户" : "Teacher accounts";
@@ -134,8 +154,8 @@ export function AdminUsers({ locale }: { locale: AdminLocale }) {
     ? "查看学生资料与当前状态，可在详情中删除学生账号及历史记录。"
     : "View student profiles and current status. Delete an account and its history from the details panel.";
   const teacherDescription = locale === "zh"
-    ? "批量建立教师账号；删除功能暂时无法实现，敬请期待。"
-    : "Create teacher accounts in batches. Account deletion is not available yet. Please stay tuned.";
+    ? "查看和筛选教师资料，批量建立或管理教师账号。"
+    : "View and filter teacher profiles, create accounts in batches and manage accounts.";
 
   async function openStudent(id: string) {
     setError(null);
@@ -244,7 +264,7 @@ export function AdminUsers({ locale }: { locale: AdminLocale }) {
   async function confirmTeacherDelete() {
     if (!deleteTarget || deletingTeacher) return;
     if(mode==='real'){
-      teacherDeleteIntent.current??={key:crypto.randomUUID(),id:deleteTarget.teacher.id,body:{expectedVersion:deleteTarget.teacher.version,confirmationEmployeeNumber:deleteConfirmation.trim(),reason:deleteReason.trim(),confirmStudentErasure:true}};
+      teacherDeleteIntent.current??={key:crypto.randomUUID(),id:deleteTarget.teacher.id,body:{expectedVersion:deleteTarget.teacher.version,confirmationEmployeeNumber:deleteConfirmation.trim(),reason:deleteReason.trim(),confirmTeacherDeletion:true}};
       const intent=teacherDeleteIntent.current;setTeacherDeletePending(true);setDeletingTeacher(true);setTeacherDeleteError(null);
       try{
         const result=await request<{id:string;deleted:boolean}>(`/admin/teachers/${encodeURIComponent(intent.id)}/delete`,{method:'POST',headers:{'Idempotency-Key':intent.key},body:intent.body});
@@ -285,23 +305,29 @@ export function AdminUsers({ locale }: { locale: AdminLocale }) {
     <div className="admin-page-stack admin-users-page">
       <ErrorPanel error={error} locale={locale} />
       <nav className="admin-profile-switcher" aria-label={locale === "zh" ? "账户类型" : "Account type"}>
-        <button type="button" className={view === "students" ? "is-active" : ""} aria-pressed={view === "students"} onClick={() => { setView("students"); setPage(1); }}>
+        <button type="button" className={view === "students" ? "is-active" : ""} aria-pressed={view === "students"} onClick={() => { setView("students"); resetFilters(); }}>
           <span>{studentTitle}</span><small>{students.length}</small>
         </button>
-        <button type="button" className={view === "teacher" ? "is-active" : ""} aria-pressed={view === "teacher"} onClick={() => { setView("teacher"); setPage(1); }}>
+        <button type="button" className={view === "teacher" ? "is-active" : ""} aria-pressed={view === "teacher"} onClick={() => { setView("teacher"); resetFilters(); }}>
           <span>{teacherTitle}</span><small>{teachers.length}</small>
         </button>
       </nav>
 
-      {view === "students" ? (
-        <section className="admin-surface admin-table-surface">
-          <AdminSectionHeading title={studentTitle} description={studentDescription} action={<button className="text-button" type="button" onClick={() => void load()}>{adminCopy(locale, "refresh_data")}</button>} />
           <div className="admin-audit-filters">
             <AdminField locale={locale} label={adminCopy(locale, "search")}><input type="search" value={query} onChange={(event) => { setQuery(event.target.value); setPage(1); }} placeholder={adminCopy(locale, "account_search")} /></AdminField>
             <AppSelect label={adminCopy(locale, "status_filter")} value={status} options={[{ value: "all", label: adminCopy(locale, "all") }, ...statuses.map((value) => ({ value, label: value }))]} onChange={(value) => { if (value) { setStatus(String(value)); setPage(1); } }} />
             <AppSelect label={adminCopy(locale, "college")} value={college} searchable options={[{ value: "all", label: adminCopy(locale, "all") }, ...colleges.map((value) => ({ value, label: value }))]} onChange={(value) => { if (value) { setCollege(String(value)); setPage(1); } }} />
+            {view === 'students' ? <>
+              <AppSelect label={locale === 'zh' ? '入学年份' : 'Admission year'} value={grade} options={[{value:'all',label:adminCopy(locale,'all')}, ...[...new Set(students.map(s=>s.gradeYear))].sort().map(value=>({value:String(value),label:String(value)}))]} onChange={value=>{setGrade(String(value));setPage(1);}} />
+              <AppSelect label={adminCopy(locale,'gender')} value={gender} options={[{value:'all',label:adminCopy(locale,'all')},{value:'MALE',label:locale==='zh'?'男':'Male'},{value:'FEMALE',label:locale==='zh'?'女':'Female'},{value:'UNKNOWN',label:locale==='zh'?'未填写':'Unknown'}]} onChange={value=>{setGender(String(value));setPage(1);}} />
+            </> : <AppSelect label={adminCopy(locale,'department')} value={department} options={[{value:'all',label:adminCopy(locale,'all')}, ...[...new Set(teachers.map(t=>t.departmentName).filter((v):v is string=>Boolean(v)))].sort().map(value=>({value,label:value}))]} onChange={value=>{setDepartment(String(value));setPage(1);}} />}
+            <button className="text-button" type="button" onClick={resetFilters}>{locale === 'zh' ? '重置筛选' : 'Reset filters'}</button>
           </div>
-          {paged.items.length === 0 ? <AdminEmpty locale={locale} filtered={Boolean(query || status !== "all" || college !== "all")} /> : <div className="table-wrap"><table className="admin-table"><thead><tr><th>{adminCopy(locale, "student_number")}</th><th>{adminCopy(locale, "name")}</th><th>{adminCopy(locale, "college")}</th><th>{adminCopy(locale, "class_name")}</th><th>{adminCopy(locale, "status")}</th><th>{adminCopy(locale, "details")}</th></tr></thead><tbody>{paged.items.map((student) => <tr key={student.id}><td><code>{student.studentNumber}</code></td><td><b>{student.fullName}</b><small className="table-sub">{student.majorName ?? adminCopy(locale, "not_available")}</small></td><td>{student.collegeName ?? adminCopy(locale, "not_available")}</td><td>{student.administrativeClassName ?? adminCopy(locale, "not_available")}</td><td><AdminBadge tone={student.status === "ACTIVE" ? "green" : "gray"}>{student.status}</AdminBadge><small className="table-sub">{student.status === "ACTIVE" ? (locale === "zh" ? "已进班" : "Enrolled") : (locale === "zh" ? "已退班" : "Withdrawn")}</small></td><td><button className="text-button" type="button" onClick={() => void openStudent(student.id)}>{adminCopy(locale, "details")} →</button></td></tr>)}</tbody></table></div>}
+
+      {view === "students" ? (
+        <section className="admin-surface admin-table-surface">
+          <AdminSectionHeading title={studentTitle} description={studentDescription} action={<button className="text-button" type="button" onClick={() => void load()}>{adminCopy(locale, "refresh_data")}</button>} />
+          {paged.items.length === 0 ? <AdminEmpty locale={locale} filtered={Boolean(query || status !== "all" || college !== "all")} /> : <div className="table-wrap"><table className="admin-table"><thead><tr><th>{adminCopy(locale, "student_number")}</th><th>{adminCopy(locale, "name")}</th><th>{adminCopy(locale, "college")}</th><th>{adminCopy(locale, "class_name")}</th><th>{adminCopy(locale,"gender")}</th><th>{adminCopy(locale,"grade_year")}</th><th>{adminCopy(locale, "status")}</th><th>{adminCopy(locale, "details")}</th></tr></thead><tbody>{paged.items.map((student) => <tr key={student.id}><td><code>{student.studentNumber}</code></td><td><b>{student.fullName}</b><small className="table-sub">{student.majorName ?? adminCopy(locale, "not_available")}</small></td><td>{student.collegeName ?? adminCopy(locale, "not_available")}</td><td>{student.administrativeClassName ?? adminCopy(locale, "not_available")}</td><td>{student.gender === "MALE" ? (locale === "zh" ? "男" : "Male") : student.gender === "FEMALE" ? (locale === "zh" ? "女" : "Female") : "—"}</td><td>{student.gradeYear || "—"}</td><td><AdminBadge tone={student.status === "ACTIVE" ? "green" : "gray"}>{student.status}</AdminBadge><small className="table-sub">{student.status === "ACTIVE" ? (locale === "zh" ? "已进班" : "Enrolled") : (locale === "zh" ? "已退班" : "Withdrawn")}</small></td><td><button className="text-button" type="button" onClick={() => void openStudent(student.id)}>{adminCopy(locale, "details")} →</button></td></tr>)}</tbody></table></div>}
           <AdminPagination locale={locale} page={paged.page} totalPages={paged.totalPages} total={paged.total} onPage={setPage} />
         </section>
       ) : (
@@ -311,12 +337,13 @@ export function AdminUsers({ locale }: { locale: AdminLocale }) {
             description={teacherDescription}
             action={<div className="admin-heading-actions"><button className="text-button" type="button" onClick={() => void load()}>{adminCopy(locale, "refresh_data")}</button><button className="primary-button" type="button" disabled={Boolean(busyKey)} onClick={openTeacherImport}>{locale === "zh" ? "批量建立教师" : "Create teachers"}</button></div>}
           />
-          {mode !== "demo" && <aside className="admin-readonly-banner admin-teacher-api-note" role="note">{locale === "zh" ? "核对后可直接删除教师，同时关闭其课程并彻底删除课程当前学生账号及全部业务记录。" : "Deleting a teacher closes their courses and permanently deletes current students and all their business records."}</aside>}
-          {teachers.length === 0 ? <AdminEmpty locale={locale} /> : <div className="table-wrap"><table className="admin-table"><thead><tr><th>{adminCopy(locale, "employee_number")}</th><th>{adminCopy(locale, "name")}</th><th>{adminCopy(locale, "college")}</th><th>{adminCopy(locale, "department")}</th><th>{adminCopy(locale, "status")}</th><th>{locale === "zh" ? "账号管理" : "Account management"}</th></tr></thead><tbody>{teachers.map((teacher) => <tr key={teacher.id}><td><code>{teacher.employeeNumber}</code></td><td><b>{teacher.fullName}</b><small className="table-sub">{teacher.title ?? adminCopy(locale, "not_available")}</small></td><td>{teacher.collegeName ?? adminCopy(locale, "not_available")}</td><td>{teacher.departmentName ?? adminCopy(locale, "not_available")}</td><td><AdminBadge tone={teacher.status === "ACTIVE" ? "green" : "gray"}>{teacher.status}</AdminBadge></td><td><button className="text-button" type="button" onClick={() => setTeacherDetail(teacher)}>{locale === "zh" ? "管理账号" : "Manage"} →</button></td></tr>)}</tbody></table></div>}
+          {mode !== "demo" && <aside className="admin-readonly-banner admin-teacher-api-note" role="note">{locale === "zh" ? "核对后可删除教师并关闭其课程，解除在课关系；学生账号和全部历史记录继续保留。" : "Deleting a teacher closes their courses and ends memberships. Student accounts and all historical records are retained."}</aside>}
+          {teacherPaged.items.length === 0 ? <AdminEmpty locale={locale} filtered /> : <div className="table-wrap"><table className="admin-table"><thead><tr><th>{adminCopy(locale, "employee_number")}</th><th>{adminCopy(locale, "name")}</th><th>{adminCopy(locale, "college")}</th><th>{adminCopy(locale, "department")}</th><th>{adminCopy(locale, "status")}</th><th>{adminCopy(locale,"updated_at")}</th><th>{locale === "zh" ? "账号管理" : "Account management"}</th></tr></thead><tbody>{teacherPaged.items.map((teacher) => <tr key={teacher.id}><td><code>{teacher.employeeNumber}</code></td><td><b>{teacher.fullName}</b><small className="table-sub">{teacher.title ?? adminCopy(locale, "not_available")}</small></td><td>{teacher.collegeName ?? adminCopy(locale, "not_available")}</td><td>{teacher.departmentName ?? adminCopy(locale, "not_available")}</td><td><AdminBadge tone={teacher.status === "ACTIVE" ? "green" : "gray"}>{teacher.status}</AdminBadge></td><td>{formatAdminDate(locale,teacher.updatedAt)}</td><td><button className="text-button" type="button" onClick={() => { if(mode === "demo") setTeacherDetail(teacher); else void getTeacherProfile(teacher.id).then(setTeacherDetail).catch(failure=>setError(toUserFacingError(failure,locale))); }}>{locale === "zh" ? "管理账号" : "Manage"} →</button></td></tr>)}</tbody></table></div>}
+          <AdminPagination locale={locale} page={teacherPaged.page} totalPages={teacherPaged.totalPages} total={teacherPaged.total} onPage={setPage} />
         </section>
       )}
 
-      {studentDetail && <StudentDrawer locale={locale} student={studentDetail} close={() => setStudentDetail(null)} onDelete={mode === "real" ? () => { setStudentDeleteTarget(studentDetail); setStudentDetail(null); } : undefined} />}
+      {studentDetail && <StudentDrawer locale={locale} student={studentDetail} close={() => setStudentDetail(null)} onDelete={mode === "real" && canEraseStudent ? () => { setStudentDeleteTarget(studentDetail); setStudentDetail(null); } : undefined} />}
       {studentDeleteTarget && <AdminStudentDeletion student={studentDeleteTarget} locale={locale} close={() => setStudentDeleteTarget(null)} completed={async () => { setStudentDeleteTarget(null); setStudentDetail(null); await load(); }} />}
       {teacherDetail && <TeacherDrawer locale={locale} teacher={teacherDetail} mode={mode} assignedCourseCount={state?.users.find((user) => user.id === teacherDetail.userId && user.role === "teacher")?.assignedCourseCount ?? 0} close={() => setTeacherDetail(null)} onDelete={() => beginTeacherDelete(teacherDetail)} />}
 
@@ -364,7 +391,7 @@ export function AdminUsers({ locale }: { locale: AdminLocale }) {
             <p>{locale==='zh'?'确认后立即删除教师账号并关闭其全部未关闭课程，无需等待教学或结算完成。':'Confirmation deletes the teacher and closes all open courses without waiting for teaching or settlement.'}</p>
             {teacherDeleteError&&<ErrorPanel error={teacherDeleteError} locale={locale}/>}
             {teacherDeletePending&&!deletingTeacher&&<p role="status">{locale==='zh'?'上次删除结果尚未确认，请按原内容重试核对结果。':'The previous result is unconfirmed. Retry the same request to check it.'}</p>}
-            <aside className="admin-cascade-warning" role="alert"><b>{locale === "zh" ? "此操作不可恢复：该教师课程中当前学生的账号将全部删除，包括他们在其他教师课程中的关系、打卡、审核、学时、申请、成绩及照片视频。其他学生和其他教师课程本身保留。" : "Irreversible: current students in this teacher's courses will lose their accounts and all enrollments, check-ins, reviews, credits, applications, grades, photos and videos, including those in other teachers' courses. Other students and the other courses remain."}</b></aside>
+            <aside className="admin-cascade-warning" role="alert"><b>{locale === "zh" ? "删除教师登录账号并结束其课程成员关系。学生账号、全部课程历史、打卡、审核、学时、申请、成绩及照片视频均保留。" : "The teacher login is deleted and memberships end. All student accounts, course history, check-ins, reviews, credits, applications, grades, photos and videos are retained."}</b></aside>
             <AdminField locale={locale} label={locale === "zh" ? "删除原因" : "Deletion reason"} required errorCode={mutationError?.fieldErrors.reason}><textarea disabled={deletingTeacher||teacherDeletePending} value={deleteReason} placeholder={locale === "zh" ? "说明删除教师账号的原因" : "Explain why this teacher account is being deleted"} onChange={(event) => { setDeleteReason(event.target.value); clearError(); }} /></AdminField>
             <AdminField locale={locale} label={locale === "zh" ? `输入工号 ${deleteTarget.teacher.employeeNumber} 确认` : `Enter ${deleteTarget.teacher.employeeNumber} to confirm`} required errorCode={mutationError?.fieldErrors.confirmationAccount}><input disabled={deletingTeacher||teacherDeletePending} value={deleteConfirmation} autoComplete="off" onChange={(event) => { setDeleteConfirmation(event.target.value); clearError(); }} /></AdminField>
             {mutationError && <p className="admin-inline-error" role="alert">{adminErrorCopy(locale, mutationError.message)}</p>}
@@ -380,6 +407,7 @@ function StudentDrawer({ locale, student, close, onDelete }: { locale: AdminLoca
     <AdminDrawer locale={locale} title={student.fullName} description={student.studentNumber} close={close} footer={onDelete ? <button className="danger-button" type="button" onClick={onDelete}>{locale === "zh" ? "删除学生账号" : "Delete student account"}</button> : undefined}>
       <div className="admin-detail-list">
         <Detail label={adminCopy(locale, "user_id")} value={student.userId} />
+        {"email" in student && <Detail label={locale === "zh" ? "邮箱" : "Email"} value={student.email ?? (locale === "zh" ? "尚未绑定" : "Not bound")} />}
         <Detail label={adminCopy(locale, "organization")} value={student.organizationId} />
         <Detail label={adminCopy(locale, "gender")} value={student.gender} />
         <Detail label={adminCopy(locale, "grade_year")} value={student.gradeYear} />
@@ -396,9 +424,10 @@ function StudentDrawer({ locale, student, close, onDelete }: { locale: AdminLoca
 
 function TeacherDrawer({ locale, teacher, mode, assignedCourseCount, close, onDelete }: { locale: AdminLocale; teacher: TeacherProfileProjection; mode: "demo" | "real"; assignedCourseCount: number; close: () => void; onDelete: () => void }) {
   const deletionBlocked = assignedCourseCount > 0;
-  return <AdminDrawer locale={locale} title={teacher.fullName} description={teacher.employeeNumber} close={close} footer={<div className="admin-drawer-actions admin-teacher-drawer-actions"><span>{locale === "zh" ? "删除将关闭课程，并彻底删除当前学生账号及其全部课程数据。" : "Deletion closes courses and permanently erases current students and all their course data."}</span><button className="danger-button" type="button" disabled={mode==='demo'&&deletionBlocked} onClick={onDelete}>{locale === "zh" ? "删除教师账号" : "Delete account"}</button></div>}>
+  return <AdminDrawer locale={locale} title={teacher.fullName} description={teacher.employeeNumber} close={close} footer={<div className="admin-drawer-actions admin-teacher-drawer-actions"><span>{locale === "zh" ? "删除将关闭课程并解除在课关系，保留学生账号及全部历史。" : "Deletion closes courses and ends memberships while retaining student accounts and all history."}</span><button className="danger-button" type="button" disabled={mode==='demo'&&deletionBlocked} onClick={onDelete}>{locale === "zh" ? "删除教师账号" : "Delete account"}</button></div>}>
     <div className="admin-detail-list">
       <Detail label={adminCopy(locale, "user_id")} value={teacher.userId} />
+      {"email" in teacher && <Detail label={locale === "zh" ? "邮箱" : "Email"} value={teacher.email ?? (locale === "zh" ? "尚未绑定" : "Not bound")} />}
       <Detail label={adminCopy(locale, "organization")} value={teacher.organizationId} />
       <Detail label={adminCopy(locale, "college")} value={teacher.collegeName} />
       <Detail label={adminCopy(locale, "department")} value={teacher.departmentName} />

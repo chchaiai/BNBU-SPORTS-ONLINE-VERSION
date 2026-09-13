@@ -1,0 +1,32 @@
+{
+  "deploymentHealth": "PASS",
+  "observedAtLocal": "2026-09-13 06:10 Asia/Shanghai",
+  "patches": [
+    "867cf39b",
+    "7ba41895",
+    "9592c912"
+  ],
+  "browserUrl": "https://www.teacher.bnbusports.cn/#admin/subadmins",
+  "backendImageId": "sha256:c2b0ddd96f31b875f3846bf007cbeb766a11022f6404a3455426276c37bddc32",
+  "rollbackExercised": false,
+  "subadminCountAfter": 0,
+  "check": "PORTAL_REQUIRED_COPY_DEPLOYMENT_AND_BROWSER",
+  "localChecks": {
+    "total": 32,
+    "passed": 32,
+    "build": "PASS"
+  },
+  "languageRestored": "zh-CN",
+  "browserAccessibleFieldNames": [
+    "Account (required)",
+    "Name (required)",
+    "University email (required)",
+    "Initial password (required)",
+    "Confirm initial password (required)"
+  ],
+  "release": "portal-required-20260913",
+  "previousRelease": "submit-atomic-20260913",
+  "limitations": "Read-only form inspection; no subadministrator creation or permission expansion performed.",
+  "formCancelled": true,
+  "portalImageId": "sha256:b2911babf4c1562cb9a2250ead08effc96e2cd6cf30ce9ca78dd717132e61c56"
+}

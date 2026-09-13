@@ -1,3 +1,4 @@
+import {isHistoricalSession} from '../../v8/v81-history-backfill.js';
 import { Inject, Injectable } from '@nestjs/common';
 import { exerciseUploadWindow } from '../../v8/v81-upload-window.js';
 
@@ -313,6 +314,7 @@ export class MediaService {
           verifiedFileSizeBytes: BigInt(verified.fileSizeBytes),
           verifiedContentSha256: verified.contentSha256,
           verifiedDurationSeconds: verified.durationSeconds,
+          safeMetadata: verified.safeMetadata,
           uploadStatus: 'UPLOADED',
           uploadedAt: now,
           updatedAt: now,
@@ -795,7 +797,7 @@ export class MediaService {
   private targetScope(input: InitiateMediaUploadRequestDto): string {
     if (
       input.businessPurpose === 'EXERCISE_RECORD' &&
-      input.captureSource === 'IN_APP_CAMERA' &&
+      (input.captureSource === 'IN_APP_CAMERA' || input.captureSource === 'FILE_PICKER') &&
       input.sessionId !== undefined &&
       input.enrollmentId === undefined
     ) {
@@ -836,6 +838,7 @@ export class MediaService {
           failure: this.idempotency.failure(new ApplicationError('SESSION_NOT_FOUND', 404)),
         };
       }
+      if (input.captureSource === 'FILE_PICKER' && !await isHistoricalSession(transaction,session.id)) throw new ApplicationError('MEDIA_BIND_TARGET_INVALID',422);
       await exerciseUploadWindow(transaction, session.id, this.clock.now());
       return {
         kind: 'TARGET',

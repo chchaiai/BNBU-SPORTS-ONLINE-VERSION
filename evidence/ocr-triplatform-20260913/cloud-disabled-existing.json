@@ -1,0 +1,49 @@
+{
+  "check": "CLOUD_DISABLED_EXISTING_RESOURCES",
+  "observedAt": "2026-09-12T19:33:06.352Z",
+  "checks": [
+    {
+      "operationId": "withdrawEnrollment",
+      "status": 409,
+      "code": "ENROLLMENT_WITHDRAWAL_DISABLED",
+      "requestId": "01a0971b-ec47-739e-beb2-5f6e39f7858e",
+      "disabledGateObserved": true
+    },
+    {
+      "operationId": "withdrawExerciseRecord",
+      "status": 409,
+      "code": "EXERCISE_RECORD_WITHDRAWAL_NOT_ALLOWED",
+      "requestId": "01a0971b-ecd7-75f2-b03d-ddf8721bcbc9",
+      "disabledGateObserved": true
+    },
+    {
+      "operationId": "startExerciseLocationTrack",
+      "status": 503,
+      "code": "SYSTEM_MODE_UNSUPPORTED",
+      "requestId": "01a0971b-ed69-72e8-bdb4-d6d1bec52140",
+      "disabledGateObserved": true
+    },
+    {
+      "operationId": "appendExerciseLocationSamples",
+      "status": 503,
+      "code": "SYSTEM_MODE_UNSUPPORTED",
+      "requestId": "01a0971b-edfa-7742-a46e-35a6cb042931",
+      "disabledGateObserved": true
+    },
+    {
+      "operationId": "finalizeExerciseLocationTrack",
+      "status": 503,
+      "code": "SYSTEM_MODE_UNSUPPORTED",
+      "requestId": "01a0971b-ee8b-77e8-b632-d63f35d4a684",
+      "disabledGateObserved": true
+    },
+    {
+      "operationId": "getExerciseRecordLocationSummary",
+      "status": 403,
+      "code": "PERMISSION_RESOURCE_SCOPE_DENIED",
+      "requestId": "01a0971b-ef18-70a9-b34d-aa54dc405882",
+      "disabledGateObserved": true
+    }
+  ],
+  "disabledGateObserved": 6
+}

@@ -5,6 +5,16 @@ import type { IdGenerator } from '../../../common/time/id-generator.js';
 
 export const COURSE_CLOSURE_REASON = 'COURSE_CLOSED';
 
+/** Membership ended by this closure remains part of the course's historical roster. */
+export function isCourseClosureHistoricalMember(
+  enrollment: { status: string; endReason?: string | null; endedAt?: Date | null },
+  section: { status: string; closedAt: Date | null },
+): boolean {
+  return enrollment.status === 'REMOVED' && enrollment.endReason === COURSE_CLOSURE_REASON &&
+    section.status === 'CLOSED' && section.closedAt !== null &&
+    enrollment.endedAt?.getTime() === section.closedAt.getTime();
+}
+
 /** Only course-closure removal preserves a session already admitted before closure. */
 export function permitsExistingCourseSession(
   enrollment: { status: string; endReason?: string | null; endedAt?: Date | null },

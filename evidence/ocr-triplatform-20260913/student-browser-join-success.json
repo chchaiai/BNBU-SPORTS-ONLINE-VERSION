@@ -1,0 +1,20 @@
+{
+  "check": "STUDENT_BROWSER_SUCCESSFUL_ANONYMOUS_JOIN",
+  "observedAt": "2026-09-12T21:09:12.570Z",
+  "browser": "Edge",
+  "checks": [
+    "MANUAL_INVITE_PREVIEW_TEN_MINUTES",
+    "REQUIRED_PROFILE_SUBMISSION",
+    "SUCCESS_REDIRECT_TO_EMAIL_VERIFICATION",
+    "SEND_CODE_DISABLED_WITH_EMPTY_EMAIL",
+    "DATABASE_ACTIVE_ENROLLMENT_EMAIL_UNVERIFIED",
+    "TEMPORARY_INVITE_REVOKED"
+  ],
+  "studentNumber": "9900000006",
+  "allChecksCompleted": true,
+  "limitations": [
+    "No email sent or verified",
+    "Email gate prevents post-verification business UI acceptance",
+    "Synthetic student and enrollment retained for final cleanup"
+  ]
+}

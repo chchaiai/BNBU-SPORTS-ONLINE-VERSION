@@ -26,7 +26,7 @@ export async function approveCertificationCredit(
     !Number.isInteger(general) ||
     course! < 0 ||
     general! < 0 ||
-    course! + general! > 1200
+    course! + general! > 2147483647
   )
     throw new ApplicationError('VALIDATION_FAILED', 422, {
       reason: 'RECOGNITION_ALLOCATION_REQUIRED',

@@ -1,0 +1,28 @@
+{
+  "check": "CLOUD_RUNTIME_ARCHIVE",
+  "observedAt": "2026-09-12T19:04:14.323Z",
+  "organizationId": "01a096c2-20a2-706b-8c69-802f67dee12c",
+  "job": {
+    "id": "9c366595-1ec0-4ef6-9ff8-553196234af5",
+    "startDate": "2026-09-13",
+    "endDate": "2026-09-13",
+    "timezone": "Asia/Shanghai",
+    "status": "CANCELLED",
+    "version": 4,
+    "createdAt": "2026-09-12T19:03:29.541Z",
+    "updatedAt": "2026-09-12T19:04:13.461Z",
+    "expiresAt": "2026-09-13T19:03:29.541Z",
+    "byteLength": 212807,
+    "recordCount": 491,
+    "sha256": "27bddac7ddc7d34906c61d2b9fea9cf56e19705b18f9eef675db21cb824087f5",
+    "failureCode": null,
+    "coverage": "AVAILABLE_SCOPED_HTTP_RECORDS_ONLY"
+  },
+  "checks": [
+    "RESUMED_EXISTING_ACCEPTED_JOB",
+    "WORKER_STATE_OBSERVED",
+    "DOWNLOAD_SIZE_HASH_MATCH",
+    "CANCELLATION"
+  ],
+  "allChecksCompleted": true
+}

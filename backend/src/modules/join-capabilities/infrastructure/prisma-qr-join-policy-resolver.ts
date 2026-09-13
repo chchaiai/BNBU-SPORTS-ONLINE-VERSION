@@ -10,6 +10,7 @@ import { QrJoinPublicRateLimitService } from '../../../common/rate-limit/qr-join
 import { QrJoinCryptoService } from '../../../common/security/qr-join-crypto.service.js';
 import { Clock } from '../../../common/time/clock.js';
 import { CourseInviteRepository } from '../../course-invites/domain/course-invite.repository.js';
+import { INVITE_GRACE_MS, permitsInviteCompletion } from '../../course-invites/domain/invite-timing.js';
 import { JoinCapabilityRepository } from '../domain/join-capability.repository.js';
 
 @Injectable()
@@ -39,7 +40,12 @@ export class PrismaQrJoinPolicyResolver extends QrJoinPolicyResolver {
     if (record === null || !this.crypto.matches(record.tokenHash, parsed.tokenHash)) {
       throw new ApplicationError('COURSE_INVITE_INVALID', 400);
     }
-    this.assertInviteUsable(record.context);
+    // Resolve during grace only so the service can replay an already registered
+    // idempotency key. Its transaction still rejects every new expired issuance.
+    const replayDuringGrace = input.operationId === 'issueJoinCapability' &&
+      record.context.expiresAt <= this.clock.now() &&
+      this.clock.now().getTime() < record.context.expiresAt.getTime() + INVITE_GRACE_MS;
+    this.assertInviteUsable(record.context, replayDuringGrace);
     return record.context;
   }
 
@@ -74,7 +80,9 @@ export class PrismaQrJoinPolicyResolver extends QrJoinPolicyResolver {
       throw new ApplicationError('AUTH_JOIN_CAPABILITY_INVALID', 401);
     }
     try {
-      this.assertInviteUsable(record.context.invite);
+      if (!permitsInviteCompletion(record.context.invite, record.context.issuedAt, this.clock.now()))
+        throw new ApplicationError('AUTH_JOIN_CAPABILITY_INVALID', 401);
+      this.assertInviteUsable(record.context.invite, true);
     } catch (error: unknown) {
       if (error instanceof ApplicationError) {
         throw new ApplicationError('AUTH_JOIN_CAPABILITY_INVALID', 401);
@@ -84,14 +92,14 @@ export class PrismaQrJoinPolicyResolver extends QrJoinPolicyResolver {
     return record.context;
   }
 
-  private assertInviteUsable(context: CourseInvitePolicyContext): void {
+  private assertInviteUsable(context: CourseInvitePolicyContext, completingRegisteredFlow = false): void {
     if (context.status === 'REVOKED') {
       throw new ApplicationError('COURSE_INVITE_REVOKED', 410);
     }
-    if (context.status === 'EXPIRED' || context.expiresAt <= this.clock.now()) {
+    if (!completingRegisteredFlow && (context.status === 'EXPIRED' || context.expiresAt <= this.clock.now())) {
       throw new ApplicationError('COURSE_INVITE_EXPIRED', 410);
     }
-    if (context.status !== 'ACTIVE') {
+    if (context.status !== 'ACTIVE' && !(completingRegisteredFlow && context.status === 'EXPIRED')) {
       throw new ApplicationError('COURSE_INVITE_INVALID', 400);
     }
     const section = context.classSection;

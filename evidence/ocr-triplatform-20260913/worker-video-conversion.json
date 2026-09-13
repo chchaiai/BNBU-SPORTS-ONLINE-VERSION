@@ -1,0 +1,31 @@
+{
+  "check": "SHIPPED_WASM_VIDEO_CONVERSION_AND_POSTER",
+  "result": "PASS",
+  "scope": "Shipped WASM and exact production conversion arguments in Node; not phone playback acceptance",
+  "results": [
+    {
+      "label": "webm",
+      "conversion": "PASS",
+      "outputFrameDecode": "PASS",
+      "durationSeconds": 10.05,
+      "outputBytes": 566419,
+      "posterBytes": 8584
+    },
+    {
+      "label": "fragmented-mp4",
+      "conversion": "PASS",
+      "outputFrameDecode": "PASS",
+      "durationSeconds": 10.034,
+      "outputBytes": 553973,
+      "posterBytes": 9900
+    },
+    {
+      "label": "native-mp4",
+      "conversion": "PASS",
+      "outputFrameDecode": "PASS",
+      "durationSeconds": 2.967,
+      "outputBytes": 148846,
+      "posterBytes": 7265
+    }
+  ]
+}
