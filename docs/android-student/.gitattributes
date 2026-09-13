@@ -1,0 +1,2 @@
+# Preserve reference bytes and SHA-256 manifests across Windows/Linux checkouts.
+* -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
