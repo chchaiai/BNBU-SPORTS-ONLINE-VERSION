@@ -1,0 +1,33 @@
+{
+  "check": "BROWSER_ONLINE_READ_CHECKPOINT",
+  "observedDate": "2026-09-13",
+  "teacher": {
+    "browser": "Chrome existing authenticated teacher",
+    "passed": [
+      "course statistics",
+      "course settings and settlement blockers",
+      "roster import and OCR upload panel",
+      "exercise review empty state",
+      "internal grade book",
+      "exemption and certification filters"
+    ]
+  },
+  "admin": {
+    "browser": "Codex in-app browser existing authenticated administrator",
+    "passed": [
+      "system health",
+      "OCR configuration saved enabled version 2",
+      "read-only course directory",
+      "subadmin list and eight-permission count"
+    ]
+  },
+  "student": {
+    "browser": "Edge",
+    "status": "LOGIN_REQUIRED"
+  },
+  "limits": [
+    "No real course or student mutation performed in these page checks",
+    "Synthetic OCR confirmation verified separately through real public HTTP",
+    "Full page interaction and device regression pending"
+  ]
+}

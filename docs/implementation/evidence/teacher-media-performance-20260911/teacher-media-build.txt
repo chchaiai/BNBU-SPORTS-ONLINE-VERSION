@@ -1,0 +1,53 @@
+
+> bnbu-pe-management-portal@0.1.0 build
+> vinext build
+
+
+  vinext build  (Vite 8.2.1)
+
+[1/5] analyze client references...
+[2K
+transforming...✓ 89 modules transformed.
+rendering chunks...
+✓ built in 601ms
+[2/5] analyze server references...
+[2K
+transforming...✓ 208 modules transformed.
+rendering chunks...
+✓ built in 483ms
+[3/5] build rsc environment...
+[2K
+transforming...✓ 95 modules transformed.
+rendering chunks...
+computing gzip size...
+✓ built in 409ms
+[4/5] build client environment...
+[2K
+transforming...✓ 1956 modules transformed.
+rendering chunks...
+computing gzip size...
+[plugin builtin:vite-reporter] 
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rolldownOptions.output.codeSplitting to improve chunking: https://rolldown.rs/reference/OutputOptions.codeSplitting
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+✓ built in 1.06s
+[5/5] build ssr environment...
+[2K
+transforming...✓ 278 modules transformed.
+rendering chunks...
+computing gzip size...
+✓ built in 668ms
+[0m
+  Route (app)
+  ┌ ? /                     
+  └ ? /phase5b-contract-mock
+
+  ? Unknown
+
+  ? Some routes could not be classified. vinext currently uses static analysis
+    and cannot detect dynamic API usage (headers(), cookies(), etc.) at build time.
+    Automatic classification will be improved in a future release.
+
+  Build complete. Run `vinext start` to start the production server.
+

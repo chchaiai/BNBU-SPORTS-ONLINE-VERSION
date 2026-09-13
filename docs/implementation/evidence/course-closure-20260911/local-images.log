@@ -1,0 +1,1 @@
+{"check":"PRODUCTION_IMAGE_LOCAL_RUNTIME","result":"PASS","backendImage":"f87dba74-closure","backendHealth":200,"teacherLogin":200,"enrollmentRead":200,"portalHealth":200}

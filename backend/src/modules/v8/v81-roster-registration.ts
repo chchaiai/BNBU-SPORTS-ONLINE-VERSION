@@ -6,6 +6,7 @@ import { OperationPolicy } from '../../common/policy/operation-policy.decorator.
 import type { AuthenticatedPrincipal } from '../../common/http/request-context.js';
 import { projectRosterRegistration } from './domain/roster-registration.js';
 import { Clock } from '../../common/time/clock.js';
+import { isCourseClosureHistoricalMember } from '../enrollments/application/course-closure-memberships.js';
 
 @Injectable()
 export class V81RosterRegistrationService {
@@ -14,7 +15,7 @@ export class V81RosterRegistrationService {
     if (principal.role !== 'STUDENT') throw new ApplicationError('PERMISSION_RESOURCE_SCOPE_DENIED', 403);
     return this.prisma.$transaction(async tx => {
       const enrollment = await tx.enrollment.findFirst({ where: { id: enrollmentId, organizationId: principal.organizationId,
-        student: { userId: principal.userId } }, include: { student: { select: { studentNumber: true } } } });
+        student: { userId: principal.userId } }, include: { classSection: true, student: { select: { studentNumber: true } } } });
       if (!enrollment) throw new ApplicationError('PERMISSION_RESOURCE_NOT_FOUND', 404);
       const sources = await tx.$queryRaw<{ id: string; version: number; rows: { id: string; studentNumber: string | null; fullName: string | null }[] }[]>`
         SELECT c.id,c.version,c.source_rows AS rows FROM v81_current_confirmed_rosters c
@@ -29,7 +30,7 @@ export class V81RosterRegistrationService {
         studentNumber: row.studentNumber ?? '', fullName: row.fullName ?? '' })), members.map(member => ({
         enrollmentId: member.id, studentId: member.studentId, studentNumber: member.student.studentNumber,
         fullName: member.student.fullName, emailVerified: member.student.user.emailVerifiedAt !== null,
-        enrolledInSection: member.status === 'ACTIVE' })));
+        enrolledInSection: member.status === 'ACTIVE' || isCourseClosureHistoricalMember(member, enrollment.classSection) })));
       const key = (value: string) => value.trim().normalize('NFC').toUpperCase();
       const ownRow = projected.rows.find(row => key(row.studentNumber) === key(enrollment.student.studentNumber));
       const status = ownRow?.status ?? (enrollment.status === 'ACTIVE' ? 'EXTRA_IN_PLATFORM' : 'PENDING_REGISTRATION');
@@ -41,16 +42,17 @@ export class V81RosterRegistrationService {
     return this.prisma.$transaction(async tx => {
       const source = await tx.officialRosterImport.findFirst({ where: { id: importId,
         organizationId: principal.organizationId, classSection: { teacher: { userId: principal.userId } } },
-        include: { entries: { orderBy: { sourceRowNumber: 'asc' } } } });
+        include: { classSection: true, entries: { orderBy: { sourceRowNumber: 'asc' } } } });
       if (!source) throw new ApplicationError('PERMISSION_RESOURCE_NOT_FOUND', 404);
       if (source.status !== 'VALIDATED') throw new ApplicationError('CONFLICT_STATE_TRANSITION', 409);
       if (source.entries.length > 500) throw new ApplicationError('VALIDATION_FAILED', 422);
       const members = await tx.enrollment.findMany({ where: { organizationId: principal.organizationId,
-        classSectionId: source.classSectionId, status: 'ACTIVE', student: { deletedAt: null,
+        classSectionId: source.classSectionId, student: { deletedAt: null,
           user: { deletedAt: null, status: 'ACTIVE' } } }, include: { student: { select: {
             studentNumber: true, fullName: true, user: { select: { emailVerifiedAt: true } } } } }, orderBy: { id: 'asc' } });
       const result = projectRosterRegistration(source.entries.map(row => ({ id: row.id,
-        studentNumber: row.normalizedStudentNumber ?? '', fullName: row.fullName ?? '' })), members.map(row => ({
+        studentNumber: row.normalizedStudentNumber ?? '', fullName: row.fullName ?? '' })), members
+        .filter(row => row.status === 'ACTIVE' || isCourseClosureHistoricalMember(row, source.classSection)).map(row => ({
         enrollmentId: row.id, studentId: row.studentId, studentNumber: row.student.studentNumber,
         fullName: row.student.fullName, enrolledInSection: true, emailVerified: row.student.user.emailVerifiedAt !== null })));
       return { classSectionId: source.classSectionId, rosterImportId: source.id, sourceVersion: source.version,

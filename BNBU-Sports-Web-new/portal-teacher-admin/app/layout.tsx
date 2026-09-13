@@ -41,6 +41,7 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="zh-CN" suppressHydrationWarning>
+      <head><link rel="icon" type="image/svg+xml" href="/bnbu-sports-icon.svg" /></head>
       <body>
         <ScrollbarManager />
         {children}

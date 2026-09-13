@@ -98,6 +98,8 @@ describe('V81 makeup window HTTP E2E', () => {
     prisma = createTestPrisma(databaseUrl);
     const port = await availablePort();
     Object.assign(process.env, foundationEnvironment(databaseUrl, port), {
+      // This suite waits a real minute to verify the exercise minimum.
+      ACCESS_TOKEN_TTL: '300',
       EMAIL_DELIVERY_PROVIDER: 'SMTP', EMAIL_DELIVERY_REQUIRED: 'true',
       SMTP_HOST: 'mailpit', SMTP_PORT: '1025', SMTP_FROM_ADDRESS: 'test@bnbu.invalid', SMTP_SECURE: 'false',
     });

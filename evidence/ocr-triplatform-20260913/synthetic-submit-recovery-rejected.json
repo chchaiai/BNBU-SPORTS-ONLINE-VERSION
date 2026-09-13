@@ -1,0 +1,9 @@
+{
+  "observedAt": "2026-09-12T22:02:50.598Z",
+  "recordId": "01a0979a-d5c7-776c-b972-1155e451a70b",
+  "attempt": "Delete aborted PENDING review/media associations then restore draft in a single guarded transaction",
+  "result": "REJECTED_TRANSACTION_ROLLED_BACK",
+  "databaseMessage": "exercise record history is append-only",
+  "securityConfigurationChanged": false,
+  "nextAction": "Retain original defect fixture until final synthetic account erasure. Fresh independent fixtures used for postpatch regression."
+}

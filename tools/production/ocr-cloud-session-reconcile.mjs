@@ -1,0 +1,13 @@
+// Server-authoritative state synchronization and cancellation on a synthetic session.
+import fs from 'node:fs';import assert from 'node:assert/strict';import {randomUUID} from 'node:crypto';
+const b=JSON.parse(fs.readFileSync('.local/ocr-beta-private.json')),f=JSON.parse(fs.readFileSync('.local/ocr-beta-course.json')),checks=[];let session;
+async function api(p,body,status=body?200:200,key=randomUUID()){const r=await fetch('https://www.teacher.bnbusports.cn/api/v1'+p,{method:body?'POST':'GET',headers:{authorization:`Bearer ${b.session.accessToken}`,'content-type':'application/json','idempotency-key':key},...(body?{body:JSON.stringify(body)}:{}),signal:AbortSignal.timeout(20000)});const v=await r.json();assert.equal(r.status,status,JSON.stringify({p,status:r.status,code:v.code}));return v.data;}
+try{
+ assert.equal((await api('/me')).studentProfile.id,f.studentId);
+ session=process.argv.includes('--resume')?await api('/exercise-sessions/'+JSON.parse(fs.readFileSync('evidence/ocr-triplatform-20260913/cloud-session-reconcile.json')).sessionId):await api('/exercise-sessions',{enrollmentId:f.enrollmentId,clientObservedAt:new Date().toISOString()},201);const path=`/exercise-sessions/${session.id}`;
+ const input={expectedVersion:session.version,clientEvents:[{eventId:randomUUID(),eventType:'STATE_SYNC',observedAt:session.startedAt}]},k=randomUUID();const synced=await api(path+'/reconcile',input);assert.equal(synced.status,'IN_PROGRESS');session=synced;
+ const next={expectedVersion:session.version,clientEvents:[{eventId:randomUUID(),eventType:'STATE_SYNC',observedAt:session.startedAt}]};session=await api(path+'/reconcile',next,200,k);assert.deepEqual(await api(path+'/reconcile',next,200,k),session);checks.push('STATE_SYNC_AND_IDEMPOTENT_REPLAY');
+ await api(path+'/reconcile',{expectedVersion:session.version,clientEvents:[{eventId:randomUUID(),eventType:'FINISH',observedAt:session.startedAt}]},409);
+ session=await api(path);const cancel={reason:'Synthetic reconciliation acceptance complete',expectedVersion:session.version},ck=randomUUID();session=await api(path+'/cancel',cancel,200,ck);assert.equal(session.status,'CANCELLED');assert.deepEqual(await api(path+'/cancel',cancel,200,ck),session);checks.push('UNTRUSTED_EVENT_DENIED_CANCEL_REPLAY');
+ assert.equal((await api(path)).status,'CANCELLED');
+}finally{const result={check:'CLOUD_SESSION_RECONCILE_CANCEL',observedAt:new Date().toISOString(),sessionId:session?.id,checks,allChecksCompleted:checks.includes('UNTRUSTED_EVENT_DENIED_CANCEL_REPLAY')};fs.writeFileSync('evidence/ocr-triplatform-20260913/cloud-session-reconcile.json',JSON.stringify(result,null,2)+'\n');console.log(JSON.stringify(result));}

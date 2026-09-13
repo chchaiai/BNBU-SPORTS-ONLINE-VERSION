@@ -16,7 +16,7 @@ export type FeedbackPage = {
   items: FeedbackItem[]; page: number; pageSize: 6; total: number;
   summary: { total: number; pending: number; waitingTech: number; resolved: number };
 };
-const statuses: Record<FeedbackStatus, TicketStatus> = {
+export const feedbackTicketStatuses: Record<FeedbackStatus, TicketStatus> = {
   OPEN: 'pending', IN_PROGRESS: 'in_progress', WAITING_TECH: 'technical', RESOLVED: 'resolved', CLOSED: 'closed',
 };
 const writeStatuses: Record<Exclude<TicketStatus, 'pending'>, Exclude<FeedbackStatus, 'OPEN'>> = {
@@ -39,7 +39,7 @@ export function handleAdminFeedback(id: string, status: Exclude<TicketStatus, 'p
 export function feedbackToTicket(item: FeedbackItem | FeedbackDetail): SupportTicket {
   return { id: item.id, requester: item.requester.name ?? item.requester.studentNumber ?? item.id,
     account: item.requester.studentNumber ?? '', category: item.category, subject: item.content,
-    content: item.content, source: 'student', submittedAt: item.createdAt, status: statuses[item.status],
+    content: item.content, source: 'student', submittedAt: item.createdAt, status: feedbackTicketStatuses[item.status],
     replies: 'history' in item ? item.history.map(event => ({ id: event.id, author: event.actorName ?? event.actorUserId,
       message: event.publicReply, createdAt: event.occurredAt })) : [] };
 }

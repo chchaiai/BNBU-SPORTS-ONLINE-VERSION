@@ -1,0 +1,12 @@
+Loaded image: bnbu-backend-production:f87dba74-closure
+Loaded image: bnbu-portal-production:f87dba74-closure
+{"check": "PRE_RELEASE_DATABASE_BACKUP", "result": "PASS", "path": "/opt/bnbu-sports-production/backups/before-bugfix-20260911T085207Z.dump", "bytes": 3299796}
+ Container bnbu-sports-production-backend-1 Recreate
+ Container bnbu-sports-production-portal-1 Recreate
+ Container bnbu-sports-production-backend-1 Recreated
+ Container bnbu-sports-production-portal-1 Recreated
+ Container bnbu-sports-production-portal-1 Starting
+ Container bnbu-sports-production-backend-1 Starting
+ Container bnbu-sports-production-portal-1 Started
+ Container bnbu-sports-production-backend-1 Started
+{"check": "COURSE_CLOSURE_DEPLOYMENT", "result": "PASS", "release": "/opt/bnbu-sports-production/releases/f87dba74f39d-closure", "images": {"backend": "sha256:703bc487f714366e2a0d23c6d79be366d529090f4615c55fe26ca2cbaec01119", "portal": "sha256:28cc41be4a6501826b18654bd76a8efe7dc4469ba328942044a87ecb3a5d37a4"}}

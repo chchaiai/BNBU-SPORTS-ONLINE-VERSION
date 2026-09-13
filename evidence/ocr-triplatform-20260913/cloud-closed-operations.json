@@ -1,0 +1,349 @@
+{
+  "check": "CLOUD_EXPLICITLY_DISABLED_OPERATIONS",
+  "observedAt": "2026-09-12T18:33:19.753Z",
+  "organizationId": "01a096c2-20a2-706b-8c69-802f67dee12c",
+  "total": 34,
+  "disabledGateObserved": 25,
+  "checks": [
+    {
+      "operationId": "updateStudent",
+      "method": "PATCH",
+      "path": "/students/{studentId}",
+      "role": "ADMIN",
+      "status": 403,
+      "code": "PERMISSION_RESOURCE_SCOPE_DENIED",
+      "requestId": "01a096e5-21cf-7093-8450-824fd8d8077f",
+      "disabledGateObserved": true
+    },
+    {
+      "operationId": "createCourse",
+      "method": "POST",
+      "path": "/courses",
+      "role": "ADMIN",
+      "status": 403,
+      "code": "PERMISSION_RESOURCE_SCOPE_DENIED",
+      "requestId": "01a096e5-23b1-734e-a797-61cf9d244f0d",
+      "disabledGateObserved": true
+    },
+    {
+      "operationId": "updateCourse",
+      "method": "PATCH",
+      "path": "/courses/{courseId}",
+      "role": "ADMIN",
+      "status": 403,
+      "code": "PERMISSION_RESOURCE_SCOPE_DENIED",
+      "requestId": "01a096e5-243d-738e-8ca8-aedaab1853a9",
+      "disabledGateObserved": true
+    },
+    {
+      "operationId": "withdrawEnrollment",
+      "method": "POST",
+      "path": "/enrollments/{enrollmentId}/withdraw",
+      "role": "STUDENT",
+      "status": 404,
+      "code": "ENROLLMENT_NOT_FOUND",
+      "requestId": "01a096e5-24c8-745a-9c44-acafe123bc77",
+      "disabledGateObserved": false
+    },
+    {
+      "operationId": "ignoreRosterAlignmentResult",
+      "method": "POST",
+      "path": "/roster-alignment-results/{alignmentResultId}/ignore",
+      "role": "TEACHER",
+      "status": 422,
+      "code": "VALIDATION_FAILED",
+      "requestId": "01a096e5-2558-735f-bf48-6f002a06bf4f",
+      "disabledGateObserved": false
+    },
+    {
+      "operationId": "withdrawExerciseRecord",
+      "method": "POST",
+      "path": "/exercise-records/{recordId}/withdraw",
+      "role": "STUDENT",
+      "status": 404,
+      "code": "EXERCISE_RECORD_NOT_FOUND",
+      "requestId": "01a096e5-25e5-760e-a91a-23b2e872642d",
+      "disabledGateObserved": false
+    },
+    {
+      "operationId": "listScoreRules",
+      "method": "GET",
+      "path": "/class-sections/{classSectionId}/score-rules",
+      "role": "ADMIN",
+      "status": 403,
+      "code": "PERMISSION_RESOURCE_SCOPE_DENIED",
+      "requestId": "01a096e5-2673-779f-a109-8d498fde8936",
+      "disabledGateObserved": true
+    },
+    {
+      "operationId": "createScoreRule",
+      "method": "POST",
+      "path": "/class-sections/{classSectionId}/score-rules",
+      "role": "ADMIN",
+      "status": 403,
+      "code": "PERMISSION_RESOURCE_SCOPE_DENIED",
+      "requestId": "01a096e5-26fd-747f-a2ca-9097665f87fe",
+      "disabledGateObserved": true
+    },
+    {
+      "operationId": "getScoreRule",
+      "method": "GET",
+      "path": "/score-rules/{scoreRuleId}",
+      "role": "ADMIN",
+      "status": 403,
+      "code": "PERMISSION_RESOURCE_SCOPE_DENIED",
+      "requestId": "01a096e5-2789-7006-b2ae-8e99f4e8f00e",
+      "disabledGateObserved": true
+    },
+    {
+      "operationId": "submitScoreRuleForApproval",
+      "method": "POST",
+      "path": "/score-rules/{scoreRuleId}/submit-approval",
+      "role": "ADMIN",
+      "status": 403,
+      "code": "PERMISSION_RESOURCE_SCOPE_DENIED",
+      "requestId": "01a096e5-2812-75ce-bc61-de305f6f8466",
+      "disabledGateObserved": true
+    },
+    {
+      "operationId": "approveScoreRule",
+      "method": "POST",
+      "path": "/score-rules/{scoreRuleId}/approve",
+      "role": "ADMIN",
+      "status": 403,
+      "code": "PERMISSION_RESOURCE_SCOPE_DENIED",
+      "requestId": "01a096e5-289d-776e-a01b-d6c18f4a88eb",
+      "disabledGateObserved": true
+    },
+    {
+      "operationId": "rejectScoreRule",
+      "method": "POST",
+      "path": "/score-rules/{scoreRuleId}/reject",
+      "role": "ADMIN",
+      "status": 403,
+      "code": "PERMISSION_RESOURCE_SCOPE_DENIED",
+      "requestId": "01a096e5-2926-7351-b9f8-547366e55cf5",
+      "disabledGateObserved": true
+    },
+    {
+      "operationId": "listStudentScores",
+      "method": "GET",
+      "path": "/student-scores",
+      "role": "ADMIN",
+      "status": 403,
+      "code": "PERMISSION_RESOURCE_SCOPE_DENIED",
+      "requestId": "01a096e5-29b4-7562-921c-eafb5ae32d35",
+      "disabledGateObserved": true
+    },
+    {
+      "operationId": "getStudentScore",
+      "method": "GET",
+      "path": "/student-scores/{studentScoreId}",
+      "role": "ADMIN",
+      "status": 403,
+      "code": "PERMISSION_RESOURCE_SCOPE_DENIED",
+      "requestId": "01a096e5-2a41-74e9-9e75-d9016e411834",
+      "disabledGateObserved": true
+    },
+    {
+      "operationId": "recalculateStudentScore",
+      "method": "POST",
+      "path": "/student-scores/{studentScoreId}/recalculate",
+      "role": "TEACHER",
+      "status": 403,
+      "code": "PERMISSION_RESOURCE_SCOPE_DENIED",
+      "requestId": "01a096e5-2acf-7011-a002-b511ea6e9433",
+      "disabledGateObserved": true
+    },
+    {
+      "operationId": "publishStudentScore",
+      "method": "POST",
+      "path": "/student-scores/{studentScoreId}/publish",
+      "role": "TEACHER",
+      "status": 403,
+      "code": "PERMISSION_RESOURCE_SCOPE_DENIED",
+      "requestId": "01a096e5-2b5d-77ba-a5eb-00e2ca0b06a5",
+      "disabledGateObserved": true
+    },
+    {
+      "operationId": "openStudentScoreCorrection",
+      "method": "POST",
+      "path": "/student-scores/{studentScoreId}/open-correction",
+      "role": "TEACHER",
+      "status": 422,
+      "code": "VALIDATION_FAILED",
+      "requestId": "01a096e5-2bf2-72d9-9dff-0fa97251da30",
+      "disabledGateObserved": false
+    },
+    {
+      "operationId": "listScoreAdjustments",
+      "method": "GET",
+      "path": "/student-scores/{studentScoreId}/adjustments",
+      "role": "ADMIN",
+      "status": 403,
+      "code": "PERMISSION_RESOURCE_SCOPE_DENIED",
+      "requestId": "01a096e5-2c7d-76b9-9a4b-0c3fe42e803b",
+      "disabledGateObserved": true
+    },
+    {
+      "operationId": "createScoreAdjustment",
+      "method": "POST",
+      "path": "/student-scores/{studentScoreId}/adjustments",
+      "role": "TEACHER",
+      "status": 403,
+      "code": "PERMISSION_RESOURCE_SCOPE_DENIED",
+      "requestId": "01a096e5-2d08-739f-89ab-cb87bdb9ab42",
+      "disabledGateObserved": true
+    },
+    {
+      "operationId": "approveScoreAdjustment",
+      "method": "POST",
+      "path": "/score-adjustments/{scoreAdjustmentId}/approve",
+      "role": "ADMIN",
+      "status": 403,
+      "code": "PERMISSION_RESOURCE_SCOPE_DENIED",
+      "requestId": "01a096e5-2d98-73d5-a7d0-2940da2f9914",
+      "disabledGateObserved": true
+    },
+    {
+      "operationId": "rejectScoreAdjustment",
+      "method": "POST",
+      "path": "/score-adjustments/{scoreAdjustmentId}/reject",
+      "role": "ADMIN",
+      "status": 403,
+      "code": "PERMISSION_RESOURCE_SCOPE_DENIED",
+      "requestId": "01a096e5-2e27-71fd-90af-844447b42c31",
+      "disabledGateObserved": true
+    },
+    {
+      "operationId": "listExports",
+      "method": "GET",
+      "path": "/exports",
+      "role": "ADMIN",
+      "status": 403,
+      "code": "PERMISSION_RESOURCE_SCOPE_DENIED",
+      "requestId": "01a096e5-2eb1-701d-bcea-96c9d60b5f8d",
+      "disabledGateObserved": true
+    },
+    {
+      "operationId": "createExport",
+      "method": "POST",
+      "path": "/exports",
+      "role": "ADMIN",
+      "status": 403,
+      "code": "PERMISSION_RESOURCE_SCOPE_DENIED",
+      "requestId": "01a096e5-2f47-7468-aa5f-1c53d8567737",
+      "disabledGateObserved": true
+    },
+    {
+      "operationId": "getExport",
+      "method": "GET",
+      "path": "/exports/{exportId}",
+      "role": "ADMIN",
+      "status": 403,
+      "code": "PERMISSION_RESOURCE_SCOPE_DENIED",
+      "requestId": "01a096e5-2fda-7558-b38f-19dd3f0afb08",
+      "disabledGateObserved": true
+    },
+    {
+      "operationId": "createExportDownloadUrl",
+      "method": "POST",
+      "path": "/exports/{exportId}/download-url",
+      "role": "ADMIN",
+      "status": 403,
+      "code": "PERMISSION_RESOURCE_SCOPE_DENIED",
+      "requestId": "01a096e5-3068-71ce-8328-a2c0e9514cdd",
+      "disabledGateObserved": true
+    },
+    {
+      "operationId": "getSportCatalog",
+      "method": "GET",
+      "path": "/sport-catalog",
+      "role": "ADMIN",
+      "status": 403,
+      "code": "PERMISSION_RESOURCE_SCOPE_DENIED",
+      "requestId": "01a096e5-30f5-7127-914c-633490789a39",
+      "disabledGateObserved": true
+    },
+    {
+      "operationId": "getActivityConversionRules",
+      "method": "GET",
+      "path": "/activity-conversion-rules",
+      "role": "ADMIN",
+      "status": 503,
+      "code": "SYSTEM_MODE_UNSUPPORTED",
+      "requestId": "01a096e5-3180-7356-b8e0-48cae081a5f5",
+      "disabledGateObserved": true
+    },
+    {
+      "operationId": "startExerciseLocationTrack",
+      "method": "POST",
+      "path": "/exercise-sessions/{sessionId}/location-track",
+      "role": "STUDENT",
+      "status": 404,
+      "code": "SESSION_NOT_FOUND",
+      "requestId": "01a096e5-320c-7111-b4ba-999e93b368bc",
+      "disabledGateObserved": false
+    },
+    {
+      "operationId": "appendExerciseLocationSamples",
+      "method": "POST",
+      "path": "/exercise-sessions/{sessionId}/location-samples",
+      "role": "STUDENT",
+      "status": 404,
+      "code": "SESSION_NOT_FOUND",
+      "requestId": "01a096e5-329b-72bd-b89b-66eff1c49356",
+      "disabledGateObserved": false
+    },
+    {
+      "operationId": "finalizeExerciseLocationTrack",
+      "method": "POST",
+      "path": "/exercise-sessions/{sessionId}/location-track/finalize",
+      "role": "STUDENT",
+      "status": 404,
+      "code": "SESSION_NOT_FOUND",
+      "requestId": "01a096e5-3327-71c3-8983-a89f1a384bbe",
+      "disabledGateObserved": false
+    },
+    {
+      "operationId": "getExerciseRecordLocationSummary",
+      "method": "GET",
+      "path": "/exercise-records/{recordId}/location-summary",
+      "role": "ADMIN",
+      "status": 404,
+      "code": "EXERCISE_RECORD_NOT_FOUND",
+      "requestId": "01a096e5-33bc-7468-a924-2555579fafe8",
+      "disabledGateObserved": false
+    },
+    {
+      "operationId": "getLocationPrivacyPolicy",
+      "method": "GET",
+      "path": "/location-privacy-policy",
+      "role": "ADMIN",
+      "status": 403,
+      "code": "PERMISSION_RESOURCE_SCOPE_DENIED",
+      "requestId": "01a096e5-344c-759f-89bc-095b4eb83b42",
+      "disabledGateObserved": true
+    },
+    {
+      "operationId": "updateLocationPrivacyPolicy",
+      "method": "PATCH",
+      "path": "/location-privacy-policy",
+      "role": "ADMIN",
+      "status": 403,
+      "code": "PERMISSION_RESOURCE_SCOPE_DENIED",
+      "requestId": "01a096e5-34d9-765d-98f7-66a6d9dab86d",
+      "disabledGateObserved": true
+    },
+    {
+      "operationId": "requestCurrentUserAccountDeletionChallenge",
+      "method": "POST",
+      "path": "/me/account-deletion-challenges",
+      "role": "STUDENT",
+      "status": 422,
+      "code": "VALIDATION_FAILED",
+      "requestId": "01a096e5-3566-72c5-a47f-cb8fde104a9b",
+      "disabledGateObserved": false
+    }
+  ]
+}

@@ -1,0 +1,95 @@
+{
+  "check": "CLOUD_SUBADMIN_PROFILE_REGRESSION",
+  "organizationId": "01a096c2-20a2-706b-8c69-802f67dee12c",
+  "checks": [
+    {
+      "path": "/me",
+      "status": 200,
+      "expected": 200,
+      "code": null,
+      "requestId": "01a098c6-0e4f-749e-80e5-8e6d10b877f5"
+    },
+    {
+      "path": "/admin/subadmins",
+      "status": 201,
+      "expected": 201,
+      "code": null,
+      "requestId": "01a098c6-13ec-76ac-8536-c272c25f0961"
+    },
+    {
+      "path": "/admin/subadmins/eea0f6ac-279d-4381-be1a-3e31043ae7f8/profile",
+      "status": 403,
+      "expected": 403,
+      "code": "PERMISSION_RESOURCE_SCOPE_DENIED",
+      "requestId": "01a098c6-1640-741a-9eee-93f3bc7e425f"
+    },
+    {
+      "path": "/admin/subadmins/eea0f6ac-279d-4381-be1a-3e31043ae7f8/profile",
+      "status": 201,
+      "expected": 201,
+      "code": null,
+      "requestId": "01a098c6-1800-7550-bd37-a2e9c5ef8c6d"
+    },
+    {
+      "path": "/admin/subadmins/eea0f6ac-279d-4381-be1a-3e31043ae7f8/profile",
+      "status": 201,
+      "expected": 201,
+      "code": null,
+      "requestId": "01a098c6-19f0-74ad-94dd-01f56a0e80da"
+    },
+    {
+      "path": "/admin/subadmins/eea0f6ac-279d-4381-be1a-3e31043ae7f8/profile",
+      "status": 409,
+      "expected": 409,
+      "code": "CONFLICT_VERSION_MISMATCH",
+      "requestId": "01a098c6-1be9-761a-ab7a-2244321f0116"
+    },
+    {
+      "path": "/admin/subadmins/eea0f6ac-279d-4381-be1a-3e31043ae7f8/profile",
+      "status": 401,
+      "expected": 401,
+      "code": "AUTH_VERIFICATION_CODE_INVALID",
+      "requestId": "01a098c6-1de9-73cc-9247-4121cd2f8d7e"
+    },
+    {
+      "path": "/admin/subadmins",
+      "status": 200,
+      "expected": 200,
+      "code": null,
+      "requestId": "01a098c6-1fc8-77a9-9a0c-64a9207ffa7d"
+    },
+    {
+      "path": "/admin/subadmins",
+      "status": 200,
+      "expected": 200,
+      "code": null,
+      "requestId": "01a098c6-2179-7621-994a-5256b18f4c4f"
+    },
+    {
+      "path": "/admin/subadmins/eea0f6ac-279d-4381-be1a-3e31043ae7f8/delete",
+      "status": 201,
+      "expected": 201,
+      "code": null,
+      "requestId": "01a098c6-2330-7535-92ab-c2e54992e7c0"
+    },
+    {
+      "path": "/admin/subadmins",
+      "status": 200,
+      "expected": 200,
+      "code": null,
+      "requestId": "01a098c6-2519-736d-bedc-0bd94d928d62"
+    }
+  ],
+  "subadminId": "eea0f6ac-279d-4381-be1a-3e31043ae7f8",
+  "result": "PASS",
+  "assertions": [
+    "name department and permission update",
+    "same-key replay identical",
+    "stale version rejected",
+    "teacher denied",
+    "unverified email change rejected without mutation",
+    "persisted readback matched"
+  ],
+  "cleanup": "TEST_ACCOUNT_DELETED",
+  "completedAt": "2026-09-13T03:18:38.686Z"
+}

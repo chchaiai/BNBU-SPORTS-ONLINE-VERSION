@@ -7,6 +7,7 @@ import { OperationPolicy } from '../../common/policy/operation-policy.decorator.
 import { Clock } from '../../common/time/clock.js';
 import { projectRosterRegistration } from './domain/roster-registration.js';
 import type { Prisma } from '../../generated/prisma/client.js';
+import { isCourseClosureHistoricalMember } from '../enrollments/application/course-closure-memberships.js';
 
 @Injectable()
 export class V81SettlementCheckService {
@@ -77,11 +78,14 @@ export class V81SettlementCheckService {
       checks.push({ code: 'CONFIRMED_OFFICIAL_ROSTER', status: confirmedRoster.length ? 'CLEAR' : 'BLOCKED',
         count: confirmedRoster.length ? 0 : 1 });
       if (confirmedRoster[0]) {
+        const section = await tx.classSection.findFirstOrThrow({ where: { id: classSectionId, organizationId },
+          select: { status: true, closedAt: true } });
         const members = await tx.enrollment.findMany({ where: { classSectionId, organizationId },
           include: { student: { include: { user: { select: { emailVerifiedAt: true } } } } } });
         const registration = projectRosterRegistration(confirmedRoster[0].source_rows, members.map(e => ({ enrollmentId: e.id,
           studentId: e.studentId, studentNumber: e.student.studentNumber, fullName: e.student.fullName,
-          emailVerified: e.student.user.emailVerifiedAt !== null, enrolledInSection: e.status === 'ACTIVE' })));
+          emailVerified: e.student.user.emailVerifiedAt !== null,
+          enrolledInSection: e.status === 'ACTIVE' || isCourseClosureHistoricalMember(e, section) })));
         const ambiguous = registration.rows.filter(row => row.status === 'IDENTITY_CONFLICT').length;
         checks.push({ code: 'ROSTER_IDENTITY_AMBIGUITY', status: ambiguous > 0 ? 'BLOCKED' : 'CLEAR', count: ambiguous });
         const unregistered = registration.rows.filter(row => row.status === 'PENDING_REGISTRATION').length;

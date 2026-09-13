@@ -225,7 +225,7 @@ describe('V81 subadministrator SMTP identity HTTP E2E', () => {
     assert.equal((await prisma.accountRecoveryChallenge.findUniqueOrThrow({where:{id:String(recovery.recoveryId)}})).userId,id);
   });
 
-  it('deletes only completed teacher accounts and preserves historical subjects with replay', async () => {
+  it('deletes a confirmed teacher account and preserves historical subjects with replay', async () => {
     const adminToken=await login(fixture.adminEmail),teacherToken=await login(fixture.teacherEmail);
     const original=await prisma.teacherProfile.findUniqueOrThrow({where:{userId:fixture.teacherUserId}});
     const source=await prisma.user.findUniqueOrThrow({where:{id:fixture.teacherUserId}});
@@ -234,12 +234,12 @@ describe('V81 subadministrator SMTP identity HTTP E2E', () => {
     await prisma.teacherProfile.create({data:{...original,id,userId,employeeNumber,fullName:'Synthetic deletion teacher',version:1}});
     await prisma.v81AccountSecurity.create({data:{userId,organizationId:fixture.organizationId,mustChangePassword:false}});
     const oldToken=await login(email);
-    const body={expectedVersion:1,confirmationEmployeeNumber:employeeNumber,reason:'Synthetic completed teacher account acceptance'};
+    const body={expectedVersion:1,confirmationEmployeeNumber:employeeNumber,confirmTeacherDeletion:true,reason:'Synthetic completed teacher account acceptance'};
     const post=(target:string,input=body,token=adminToken,key=uuidv7())=>request(`/api/v1/admin/teachers/${target}/delete`,authenticated(token,'POST',input,key));
     assert.equal((await post(id,body,teacherToken)).status,403);
     assert.equal((await post(id,{...body,expectedVersion:2})).status,409);
     assert.equal((await post(id,{...body,confirmationEmployeeNumber:'incorrect'})).status,422);
-    assert.equal((await post(original.id,{...body,expectedVersion:original.version,confirmationEmployeeNumber:original.employeeNumber})).status,409);
+    assert.equal((await post(original.id,{...body,expectedVersion:original.version,confirmationEmployeeNumber:original.employeeNumber,confirmTeacherDeletion:false})).status,422);
     assert.ok(await prisma.teacherProfile.findUnique({where:{id:original.id}}));
     await prisma.v81AdminAccess.update({where:{userId:fixture.adminUserId},data:{kind:'SUB',permissions:[]}});
     assert.equal((await post(id)).status,403);

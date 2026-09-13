@@ -1,0 +1,1 @@
+{"check":"CLOUD_STUDENT_DELETION_DATABASE_COS","result":"PASS","remaining":{"users":0,"profiles":0,"enrollments":0,"sessions":0,"records":0,"reviews":0,"media":0,"scores":0,"loginSessions":0},"creditProjections":0,"peerMembershipsRetained":2,"courseRetained":true,"cosObjectsAbsent":2,"deletionAuditCount":1,"finalizeAfter":["2026-09-11T18:18:49.624Z","2026-09-11T18:18:49.624Z"]}

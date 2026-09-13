@@ -48,8 +48,9 @@ export function coursePlanCapacity(input: {
       weeks.set(week, (weeks.get(week) ?? 0) + 1);
     }
   }
-  const availableSlots = [...weeks.values()].reduce((sum, days) => sum + Math.min(days, input.rules.weeklyLimit), 0);
+  const availableSlots = [...weeks.values()].reduce((sum, days) => sum + Math.min(days * (input.rules.dailyLimit ?? 1), input.rules.weeklyLimit), 0);
   // Both categories share daily/weekly slots; neither assumes future certification.
-  const requiredSlots = Math.ceil(input.rules.courseTarget / 60) + Math.ceil(input.rules.generalTarget / 60);
+  const maximumMinutes = input.rules.maximumMinutes ?? 60;
+  const requiredSlots = Math.ceil(input.rules.courseTarget / maximumMinutes) + Math.ceil(input.rules.generalTarget / maximumMinutes);
   return { availableSlots, requiredSlots, completable: availableSlots >= requiredSlots };
 }

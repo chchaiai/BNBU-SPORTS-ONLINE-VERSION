@@ -16,7 +16,7 @@ export async function probeMakeupSession({ prisma, fixture, request, baseUrl, te
   // The schedule is a synthetic server fixture; authorization, sign-in, start and revocation use HTTP.
   await prisma.$executeRaw`INSERT INTO v81_course_rules(class_section_id,organization_id,minimum_minutes,weekly_limit,course_target,general_target,
     regular_deadline,closing_deadline,settlement_planned_at,published_at,version,template_id)
-    VALUES(${fixture.teacherAActiveSectionId}::uuid,${fixture.organizationId}::uuid,30,3,600,600,${regular},${closing},${closing},${now},1,${template.id}::uuid)`;
+    VALUES(${fixture.teacherAActiveSectionId}::uuid,${fixture.organizationId}::uuid,1,3,600,600,${regular},${closing},${closing},${now},1,${template.id}::uuid)`;
   const organization = await prisma.organization.findUniqueOrThrow({ where: { id: fixture.organizationId } });
   const challenge = await request('/auth/student-sign-in-codes', null, { organizationCode: organization.organizationCode,
     account: student.email, channel: 'EMAIL', locale: 'en' });
@@ -58,15 +58,17 @@ export async function probeMakeupSession({ prisma, fixture, request, baseUrl, te
     body: JSON.stringify({ expectedVersion: 1, reason: 'Synthetic validation finished', clientObservedAt: new Date().toISOString() }) });
   assert.equal(invalidCancel.status, 422);
   assert.equal((await request(`/exercise-sessions/${session.id}`, login.accessToken)).status, 'IN_PROGRESS');
+  // Accumulate a real minute under the current minimum-duration rule.
+  await delay(61000);
   const finishKey = randomUUID(), finishBody = { expectedVersion: 1, clientObservedAt: '2099-01-01T00:00:00.000Z' };
   const finished = await request(`/exercise-sessions/${session.id}/finish`, login.accessToken, finishBody, finishKey);
   assert.equal(finished.status, 'COMPLETED');assert.equal(finished.version, 2);
-  assert.ok(finished.actualDurationSeconds >= 0 && finished.actualDurationSeconds < 60);
+  assert.ok(finished.actualDurationSeconds >= 60 && finished.actualDurationSeconds < 120);
   assert.deepEqual(await request(`/exercise-sessions/${session.id}/finish`, login.accessToken, finishBody, finishKey), finished);
   const draftKey = randomUUID(), draftBody = { sessionId: session.id, creditType: 'GENERAL', sportType: 'RUNNING',
     description: 'Synthetic granted session completed after revocation', clientRequestId: randomUUID() };
   const draft = await request('/exercise-records', login.accessToken, draftBody, draftKey);
-  assert.equal(draft.sessionId, session.id);assert.equal(draft.creditedDurationSeconds, 0);
+  assert.equal(draft.sessionId, session.id);assert.equal(draft.creditedDurationSeconds, 60);
   assert.deepEqual(await request('/exercise-records', login.accessToken, draftBody, draftKey), draft);
   assert.equal((await request(`/exercise-records/${draft.id}`, login.accessToken)).id, draft.id);
   for (const { token } of otherTeacherTokens) {
@@ -97,8 +99,8 @@ export async function probeMakeupSession({ prisma, fixture, request, baseUrl, te
   assert.equal(reviewed.stage,'VALID');
   assert.deepEqual(await request(`/exercise-records/${draft.id}/v81-reviews`,teacherToken,reviewBody,reviewKey),reviewed);
   const own=await request(`/exercise-records/${draft.id}`,login.accessToken);
-  assert.equal(own.workflowStage,'VALID');assert.equal(own.creditedDurationSeconds,0);
+  assert.equal(own.workflowStage,'VALID');assert.equal(own.creditedDurationSeconds,60);
   const after = await start(); assert.equal(after.status, 409); assert.equal((await after.json()).code, 'SESSION_OUTSIDE_TIME_WINDOW');
   assert.equal((await prisma.$queryRaw`SELECT session_id FROM v81_makeup_session_sources WHERE window_id=${grant.id}::uuid`).length, 1);
-  console.log(JSON.stringify({ check: 'MAKEUP_REVOKED_SESSION_MINIO_UPLOAD_SUBMIT_MANUAL_REVIEW_REPLAY', result: 'PASS', scheduleSeeded: true, syntheticImage: true, shortSessionNoCredit: true }));
+  console.log(JSON.stringify({ check: 'MAKEUP_REVOKED_SESSION_MINIO_UPLOAD_SUBMIT_MANUAL_REVIEW_REPLAY', result: 'PASS', scheduleSeeded: true, syntheticImage: true, realElapsedMinute: true }));
 }

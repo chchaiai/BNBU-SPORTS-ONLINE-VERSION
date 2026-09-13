@@ -1,0 +1,81 @@
+{
+  "check": "CLOUD_SYNTHETIC_SWIM_TRANSFER_EXPIRY",
+  "observedAt": "2026-09-12T21:51:50.303Z",
+  "organizationId": "01a096c2-20a2-706b-8c69-802f67dee12c",
+  "observations": [
+    {
+      "fixture": "lateTransferInside24h",
+      "sessionId": "01a09799-89f2-7218-b551-c4e1356732b1",
+      "recordId": "01a0979a-d5c7-776c-b972-1155e451a70b",
+      "mediaIds": [
+        "01a0979a-d678-730b-ba52-0005d80001ac",
+        "01a0979a-d736-7542-957a-c61bbd73e917"
+      ],
+      "seeded": {
+        "recordId": "01a0979a-d5c7-776c-b972-1155e451a70b",
+        "acceptedAt": "2026-09-12T21:15:17.074Z",
+        "deadline": "2026-09-12T21:45:17.074Z",
+        "baseline": "Deliberately historical acceptance seeded for this new fixture; materials initialized now. This is not proof of a real elapsed upload window."
+      },
+      "before": {
+        "recordId": "01a0979a-d5c7-776c-b972-1155e451a70b",
+        "acceptedAt": "2026-09-12T21:15:17.074Z",
+        "sessionEndedAt": "2026-09-12T21:10:17.074Z",
+        "originalTransferDeadline": "2026-09-12T21:45:17.074Z",
+        "transferDeadline": "2026-09-12T21:45:31.182Z",
+        "intakeKind": "ON_TIME",
+        "delayReason": null,
+        "completedAt": null,
+        "paused": false,
+        "remainingMs": 0,
+        "transferLate": true,
+        "readyForReview": false,
+        "items": [
+          {
+            "mediaId": "01a0979a-d678-730b-ba52-0005d80001ac",
+            "phase": "BEFORE",
+            "uploadStatus": "PENDING_UPLOAD"
+          },
+          {
+            "mediaId": "01a0979a-d736-7542-957a-c61bbd73e917",
+            "phase": "AFTER",
+            "uploadStatus": "PENDING_UPLOAD"
+          }
+        ]
+      },
+      "after": {
+        "recordId": "01a0979a-d5c7-776c-b972-1155e451a70b",
+        "acceptedAt": "2026-09-12T21:15:17.074Z",
+        "sessionEndedAt": "2026-09-12T21:10:17.074Z",
+        "originalTransferDeadline": "2026-09-12T21:45:17.074Z",
+        "transferDeadline": "2026-09-12T21:45:31.182Z",
+        "intakeKind": "ON_TIME",
+        "delayReason": null,
+        "completedAt": "2026-09-12T21:51:48.129Z",
+        "paused": false,
+        "remainingMs": 0,
+        "transferLate": true,
+        "readyForReview": true,
+        "items": [
+          {
+            "mediaId": "01a0979a-d678-730b-ba52-0005d80001ac",
+            "phase": "BEFORE",
+            "uploadStatus": "AVAILABLE"
+          },
+          {
+            "mediaId": "01a0979a-d736-7542-957a-c61bbd73e917",
+            "phase": "AFTER",
+            "uploadStatus": "AVAILABLE"
+          }
+        ]
+      }
+    }
+  ],
+  "checks": [],
+  "allChecksCompleted": false,
+  "limitations": [
+    "Both session and intake times are controlled historical fixtures; not real elapsed 30-minute proof",
+    "Exact equality covered by domain tests; real maintenance pauses already verified separately",
+    "Expired draft, one raw COS object and pending uploads require final scoped cleanup"
+  ]
+}

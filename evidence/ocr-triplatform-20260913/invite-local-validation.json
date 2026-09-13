@@ -1,0 +1,61 @@
+{
+  "check": "INVITE_TIMING_LOCAL_RELEASE_VALIDATION",
+  "observedAt": "2026-09-12T20:10:38.113Z",
+  "status": "LOCAL_PASS_DEPLOYMENT_PENDING",
+  "tests": {
+    "backendUnit": "281/281",
+    "contract": "35/35",
+    "realPostgresHttp": "12/12",
+    "studentModule": "16/16",
+    "backendTypecheck": "PASS",
+    "portalTypecheck": "PASS",
+    "portalBuild": "PASS",
+    "scopedEslint": "PASS"
+  },
+  "behavior": [
+    "Default 30 minutes and inclusive 5-120 minute server-relative selection",
+    "Fixed natural expiry plus 10 minutes for previously registered flows only",
+    "Original idempotency key may recover the same registration during grace; new keys denied",
+    "Revocation, enrollment closure, course closure and semester archival terminate unconsumed flows",
+    "Student transport retries preserve registration and consumption keys"
+  ],
+  "liveAudit": {
+    "check": "ACTIVE_OVERLONG_INVITE_AUDIT",
+    "observedAt": "2026-09-12T20:11:14.501Z",
+    "activeOverlongInvites": 0,
+    "mutation": false
+  },
+  "limitations": [
+    "Not deployed; production source remains a46fbe41f44b0724c00ee6d91944f5fdfc58cdf0",
+    "Student retry context is in memory; closing or reloading the page discards it",
+    "Existing issued capabilities retain stored earlier expiry; no production rows rewritten",
+    "Backdated clock boundary fixtures were used only in the resettable local PostgreSQL database",
+    "Production grace changes admission credential lifetime and awaits confirmation"
+  ],
+  "logs": {
+    "invite-all-unit.log": {
+      "sha256": "bc5a41e1d19f24874db83cab678f41963c2559730da7c02a50f5e0638bb3fe7b"
+    },
+    "invite-contract.log": {
+      "sha256": "22522f61338fb1d493298123fcdbe41679736b741d737c682bf4587720d417c2"
+    },
+    "invite-http-e2e-complete.log": {
+      "sha256": "fd0eee1c8eb6532f767da00e9a454ddae05ceedf7e940d52b27fe7a015af742b"
+    },
+    "invite-all-student-tests-final.log": {
+      "sha256": "ec6621686093bfd9bc8218346a173be3cc8e4f4d2b4f22117ea386889a1dbc8d"
+    },
+    "invite-typecheck-final.log": {
+      "sha256": "8a66bf22e3891a74450d046b2e50c7e81e609ddf691a52f0ff256140b1c946f6"
+    },
+    "invite-portal-typecheck.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "invite-portal-build.log": {
+      "sha256": "d5d601b2cce55653d6f901df1501dbc1ca04ed8b02e67fd6221f79530b856247"
+    },
+    "invite-eslint-final.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  }
+}

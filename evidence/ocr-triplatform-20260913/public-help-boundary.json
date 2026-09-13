@@ -1,0 +1,28 @@
+{
+  "observedAt": "2026-09-13T03:24:55.674Z",
+  "checks": [
+    {
+      "path": "/help-articles?locale=zh-CN",
+      "status": 200,
+      "code": null,
+      "data": []
+    },
+    {
+      "path": "/help-articles?locale=en",
+      "status": 200,
+      "code": null,
+      "data": []
+    },
+    {
+      "path": "/help-articles/00000000-0000-4000-8000-000000000001",
+      "status": 404,
+      "code": "PERMISSION_RESOURCE_NOT_FOUND",
+      "data": null
+    }
+  ],
+  "result": "READ_BOUNDARIES_PASS",
+  "successfulDetail": "PENDING_NO_PUBLISHED_PUBLIC_ARTICLE",
+  "currentStudentPage": "/student/help-articles",
+  "currentPageEvidence": "student-help-browser.json",
+  "scope": "Legacy public list and nonexistent detail only; not successful article detail"
+}

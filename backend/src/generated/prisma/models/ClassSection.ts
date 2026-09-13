@@ -58,6 +58,7 @@ export type ClassSectionMinAggregateOutputType = {
   closedAt: Date | null
   closedBy: string | null
   closeReason: string | null
+  retiredAt: Date | null
 }
 
 export type ClassSectionMaxAggregateOutputType = {
@@ -84,6 +85,7 @@ export type ClassSectionMaxAggregateOutputType = {
   closedAt: Date | null
   closedBy: string | null
   closeReason: string | null
+  retiredAt: Date | null
 }
 
 export type ClassSectionCountAggregateOutputType = {
@@ -110,6 +112,7 @@ export type ClassSectionCountAggregateOutputType = {
   closedAt: number
   closedBy: number
   closeReason: number
+  retiredAt: number
   _all: number
 }
 
@@ -146,6 +149,7 @@ export type ClassSectionMinAggregateInputType = {
   closedAt?: true
   closedBy?: true
   closeReason?: true
+  retiredAt?: true
 }
 
 export type ClassSectionMaxAggregateInputType = {
@@ -172,6 +176,7 @@ export type ClassSectionMaxAggregateInputType = {
   closedAt?: true
   closedBy?: true
   closeReason?: true
+  retiredAt?: true
 }
 
 export type ClassSectionCountAggregateInputType = {
@@ -198,6 +203,7 @@ export type ClassSectionCountAggregateInputType = {
   closedAt?: true
   closedBy?: true
   closeReason?: true
+  retiredAt?: true
   _all?: true
 }
 
@@ -311,6 +317,7 @@ export type ClassSectionGroupByOutputType = {
   closedAt: Date | null
   closedBy: string | null
   closeReason: string | null
+  retiredAt: Date | null
   _count: ClassSectionCountAggregateOutputType | null
   _avg: ClassSectionAvgAggregateOutputType | null
   _sum: ClassSectionSumAggregateOutputType | null
@@ -360,6 +367,7 @@ export type ClassSectionWhereInput = {
   closedAt?: Prisma.DateTimeNullableFilter<"ClassSection"> | Date | string | null
   closedBy?: Prisma.UuidNullableFilter<"ClassSection"> | string | null
   closeReason?: Prisma.StringNullableFilter<"ClassSection"> | string | null
+  retiredAt?: Prisma.DateTimeNullableFilter<"ClassSection"> | Date | string | null
   v81CourseRule_section?: Prisma.XOR<Prisma.V81CourseRuleNullableScalarRelationFilter, Prisma.V81CourseRuleWhereInput> | null
   v81CourseRule_scopedSection?: Prisma.V81CourseRuleListRelationFilter
   v81Interruption_section?: Prisma.V81InterruptionListRelationFilter
@@ -413,6 +421,7 @@ export type ClassSectionOrderByWithRelationInput = {
   closedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   closedBy?: Prisma.SortOrderInput | Prisma.SortOrder
   closeReason?: Prisma.SortOrderInput | Prisma.SortOrder
+  retiredAt?: Prisma.SortOrderInput | Prisma.SortOrder
   v81CourseRule_section?: Prisma.V81CourseRuleOrderByWithRelationInput
   v81CourseRule_scopedSection?: Prisma.V81CourseRuleOrderByRelationAggregateInput
   v81Interruption_section?: Prisma.V81InterruptionOrderByRelationAggregateInput
@@ -473,6 +482,7 @@ export type ClassSectionWhereUniqueInput = Prisma.AtLeast<{
   closedAt?: Prisma.DateTimeNullableFilter<"ClassSection"> | Date | string | null
   closedBy?: Prisma.UuidNullableFilter<"ClassSection"> | string | null
   closeReason?: Prisma.StringNullableFilter<"ClassSection"> | string | null
+  retiredAt?: Prisma.DateTimeNullableFilter<"ClassSection"> | Date | string | null
   v81CourseRule_section?: Prisma.XOR<Prisma.V81CourseRuleNullableScalarRelationFilter, Prisma.V81CourseRuleWhereInput> | null
   v81CourseRule_scopedSection?: Prisma.V81CourseRuleListRelationFilter
   v81Interruption_section?: Prisma.V81InterruptionListRelationFilter
@@ -526,6 +536,7 @@ export type ClassSectionOrderByWithAggregationInput = {
   closedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   closedBy?: Prisma.SortOrderInput | Prisma.SortOrder
   closeReason?: Prisma.SortOrderInput | Prisma.SortOrder
+  retiredAt?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.ClassSectionCountOrderByAggregateInput
   _avg?: Prisma.ClassSectionAvgOrderByAggregateInput
   _max?: Prisma.ClassSectionMaxOrderByAggregateInput
@@ -560,6 +571,7 @@ export type ClassSectionScalarWhereWithAggregatesInput = {
   closedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"ClassSection"> | Date | string | null
   closedBy?: Prisma.UuidNullableWithAggregatesFilter<"ClassSection"> | string | null
   closeReason?: Prisma.StringNullableWithAggregatesFilter<"ClassSection"> | string | null
+  retiredAt?: Prisma.DateTimeNullableWithAggregatesFilter<"ClassSection"> | Date | string | null
 }
 
 export type ClassSectionCreateInput = {
@@ -579,6 +591,7 @@ export type ClassSectionCreateInput = {
   version?: number
   closedAt?: Date | string | null
   closeReason?: string | null
+  retiredAt?: Date | string | null
   v81CourseRule_section?: Prisma.V81CourseRuleCreateNestedOneWithoutSectionInput
   v81CourseRule_scopedSection?: Prisma.V81CourseRuleCreateNestedManyWithoutScopedSectionInput
   v81Interruption_section?: Prisma.V81InterruptionCreateNestedManyWithoutSectionInput
@@ -632,6 +645,7 @@ export type ClassSectionUncheckedCreateInput = {
   closedAt?: Date | string | null
   closedBy?: string | null
   closeReason?: string | null
+  retiredAt?: Date | string | null
   v81CourseRule_section?: Prisma.V81CourseRuleUncheckedCreateNestedOneWithoutSectionInput
   v81CourseRule_scopedSection?: Prisma.V81CourseRuleUncheckedCreateNestedManyWithoutScopedSectionInput
   v81Interruption_section?: Prisma.V81InterruptionUncheckedCreateNestedManyWithoutSectionInput
@@ -671,6 +685,7 @@ export type ClassSectionUpdateInput = {
   version?: Prisma.IntFieldUpdateOperationsInput | number
   closedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   closeReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  retiredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   v81CourseRule_section?: Prisma.V81CourseRuleUpdateOneWithoutSectionNestedInput
   v81CourseRule_scopedSection?: Prisma.V81CourseRuleUpdateManyWithoutScopedSectionNestedInput
   v81Interruption_section?: Prisma.V81InterruptionUpdateManyWithoutSectionNestedInput
@@ -724,6 +739,7 @@ export type ClassSectionUncheckedUpdateInput = {
   closedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   closedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   closeReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  retiredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   v81CourseRule_section?: Prisma.V81CourseRuleUncheckedUpdateOneWithoutSectionNestedInput
   v81CourseRule_scopedSection?: Prisma.V81CourseRuleUncheckedUpdateManyWithoutScopedSectionNestedInput
   v81Interruption_section?: Prisma.V81InterruptionUncheckedUpdateManyWithoutSectionNestedInput
@@ -770,6 +786,7 @@ export type ClassSectionCreateManyInput = {
   closedAt?: Date | string | null
   closedBy?: string | null
   closeReason?: string | null
+  retiredAt?: Date | string | null
 }
 
 export type ClassSectionUpdateManyMutationInput = {
@@ -789,6 +806,7 @@ export type ClassSectionUpdateManyMutationInput = {
   version?: Prisma.IntFieldUpdateOperationsInput | number
   closedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   closeReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  retiredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type ClassSectionUncheckedUpdateManyInput = {
@@ -815,6 +833,7 @@ export type ClassSectionUncheckedUpdateManyInput = {
   closedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   closedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   closeReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  retiredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type ClassSectionListRelationFilter = {
@@ -876,6 +895,7 @@ export type ClassSectionCountOrderByAggregateInput = {
   closedAt?: Prisma.SortOrder
   closedBy?: Prisma.SortOrder
   closeReason?: Prisma.SortOrder
+  retiredAt?: Prisma.SortOrder
 }
 
 export type ClassSectionAvgOrderByAggregateInput = {
@@ -906,6 +926,7 @@ export type ClassSectionMaxOrderByAggregateInput = {
   closedAt?: Prisma.SortOrder
   closedBy?: Prisma.SortOrder
   closeReason?: Prisma.SortOrder
+  retiredAt?: Prisma.SortOrder
 }
 
 export type ClassSectionMinOrderByAggregateInput = {
@@ -932,6 +953,7 @@ export type ClassSectionMinOrderByAggregateInput = {
   closedAt?: Prisma.SortOrder
   closedBy?: Prisma.SortOrder
   closeReason?: Prisma.SortOrder
+  retiredAt?: Prisma.SortOrder
 }
 
 export type ClassSectionSumOrderByAggregateInput = {
@@ -1545,6 +1567,7 @@ export type ClassSectionCreateWithoutOrganizationInput = {
   version?: number
   closedAt?: Date | string | null
   closeReason?: string | null
+  retiredAt?: Date | string | null
   v81CourseRule_section?: Prisma.V81CourseRuleCreateNestedOneWithoutSectionInput
   v81CourseRule_scopedSection?: Prisma.V81CourseRuleCreateNestedManyWithoutScopedSectionInput
   v81Interruption_section?: Prisma.V81InterruptionCreateNestedManyWithoutSectionInput
@@ -1596,6 +1619,7 @@ export type ClassSectionUncheckedCreateWithoutOrganizationInput = {
   closedAt?: Date | string | null
   closedBy?: string | null
   closeReason?: string | null
+  retiredAt?: Date | string | null
   v81CourseRule_section?: Prisma.V81CourseRuleUncheckedCreateNestedOneWithoutSectionInput
   v81CourseRule_scopedSection?: Prisma.V81CourseRuleUncheckedCreateNestedManyWithoutScopedSectionInput
   v81Interruption_section?: Prisma.V81InterruptionUncheckedCreateNestedManyWithoutSectionInput
@@ -1671,6 +1695,7 @@ export type ClassSectionScalarWhereInput = {
   closedAt?: Prisma.DateTimeNullableFilter<"ClassSection"> | Date | string | null
   closedBy?: Prisma.UuidNullableFilter<"ClassSection"> | string | null
   closeReason?: Prisma.StringNullableFilter<"ClassSection"> | string | null
+  retiredAt?: Prisma.DateTimeNullableFilter<"ClassSection"> | Date | string | null
 }
 
 export type ClassSectionCreateWithoutCreatedByUserInput = {
@@ -1690,6 +1715,7 @@ export type ClassSectionCreateWithoutCreatedByUserInput = {
   version?: number
   closedAt?: Date | string | null
   closeReason?: string | null
+  retiredAt?: Date | string | null
   v81CourseRule_section?: Prisma.V81CourseRuleCreateNestedOneWithoutSectionInput
   v81CourseRule_scopedSection?: Prisma.V81CourseRuleCreateNestedManyWithoutScopedSectionInput
   v81Interruption_section?: Prisma.V81InterruptionCreateNestedManyWithoutSectionInput
@@ -1740,6 +1766,7 @@ export type ClassSectionUncheckedCreateWithoutCreatedByUserInput = {
   closedAt?: Date | string | null
   closedBy?: string | null
   closeReason?: string | null
+  retiredAt?: Date | string | null
   v81CourseRule_section?: Prisma.V81CourseRuleUncheckedCreateNestedOneWithoutSectionInput
   v81CourseRule_scopedSection?: Prisma.V81CourseRuleUncheckedCreateNestedManyWithoutScopedSectionInput
   v81Interruption_section?: Prisma.V81InterruptionUncheckedCreateNestedManyWithoutSectionInput
@@ -1789,6 +1816,7 @@ export type ClassSectionCreateWithoutUpdatedByUserInput = {
   version?: number
   closedAt?: Date | string | null
   closeReason?: string | null
+  retiredAt?: Date | string | null
   v81CourseRule_section?: Prisma.V81CourseRuleCreateNestedOneWithoutSectionInput
   v81CourseRule_scopedSection?: Prisma.V81CourseRuleCreateNestedManyWithoutScopedSectionInput
   v81Interruption_section?: Prisma.V81InterruptionCreateNestedManyWithoutSectionInput
@@ -1839,6 +1867,7 @@ export type ClassSectionUncheckedCreateWithoutUpdatedByUserInput = {
   closedAt?: Date | string | null
   closedBy?: string | null
   closeReason?: string | null
+  retiredAt?: Date | string | null
   v81CourseRule_section?: Prisma.V81CourseRuleUncheckedCreateNestedOneWithoutSectionInput
   v81CourseRule_scopedSection?: Prisma.V81CourseRuleUncheckedCreateNestedManyWithoutScopedSectionInput
   v81Interruption_section?: Prisma.V81InterruptionUncheckedCreateNestedManyWithoutSectionInput
@@ -1888,6 +1917,7 @@ export type ClassSectionCreateWithoutClosedByUserInput = {
   version?: number
   closedAt?: Date | string | null
   closeReason?: string | null
+  retiredAt?: Date | string | null
   v81CourseRule_section?: Prisma.V81CourseRuleCreateNestedOneWithoutSectionInput
   v81CourseRule_scopedSection?: Prisma.V81CourseRuleCreateNestedManyWithoutScopedSectionInput
   v81Interruption_section?: Prisma.V81InterruptionCreateNestedManyWithoutSectionInput
@@ -1938,6 +1968,7 @@ export type ClassSectionUncheckedCreateWithoutClosedByUserInput = {
   version?: number
   closedAt?: Date | string | null
   closeReason?: string | null
+  retiredAt?: Date | string | null
   v81CourseRule_section?: Prisma.V81CourseRuleUncheckedCreateNestedOneWithoutSectionInput
   v81CourseRule_scopedSection?: Prisma.V81CourseRuleUncheckedCreateNestedManyWithoutScopedSectionInput
   v81Interruption_section?: Prisma.V81InterruptionUncheckedCreateNestedManyWithoutSectionInput
@@ -2035,6 +2066,7 @@ export type ClassSectionCreateWithoutTeacherInput = {
   version?: number
   closedAt?: Date | string | null
   closeReason?: string | null
+  retiredAt?: Date | string | null
   v81CourseRule_section?: Prisma.V81CourseRuleCreateNestedOneWithoutSectionInput
   v81CourseRule_scopedSection?: Prisma.V81CourseRuleCreateNestedManyWithoutScopedSectionInput
   v81Interruption_section?: Prisma.V81InterruptionCreateNestedManyWithoutSectionInput
@@ -2085,6 +2117,7 @@ export type ClassSectionUncheckedCreateWithoutTeacherInput = {
   closedAt?: Date | string | null
   closedBy?: string | null
   closeReason?: string | null
+  retiredAt?: Date | string | null
   v81CourseRule_section?: Prisma.V81CourseRuleUncheckedCreateNestedOneWithoutSectionInput
   v81CourseRule_scopedSection?: Prisma.V81CourseRuleUncheckedCreateNestedManyWithoutScopedSectionInput
   v81Interruption_section?: Prisma.V81InterruptionUncheckedCreateNestedManyWithoutSectionInput
@@ -2150,6 +2183,7 @@ export type ClassSectionCreateWithoutSemesterInput = {
   version?: number
   closedAt?: Date | string | null
   closeReason?: string | null
+  retiredAt?: Date | string | null
   v81CourseRule_section?: Prisma.V81CourseRuleCreateNestedOneWithoutSectionInput
   v81CourseRule_scopedSection?: Prisma.V81CourseRuleCreateNestedManyWithoutScopedSectionInput
   v81Interruption_section?: Prisma.V81InterruptionCreateNestedManyWithoutSectionInput
@@ -2200,6 +2234,7 @@ export type ClassSectionUncheckedCreateWithoutSemesterInput = {
   closedAt?: Date | string | null
   closedBy?: string | null
   closeReason?: string | null
+  retiredAt?: Date | string | null
   v81CourseRule_section?: Prisma.V81CourseRuleUncheckedCreateNestedOneWithoutSectionInput
   v81CourseRule_scopedSection?: Prisma.V81CourseRuleUncheckedCreateNestedManyWithoutScopedSectionInput
   v81Interruption_section?: Prisma.V81InterruptionUncheckedCreateNestedManyWithoutSectionInput
@@ -2265,6 +2300,7 @@ export type ClassSectionCreateWithoutCourseInput = {
   version?: number
   closedAt?: Date | string | null
   closeReason?: string | null
+  retiredAt?: Date | string | null
   v81CourseRule_section?: Prisma.V81CourseRuleCreateNestedOneWithoutSectionInput
   v81CourseRule_scopedSection?: Prisma.V81CourseRuleCreateNestedManyWithoutScopedSectionInput
   v81Interruption_section?: Prisma.V81InterruptionCreateNestedManyWithoutSectionInput
@@ -2315,6 +2351,7 @@ export type ClassSectionUncheckedCreateWithoutCourseInput = {
   closedAt?: Date | string | null
   closedBy?: string | null
   closeReason?: string | null
+  retiredAt?: Date | string | null
   v81CourseRule_section?: Prisma.V81CourseRuleUncheckedCreateNestedOneWithoutSectionInput
   v81CourseRule_scopedSection?: Prisma.V81CourseRuleUncheckedCreateNestedManyWithoutScopedSectionInput
   v81Interruption_section?: Prisma.V81InterruptionUncheckedCreateNestedManyWithoutSectionInput
@@ -2380,6 +2417,7 @@ export type ClassSectionCreateWithoutExcludedDatesInput = {
   version?: number
   closedAt?: Date | string | null
   closeReason?: string | null
+  retiredAt?: Date | string | null
   v81CourseRule_section?: Prisma.V81CourseRuleCreateNestedOneWithoutSectionInput
   v81CourseRule_scopedSection?: Prisma.V81CourseRuleCreateNestedManyWithoutScopedSectionInput
   v81Interruption_section?: Prisma.V81InterruptionCreateNestedManyWithoutSectionInput
@@ -2432,6 +2470,7 @@ export type ClassSectionUncheckedCreateWithoutExcludedDatesInput = {
   closedAt?: Date | string | null
   closedBy?: string | null
   closeReason?: string | null
+  retiredAt?: Date | string | null
   v81CourseRule_section?: Prisma.V81CourseRuleUncheckedCreateNestedOneWithoutSectionInput
   v81CourseRule_scopedSection?: Prisma.V81CourseRuleUncheckedCreateNestedManyWithoutScopedSectionInput
   v81Interruption_section?: Prisma.V81InterruptionUncheckedCreateNestedManyWithoutSectionInput
@@ -2486,6 +2525,7 @@ export type ClassSectionUpdateWithoutExcludedDatesInput = {
   version?: Prisma.IntFieldUpdateOperationsInput | number
   closedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   closeReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  retiredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   v81CourseRule_section?: Prisma.V81CourseRuleUpdateOneWithoutSectionNestedInput
   v81CourseRule_scopedSection?: Prisma.V81CourseRuleUpdateManyWithoutScopedSectionNestedInput
   v81Interruption_section?: Prisma.V81InterruptionUpdateManyWithoutSectionNestedInput
@@ -2538,6 +2578,7 @@ export type ClassSectionUncheckedUpdateWithoutExcludedDatesInput = {
   closedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   closedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   closeReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  retiredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   v81CourseRule_section?: Prisma.V81CourseRuleUncheckedUpdateOneWithoutSectionNestedInput
   v81CourseRule_scopedSection?: Prisma.V81CourseRuleUncheckedUpdateManyWithoutScopedSectionNestedInput
   v81Interruption_section?: Prisma.V81InterruptionUncheckedUpdateManyWithoutSectionNestedInput
@@ -2576,6 +2617,7 @@ export type ClassSectionCreateWithoutCourseInvitesInput = {
   version?: number
   closedAt?: Date | string | null
   closeReason?: string | null
+  retiredAt?: Date | string | null
   v81CourseRule_section?: Prisma.V81CourseRuleCreateNestedOneWithoutSectionInput
   v81CourseRule_scopedSection?: Prisma.V81CourseRuleCreateNestedManyWithoutScopedSectionInput
   v81Interruption_section?: Prisma.V81InterruptionCreateNestedManyWithoutSectionInput
@@ -2628,6 +2670,7 @@ export type ClassSectionUncheckedCreateWithoutCourseInvitesInput = {
   closedAt?: Date | string | null
   closedBy?: string | null
   closeReason?: string | null
+  retiredAt?: Date | string | null
   v81CourseRule_section?: Prisma.V81CourseRuleUncheckedCreateNestedOneWithoutSectionInput
   v81CourseRule_scopedSection?: Prisma.V81CourseRuleUncheckedCreateNestedManyWithoutScopedSectionInput
   v81Interruption_section?: Prisma.V81InterruptionUncheckedCreateNestedManyWithoutSectionInput
@@ -2682,6 +2725,7 @@ export type ClassSectionUpdateWithoutCourseInvitesInput = {
   version?: Prisma.IntFieldUpdateOperationsInput | number
   closedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   closeReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  retiredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   v81CourseRule_section?: Prisma.V81CourseRuleUpdateOneWithoutSectionNestedInput
   v81CourseRule_scopedSection?: Prisma.V81CourseRuleUpdateManyWithoutScopedSectionNestedInput
   v81Interruption_section?: Prisma.V81InterruptionUpdateManyWithoutSectionNestedInput
@@ -2734,6 +2778,7 @@ export type ClassSectionUncheckedUpdateWithoutCourseInvitesInput = {
   closedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   closedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   closeReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  retiredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   v81CourseRule_section?: Prisma.V81CourseRuleUncheckedUpdateOneWithoutSectionNestedInput
   v81CourseRule_scopedSection?: Prisma.V81CourseRuleUncheckedUpdateManyWithoutScopedSectionNestedInput
   v81Interruption_section?: Prisma.V81InterruptionUncheckedUpdateManyWithoutSectionNestedInput
@@ -2772,6 +2817,7 @@ export type ClassSectionCreateWithoutEnrollmentsInput = {
   version?: number
   closedAt?: Date | string | null
   closeReason?: string | null
+  retiredAt?: Date | string | null
   v81CourseRule_section?: Prisma.V81CourseRuleCreateNestedOneWithoutSectionInput
   v81CourseRule_scopedSection?: Prisma.V81CourseRuleCreateNestedManyWithoutScopedSectionInput
   v81Interruption_section?: Prisma.V81InterruptionCreateNestedManyWithoutSectionInput
@@ -2824,6 +2870,7 @@ export type ClassSectionUncheckedCreateWithoutEnrollmentsInput = {
   closedAt?: Date | string | null
   closedBy?: string | null
   closeReason?: string | null
+  retiredAt?: Date | string | null
   v81CourseRule_section?: Prisma.V81CourseRuleUncheckedCreateNestedOneWithoutSectionInput
   v81CourseRule_scopedSection?: Prisma.V81CourseRuleUncheckedCreateNestedManyWithoutScopedSectionInput
   v81Interruption_section?: Prisma.V81InterruptionUncheckedCreateNestedManyWithoutSectionInput
@@ -2878,6 +2925,7 @@ export type ClassSectionUpdateWithoutEnrollmentsInput = {
   version?: Prisma.IntFieldUpdateOperationsInput | number
   closedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   closeReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  retiredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   v81CourseRule_section?: Prisma.V81CourseRuleUpdateOneWithoutSectionNestedInput
   v81CourseRule_scopedSection?: Prisma.V81CourseRuleUpdateManyWithoutScopedSectionNestedInput
   v81Interruption_section?: Prisma.V81InterruptionUpdateManyWithoutSectionNestedInput
@@ -2930,6 +2978,7 @@ export type ClassSectionUncheckedUpdateWithoutEnrollmentsInput = {
   closedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   closedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   closeReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  retiredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   v81CourseRule_section?: Prisma.V81CourseRuleUncheckedUpdateOneWithoutSectionNestedInput
   v81CourseRule_scopedSection?: Prisma.V81CourseRuleUncheckedUpdateManyWithoutScopedSectionNestedInput
   v81Interruption_section?: Prisma.V81InterruptionUncheckedUpdateManyWithoutSectionNestedInput
@@ -2968,6 +3017,7 @@ export type ClassSectionCreateWithoutExerciseSessionsInput = {
   version?: number
   closedAt?: Date | string | null
   closeReason?: string | null
+  retiredAt?: Date | string | null
   v81CourseRule_section?: Prisma.V81CourseRuleCreateNestedOneWithoutSectionInput
   v81CourseRule_scopedSection?: Prisma.V81CourseRuleCreateNestedManyWithoutScopedSectionInput
   v81Interruption_section?: Prisma.V81InterruptionCreateNestedManyWithoutSectionInput
@@ -3020,6 +3070,7 @@ export type ClassSectionUncheckedCreateWithoutExerciseSessionsInput = {
   closedAt?: Date | string | null
   closedBy?: string | null
   closeReason?: string | null
+  retiredAt?: Date | string | null
   v81CourseRule_section?: Prisma.V81CourseRuleUncheckedCreateNestedOneWithoutSectionInput
   v81CourseRule_scopedSection?: Prisma.V81CourseRuleUncheckedCreateNestedManyWithoutScopedSectionInput
   v81Interruption_section?: Prisma.V81InterruptionUncheckedCreateNestedManyWithoutSectionInput
@@ -3074,6 +3125,7 @@ export type ClassSectionUpdateWithoutExerciseSessionsInput = {
   version?: Prisma.IntFieldUpdateOperationsInput | number
   closedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   closeReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  retiredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   v81CourseRule_section?: Prisma.V81CourseRuleUpdateOneWithoutSectionNestedInput
   v81CourseRule_scopedSection?: Prisma.V81CourseRuleUpdateManyWithoutScopedSectionNestedInput
   v81Interruption_section?: Prisma.V81InterruptionUpdateManyWithoutSectionNestedInput
@@ -3126,6 +3178,7 @@ export type ClassSectionUncheckedUpdateWithoutExerciseSessionsInput = {
   closedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   closedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   closeReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  retiredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   v81CourseRule_section?: Prisma.V81CourseRuleUncheckedUpdateOneWithoutSectionNestedInput
   v81CourseRule_scopedSection?: Prisma.V81CourseRuleUncheckedUpdateManyWithoutScopedSectionNestedInput
   v81Interruption_section?: Prisma.V81InterruptionUncheckedUpdateManyWithoutSectionNestedInput
@@ -3164,6 +3217,7 @@ export type ClassSectionCreateWithoutExerciseRecordsInput = {
   version?: number
   closedAt?: Date | string | null
   closeReason?: string | null
+  retiredAt?: Date | string | null
   v81CourseRule_section?: Prisma.V81CourseRuleCreateNestedOneWithoutSectionInput
   v81CourseRule_scopedSection?: Prisma.V81CourseRuleCreateNestedManyWithoutScopedSectionInput
   v81Interruption_section?: Prisma.V81InterruptionCreateNestedManyWithoutSectionInput
@@ -3216,6 +3270,7 @@ export type ClassSectionUncheckedCreateWithoutExerciseRecordsInput = {
   closedAt?: Date | string | null
   closedBy?: string | null
   closeReason?: string | null
+  retiredAt?: Date | string | null
   v81CourseRule_section?: Prisma.V81CourseRuleUncheckedCreateNestedOneWithoutSectionInput
   v81CourseRule_scopedSection?: Prisma.V81CourseRuleUncheckedCreateNestedManyWithoutScopedSectionInput
   v81Interruption_section?: Prisma.V81InterruptionUncheckedCreateNestedManyWithoutSectionInput
@@ -3270,6 +3325,7 @@ export type ClassSectionUpdateWithoutExerciseRecordsInput = {
   version?: Prisma.IntFieldUpdateOperationsInput | number
   closedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   closeReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  retiredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   v81CourseRule_section?: Prisma.V81CourseRuleUpdateOneWithoutSectionNestedInput
   v81CourseRule_scopedSection?: Prisma.V81CourseRuleUpdateManyWithoutScopedSectionNestedInput
   v81Interruption_section?: Prisma.V81InterruptionUpdateManyWithoutSectionNestedInput
@@ -3322,6 +3378,7 @@ export type ClassSectionUncheckedUpdateWithoutExerciseRecordsInput = {
   closedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   closedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   closeReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  retiredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   v81CourseRule_section?: Prisma.V81CourseRuleUncheckedUpdateOneWithoutSectionNestedInput
   v81CourseRule_scopedSection?: Prisma.V81CourseRuleUncheckedUpdateManyWithoutScopedSectionNestedInput
   v81Interruption_section?: Prisma.V81InterruptionUncheckedUpdateManyWithoutSectionNestedInput
@@ -3360,6 +3417,7 @@ export type ClassSectionCreateWithoutCapabilitiesInput = {
   version?: number
   closedAt?: Date | string | null
   closeReason?: string | null
+  retiredAt?: Date | string | null
   v81CourseRule_section?: Prisma.V81CourseRuleCreateNestedOneWithoutSectionInput
   v81CourseRule_scopedSection?: Prisma.V81CourseRuleCreateNestedManyWithoutScopedSectionInput
   v81Interruption_section?: Prisma.V81InterruptionCreateNestedManyWithoutSectionInput
@@ -3412,6 +3470,7 @@ export type ClassSectionUncheckedCreateWithoutCapabilitiesInput = {
   closedAt?: Date | string | null
   closedBy?: string | null
   closeReason?: string | null
+  retiredAt?: Date | string | null
   v81CourseRule_section?: Prisma.V81CourseRuleUncheckedCreateNestedOneWithoutSectionInput
   v81CourseRule_scopedSection?: Prisma.V81CourseRuleUncheckedCreateNestedManyWithoutScopedSectionInput
   v81Interruption_section?: Prisma.V81InterruptionUncheckedCreateNestedManyWithoutSectionInput
@@ -3466,6 +3525,7 @@ export type ClassSectionUpdateWithoutCapabilitiesInput = {
   version?: Prisma.IntFieldUpdateOperationsInput | number
   closedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   closeReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  retiredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   v81CourseRule_section?: Prisma.V81CourseRuleUpdateOneWithoutSectionNestedInput
   v81CourseRule_scopedSection?: Prisma.V81CourseRuleUpdateManyWithoutScopedSectionNestedInput
   v81Interruption_section?: Prisma.V81InterruptionUpdateManyWithoutSectionNestedInput
@@ -3518,6 +3578,7 @@ export type ClassSectionUncheckedUpdateWithoutCapabilitiesInput = {
   closedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   closedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   closeReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  retiredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   v81CourseRule_section?: Prisma.V81CourseRuleUncheckedUpdateOneWithoutSectionNestedInput
   v81CourseRule_scopedSection?: Prisma.V81CourseRuleUncheckedUpdateManyWithoutScopedSectionNestedInput
   v81Interruption_section?: Prisma.V81InterruptionUncheckedUpdateManyWithoutSectionNestedInput
@@ -3556,6 +3617,7 @@ export type ClassSectionCreateWithoutOfficialRosterImportsInput = {
   version?: number
   closedAt?: Date | string | null
   closeReason?: string | null
+  retiredAt?: Date | string | null
   v81CourseRule_section?: Prisma.V81CourseRuleCreateNestedOneWithoutSectionInput
   v81CourseRule_scopedSection?: Prisma.V81CourseRuleCreateNestedManyWithoutScopedSectionInput
   v81Interruption_section?: Prisma.V81InterruptionCreateNestedManyWithoutSectionInput
@@ -3608,6 +3670,7 @@ export type ClassSectionUncheckedCreateWithoutOfficialRosterImportsInput = {
   closedAt?: Date | string | null
   closedBy?: string | null
   closeReason?: string | null
+  retiredAt?: Date | string | null
   v81CourseRule_section?: Prisma.V81CourseRuleUncheckedCreateNestedOneWithoutSectionInput
   v81CourseRule_scopedSection?: Prisma.V81CourseRuleUncheckedCreateNestedManyWithoutScopedSectionInput
   v81Interruption_section?: Prisma.V81InterruptionUncheckedCreateNestedManyWithoutSectionInput
@@ -3662,6 +3725,7 @@ export type ClassSectionUpdateWithoutOfficialRosterImportsInput = {
   version?: Prisma.IntFieldUpdateOperationsInput | number
   closedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   closeReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  retiredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   v81CourseRule_section?: Prisma.V81CourseRuleUpdateOneWithoutSectionNestedInput
   v81CourseRule_scopedSection?: Prisma.V81CourseRuleUpdateManyWithoutScopedSectionNestedInput
   v81Interruption_section?: Prisma.V81InterruptionUpdateManyWithoutSectionNestedInput
@@ -3714,6 +3778,7 @@ export type ClassSectionUncheckedUpdateWithoutOfficialRosterImportsInput = {
   closedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   closedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   closeReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  retiredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   v81CourseRule_section?: Prisma.V81CourseRuleUncheckedUpdateOneWithoutSectionNestedInput
   v81CourseRule_scopedSection?: Prisma.V81CourseRuleUncheckedUpdateManyWithoutScopedSectionNestedInput
   v81Interruption_section?: Prisma.V81InterruptionUncheckedUpdateManyWithoutSectionNestedInput
@@ -3752,6 +3817,7 @@ export type ClassSectionCreateWithoutOfficialRosterEntriesInput = {
   version?: number
   closedAt?: Date | string | null
   closeReason?: string | null
+  retiredAt?: Date | string | null
   v81CourseRule_section?: Prisma.V81CourseRuleCreateNestedOneWithoutSectionInput
   v81CourseRule_scopedSection?: Prisma.V81CourseRuleCreateNestedManyWithoutScopedSectionInput
   v81Interruption_section?: Prisma.V81InterruptionCreateNestedManyWithoutSectionInput
@@ -3804,6 +3870,7 @@ export type ClassSectionUncheckedCreateWithoutOfficialRosterEntriesInput = {
   closedAt?: Date | string | null
   closedBy?: string | null
   closeReason?: string | null
+  retiredAt?: Date | string | null
   v81CourseRule_section?: Prisma.V81CourseRuleUncheckedCreateNestedOneWithoutSectionInput
   v81CourseRule_scopedSection?: Prisma.V81CourseRuleUncheckedCreateNestedManyWithoutScopedSectionInput
   v81Interruption_section?: Prisma.V81InterruptionUncheckedCreateNestedManyWithoutSectionInput
@@ -3858,6 +3925,7 @@ export type ClassSectionUpdateWithoutOfficialRosterEntriesInput = {
   version?: Prisma.IntFieldUpdateOperationsInput | number
   closedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   closeReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  retiredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   v81CourseRule_section?: Prisma.V81CourseRuleUpdateOneWithoutSectionNestedInput
   v81CourseRule_scopedSection?: Prisma.V81CourseRuleUpdateManyWithoutScopedSectionNestedInput
   v81Interruption_section?: Prisma.V81InterruptionUpdateManyWithoutSectionNestedInput
@@ -3910,6 +3978,7 @@ export type ClassSectionUncheckedUpdateWithoutOfficialRosterEntriesInput = {
   closedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   closedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   closeReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  retiredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   v81CourseRule_section?: Prisma.V81CourseRuleUncheckedUpdateOneWithoutSectionNestedInput
   v81CourseRule_scopedSection?: Prisma.V81CourseRuleUncheckedUpdateManyWithoutScopedSectionNestedInput
   v81Interruption_section?: Prisma.V81InterruptionUncheckedUpdateManyWithoutSectionNestedInput
@@ -3948,6 +4017,7 @@ export type ClassSectionCreateWithoutRosterAlignmentRunsInput = {
   version?: number
   closedAt?: Date | string | null
   closeReason?: string | null
+  retiredAt?: Date | string | null
   v81CourseRule_section?: Prisma.V81CourseRuleCreateNestedOneWithoutSectionInput
   v81CourseRule_scopedSection?: Prisma.V81CourseRuleCreateNestedManyWithoutScopedSectionInput
   v81Interruption_section?: Prisma.V81InterruptionCreateNestedManyWithoutSectionInput
@@ -4000,6 +4070,7 @@ export type ClassSectionUncheckedCreateWithoutRosterAlignmentRunsInput = {
   closedAt?: Date | string | null
   closedBy?: string | null
   closeReason?: string | null
+  retiredAt?: Date | string | null
   v81CourseRule_section?: Prisma.V81CourseRuleUncheckedCreateNestedOneWithoutSectionInput
   v81CourseRule_scopedSection?: Prisma.V81CourseRuleUncheckedCreateNestedManyWithoutScopedSectionInput
   v81Interruption_section?: Prisma.V81InterruptionUncheckedCreateNestedManyWithoutSectionInput
@@ -4054,6 +4125,7 @@ export type ClassSectionUpdateWithoutRosterAlignmentRunsInput = {
   version?: Prisma.IntFieldUpdateOperationsInput | number
   closedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   closeReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  retiredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   v81CourseRule_section?: Prisma.V81CourseRuleUpdateOneWithoutSectionNestedInput
   v81CourseRule_scopedSection?: Prisma.V81CourseRuleUpdateManyWithoutScopedSectionNestedInput
   v81Interruption_section?: Prisma.V81InterruptionUpdateManyWithoutSectionNestedInput
@@ -4106,6 +4178,7 @@ export type ClassSectionUncheckedUpdateWithoutRosterAlignmentRunsInput = {
   closedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   closedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   closeReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  retiredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   v81CourseRule_section?: Prisma.V81CourseRuleUncheckedUpdateOneWithoutSectionNestedInput
   v81CourseRule_scopedSection?: Prisma.V81CourseRuleUncheckedUpdateManyWithoutScopedSectionNestedInput
   v81Interruption_section?: Prisma.V81InterruptionUncheckedUpdateManyWithoutSectionNestedInput
@@ -4144,6 +4217,7 @@ export type ClassSectionCreateWithoutRosterAlignmentPlatformEntriesInput = {
   version?: number
   closedAt?: Date | string | null
   closeReason?: string | null
+  retiredAt?: Date | string | null
   v81CourseRule_section?: Prisma.V81CourseRuleCreateNestedOneWithoutSectionInput
   v81CourseRule_scopedSection?: Prisma.V81CourseRuleCreateNestedManyWithoutScopedSectionInput
   v81Interruption_section?: Prisma.V81InterruptionCreateNestedManyWithoutSectionInput
@@ -4196,6 +4270,7 @@ export type ClassSectionUncheckedCreateWithoutRosterAlignmentPlatformEntriesInpu
   closedAt?: Date | string | null
   closedBy?: string | null
   closeReason?: string | null
+  retiredAt?: Date | string | null
   v81CourseRule_section?: Prisma.V81CourseRuleUncheckedCreateNestedOneWithoutSectionInput
   v81CourseRule_scopedSection?: Prisma.V81CourseRuleUncheckedCreateNestedManyWithoutScopedSectionInput
   v81Interruption_section?: Prisma.V81InterruptionUncheckedCreateNestedManyWithoutSectionInput
@@ -4250,6 +4325,7 @@ export type ClassSectionUpdateWithoutRosterAlignmentPlatformEntriesInput = {
   version?: Prisma.IntFieldUpdateOperationsInput | number
   closedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   closeReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  retiredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   v81CourseRule_section?: Prisma.V81CourseRuleUpdateOneWithoutSectionNestedInput
   v81CourseRule_scopedSection?: Prisma.V81CourseRuleUpdateManyWithoutScopedSectionNestedInput
   v81Interruption_section?: Prisma.V81InterruptionUpdateManyWithoutSectionNestedInput
@@ -4302,6 +4378,7 @@ export type ClassSectionUncheckedUpdateWithoutRosterAlignmentPlatformEntriesInpu
   closedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   closedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   closeReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  retiredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   v81CourseRule_section?: Prisma.V81CourseRuleUncheckedUpdateOneWithoutSectionNestedInput
   v81CourseRule_scopedSection?: Prisma.V81CourseRuleUncheckedUpdateManyWithoutScopedSectionNestedInput
   v81Interruption_section?: Prisma.V81InterruptionUncheckedUpdateManyWithoutSectionNestedInput
@@ -4340,6 +4417,7 @@ export type ClassSectionCreateWithoutRosterAlignmentResultsInput = {
   version?: number
   closedAt?: Date | string | null
   closeReason?: string | null
+  retiredAt?: Date | string | null
   v81CourseRule_section?: Prisma.V81CourseRuleCreateNestedOneWithoutSectionInput
   v81CourseRule_scopedSection?: Prisma.V81CourseRuleCreateNestedManyWithoutScopedSectionInput
   v81Interruption_section?: Prisma.V81InterruptionCreateNestedManyWithoutSectionInput
@@ -4392,6 +4470,7 @@ export type ClassSectionUncheckedCreateWithoutRosterAlignmentResultsInput = {
   closedAt?: Date | string | null
   closedBy?: string | null
   closeReason?: string | null
+  retiredAt?: Date | string | null
   v81CourseRule_section?: Prisma.V81CourseRuleUncheckedCreateNestedOneWithoutSectionInput
   v81CourseRule_scopedSection?: Prisma.V81CourseRuleUncheckedCreateNestedManyWithoutScopedSectionInput
   v81Interruption_section?: Prisma.V81InterruptionUncheckedCreateNestedManyWithoutSectionInput
@@ -4446,6 +4525,7 @@ export type ClassSectionUpdateWithoutRosterAlignmentResultsInput = {
   version?: Prisma.IntFieldUpdateOperationsInput | number
   closedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   closeReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  retiredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   v81CourseRule_section?: Prisma.V81CourseRuleUpdateOneWithoutSectionNestedInput
   v81CourseRule_scopedSection?: Prisma.V81CourseRuleUpdateManyWithoutScopedSectionNestedInput
   v81Interruption_section?: Prisma.V81InterruptionUpdateManyWithoutSectionNestedInput
@@ -4498,6 +4578,7 @@ export type ClassSectionUncheckedUpdateWithoutRosterAlignmentResultsInput = {
   closedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   closedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   closeReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  retiredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   v81CourseRule_section?: Prisma.V81CourseRuleUncheckedUpdateOneWithoutSectionNestedInput
   v81CourseRule_scopedSection?: Prisma.V81CourseRuleUncheckedUpdateManyWithoutScopedSectionNestedInput
   v81Interruption_section?: Prisma.V81InterruptionUncheckedUpdateManyWithoutSectionNestedInput
@@ -4536,6 +4617,7 @@ export type ClassSectionCreateWithoutScoreRulesInput = {
   version?: number
   closedAt?: Date | string | null
   closeReason?: string | null
+  retiredAt?: Date | string | null
   v81CourseRule_section?: Prisma.V81CourseRuleCreateNestedOneWithoutSectionInput
   v81CourseRule_scopedSection?: Prisma.V81CourseRuleCreateNestedManyWithoutScopedSectionInput
   v81Interruption_section?: Prisma.V81InterruptionCreateNestedManyWithoutSectionInput
@@ -4588,6 +4670,7 @@ export type ClassSectionUncheckedCreateWithoutScoreRulesInput = {
   closedAt?: Date | string | null
   closedBy?: string | null
   closeReason?: string | null
+  retiredAt?: Date | string | null
   v81CourseRule_section?: Prisma.V81CourseRuleUncheckedCreateNestedOneWithoutSectionInput
   v81CourseRule_scopedSection?: Prisma.V81CourseRuleUncheckedCreateNestedManyWithoutScopedSectionInput
   v81Interruption_section?: Prisma.V81InterruptionUncheckedCreateNestedManyWithoutSectionInput
@@ -4642,6 +4725,7 @@ export type ClassSectionUpdateWithoutScoreRulesInput = {
   version?: Prisma.IntFieldUpdateOperationsInput | number
   closedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   closeReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  retiredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   v81CourseRule_section?: Prisma.V81CourseRuleUpdateOneWithoutSectionNestedInput
   v81CourseRule_scopedSection?: Prisma.V81CourseRuleUpdateManyWithoutScopedSectionNestedInput
   v81Interruption_section?: Prisma.V81InterruptionUpdateManyWithoutSectionNestedInput
@@ -4694,6 +4778,7 @@ export type ClassSectionUncheckedUpdateWithoutScoreRulesInput = {
   closedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   closedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   closeReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  retiredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   v81CourseRule_section?: Prisma.V81CourseRuleUncheckedUpdateOneWithoutSectionNestedInput
   v81CourseRule_scopedSection?: Prisma.V81CourseRuleUncheckedUpdateManyWithoutScopedSectionNestedInput
   v81Interruption_section?: Prisma.V81InterruptionUncheckedUpdateManyWithoutSectionNestedInput
@@ -4732,6 +4817,7 @@ export type ClassSectionCreateWithoutStudentScoresInput = {
   version?: number
   closedAt?: Date | string | null
   closeReason?: string | null
+  retiredAt?: Date | string | null
   v81CourseRule_section?: Prisma.V81CourseRuleCreateNestedOneWithoutSectionInput
   v81CourseRule_scopedSection?: Prisma.V81CourseRuleCreateNestedManyWithoutScopedSectionInput
   v81Interruption_section?: Prisma.V81InterruptionCreateNestedManyWithoutSectionInput
@@ -4784,6 +4870,7 @@ export type ClassSectionUncheckedCreateWithoutStudentScoresInput = {
   closedAt?: Date | string | null
   closedBy?: string | null
   closeReason?: string | null
+  retiredAt?: Date | string | null
   v81CourseRule_section?: Prisma.V81CourseRuleUncheckedCreateNestedOneWithoutSectionInput
   v81CourseRule_scopedSection?: Prisma.V81CourseRuleUncheckedCreateNestedManyWithoutScopedSectionInput
   v81Interruption_section?: Prisma.V81InterruptionUncheckedCreateNestedManyWithoutSectionInput
@@ -4838,6 +4925,7 @@ export type ClassSectionUpdateWithoutStudentScoresInput = {
   version?: Prisma.IntFieldUpdateOperationsInput | number
   closedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   closeReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  retiredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   v81CourseRule_section?: Prisma.V81CourseRuleUpdateOneWithoutSectionNestedInput
   v81CourseRule_scopedSection?: Prisma.V81CourseRuleUpdateManyWithoutScopedSectionNestedInput
   v81Interruption_section?: Prisma.V81InterruptionUpdateManyWithoutSectionNestedInput
@@ -4890,6 +4978,7 @@ export type ClassSectionUncheckedUpdateWithoutStudentScoresInput = {
   closedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   closedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   closeReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  retiredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   v81CourseRule_section?: Prisma.V81CourseRuleUncheckedUpdateOneWithoutSectionNestedInput
   v81CourseRule_scopedSection?: Prisma.V81CourseRuleUncheckedUpdateManyWithoutScopedSectionNestedInput
   v81Interruption_section?: Prisma.V81InterruptionUncheckedUpdateManyWithoutSectionNestedInput
@@ -4928,6 +5017,7 @@ export type ClassSectionCreateWithoutExemptionApplicationsInput = {
   version?: number
   closedAt?: Date | string | null
   closeReason?: string | null
+  retiredAt?: Date | string | null
   v81CourseRule_section?: Prisma.V81CourseRuleCreateNestedOneWithoutSectionInput
   v81CourseRule_scopedSection?: Prisma.V81CourseRuleCreateNestedManyWithoutScopedSectionInput
   v81Interruption_section?: Prisma.V81InterruptionCreateNestedManyWithoutSectionInput
@@ -4980,6 +5070,7 @@ export type ClassSectionUncheckedCreateWithoutExemptionApplicationsInput = {
   closedAt?: Date | string | null
   closedBy?: string | null
   closeReason?: string | null
+  retiredAt?: Date | string | null
   v81CourseRule_section?: Prisma.V81CourseRuleUncheckedCreateNestedOneWithoutSectionInput
   v81CourseRule_scopedSection?: Prisma.V81CourseRuleUncheckedCreateNestedManyWithoutScopedSectionInput
   v81Interruption_section?: Prisma.V81InterruptionUncheckedCreateNestedManyWithoutSectionInput
@@ -5034,6 +5125,7 @@ export type ClassSectionUpdateWithoutExemptionApplicationsInput = {
   version?: Prisma.IntFieldUpdateOperationsInput | number
   closedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   closeReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  retiredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   v81CourseRule_section?: Prisma.V81CourseRuleUpdateOneWithoutSectionNestedInput
   v81CourseRule_scopedSection?: Prisma.V81CourseRuleUpdateManyWithoutScopedSectionNestedInput
   v81Interruption_section?: Prisma.V81InterruptionUpdateManyWithoutSectionNestedInput
@@ -5086,6 +5178,7 @@ export type ClassSectionUncheckedUpdateWithoutExemptionApplicationsInput = {
   closedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   closedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   closeReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  retiredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   v81CourseRule_section?: Prisma.V81CourseRuleUncheckedUpdateOneWithoutSectionNestedInput
   v81CourseRule_scopedSection?: Prisma.V81CourseRuleUncheckedUpdateManyWithoutScopedSectionNestedInput
   v81Interruption_section?: Prisma.V81InterruptionUncheckedUpdateManyWithoutSectionNestedInput
@@ -5124,6 +5217,7 @@ export type ClassSectionCreateWithoutLocationTracksInput = {
   version?: number
   closedAt?: Date | string | null
   closeReason?: string | null
+  retiredAt?: Date | string | null
   v81CourseRule_section?: Prisma.V81CourseRuleCreateNestedOneWithoutSectionInput
   v81CourseRule_scopedSection?: Prisma.V81CourseRuleCreateNestedManyWithoutScopedSectionInput
   v81Interruption_section?: Prisma.V81InterruptionCreateNestedManyWithoutSectionInput
@@ -5176,6 +5270,7 @@ export type ClassSectionUncheckedCreateWithoutLocationTracksInput = {
   closedAt?: Date | string | null
   closedBy?: string | null
   closeReason?: string | null
+  retiredAt?: Date | string | null
   v81CourseRule_section?: Prisma.V81CourseRuleUncheckedCreateNestedOneWithoutSectionInput
   v81CourseRule_scopedSection?: Prisma.V81CourseRuleUncheckedCreateNestedManyWithoutScopedSectionInput
   v81Interruption_section?: Prisma.V81InterruptionUncheckedCreateNestedManyWithoutSectionInput
@@ -5230,6 +5325,7 @@ export type ClassSectionUpdateWithoutLocationTracksInput = {
   version?: Prisma.IntFieldUpdateOperationsInput | number
   closedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   closeReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  retiredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   v81CourseRule_section?: Prisma.V81CourseRuleUpdateOneWithoutSectionNestedInput
   v81CourseRule_scopedSection?: Prisma.V81CourseRuleUpdateManyWithoutScopedSectionNestedInput
   v81Interruption_section?: Prisma.V81InterruptionUpdateManyWithoutSectionNestedInput
@@ -5282,6 +5378,7 @@ export type ClassSectionUncheckedUpdateWithoutLocationTracksInput = {
   closedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   closedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   closeReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  retiredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   v81CourseRule_section?: Prisma.V81CourseRuleUncheckedUpdateOneWithoutSectionNestedInput
   v81CourseRule_scopedSection?: Prisma.V81CourseRuleUncheckedUpdateManyWithoutScopedSectionNestedInput
   v81Interruption_section?: Prisma.V81InterruptionUncheckedUpdateManyWithoutSectionNestedInput
@@ -5320,6 +5417,7 @@ export type ClassSectionCreateWithoutV81CourseRule_sectionInput = {
   version?: number
   closedAt?: Date | string | null
   closeReason?: string | null
+  retiredAt?: Date | string | null
   v81CourseRule_scopedSection?: Prisma.V81CourseRuleCreateNestedManyWithoutScopedSectionInput
   v81Interruption_section?: Prisma.V81InterruptionCreateNestedManyWithoutSectionInput
   v81ManualMode_section?: Prisma.V81ManualModeCreateNestedOneWithoutSectionInput
@@ -5372,6 +5470,7 @@ export type ClassSectionUncheckedCreateWithoutV81CourseRule_sectionInput = {
   closedAt?: Date | string | null
   closedBy?: string | null
   closeReason?: string | null
+  retiredAt?: Date | string | null
   v81CourseRule_scopedSection?: Prisma.V81CourseRuleUncheckedCreateNestedManyWithoutScopedSectionInput
   v81Interruption_section?: Prisma.V81InterruptionUncheckedCreateNestedManyWithoutSectionInput
   v81ManualMode_section?: Prisma.V81ManualModeUncheckedCreateNestedOneWithoutSectionInput
@@ -5415,6 +5514,7 @@ export type ClassSectionCreateWithoutV81CourseRule_scopedSectionInput = {
   version?: number
   closedAt?: Date | string | null
   closeReason?: string | null
+  retiredAt?: Date | string | null
   v81CourseRule_section?: Prisma.V81CourseRuleCreateNestedOneWithoutSectionInput
   v81Interruption_section?: Prisma.V81InterruptionCreateNestedManyWithoutSectionInput
   v81ManualMode_section?: Prisma.V81ManualModeCreateNestedOneWithoutSectionInput
@@ -5467,6 +5567,7 @@ export type ClassSectionUncheckedCreateWithoutV81CourseRule_scopedSectionInput =
   closedAt?: Date | string | null
   closedBy?: string | null
   closeReason?: string | null
+  retiredAt?: Date | string | null
   v81CourseRule_section?: Prisma.V81CourseRuleUncheckedCreateNestedOneWithoutSectionInput
   v81Interruption_section?: Prisma.V81InterruptionUncheckedCreateNestedManyWithoutSectionInput
   v81ManualMode_section?: Prisma.V81ManualModeUncheckedCreateNestedOneWithoutSectionInput
@@ -5521,6 +5622,7 @@ export type ClassSectionUpdateWithoutV81CourseRule_sectionInput = {
   version?: Prisma.IntFieldUpdateOperationsInput | number
   closedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   closeReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  retiredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   v81CourseRule_scopedSection?: Prisma.V81CourseRuleUpdateManyWithoutScopedSectionNestedInput
   v81Interruption_section?: Prisma.V81InterruptionUpdateManyWithoutSectionNestedInput
   v81ManualMode_section?: Prisma.V81ManualModeUpdateOneWithoutSectionNestedInput
@@ -5573,6 +5675,7 @@ export type ClassSectionUncheckedUpdateWithoutV81CourseRule_sectionInput = {
   closedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   closedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   closeReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  retiredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   v81CourseRule_scopedSection?: Prisma.V81CourseRuleUncheckedUpdateManyWithoutScopedSectionNestedInput
   v81Interruption_section?: Prisma.V81InterruptionUncheckedUpdateManyWithoutSectionNestedInput
   v81ManualMode_section?: Prisma.V81ManualModeUncheckedUpdateOneWithoutSectionNestedInput
@@ -5622,6 +5725,7 @@ export type ClassSectionUpdateWithoutV81CourseRule_scopedSectionInput = {
   version?: Prisma.IntFieldUpdateOperationsInput | number
   closedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   closeReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  retiredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   v81CourseRule_section?: Prisma.V81CourseRuleUpdateOneWithoutSectionNestedInput
   v81Interruption_section?: Prisma.V81InterruptionUpdateManyWithoutSectionNestedInput
   v81ManualMode_section?: Prisma.V81ManualModeUpdateOneWithoutSectionNestedInput
@@ -5674,6 +5778,7 @@ export type ClassSectionUncheckedUpdateWithoutV81CourseRule_scopedSectionInput =
   closedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   closedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   closeReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  retiredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   v81CourseRule_section?: Prisma.V81CourseRuleUncheckedUpdateOneWithoutSectionNestedInput
   v81Interruption_section?: Prisma.V81InterruptionUncheckedUpdateManyWithoutSectionNestedInput
   v81ManualMode_section?: Prisma.V81ManualModeUncheckedUpdateOneWithoutSectionNestedInput
@@ -5712,6 +5817,7 @@ export type ClassSectionCreateWithoutV81Interruption_sectionInput = {
   version?: number
   closedAt?: Date | string | null
   closeReason?: string | null
+  retiredAt?: Date | string | null
   v81CourseRule_section?: Prisma.V81CourseRuleCreateNestedOneWithoutSectionInput
   v81CourseRule_scopedSection?: Prisma.V81CourseRuleCreateNestedManyWithoutScopedSectionInput
   v81ManualMode_section?: Prisma.V81ManualModeCreateNestedOneWithoutSectionInput
@@ -5764,6 +5870,7 @@ export type ClassSectionUncheckedCreateWithoutV81Interruption_sectionInput = {
   closedAt?: Date | string | null
   closedBy?: string | null
   closeReason?: string | null
+  retiredAt?: Date | string | null
   v81CourseRule_section?: Prisma.V81CourseRuleUncheckedCreateNestedOneWithoutSectionInput
   v81CourseRule_scopedSection?: Prisma.V81CourseRuleUncheckedCreateNestedManyWithoutScopedSectionInput
   v81ManualMode_section?: Prisma.V81ManualModeUncheckedCreateNestedOneWithoutSectionInput
@@ -5818,6 +5925,7 @@ export type ClassSectionUpdateWithoutV81Interruption_sectionInput = {
   version?: Prisma.IntFieldUpdateOperationsInput | number
   closedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   closeReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  retiredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   v81CourseRule_section?: Prisma.V81CourseRuleUpdateOneWithoutSectionNestedInput
   v81CourseRule_scopedSection?: Prisma.V81CourseRuleUpdateManyWithoutScopedSectionNestedInput
   v81ManualMode_section?: Prisma.V81ManualModeUpdateOneWithoutSectionNestedInput
@@ -5870,6 +5978,7 @@ export type ClassSectionUncheckedUpdateWithoutV81Interruption_sectionInput = {
   closedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   closedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   closeReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  retiredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   v81CourseRule_section?: Prisma.V81CourseRuleUncheckedUpdateOneWithoutSectionNestedInput
   v81CourseRule_scopedSection?: Prisma.V81CourseRuleUncheckedUpdateManyWithoutScopedSectionNestedInput
   v81ManualMode_section?: Prisma.V81ManualModeUncheckedUpdateOneWithoutSectionNestedInput
@@ -5908,6 +6017,7 @@ export type ClassSectionCreateWithoutV81ManualMode_sectionInput = {
   version?: number
   closedAt?: Date | string | null
   closeReason?: string | null
+  retiredAt?: Date | string | null
   v81CourseRule_section?: Prisma.V81CourseRuleCreateNestedOneWithoutSectionInput
   v81CourseRule_scopedSection?: Prisma.V81CourseRuleCreateNestedManyWithoutScopedSectionInput
   v81Interruption_section?: Prisma.V81InterruptionCreateNestedManyWithoutSectionInput
@@ -5960,6 +6070,7 @@ export type ClassSectionUncheckedCreateWithoutV81ManualMode_sectionInput = {
   closedAt?: Date | string | null
   closedBy?: string | null
   closeReason?: string | null
+  retiredAt?: Date | string | null
   v81CourseRule_section?: Prisma.V81CourseRuleUncheckedCreateNestedOneWithoutSectionInput
   v81CourseRule_scopedSection?: Prisma.V81CourseRuleUncheckedCreateNestedManyWithoutScopedSectionInput
   v81Interruption_section?: Prisma.V81InterruptionUncheckedCreateNestedManyWithoutSectionInput
@@ -6003,6 +6114,7 @@ export type ClassSectionCreateWithoutV81ManualMode_scopedSectionInput = {
   version?: number
   closedAt?: Date | string | null
   closeReason?: string | null
+  retiredAt?: Date | string | null
   v81CourseRule_section?: Prisma.V81CourseRuleCreateNestedOneWithoutSectionInput
   v81CourseRule_scopedSection?: Prisma.V81CourseRuleCreateNestedManyWithoutScopedSectionInput
   v81Interruption_section?: Prisma.V81InterruptionCreateNestedManyWithoutSectionInput
@@ -6055,6 +6167,7 @@ export type ClassSectionUncheckedCreateWithoutV81ManualMode_scopedSectionInput =
   closedAt?: Date | string | null
   closedBy?: string | null
   closeReason?: string | null
+  retiredAt?: Date | string | null
   v81CourseRule_section?: Prisma.V81CourseRuleUncheckedCreateNestedOneWithoutSectionInput
   v81CourseRule_scopedSection?: Prisma.V81CourseRuleUncheckedCreateNestedManyWithoutScopedSectionInput
   v81Interruption_section?: Prisma.V81InterruptionUncheckedCreateNestedManyWithoutSectionInput
@@ -6109,6 +6222,7 @@ export type ClassSectionUpdateWithoutV81ManualMode_sectionInput = {
   version?: Prisma.IntFieldUpdateOperationsInput | number
   closedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   closeReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  retiredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   v81CourseRule_section?: Prisma.V81CourseRuleUpdateOneWithoutSectionNestedInput
   v81CourseRule_scopedSection?: Prisma.V81CourseRuleUpdateManyWithoutScopedSectionNestedInput
   v81Interruption_section?: Prisma.V81InterruptionUpdateManyWithoutSectionNestedInput
@@ -6161,6 +6275,7 @@ export type ClassSectionUncheckedUpdateWithoutV81ManualMode_sectionInput = {
   closedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   closedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   closeReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  retiredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   v81CourseRule_section?: Prisma.V81CourseRuleUncheckedUpdateOneWithoutSectionNestedInput
   v81CourseRule_scopedSection?: Prisma.V81CourseRuleUncheckedUpdateManyWithoutScopedSectionNestedInput
   v81Interruption_section?: Prisma.V81InterruptionUncheckedUpdateManyWithoutSectionNestedInput
@@ -6210,6 +6325,7 @@ export type ClassSectionUpdateWithoutV81ManualMode_scopedSectionInput = {
   version?: Prisma.IntFieldUpdateOperationsInput | number
   closedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   closeReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  retiredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   v81CourseRule_section?: Prisma.V81CourseRuleUpdateOneWithoutSectionNestedInput
   v81CourseRule_scopedSection?: Prisma.V81CourseRuleUpdateManyWithoutScopedSectionNestedInput
   v81Interruption_section?: Prisma.V81InterruptionUpdateManyWithoutSectionNestedInput
@@ -6262,6 +6378,7 @@ export type ClassSectionUncheckedUpdateWithoutV81ManualMode_scopedSectionInput =
   closedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   closedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   closeReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  retiredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   v81CourseRule_section?: Prisma.V81CourseRuleUncheckedUpdateOneWithoutSectionNestedInput
   v81CourseRule_scopedSection?: Prisma.V81CourseRuleUncheckedUpdateManyWithoutScopedSectionNestedInput
   v81Interruption_section?: Prisma.V81InterruptionUncheckedUpdateManyWithoutSectionNestedInput
@@ -6306,6 +6423,7 @@ export type ClassSectionCreateManyOrganizationInput = {
   closedAt?: Date | string | null
   closedBy?: string | null
   closeReason?: string | null
+  retiredAt?: Date | string | null
 }
 
 export type ClassSectionUpdateWithoutOrganizationInput = {
@@ -6325,6 +6443,7 @@ export type ClassSectionUpdateWithoutOrganizationInput = {
   version?: Prisma.IntFieldUpdateOperationsInput | number
   closedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   closeReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  retiredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   v81CourseRule_section?: Prisma.V81CourseRuleUpdateOneWithoutSectionNestedInput
   v81CourseRule_scopedSection?: Prisma.V81CourseRuleUpdateManyWithoutScopedSectionNestedInput
   v81Interruption_section?: Prisma.V81InterruptionUpdateManyWithoutSectionNestedInput
@@ -6376,6 +6495,7 @@ export type ClassSectionUncheckedUpdateWithoutOrganizationInput = {
   closedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   closedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   closeReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  retiredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   v81CourseRule_section?: Prisma.V81CourseRuleUncheckedUpdateOneWithoutSectionNestedInput
   v81CourseRule_scopedSection?: Prisma.V81CourseRuleUncheckedUpdateManyWithoutScopedSectionNestedInput
   v81Interruption_section?: Prisma.V81InterruptionUncheckedUpdateManyWithoutSectionNestedInput
@@ -6421,6 +6541,7 @@ export type ClassSectionUncheckedUpdateManyWithoutOrganizationInput = {
   closedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   closedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   closeReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  retiredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type ClassSectionCreateManyCreatedByUserInput = {
@@ -6445,6 +6566,7 @@ export type ClassSectionCreateManyCreatedByUserInput = {
   closedAt?: Date | string | null
   closedBy?: string | null
   closeReason?: string | null
+  retiredAt?: Date | string | null
 }
 
 export type ClassSectionCreateManyUpdatedByUserInput = {
@@ -6469,6 +6591,7 @@ export type ClassSectionCreateManyUpdatedByUserInput = {
   closedAt?: Date | string | null
   closedBy?: string | null
   closeReason?: string | null
+  retiredAt?: Date | string | null
 }
 
 export type ClassSectionCreateManyClosedByUserInput = {
@@ -6493,6 +6616,7 @@ export type ClassSectionCreateManyClosedByUserInput = {
   version?: number
   closedAt?: Date | string | null
   closeReason?: string | null
+  retiredAt?: Date | string | null
 }
 
 export type ClassSectionUpdateWithoutCreatedByUserInput = {
@@ -6512,6 +6636,7 @@ export type ClassSectionUpdateWithoutCreatedByUserInput = {
   version?: Prisma.IntFieldUpdateOperationsInput | number
   closedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   closeReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  retiredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   v81CourseRule_section?: Prisma.V81CourseRuleUpdateOneWithoutSectionNestedInput
   v81CourseRule_scopedSection?: Prisma.V81CourseRuleUpdateManyWithoutScopedSectionNestedInput
   v81Interruption_section?: Prisma.V81InterruptionUpdateManyWithoutSectionNestedInput
@@ -6562,6 +6687,7 @@ export type ClassSectionUncheckedUpdateWithoutCreatedByUserInput = {
   closedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   closedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   closeReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  retiredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   v81CourseRule_section?: Prisma.V81CourseRuleUncheckedUpdateOneWithoutSectionNestedInput
   v81CourseRule_scopedSection?: Prisma.V81CourseRuleUncheckedUpdateManyWithoutScopedSectionNestedInput
   v81Interruption_section?: Prisma.V81InterruptionUncheckedUpdateManyWithoutSectionNestedInput
@@ -6606,6 +6732,7 @@ export type ClassSectionUncheckedUpdateManyWithoutCreatedByUserInput = {
   closedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   closedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   closeReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  retiredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type ClassSectionUpdateWithoutUpdatedByUserInput = {
@@ -6625,6 +6752,7 @@ export type ClassSectionUpdateWithoutUpdatedByUserInput = {
   version?: Prisma.IntFieldUpdateOperationsInput | number
   closedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   closeReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  retiredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   v81CourseRule_section?: Prisma.V81CourseRuleUpdateOneWithoutSectionNestedInput
   v81CourseRule_scopedSection?: Prisma.V81CourseRuleUpdateManyWithoutScopedSectionNestedInput
   v81Interruption_section?: Prisma.V81InterruptionUpdateManyWithoutSectionNestedInput
@@ -6675,6 +6803,7 @@ export type ClassSectionUncheckedUpdateWithoutUpdatedByUserInput = {
   closedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   closedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   closeReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  retiredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   v81CourseRule_section?: Prisma.V81CourseRuleUncheckedUpdateOneWithoutSectionNestedInput
   v81CourseRule_scopedSection?: Prisma.V81CourseRuleUncheckedUpdateManyWithoutScopedSectionNestedInput
   v81Interruption_section?: Prisma.V81InterruptionUncheckedUpdateManyWithoutSectionNestedInput
@@ -6719,6 +6848,7 @@ export type ClassSectionUncheckedUpdateManyWithoutUpdatedByUserInput = {
   closedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   closedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   closeReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  retiredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type ClassSectionUpdateWithoutClosedByUserInput = {
@@ -6738,6 +6868,7 @@ export type ClassSectionUpdateWithoutClosedByUserInput = {
   version?: Prisma.IntFieldUpdateOperationsInput | number
   closedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   closeReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  retiredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   v81CourseRule_section?: Prisma.V81CourseRuleUpdateOneWithoutSectionNestedInput
   v81CourseRule_scopedSection?: Prisma.V81CourseRuleUpdateManyWithoutScopedSectionNestedInput
   v81Interruption_section?: Prisma.V81InterruptionUpdateManyWithoutSectionNestedInput
@@ -6788,6 +6919,7 @@ export type ClassSectionUncheckedUpdateWithoutClosedByUserInput = {
   version?: Prisma.IntFieldUpdateOperationsInput | number
   closedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   closeReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  retiredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   v81CourseRule_section?: Prisma.V81CourseRuleUncheckedUpdateOneWithoutSectionNestedInput
   v81CourseRule_scopedSection?: Prisma.V81CourseRuleUncheckedUpdateManyWithoutScopedSectionNestedInput
   v81Interruption_section?: Prisma.V81InterruptionUncheckedUpdateManyWithoutSectionNestedInput
@@ -6832,6 +6964,7 @@ export type ClassSectionUncheckedUpdateManyWithoutClosedByUserInput = {
   version?: Prisma.IntFieldUpdateOperationsInput | number
   closedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   closeReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  retiredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type ClassSectionCreateManyTeacherInput = {
@@ -6856,6 +6989,7 @@ export type ClassSectionCreateManyTeacherInput = {
   closedAt?: Date | string | null
   closedBy?: string | null
   closeReason?: string | null
+  retiredAt?: Date | string | null
 }
 
 export type ClassSectionUpdateWithoutTeacherInput = {
@@ -6875,6 +7009,7 @@ export type ClassSectionUpdateWithoutTeacherInput = {
   version?: Prisma.IntFieldUpdateOperationsInput | number
   closedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   closeReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  retiredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   v81CourseRule_section?: Prisma.V81CourseRuleUpdateOneWithoutSectionNestedInput
   v81CourseRule_scopedSection?: Prisma.V81CourseRuleUpdateManyWithoutScopedSectionNestedInput
   v81Interruption_section?: Prisma.V81InterruptionUpdateManyWithoutSectionNestedInput
@@ -6925,6 +7060,7 @@ export type ClassSectionUncheckedUpdateWithoutTeacherInput = {
   closedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   closedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   closeReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  retiredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   v81CourseRule_section?: Prisma.V81CourseRuleUncheckedUpdateOneWithoutSectionNestedInput
   v81CourseRule_scopedSection?: Prisma.V81CourseRuleUncheckedUpdateManyWithoutScopedSectionNestedInput
   v81Interruption_section?: Prisma.V81InterruptionUncheckedUpdateManyWithoutSectionNestedInput
@@ -6969,6 +7105,7 @@ export type ClassSectionUncheckedUpdateManyWithoutTeacherInput = {
   closedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   closedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   closeReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  retiredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type ClassSectionCreateManySemesterInput = {
@@ -6993,6 +7130,7 @@ export type ClassSectionCreateManySemesterInput = {
   closedAt?: Date | string | null
   closedBy?: string | null
   closeReason?: string | null
+  retiredAt?: Date | string | null
 }
 
 export type ClassSectionUpdateWithoutSemesterInput = {
@@ -7012,6 +7150,7 @@ export type ClassSectionUpdateWithoutSemesterInput = {
   version?: Prisma.IntFieldUpdateOperationsInput | number
   closedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   closeReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  retiredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   v81CourseRule_section?: Prisma.V81CourseRuleUpdateOneWithoutSectionNestedInput
   v81CourseRule_scopedSection?: Prisma.V81CourseRuleUpdateManyWithoutScopedSectionNestedInput
   v81Interruption_section?: Prisma.V81InterruptionUpdateManyWithoutSectionNestedInput
@@ -7062,6 +7201,7 @@ export type ClassSectionUncheckedUpdateWithoutSemesterInput = {
   closedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   closedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   closeReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  retiredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   v81CourseRule_section?: Prisma.V81CourseRuleUncheckedUpdateOneWithoutSectionNestedInput
   v81CourseRule_scopedSection?: Prisma.V81CourseRuleUncheckedUpdateManyWithoutScopedSectionNestedInput
   v81Interruption_section?: Prisma.V81InterruptionUncheckedUpdateManyWithoutSectionNestedInput
@@ -7106,6 +7246,7 @@ export type ClassSectionUncheckedUpdateManyWithoutSemesterInput = {
   closedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   closedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   closeReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  retiredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type ClassSectionCreateManyCourseInput = {
@@ -7130,6 +7271,7 @@ export type ClassSectionCreateManyCourseInput = {
   closedAt?: Date | string | null
   closedBy?: string | null
   closeReason?: string | null
+  retiredAt?: Date | string | null
 }
 
 export type ClassSectionUpdateWithoutCourseInput = {
@@ -7149,6 +7291,7 @@ export type ClassSectionUpdateWithoutCourseInput = {
   version?: Prisma.IntFieldUpdateOperationsInput | number
   closedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   closeReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  retiredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   v81CourseRule_section?: Prisma.V81CourseRuleUpdateOneWithoutSectionNestedInput
   v81CourseRule_scopedSection?: Prisma.V81CourseRuleUpdateManyWithoutScopedSectionNestedInput
   v81Interruption_section?: Prisma.V81InterruptionUpdateManyWithoutSectionNestedInput
@@ -7199,6 +7342,7 @@ export type ClassSectionUncheckedUpdateWithoutCourseInput = {
   closedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   closedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   closeReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  retiredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   v81CourseRule_section?: Prisma.V81CourseRuleUncheckedUpdateOneWithoutSectionNestedInput
   v81CourseRule_scopedSection?: Prisma.V81CourseRuleUncheckedUpdateManyWithoutScopedSectionNestedInput
   v81Interruption_section?: Prisma.V81InterruptionUncheckedUpdateManyWithoutSectionNestedInput
@@ -7243,6 +7387,7 @@ export type ClassSectionUncheckedUpdateManyWithoutCourseInput = {
   closedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   closedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   closeReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  retiredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 
@@ -7453,6 +7598,7 @@ export type ClassSectionSelect<ExtArgs extends runtime.Types.Extensions.Internal
   closedAt?: boolean
   closedBy?: boolean
   closeReason?: boolean
+  retiredAt?: boolean
   v81CourseRule_section?: boolean | Prisma.ClassSection$v81CourseRule_sectionArgs<ExtArgs>
   v81CourseRule_scopedSection?: boolean | Prisma.ClassSection$v81CourseRule_scopedSectionArgs<ExtArgs>
   v81Interruption_section?: boolean | Prisma.ClassSection$v81Interruption_sectionArgs<ExtArgs>
@@ -7507,6 +7653,7 @@ export type ClassSectionSelectCreateManyAndReturn<ExtArgs extends runtime.Types.
   closedAt?: boolean
   closedBy?: boolean
   closeReason?: boolean
+  retiredAt?: boolean
   organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
   course?: boolean | Prisma.CourseDefaultArgs<ExtArgs>
   semester?: boolean | Prisma.SemesterDefaultArgs<ExtArgs>
@@ -7540,6 +7687,7 @@ export type ClassSectionSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.
   closedAt?: boolean
   closedBy?: boolean
   closeReason?: boolean
+  retiredAt?: boolean
   organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
   course?: boolean | Prisma.CourseDefaultArgs<ExtArgs>
   semester?: boolean | Prisma.SemesterDefaultArgs<ExtArgs>
@@ -7573,9 +7721,10 @@ export type ClassSectionSelectScalar = {
   closedAt?: boolean
   closedBy?: boolean
   closeReason?: boolean
+  retiredAt?: boolean
 }
 
-export type ClassSectionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "organizationId" | "courseId" | "semesterId" | "teacherId" | "classCode" | "displayName" | "status" | "isEnrollmentOpen" | "checkInWindowMode" | "checkInStartDate" | "checkInEndDate" | "dailyStartTime" | "dailyEndTime" | "submissionDeadlineAt" | "createdBy" | "updatedBy" | "createdAt" | "updatedAt" | "version" | "closedAt" | "closedBy" | "closeReason", ExtArgs["result"]["classSection"]>
+export type ClassSectionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "organizationId" | "courseId" | "semesterId" | "teacherId" | "classCode" | "displayName" | "status" | "isEnrollmentOpen" | "checkInWindowMode" | "checkInStartDate" | "checkInEndDate" | "dailyStartTime" | "dailyEndTime" | "submissionDeadlineAt" | "createdBy" | "updatedBy" | "createdAt" | "updatedAt" | "version" | "closedAt" | "closedBy" | "closeReason" | "retiredAt", ExtArgs["result"]["classSection"]>
 export type ClassSectionInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   v81CourseRule_section?: boolean | Prisma.ClassSection$v81CourseRule_sectionArgs<ExtArgs>
   v81CourseRule_scopedSection?: boolean | Prisma.ClassSection$v81CourseRule_scopedSectionArgs<ExtArgs>
@@ -7680,6 +7829,7 @@ export type $ClassSectionPayload<ExtArgs extends runtime.Types.Extensions.Intern
     closedAt: Date | null
     closedBy: string | null
     closeReason: string | null
+    retiredAt: Date | null
   }, ExtArgs["result"]["classSection"]>
   composites: {}
 }
@@ -8153,6 +8303,7 @@ export interface ClassSectionFieldRefs {
   readonly closedAt: Prisma.FieldRef<"ClassSection", 'DateTime'>
   readonly closedBy: Prisma.FieldRef<"ClassSection", 'String'>
   readonly closeReason: Prisma.FieldRef<"ClassSection", 'String'>
+  readonly retiredAt: Prisma.FieldRef<"ClassSection", 'DateTime'>
 }
     
 

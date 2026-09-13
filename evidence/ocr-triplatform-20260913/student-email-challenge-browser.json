@@ -1,0 +1,14 @@
+{
+  "email": "u43***003@mail.bnbu.edu.cn",
+  "recipientDeliveryConfirmed": false,
+  "check": "STUDENT_EMAIL_CHALLENGE_BROWSER_REQUEST",
+  "authorization": "User explicitly authorized sending verification code and binding synthetic account",
+  "verificationInputVisible": true,
+  "student": "Synthetic Zeta 9900000006",
+  "browserUrl": "https://www.student.bnbusports.cn/student/",
+  "recordedAt": "2026-09-13T08:07:38.1597007+08:00",
+  "limitations": "Awaiting recipient code; UI success is not proof of inbox delivery or completed verification. Countdown text observed only, elapsed-time behavior not tested.",
+  "uiMessage": "验证码已发送到邮箱。",
+  "bindingCompleted": false,
+  "requestAcceptedByUi": true
+}

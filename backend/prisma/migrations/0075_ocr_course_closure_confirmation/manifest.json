@@ -1,0 +1,5 @@
+{
+  "sha256": "34dbb3e6b8d49d122d521665750100b78730f53f187a5d24b7991512dd5a76de",
+  "destructive": false,
+  "migrationId": "0075_ocr_course_closure_confirmation"
+}

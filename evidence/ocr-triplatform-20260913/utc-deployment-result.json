@@ -1,0 +1,9 @@
+{
+  "check": "UTC_BACKEND_DEPLOYMENT",
+  "previous": "/opt/bnbu-sports-production/releases/ocr-full-20260913",
+  "release": "/opt/bnbu-sports-production/releases/utc-20260913",
+  "image": "sha256:51838920fd4be9fb654511225e1185232d61e5b2dc1d683fd211543d1e952fa0",
+  "databaseMigration": false,
+  "status": "PASS",
+  "observedAtEpoch": 1789245844.7632358
+}

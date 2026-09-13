@@ -1,0 +1,6 @@
+Loaded image: bnbu-portal-production:teacher-media-20260911
+ Container bnbu-sports-production-portal-1 Recreate 
+ Container bnbu-sports-production-portal-1 Recreated 
+ Container bnbu-sports-production-portal-1 Starting 
+ Container bnbu-sports-production-portal-1 Started 
+{"check": "TEACHER_MEDIA_DEPLOYMENT", "result": "PASS", "release": "/opt/bnbu-sports-production/releases/teacher-media-20260911", "images": {"portal": "sha256:21c18972ff6406eaed4a7bf76d5061d365dad0cc0384409bdb882e78a1b59108"}}

@@ -1,7 +1,5 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 
-import type { RuntimeConfig } from '../../../common/config/environment.js';
-import { RUNTIME_CONFIG } from '../../../common/config/runtime-config.module.js';
 import { ApplicationError } from '../../../common/errors/application-error.js';
 import { IdempotencyService } from '../../../common/idempotency/idempotency.service.js';
 import type { CourseInvitePolicyContext } from '../../../common/policy/qr-join-policy-resolver.js';
@@ -12,12 +10,14 @@ import { IdGenerator } from '../../../common/time/id-generator.js';
 import { StudentIdentityNormalizer } from '../../users/application/student-identity-normalizer.js';
 import { StudentIdentityResolver } from '../../users/application/student-identity-resolver.js';
 import { CourseInviteRepository } from '../../course-invites/domain/course-invite.repository.js';
+import { INVITE_GRACE_MS } from '../../course-invites/domain/invite-timing.js';
 import { JoinCapabilityRepository } from '../domain/join-capability.repository.js';
 import { JoinCapabilityEntity } from '../domain/join-capability.js';
 import type { IssueJoinCapabilityRequestDto } from '../interface/http/join-capabilities.dto.js';
 import type { JoinCapabilityProjection } from './join-capability-projection.js';
 
 interface IssueFacts {
+  authenticatedUserId?: string;
   requestId: string;
   idempotencyKey: string | undefined;
   sourceIp: string | undefined;
@@ -35,7 +35,6 @@ export class JoinCapabilitiesService {
     private readonly rateLimits: QrJoinPublicRateLimitService,
     private readonly clock: Clock,
     private readonly ids: IdGenerator,
-    @Inject(RUNTIME_CONFIG) private readonly config: RuntimeConfig,
   ) {}
 
   async issue(
@@ -43,7 +42,8 @@ export class JoinCapabilitiesService {
     input: IssueJoinCapabilityRequestDto,
     facts: IssueFacts,
   ): Promise<JoinCapabilityProjection> {
-    const identity = this.normalizer.normalize(input);
+    const identity = { ...this.normalizer.normalize(input),
+      ...(facts.authenticatedUserId ? { authenticatedUserId: facts.authenticatedUserId } : {}) };
     const identityFingerprint = this.crypto.identityFingerprint({
       organizationId: invite.organizationId,
       inviteId: invite.inviteId,
@@ -53,7 +53,11 @@ export class JoinCapabilitiesService {
       `qr:issue:identity:${identityFingerprint}`,
       `qr:issue:source-identity:${this.crypto.opaqueReference('source-identity', `${facts.sourceIp ?? 'unavailable'}\0${identityFingerprint}`)}`,
     ]);
-    await this.identities.validateExisting(invite.organizationId, identity);
+    const existing = await this.identities.validateExisting(invite.organizationId, identity);
+    if ((existing?.user.emailVerifiedAt && facts.authenticatedUserId !== existing.user.id) ||
+        (facts.authenticatedUserId && existing?.user.id !== facts.authenticatedUserId)) {
+      throw new ApplicationError('AUTH_REQUIRED', 401);
+    }
 
     const reference = await this.idempotency.execute(
       {
@@ -94,14 +98,8 @@ export class JoinCapabilitiesService {
         await this.identities.validateExisting(invite.organizationId, identity, transaction);
         const capabilityId = this.ids.next();
         const issued = this.crypto.issueToken('join-capability', capabilityId);
-        const configuredExpiry = new Date(
-          now.getTime() + this.config.joinCapabilityTtlSeconds * 1_000,
-        );
-        const expiresAt =
-          configuredExpiry <= currentInvite.expiresAt ? configuredExpiry : currentInvite.expiresAt;
-        const replayExpiresAt = new Date(
-          now.getTime() + this.config.qrJoinSecretReplaySeconds * 1_000,
-        );
+        const expiresAt = new Date(currentInvite.expiresAt.getTime() + INVITE_GRACE_MS);
+        const replayExpiresAt = expiresAt;
         const capability = JoinCapabilityEntity.issue({
           id: capabilityId,
           organizationId: invite.organizationId,

@@ -1,0 +1,46 @@
+{
+  "observedAt": "2026-09-13T03:12:24.820374+00:00",
+  "release": "/opt/bnbu-sports-production/releases/invite-ui-final-20260913",
+  "backendImage": "sha256:c676a33218fc069cc6c57a14d36a96420bfeb8bb36facb84939cff8826b68055",
+  "portalImage": "sha256:69c42e30e571a3af217b1b733d258be611a841744b254e0d454a2ea34f546e10",
+  "officialSources": [
+    "https://bnbusports.cn/favicon.svg",
+    "https://bnbusports.cn/sports-logo.png"
+  ],
+  "webIconSha256": "f19f7a9af964d138d6a1dc93d414844ab3c67fe453eec5c34775c26e39126f7b",
+  "androidLogoSha256": "377ba9c5e34ff40835b821e65729c16ad5f621848bcd46a6f56c3ead546fb17e",
+  "androidApkSha256": "90d9530cb1f17acac06054df0df56eedf300b0df04614ea7231325c910916d1e",
+  "androidPackage": "cn.bnbusports.student.preview",
+  "androidEvidence": "Pixel_9 API emulator install, launcher icon visible, application opens production privacy entry",
+  "androidReleaseSigning": "NOT_EXECUTED",
+  "nativeClientsFinalDisposition": "Removed at user request after icon verification; historical build retained privately, not distributed",
+  "browserInviteInput": {
+    "min": 5,
+    "max": 120,
+    "step": 1,
+    "default": 30
+  },
+  "firstFailures": [
+    "Icons metadata object caused 1/43 SSR failure; standard head/link fixed it",
+    "Browser detected old input max=1440; final deployed max=120 step=1"
+  ],
+  "checks": {
+    "portalBuild": "PASS",
+    "portalFocusedTests": "43/43",
+    "backendCompile": "PASS",
+    "backendUnit": "282/282",
+    "backendContract": "35/35",
+    "inviteUnit": "3/3",
+    "androidBuild": "PASS",
+    "cloudRead": "51/51"
+  },
+  "evidenceFiles": {
+    "invite-brand-portal-build.log": "55950fb6df3b945f430be598e2c33af808e7477bc2506956a91c95f4f909d0e5",
+    "invite-brand-portal-tests.log": "22bef5f6d189491debdb8cc9aba604c0dca3ca3ce2058724320be53b09956690",
+    "invite-brand-portal-final-build.log": "cacde1b1929d8bce1097f5d730fbffc0c96e0238f32f44df96d4336b3cba5ba0",
+    "invite-brand-portal-final-tests.log": "6b79e48f899771ee10b2450462b9fdf90ae6d63245cdaa9ad7b3e522b3f2b38b",
+    "invite-brand-android-build.log": "3a690725e57b7cd2477bc55325acb0f31c1741eb27aae48aae95f9d2756868e6",
+    "invite-brand-backend-unit.log": "39f8c88974f914e45d2b6bbd6ce53439c8099e4924b76968d2357c29540b44f0",
+    "invite-brand-backend-contract.log": "0b035e02fe28eaa9e013666a9e0b59d27c3b516939f8a25156896343c5cb6747"
+  }
+}

@@ -1,4 +1,5 @@
 import { requireUnsettledCourse } from '../../v8/v81-settlement-write-guard.js';
+import { appendV81SystemEvent } from '../../v8/v81-system-event.js';
 import { Injectable } from '@nestjs/common';
 
 import { AuditService, type FoundationAuditAction } from '../../../common/audit/audit.service.js';
@@ -52,6 +53,22 @@ export class ExerciseSessionsService {
     private readonly organizationTime: OrganizationTimeService,
   ) {}
 
+  async completeDueSessions() {
+    const now=this.clock.now();
+    const due=await this.prisma.$queryRaw<{id:string;organization_id:string}[]>`
+      SELECT id,organization_id FROM exercise_sessions WHERE status='IN_PROGRESS'
+      AND maximum_duration_seconds IS NOT NULL AND current_interval_started_at IS NOT NULL
+      AND current_interval_started_at + (maximum_duration_seconds-actual_duration_seconds)*interval '1 second' <= ${now}
+      ORDER BY current_interval_started_at,id LIMIT 100`;
+    for(const candidate of due)await this.serializable(async tx=>{
+      await tx.$queryRaw`SELECT id FROM organizations WHERE id=${candidate.organization_id}::uuid FOR NO KEY UPDATE`;
+      await tx.$queryRaw`SELECT id FROM exercise_sessions WHERE id=${candidate.id}::uuid FOR UPDATE`;
+      const session=await tx.exerciseSession.findUnique({where:{id:candidate.id}});
+      if(session)await this.materializeCap(tx,session,null,{requestId:this.ids.next(),idempotencyKey:undefined});
+    });
+    return due.length;
+  }
+
   async start(
     principal: AuthenticatedPrincipal,
     input: StartExerciseSessionRequestDto,
@@ -99,8 +116,12 @@ export class ExerciseSessionsService {
           }
           const now = this.clock.now();
           await requiredCourseThreshold(transaction, enrollment.classSectionId);
-          const rules = (await transaction.$queryRaw<{ regular_deadline: Date }[]>`SELECT regular_deadline FROM v81_course_rules
-            WHERE class_section_id=${enrollment.classSectionId}::uuid AND published_at IS NOT NULL`)[0]!;
+          const rules = (await transaction.$queryRaw<{ regular_deadline: Date; maximum_minutes: number; allocation_pending: boolean }[]>`
+            SELECT r.regular_deadline,COALESCE(r.maximum_minutes,GREATEST(60,r.minimum_minutes)) AS maximum_minutes,
+              (r.target_global_version<>COALESCE(g.version,0) OR r.course_target::bigint+r.general_target<>COALESCE(g.total_target_minutes,1200)) AS allocation_pending
+            FROM v81_course_rules r LEFT JOIN v81_exercise_goal_settings g ON g.organization_id=r.organization_id
+            WHERE r.class_section_id=${enrollment.classSectionId}::uuid AND r.published_at IS NOT NULL FOR SHARE OF r`)[0]!;
+          if (rules.allocation_pending) throw new ApplicationError('CONFLICT_STATE_TRANSITION',409,{reason:'COURSE_TARGET_ALLOCATION_REQUIRED'});
           let makeupWindowId: string | null = null;
           if (now > rules.regular_deadline) {
             const grants = await transaction.$queryRaw<{ id: string }[]>`SELECT w.id FROM v81_makeup_windows w
@@ -136,6 +157,7 @@ export class ExerciseSessionsService {
               startedAt: now,
               businessDate: new Date(`${businessDate}T00:00:00.000Z`),
               actualDurationSeconds: 0n,
+              maximumDurationSeconds: rules.maximum_minutes * 60,
               pausedDurationSeconds: 0n,
               currentIntervalStartedAt: now,
               lastHeartbeatAt: now,
@@ -562,7 +584,7 @@ export class ExerciseSessionsService {
   private async materializeCap(
     transaction: Transaction,
     session: ExerciseSession,
-    principal: AuthenticatedPrincipal,
+    principal: AuthenticatedPrincipal | null,
     facts: MutationFacts,
   ): Promise<ExerciseSession> {
     if (session.status !== 'IN_PROGRESS' || session.currentIntervalStartedAt === null)
@@ -572,6 +594,7 @@ export class ExerciseSessionsService {
       session.actualDurationSeconds,
       session.currentIntervalStartedAt,
       now,
+      session.maximumDurationSeconds ?? undefined,
     );
     if (!result.reachedCap) return session;
     await this.closeOpenSegment(transaction, session, result.capAt);
@@ -580,7 +603,7 @@ export class ExerciseSessionsService {
       where: { id: session.id, version: session.version, status: 'IN_PROGRESS' },
       data: {
         status: 'COMPLETED',
-        actualDurationSeconds: BigInt(SESSION_DURATION_CAP_SECONDS),
+        actualDurationSeconds: BigInt(result.actualDurationSeconds),
         currentIntervalStartedAt: null,
         completedAt: result.capAt,
         endReason: 'DURATION_LIMIT_REACHED',
@@ -593,7 +616,7 @@ export class ExerciseSessionsService {
     const updated = await transaction.exerciseSession.findUniqueOrThrow({
       where: { id: session.id },
     });
-    await this.appendDomainEvent(transaction, updated, {
+    if(principal)await this.appendDomainEvent(transaction, updated, {
       eventVersion: nextVersion,
       eventType: 'COMPLETED',
       fromStatus: 'IN_PROGRESS',
@@ -605,6 +628,9 @@ export class ExerciseSessionsService {
       idempotencyKey: facts.idempotencyKey,
       safeMetadata: { endReason: 'DURATION_LIMIT_REACHED' },
     });
+    else await appendV81SystemEvent(transaction,{organizationId:updated.organizationId,resourceType:'EXERCISE_SESSION',resourceId:updated.id,
+      eventType:'DURATION_LIMIT_REACHED',requestId:facts.requestId,version:nextVersion,occurredAt:result.capAt,outcome:'SUCCEEDED',
+      facts:{actualDurationSeconds:result.actualDurationSeconds,maximumDurationSeconds:updated.maximumDurationSeconds}});
     await this.appendEvidence(transaction, updated, principal, facts, {
       auditAction: 'EXERCISE_SESSION_COMPLETED',
       permissionId: 'EXERCISE-SESSION-DURATION-CAP',
@@ -796,7 +822,7 @@ export class ExerciseSessionsService {
   private async appendEvidence(
     transaction: Transaction,
     session: ExerciseSession,
-    principal: AuthenticatedPrincipal,
+    principal: AuthenticatedPrincipal | null,
     facts: MutationFacts,
     input: {
       auditAction: FoundationAuditAction;
@@ -822,8 +848,8 @@ export class ExerciseSessionsService {
     };
     await this.audit.append(transaction, {
       organizationId: session.organizationId,
-      actorUserId: principal.userId,
-      actorRoleSnapshot: principal.role,
+      actorUserId: principal?.userId ?? null,
+      actorRoleSnapshot: principal?.role ?? null,
       permissionId: input.permissionId,
       actionType: input.auditAction,
       targetType: 'EXERCISE_SESSION',

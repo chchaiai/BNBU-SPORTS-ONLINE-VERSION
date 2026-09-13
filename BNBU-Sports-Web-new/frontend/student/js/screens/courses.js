@@ -121,18 +121,9 @@ function detailFactRow(label, value, last) {
 }
 
 function renderCourseDetail(app, course) {
-  const roster = course.ownRosterStatus;
-  const rosterLabels = {
-    MATCHED: tx("本人已完成名单核对", "Your roster match is confirmed"),
-    PENDING_REGISTRATION: tx("本人注册或入班待核对，请联系教师", "Your registration or enrollment needs verification. Contact your instructor."),
-    IDENTITY_CONFLICT: tx("本人身份信息待核对，请联系教师", "Your identity needs verification. Contact your instructor."),
-    EXTRA_IN_PLATFORM: tx("本人尚未匹配正式名单，请联系教师", "You are not matched to the official roster. Contact your instructor."),
-  };
-  const rosterText = roster ? roster.available ? rosterLabels[roster.status] : tx("正式名单尚未确认", "The official roster has not been confirmed") : tx("本人名单状态暂不可用，请刷新重试", "Your roster status is unavailable. Refresh to retry.");
   const facts = [
     [tx("任课教师", "Instructor"), course.teacher || tx("待公布", "To be announced")],
     [tx("开课学期", "Teaching term"), course.semester || tx("学期待定", "Semester pending")],
-    [tx("本人名单", "My roster"), rosterText],
   ];
   return `<div class="tab-content col anim-enter-forward" style="gap:18px;padding-top:2px">
     <button class="row pressable" data-action="courses.backToList" style="min-height:48px;color:var(--color-primary)">
@@ -147,7 +138,6 @@ function renderCourseDetail(app, course) {
       </div>
     </div>
     <div class="course-card" style="padding:16px 18px">${facts.map((f, i) => detailFactRow(f[0], f[1], i === facts.length - 1)).join("")}</div>
-    <button type="button" class="outlined-btn" data-action="courses.refreshRoster" ${app.state.isLoading ? "disabled" : ""}>${tx("刷新本人名单状态", "Refresh my roster status")}</button>
   </div>`;
 }
 

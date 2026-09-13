@@ -1,0 +1,6 @@
+// Refresh task-owned credentials through public auth endpoints; never prints secrets.
+import fs from 'node:fs';import assert from 'node:assert/strict';import {randomUUID} from 'node:crypto';
+const path='.local/ocr-triplatform-20260913-private.json',s=JSON.parse(fs.readFileSync(path));
+async function post(route,body){const r=await fetch('https://www.teacher.bnbusports.cn/api/v1'+route,{method:'POST',headers:{'content-type':'application/json','idempotency-key':randomUUID()},body:JSON.stringify(body),signal:AbortSignal.timeout(20000)});const v=await r.json();assert.equal(r.status,200,JSON.stringify({route,status:r.status,code:v.code}));return v.data;}
+for(const role of ['teacher','admin']){const session=await post('/auth/password-login',{account:s[role].email,password:s[role].password});assert.equal(session.user.organizationId,s.fixture.organizationId);s[role+'Token']=session.accessToken;fs.writeFileSync(path,JSON.stringify(s),{mode:0o600});}
+const bp='.local/ocr-beta-private.json',b=JSON.parse(fs.readFileSync(bp));b.session=await post('/auth/refresh',{refreshToken:b.session.refreshToken});fs.writeFileSync(bp,JSON.stringify(b),{mode:0o600});console.log(JSON.stringify({check:'SYNTHETIC_STAFF_AND_BETA_REFRESH',status:'PASS'}));

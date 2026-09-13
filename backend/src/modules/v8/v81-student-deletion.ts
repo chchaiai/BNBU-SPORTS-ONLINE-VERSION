@@ -63,7 +63,7 @@ export class V81StudentDeletionService {
       },
       async (tx) => {
         await tx.$queryRaw`SELECT id FROM organizations WHERE id=${p.organizationId}::uuid FOR UPDATE`;
-        await requireAdminAccess(tx, p, 'USER_ACCOUNTS');
+        await requireAdminAccess(tx, p, 'SUPER');
         if (
           (await tx.systemPolicy.findUnique({ where: { organizationId: p.organizationId } }))
             ?.systemMode !== 'NORMAL'

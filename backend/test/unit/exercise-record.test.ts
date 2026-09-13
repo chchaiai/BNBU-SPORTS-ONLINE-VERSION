@@ -10,7 +10,7 @@ import {
 
 describe('ExerciseRecord domain rules', () => {
   it('applies V8.1 selectable thresholds, whole minutes and the 60-minute credit cap', () => {
-    for (const minimum of [30, 45, 60]) {
+    for (const minimum of [1, 30, 35, 45, 60]) {
       const boundary = BigInt(minimum * 60);
       assert.equal(creditedDuration(boundary - 1n, minimum), 0n);
       assert.equal(creditedDuration(boundary, minimum), boundary);
@@ -18,8 +18,12 @@ describe('ExerciseRecord domain rules', () => {
       assert.equal(creditedDuration(4800n, minimum), 3600n);
     }
     assert.equal(creditedDuration(2100n), 2100n);
-    assert.equal(assertCreditableDuration(1799n), 0n);
-    for (const [seconds, minimum] of [[-1n, 30], [3600n, 35]] as const) {
+    for (const minimum of [1, 30, 35, 60, 90, 1440]) {
+      assert.throws(() => assertCreditableDuration(BigInt(minimum * 60 - 1), minimum),
+        (error: unknown) => error instanceof ApplicationError && error.code === 'EXERCISE_RECORD_DURATION_NOT_CREDITABLE');
+      assert.equal(assertCreditableDuration(BigInt(minimum * 60), minimum), BigInt(Math.min(minimum, 60) * 60));
+    }
+    for (const [seconds, minimum] of [[-1n, 30], [3600n, 0], [3600n, 1441]] as const) {
       assert.throws(() => creditedDuration(seconds, minimum),
         (error: unknown) => error instanceof ApplicationError && error.code === 'EXERCISE_RECORD_DURATION_NOT_CREDITABLE');
     }

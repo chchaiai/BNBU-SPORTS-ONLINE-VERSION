@@ -1,0 +1,5 @@
+{
+  "sha256": "e5c39134bde679acbb6a0fcb29e27c76d9b5ef905edc8c8be00edbf69812b5f7",
+  "destructive": false,
+  "migrationId": "0063_demand_course_history"
+}

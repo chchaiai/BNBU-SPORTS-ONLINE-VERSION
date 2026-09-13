@@ -131,6 +131,7 @@ ADR-055 已确认：v1 可写枚举只包含下表所列值，不提供补材料
 |---|---|---|---|---|---|
 | `MediaType` | `IMAGE` | 图片凭证 | 不适用 | `enum.mediaType.image` | 否 |
 | `MediaType` | `VIDEO` | 视频凭证 | 不适用 | `enum.mediaType.video` | 否 |
+| `MediaType` | `DOCUMENT` | PDF 免测证明文件 | 不适用 | `enum.mediaType.document` | 否 |
 
 ### 3.11 MediaUploadStatus
 

@@ -1,4 +1,6 @@
 import assert from 'node:assert/strict';
+import { PDFDocument } from 'pdf-lib';
+import sharp from 'sharp';
 import { createHash } from 'node:crypto';
 import { readFileSync } from 'node:fs';
 import { Readable } from 'node:stream';
@@ -658,5 +660,47 @@ describe('MediaEvidence validation core', () => {
       config,
     );
     assert.equal(verified.durationSeconds, 8);
+  });
+});
+
+
+describe('Demand document and photo facts', () => {
+  it('verifies a real PDF and rejects disguised or truncated document bytes', async () => {
+    const validator = new MediaValidator();
+    const pdf = await PDFDocument.create(); pdf.addPage([200, 200]);
+    const body = Buffer.from(await pdf.save());
+    const facts = { businessPurpose: 'EXEMPTION_APPLICATION', mediaType: 'DOCUMENT', mimeType: 'application/pdf',
+      fileSizeBytes: body.length, contentSha256: null, durationSeconds: null };
+    validator.validateDeclaration(facts, config);
+    const verified = await validator.readAndVerify(Readable.from([body]), facts, config);
+    assert.equal(verified.safeMetadata.pageCount, 1);
+    assert.throws(() => validator.validateDeclaration({ ...facts, businessPurpose: 'EXERCISE_RECORD' }, config));
+    const invalid = Buffer.from('%PDF-1.7 invalid bytes');
+    await assert.rejects(validator.readAndVerify(Readable.from([invalid]), { ...facts, fileSizeBytes: invalid.length }, config));
+    const png = readFileSync(new URL('../fixtures/v81-media/sample.png', import.meta.url));
+    await assert.rejects(validator.readAndVerify(Readable.from([png]), { ...facts, fileSizeBytes: png.length }, config));
+  });
+  it('preserves verified camera facts and accepts images with no EXIF', async () => {
+    const body = await sharp({create:{width:8,height:8,channels:3,background:'#abcdef'}}).jpeg()
+      .withExif({IFD0:{Make:'Synthetic Camera',Model:'Unit Test'},IFD2:{DateTimeOriginal:'2026:09:01 12:34:56'}}).toBuffer();
+    const verified = await new MediaValidator().readAndVerify(Readable.from([body]), {
+      businessPurpose:'EXERCISE_RECORD',mediaType:'IMAGE',mimeType:'image/jpeg',fileSizeBytes:body.length,
+      contentSha256:null,durationSeconds:null}, config);
+    assert.equal(verified.safeMetadata.Make, 'Synthetic Camera');
+    assert.equal(verified.safeMetadata.DateTimeOriginal, '2026:09:01 12:34:56');
+    assert.equal(verified.safeMetadata.width, 8);
+    assert.ok(!Object.keys(verified.safeMetadata).some(key => /gps|serial|owner/i.test(key)));
+  });
+  it('accepts a decodable phone JPEG with an OEM trailer without weakening hash or pixel validation', async () => {
+    const jpeg=await sharp({create:{width:64,height:48,channels:3,background:'#2486aa'}}).jpeg().toBuffer();
+    const body=Buffer.concat([jpeg,Buffer.alloc(1208,0)]);
+    const facts={businessPurpose:'EXEMPTION_APPLICATION',mediaType:'IMAGE',mimeType:'image/jpeg',fileSizeBytes:body.length,contentSha256:createHash('sha256').update(body).digest('hex'),durationSeconds:null};
+    const validator=new MediaValidator();
+    const result=await validator.readAndVerify(Readable.from([body]),facts,config);
+    assert.equal(result.fileSizeBytes,body.length);assert.equal(result.contentSha256,facts.contentSha256);
+    assert.equal(result.safeMetadata.width,64);
+    await assert.rejects(validator.readAndVerify(Readable.from([body]),{...facts,contentSha256:'0'.repeat(64)},config));
+    const truncated=Buffer.concat([jpeg.subarray(0,Math.floor(jpeg.length/2)),Buffer.alloc(1208,0)]);
+    await assert.rejects(validator.readAndVerify(Readable.from([truncated]),{...facts,fileSizeBytes:truncated.length,contentSha256:null},config));
   });
 });

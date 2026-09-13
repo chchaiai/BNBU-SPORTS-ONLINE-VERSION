@@ -626,6 +626,68 @@
         }
       }
     },
+    "/me/student-profile": {
+      "post": {
+        "tags": [
+          "Current User"
+        ],
+        "operationId": "completeCurrentStudentProfile",
+        "x-access-policy": {
+          "policyId": "STUDENT-SELF-PROFILE-COMPLETE",
+          "authentication": "ACCESS_TOKEN",
+          "allowedRoles": [
+            "STUDENT"
+          ],
+          "organizationScope": "PRINCIPAL_ORGANIZATION",
+          "resourceScope": "SELF",
+          "resourceResolver": "PRINCIPAL_USER",
+          "defaultDeny": true
+        },
+        "summary": "Complete the current student's personal profile",
+        "description": "Updates college, major, date of birth and region only; identity and student number remain fixed. OTHER requires a specific country or region name.",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/RequestIdHeader"
+          },
+          {
+            "$ref": "#/components/parameters/IdempotencyKeyHeader"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CompleteStudentProfileRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/CurrentUserSuccess"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "422": {
+            "$ref": "#/components/responses/UnprocessableEntity"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalError"
+          },
+          "503": {
+            "$ref": "#/components/responses/ServiceUnavailable"
+          }
+        }
+      }
+    },
     "/me/email-verification-challenges": {
       "post": {
         "tags": [
@@ -2093,7 +2155,7 @@
           "defaultDeny": true
         },
         "summary": "Validate student profile data and issue a short-lived one-time Join Capability",
-        "description": "This public bootstrap step intentionally runs before an Access Token exists. The plaintext capability is returned once. Persistence stores only an irreversible digest, its target ClassSection, a normalized profile digest, status, and configured expiry.",
+        "description": "This public bootstrap step intentionally runs before an Access Token exists. The plaintext capability is returned once. Persistence stores only an irreversible digest, its target ClassSection, a normalized profile digest, status, and configured expiry. Previously verified students must authenticate and use the member capability endpoint; this public route returns 401 for that identity.",
         "security": [],
         "parameters": [
           {
@@ -2122,6 +2184,9 @@
           },
           "400": {
             "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
           },
           "404": {
             "$ref": "#/components/responses/NotFound"
@@ -9334,16 +9399,15 @@
                         },
                         "courseTargetSeconds": {
                           "type": "integer",
-                          "minimum": 0,
-                          "maximum": 72000
+                          "minimum": 0
                         },
                         "generalTargetSeconds": {
                           "type": "integer",
-                          "minimum": 0,
-                          "maximum": 72000
+                          "minimum": 0
                         },
                         "totalTargetSeconds": {
-                          "const": 72000
+                          "type": "integer",
+                          "minimum": 0
                         },
                         "ruleVersion": {
                           "type": "integer",
@@ -9613,12 +9677,12 @@
                   "courseMinutes": {
                     "type": "integer",
                     "minimum": 0,
-                    "maximum": 1200
+                    "maximum": 2147483647
                   },
                   "generalMinutes": {
                     "type": "integer",
                     "minimum": 0,
-                    "maximum": 1200
+                    "maximum": 2147483647
                   }
                 }
               }
@@ -10314,6 +10378,33 @@
                               },
                               "expired": {
                                 "type": "boolean"
+                              },
+                              "classSectionId": {
+                                "type": "string",
+                                "format": "uuid"
+                              },
+                              "courseName": {
+                                "type": "string"
+                              },
+                              "startedAt": {
+                                "type": "string",
+                                "format": "date-time"
+                              },
+                              "sportType": {
+                                "type": "string"
+                              },
+                              "sportName": {
+                                "type": [
+                                  "string",
+                                  "null"
+                                ]
+                              },
+                              "actualDurationSeconds": {
+                                "type": "integer",
+                                "minimum": 0
+                              },
+                              "source": {
+                                "const": "TEACHER_REVIEW"
                               }
                             }
                           }
@@ -25666,8 +25757,8 @@
         "tags": [
           "V8.1 local implementation"
         ],
-        "summary": "Delete a teacher login after teaching and settlement completion",
-        "description": "Requires USER_ACCOUNTS permission, NORMAL mode, latest teacher profile version, exact employee-number confirmation and reason. Blocks unfinished teaching and settlement. Removes current account credentials and profile while preserving historical subjects and business records. Same-key replay returns the original receipt.",
+        "summary": "Delete a teacher login while retaining student accounts and history",
+        "description": "Requires USER_ACCOUNTS permission, NORMAL mode, latest teacher profile version, exact employee-number confirmation and reason. Closes the teacher courses and ends their active memberships. Removes teacher account credentials and profile while preserving all student accounts, historical subjects and business records. Same-key replay returns the original receipt.",
         "x-access-policy": {
           "policyId": "DELETE-V81-TEACHER-ACCOUNT",
           "authentication": "ACCESS_TOKEN",
@@ -25707,15 +25798,16 @@
                   "expectedVersion",
                   "confirmationEmployeeNumber",
                   "reason",
-                  "confirmStudentErasure"
+                  "confirmTeacherDeletion"
                 ],
                 "properties": {
-                  "confirmStudentErasure": {
+                  "confirmTeacherDeletion": {
                     "type": "boolean",
                     "enum": [
                       true
                     ],
-                    "description": "Confirms permanent erasure of current students across all their courses."
+                    "description": "Confirms permanent erasure of current students across all their courses.",
+                    "x-transport-constraint": true
                   },
                   "expectedVersion": {
                     "type": "integer",
@@ -25799,6 +25891,146 @@
         }
       }
     },
+    "/class-sections/{id}/delete": {
+      "post": {
+        "operationId": "deleteV81Course",
+        "tags": [
+          "V8.1 local implementation"
+        ],
+        "summary": "Retire an owned course while retaining student accounts and all records",
+        "description": "Requires responsible teacher, NORMAL mode, latest course version, exact course name and explicit impact confirmation. Retires the course from current lists and ends active memberships. Retains student accounts, all records, reviews, credits and media. Closed courses may also be retired. Same-key replay returns the original receipt.",
+        "x-access-policy": {
+          "policyId": "DELETE-V81-COURSE",
+          "authentication": "ACCESS_TOKEN",
+          "allowedRoles": [
+            "TEACHER"
+          ],
+          "organizationScope": "PRINCIPAL_ORGANIZATION",
+          "resourceScope": "SELF",
+          "resourceResolver": "PRINCIPAL_USER",
+          "defaultDeny": true
+        },
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/RequestIdHeader"
+          },
+          {
+            "$ref": "#/components/parameters/IdempotencyKeyHeader"
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "expectedVersion",
+                  "confirmationCourseName",
+                  "reason",
+                  "confirmCourseRetirement"
+                ],
+                "properties": {
+                  "confirmCourseRetirement": {
+                    "type": "boolean",
+                    "enum": [
+                      true
+                    ],
+                    "description": "Confirms erasure limited to this course, retaining students and other courses.",
+                    "x-transport-constraint": true
+                  },
+                  "expectedVersion": {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  "confirmationCourseName": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 200
+                  },
+                  "reason": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 1000
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Course deletion receipt",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "data"
+                  ],
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "required": [
+                        "id",
+                        "deleted",
+                        "deletedAt",
+                        "version"
+                      ],
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "format": "uuid"
+                        },
+                        "deleted": {
+                          "type": "boolean"
+                        },
+                        "deletedAt": {
+                          "type": "string",
+                          "format": "date-time"
+                        },
+                        "version": {
+                          "type": "integer",
+                          "minimum": 1
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "422": {
+            "$ref": "#/components/responses/UnprocessableEntity"
+          },
+          "503": {
+            "$ref": "#/components/responses/ServiceUnavailable"
+          }
+        }
+      }
+    },
     "/admin/students/{id}/delete": {
       "post": {
         "operationId": "deleteV81StudentAccount",
@@ -25806,7 +26038,7 @@
           "V8.1 local implementation"
         ],
         "summary": "Delete a student account and its exercise, review and credit history",
-        "description": "Requires USER_ACCOUNTS permission, NORMAL mode, same organization, latest student profile version, exact student-number confirmation and reason. Permanently removes the account, all enrollments, exercise, review and credit data, and queues private media erasure. Retains administrator audit provenance. Same-key replay returns the original receipt.",
+        "description": "Requires SUPER administrator kind, NORMAL mode, same organization, latest student profile version, exact student-number confirmation and reason. Permanently removes the account, all enrollments, exercise, review and credit data, and queues private media erasure. Retains administrator audit provenance. Same-key replay returns the original receipt.",
         "x-access-policy": {
           "policyId": "DELETE-V81-STUDENT-ACCOUNT",
           "authentication": "ACCESS_TOKEN",
@@ -28006,6 +28238,524 @@
           }
         }
       }
+    },
+    "/course-invites/{inviteToken}/join-capabilities/member": {
+      "post": {
+        "tags": [
+          "QR Course Joining"
+        ],
+        "operationId": "issueMemberJoinCapability",
+        "x-access-policy": {
+          "policyId": "MEMBER-JOIN-CAPABILITY-ISSUE",
+          "authentication": "ACCESS_TOKEN",
+          "allowedRoles": [
+            "STUDENT"
+          ],
+          "organizationScope": "PRINCIPAL_ORGANIZATION",
+          "resourceScope": "SELF",
+          "resourceResolver": "PRINCIPAL_USER",
+          "defaultDeny": true
+        },
+        "summary": "Join a course using a verified platform student account",
+        "description": "Uses the authenticated student identity and retained profile. Cross-semester enrollment does not repeat email binding. Public profile facts cannot obtain access to an existing verified account.",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/InviteToken"
+          },
+          {
+            "$ref": "#/components/parameters/RequestIdHeader"
+          },
+          {
+            "$ref": "#/components/parameters/IdempotencyKeyHeader"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/IssueJoinCapabilityRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "$ref": "#/components/responses/JoinCapabilitySuccess"
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "410": {
+            "$ref": "#/components/responses/Gone"
+          },
+          "422": {
+            "$ref": "#/components/responses/UnprocessableEntity"
+          },
+          "429": {
+            "$ref": "#/components/responses/TooManyRequests"
+          },
+          "503": {
+            "$ref": "#/components/responses/ServiceUnavailable"
+          }
+        }
+      }
+    },
+    "/class-sections/{classSectionId}/history-settings": {
+      "get": {
+        "operationId": "getV81HistorySettings",
+        "tags": [
+          "V8.1 local implementation"
+        ],
+        "summary": "getV81HistorySettings",
+        "description": "Teacher-configured historical backfill range within the semester. Students may declare only past dates in the enabled range during regular submission. Existing accepted drafts retain their settings snapshot; all historical records require evidence and teacher review.",
+        "x-access-policy": {
+          "policyId": "GET-V81HISTORY-SETTINGS",
+          "authentication": "ACCESS_TOKEN",
+          "allowedRoles": [
+            "TEACHER",
+            "STUDENT"
+          ],
+          "organizationScope": "PRINCIPAL_ORGANIZATION",
+          "resourceScope": "SELF",
+          "resourceResolver": "PRINCIPAL_USER",
+          "defaultDeny": true
+        },
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/RequestIdHeader"
+          },
+          {
+            "name": "classSectionId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Persisted result in the data envelope",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "data",
+                    "meta"
+                  ],
+                  "properties": {
+                    "data": {
+                      "type": "object"
+                    },
+                    "meta": {
+                      "type": "object"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "422": {
+            "$ref": "#/components/responses/UnprocessableEntity"
+          }
+        }
+      },
+      "post": {
+        "operationId": "saveV81HistorySettings",
+        "tags": [
+          "V8.1 local implementation"
+        ],
+        "summary": "saveV81HistorySettings",
+        "description": "Teacher-configured historical backfill range within the semester. Students may declare only past dates in the enabled range during regular submission. Existing accepted drafts retain their settings snapshot; all historical records require evidence and teacher review.",
+        "x-access-policy": {
+          "policyId": "SAVE-V81HISTORY-SETTINGS",
+          "authentication": "ACCESS_TOKEN",
+          "allowedRoles": [
+            "TEACHER"
+          ],
+          "organizationScope": "PRINCIPAL_ORGANIZATION",
+          "resourceScope": "SELF",
+          "resourceResolver": "PRINCIPAL_USER",
+          "defaultDeny": true
+        },
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/RequestIdHeader"
+          },
+          {
+            "name": "classSectionId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/IdempotencyKeyHeader"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "enabled",
+                  "earliestDate",
+                  "latestDate",
+                  "expectedVersion"
+                ],
+                "properties": {
+                  "enabled": {
+                    "type": "boolean"
+                  },
+                  "earliestDate": {
+                    "type": "string",
+                    "format": "date"
+                  },
+                  "latestDate": {
+                    "type": "string",
+                    "format": "date"
+                  },
+                  "expectedVersion": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 2147483646
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Persisted result in the data envelope",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "data",
+                    "meta"
+                  ],
+                  "properties": {
+                    "data": {
+                      "type": "object"
+                    },
+                    "meta": {
+                      "type": "object"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "422": {
+            "$ref": "#/components/responses/UnprocessableEntity"
+          },
+          "503": {
+            "$ref": "#/components/responses/ServiceUnavailable"
+          }
+        }
+      }
+    },
+    "/enrollments/{enrollmentId}/historical-sessions": {
+      "post": {
+        "operationId": "createV81HistoricalSession",
+        "tags": [
+          "V8.1 local implementation"
+        ],
+        "summary": "Declare a historical exercise session",
+        "description": "Creates an explicitly historical completed session from student-declared time, never server-observed timer facts. Requires an enabled teacher range, active owned enrollment, published rules, duration within 60..86400 seconds and at least the course minimum, a past date and regular submission time. Evidence upload, record draft, submission and mandatory teacher review follow the existing record endpoints.",
+        "x-access-policy": {
+          "policyId": "CREATE-V81-HISTORICAL-SESSION",
+          "authentication": "ACCESS_TOKEN",
+          "allowedRoles": [
+            "STUDENT"
+          ],
+          "organizationScope": "PRINCIPAL_ORGANIZATION",
+          "resourceScope": "SELF",
+          "resourceResolver": "PRINCIPAL_USER",
+          "defaultDeny": true
+        },
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/RequestIdHeader"
+          },
+          {
+            "name": "enrollmentId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/IdempotencyKeyHeader"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "startedAt",
+                  "durationSeconds"
+                ],
+                "properties": {
+                  "startedAt": {
+                    "type": "string",
+                    "format": "date-time"
+                  },
+                  "durationSeconds": {
+                    "type": "integer",
+                    "minimum": 60,
+                    "maximum": 86400
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Persisted result in the data envelope",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "data",
+                    "meta"
+                  ],
+                  "properties": {
+                    "data": {
+                      "type": "object"
+                    },
+                    "meta": {
+                      "type": "object"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "422": {
+            "$ref": "#/components/responses/UnprocessableEntity"
+          },
+          "503": {
+            "$ref": "#/components/responses/ServiceUnavailable"
+          }
+        }
+      }
+    },
+    "/admin/exercise-goal": {
+      "get": {
+        "operationId": "getV81ExerciseGoal",
+        "tags": [
+          "V8.1 local implementation"
+        ],
+        "summary": "Read organization exercise goal for teacher allocation or superadmin settings",
+        "description": "Read current organization target for teacher allocation or superadmin settings.",
+        "x-access-policy": {
+          "policyId": "GET-V81-EXERCISE-GOAL",
+          "authentication": "ACCESS_TOKEN",
+          "allowedRoles": [
+            "ADMIN",
+            "TEACHER"
+          ],
+          "organizationScope": "PRINCIPAL_ORGANIZATION",
+          "resourceScope": "SELF",
+          "resourceResolver": "PRINCIPAL_USER",
+          "defaultDeny": true
+        },
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/RequestIdHeader"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Persisted result in the data envelope",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "data",
+                    "meta"
+                  ],
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/V81ExerciseGoal"
+                    },
+                    "meta": {
+                      "type": "object"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "422": {
+            "$ref": "#/components/responses/UnprocessableEntity"
+          }
+        }
+      },
+      "post": {
+        "operationId": "saveV81ExerciseGoal",
+        "tags": [
+          "V8.1 local implementation"
+        ],
+        "summary": "Set all course targets; pause new check-ins pending teacher allocation",
+        "description": "Superadmin only. Versioned and idempotent global target update; new check-ins wait for course allocation.",
+        "x-access-policy": {
+          "policyId": "SAVE-V81-EXERCISE-GOAL",
+          "authentication": "ACCESS_TOKEN",
+          "allowedRoles": [
+            "ADMIN"
+          ],
+          "organizationScope": "PRINCIPAL_ORGANIZATION",
+          "resourceScope": "SELF",
+          "resourceResolver": "PRINCIPAL_USER",
+          "defaultDeny": true
+        },
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/RequestIdHeader"
+          },
+          {
+            "$ref": "#/components/parameters/IdempotencyKeyHeader"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/V81ExerciseGoalInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Persisted result in the data envelope",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "data",
+                    "meta"
+                  ],
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/V81ExerciseGoal"
+                    },
+                    "meta": {
+                      "type": "object"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "422": {
+            "$ref": "#/components/responses/UnprocessableEntity"
+          },
+          "503": {
+            "$ref": "#/components/responses/ServiceUnavailable"
+          }
+        }
+      }
     }
   },
   "components": {
@@ -29731,7 +30481,8 @@
         "type": "string",
         "enum": [
           "IMAGE",
-          "VIDEO"
+          "VIDEO",
+          "DOCUMENT"
         ]
       },
       "MediaUploadStatus": {
@@ -30640,6 +31391,14 @@
         "type": "object",
         "additionalProperties": false,
         "properties": {
+          "email": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "email",
+            "description": "Present only for detail reads by a super administrator."
+          },
           "id": {
             "$ref": "#/components/schemas/OpaqueId"
           },
@@ -30710,6 +31469,27 @@
           },
           "version": {
             "$ref": "#/components/schemas/PositiveVersion"
+          },
+          "dateOfBirth": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "date"
+          },
+          "otherRegionName": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "maxLength": 100
+          },
+          "regionCode": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "maxLength": 32
           }
         },
         "required": [
@@ -30734,6 +31514,14 @@
         "type": "object",
         "additionalProperties": false,
         "properties": {
+          "email": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "email",
+            "description": "Present only for detail reads by a super administrator."
+          },
           "id": {
             "$ref": "#/components/schemas/OpaqueId"
           },
@@ -31655,6 +32443,14 @@
           },
           "version": {
             "$ref": "#/components/schemas/PositiveVersion"
+          },
+          "maximumDurationSeconds": {
+            "type": [
+              "integer",
+              "null"
+            ],
+            "minimum": 60,
+            "maximum": 86400
           }
         },
         "required": [
@@ -31848,6 +32644,10 @@
               "string",
               "null"
             ]
+          },
+          "recordOrigin": {
+            "type": "string",
+            "description": "LIVE for timer sessions, HISTORICAL for student-declared backfill requiring teacher review."
           }
         },
         "required": [
@@ -32049,6 +32849,16 @@
           },
           "version": {
             "$ref": "#/components/schemas/PositiveVersion"
+          },
+          "safeMetadata": {
+            "type": "object",
+            "additionalProperties": {
+              "type": [
+                "string",
+                "number"
+              ]
+            },
+            "description": "Verified dimensions and allowlisted camera EXIF facts only; absent tags have no data. Never includes GPS, owner identity or device serial numbers."
           }
         },
         "required": [
@@ -33265,8 +34075,49 @@
           }
         }
       },
+      "CompleteStudentProfileRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "collegeName",
+          "majorName",
+          "dateOfBirth",
+          "regionCode",
+          "expectedVersion"
+        ],
+        "properties": {
+          "collegeName": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200
+          },
+          "majorName": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200
+          },
+          "dateOfBirth": {
+            "type": "string",
+            "format": "date"
+          },
+          "regionCode": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 32
+          },
+          "otherRegionName": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 100
+          },
+          "expectedVersion": {
+            "$ref": "#/components/schemas/PositiveVersion"
+          }
+        }
+      },
       "EmailVerificationChallengeRequest": {
         "type": "object",
+        "description": "学生新绑定地址除符合邮箱格式外还必须包含 bnbu，忽略大小写；该附加条件不用于教师或管理员。",
         "additionalProperties": false,
         "required": [
           "email",
@@ -33584,12 +34435,19 @@
         "type": "object",
         "additionalProperties": false,
         "properties": {
+          "expiresInMinutes": {
+            "type": "integer",
+            "minimum": 5,
+            "maximum": 120,
+            "description": "Server-relative validity; defaults to 30 minutes. Mutually exclusive with non-null expiresAt."
+          },
           "expiresAt": {
             "type": [
               "string",
               "null"
             ],
-            "format": "date-time"
+            "format": "date-time",
+            "description": "Legacy absolute expiry, constrained to 5–120 minutes after server acceptance. Prefer expiresInMinutes to avoid client clock and network skew."
           }
         },
         "description": "Enrollment Gate transport only; invite plaintext is returned once and only its irreversible digest may be persisted."
@@ -33622,6 +34480,31 @@
             "minimum": 1000,
             "maximum": 9999,
             "description": "Four-digit cohort year with stable format-only bounds; it is not restricted by the current date."
+          },
+          "collegeName": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200
+          },
+          "majorName": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200
+          },
+          "dateOfBirth": {
+            "type": "string",
+            "format": "date"
+          },
+          "regionCode": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 32
+          },
+          "otherRegionName": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 100,
+            "description": "Required when regionCode is OTHER."
           }
         }
       },
@@ -34062,7 +34945,8 @@
               "video/quicktime",
               "video/3gpp",
               "video/webm",
-              "image/webp"
+              "image/webp",
+              "application/pdf"
             ],
             "x-transport-constraint": true,
             "description": "Untrusted transport declaration. The server verifies the actual bytes and container; clients must not substitute video/mp4 when the browser reports an empty or different MIME."
@@ -35686,6 +36570,54 @@
           "readAt"
         ],
         "properties": {
+          "reviewContent": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "version",
+              "stage",
+              "reasonCode",
+              "publicComment"
+            ],
+            "properties": {
+              "version": {
+                "type": "integer",
+                "const": 1
+              },
+              "stage": {
+                "type": "string",
+                "enum": [
+                  "VALID",
+                  "INVALID",
+                  "AWAITING_SUPPLEMENT",
+                  "PENDING_TEACHER"
+                ]
+              },
+              "reasonCode": {
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "enum": [
+                  null,
+                  "UNCLEAR_EVIDENCE",
+                  "MISSING_REQUIRED_EVIDENCE",
+                  "SESSION_MISMATCH",
+                  "INCONSISTENT_EVIDENCE",
+                  "AUTHENTICITY_REQUIRES_CLARIFICATION",
+                  "CONFIRMED_REUSE_OR_MISUSE",
+                  "SUPPLEMENT_DEADLINE_MISSED"
+                ]
+              },
+              "publicComment": {
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "maxLength": 2000
+              }
+            }
+          },
           "id": {
             "$ref": "#/components/schemas/OpaqueId"
           },
@@ -36402,12 +37334,12 @@
           "courseMinutes": {
             "type": "integer",
             "minimum": 0,
-            "maximum": 1200
+            "maximum": 2147483647
           },
           "generalMinutes": {
             "type": "integer",
             "minimum": 0,
-            "maximum": 1200
+            "maximum": 2147483647
           }
         }
       },
@@ -37265,6 +38197,7 @@
       },
       "V81CourseRulesInput": {
         "type": "object",
+        "description": "已发布课程仅允许 minimumMinutes、dailyLimit、weeklyLimit 递增版本修改，并仅对修改后创建的记录生效；既有记录使用创建时规则快照，既有日周名额继续占用。其他字段必须保持已发布值，publish 必须为 true。",
         "additionalProperties": false,
         "required": [
           "minimumMinutes",
@@ -37280,31 +38213,29 @@
         "properties": {
           "minimumMinutes": {
             "type": "integer",
-            "enum": [
-              30,
-              45,
-              60
-            ],
-            "x-enum-subset-of": "V81ExerciseMinimumMinutes"
+            "minimum": 1,
+            "maximum": 1440
           },
           "weeklyLimit": {
             "type": "integer",
-            "enum": [
-              2,
-              3,
-              4
-            ],
-            "x-enum-subset-of": "V81WeeklyRecordLimit"
+            "minimum": 1,
+            "maximum": 2147483647
+          },
+          "dailyLimit": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 2147483647,
+            "default": 1
           },
           "courseTarget": {
             "type": "integer",
             "minimum": 0,
-            "maximum": 1200
+            "maximum": 2147483647
           },
           "generalTarget": {
             "type": "integer",
             "minimum": 0,
-            "maximum": 1200
+            "maximum": 2147483647
           },
           "regularDeadline": {
             "type": "string",
@@ -37329,6 +38260,15 @@
             "type": "string",
             "format": "uuid",
             "description": "Required when publish=true; published same-organization template. Drafts may omit it. Existing published rules without provenance are preserved as legacy facts."
+          },
+          "maximumMinutes": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 1440
+          },
+          "globalTargetVersion": {
+            "type": "integer",
+            "minimum": 0
           }
         }
       },
@@ -37624,28 +38564,23 @@
         "properties": {
           "targetSeconds": {
             "type": "integer",
-            "minimum": 0,
-            "maximum": 72000
+            "minimum": 0
           },
           "validExerciseSeconds": {
             "type": "integer",
-            "minimum": 0,
-            "maximum": 72000
+            "minimum": 0
           },
           "recognizedSeconds": {
             "type": "integer",
-            "minimum": 0,
-            "maximum": 72000
+            "minimum": 0
           },
           "effectiveSeconds": {
             "type": "integer",
-            "minimum": 0,
-            "maximum": 72000
+            "minimum": 0
           },
           "remainingSeconds": {
             "type": "integer",
-            "minimum": 0,
-            "maximum": 72000
+            "minimum": 0
           }
         }
       },
@@ -37686,21 +38621,13 @@
           },
           "minimumMinutes": {
             "type": "integer",
-            "enum": [
-              30,
-              45,
-              60
-            ],
-            "x-enum-subset-of": "V81ExerciseMinimumMinutes"
+            "minimum": 1,
+            "maximum": 1440
           },
           "weeklyLimit": {
             "type": "integer",
-            "enum": [
-              2,
-              3,
-              4
-            ],
-            "x-enum-subset-of": "V81WeeklyRecordLimit"
+            "minimum": 1,
+            "maximum": 2147483647
           },
           "courseRelated": {
             "$ref": "#/components/schemas/V81ProgressCategory"
@@ -37709,17 +38636,16 @@
             "$ref": "#/components/schemas/V81ProgressCategory"
           },
           "totalTargetSeconds": {
-            "const": 72000
+            "type": "integer",
+            "minimum": 0
           },
           "totalEffectiveSeconds": {
             "type": "integer",
-            "minimum": 0,
-            "maximum": 72000
+            "minimum": 0
           },
           "remainingSeconds": {
             "type": "integer",
-            "minimum": 0,
-            "maximum": 72000
+            "minimum": 0
           },
           "completionPercent": {
             "type": "number",
@@ -37733,6 +38659,23 @@
               "IN_PROGRESS"
             ],
             "x-enum-subset-of": "V81ProgressStatus"
+          },
+          "dailyLimit": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 2147483647
+          },
+          "maximumMinutes": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 1440
+          },
+          "allocationPending": {
+            "type": "boolean"
+          },
+          "globalTargetVersion": {
+            "type": "integer",
+            "minimum": 0
           }
         }
       },
@@ -41387,6 +42330,45 @@
           },
           "meta": {
             "$ref": "#/components/schemas/SuccessMeta"
+          }
+        }
+      },
+      "V81ExerciseGoalInput": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "totalTargetMinutes",
+          "expectedVersion"
+        ],
+        "properties": {
+          "totalTargetMinutes": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 2147483647
+          },
+          "expectedVersion": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 2147483646
+          }
+        }
+      },
+      "V81ExerciseGoal": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "totalTargetMinutes",
+          "version"
+        ],
+        "properties": {
+          "totalTargetMinutes": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 2147483647
+          },
+          "version": {
+            "type": "integer",
+            "minimum": 0
           }
         }
       }

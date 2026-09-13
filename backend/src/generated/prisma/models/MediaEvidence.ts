@@ -122,6 +122,7 @@ export type MediaEvidenceCountAggregateOutputType = {
   verifiedContentSha256: number
   declaredDurationSeconds: number
   verifiedDurationSeconds: number
+  safeMetadata: number
   uploadStatus: number
   storageKey: number
   uploadedAt: number
@@ -233,6 +234,7 @@ export type MediaEvidenceCountAggregateInputType = {
   verifiedContentSha256?: true
   declaredDurationSeconds?: true
   verifiedDurationSeconds?: true
+  safeMetadata?: true
   uploadStatus?: true
   storageKey?: true
   uploadedAt?: true
@@ -351,6 +353,7 @@ export type MediaEvidenceGroupByOutputType = {
   verifiedContentSha256: string | null
   declaredDurationSeconds: number | null
   verifiedDurationSeconds: number | null
+  safeMetadata: runtime.JsonValue
   uploadStatus: string
   storageKey: string
   uploadedAt: Date | null
@@ -405,6 +408,7 @@ export type MediaEvidenceWhereInput = {
   verifiedContentSha256?: Prisma.StringNullableFilter<"MediaEvidence"> | string | null
   declaredDurationSeconds?: Prisma.IntNullableFilter<"MediaEvidence"> | number | null
   verifiedDurationSeconds?: Prisma.IntNullableFilter<"MediaEvidence"> | number | null
+  safeMetadata?: Prisma.JsonFilter<"MediaEvidence">
   uploadStatus?: Prisma.StringFilter<"MediaEvidence"> | string
   storageKey?: Prisma.StringFilter<"MediaEvidence"> | string
   uploadedAt?: Prisma.DateTimeNullableFilter<"MediaEvidence"> | Date | string | null
@@ -449,6 +453,7 @@ export type MediaEvidenceOrderByWithRelationInput = {
   verifiedContentSha256?: Prisma.SortOrderInput | Prisma.SortOrder
   declaredDurationSeconds?: Prisma.SortOrderInput | Prisma.SortOrder
   verifiedDurationSeconds?: Prisma.SortOrderInput | Prisma.SortOrder
+  safeMetadata?: Prisma.SortOrder
   uploadStatus?: Prisma.SortOrder
   storageKey?: Prisma.SortOrder
   uploadedAt?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -500,6 +505,7 @@ export type MediaEvidenceWhereUniqueInput = Prisma.AtLeast<{
   verifiedContentSha256?: Prisma.StringNullableFilter<"MediaEvidence"> | string | null
   declaredDurationSeconds?: Prisma.IntNullableFilter<"MediaEvidence"> | number | null
   verifiedDurationSeconds?: Prisma.IntNullableFilter<"MediaEvidence"> | number | null
+  safeMetadata?: Prisma.JsonFilter<"MediaEvidence">
   uploadStatus?: Prisma.StringFilter<"MediaEvidence"> | string
   uploadedAt?: Prisma.DateTimeNullableFilter<"MediaEvidence"> | Date | string | null
   boundAt?: Prisma.DateTimeNullableFilter<"MediaEvidence"> | Date | string | null
@@ -543,6 +549,7 @@ export type MediaEvidenceOrderByWithAggregationInput = {
   verifiedContentSha256?: Prisma.SortOrderInput | Prisma.SortOrder
   declaredDurationSeconds?: Prisma.SortOrderInput | Prisma.SortOrder
   verifiedDurationSeconds?: Prisma.SortOrderInput | Prisma.SortOrder
+  safeMetadata?: Prisma.SortOrder
   uploadStatus?: Prisma.SortOrder
   storageKey?: Prisma.SortOrder
   uploadedAt?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -582,6 +589,7 @@ export type MediaEvidenceScalarWhereWithAggregatesInput = {
   verifiedContentSha256?: Prisma.StringNullableWithAggregatesFilter<"MediaEvidence"> | string | null
   declaredDurationSeconds?: Prisma.IntNullableWithAggregatesFilter<"MediaEvidence"> | number | null
   verifiedDurationSeconds?: Prisma.IntNullableWithAggregatesFilter<"MediaEvidence"> | number | null
+  safeMetadata?: Prisma.JsonWithAggregatesFilter<"MediaEvidence">
   uploadStatus?: Prisma.StringWithAggregatesFilter<"MediaEvidence"> | string
   storageKey?: Prisma.StringWithAggregatesFilter<"MediaEvidence"> | string
   uploadedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"MediaEvidence"> | Date | string | null
@@ -608,6 +616,7 @@ export type MediaEvidenceCreateInput = {
   verifiedContentSha256?: string | null
   declaredDurationSeconds?: number | null
   verifiedDurationSeconds?: number | null
+  safeMetadata?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   uploadStatus: string
   storageKey: string
   uploadedAt?: Date | string | null
@@ -652,6 +661,7 @@ export type MediaEvidenceUncheckedCreateInput = {
   verifiedContentSha256?: string | null
   declaredDurationSeconds?: number | null
   verifiedDurationSeconds?: number | null
+  safeMetadata?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   uploadStatus: string
   storageKey: string
   uploadedAt?: Date | string | null
@@ -686,6 +696,7 @@ export type MediaEvidenceUpdateInput = {
   verifiedContentSha256?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   declaredDurationSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   verifiedDurationSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  safeMetadata?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   uploadStatus?: Prisma.StringFieldUpdateOperationsInput | string
   storageKey?: Prisma.StringFieldUpdateOperationsInput | string
   uploadedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -730,6 +741,7 @@ export type MediaEvidenceUncheckedUpdateInput = {
   verifiedContentSha256?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   declaredDurationSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   verifiedDurationSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  safeMetadata?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   uploadStatus?: Prisma.StringFieldUpdateOperationsInput | string
   storageKey?: Prisma.StringFieldUpdateOperationsInput | string
   uploadedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -769,6 +781,7 @@ export type MediaEvidenceCreateManyInput = {
   verifiedContentSha256?: string | null
   declaredDurationSeconds?: number | null
   verifiedDurationSeconds?: number | null
+  safeMetadata?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   uploadStatus: string
   storageKey: string
   uploadedAt?: Date | string | null
@@ -795,6 +808,7 @@ export type MediaEvidenceUpdateManyMutationInput = {
   verifiedContentSha256?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   declaredDurationSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   verifiedDurationSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  safeMetadata?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   uploadStatus?: Prisma.StringFieldUpdateOperationsInput | string
   storageKey?: Prisma.StringFieldUpdateOperationsInput | string
   uploadedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -826,6 +840,7 @@ export type MediaEvidenceUncheckedUpdateManyInput = {
   verifiedContentSha256?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   declaredDurationSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   verifiedDurationSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  safeMetadata?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   uploadStatus?: Prisma.StringFieldUpdateOperationsInput | string
   storageKey?: Prisma.StringFieldUpdateOperationsInput | string
   uploadedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -886,6 +901,7 @@ export type MediaEvidenceCountOrderByAggregateInput = {
   verifiedContentSha256?: Prisma.SortOrder
   declaredDurationSeconds?: Prisma.SortOrder
   verifiedDurationSeconds?: Prisma.SortOrder
+  safeMetadata?: Prisma.SortOrder
   uploadStatus?: Prisma.SortOrder
   storageKey?: Prisma.SortOrder
   uploadedAt?: Prisma.SortOrder
@@ -1200,14 +1216,6 @@ export type NullableBigIntFieldUpdateOperationsInput = {
   divide?: bigint | number
 }
 
-export type NullableIntFieldUpdateOperationsInput = {
-  set?: number | null
-  increment?: number
-  decrement?: number
-  multiply?: number
-  divide?: number
-}
-
 export type MediaEvidenceCreateNestedOneWithoutRecordAssociationInput = {
   create?: Prisma.XOR<Prisma.MediaEvidenceCreateWithoutRecordAssociationInput, Prisma.MediaEvidenceUncheckedCreateWithoutRecordAssociationInput>
   connectOrCreate?: Prisma.MediaEvidenceCreateOrConnectWithoutRecordAssociationInput
@@ -1333,6 +1341,7 @@ export type MediaEvidenceCreateWithoutOrganizationInput = {
   verifiedContentSha256?: string | null
   declaredDurationSeconds?: number | null
   verifiedDurationSeconds?: number | null
+  safeMetadata?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   uploadStatus: string
   storageKey: string
   uploadedAt?: Date | string | null
@@ -1375,6 +1384,7 @@ export type MediaEvidenceUncheckedCreateWithoutOrganizationInput = {
   verifiedContentSha256?: string | null
   declaredDurationSeconds?: number | null
   verifiedDurationSeconds?: number | null
+  safeMetadata?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   uploadStatus: string
   storageKey: string
   uploadedAt?: Date | string | null
@@ -1443,6 +1453,7 @@ export type MediaEvidenceScalarWhereInput = {
   verifiedContentSha256?: Prisma.StringNullableFilter<"MediaEvidence"> | string | null
   declaredDurationSeconds?: Prisma.IntNullableFilter<"MediaEvidence"> | number | null
   verifiedDurationSeconds?: Prisma.IntNullableFilter<"MediaEvidence"> | number | null
+  safeMetadata?: Prisma.JsonFilter<"MediaEvidence">
   uploadStatus?: Prisma.StringFilter<"MediaEvidence"> | string
   storageKey?: Prisma.StringFilter<"MediaEvidence"> | string
   uploadedAt?: Prisma.DateTimeNullableFilter<"MediaEvidence"> | Date | string | null
@@ -1469,6 +1480,7 @@ export type MediaEvidenceCreateWithoutInitiatedByUserInput = {
   verifiedContentSha256?: string | null
   declaredDurationSeconds?: number | null
   verifiedDurationSeconds?: number | null
+  safeMetadata?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   uploadStatus: string
   storageKey: string
   uploadedAt?: Date | string | null
@@ -1510,6 +1522,7 @@ export type MediaEvidenceUncheckedCreateWithoutInitiatedByUserInput = {
   verifiedContentSha256?: string | null
   declaredDurationSeconds?: number | null
   verifiedDurationSeconds?: number | null
+  safeMetadata?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   uploadStatus: string
   storageKey: string
   uploadedAt?: Date | string | null
@@ -1570,6 +1583,7 @@ export type MediaEvidenceCreateWithoutOwnerStudentInput = {
   verifiedContentSha256?: string | null
   declaredDurationSeconds?: number | null
   verifiedDurationSeconds?: number | null
+  safeMetadata?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   uploadStatus: string
   storageKey: string
   uploadedAt?: Date | string | null
@@ -1611,6 +1625,7 @@ export type MediaEvidenceUncheckedCreateWithoutOwnerStudentInput = {
   verifiedContentSha256?: string | null
   declaredDurationSeconds?: number | null
   verifiedDurationSeconds?: number | null
+  safeMetadata?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   uploadStatus: string
   storageKey: string
   uploadedAt?: Date | string | null
@@ -1671,6 +1686,7 @@ export type MediaEvidenceCreateWithoutExemptionEnrollmentInput = {
   verifiedContentSha256?: string | null
   declaredDurationSeconds?: number | null
   verifiedDurationSeconds?: number | null
+  safeMetadata?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   uploadStatus: string
   storageKey: string
   uploadedAt?: Date | string | null
@@ -1711,6 +1727,7 @@ export type MediaEvidenceUncheckedCreateWithoutExemptionEnrollmentInput = {
   verifiedContentSha256?: string | null
   declaredDurationSeconds?: number | null
   verifiedDurationSeconds?: number | null
+  safeMetadata?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   uploadStatus: string
   storageKey: string
   uploadedAt?: Date | string | null
@@ -1771,6 +1788,7 @@ export type MediaEvidenceCreateWithoutSessionInput = {
   verifiedContentSha256?: string | null
   declaredDurationSeconds?: number | null
   verifiedDurationSeconds?: number | null
+  safeMetadata?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   uploadStatus: string
   storageKey: string
   uploadedAt?: Date | string | null
@@ -1811,6 +1829,7 @@ export type MediaEvidenceUncheckedCreateWithoutSessionInput = {
   verifiedContentSha256?: string | null
   declaredDurationSeconds?: number | null
   verifiedDurationSeconds?: number | null
+  safeMetadata?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   uploadStatus: string
   storageKey: string
   uploadedAt?: Date | string | null
@@ -1871,6 +1890,7 @@ export type MediaEvidenceCreateWithoutRecordAssociationInput = {
   verifiedContentSha256?: string | null
   declaredDurationSeconds?: number | null
   verifiedDurationSeconds?: number | null
+  safeMetadata?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   uploadStatus: string
   storageKey: string
   uploadedAt?: Date | string | null
@@ -1914,6 +1934,7 @@ export type MediaEvidenceUncheckedCreateWithoutRecordAssociationInput = {
   verifiedContentSha256?: string | null
   declaredDurationSeconds?: number | null
   verifiedDurationSeconds?: number | null
+  safeMetadata?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   uploadStatus: string
   storageKey: string
   uploadedAt?: Date | string | null
@@ -1963,6 +1984,7 @@ export type MediaEvidenceUpdateWithoutRecordAssociationInput = {
   verifiedContentSha256?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   declaredDurationSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   verifiedDurationSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  safeMetadata?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   uploadStatus?: Prisma.StringFieldUpdateOperationsInput | string
   storageKey?: Prisma.StringFieldUpdateOperationsInput | string
   uploadedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -2006,6 +2028,7 @@ export type MediaEvidenceUncheckedUpdateWithoutRecordAssociationInput = {
   verifiedContentSha256?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   declaredDurationSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   verifiedDurationSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  safeMetadata?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   uploadStatus?: Prisma.StringFieldUpdateOperationsInput | string
   storageKey?: Prisma.StringFieldUpdateOperationsInput | string
   uploadedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -2039,6 +2062,7 @@ export type MediaEvidenceCreateWithoutUploadSessionInput = {
   verifiedContentSha256?: string | null
   declaredDurationSeconds?: number | null
   verifiedDurationSeconds?: number | null
+  safeMetadata?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   uploadStatus: string
   storageKey: string
   uploadedAt?: Date | string | null
@@ -2082,6 +2106,7 @@ export type MediaEvidenceUncheckedCreateWithoutUploadSessionInput = {
   verifiedContentSha256?: string | null
   declaredDurationSeconds?: number | null
   verifiedDurationSeconds?: number | null
+  safeMetadata?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   uploadStatus: string
   storageKey: string
   uploadedAt?: Date | string | null
@@ -2131,6 +2156,7 @@ export type MediaEvidenceUpdateWithoutUploadSessionInput = {
   verifiedContentSha256?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   declaredDurationSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   verifiedDurationSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  safeMetadata?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   uploadStatus?: Prisma.StringFieldUpdateOperationsInput | string
   storageKey?: Prisma.StringFieldUpdateOperationsInput | string
   uploadedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -2174,6 +2200,7 @@ export type MediaEvidenceUncheckedUpdateWithoutUploadSessionInput = {
   verifiedContentSha256?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   declaredDurationSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   verifiedDurationSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  safeMetadata?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   uploadStatus?: Prisma.StringFieldUpdateOperationsInput | string
   storageKey?: Prisma.StringFieldUpdateOperationsInput | string
   uploadedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -2207,6 +2234,7 @@ export type MediaEvidenceCreateWithoutStatusEventsInput = {
   verifiedContentSha256?: string | null
   declaredDurationSeconds?: number | null
   verifiedDurationSeconds?: number | null
+  safeMetadata?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   uploadStatus: string
   storageKey: string
   uploadedAt?: Date | string | null
@@ -2250,6 +2278,7 @@ export type MediaEvidenceUncheckedCreateWithoutStatusEventsInput = {
   verifiedContentSha256?: string | null
   declaredDurationSeconds?: number | null
   verifiedDurationSeconds?: number | null
+  safeMetadata?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   uploadStatus: string
   storageKey: string
   uploadedAt?: Date | string | null
@@ -2299,6 +2328,7 @@ export type MediaEvidenceUpdateWithoutStatusEventsInput = {
   verifiedContentSha256?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   declaredDurationSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   verifiedDurationSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  safeMetadata?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   uploadStatus?: Prisma.StringFieldUpdateOperationsInput | string
   storageKey?: Prisma.StringFieldUpdateOperationsInput | string
   uploadedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -2342,6 +2372,7 @@ export type MediaEvidenceUncheckedUpdateWithoutStatusEventsInput = {
   verifiedContentSha256?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   declaredDurationSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   verifiedDurationSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  safeMetadata?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   uploadStatus?: Prisma.StringFieldUpdateOperationsInput | string
   storageKey?: Prisma.StringFieldUpdateOperationsInput | string
   uploadedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -2375,6 +2406,7 @@ export type MediaEvidenceCreateWithoutProcessingAttemptsInput = {
   verifiedContentSha256?: string | null
   declaredDurationSeconds?: number | null
   verifiedDurationSeconds?: number | null
+  safeMetadata?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   uploadStatus: string
   storageKey: string
   uploadedAt?: Date | string | null
@@ -2418,6 +2450,7 @@ export type MediaEvidenceUncheckedCreateWithoutProcessingAttemptsInput = {
   verifiedContentSha256?: string | null
   declaredDurationSeconds?: number | null
   verifiedDurationSeconds?: number | null
+  safeMetadata?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   uploadStatus: string
   storageKey: string
   uploadedAt?: Date | string | null
@@ -2467,6 +2500,7 @@ export type MediaEvidenceUpdateWithoutProcessingAttemptsInput = {
   verifiedContentSha256?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   declaredDurationSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   verifiedDurationSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  safeMetadata?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   uploadStatus?: Prisma.StringFieldUpdateOperationsInput | string
   storageKey?: Prisma.StringFieldUpdateOperationsInput | string
   uploadedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -2510,6 +2544,7 @@ export type MediaEvidenceUncheckedUpdateWithoutProcessingAttemptsInput = {
   verifiedContentSha256?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   declaredDurationSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   verifiedDurationSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  safeMetadata?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   uploadStatus?: Prisma.StringFieldUpdateOperationsInput | string
   storageKey?: Prisma.StringFieldUpdateOperationsInput | string
   uploadedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -2543,6 +2578,7 @@ export type MediaEvidenceCreateWithoutExemptionAssociationsInput = {
   verifiedContentSha256?: string | null
   declaredDurationSeconds?: number | null
   verifiedDurationSeconds?: number | null
+  safeMetadata?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   uploadStatus: string
   storageKey: string
   uploadedAt?: Date | string | null
@@ -2586,6 +2622,7 @@ export type MediaEvidenceUncheckedCreateWithoutExemptionAssociationsInput = {
   verifiedContentSha256?: string | null
   declaredDurationSeconds?: number | null
   verifiedDurationSeconds?: number | null
+  safeMetadata?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   uploadStatus: string
   storageKey: string
   uploadedAt?: Date | string | null
@@ -2635,6 +2672,7 @@ export type MediaEvidenceUpdateWithoutExemptionAssociationsInput = {
   verifiedContentSha256?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   declaredDurationSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   verifiedDurationSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  safeMetadata?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   uploadStatus?: Prisma.StringFieldUpdateOperationsInput | string
   storageKey?: Prisma.StringFieldUpdateOperationsInput | string
   uploadedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -2678,6 +2716,7 @@ export type MediaEvidenceUncheckedUpdateWithoutExemptionAssociationsInput = {
   verifiedContentSha256?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   declaredDurationSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   verifiedDurationSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  safeMetadata?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   uploadStatus?: Prisma.StringFieldUpdateOperationsInput | string
   storageKey?: Prisma.StringFieldUpdateOperationsInput | string
   uploadedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -2711,6 +2750,7 @@ export type MediaEvidenceCreateWithoutV81ApplicationMaterialsInput = {
   verifiedContentSha256?: string | null
   declaredDurationSeconds?: number | null
   verifiedDurationSeconds?: number | null
+  safeMetadata?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   uploadStatus: string
   storageKey: string
   uploadedAt?: Date | string | null
@@ -2754,6 +2794,7 @@ export type MediaEvidenceUncheckedCreateWithoutV81ApplicationMaterialsInput = {
   verifiedContentSha256?: string | null
   declaredDurationSeconds?: number | null
   verifiedDurationSeconds?: number | null
+  safeMetadata?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   uploadStatus: string
   storageKey: string
   uploadedAt?: Date | string | null
@@ -2803,6 +2844,7 @@ export type MediaEvidenceUpdateWithoutV81ApplicationMaterialsInput = {
   verifiedContentSha256?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   declaredDurationSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   verifiedDurationSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  safeMetadata?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   uploadStatus?: Prisma.StringFieldUpdateOperationsInput | string
   storageKey?: Prisma.StringFieldUpdateOperationsInput | string
   uploadedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -2846,6 +2888,7 @@ export type MediaEvidenceUncheckedUpdateWithoutV81ApplicationMaterialsInput = {
   verifiedContentSha256?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   declaredDurationSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   verifiedDurationSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  safeMetadata?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   uploadStatus?: Prisma.StringFieldUpdateOperationsInput | string
   storageKey?: Prisma.StringFieldUpdateOperationsInput | string
   uploadedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -2879,6 +2922,7 @@ export type MediaEvidenceCreateWithoutV81MaterialItem_mediaInput = {
   verifiedContentSha256?: string | null
   declaredDurationSeconds?: number | null
   verifiedDurationSeconds?: number | null
+  safeMetadata?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   uploadStatus: string
   storageKey: string
   uploadedAt?: Date | string | null
@@ -2922,6 +2966,7 @@ export type MediaEvidenceUncheckedCreateWithoutV81MaterialItem_mediaInput = {
   verifiedContentSha256?: string | null
   declaredDurationSeconds?: number | null
   verifiedDurationSeconds?: number | null
+  safeMetadata?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   uploadStatus: string
   storageKey: string
   uploadedAt?: Date | string | null
@@ -2971,6 +3016,7 @@ export type MediaEvidenceUpdateWithoutV81MaterialItem_mediaInput = {
   verifiedContentSha256?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   declaredDurationSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   verifiedDurationSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  safeMetadata?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   uploadStatus?: Prisma.StringFieldUpdateOperationsInput | string
   storageKey?: Prisma.StringFieldUpdateOperationsInput | string
   uploadedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -3014,6 +3060,7 @@ export type MediaEvidenceUncheckedUpdateWithoutV81MaterialItem_mediaInput = {
   verifiedContentSha256?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   declaredDurationSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   verifiedDurationSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  safeMetadata?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   uploadStatus?: Prisma.StringFieldUpdateOperationsInput | string
   storageKey?: Prisma.StringFieldUpdateOperationsInput | string
   uploadedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -3047,6 +3094,7 @@ export type MediaEvidenceCreateWithoutV81SwimIntakeItemsInput = {
   verifiedContentSha256?: string | null
   declaredDurationSeconds?: number | null
   verifiedDurationSeconds?: number | null
+  safeMetadata?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   uploadStatus: string
   storageKey: string
   uploadedAt?: Date | string | null
@@ -3090,6 +3138,7 @@ export type MediaEvidenceUncheckedCreateWithoutV81SwimIntakeItemsInput = {
   verifiedContentSha256?: string | null
   declaredDurationSeconds?: number | null
   verifiedDurationSeconds?: number | null
+  safeMetadata?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   uploadStatus: string
   storageKey: string
   uploadedAt?: Date | string | null
@@ -3139,6 +3188,7 @@ export type MediaEvidenceUpdateWithoutV81SwimIntakeItemsInput = {
   verifiedContentSha256?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   declaredDurationSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   verifiedDurationSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  safeMetadata?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   uploadStatus?: Prisma.StringFieldUpdateOperationsInput | string
   storageKey?: Prisma.StringFieldUpdateOperationsInput | string
   uploadedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -3182,6 +3232,7 @@ export type MediaEvidenceUncheckedUpdateWithoutV81SwimIntakeItemsInput = {
   verifiedContentSha256?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   declaredDurationSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   verifiedDurationSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  safeMetadata?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   uploadStatus?: Prisma.StringFieldUpdateOperationsInput | string
   storageKey?: Prisma.StringFieldUpdateOperationsInput | string
   uploadedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -3219,6 +3270,7 @@ export type MediaEvidenceCreateManyOrganizationInput = {
   verifiedContentSha256?: string | null
   declaredDurationSeconds?: number | null
   verifiedDurationSeconds?: number | null
+  safeMetadata?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   uploadStatus: string
   storageKey: string
   uploadedAt?: Date | string | null
@@ -3245,6 +3297,7 @@ export type MediaEvidenceUpdateWithoutOrganizationInput = {
   verifiedContentSha256?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   declaredDurationSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   verifiedDurationSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  safeMetadata?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   uploadStatus?: Prisma.StringFieldUpdateOperationsInput | string
   storageKey?: Prisma.StringFieldUpdateOperationsInput | string
   uploadedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -3287,6 +3340,7 @@ export type MediaEvidenceUncheckedUpdateWithoutOrganizationInput = {
   verifiedContentSha256?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   declaredDurationSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   verifiedDurationSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  safeMetadata?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   uploadStatus?: Prisma.StringFieldUpdateOperationsInput | string
   storageKey?: Prisma.StringFieldUpdateOperationsInput | string
   uploadedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -3325,6 +3379,7 @@ export type MediaEvidenceUncheckedUpdateManyWithoutOrganizationInput = {
   verifiedContentSha256?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   declaredDurationSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   verifiedDurationSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  safeMetadata?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   uploadStatus?: Prisma.StringFieldUpdateOperationsInput | string
   storageKey?: Prisma.StringFieldUpdateOperationsInput | string
   uploadedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -3354,6 +3409,7 @@ export type MediaEvidenceCreateManyInitiatedByUserInput = {
   verifiedContentSha256?: string | null
   declaredDurationSeconds?: number | null
   verifiedDurationSeconds?: number | null
+  safeMetadata?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   uploadStatus: string
   storageKey: string
   uploadedAt?: Date | string | null
@@ -3380,6 +3436,7 @@ export type MediaEvidenceUpdateWithoutInitiatedByUserInput = {
   verifiedContentSha256?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   declaredDurationSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   verifiedDurationSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  safeMetadata?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   uploadStatus?: Prisma.StringFieldUpdateOperationsInput | string
   storageKey?: Prisma.StringFieldUpdateOperationsInput | string
   uploadedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -3421,6 +3478,7 @@ export type MediaEvidenceUncheckedUpdateWithoutInitiatedByUserInput = {
   verifiedContentSha256?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   declaredDurationSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   verifiedDurationSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  safeMetadata?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   uploadStatus?: Prisma.StringFieldUpdateOperationsInput | string
   storageKey?: Prisma.StringFieldUpdateOperationsInput | string
   uploadedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -3458,6 +3516,7 @@ export type MediaEvidenceUncheckedUpdateManyWithoutInitiatedByUserInput = {
   verifiedContentSha256?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   declaredDurationSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   verifiedDurationSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  safeMetadata?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   uploadStatus?: Prisma.StringFieldUpdateOperationsInput | string
   storageKey?: Prisma.StringFieldUpdateOperationsInput | string
   uploadedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -3487,6 +3546,7 @@ export type MediaEvidenceCreateManyOwnerStudentInput = {
   verifiedContentSha256?: string | null
   declaredDurationSeconds?: number | null
   verifiedDurationSeconds?: number | null
+  safeMetadata?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   uploadStatus: string
   storageKey: string
   uploadedAt?: Date | string | null
@@ -3513,6 +3573,7 @@ export type MediaEvidenceUpdateWithoutOwnerStudentInput = {
   verifiedContentSha256?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   declaredDurationSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   verifiedDurationSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  safeMetadata?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   uploadStatus?: Prisma.StringFieldUpdateOperationsInput | string
   storageKey?: Prisma.StringFieldUpdateOperationsInput | string
   uploadedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -3554,6 +3615,7 @@ export type MediaEvidenceUncheckedUpdateWithoutOwnerStudentInput = {
   verifiedContentSha256?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   declaredDurationSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   verifiedDurationSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  safeMetadata?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   uploadStatus?: Prisma.StringFieldUpdateOperationsInput | string
   storageKey?: Prisma.StringFieldUpdateOperationsInput | string
   uploadedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -3591,6 +3653,7 @@ export type MediaEvidenceUncheckedUpdateManyWithoutOwnerStudentInput = {
   verifiedContentSha256?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   declaredDurationSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   verifiedDurationSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  safeMetadata?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   uploadStatus?: Prisma.StringFieldUpdateOperationsInput | string
   storageKey?: Prisma.StringFieldUpdateOperationsInput | string
   uploadedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -3619,6 +3682,7 @@ export type MediaEvidenceCreateManyExemptionEnrollmentInput = {
   verifiedContentSha256?: string | null
   declaredDurationSeconds?: number | null
   verifiedDurationSeconds?: number | null
+  safeMetadata?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   uploadStatus: string
   storageKey: string
   uploadedAt?: Date | string | null
@@ -3645,6 +3709,7 @@ export type MediaEvidenceUpdateWithoutExemptionEnrollmentInput = {
   verifiedContentSha256?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   declaredDurationSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   verifiedDurationSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  safeMetadata?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   uploadStatus?: Prisma.StringFieldUpdateOperationsInput | string
   storageKey?: Prisma.StringFieldUpdateOperationsInput | string
   uploadedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -3685,6 +3750,7 @@ export type MediaEvidenceUncheckedUpdateWithoutExemptionEnrollmentInput = {
   verifiedContentSha256?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   declaredDurationSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   verifiedDurationSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  safeMetadata?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   uploadStatus?: Prisma.StringFieldUpdateOperationsInput | string
   storageKey?: Prisma.StringFieldUpdateOperationsInput | string
   uploadedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -3721,6 +3787,7 @@ export type MediaEvidenceUncheckedUpdateManyWithoutExemptionEnrollmentInput = {
   verifiedContentSha256?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   declaredDurationSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   verifiedDurationSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  safeMetadata?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   uploadStatus?: Prisma.StringFieldUpdateOperationsInput | string
   storageKey?: Prisma.StringFieldUpdateOperationsInput | string
   uploadedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -3749,6 +3816,7 @@ export type MediaEvidenceCreateManySessionInput = {
   verifiedContentSha256?: string | null
   declaredDurationSeconds?: number | null
   verifiedDurationSeconds?: number | null
+  safeMetadata?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   uploadStatus: string
   storageKey: string
   uploadedAt?: Date | string | null
@@ -3775,6 +3843,7 @@ export type MediaEvidenceUpdateWithoutSessionInput = {
   verifiedContentSha256?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   declaredDurationSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   verifiedDurationSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  safeMetadata?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   uploadStatus?: Prisma.StringFieldUpdateOperationsInput | string
   storageKey?: Prisma.StringFieldUpdateOperationsInput | string
   uploadedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -3815,6 +3884,7 @@ export type MediaEvidenceUncheckedUpdateWithoutSessionInput = {
   verifiedContentSha256?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   declaredDurationSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   verifiedDurationSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  safeMetadata?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   uploadStatus?: Prisma.StringFieldUpdateOperationsInput | string
   storageKey?: Prisma.StringFieldUpdateOperationsInput | string
   uploadedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -3851,6 +3921,7 @@ export type MediaEvidenceUncheckedUpdateManyWithoutSessionInput = {
   verifiedContentSha256?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   declaredDurationSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   verifiedDurationSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  safeMetadata?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   uploadStatus?: Prisma.StringFieldUpdateOperationsInput | string
   storageKey?: Prisma.StringFieldUpdateOperationsInput | string
   uploadedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -3958,6 +4029,7 @@ export type MediaEvidenceSelect<ExtArgs extends runtime.Types.Extensions.Interna
   verifiedContentSha256?: boolean
   declaredDurationSeconds?: boolean
   verifiedDurationSeconds?: boolean
+  safeMetadata?: boolean
   uploadStatus?: boolean
   storageKey?: boolean
   uploadedAt?: boolean
@@ -4003,6 +4075,7 @@ export type MediaEvidenceSelectCreateManyAndReturn<ExtArgs extends runtime.Types
   verifiedContentSha256?: boolean
   declaredDurationSeconds?: boolean
   verifiedDurationSeconds?: boolean
+  safeMetadata?: boolean
   uploadStatus?: boolean
   storageKey?: boolean
   uploadedAt?: boolean
@@ -4039,6 +4112,7 @@ export type MediaEvidenceSelectUpdateManyAndReturn<ExtArgs extends runtime.Types
   verifiedContentSha256?: boolean
   declaredDurationSeconds?: boolean
   verifiedDurationSeconds?: boolean
+  safeMetadata?: boolean
   uploadStatus?: boolean
   storageKey?: boolean
   uploadedAt?: boolean
@@ -4075,6 +4149,7 @@ export type MediaEvidenceSelectScalar = {
   verifiedContentSha256?: boolean
   declaredDurationSeconds?: boolean
   verifiedDurationSeconds?: boolean
+  safeMetadata?: boolean
   uploadStatus?: boolean
   storageKey?: boolean
   uploadedAt?: boolean
@@ -4088,7 +4163,7 @@ export type MediaEvidenceSelectScalar = {
   version?: boolean
 }
 
-export type MediaEvidenceOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "organizationId" | "ownerStudentId" | "sessionId" | "enrollmentId" | "initiatedByUserId" | "businessPurpose" | "mediaType" | "captureSource" | "declaredMimeType" | "verifiedMimeType" | "declaredFileSizeBytes" | "verifiedFileSizeBytes" | "declaredContentSha256" | "verifiedContentSha256" | "declaredDurationSeconds" | "verifiedDurationSeconds" | "uploadStatus" | "storageKey" | "uploadedAt" | "boundAt" | "processingStartedAt" | "availableAt" | "failedAt" | "failureCode" | "createdAt" | "updatedAt" | "version", ExtArgs["result"]["mediaEvidence"]>
+export type MediaEvidenceOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "organizationId" | "ownerStudentId" | "sessionId" | "enrollmentId" | "initiatedByUserId" | "businessPurpose" | "mediaType" | "captureSource" | "declaredMimeType" | "verifiedMimeType" | "declaredFileSizeBytes" | "verifiedFileSizeBytes" | "declaredContentSha256" | "verifiedContentSha256" | "declaredDurationSeconds" | "verifiedDurationSeconds" | "safeMetadata" | "uploadStatus" | "storageKey" | "uploadedAt" | "boundAt" | "processingStartedAt" | "availableAt" | "failedAt" | "failureCode" | "createdAt" | "updatedAt" | "version", ExtArgs["result"]["mediaEvidence"]>
 export type MediaEvidenceInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   v81SwimIntakeItems?: boolean | Prisma.MediaEvidence$v81SwimIntakeItemsArgs<ExtArgs>
   v81ApplicationMaterials?: boolean | Prisma.MediaEvidence$v81ApplicationMaterialsArgs<ExtArgs>
@@ -4155,6 +4230,7 @@ export type $MediaEvidencePayload<ExtArgs extends runtime.Types.Extensions.Inter
     verifiedContentSha256: string | null
     declaredDurationSeconds: number | null
     verifiedDurationSeconds: number | null
+    safeMetadata: runtime.JsonValue
     uploadStatus: string
     storageKey: string
     uploadedAt: Date | null
@@ -4619,6 +4695,7 @@ export interface MediaEvidenceFieldRefs {
   readonly verifiedContentSha256: Prisma.FieldRef<"MediaEvidence", 'String'>
   readonly declaredDurationSeconds: Prisma.FieldRef<"MediaEvidence", 'Int'>
   readonly verifiedDurationSeconds: Prisma.FieldRef<"MediaEvidence", 'Int'>
+  readonly safeMetadata: Prisma.FieldRef<"MediaEvidence", 'Json'>
   readonly uploadStatus: Prisma.FieldRef<"MediaEvidence", 'String'>
   readonly storageKey: Prisma.FieldRef<"MediaEvidence", 'String'>
   readonly uploadedAt: Prisma.FieldRef<"MediaEvidence", 'DateTime'>

@@ -1,0 +1,8 @@
+{
+  "check": "MEDIA_ROUND2_PDF_DEPLOYMENT",
+  "result": "PASS",
+  "sourceCommit": "04f2ad3499a834f26deca5cad84ca512db1938d1",
+  "release": "/opt/bnbu-sports-production/releases/media-round2-pdf-20260912",
+  "previous": "/opt/bnbu-sports-production/releases/media-round2-20260912",
+  "filesVerified": 3
+}

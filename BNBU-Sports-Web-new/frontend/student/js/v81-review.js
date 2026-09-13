@@ -60,6 +60,8 @@ export function reasonsForAction(action) {
 export function matchExactPublicReason(text) {
   const value = String(text || "").trim();
   if (!value) return null;
+  const codes={UNCLEAR_EVIDENCE:'UnclearEvidence',MISSING_REQUIRED_EVIDENCE:'MissingRequiredEvidence',SESSION_MISMATCH:'EvidenceDoesNotMatchSession',INCONSISTENT_EVIDENCE:'InconsistentEvidence',AUTHENTICITY_REQUIRES_CLARIFICATION:'AuthenticityRequiresClarification',CONFIRMED_REUSE_OR_MISUSE:'ConfirmedReuseOrMisuse'};
+  if(codes[value])return PUBLIC_REASON_CATALOG.find(reason=>reason.id===codes[value])||null;
   return PUBLIC_REASON_CATALOG.find((reason) => reason.zh === value || reason.en === value) || null;
 }
 
@@ -137,6 +139,7 @@ function splitExactReasonAndNote(text) {
 export function resolvePublicReasonModel(record = {}) {
   const result = String(record.reviewResult || "").trim().toUpperCase();
   const candidates = [
+    record.reasonCode,
     record.reviewReasonCode,
     record.studentVisibleReason,
     record.reviewPublicComment,
@@ -158,7 +161,7 @@ export function resolvePublicReasonModel(record = {}) {
       };
     }
   }
-  const note = String(record.reviewPublicComment || record.teacherPublicFeedback || "").trim();
+  const note = String(record.reviewPublicComment || record.teacherPublicFeedback || record.publicComment || "").trim();
   return { kind: "unavailable", publicNote: note || null };
 }
 

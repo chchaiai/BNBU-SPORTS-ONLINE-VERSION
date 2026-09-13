@@ -1,0 +1,15 @@
+{
+  "check": "ANDROID_SHARED_STUDENT_TARGET_SOURCE",
+  "result": "PASS_SOURCE_NOT_DEVICE",
+  "productionApiSha256": "1cd8df02276127ea138d691c8ef9b27329106fed276a234db0351fe6ff98b312",
+  "origin": "https://www.student.bnbusports.cn/student/",
+  "adminTargetMinutes": 1800,
+  "mappedHours": 30,
+  "firstFailure": "Full api.js hash differs from worktree, which includes pending invitation policy; narrowed comparison confirms deployed target mapping equals local.",
+  "nativeRuntime": "PENDING_NO_CONNECTED_DEVICE",
+  "publicHelp": {
+    "zhCN": [],
+    "en": [],
+    "detailSuccess": "PENDING_NO_PUBLISHED_ARTICLE"
+  }
+}

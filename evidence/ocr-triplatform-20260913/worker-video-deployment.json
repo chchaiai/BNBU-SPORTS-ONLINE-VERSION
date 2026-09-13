@@ -1,0 +1,12 @@
+{
+  "sourceCommit": "cfc916c91109153edb087a995dfd2676ae41c261",
+  "files": {
+    "screens/checkin.js": "c842e56b4f37dead24fdc2f40203d5f64b2cae3bcfaf7150963b3e8fe1a68a72",
+    "recorded-video.js": "338b26b6c2a4d1747d2c80d7ba512a6029d2ddcefc57b31a0a0b684d820f424c"
+  },
+  "check": "STUDENT_WORKER_VIDEO_DEPLOYMENT",
+  "result": "PASS",
+  "release": "student-worker-video-20260913",
+  "previous": "student-receipt-20260913",
+  "phonePlayback": "PENDING"
+}

@@ -4,6 +4,7 @@
 // and open the exemption screen; others open the in-sheet detail.
 
 import { t, tx } from "../i18n.js";
+import { notificationText } from "../notification-text.js";
 import { icon } from "../icons.js";
 import { esc, statusBadge, emptyPlaceholder, userFacingErrorPanel } from "../ui.js";
 
@@ -57,15 +58,16 @@ function studentVisibleNoticeText(text) {
 }
 
 function noticeRow(notice) {
+  const text = notificationText(notice, tx);
   return `<button class="swiss-panel pressable notice-row" data-action="notifications.openNotice" data-notice-id="${esc(notice.id)}">
     <div class="row" style="align-items:flex-start;gap:10px">
       <span style="display:inline-flex;flex:none;color:${notice.isUnread ? "var(--color-primary)" : "var(--color-on-surface-variant)"}">${icon(notice.isUnread ? "notifications" : "check-circle", 20)}</span>
       <div class="col grow" style="gap:6px;text-align:left">
         <div class="row">
-          <span class="body-medium grow" style="color:var(--color-on-surface);font-weight:${notice.isUnread ? 600 : 400}">${esc(studentVisibleNoticeText(notice.title))}</span>
+          <span class="body-medium grow" style="color:var(--color-on-surface);font-weight:${notice.isUnread ? 600 : 400}">${esc(studentVisibleNoticeText(text.title))}</span>
           <span class="label-small text-muted">${esc(notice.time)}</span>
         </div>
-        <span class="body-small text-muted">${esc(studentVisibleNoticeText(notice.message))}</span>
+        <span class="body-small text-muted">${esc(studentVisibleNoticeText(text.message))}</span>
       </div>
     </div>
   </button>`;
@@ -80,13 +82,14 @@ export function renderNotificationSheet(app) {
 
   let content;
   if (showingDetail) {
+    const text = notificationText(selectedNotice, tx);
     content = `<div class="col" style="gap:14px;overflow-y:auto">
       <div class="swiss-panel">
-        <div class="title-large text-on-surface">${esc(studentVisibleNoticeText(selectedNotice.title))}</div>
+        <div class="title-large text-on-surface">${esc(studentVisibleNoticeText(text.title))}</div>
         <div style="height:4px"></div>
         <div class="label-medium text-muted">${esc(selectedNotice.time)}</div>
         <div style="height:6px"></div>
-        <div class="body-medium text-muted">${esc(studentVisibleNoticeText(selectedNotice.message))}</div>
+        <div class="body-medium text-muted">${esc(studentVisibleNoticeText(text.message))}</div>
       </div>
       ${selectedNotice.isUnread ? `<button class="text-btn pressable" data-action="notifications.markRead" data-notice-id="${esc(selectedNotice.id)}" style="width:100%">
         ${icon("check-circle", 20)}<span>${t("notification_mark_read")}</span>
@@ -124,7 +127,7 @@ export function renderNotificationSheet(app) {
           <span class="title-large text-on-surface grow">${t(showingDetail ? "notification_detail" : "notification_title")}</span>
           <button class="icon-btn pressable" data-action="notifications.close" aria-label="${t("notification_close")}">${icon("close", 24)}</button>
         </div>
-        ${showingDetail ? "" : `<p class="body-small text-muted" style="margin:0 0 8px">${tx("通知不含分数。补证截止只使用服务器 proof-todos。", "Notices do not include scores. Proof deadlines use server proof-todos only.")}</p>`}
+        ${showingDetail ? "" : `<p class="body-small text-muted" style="margin:0 0 8px">${tx("点击通知查看详情；如需补充材料，请以补证待办中的截止时间为准。", "Select a notification to view details. If additional evidence is required, follow the deadline shown in your evidence tasks.")}</p>`}
         ${showingDetail ? "" : proofCountdown(app)}
         ${showingDetail ? "" : `<div class="row">
           ${statusBadge(unread > 0 ? t("notification_unread_count", unread) : t("notification_none_unread"))}

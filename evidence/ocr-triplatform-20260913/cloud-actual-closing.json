@@ -1,0 +1,22 @@
+{
+  "check": "CLOUD_ACTUAL_CLOSING_MAKEUP",
+  "observedAt": "2026-09-12T20:21:37.155Z",
+  "organizationId": "01a096c2-20a2-706b-8c69-802f67dee12c",
+  "sectionId": "01a09744-50c6-7518-9853-7dd2e5d78235",
+  "enrollmentId": "01a09745-9ba2-7454-a003-76fdb7dd5315",
+  "windowId": "01a09746-da7b-72a3-a0dd-dbe5bbcff9d3",
+  "sessionId": "01a09747-55ce-77dd-beee-3452bb0b260d",
+  "recordId": "01a09748-4817-76e5-936d-07e6c458a7bd",
+  "rosterImportId": "01a09748-55b1-721e-8f94-07c2baae3b34",
+  "closingDeadline": "2026-09-12T20:26:36.569Z",
+  "checks": [
+    "CLOSING_START_WITHOUT_GRANT_DENIED",
+    "REAL_CLOSING_GRANT_TIMER_COS_REVIEW_CREDIT",
+    "ROSTER_PHYSICAL_GRADE_READY_ONLY_REAL_CLOCK_PENDING"
+  ],
+  "allChecksCompleted": true,
+  "limitations": [
+    "Course past-window baseline and verified synthetic identity were fixture setup, not publication/email acceptance",
+    "Exercise timer, COS materials, review and business writes used current server time and public APIs"
+  ]
+}

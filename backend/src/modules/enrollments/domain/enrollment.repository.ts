@@ -13,6 +13,9 @@ export interface EnrollmentView {
     gradeYear: number;
     collegeName: string | null;
     majorName: string | null;
+    dateOfBirth?: Date | null;
+    regionCode?: string | null;
+    otherRegionName?: string | null;
     administrativeClassName: string | null;
     status: string;
     createdAt: Date;

@@ -1,0 +1,25 @@
+{
+  "observedAt": "2026-09-12T21:26:04.718Z",
+  "origin": "https://www.teacher.bnbusports.cn",
+  "browser": "Edge existing real administrator session, read-only navigation",
+  "healthChinese": [
+    "业务事件待处理记录",
+    "1203 条待处理；未验证通知投递",
+    "查询可用"
+  ],
+  "healthEnglish": [
+    "Pending business events",
+    "1203 pending; notification delivery unverified",
+    "Query available"
+  ],
+  "healthRequestId": "01a09781-d876-769b-92c2-66bac715b5d8",
+  "subadminVerified": [
+    "first-login temporary password instruction",
+    "feedback description excludes transfer",
+    "creation requires administrator identity confirmation and sends no email code"
+  ],
+  "additionalDefect": "System permission text still mentioned retired read-only mode; fixed locally after deployment. Global rule description now targets exercise total and endurance conversion tables.",
+  "formClosedWithoutMutation": true,
+  "languageRestored": "zh",
+  "scope": "Page-copy verification, not full administrator workflow acceptance"
+}

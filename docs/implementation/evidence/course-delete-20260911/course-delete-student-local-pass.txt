@@ -1,0 +1,1 @@
+{"check":"VERIFIED_STUDENT_WITHOUT_COURSE_JOIN","result":"PASS","environment":"local","authenticated":true,"noEnrollment":true,"inviteCodeEntry":true}

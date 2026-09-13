@@ -1,0 +1,12 @@
+{
+  "check": "CLOUD_ROSTER_DIFFERENCE_LIFECYCLE",
+  "observedAt": "2026-09-12T19:35:01.689Z",
+  "rosterImportId": "01a0971d-a8f2-765e-8c3d-47b43888efba",
+  "alignmentResultId": "01a0971d-aa76-741b-95ee-916decf8e5c1",
+  "checks": [
+    "NAME_DIFFERENCE_CONFIRMED_REPLAY",
+    "EVIDENCED_RESOLUTION_AND_REOPEN_REPLAY",
+    "ORIGINAL_ROSTER_RESTORED_MATCHED"
+  ],
+  "allChecksCompleted": true
+}

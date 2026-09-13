@@ -1,0 +1,18 @@
+{
+  "check": "UTC_SAVED_SETTLEMENT_READBACK",
+  "observedAt": "2026-09-12T20:45:41.377Z",
+  "sectionId": "01a09744-50c6-7518-9853-7dd2e5d78235",
+  "checks": [
+    "REPORT_1_HASH_UNCHANGED",
+    "REPORT_2_HASH_UNCHANGED",
+    "REPORT_3_HASH_UNCHANGED",
+    "REPORT_4_HASH_UNCHANGED",
+    "REPORT_5_HASH_UNCHANGED",
+    "EXPORT_1_HASH_UNCHANGED",
+    "EXPORT_5_HASH_UNCHANGED"
+  ],
+  "allChecksCompleted": true,
+  "limitations": [
+    "Saved historical reports unchanged; does not prove new UTC deadline settlement creation"
+  ]
+}

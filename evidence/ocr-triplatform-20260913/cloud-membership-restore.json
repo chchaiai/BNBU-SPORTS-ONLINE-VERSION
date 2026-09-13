@@ -1,0 +1,11 @@
+{
+  "check": "CLOUD_MEMBERSHIP_REMOVE_RESTORE",
+  "observedAt": "2026-09-12T19:10:21.161Z",
+  "enrollmentId": "01a096e7-a6ce-73fe-826b-36728b8ba193",
+  "checks": [
+    "REMOVE_REPLAY_STUDENT_STATE",
+    "REMOVAL_PRESERVES_STUDENT_RECORD_FACT",
+    "RESTORE_REPLAY_ORIGINAL_FACT_REMAINS_VALID"
+  ],
+  "allChecksCompleted": true
+}

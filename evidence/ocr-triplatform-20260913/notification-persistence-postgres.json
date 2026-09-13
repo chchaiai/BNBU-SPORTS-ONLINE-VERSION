@@ -1,0 +1,13 @@
+{
+  "check": "NOTIFICATION_POSTGRES_PERSISTENCE",
+  "result": "PASS",
+  "checks": [
+    "REAL_NOTIFY_RECORD_PERSISTENCE",
+    "DATABASE_READ_AND_PUBLIC_PROJECTION",
+    "READ_STATE_UPDATE_PRESERVES_REVIEW_FACTS"
+  ],
+  "rollback": true,
+  "scope": "Actual Prisma notifyRecord write/read/projection in local PostgreSQL, rolled back with schema and synthetic rows; not HTTP or production acceptance",
+  "baselineMigrations": 75,
+  "firstAttempt": "Older local-validation database lacked email_identity_scope; rolled back. Retried on verified full-integration database with 75 migrations."
+}

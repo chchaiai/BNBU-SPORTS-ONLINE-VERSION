@@ -14,6 +14,15 @@ import {
   ValidateIf,
 } from 'class-validator';
 
+export class CompleteStudentProfileDto {
+  @Transform(({value}: {value: unknown}) => typeof value === 'string' ? value.trim() : value) @IsString() @Length(1,200) collegeName!: string;
+  @Transform(({value}: {value: unknown}) => typeof value === 'string' ? value.trim() : value) @IsString() @Length(1,200) majorName!: string;
+  @IsString() @Length(10,10) dateOfBirth!: string;
+  @IsString() @Length(1,32) regionCode!: string;
+  @ValidateIf((_object,value:unknown)=>value!==undefined) @IsString() @Length(1,100) otherRegionName?: string;
+  @Type(()=>Number) @IsInt() @Min(1) expectedVersion!: number;
+}
+
 const trim = ({ value }: { value: unknown }): unknown =>
   typeof value === 'string' ? value.trim() : value;
 

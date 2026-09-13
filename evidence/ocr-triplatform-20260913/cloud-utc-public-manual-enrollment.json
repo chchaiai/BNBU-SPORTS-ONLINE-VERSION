@@ -1,0 +1,23 @@
+{
+  "check": "UTC_PUBLIC_JOIN_MANUAL_ENROLLMENT",
+  "observedAt": "2026-09-12T20:59:10.126Z",
+  "organizationId": "01a096c2-20a2-706b-8c69-802f67dee12c",
+  "courseIds": [
+    "01a0976a-b1f1-72af-b08c-55b2b17576c2",
+    "01a0976a-b2b1-738d-abcb-12bb6a60e86a"
+  ],
+  "studentId": "01a0976a-b5aa-7609-bede-881f336dea37",
+  "checks": [
+    "ANONYMOUS_CAPABILITY_ISSUE_REPLAY",
+    "ANONYMOUS_JOIN_REAL_STUDENT_SESSION",
+    "MANUAL_DUPLICATE_DENIED",
+    "MANUAL_ENROLLMENT_SUCCESS_REPLAY"
+  ],
+  "allChecksCompleted": true,
+  "limitations": [
+    "Synthetic anonymous identity; no email authentication acceptance",
+    "Invitation uses explicit ten-minute expiry; pending default/grace fix not deployed",
+    "Synthetic courses and student remain for cleanup"
+  ],
+  "inviteRevoked": true
+}

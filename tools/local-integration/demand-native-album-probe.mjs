@@ -1,0 +1,42 @@
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+const directory='.local/demand-followup-evidence';fs.mkdirSync(directory,{recursive:true});
+const targets=await(await fetch('http://127.0.0.1:19222/json/list')).json();
+const target=targets.find(item=>item.url.startsWith('http://localhost:4274/student/'));
+assert.ok(target,'ADB must forward the isolated preview WebView on port 19222');
+const socket=new WebSocket(target.webSocketDebuggerUrl),pending=new Map();let sequence=0;
+await new Promise((resolve,reject)=>{socket.onopen=resolve;socket.onerror=reject;});
+socket.onmessage=event=>{const item=JSON.parse(event.data);const request=pending.get(item.id);if(!request)return;pending.delete(item.id);item.error?request.reject(item.error):request.resolve(item.result);};
+const call=(method,params={})=>new Promise((resolve,reject)=>{const id=++sequence;pending.set(id,{resolve,reject});socket.send(JSON.stringify({id,method,params}));});
+try {
+ const result=await call('Runtime.evaluate',{awaitPromise:true,returnByValue:true,expression:`(async()=>{
+   const canvas=document.createElement('canvas');canvas.width=320;canvas.height=240;
+   const context=canvas.getContext('2d');let frame=0;
+   const draw=()=>{context.fillStyle='#1273cc';context.fillRect(0,0,320,240);context.fillStyle='white';context.font='24px sans-serif';context.fillText('BNBU synthetic '+frame++,20,120);};draw();
+   const photo=await new Promise(resolve=>canvas.toBlob(resolve,'image/jpeg'));
+   const stream=canvas.captureStream(12),chunks=[];
+   const mime=['video/mp4;codecs=avc1.42001E','video/webm;codecs=vp8','video/webm'].find(type=>MediaRecorder.isTypeSupported(type));
+   const recorder=new MediaRecorder(stream,{mimeType:mime});
+   recorder.ondataavailable=event=>{if(event.data.size)chunks.push(event.data);};
+   const stopped=new Promise(resolve=>recorder.onstop=resolve);
+   const timer=setInterval(draw,80);recorder.start(250);await new Promise(resolve=>setTimeout(resolve,1600));recorder.stop();await stopped;clearInterval(timer);stream.getTracks().forEach(track=>track.stop());
+   const raw=new File(chunks,'recorded',{type:recorder.mimeType});
+   const {normalizeRecordedVideo}=await import('/student/js/recorded-video.js');
+   const videoFile=await normalizeRecordedVideo(raw);
+   const video=document.createElement('video');video.muted=true;video.playsInline=true;video.controls=true;video.src=URL.createObjectURL(videoFile);document.body.append(video);
+   await video.play();await new Promise(resolve=>setTimeout(resolve,350));
+   const playback={width:video.videoWidth,height:video.videoHeight,currentTime:video.currentTime,duration:video.duration,error:video.error?.code??null};video.pause();
+   const {saveSuccessfulEvidence}=await import('/student/js/native-album.js');
+   const id='native-synthetic-'+crypto.randomUUID();
+   const drafts=[{id:'photo',blob:photo},{id:'video',blob:videoFile}];
+   const first=await saveSuccessfulEvidence('synthetic-native-owner',id,drafts);
+   const replay=await saveSuccessfulEvidence('synthetic-native-owner',id,drafts);
+   return {sourceMime:raw.type,outputMime:videoFile.type,playback,first,replay,id};
+ })()`});
+ assert.equal(result.exceptionDetails,undefined,JSON.stringify(result.exceptionDetails));
+ const evidence=result.result.value;
+ assert.ok(evidence.playback.width>0&&evidence.playback.currentTime>0&&evidence.playback.duration>0&&!evidence.playback.error);
+ assert.deepEqual(evidence.first,{supported:true,pending:0});assert.deepEqual(evidence.replay,evidence.first);
+ fs.writeFileSync(directory+'/android-native-album.json',JSON.stringify(evidence,null,2)+'\n');
+ console.log(JSON.stringify({check:'ANDROID_RECORDED_VIDEO_DECODE_AND_NATIVE_ALBUM_ACK',result:'PASS',...evidence}));
+}finally{socket.close();}

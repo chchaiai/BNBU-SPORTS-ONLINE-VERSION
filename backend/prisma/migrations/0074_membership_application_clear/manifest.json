@@ -1,0 +1,5 @@
+{
+  "sha256": "fae044e0c3f16464c8465767fd66c4100299211c9680b62956bde1a79089165b",
+  "destructive": false,
+  "migrationId": "0074_membership_application_clear"
+}

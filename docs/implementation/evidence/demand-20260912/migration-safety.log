@@ -1,0 +1,25 @@
+
+> @bnbu/sports-backend@0.1.0 test:migration-safety
+> node --test ./scripts/check-migration-safety.test.mjs
+
+✔ all registered migrations pass the real checker (330.8896ms)
+✔ demand constraint replacements cannot execute deletion (285.0961ms)
+✔ demand constraints require an executable replacement (273.3533ms)
+✔ student erasure migration cannot execute deletion during deployment (248.8944ms)
+✔ unknown migration directory is rejected (235.7542ms)
+✔ SQL checksum changes are rejected (273.5348ms)
+✔ data-destructive statement is rejected: DROP TABLE course_invites; (258.5985ms)
+✔ data-destructive statement is rejected: TRUNCATE course_invites; (250.0032ms)
+✔ data-destructive statement is rejected: DELETE FROM course_invites; (269.0962ms)
+✔ data-destructive statement is rejected: ALTER TABLE course_invites DROP COLUMN token_hash; (266.281ms)
+✔ comments and strings cannot forge replacement constraints (255.6415ms)
+✔ history reference cannot acquire cascading deletion (334.5176ms)
+✔ course erasure migration cannot execute deletion during deployment (322.1667ms)
+ℹ tests 13
+ℹ suites 0
+ℹ pass 13
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 3673.0603

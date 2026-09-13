@@ -29,6 +29,7 @@ export type AggregateV81CourseRule = {
 export type V81CourseRuleAvgAggregateOutputType = {
   minimumMinutes: number | null
   weeklyLimit: number | null
+  dailyLimit: number | null
   courseTarget: number | null
   generalTarget: number | null
   version: number | null
@@ -37,6 +38,7 @@ export type V81CourseRuleAvgAggregateOutputType = {
 export type V81CourseRuleSumAggregateOutputType = {
   minimumMinutes: number | null
   weeklyLimit: number | null
+  dailyLimit: number | null
   courseTarget: number | null
   generalTarget: number | null
   version: number | null
@@ -47,6 +49,7 @@ export type V81CourseRuleMinAggregateOutputType = {
   organizationId: string | null
   minimumMinutes: number | null
   weeklyLimit: number | null
+  dailyLimit: number | null
   courseTarget: number | null
   generalTarget: number | null
   regularDeadline: Date | null
@@ -61,6 +64,7 @@ export type V81CourseRuleMaxAggregateOutputType = {
   organizationId: string | null
   minimumMinutes: number | null
   weeklyLimit: number | null
+  dailyLimit: number | null
   courseTarget: number | null
   generalTarget: number | null
   regularDeadline: Date | null
@@ -75,6 +79,7 @@ export type V81CourseRuleCountAggregateOutputType = {
   organizationId: number
   minimumMinutes: number
   weeklyLimit: number
+  dailyLimit: number
   courseTarget: number
   generalTarget: number
   regularDeadline: number
@@ -89,6 +94,7 @@ export type V81CourseRuleCountAggregateOutputType = {
 export type V81CourseRuleAvgAggregateInputType = {
   minimumMinutes?: true
   weeklyLimit?: true
+  dailyLimit?: true
   courseTarget?: true
   generalTarget?: true
   version?: true
@@ -97,6 +103,7 @@ export type V81CourseRuleAvgAggregateInputType = {
 export type V81CourseRuleSumAggregateInputType = {
   minimumMinutes?: true
   weeklyLimit?: true
+  dailyLimit?: true
   courseTarget?: true
   generalTarget?: true
   version?: true
@@ -107,6 +114,7 @@ export type V81CourseRuleMinAggregateInputType = {
   organizationId?: true
   minimumMinutes?: true
   weeklyLimit?: true
+  dailyLimit?: true
   courseTarget?: true
   generalTarget?: true
   regularDeadline?: true
@@ -121,6 +129,7 @@ export type V81CourseRuleMaxAggregateInputType = {
   organizationId?: true
   minimumMinutes?: true
   weeklyLimit?: true
+  dailyLimit?: true
   courseTarget?: true
   generalTarget?: true
   regularDeadline?: true
@@ -135,6 +144,7 @@ export type V81CourseRuleCountAggregateInputType = {
   organizationId?: true
   minimumMinutes?: true
   weeklyLimit?: true
+  dailyLimit?: true
   courseTarget?: true
   generalTarget?: true
   regularDeadline?: true
@@ -236,6 +246,7 @@ export type V81CourseRuleGroupByOutputType = {
   organizationId: string
   minimumMinutes: number
   weeklyLimit: number
+  dailyLimit: number
   courseTarget: number
   generalTarget: number
   regularDeadline: Date
@@ -273,6 +284,7 @@ export type V81CourseRuleWhereInput = {
   organizationId?: Prisma.UuidFilter<"V81CourseRule"> | string
   minimumMinutes?: Prisma.IntFilter<"V81CourseRule"> | number
   weeklyLimit?: Prisma.IntFilter<"V81CourseRule"> | number
+  dailyLimit?: Prisma.IntFilter<"V81CourseRule"> | number
   courseTarget?: Prisma.IntFilter<"V81CourseRule"> | number
   generalTarget?: Prisma.IntFilter<"V81CourseRule"> | number
   regularDeadline?: Prisma.DateTimeFilter<"V81CourseRule"> | Date | string
@@ -290,6 +302,7 @@ export type V81CourseRuleOrderByWithRelationInput = {
   organizationId?: Prisma.SortOrder
   minimumMinutes?: Prisma.SortOrder
   weeklyLimit?: Prisma.SortOrder
+  dailyLimit?: Prisma.SortOrder
   courseTarget?: Prisma.SortOrder
   generalTarget?: Prisma.SortOrder
   regularDeadline?: Prisma.SortOrder
@@ -310,6 +323,7 @@ export type V81CourseRuleWhereUniqueInput = Prisma.AtLeast<{
   organizationId?: Prisma.UuidFilter<"V81CourseRule"> | string
   minimumMinutes?: Prisma.IntFilter<"V81CourseRule"> | number
   weeklyLimit?: Prisma.IntFilter<"V81CourseRule"> | number
+  dailyLimit?: Prisma.IntFilter<"V81CourseRule"> | number
   courseTarget?: Prisma.IntFilter<"V81CourseRule"> | number
   generalTarget?: Prisma.IntFilter<"V81CourseRule"> | number
   regularDeadline?: Prisma.DateTimeFilter<"V81CourseRule"> | Date | string
@@ -327,6 +341,7 @@ export type V81CourseRuleOrderByWithAggregationInput = {
   organizationId?: Prisma.SortOrder
   minimumMinutes?: Prisma.SortOrder
   weeklyLimit?: Prisma.SortOrder
+  dailyLimit?: Prisma.SortOrder
   courseTarget?: Prisma.SortOrder
   generalTarget?: Prisma.SortOrder
   regularDeadline?: Prisma.SortOrder
@@ -349,6 +364,7 @@ export type V81CourseRuleScalarWhereWithAggregatesInput = {
   organizationId?: Prisma.UuidWithAggregatesFilter<"V81CourseRule"> | string
   minimumMinutes?: Prisma.IntWithAggregatesFilter<"V81CourseRule"> | number
   weeklyLimit?: Prisma.IntWithAggregatesFilter<"V81CourseRule"> | number
+  dailyLimit?: Prisma.IntWithAggregatesFilter<"V81CourseRule"> | number
   courseTarget?: Prisma.IntWithAggregatesFilter<"V81CourseRule"> | number
   generalTarget?: Prisma.IntWithAggregatesFilter<"V81CourseRule"> | number
   regularDeadline?: Prisma.DateTimeWithAggregatesFilter<"V81CourseRule"> | Date | string
@@ -361,6 +377,7 @@ export type V81CourseRuleScalarWhereWithAggregatesInput = {
 export type V81CourseRuleCreateInput = {
   minimumMinutes: number
   weeklyLimit: number
+  dailyLimit?: number
   courseTarget: number
   generalTarget: number
   regularDeadline: Date | string
@@ -378,6 +395,7 @@ export type V81CourseRuleUncheckedCreateInput = {
   organizationId: string
   minimumMinutes: number
   weeklyLimit: number
+  dailyLimit?: number
   courseTarget: number
   generalTarget: number
   regularDeadline: Date | string
@@ -390,6 +408,7 @@ export type V81CourseRuleUncheckedCreateInput = {
 export type V81CourseRuleUpdateInput = {
   minimumMinutes?: Prisma.IntFieldUpdateOperationsInput | number
   weeklyLimit?: Prisma.IntFieldUpdateOperationsInput | number
+  dailyLimit?: Prisma.IntFieldUpdateOperationsInput | number
   courseTarget?: Prisma.IntFieldUpdateOperationsInput | number
   generalTarget?: Prisma.IntFieldUpdateOperationsInput | number
   regularDeadline?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -407,6 +426,7 @@ export type V81CourseRuleUncheckedUpdateInput = {
   organizationId?: Prisma.StringFieldUpdateOperationsInput | string
   minimumMinutes?: Prisma.IntFieldUpdateOperationsInput | number
   weeklyLimit?: Prisma.IntFieldUpdateOperationsInput | number
+  dailyLimit?: Prisma.IntFieldUpdateOperationsInput | number
   courseTarget?: Prisma.IntFieldUpdateOperationsInput | number
   generalTarget?: Prisma.IntFieldUpdateOperationsInput | number
   regularDeadline?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -421,6 +441,7 @@ export type V81CourseRuleCreateManyInput = {
   organizationId: string
   minimumMinutes: number
   weeklyLimit: number
+  dailyLimit?: number
   courseTarget: number
   generalTarget: number
   regularDeadline: Date | string
@@ -433,6 +454,7 @@ export type V81CourseRuleCreateManyInput = {
 export type V81CourseRuleUpdateManyMutationInput = {
   minimumMinutes?: Prisma.IntFieldUpdateOperationsInput | number
   weeklyLimit?: Prisma.IntFieldUpdateOperationsInput | number
+  dailyLimit?: Prisma.IntFieldUpdateOperationsInput | number
   courseTarget?: Prisma.IntFieldUpdateOperationsInput | number
   generalTarget?: Prisma.IntFieldUpdateOperationsInput | number
   regularDeadline?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -447,6 +469,7 @@ export type V81CourseRuleUncheckedUpdateManyInput = {
   organizationId?: Prisma.StringFieldUpdateOperationsInput | string
   minimumMinutes?: Prisma.IntFieldUpdateOperationsInput | number
   weeklyLimit?: Prisma.IntFieldUpdateOperationsInput | number
+  dailyLimit?: Prisma.IntFieldUpdateOperationsInput | number
   courseTarget?: Prisma.IntFieldUpdateOperationsInput | number
   generalTarget?: Prisma.IntFieldUpdateOperationsInput | number
   regularDeadline?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -476,6 +499,7 @@ export type V81CourseRuleCountOrderByAggregateInput = {
   organizationId?: Prisma.SortOrder
   minimumMinutes?: Prisma.SortOrder
   weeklyLimit?: Prisma.SortOrder
+  dailyLimit?: Prisma.SortOrder
   courseTarget?: Prisma.SortOrder
   generalTarget?: Prisma.SortOrder
   regularDeadline?: Prisma.SortOrder
@@ -488,6 +512,7 @@ export type V81CourseRuleCountOrderByAggregateInput = {
 export type V81CourseRuleAvgOrderByAggregateInput = {
   minimumMinutes?: Prisma.SortOrder
   weeklyLimit?: Prisma.SortOrder
+  dailyLimit?: Prisma.SortOrder
   courseTarget?: Prisma.SortOrder
   generalTarget?: Prisma.SortOrder
   version?: Prisma.SortOrder
@@ -498,6 +523,7 @@ export type V81CourseRuleMaxOrderByAggregateInput = {
   organizationId?: Prisma.SortOrder
   minimumMinutes?: Prisma.SortOrder
   weeklyLimit?: Prisma.SortOrder
+  dailyLimit?: Prisma.SortOrder
   courseTarget?: Prisma.SortOrder
   generalTarget?: Prisma.SortOrder
   regularDeadline?: Prisma.SortOrder
@@ -512,6 +538,7 @@ export type V81CourseRuleMinOrderByAggregateInput = {
   organizationId?: Prisma.SortOrder
   minimumMinutes?: Prisma.SortOrder
   weeklyLimit?: Prisma.SortOrder
+  dailyLimit?: Prisma.SortOrder
   courseTarget?: Prisma.SortOrder
   generalTarget?: Prisma.SortOrder
   regularDeadline?: Prisma.SortOrder
@@ -524,6 +551,7 @@ export type V81CourseRuleMinOrderByAggregateInput = {
 export type V81CourseRuleSumOrderByAggregateInput = {
   minimumMinutes?: Prisma.SortOrder
   weeklyLimit?: Prisma.SortOrder
+  dailyLimit?: Prisma.SortOrder
   courseTarget?: Prisma.SortOrder
   generalTarget?: Prisma.SortOrder
   version?: Prisma.SortOrder
@@ -648,6 +676,7 @@ export type V81CourseRuleUncheckedUpdateManyWithoutScopedSectionNestedInput = {
 export type V81CourseRuleCreateWithoutOrganizationInput = {
   minimumMinutes: number
   weeklyLimit: number
+  dailyLimit?: number
   courseTarget: number
   generalTarget: number
   regularDeadline: Date | string
@@ -663,6 +692,7 @@ export type V81CourseRuleUncheckedCreateWithoutOrganizationInput = {
   classSectionId: string
   minimumMinutes: number
   weeklyLimit: number
+  dailyLimit?: number
   courseTarget: number
   generalTarget: number
   regularDeadline: Date | string
@@ -706,6 +736,7 @@ export type V81CourseRuleScalarWhereInput = {
   organizationId?: Prisma.UuidFilter<"V81CourseRule"> | string
   minimumMinutes?: Prisma.IntFilter<"V81CourseRule"> | number
   weeklyLimit?: Prisma.IntFilter<"V81CourseRule"> | number
+  dailyLimit?: Prisma.IntFilter<"V81CourseRule"> | number
   courseTarget?: Prisma.IntFilter<"V81CourseRule"> | number
   generalTarget?: Prisma.IntFilter<"V81CourseRule"> | number
   regularDeadline?: Prisma.DateTimeFilter<"V81CourseRule"> | Date | string
@@ -718,6 +749,7 @@ export type V81CourseRuleScalarWhereInput = {
 export type V81CourseRuleCreateWithoutSectionInput = {
   minimumMinutes: number
   weeklyLimit: number
+  dailyLimit?: number
   courseTarget: number
   generalTarget: number
   regularDeadline: Date | string
@@ -733,6 +765,7 @@ export type V81CourseRuleUncheckedCreateWithoutSectionInput = {
   organizationId: string
   minimumMinutes: number
   weeklyLimit: number
+  dailyLimit?: number
   courseTarget: number
   generalTarget: number
   regularDeadline: Date | string
@@ -750,6 +783,7 @@ export type V81CourseRuleCreateOrConnectWithoutSectionInput = {
 export type V81CourseRuleCreateWithoutScopedSectionInput = {
   minimumMinutes: number
   weeklyLimit: number
+  dailyLimit?: number
   courseTarget: number
   generalTarget: number
   regularDeadline: Date | string
@@ -764,6 +798,7 @@ export type V81CourseRuleCreateWithoutScopedSectionInput = {
 export type V81CourseRuleUncheckedCreateWithoutScopedSectionInput = {
   minimumMinutes: number
   weeklyLimit: number
+  dailyLimit?: number
   courseTarget: number
   generalTarget: number
   regularDeadline: Date | string
@@ -797,6 +832,7 @@ export type V81CourseRuleUpdateToOneWithWhereWithoutSectionInput = {
 export type V81CourseRuleUpdateWithoutSectionInput = {
   minimumMinutes?: Prisma.IntFieldUpdateOperationsInput | number
   weeklyLimit?: Prisma.IntFieldUpdateOperationsInput | number
+  dailyLimit?: Prisma.IntFieldUpdateOperationsInput | number
   courseTarget?: Prisma.IntFieldUpdateOperationsInput | number
   generalTarget?: Prisma.IntFieldUpdateOperationsInput | number
   regularDeadline?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -812,6 +848,7 @@ export type V81CourseRuleUncheckedUpdateWithoutSectionInput = {
   organizationId?: Prisma.StringFieldUpdateOperationsInput | string
   minimumMinutes?: Prisma.IntFieldUpdateOperationsInput | number
   weeklyLimit?: Prisma.IntFieldUpdateOperationsInput | number
+  dailyLimit?: Prisma.IntFieldUpdateOperationsInput | number
   courseTarget?: Prisma.IntFieldUpdateOperationsInput | number
   generalTarget?: Prisma.IntFieldUpdateOperationsInput | number
   regularDeadline?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -841,6 +878,7 @@ export type V81CourseRuleCreateManyOrganizationInput = {
   classSectionId: string
   minimumMinutes: number
   weeklyLimit: number
+  dailyLimit?: number
   courseTarget: number
   generalTarget: number
   regularDeadline: Date | string
@@ -853,6 +891,7 @@ export type V81CourseRuleCreateManyOrganizationInput = {
 export type V81CourseRuleUpdateWithoutOrganizationInput = {
   minimumMinutes?: Prisma.IntFieldUpdateOperationsInput | number
   weeklyLimit?: Prisma.IntFieldUpdateOperationsInput | number
+  dailyLimit?: Prisma.IntFieldUpdateOperationsInput | number
   courseTarget?: Prisma.IntFieldUpdateOperationsInput | number
   generalTarget?: Prisma.IntFieldUpdateOperationsInput | number
   regularDeadline?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -868,6 +907,7 @@ export type V81CourseRuleUncheckedUpdateWithoutOrganizationInput = {
   classSectionId?: Prisma.StringFieldUpdateOperationsInput | string
   minimumMinutes?: Prisma.IntFieldUpdateOperationsInput | number
   weeklyLimit?: Prisma.IntFieldUpdateOperationsInput | number
+  dailyLimit?: Prisma.IntFieldUpdateOperationsInput | number
   courseTarget?: Prisma.IntFieldUpdateOperationsInput | number
   generalTarget?: Prisma.IntFieldUpdateOperationsInput | number
   regularDeadline?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -881,6 +921,7 @@ export type V81CourseRuleUncheckedUpdateManyWithoutOrganizationInput = {
   classSectionId?: Prisma.StringFieldUpdateOperationsInput | string
   minimumMinutes?: Prisma.IntFieldUpdateOperationsInput | number
   weeklyLimit?: Prisma.IntFieldUpdateOperationsInput | number
+  dailyLimit?: Prisma.IntFieldUpdateOperationsInput | number
   courseTarget?: Prisma.IntFieldUpdateOperationsInput | number
   generalTarget?: Prisma.IntFieldUpdateOperationsInput | number
   regularDeadline?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -893,6 +934,7 @@ export type V81CourseRuleUncheckedUpdateManyWithoutOrganizationInput = {
 export type V81CourseRuleCreateManyScopedSectionInput = {
   minimumMinutes: number
   weeklyLimit: number
+  dailyLimit?: number
   courseTarget: number
   generalTarget: number
   regularDeadline: Date | string
@@ -905,6 +947,7 @@ export type V81CourseRuleCreateManyScopedSectionInput = {
 export type V81CourseRuleUpdateWithoutScopedSectionInput = {
   minimumMinutes?: Prisma.IntFieldUpdateOperationsInput | number
   weeklyLimit?: Prisma.IntFieldUpdateOperationsInput | number
+  dailyLimit?: Prisma.IntFieldUpdateOperationsInput | number
   courseTarget?: Prisma.IntFieldUpdateOperationsInput | number
   generalTarget?: Prisma.IntFieldUpdateOperationsInput | number
   regularDeadline?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -919,6 +962,7 @@ export type V81CourseRuleUpdateWithoutScopedSectionInput = {
 export type V81CourseRuleUncheckedUpdateWithoutScopedSectionInput = {
   minimumMinutes?: Prisma.IntFieldUpdateOperationsInput | number
   weeklyLimit?: Prisma.IntFieldUpdateOperationsInput | number
+  dailyLimit?: Prisma.IntFieldUpdateOperationsInput | number
   courseTarget?: Prisma.IntFieldUpdateOperationsInput | number
   generalTarget?: Prisma.IntFieldUpdateOperationsInput | number
   regularDeadline?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -931,6 +975,7 @@ export type V81CourseRuleUncheckedUpdateWithoutScopedSectionInput = {
 export type V81CourseRuleUncheckedUpdateManyWithoutScopedSectionInput = {
   minimumMinutes?: Prisma.IntFieldUpdateOperationsInput | number
   weeklyLimit?: Prisma.IntFieldUpdateOperationsInput | number
+  dailyLimit?: Prisma.IntFieldUpdateOperationsInput | number
   courseTarget?: Prisma.IntFieldUpdateOperationsInput | number
   generalTarget?: Prisma.IntFieldUpdateOperationsInput | number
   regularDeadline?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -947,6 +992,7 @@ export type V81CourseRuleSelect<ExtArgs extends runtime.Types.Extensions.Interna
   organizationId?: boolean
   minimumMinutes?: boolean
   weeklyLimit?: boolean
+  dailyLimit?: boolean
   courseTarget?: boolean
   generalTarget?: boolean
   regularDeadline?: boolean
@@ -964,6 +1010,7 @@ export type V81CourseRuleSelectCreateManyAndReturn<ExtArgs extends runtime.Types
   organizationId?: boolean
   minimumMinutes?: boolean
   weeklyLimit?: boolean
+  dailyLimit?: boolean
   courseTarget?: boolean
   generalTarget?: boolean
   regularDeadline?: boolean
@@ -981,6 +1028,7 @@ export type V81CourseRuleSelectUpdateManyAndReturn<ExtArgs extends runtime.Types
   organizationId?: boolean
   minimumMinutes?: boolean
   weeklyLimit?: boolean
+  dailyLimit?: boolean
   courseTarget?: boolean
   generalTarget?: boolean
   regularDeadline?: boolean
@@ -998,6 +1046,7 @@ export type V81CourseRuleSelectScalar = {
   organizationId?: boolean
   minimumMinutes?: boolean
   weeklyLimit?: boolean
+  dailyLimit?: boolean
   courseTarget?: boolean
   generalTarget?: boolean
   regularDeadline?: boolean
@@ -1007,7 +1056,7 @@ export type V81CourseRuleSelectScalar = {
   version?: boolean
 }
 
-export type V81CourseRuleOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"classSectionId" | "organizationId" | "minimumMinutes" | "weeklyLimit" | "courseTarget" | "generalTarget" | "regularDeadline" | "closingDeadline" | "settlementPlannedAt" | "publishedAt" | "version", ExtArgs["result"]["v81CourseRule"]>
+export type V81CourseRuleOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"classSectionId" | "organizationId" | "minimumMinutes" | "weeklyLimit" | "dailyLimit" | "courseTarget" | "generalTarget" | "regularDeadline" | "closingDeadline" | "settlementPlannedAt" | "publishedAt" | "version", ExtArgs["result"]["v81CourseRule"]>
 export type V81CourseRuleInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
   section?: boolean | Prisma.ClassSectionDefaultArgs<ExtArgs>
@@ -1036,6 +1085,7 @@ export type $V81CourseRulePayload<ExtArgs extends runtime.Types.Extensions.Inter
     organizationId: string
     minimumMinutes: number
     weeklyLimit: number
+    dailyLimit: number
     courseTarget: number
     generalTarget: number
     regularDeadline: Date
@@ -1473,6 +1523,7 @@ export interface V81CourseRuleFieldRefs {
   readonly organizationId: Prisma.FieldRef<"V81CourseRule", 'String'>
   readonly minimumMinutes: Prisma.FieldRef<"V81CourseRule", 'Int'>
   readonly weeklyLimit: Prisma.FieldRef<"V81CourseRule", 'Int'>
+  readonly dailyLimit: Prisma.FieldRef<"V81CourseRule", 'Int'>
   readonly courseTarget: Prisma.FieldRef<"V81CourseRule", 'Int'>
   readonly generalTarget: Prisma.FieldRef<"V81CourseRule", 'Int'>
   readonly regularDeadline: Prisma.FieldRef<"V81CourseRule", 'DateTime'>

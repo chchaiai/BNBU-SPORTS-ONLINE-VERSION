@@ -1,0 +1,10 @@
+{
+  "check": "CLOUD_TEACHER_COURSE_CREATE",
+  "observedAt": "2026-09-12T19:13:15.562Z",
+  "classSectionId": "01a09709-c081-71e7-97ca-04b623e2121b",
+  "checks": [
+    "CREATE_REPLAY_SAFE_DEFAULTS",
+    "ADMIN_CREATE_DENIED_EMPTY_COURSE_RETIRED_REPLAY"
+  ],
+  "allChecksCompleted": true
+}

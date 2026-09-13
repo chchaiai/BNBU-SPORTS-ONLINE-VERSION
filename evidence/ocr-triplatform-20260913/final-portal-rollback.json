@@ -1,0 +1,23 @@
+{
+  "check": "FINAL_PORTAL_ROLLBACK_AND_RESTORE",
+  "observedAt": "2026-09-13T03:33:31Z",
+  "steps": [
+    {
+      "release": "invite-brand-20260913",
+      "portalImage": "sha256:182a9d232c395fae913021f9182aabc8d1ab93c3f1265b7204d9773189b43ced",
+      "health": "healthy",
+      "publicChecks": {"teacherHomepage": 200, "studentHomepage": 200, "backendReady": 200},
+      "backendUnchanged": true
+    },
+    {
+      "release": "invite-ui-final-20260913",
+      "portalImage": "sha256:69c42e30e571a3af217b1b733d258be611a841744b254e0d454a2ea34f546e10",
+      "health": "healthy",
+      "publicChecks": {"teacherHomepage": 200, "studentHomepage": 200, "backendReady": 200},
+      "backendUnchanged": true
+    }
+  ],
+  "restored": true,
+  "preflight": "Release configuration and complete student static file hashes matched. Initial path-identity assertion was corrected to content comparison before any container mutation.",
+  "limitations": "Portal-only drill; backend and database rollback not exercised. HTTP health checks do not establish full UI acceptance."
+}

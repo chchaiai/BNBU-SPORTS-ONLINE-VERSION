@@ -1,0 +1,10 @@
+✔ closure preserves only sessions admitted before or at closure (0.4693ms)
+✔ manual removal, withdrawal and archived courses never receive the closure exception (0.0937ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 2
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 182.6722

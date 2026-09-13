@@ -1,0 +1,14 @@
+{
+  "result": "PASS_SCOPED",
+  "browser": "Codex in-app browser",
+  "account": "Synthetic Test Admin A",
+  "currentSemester": "Synthetic Current Semester",
+  "currentCourses": 10,
+  "currentStudents": 6,
+  "archivedSemesterReadOnly": true,
+  "switchTarget": "Synthetic semester regression 20260913",
+  "blockingText": "Start date has not arrived; Courses await settlement; Courses have pending work or unverified data",
+  "confirmSwitchDisabled": true,
+  "cancelClosedDialog": true,
+  "scope": "Actual current/history list and blocked switch dialog; successful browser switch remains unverified"
+}

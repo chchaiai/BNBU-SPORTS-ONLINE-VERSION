@@ -1,0 +1,20 @@
+{
+  "sourceCommit": "c7566129b7ba157b1325cc668dd617b8d5687d26",
+  "files": {
+    "screens/checkin.js": "42b72bd9fc76647e724f48bac54f739a6b1f8e2d2f38c3edb7b92a0a6b08657a",
+    "app.js": "180dbdae7bba4c7cccf032367b58799a3bfab948a54cecca27036956168d3bd7",
+    "local-video-player.js": "4b7469288f3fe95749ba300b4656bf4f41f221bc6a7378c2b526b9b078fdddf6"
+  },
+  "result": "PASS",
+  "release": "student-local-player-20260913",
+  "previous": "student-worker-video-20260913",
+  "deviceAcceptance": "USER_CONFIRMED_LOCAL_PLAYBACK_PASS",
+  "userEvidence": "HarmonyOS Edge: thumbnail normal; upload/download and formal record work; local preview fails",
+  "localTests": {
+    "smoke": 86,
+    "playerLifecycle": 2
+  },
+  "device": "HarmonyOS Android Edge",
+  "userConfirmation": "现在本地播放正常了",
+  "remainingDeviceScope": "Audio, interrupted playback recovery and other devices not separately confirmed"
+}

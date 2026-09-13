@@ -1,0 +1,11 @@
+{
+  "check": "CLOUD_HISTORY_COURSE_LIFECYCLE",
+  "observedAt": "2026-09-12T18:17:09.327Z",
+  "organizationId": "01a096c2-20a2-706b-8c69-802f67dee12c",
+  "sectionId": "01a096d6-6498-7512-aa06-f7c4db6e0be9",
+  "checks": [
+    "PROFILE_COMPLETE_AND_REPLAY",
+    "SYNTHETIC_GLOBAL_GOAL_AND_REPLAY"
+  ],
+  "allChecksCompleted": false
+}

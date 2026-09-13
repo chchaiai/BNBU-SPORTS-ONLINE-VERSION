@@ -1,0 +1,13 @@
+{
+  "publicHashesMatched": true,
+  "syntaxChecks": "PASS",
+  "observedAt": "2026-09-13T08:12:45.1349519+08:00",
+  "remaining": "Home target still pending; continue investigation",
+  "englishBrowserVerified": false,
+  "previous": "portal-required-20260913",
+  "check": "STUDENT_RECOGNITION_COPY_DEPLOYMENT_BROWSER",
+  "layoutChanged": false,
+  "release": "student-recognition-copy-20260913",
+  "sourceCommit": "365b93aaba00e652eaa609f63c86e78b679945fe",
+  "browserChineseCopyPassed": true
+}

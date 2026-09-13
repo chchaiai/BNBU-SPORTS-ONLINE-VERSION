@@ -1,0 +1,104 @@
+import fs from 'node:fs';
+import assert from 'node:assert/strict';
+import {chromium,webkit,firefox} from '../../.local/browser-test/node_modules/playwright-core/index.mjs';
+const fixture=JSON.parse(fs.readFileSync('.local/v81-browser-state/demand-fixture.json','utf8'));
+const engine=process.env.BNBU_BROWSER || 'chromium';assert.ok(['chromium','webkit','firefox'].includes(engine));
+const output='.local/media-round3/browser'+(engine==='chromium'?'':'/'+engine);fs.mkdirSync(output,{recursive:true});
+const browser=await ({chromium,webkit,firefox}[engine]).launch({...(engine==='chromium'?{executablePath:'C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe'}:{}),headless:true,...(engine==='chromium'?{args:['--use-fake-ui-for-media-stream','--use-fake-device-for-media-stream']}: {})});
+const errors=[],checks=[];
+const pass=check=>{checks.push(check);console.log(JSON.stringify({check,result:'PASS'}));};
+async function pageFor(viewport) {const context=await browser.newContext({viewport,timezoneId:'Asia/Shanghai'}),page=await context.newPage();page.setDefaultTimeout(30000);page.on('pageerror',error=>errors.push(error.message));return page;}
+async function stateReady(page) {for(let n=0;n<150;n++){if(await page.evaluate(async()=>{const {app}=await import('/student/js/app.js');return app.state.authenticated&&!app.state.isLoading&&!app.state.isRestoringSession;}))return;await new Promise(r=>setTimeout(r,200));}throw new Error('Student workspace did not settle');}
+try {
+ const student=await pageFor({width:390,height:844});
+ await student.goto('http://127.0.0.1:4274/student/?api=local&org='+encodeURIComponent(fixture.organizationCode));
+ await student.getByRole('button',{name:'同意并继续',exact:true}).click();await student.getByText('直接登录',{exact:true}).click();await student.getByText('邮箱验证码登录',{exact:true}).click();
+ await student.getByPlaceholder('name@bnbu.edu.cn').fill(fixture.studentEmail);
+ const prior=await(await fetch('http://127.0.0.1:18025/api/v1/messages?limit=100')).json(),ids=new Set(prior.messages.map(m=>m.ID));
+ await student.getByRole('button',{name:'获取验证码',exact:true}).click();let code;
+ for(let n=0;n<40&&!code;n++){const messages=await(await fetch('http://127.0.0.1:18025/api/v1/messages?limit=100')).json();const message=messages.messages.find(m=>!ids.has(m.ID)&&JSON.stringify(m.To).includes(fixture.studentEmail));if(message){const full=await(await fetch('http://127.0.0.1:18025/api/v1/message/'+message.ID)).json();code=full.Text.match(/\b\d{6}\b/)?.[0];}if(!code)await new Promise(r=>setTimeout(r,500));}
+ assert.ok(code);await student.getByPlaceholder('4–10 位数字').fill(code);await student.getByRole('button',{name:'登录',exact:true}).click();await stateReady(student);
+ if(await student.getByRole('button',{name:'跳过',exact:true}).isVisible())await student.getByRole('button',{name:'跳过',exact:true}).click();
+ assert.equal(await student.getByText('开始前核验运动时段',{exact:true}).count(),0);
+ await student.locator('[data-action="root.tab"][data-tab="profile"]').click();
+ await student.getByRole('button',{name:'去完善',exact:true}).click();
+ const appearance=await student.locator('[data-field="collegeName"]').evaluate(input=>({background:getComputedStyle(input).backgroundColor,border:getComputedStyle(input).borderTopStyle}));
+ assert.notEqual(appearance.background,'rgba(0, 0, 0, 0)');assert.notEqual(appearance.border,'none');
+ await student.screenshot({path:output+'/profile-fields.png',fullPage:true});pass('VISIBLE_PROFILE_FIELDS');
+ await student.evaluate(async()=>{const {app}=await import('/student/js/app.js');app.openSub('exemption');});
+ await student.locator('[data-action="exemption.tab"][data-value="new"]').click();
+ await student.locator('[data-action="exemption.selectType"][data-value="team"]').click();
+ await student.locator('#exemption-organization').fill('Delete this local draft');
+ await student.locator('[data-action="exemption.deleteLocalDraft"]').click();
+ await student.getByText('本机草稿已删除。',{exact:true}).waitFor();
+ assert.equal(await student.locator('#exemption-organization').inputValue(),'');
+ assert.equal(await student.evaluate(async()=>{const {app}=await import('/student/js/app.js');const {readApplicationDraft}=await import('/student/js/application-draft-store.js');return Boolean(await readApplicationDraft(app.state.workspace.student.localOwnerId));}),false);
+ pass('DELETE_LOCAL_DRAFT_PERSISTENCE');
+ await student.locator('#exemption-organization').fill('Synthetic Mobile Team');await student.locator('#exemption-reason').fill('Synthetic camera trailer and PDF proof');
+ const phone=Buffer.concat([fs.readFileSync('.local/v81-browser-state/demand-photo.jpg'),Buffer.alloc(1208)]);
+ await student.locator('[data-exemption-input="camera"]').setInputFiles({name:'phone-oem.jpg',mimeType:'application/octet-stream',buffer:phone});
+ await student.getByText('已拍摄 1 张凭证照片。',{exact:true}).waitFor();
+ await student.locator('[data-exemption-input="gallery"]').setInputFiles('.local/v81-browser-state/demand-proof.pdf');
+ await student.locator('[data-action="exemption.previewLocal"]').nth(1).waitFor();
+ await student.locator('[data-action="exemption.previewLocal"]').first().click();
+ await student.waitForFunction(()=>document.querySelector('.material-preview img')?.naturalWidth>0);await student.screenshot({path:output+'/local-photo-preview.png'});await student.locator('.material-preview').getByRole('button',{name:'关闭',exact:true}).click();
+ await student.locator('[data-action="exemption.previewLocal"]').nth(1).click();
+ await student.waitForFunction(()=>document.querySelector('.material-preview nav span')?.textContent==='1 / 1');await student.screenshot({path:output+'/local-pdf-preview.png'});await student.locator('.material-preview').getByRole('button',{name:'关闭',exact:true}).click();
+ pass('LOCAL_IMAGE_AND_PDF_CANVAS_PREVIEW');
+ await student.reload();await stateReady(student);await student.evaluate(async()=>{const {app}=await import('/student/js/app.js');app.openSub('exemption');});
+ await student.locator('[data-action="exemption.tab"][data-value="new"]').click();
+ await student.waitForFunction(()=>document.querySelector('#exemption-organization')?.value==='Synthetic Mobile Team');
+ assert.equal(await student.locator('[data-action="exemption.previewLocal"]').count(),2);
+ await student.locator('[data-action="exemption.selectType"][data-value="club"]').click();
+ assert.equal(await student.locator('[data-action="exemption.selectType"][data-value="team"]').count(),1);
+ await student.locator('[data-action="exemption.submit"]').click();
+ await student.evaluate(async()=>{window.mediaRound2App=(await import('/student/js/app.js')).app;});
+ await student.waitForFunction(()=>{const app=window.mediaRound2App;if(app.ui.exemption?.error)throw new Error(JSON.stringify(app.ui.exemption.error));return Boolean(app.ui.exemption?.success) && !app.ui.exemption?.submitting;},null,{timeout:60000});
+ await stateReady(student);
+ pass('DURABLE_UNLOCKED_DRAFT_AND_REAL_PHOTO_PDF_UPLOAD_SUBMIT');
+ const applicationId=await student.evaluate(async()=>{const {app}=await import('/student/js/app.js');const entry=app.state.workspace.exemptions.find(e=>e.type==='club');if(!entry)throw new Error(JSON.stringify({types:app.state.workspace.exemptions.map(e=>({type:e.type,subtype:e.applicationSubtype})),form:app.ui.exemption.form.type}));return entry.id;});
+ await student.locator('[data-action="exemption.open"][data-exemption-id="'+applicationId+'"]').click();
+ await student.locator('[data-action="exemption.previewRemote"]').nth(1).click();
+ await student.waitForFunction(()=>document.querySelector('.material-preview nav span')?.textContent==='1 / 1');await student.screenshot({path:output+'/uploaded-pdf-preview.png'});await student.locator('.material-preview').getByRole('button',{name:'关闭',exact:true}).click();
+ pass('UPLOADED_PDF_SIGNED_ACCESS_PREVIEW');
+ await student.evaluate(async()=>{const {app}=await import('/student/js/app.js');app.closeSub();});
+ await student.locator('[data-action="root.tab"][data-tab="courses"]').click();
+ const courseButton=student.locator('[data-action="courses.open"]');
+ assert.ok(await courseButton.count());await courseButton.first().click();assert.equal(await student.getByText('本人名单',{exact:true}).count(),0);assert.equal(await student.getByText('刷新本人名单状态',{exact:true}).count(),0);
+ pass('COURSE_DETAIL_REDUNDANT_ROSTER_REMOVED');
+ if(engine==='chromium') {
+  await student.locator('[data-action="root.tab"][data-tab="checkin"]').click();
+  await student.getByRole('button',{name:'开始运动',exact:true}).click();
+  await student.getByRole('button',{name:'我知道了',exact:true}).click();
+  await student.locator('[data-action="checkin.pause"]').waitFor();
+  await student.route('**/exercise-sessions/**',async route=>{await new Promise(r=>setTimeout(r,1500));await route.continue();});
+  for(const command of ['pause','resume']) {
+    const start=Date.now();await student.locator('[data-action="checkin.'+command+'"]').click();
+    await student.locator('[data-action="checkin.'+(command==='pause'?'resume':'pause')+'"]').waitFor();assert.ok(Date.now()-start<1000);
+    await student.waitForFunction(()=>!window.mediaRound2App.ui.checkin.sessionTransitioning);
+  }
+  await student.unroute('**/exercise-sessions/**');pass('IMMEDIATE_PAUSE_RESUME_WITH_NETWORK_DELAY');
+  await student.locator('[data-action="checkin.capturePhoto"]').click();
+  await student.waitForFunction(()=>document.querySelector('[data-live-camera-video]')?.videoWidth>0);
+  const box=await student.locator('[data-live-camera-overlay]').boundingBox();assert.ok(box.width>=389&&box.height>=843);
+  await student.locator('[data-live-camera-overlay]').evaluate(async el=>{await Promise.all(el.getAnimations().map(animation=>animation.finished));});
+  await student.screenshot({path:output+'/full-screen-camera.png'});
+  await student.locator('[data-action="checkin.cameraTakePhoto"]').click();
+  await student.route('**/ffmpeg-core.wasm',async route=>{await new Promise(r=>setTimeout(r,2500));await route.continue();});
+  await student.locator('[data-action="checkin.captureVideo"]').click();await student.getByRole('button',{name:'继续录制',exact:true}).click();await student.locator('[data-action="checkin.cameraStartVideo"]').click();await new Promise(resolve=>setTimeout(resolve,3000));await student.locator('[data-action="checkin.cameraStopVideo"]').click();
+  await student.waitForFunction(()=>window.mediaRound2App.ui.checkin.drafts.some(d=>d.normalizationPending));
+  const pendingId=await student.evaluate(()=>window.mediaRound2App.ui.checkin.drafts.find(d=>d.normalizationPending).id);
+  await student.locator('[data-action="checkin.previewDraft"][data-draft-id="'+pendingId+'"]').click();
+  assert.equal(await student.locator('[data-proof-preview-video]').count(),0);
+  await student.getByText('正在处理视频，完成后即可播放…',{exact:true}).waitFor();
+  await student.locator('[data-action="checkin.closeDraftPreview"]').click();pass('RAW_RECORDING_NOT_PLAYED_WHILE_PROCESSING');
+  await student.waitForFunction(()=>{const app=window.mediaRound2App;return app.ui.checkin.drafts.some(d=>d.type==='video'&&!d.normalizationPending)&&!app.ui.checkin.normalizingVideo;},null,{timeout:90000});
+  const videoId=await student.evaluate(async()=>{const {app}=await import('/student/js/app.js');return app.ui.checkin.drafts.find(d=>d.type==='video').id;});
+  await student.locator('[data-action="checkin.previewDraft"][data-draft-id="'+videoId+'"]').click();
+  await student.locator('[data-proof-preview-video]').evaluate(async video=>{video.muted=true;await video.play();});await student.waitForFunction(()=>document.querySelector('[data-proof-preview-video]')?.currentTime>0.2);await student.locator('[data-proof-preview-video]').evaluate(video=>{video.loop=true;window.originalProofPlayer=video;});
+  for(let n=0;n<6;n++){await student.evaluate(()=>window.mediaRound2App.render());await new Promise(r=>setTimeout(r,500));assert.ok(await student.evaluate(()=>document.querySelector('[data-proof-preview-video]')===window.originalProofPlayer&&!window.originalProofPlayer.paused&&!window.originalProofPlayer.error));}
+  await student.screenshot({path:output+'/recorded-video-preview.png'});pass('VIDEO_PLAYER_SURVIVES_REPEATED_RENDER');
+  pass('FULL_SCREEN_PHOTO_AND_RECORDED_VIDEO_ACTUAL_UI_PREVIEW');
+ }
+ assert.deepEqual(errors,[]);fs.writeFileSync(output+'/checks.json',JSON.stringify({engine,checks,errors},null,2));
+}finally{await browser.close();}

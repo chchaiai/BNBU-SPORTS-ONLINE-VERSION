@@ -205,7 +205,8 @@ export async function fetchCourses(): Promise<CourseCatalog[]> {
 }
 
 export async function fetchCurrentSemester(): Promise<Semester> {
-  return request<Semester>("/semesters/current");
+  const semester=await request<Semester>("/semesters/current");
+  return {...semester,startsOn:semester.startDate??semester.startsOn,endsOn:semester.endDate??semester.endsOn};
 }
 
 async function fetchTeacherSemesters():Promise<Semester[]> {
@@ -257,13 +258,13 @@ export async function reviseClassProgressTarget(
 
 export async function createCourseInvite(
   classSectionId: string,
-  expiresAt?: string | null,
+  expiresInMinutes = 30,
 ): Promise<CourseInvite> {
   return request<CourseInvite>(
     `/class-sections/${encodeURIComponent(classSectionId)}/course-invites`,
     {
       method: "POST",
-      body: expiresAt ? { expiresAt } : {},
+      body: { expiresInMinutes },
     },
   );
 }
@@ -611,6 +612,7 @@ export type TeacherStudentView = {
 
 export type TeacherCheckinView = {
   workflowStage?: ExerciseRecord['workflowStage'];
+  recordOrigin?: string;
   id: string;
   studentId: string;
   courseId: string;
@@ -885,6 +887,22 @@ const exerciseSportLabels: Record<string, string> = {
   SWIMMING: "游泳",
   FITNESS: "健身",
   CYCLING: "骑行",
+  AEROBICS: "健美操",
+  CHEERLEADING: "啦啦操",
+  HEALTH_QIGONG: "健身气功",
+  DRAGON_LION_DANCE: "舞龙舞狮",
+  FRISBEE: "飞盘",
+  GOLF: "高尔夫",
+  KAYAKING: "皮划艇",
+  PILATES: "普拉提",
+  RUGBY: "橄榄球",
+  SELF_DEFENSE: "防身术",
+  STRETCH_FLEX: "伸展与柔韧",
+  TENNIS: "网球",
+  YOGA: "瑜伽",
+  ORIENTEERING: "定向运动",
+  OUTDOOR_LEADERSHIP: "户外领导力",
+  CHINESE_ARCHERY: "中华射道",
   OTHER: "其他",
 };
 
@@ -939,6 +957,7 @@ export function mapExerciseRecordToCheckin(
   const auditStatus = reviewToAuditStatus(record);
   return {
     workflowStage: record.workflowStage,
+    recordOrigin: record.recordOrigin,
     id: record.id,
     studentId: record.studentId,
     courseId: record.classSectionId,
@@ -980,12 +999,17 @@ export function mapExerciseRecordToCheckin(
   };
 }
 
-export async function loadSubmittedCheckins(): Promise<TeacherCheckinView[]> {
+export async function loadSubmittedCheckins(classSectionIds: readonly string[]): Promise<TeacherCheckinView[]> {
+  // Retired courses retain authorized history, but are absent from this
+  // workspace's course and student projections. Scope before loading details.
+  const visibleSections = new Set(classSectionIds);
+  if (!visibleSections.size) return [];
   // The backend also returns DRAFT and CANCELLED records to the teacher, but
   // neither is reviewable (the review endpoint requires SUBMITTED), so they
   // must never enter the audit workspace.
   const records = (await fetchExerciseRecords()).filter(
-    (item) => item.status === "SUBMITTED" || item.status === "REVIEWED",
+    (item) => visibleSections.has(item.classSectionId) &&
+      (item.status === "SUBMITTED" || item.status === "REVIEWED"),
   );
   const detailed = await Promise.all(
     records.map(async (item) => {

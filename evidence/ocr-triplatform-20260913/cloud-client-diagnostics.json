@@ -1,0 +1,10 @@
+{
+  "check": "CLOUD_CLIENT_ERROR_DIAGNOSTICS",
+  "observedAt": "2026-09-12T19:07:00.684Z",
+  "auditLogId": "01a09704-097b-75e7-9476-cb121f7ff3b9",
+  "checks": [
+    "REPORT_REPLAY_ROLE_CLAIM_DENIED",
+    "AUDIT_DETAIL_UNTRUSTED_ROUTE_AND_ID_REDACTED"
+  ],
+  "allChecksCompleted": true
+}

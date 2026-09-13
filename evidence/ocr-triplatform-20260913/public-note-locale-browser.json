@@ -1,0 +1,11 @@
+{
+  "result": "PASS_SCOPED",
+  "release": "public-note-locale-20260913",
+  "sha256": "e29a54ae64556aa9d23cacfb0cf81a91d6650f6d58c73aa249c842d7eaeeb17b",
+  "browser": "Edge",
+  "student": "TEST ZETA / 9900000006",
+  "english": { "note": "Record valid; hours credited.", "status": "Valid · Credited", "photo": "Exercise photo 1" },
+  "sameSessionSwitchToChinese": { "note": "记录有效，已计入运动时长。", "status": "有效 · 已计入", "photo": "运动照片 1" },
+  "restoredLocale": "zh",
+  "scope": "Real public page and language switch for accepted record without teacher comment; other review states and teacher comments are not covered by this browser sample"
+}

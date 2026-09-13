@@ -1,0 +1,2 @@
+{"check":"STUDENT_DELETE_PRECONDITIONS","result":"PASS","records":1,"media":2,"teacherDenied":true,"wrongNumberDenied":true,"staleVersionDenied":true,"emptyReasonDenied":true}
+{"check":"STUDENT_DELETE_BROWSER_HTTP_DATABASE","result":"PASS","remaining":{"users":0,"profiles":0,"enrollments":0,"records":0,"sessions":0,"media":0,"loginSessions":0,"scores":0},"peerDataUnchanged":true,"lostResponseReplay":true,"oldTokenRejected":true,"deletionAuditCount":1,"mediaCleanupAttempted":2}

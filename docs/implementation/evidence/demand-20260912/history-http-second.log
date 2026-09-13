@@ -1,0 +1,54 @@
+/workspace/backend/node_modules/@prisma/client/src/runtime/RequestHandler.ts:237
+      throw new PrismaClientKnownRequestError(message, {
+            ^
+
+PrismaClientKnownRequestError: 
+Invalid `transaction.studentProfile.create()` invocation in
+/workspace/backend/test/helpers/exercise-session.ts:57:38
+
+  54     updatedAt: now,
+  55   },
+  56 });
+→ 57 await transaction.studentProfile.create(
+Database error. Code: `23514`. Message: `new row for relation "student_profiles" violates check constraint "student_profiles_student_number_check"`
+    at Jr.handleRequestError (/workspace/backend/node_modules/@prisma/client/src/runtime/RequestHandler.ts:237:13)
+    at Jr.handleAndLogRequestError (/workspace/backend/node_modules/@prisma/client/src/runtime/RequestHandler.ts:183:12)
+    at Jr.request (/workspace/backend/node_modules/@prisma/client/src/runtime/RequestHandler.ts:152:12)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async a (/workspace/backend/node_modules/@prisma/client/src/runtime/getPrismaClient.ts:1014:24)
+    at async <anonymous> (/workspace/backend/test/helpers/exercise-session.ts:57:5)
+    at async Proxy._transactionWithCallback (/workspace/backend/node_modules/@prisma/client/src/runtime/getPrismaClient.ts:861:18)
+    at async seedExerciseSessionStudent (/workspace/backend/test/helpers/exercise-session.ts:30:3)
+    at async seedSubmittedExerciseRecord (/workspace/backend/test/helpers/exercise-review.ts:20:19)
+    at async file:///workspace/tools/local-integration/demand-history-http.mjs:33:18 {
+  code: 'P2039',
+  meta: {
+    modelName: 'StudentProfile',
+    driverAdapterError: DriverAdapterError: new row for relation "student_profiles" violates check constraint "student_profiles_student_number_check"
+        at PgTransaction.onError (file:///workspace/backend/node_modules/@prisma/adapter-pg/dist/index.mjs:639:11)
+        at PgTransaction.performIO (file:///workspace/backend/node_modules/@prisma/adapter-pg/dist/index.mjs:634:12)
+        at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+        at async PgTransaction.queryRaw (file:///workspace/backend/node_modules/@prisma/adapter-pg/dist/index.mjs:568:30)
+        at async e.interpretNode (/workspace/backend/node_modules/@prisma/client-engine-runtime/src/interpreter/query-interpreter.ts:186:26)
+        at async e.interpretNode (/workspace/backend/node_modules/@prisma/client-engine-runtime/src/interpreter/query-interpreter.ts:213:41)
+        at async e.interpretNode (/workspace/backend/node_modules/@prisma/client-engine-runtime/src/interpreter/query-interpreter.ts:272:41)
+        at async e.run (/workspace/backend/node_modules/@prisma/client-engine-runtime/src/interpreter/query-interpreter.ts:94:23)
+        at async e.execute (/workspace/backend/node_modules/@prisma/client/src/runtime/core/engines/client/LocalExecutor.ts:81:12)
+        at async Ut.request (/workspace/backend/node_modules/@prisma/client/src/runtime/core/engines/client/ClientEngine.ts:510:22) {
+      cause: {
+        originalCode: '23514',
+        originalMessage: 'new row for relation "student_profiles" violates check constraint "student_profiles_student_number_check"',
+        kind: 'postgres',
+        code: '23514',
+        severity: 'ERROR',
+        message: 'new row for relation "student_profiles" violates check constraint "student_profiles_student_number_check"',
+        detail: 'Failing row contains (01a093e6-25de-7347-bd98-60d43d982425, 01a093e6-256a-7411-9b0a-9ff0ccbf5c3b, 01a093e6-25de-7347-bd98-5e0b19a2d4ff, SYNTH-SESSION-REVIEW-2a8471cb, Synthetic Session Student REVIEW-2a8471cb, OTHER, 2026, null, null, null, ACTIVE, 1, 2026-09-12 04:35:28.862+00, 2026-09-12 04:35:28.862+00, null).',
+        column: undefined,
+        hint: undefined
+      }
+    }
+  },
+  clientVersion: '7.9.1'
+}
+
+Node.js v24.18.0

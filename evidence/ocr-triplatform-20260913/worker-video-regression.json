@@ -1,0 +1,14 @@
+{
+  "check": "STUDENT_WORKER_VIDEO_REGRESSION",
+  "result": "PASS",
+  "studentSmokeChecks": 86,
+  "durationParserTests": 2,
+  "scope": "Local tests only; actual HarmonyOS Edge playback remains pending",
+  "initialFailure": "Outdated profile copy assertion required removed internal-facing text; updated to teacher-review wording",
+  "publicHelpList": {
+    "status": 200,
+    "items": 0,
+    "requestId": "01a09836-676a-76fd-9266-14815ae0af58",
+    "detailSuccess": "PENDING: no published public articles; organization help tested separately"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "check": "CLOUD_ENDURANCE_RULE_CRUD",
+  "observedAt": "2026-09-12T18:47:20.965Z",
+  "organizationId": "01a096c2-20a2-706b-8c69-802f67dee12c",
+  "checks": [
+    "RULE_UPDATE_AND_REPLAY",
+    "RULE_CREATE_DELETE_TEACHER_DENIED",
+    "STALE_AND_INCONSISTENT_RULE_REJECTED",
+    "ORIGINAL_BANDS_AND_OTHER_TABLES_PRESERVED"
+  ],
+  "allChecksCompleted": true
+}

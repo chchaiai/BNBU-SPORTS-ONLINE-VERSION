@@ -1,0 +1,5 @@
+{
+  "sha256": "8415063ff361d549e0bde81554286f26457ff9087aa76916e05269f7006f1b6b",
+  "destructive": false,
+  "migrationId": "0066_exemption_documents_metadata"
+}

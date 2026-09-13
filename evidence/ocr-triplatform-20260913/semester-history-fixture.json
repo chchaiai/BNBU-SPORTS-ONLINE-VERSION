@@ -1,0 +1,39 @@
+{
+  "fixture": {
+    "organizationId": "01a09918-10d0-75ae-93a0-a4bf948d2495",
+    "isolationOrganizationId": "01a09918-10d1-735e-878f-c4e38e791c8a",
+    "adminUserId": "01a09918-10d1-735e-878f-c95e31d74da6",
+    "teacherUserId": "01a09918-10d1-735e-878f-ce99dcbc12e1",
+    "teacherProfileId": "01a09918-10d1-735e-878f-d17b55ec0f15",
+    "teacherEmail": "teacher.a.e2e.synthetic-sh-mtzc2hud@bnbu.invalid",
+    "teacherBUserId": "01a09918-10d1-735e-878f-d4989b453fc4",
+    "teacherBProfileId": "01a09918-10d1-735e-878f-da280175a6f3",
+    "teacherBEmail": "teacher.b.e2e.synthetic-sh-mtzc2hud@bnbu.invalid",
+    "teacherCUserId": "01a09918-10d1-735e-878f-dcfacf35531a",
+    "teacherCProfileId": "01a09918-10d1-735e-878f-e210abe4c2f0",
+    "teacherCEmail": "teacher.c.e2e.synthetic-sh-mtzc2hud@isolation.invalid",
+    "adminEmail": "admin.e2e.synthetic-sh-mtzc2hud@bnbu.invalid",
+    "semesterId": "01a09918-10d1-735e-878f-e782398fab21",
+    "archivedSemesterId": "01a09918-10d1-735e-878f-e80caa699cac",
+    "isolationSemesterId": "01a09918-10d1-735e-878f-ee72852ac1d8",
+    "activeCourseId": "01a09918-10d1-735e-878f-f16c6424ad9a",
+    "secondActiveCourseId": "01a09918-10d1-735e-878f-f6a10ea4c1ae",
+    "inactiveCourseId": "01a09918-10d1-735e-878f-f8dda151ab47",
+    "isolationCourseId": "01a09918-10d1-735e-878f-ff8baf409030",
+    "teacherAActiveSectionId": "01a09918-10d1-735e-8790-0176abb8e77a",
+    "teacherAClosedSectionId": "01a09918-10d1-735e-8790-0680674ef352",
+    "teacherBActiveSectionId": "01a09918-10d1-735e-8790-0b512c4ed8ec",
+    "teacherBArchivedSectionId": "01a09918-10d1-735e-8790-0c865dfdea05",
+    "teacherCSectionId": "01a09918-10d1-735e-8790-103e6e7ffcc3",
+    "namespace": "-SH-MTZC2HUD",
+    "userIds": [
+      "01a09918-10d1-735e-878f-c95e31d74da6",
+      "01a09918-10d1-735e-878f-ce99dcbc12e1",
+      "01a09918-10d1-735e-878f-d4989b453fc4",
+      "01a09918-10d1-735e-878f-dcfacf35531a"
+    ]
+  },
+  "createdAt": "2026-09-13T04:48:06.468Z",
+  "status": "BASELINE_ONLY_ALL_USERS_DISABLED",
+  "scope": "New isolated synthetic organizations; no existing courses changed, no authenticated sessions created"
+}

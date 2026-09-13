@@ -12,6 +12,7 @@ export interface ExerciseSessionProjection {
   startedAt: string;
   endedAt: string | null;
   actualDurationSeconds: number;
+  maximumDurationSeconds: number | null;
   pausedDurationSeconds: number;
   businessDate: string;
   lastHeartbeatAt: string | null;
@@ -26,7 +27,7 @@ export function projectExerciseSession(
   const intervalStartedAt = session.currentIntervalStartedAt;
   const actualDurationSeconds =
     session.status === 'IN_PROGRESS' && intervalStartedAt !== null
-      ? cappedRunningDuration(session.actualDurationSeconds, intervalStartedAt, now)
+      ? cappedRunningDuration(session.actualDurationSeconds, intervalStartedAt, now, session.maximumDurationSeconds ?? undefined)
           .actualDurationSeconds
       : Number(session.actualDurationSeconds);
   const pausedDurationSeconds =
@@ -48,6 +49,7 @@ export function projectExerciseSession(
       session.expiredAt?.toISOString() ??
       null,
     actualDurationSeconds,
+    maximumDurationSeconds: session.maximumDurationSeconds ?? null,
     pausedDurationSeconds,
     businessDate: session.businessDate.toISOString().slice(0, 10),
     lastHeartbeatAt: session.lastHeartbeatAt?.toISOString() ?? null,

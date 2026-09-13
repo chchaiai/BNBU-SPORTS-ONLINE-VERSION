@@ -1,0 +1,29 @@
+{
+  "actualFailedPhotoReadOnlyRevalidation": {
+    "result": "PASS",
+    "sizeMatches": true,
+    "hashMatches": true,
+    "bytes": 3855230,
+    "jpegTrailerBytes": 1208,
+    "pixelDecode": "PASS",
+    "validation": "PASS"
+  },
+  "syntheticPrivateCos": {
+    "result": "PASS",
+    "types": [
+      "application/pdf",
+      "image/jpeg with 1208-byte trailer"
+    ],
+    "clamAv": "PASS",
+    "signedRead": "PASS",
+    "anonymousRead": 403
+  },
+  "databaseSnapshotMissingCount": 0,
+  "backup": {
+    "path": "/opt/bnbu-sports-production/backups/before-bugfix-20260912T093448Z.dump",
+    "bytes": 3538137,
+    "catalogVerified": true
+  },
+  "publicStudentAndTeacherEntry": "PASS",
+  "publicPdfWorkerCanvasPreview": "PASS"
+}

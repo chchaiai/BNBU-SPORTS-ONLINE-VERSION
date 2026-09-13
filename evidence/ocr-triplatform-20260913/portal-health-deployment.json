@@ -1,0 +1,14 @@
+{
+  "observedAt": "2026-09-12T21:26:04.717Z",
+  "check": "PORTAL_HEALTH_COPY_DEPLOYMENT",
+  "result": "PASS",
+  "release": "/opt/bnbu-sports-production/releases/portal-health-20260913",
+  "previous": "/opt/bnbu-sports-production/releases/invite-state-20260913",
+  "imageId": "sha256:dd1eb341b117c9ceb728a35d9c74a217a92e8c419c1fc20fb124097139d1d610",
+  "runtimeUser": "10001:10001",
+  "portalHealth": "healthy",
+  "backendHealth": "healthy",
+  "backendImageUnchanged": "sha256:51838920fd4be9fb654511225e1185232d61e5b2dc1d683fd211543d1e952fa0",
+  "rollbackExercised": false,
+  "firstFailure": "Image build failed before release copy or service switch; root build step corrected, runtime user retained"
+}

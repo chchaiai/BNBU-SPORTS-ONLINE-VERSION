@@ -65,6 +65,7 @@ import {
 import { adminCopy, adminLabel } from "./admin-i18n";
 import { ErrorPanel, localUserFacingError } from "./error-panel";
 import { FormField } from "./form-field";
+import { OwnPasswordPanel } from "./own-password-panel";
 import { LanguageToggle, LocalizedContent, type Locale } from "./language";
 import {
   TAB_PAGE_TRANSITION_EXIT_FALLBACK_MS,
@@ -967,13 +968,6 @@ export function PortalApp() {
     startRecovery("TEACHER", account.trim());
   };
 
-  const openPasswordSettingsFromWorkspace = async () => {
-    const requestedRole = role === "admin" ? "ADMIN" : "TEACHER";
-    const visibleEmail = currentUser?.email.trim() ?? "";
-    const requestedAccount = visibleEmail.includes("*") ? "" : visibleEmail;
-    startRecovery(requestedRole, requestedAccount);
-  };
-
   const resetPasswordSettings = () => {
     setRecoveryAccount("");
     setRecoveryId("");
@@ -984,22 +978,6 @@ export function PortalApp() {
     setRecoveryError(null);
     setRecoveryBusy(false);
     setRecoveryStep(null);
-  };
-
-  const previewPasswordVerificationStep = () => {
-    setRecoveryError(null);
-    setRecoveryStep("reset");
-  };
-
-  const returnToPasswordIdentification = () => {
-    setRecoveryId("");
-    setRecoveryExpiresAt("");
-    setRecoveryCode("");
-    setRecoveryPassword("");
-    setRecoveryPasswordConfirmation("");
-    setRecoveryError(null);
-    setRecoveryBusy(false);
-    setRecoveryStep("identify");
   };
 
   const returnToLogin = () => {
@@ -1765,48 +1743,11 @@ export function PortalApp() {
             mode={workspaceMode}
             user={displayUser}
             locale={locale}
-            recoveryStep={
-              recoveryStep === "reset" || recoveryStep === "complete"
-                ? recoveryStep
-                : "identify"
-            }
-            recoveryAccount={recoveryAccount}
-            recoveryExpiresAt={recoveryExpiresAt}
-            recoveryCode={recoveryCode}
-            recoveryPassword={recoveryPassword}
-            recoveryPasswordConfirmation={recoveryPasswordConfirmation}
-            recoveryError={recoveryError}
-            recoveryBusy={recoveryBusy}
             close={() => {
               resetPasswordSettings();
               setModal(null);
             }}
             logout={logout}
-            openPasswordSettings={openPasswordSettingsFromWorkspace}
-            resetPasswordSettings={resetPasswordSettings}
-            returnToPasswordIdentification={returnToPasswordIdentification}
-            onAccountChange={(value) => {
-              setRecoveryAccount(value);
-              setRecoveryError(null);
-            }}
-            onCodeChange={(value) => {
-              setRecoveryCode(value);
-              setRecoveryError(null);
-            }}
-            onPasswordChange={(value) => {
-              setRecoveryPassword(value);
-              setRecoveryError(null);
-            }}
-            onPasswordConfirmationChange={(value) => {
-              setRecoveryPasswordConfirmation(value);
-              setRecoveryError(null);
-            }}
-            onSendCode={
-              workspaceMode === "demo"
-                ? previewPasswordVerificationStep
-                : () => void sendRecoveryCode()
-            }
-            onResetPassword={() => void resetPassword()}
           />
         )}
         {toast && (
@@ -2224,366 +2165,16 @@ function modalFocusableElements(container: HTMLElement): HTMLElement[] {
   ).filter((element) => !element.hidden && element.getAttribute("aria-hidden") !== "true");
 }
 
-type PasswordSettingsStep = "identify" | "reset" | "complete";
-
-function PasswordSettingsPanel({
-  role,
-  mode,
-  user,
-  step,
-  account,
-  expiresAt,
-  code,
-  password,
-  passwordConfirmation,
-  error,
-  locale,
-  busy,
-  onAccountChange,
-  onCodeChange,
-  onPasswordChange,
-  onPasswordConfirmationChange,
-  onBackToAccount,
-  onBackToIdentity,
-  onSendCode,
-  onResetPassword,
-  onComplete,
-}: {
-  role: Role;
-  mode: WorkspaceMode;
-  user: WorkspaceUser;
-  step: PasswordSettingsStep;
-  account: string;
-  expiresAt: string;
-  code: string;
-  password: string;
-  passwordConfirmation: string;
-  error: UserFacingError | null;
-  locale: Locale;
-  busy: boolean;
-  onAccountChange: (value: string) => void;
-  onCodeChange: (value: string) => void;
-  onPasswordChange: (value: string) => void;
-  onPasswordConfirmationChange: (value: string) => void;
-  onBackToAccount: () => void;
-  onBackToIdentity: () => void;
-  onSendCode: () => void;
-  onResetPassword: () => void;
-  onComplete: () => void;
-}) {
-  const [showNewPassword, setShowNewPassword] = useState(false);
-  const [showPasswordConfirmation, setShowPasswordConfirmation] =
-    useState(false);
-  const isPreview = mode === "demo";
-  const passwordEntered = password.length > 0;
-  const passwordsMatch =
-    passwordConfirmation.length > 0 && password === passwordConfirmation;
-  const roleLabel = role === "admin"
-    ? locale === "en" ? "Administrator" : "管理员"
-    : locale === "en" ? "Teacher" : "教师";
-
-  if (step === "complete") {
-    return (
-      <>
-        <div className="password-change-complete" aria-live="polite">
-          <span aria-hidden="true">
-            <ShieldCheck size={25} />
-          </span>
-          <h3>{locale === "en" ? "Password updated" : "密码已更新"}</h3>
-          <p>
-            {locale === "en"
-              ? "The Backend has revoked existing sign-in sessions. Sign in again with the new password."
-              : "Backend 已撤销该账号现有登录状态，请使用新密码重新登录。"}
-          </p>
-        </div>
-        <div className="modal-footer">
-          <button className="primary-button" type="button" onClick={onComplete}>
-            {locale === "en" ? "Sign in with new password" : "使用新密码登录"}
-          </button>
-        </div>
-      </>
-    );
-  }
-
-  return (
-    <>
-      <div className="password-settings-stepper" aria-label={locale === "en" ? "Password change progress" : "修改密码进度"}>
-        <span className="is-active"><b>1</b>{locale === "en" ? "Verify identity" : "验证身份"}</span>
-        <i aria-hidden="true" />
-        <span className={step === "reset" ? "is-active" : ""}><b>2</b>{locale === "en" ? "Set password" : "设置密码"}</span>
-      </div>
-
-      {step === "identify" ? (
-        <>
-          <form
-            key="password-settings-identify"
-            className="password-settings-form"
-            id="password-settings-identify-form"
-            onSubmit={(event) => {
-              event.preventDefault();
-              onSendCode();
-            }}
-          >
-            <p className="password-settings-intro">
-              {locale === "en"
-                ? "Verify your identity with the university email linked to this account. You will remain in the current workspace while completing the steps."
-                : "通过当前账号已验证的学校邮箱完成身份验证；整个过程保留在当前工作台内。"}
-            </p>
-            <dl className="password-settings-account">
-              <div><dt>{locale === "en" ? "Current account" : "当前账号"}</dt><dd>{user.account}</dd></div>
-              <div><dt>{locale === "en" ? "Role" : "账号身份"}</dt><dd>{roleLabel}</dd></div>
-              <div className="is-wide"><dt>{locale === "en" ? "Verified email" : "已验证邮箱"}</dt><dd>{user.email || "—"}</dd></div>
-            </dl>
-            {isPreview ? (
-              <p className="password-preview-banner" role="note">
-                {locale === "en"
-                  ? "Preview only: no verification email will be sent and no password will be changed."
-                  : "免登录预览仅展示流程，不会发送验证码，也不会修改账号密码。"}
-              </p>
-            ) : null}
-            <FormField
-              label={locale === "en" ? "Complete verified email" : "完整学校邮箱"}
-              required
-              controlId="password-settings-email"
-              hint={
-                user.email.includes("*")
-                  ? locale === "en" ? "Enter the complete address represented above." : "请输入上方脱敏邮箱对应的完整地址。"
-                  : undefined
-              }
-              error={userFacingFieldError(error, "account", "email")}
-            >
-              <input
-                id="password-settings-email"
-                value={account}
-                onChange={(event) => onAccountChange(event.target.value)}
-                placeholder={locale === "en" ? "Enter the verified university email" : "请输入已验证学校邮箱"}
-                type="email"
-                autoComplete="email"
-                required={!isPreview}
-                autoFocus
-                aria-describedby={error ? "password-settings-error" : undefined}
-              />
-            </FormField>
-            <ErrorPanel id="password-settings-error" error={error} locale={locale} />
-          </form>
-          <div className="modal-footer">
-            <button className="secondary-button" type="button" onClick={onBackToAccount}>
-              {locale === "en" ? "Back to account" : "返回账号信息"}
-            </button>
-            <button
-              className="primary-button"
-              type="submit"
-              form="password-settings-identify-form"
-              formNoValidate={isPreview}
-              disabled={busy}
-            >
-              <Mail size={16} aria-hidden="true" />
-              {isPreview
-                ? locale === "en" ? "Preview next step" : "预览下一步"
-                : busy
-                  ? locale === "en" ? "Sending…" : "正在发送…"
-                  : locale === "en" ? "Send verification code" : "发送验证码"}
-            </button>
-          </div>
-        </>
-      ) : (
-        <>
-          <form
-            key="password-settings-reset"
-            className="password-settings-form"
-            id="password-settings-reset-form"
-            onSubmit={(event) => {
-              event.preventDefault();
-              if (!isPreview) onResetPassword();
-            }}
-          >
-            <p className="password-settings-intro">
-              {locale === "en"
-                ? "Enter the email verification code and set a new password. Existing sign-in sessions will be revoked after completion."
-                : "输入邮件验证码并设置新密码；修改完成后，该账号现有登录状态将全部失效。"}
-            </p>
-            {isPreview ? (
-              <p className="password-preview-banner" role="note">
-                {locale === "en"
-                  ? "Preview only: the final submission is disabled."
-                  : "当前为免登录预览，最终提交已禁用。"}
-              </p>
-            ) : null}
-            {expiresAt ? (
-              <p className="password-settings-expiry">
-                {locale === "en" ? "Verification expires at: " : "验证码有效期至："}
-                {new Date(expiresAt).toLocaleString()}
-              </p>
-            ) : null}
-            <FormField
-              label={locale === "en" ? "Email verification code" : "邮件验证码"}
-              required
-              controlId="password-settings-code"
-              hint={locale === "en" ? "Enter the 4–10 digit code" : "请输入 4–10 位数字验证码"}
-              error={userFacingFieldError(error, "verificationCode", "code")}
-            >
-              <input
-                id="password-settings-code"
-                value={code}
-                onChange={(event) => onCodeChange(event.target.value.replace(/\D/g, "").slice(0, 10))}
-                inputMode="numeric"
-                autoComplete="one-time-code"
-                placeholder={locale === "en" ? "Verification code" : "请输入验证码"}
-                minLength={4}
-                maxLength={10}
-                required={!isPreview}
-                autoFocus
-                aria-describedby={error ? "password-settings-error" : undefined}
-              />
-            </FormField>
-            <FormField
-              label={locale === "en" ? "New password" : "新密码"}
-              required
-              controlId="password-settings-password"
-              error={userFacingFieldError(error, "newPassword", "password")}
-            >
-              <span className="password-field">
-                <input
-                  id="password-settings-password"
-                  type={showNewPassword ? "text" : "password"}
-                  value={password}
-                  onChange={(event) => onPasswordChange(event.target.value)}
-                  placeholder={locale === "en" ? "Enter a new personal password" : "请输入新的个人密码"}
-                  autoComplete="new-password"
-                  required={!isPreview}
-                  aria-describedby={error ? "password-settings-error" : undefined}
-                />
-                <button
-                  className="password-visibility"
-                  type="button"
-                  aria-label={locale === "en" ? "Show or hide new password" : "显示或隐藏新密码"}
-                  aria-pressed={showNewPassword}
-                  onClick={() => setShowNewPassword((visible) => !visible)}
-                >
-                  {showNewPassword ? <EyeOff aria-hidden="true" /> : <Eye aria-hidden="true" />}
-                </button>
-              </span>
-            </FormField>
-            <div className="password-rule-list" aria-label={locale === "en" ? "New password requirements" : "新密码要求"}>
-              <span className={passwordEntered ? "met" : ""}>
-                {passwordEntered ? "✓" : "○"} {locale === "en" ? "Password entered" : "已输入密码"}
-              </span>
-            </div>
-            <FormField
-              label={locale === "en" ? "Confirm new password" : "确认新密码"}
-              required
-              controlId="password-settings-confirmation"
-              error={userFacingFieldError(error, "passwordConfirmation")}
-            >
-              <span className="password-field">
-                <input
-                  id="password-settings-confirmation"
-                  type={showPasswordConfirmation ? "text" : "password"}
-                  value={passwordConfirmation}
-                  onChange={(event) => onPasswordConfirmationChange(event.target.value)}
-                  placeholder={locale === "en" ? "Enter the new password again" : "请再次输入新密码"}
-                  autoComplete="new-password"
-                  required={!isPreview}
-                  aria-describedby={error ? "password-settings-error" : undefined}
-                />
-                <button
-                  className="password-visibility"
-                  type="button"
-                  aria-label={locale === "en" ? "Show or hide password confirmation" : "显示或隐藏确认密码"}
-                  aria-pressed={showPasswordConfirmation}
-                  onClick={() => setShowPasswordConfirmation((visible) => !visible)}
-                >
-                  {showPasswordConfirmation ? <EyeOff aria-hidden="true" /> : <Eye aria-hidden="true" />}
-                </button>
-              </span>
-            </FormField>
-            {passwordConfirmation ? (
-              <p className={`password-match-hint ${passwordsMatch ? "matched" : ""}`}>
-                {passwordsMatch
-                  ? locale === "en" ? "✓ Passwords match" : "✓ 两次密码一致"
-                  : locale === "en" ? "The passwords do not match" : "两次输入的密码不一致"}
-              </p>
-            ) : null}
-            <ErrorPanel id="password-settings-error" error={error} locale={locale} />
-          </form>
-          <div className="modal-footer">
-            <button className="secondary-button" type="button" onClick={onBackToIdentity}>
-              {locale === "en" ? "Previous" : "上一步"}
-            </button>
-            <button
-              className="primary-button"
-              type="submit"
-              form="password-settings-reset-form"
-              disabled={busy || isPreview}
-            >
-              <KeyRound size={16} aria-hidden="true" />
-              {isPreview
-                ? locale === "en" ? "Disabled in preview" : "预览模式不可提交"
-                : busy
-                  ? locale === "en" ? "Verifying…" : "正在验证…"
-                  : locale === "en" ? "Verify and update" : "验证并修改密码"}
-            </button>
-          </div>
-        </>
-      )}
-    </>
-  );
-}
-
-function Modal({
-  notifications,
-  onNotificationNavigate,
-  onNotificationChanged,
-  role,
-  mode,
-  user,
-  locale,
-  recoveryStep,
-  recoveryAccount,
-  recoveryExpiresAt,
-  recoveryCode,
-  recoveryPassword,
-  recoveryPasswordConfirmation,
-  recoveryError,
-  recoveryBusy,
-  close,
-  logout,
-  openPasswordSettings,
-  resetPasswordSettings,
-  returnToPasswordIdentification,
-  onAccountChange,
-  onCodeChange,
-  onPasswordChange,
-  onPasswordConfirmationChange,
-  onSendCode,
-  onResetPassword,
-}: {
+function Modal({ notifications, onNotificationNavigate, onNotificationChanged, role, mode, user, locale, close, logout }: {
   notifications: boolean;
-  onNotificationNavigate: (route: string,target:NotificationTarget) => void;
+  onNotificationNavigate: (route: string, target: NotificationTarget) => void;
   onNotificationChanged: () => void;
   role: Role;
   mode: WorkspaceMode;
   user: WorkspaceUser;
   locale: Locale;
-  recoveryStep: PasswordSettingsStep;
-  recoveryAccount: string;
-  recoveryExpiresAt: string;
-  recoveryCode: string;
-  recoveryPassword: string;
-  recoveryPasswordConfirmation: string;
-  recoveryError: UserFacingError | null;
-  recoveryBusy: boolean;
   close: () => void;
   logout: () => void;
-  openPasswordSettings: () => Promise<void>;
-  resetPasswordSettings: () => void;
-  returnToPasswordIdentification: () => void;
-  onAccountChange: (value: string) => void;
-  onCodeChange: (value: string) => void;
-  onPasswordChange: (value: string) => void;
-  onPasswordConfirmationChange: (value: string) => void;
-  onSendCode: () => void;
-  onResetPassword: () => void;
 }) {
   const [view, setView] = useState<"profile" | "password">("profile");
   const dialogRef = useRef<HTMLElement>(null);
@@ -2591,7 +2182,6 @@ function Modal({
   const closeRef = useRef(close);
 
   const returnToProfile = () => {
-    resetPasswordSettings();
     setView("profile");
   };
 
@@ -2677,7 +2267,7 @@ function Modal({
               </h2>
               <p>
                 {notifications ? (locale === "en" ? "Updates for your account" : "当前账号的业务通知") : view === "password"
-                  ? locale === "en" ? "Verify your identity without leaving the workspace" : "无需离开工作台，完成身份验证并设置新密码"
+                  ? locale === "en" ? "Use your current password to set a new password" : "使用当前密码验证并设置新密码"
                   : `${user.department} · ${user.account}`}
               </p>
             </div>
@@ -2710,13 +2300,12 @@ function Modal({
               <div>
                 <p className="account-security-eyebrow">账号安全</p>
                 <h3 id="account-security-title">修改密码</h3>
-                <p>无需跳转登录页，在当前工作台完成邮箱验证并设置新密码。</p>
+                <p>使用当前密码设置新密码，成功后保留当前登录。</p>
               </div>
               <button
                 className="secondary-button account-security-action"
                 type="button"
                 onClick={() => {
-                  void openPasswordSettings();
                   setView("password");
                 }}
               >
@@ -2733,29 +2322,7 @@ function Modal({
             </div>
           </>
         ) : (
-          <PasswordSettingsPanel
-            role={role}
-            mode={mode}
-            user={user}
-            step={recoveryStep}
-            account={recoveryAccount}
-            expiresAt={recoveryExpiresAt}
-            code={recoveryCode}
-            password={recoveryPassword}
-            passwordConfirmation={recoveryPasswordConfirmation}
-            error={recoveryError}
-            locale={locale}
-            busy={recoveryBusy}
-            onAccountChange={onAccountChange}
-            onCodeChange={onCodeChange}
-            onPasswordChange={onPasswordChange}
-            onPasswordConfirmationChange={onPasswordConfirmationChange}
-            onBackToAccount={returnToProfile}
-            onBackToIdentity={returnToPasswordIdentification}
-            onSendCode={onSendCode}
-            onResetPassword={onResetPassword}
-            onComplete={logout}
-          />
+          <OwnPasswordPanel locale={locale} preview={mode === "demo"} onBack={returnToProfile} />
         )}
       </section>
     </div>

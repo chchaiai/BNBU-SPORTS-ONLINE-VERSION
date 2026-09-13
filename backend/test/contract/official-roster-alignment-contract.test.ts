@@ -208,11 +208,10 @@ describe('Stage 13 Official Roster and Alignment contract', () => {
       }
     }
     assert.equal(expected.length, 13);
-    assert.equal(operationCount, 126);
-    assert.equal(Object.keys(operationPolicies).length, 126);
+    assert.equal(operationCount, Object.keys(operationPolicies).length);
   });
 
-  it('freezes CSV-only upload, server snapshot versioning, and typed resolution evidence', async () => {
+  it('accepts CSV and XLSX upload with server snapshot versioning and typed resolution evidence', async () => {
     const root = await contract();
     const schemas = object(object(root.components, 'components').schemas, 'schemas');
     const create = operation(root, '/class-sections/{classSectionId}/roster-imports', 'post');
@@ -225,9 +224,9 @@ describe('Stage 13 Official Roster and Alignment contract', () => {
     assert.equal(object(create.requestBody, 'create requestBody').required, true);
     assert.equal(
       object(object(multipart.encoding, 'encoding').file, 'file encoding').contentType,
-      'text/csv',
+      undefined,
     );
-    assert.deepEqual(object(schemas.RosterFileFormat, 'RosterFileFormat').enum, ['CSV']);
+    assert.deepEqual(object(schemas.RosterFileFormat, 'RosterFileFormat').enum, ['CSV', 'XLSX']);
     assert.deepEqual(object(schemas.RosterImportSource, 'RosterImportSource').enum, [
       'FILE',
       'OFFICIAL_API',

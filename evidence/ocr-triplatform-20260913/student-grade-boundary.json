@@ -1,0 +1,57 @@
+{
+  "check": "STUDENT_INTERNAL_GRADE_BOUNDARY",
+  "result": "PASS",
+  "scope": "Six listed public HTTPS reads and role denials, not every possible student access path",
+  "checks": [
+    {
+      "path": "/student/enrollments/01a096e7-a6ce-73fe-826b-36728b8ba193/physical-result",
+      "status": 200,
+      "expected": 200,
+      "requestId": "01a09899-8c5a-744a-a65a-aab4e4d0bed8",
+      "fields": [
+        "status",
+        "result"
+      ]
+    },
+    {
+      "path": "/student/enrollments/01a096e7-a6ce-73fe-826b-36728b8ba193/settlement-result",
+      "status": 200,
+      "expected": 200,
+      "requestId": "01a09899-91a7-7249-b52e-4299af54ae4e",
+      "fields": [
+        "enrollmentId",
+        "available",
+        "reportVersion",
+        "ruleVersion",
+        "generatedAt",
+        "result"
+      ]
+    },
+    {
+      "path": "/enrollments/01a096e7-a6ce-73fe-826b-36728b8ba193/final-grades",
+      "status": 403,
+      "expected": 403
+    },
+    {
+      "path": "/class-sections/01a096e7-a22e-7535-a65d-ce0da82d59af/composite-roster",
+      "status": 403,
+      "expected": 403
+    },
+    {
+      "path": "/class-sections/01a096e7-a22e-7535-a65d-ce0da82d59af/settlement-reports",
+      "status": 403,
+      "expected": 403
+    },
+    {
+      "path": "/student-progress",
+      "status": 200,
+      "expected": 200,
+      "requestId": "01a09899-98c6-7559-997c-4c9301b402c6",
+      "fields": [
+        "0",
+        "1"
+      ]
+    }
+  ],
+  "observedAt": "2026-09-13T02:29:59.097Z"
+}

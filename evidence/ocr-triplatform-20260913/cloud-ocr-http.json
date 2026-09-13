@@ -1,0 +1,24 @@
+{
+  "check": "REAL_CLOUD_OCR_HTTP",
+  "observedAt": "2026-09-12T17:55:36.296Z",
+  "checks": [
+    "OCR_CONFIGURATION_HTTP",
+    "ROSTER_REAL_COS_OCR_DRAFT_CONFIRM_REPLAY",
+    "PHYSICAL_REAL_COS_OCR_DRAFT_CONFIRM_REPLAY",
+    "STUDENT_AND_ADMIN_RESULT_READBACK"
+  ],
+  "batches": [
+    {
+      "id": "01a096c2-7b4a-761a-addd-24c86465542b",
+      "purpose": "roster",
+      "providerRequestId": "ea31ffa5-1b80-46dc-b3b2-6a77fadb7651"
+    },
+    {
+      "id": "01a096c2-96b7-746c-b93c-12870e3dbf57",
+      "purpose": "physical",
+      "providerRequestId": "94534169-9ba0-4821-9c49-a70f35002ebe"
+    }
+  ],
+  "allChecksCompleted": true,
+  "syntheticOrganizationId": "01a096c2-20a2-706b-8c69-802f67dee12c"
+}

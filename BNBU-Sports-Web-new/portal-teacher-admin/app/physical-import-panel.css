@@ -1,0 +1,58 @@
+.physical-import { border: 1px solid var(--card-border); border-radius: 14px; background: var(--color-surface); margin-top: 12px; min-width: 0; }
+.physical-import > summary { padding: 16px; font-weight: 650; cursor: pointer; }
+.physical-import > summary > span { float: right; font-size: 12px; font-weight: 400; color: var(--color-on-surface-variant); }
+.physical-import-body { padding: 0 16px 16px; display: grid; gap: 16px; }
+.physical-import-body h4 { margin: 0 0 6px; font-size: 15px; }
+.physical-import-body p { margin: 5px 0; line-height: 1.6; }
+.physical-import-steps { display: flex; list-style: none; padding: 0; margin: 0; gap: 6px; }
+.physical-import-steps li { flex: 1; padding: 10px 6px; font-size: 12px; text-align: center; background: var(--color-surface-low); color: var(--color-on-surface-variant); border-radius: 8px; }
+.physical-import-steps .current { background: var(--color-primary-container); color: var(--color-primary); font-weight: 650; }
+.physical-import-steps .done { color: var(--color-primary); }
+.physical-import-toolbar,.physical-import-review-head { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px; margin-bottom: 12px; }
+.physical-import-toolbar { justify-content: flex-start; }
+.physical-import-toolbar button { min-height: 34px; }
+.physical-import-batches { flex: 1; min-width: 150px; }
+.physical-import-batches summary { cursor: pointer; font-size: 13px; padding: 8px; }
+.physical-import-batches > div { display: grid; gap: 5px; max-height: 210px; overflow: auto; padding: 8px; border: 1px solid var(--card-border); border-radius: 10px; }
+.physical-import-batches button { text-align: left; background: var(--color-surface-low); border: 1px solid transparent; padding: 10px; border-radius: 8px; color: inherit; cursor: pointer; }
+.physical-import-batches button.selected { border-color: var(--color-primary); }
+.physical-import-batches small,.physical-import-table-wrap small { display: block; margin-top: 4px; color: var(--color-on-surface-variant); }
+.physical-import-upload,.physical-import-editor,.physical-import-history { padding: 16px; border-radius: 12px; border: 1px solid var(--card-border); background: var(--color-surface-low); display: grid; gap: 12px; }
+.physical-import-upload > p,.physical-import-upload > small { color: var(--color-on-surface-variant); }
+.physical-import-upload label,.physical-import-editor label { display: grid; gap: 6px; font-size: 13px; }
+.physical-import-upload input,.physical-import-editor input { width: 100%; min-width: 0; box-sizing: border-box; padding: 10px; border-radius: 8px; border: 1px solid var(--card-border); background: var(--color-surface); color: inherit; }
+.physical-import-upload details { font-size: 12px; color: var(--color-on-surface-variant); }
+.physical-import-upload summary { cursor: pointer; }
+.physical-import-file { border: 1px dashed var(--card-border); padding: 14px; border-radius: 10px; }
+.physical-import-table-wrap { overflow-x: auto; border: 1px solid var(--card-border); border-radius: 10px; }
+.physical-import-table-wrap table { width: 100%; border-collapse: collapse; font-size: 12px; min-width: 550px; }
+.physical-import-table-wrap th { background: var(--color-surface-low); font-weight: 600; }
+.physical-import-table-wrap th,.physical-import-table-wrap td { text-align: left; padding: 12px 9px; vertical-align: top; border-bottom: 1px solid var(--card-border); }
+.physical-import-table-wrap tr:last-child td { border-bottom: 0; }
+.physical-import-table-wrap strong { white-space: nowrap; font-size: 13px; }
+.physical-import-table-wrap input[type=checkbox] { width: 17px; height: 17px; accent-color: var(--color-primary); }
+.physical-import-table-wrap .text-button { display: block; white-space: nowrap; font-size: 12px; padding: 3px 0; }
+.physical-import-state { display: inline-block; white-space: nowrap; border-radius: 20px; padding: 3px 8px; background: var(--color-surface-low); }
+.physical-import-state.ready,.physical-import-state.saved { color: var(--color-primary); background: var(--color-primary-container); }
+.physical-import-state.warning { color: #8a4b00; background: #fff1d6; }
+.physical-import-issues { min-width: 110px; max-width: 180px; line-height: 1.5; }
+.physical-import-editor { margin-top: 14px; }
+.physical-import-editor > div:not(.physical-import-toolbar) { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 12px; }
+.physical-import-editor > p { font-size: 12px; color: var(--color-on-surface-variant); overflow-wrap: anywhere; }
+.physical-import-history { margin-top: 14px; font-size: 12px; overflow-wrap: anywhere; }
+.physical-import-confirm { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 16px 0 0; margin-top: 14px; border-top: 1px solid var(--card-border); }
+.physical-import-confirm p { color: var(--color-on-surface-variant); font-size: 12px; }
+.physical-import-confirm button { white-space: nowrap; }
+.physical-import-notice { padding: 12px; background: var(--color-primary-container); border-radius: 10px; font-size: 13px; }
+.physical-import-notice.error { background: #fff0ed; color: #942d20; }
+.grade-final-editor,.grade-physical-editor { padding: 18px; border: 1px solid var(--card-border); border-radius: 14px; margin-top: 16px; }
+.grade-final-editor h3,.grade-physical-editor h3 { font-size: 16px; margin: 0 0 8px; }
+.grade-final-editor > p,.grade-physical-editor > p { font-size: 13px; color: var(--color-on-surface-variant); margin: 0 0 14px; }
+.grade-final-editor input[inputmode=numeric] { max-width: 180px; font-size: 22px; font-weight: 600; }
+.physical-result-history { border-top: 1px solid var(--card-border); padding-top: 12px; font-size: 12px; }
+.physical-result-history summary { cursor: pointer; font-size: 13px; }
+@media(max-width:600px) { .physical-import-body { padding: 0 10px 12px; }.physical-import-confirm { align-items: stretch; flex-direction: column; }.physical-import-editor > div:not(.physical-import-toolbar) { grid-template-columns: 1fr; }.grade-final-editor,.grade-physical-editor { padding: 12px; } }
+
+.grade-physical-editor,.grade-final-editor,.physical-import-body { min-width: 0; box-sizing: border-box; }
+.grade-physical-editor > *,.physical-import-body > * { min-width: 0; }
+.physical-import-table-wrap { max-width: 100%; }

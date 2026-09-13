@@ -1,0 +1,46 @@
+{
+  "sourceCommit": "dfbce813d00d6848e2edd96cb27eb326c430734e",
+  "localResult": "PASS",
+  "images": {
+    "backend": "sha256:ab96762ac96e3a1058aa3bba716814318e03683a8ab0cb6234b3d203d4cee28b",
+    "portal": "sha256:9e7bf36497f9ffe8c233970fb2b1329e7c03d65e754dfa2d0565d97edff8397b",
+    "migrator": "sha256:4307408698483ebb28a382e7bd28c604b84c123d990eff0def0d2c965eb54bd9"
+  },
+  "archives": {
+    "images.tar.gz": "ff2f2c0e065d86d50df7c4981a790dd4a433ac0b58ab8110decbd8c65da58f62",
+    "static.tar": "2e43cd210afd93c6c4dbafd948fcee5b021f984e71359b73783142644b380115",
+    "portal-update.tar.gz": "4dec4c2ceac309867cd8ff8bf08e4b060c92fc2238bb9efb7ef26f592f0eb518"
+  },
+  "staticFiles": {
+    "student/js/api.js": "b1d054c08b63811d4717a4c3d6b1f426fb6dd0c8be4a685ed5bc5bfc4287c903",
+    "student/js/i18n.js": "1b47de4f40ea94d5b4d86eaeeda7fe30b70f55e674781095d521f053121889c5",
+    "student/js/photo-originals.js": "d13786cbbb33c71907050560a438bce798b2a6acb7f06ca11b86de7a61fc5ea2",
+    "student/js/proofs.js": "4f0704b43c0b486529003a0f86a97cc2893ab30928a0b013b127d3c1e2bebfae",
+    "student/js/recorded-video.js": "68bf6a807fa843d180a01dff55250f45f130fd929a7e3cf3fcbaa41ef68f5120",
+    "student/js/screens/checkin.js": "8c06e77c2d3e34e0585440c4b0da5c88adbb8a212d54412c7449ff52bb17f225",
+    "student/js/screens/join.js": "5029684cca68f8f69619ae33857d5d68ae5f4760b19db6130f85a72326662da9",
+    "student/js/screens/profile.js": "36dd338a115312495f3f28e640a737cf78d14f24a7bb09933cb562a21b1e839a",
+    "student/js/screens/services.js": "fef02ae1466d7b9c93f5f56b30ad96f8c00c002a90cafaa01b5abe07acd4f779",
+    "student/js/session.js": "97d0e40d4c1e4fa61b7a0b2c32659dc9b8091abcd31b73e592208538a05130c8",
+    "student/js/sports-catalog.js": "a6bb24b6469499304d8d9192f9db0ded2b2a4efc8d60b12211c5607cd36b6cbc",
+    "student/js/student-regions.js": "f06f3955d5b5ff5d747b40090420146799c14733e20e87cffb28557cb1099130",
+    "student/js/v81-review.js": "f79720ebef0856889e362f79be06cd7e4fe3e5dd0c66608a6324d3e2efeb35ed",
+    "student/js/vendor/README.md": "dc7213f009ebb4e1f58e902243660106f8ef8d866c43562a02edc9cf996f2863",
+    "student/js/vendor/piexif.js": "e75744c3c6c4f04f98eb188bc181de81ca8e6420f8d0143bee0ddeef03ff25cf",
+    "student/vendor/ffmpeg/LICENSE.api": "3e123e29517d76504ffce77b3f8e2ccffd4712493f27694b0aba3e376676459f",
+    "student/vendor/ffmpeg/LICENSE.core": "8177f97513213526df2cf6184d8ff986c675afb514d4e68a404010521b880643",
+    "student/vendor/ffmpeg/api/classes.js": "7a829c898bdbc3a8806652a5502d9101178ce4e988a2c50b3abc1306ce4fc919",
+    "student/vendor/ffmpeg/api/const.js": "9e3bc9dd84781c81daf459e2c46eeec815edac35089832681d9a9a0f383060d0",
+    "student/vendor/ffmpeg/api/errors.js": "619310d7ef5fe5fefa0a31927db862b7c291713cfef4d71753fa8aafd18f4db6",
+    "student/vendor/ffmpeg/api/index.js": "cad19572420f7ead17272082d9582ebaed7f2856e19875542f83daf8d25d3b5d",
+    "student/vendor/ffmpeg/api/package.json": "7683753da6b5362d8ed172bf404842d740e3c24f83c0a36e7d89ef0372ad6995",
+    "student/vendor/ffmpeg/api/types.js": "72f80e6fd44fcd18b55c9a0deb3bc70b9bb37480cf969045ca4521f5a11300f5",
+    "student/vendor/ffmpeg/api/utils.js": "8c2e0e16445f8d3a0acbb812f2c60541a92c88ed0bf9ffe96c52e7fb6c8b1d72",
+    "student/vendor/ffmpeg/api/worker.js": "feff0ac937ea225e997e1fae997a74f8b8d572423a526da59eb56624b1f3cde7",
+    "student/vendor/ffmpeg/core/ffmpeg-core.js": "67a48f11645f85439f3fde4f2119042c16b374b910206b7a7a24f342e28dcae3",
+    "student/vendor/ffmpeg/core/ffmpeg-core.wasm": "9f57947a5bd530d8f00c5b3f2cb2a3492faa7e5d823315342d6a8656d0a6b7b7",
+    "student/vendor/ffmpeg/core/package.json": "2d55b1f6df4c62955f286ae41b7ca6b27bb4165136ca7572d4101abe147695e0",
+    "student/vendor/ffmpeg/manifest.json": "fdc4f8494d199e0b070e36e4f3ddf283b887397793f9aa3535022781339edfa9"
+  },
+  "backendSourceCommit": "5e76fcfdf1a79e1dc5f2d0e2f8000990ff98a96b"
+}

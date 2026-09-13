@@ -1,0 +1,12 @@
+{
+  "check": "CLOUD_MANUAL_REVIEW",
+  "observedAt": "2026-09-12T18:07:17.327Z",
+  "recordId": "01a096cc-51db-76c2-94ec-c94482005259",
+  "checks": [
+    "STUDENT_REVIEW_DENIED",
+    "TEACHER_VALID_ONE_MINUTE_AND_REPLAY",
+    "STUDENT_VALID_WORKFLOW_READBACK",
+    "STUDENT_PROGRESS_READBACK"
+  ],
+  "allChecksCompleted": true
+}

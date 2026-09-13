@@ -23,21 +23,24 @@ export function cappedRunningDuration(
   persistedSeconds: bigint,
   intervalStartedAt: Date,
   now: Date,
+  maximumSeconds: number = SESSION_DURATION_CAP_SECONDS,
 ): { actualDurationSeconds: number; reachedCap: boolean; capAt: Date } {
   const persisted = Number(persistedSeconds);
   if (
     !Number.isSafeInteger(persisted) ||
     persisted < 0 ||
-    persisted > SESSION_DURATION_CAP_SECONDS
+    persisted > SESSION_DURATION_CAP_SECONDS ||
+    !Number.isSafeInteger(maximumSeconds) || maximumSeconds < 1
   ) {
     throw new ApplicationError('SESSION_TIMELINE_INVALID', 409);
   }
   const elapsed = wholeSeconds(intervalStartedAt, now);
   if (!Number.isSafeInteger(persisted + elapsed)) throw new ApplicationError('SESSION_TIMELINE_INVALID', 409);
+  const reachedCap = persisted + elapsed >= maximumSeconds;
   return {
-    actualDurationSeconds: persisted + elapsed,
-    reachedCap: false,
-    capAt: now,
+    actualDurationSeconds: Math.min(persisted + elapsed, maximumSeconds),
+    reachedCap,
+    capAt: reachedCap ? new Date(intervalStartedAt.getTime() + Math.max(0, maximumSeconds - persisted) * 1000) : now,
   };
 }
 

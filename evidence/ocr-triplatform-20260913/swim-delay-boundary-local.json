@@ -1,0 +1,8 @@
+{
+  "observedAt": "2026-09-12T21:19:57.904Z",
+  "command": "node --import tsx --test test/unit/v81-swim-intake.test.ts",
+  "exitCode": 0,
+  "passed": 7,
+  "failed": 0,
+  "scope": "Local domain boundary tests only; not live elapsed acceptance"
+}

@@ -1,0 +1,5 @@
+{
+  "sha256": "3d299d2a8d461bea616a53adf03e9ab28126e1025c16be67cfcdf9eea9a637a0",
+  "destructive": false,
+  "migrationId": "0068_exemption_document_submission"
+}

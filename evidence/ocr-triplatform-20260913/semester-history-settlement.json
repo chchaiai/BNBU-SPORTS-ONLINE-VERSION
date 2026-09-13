@@ -1,0 +1,8 @@
+{
+  "organizationId": "01a09918-10d0-75ae-93a0-a4bf948d2495",
+  "sectionId": "01a09918-10d1-735e-8790-0176abb8e77a",
+  "checks": [],
+  "passed": false,
+  "accountsDisabled": true,
+  "scope": "Production HTTP formal settlement and archive; historical rule dates explicitly seeded; browser and archived new-operation denial still pending"
+}

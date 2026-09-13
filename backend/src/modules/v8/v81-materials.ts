@@ -1,3 +1,4 @@
+import {isHistoricalSession} from './v81-history-backfill.js';
 import type { Prisma } from '../../generated/prisma/client.js';
 import { ApplicationError } from '../../common/errors/application-error.js';
 import { readSwimTransfer } from './v81-swim-transfer.js';
@@ -68,10 +69,11 @@ export async function appendMaterialVersion(
   }
   if (images > 6 || videos > 1 || size > 250n * 1024n * 1024n)
     throw new ApplicationError('MEDIA_COUNT_LIMIT_EXCEEDED', 422);
-  let forceTeacher = false;
+  const historical = await isHistoricalSession(tx, record.sessionId);
+  let forceTeacher = historical;
   if (record.sportType !== 'SWIMMING' && input.swimDelayReason?.trim())
     throw new ApplicationError('VALIDATION_FAILED', 422);
-  if (record.sportType === 'SWIMMING') {
+  if (record.sportType === 'SWIMMING' && !historical) {
     const intakes = await tx.$queryRaw<{ intake_kind: string }[]>`
       SELECT intake_kind FROM v81_swim_intakes WHERE record_id=${record.id}::uuid AND organization_id=${input.organizationId}::uuid`;
     const intake = intakes[0];

@@ -1,0 +1,55 @@
+{
+  "check": "ADMIN_BROWSER_NAVIGATION_20260913",
+  "result": "PASS_WITH_LIMITED_SCOPE",
+  "release": "portal-own-password-20260913",
+  "browser": "Codex in-app browser",
+  "checks": [
+    {
+      "page": "overview",
+      "observed": "API, PostgreSQL, object and media storage healthy; event backlog explicitly not delivery proof"
+    },
+    {
+      "page": "courses",
+      "observed": "Current course summary and expandable target/time-window details rendered"
+    },
+    {
+      "page": "semesters",
+      "observed": "Current semester read-only; empty new semester submit blocked and focuses required name; cancelled without saving"
+    },
+    {
+      "page": "subadmins",
+      "observed": "Eight permissions; read-only template selects COURSE_VIEW and AUDIT_QUERY; cleared and cancelled without creation"
+    },
+    {
+      "page": "support",
+      "observed": "Search, category and status filters with empty result state"
+    },
+    {
+      "page": "rules",
+      "observed": "1000m conversion table, 1200-minute global target, version-1 template rendered; no rules changed"
+    },
+    {
+      "page": "system-mode",
+      "observed": "Historical changes rendered; no transition performed"
+    },
+    {
+      "page": "help",
+      "observed": "Published, draft and offline empty states with disabled pagination"
+    },
+    {
+      "page": "audit",
+      "observed": "50 records initially; impossible request ID filter returns zero, empty state and disabled pagination; filter cleared"
+    },
+    {
+      "page": "accounts",
+      "observed": "Student and teacher totals and student table rendered; single-page pagination disabled"
+    }
+  ],
+  "superadminPasswordTest": "SKIPPED_BY_USER",
+  "limits": [
+    "Read-only browsing and reversible unsaved form interactions only",
+    "Not full mutation or synthetic teacher/subadmin browser acceptance",
+    "No personal account fields copied into this evidence"
+  ],
+  "recordedAt": "2026-09-13T01:19:00Z"
+}

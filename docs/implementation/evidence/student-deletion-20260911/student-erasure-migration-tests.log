@@ -1,0 +1,18 @@
+✔ all registered migrations pass the real checker (250.9795ms)
+✔ student erasure migration cannot execute deletion during deployment (238.6585ms)
+✔ unknown migration directory is rejected (239.2795ms)
+✔ SQL checksum changes are rejected (247.5658ms)
+✔ data-destructive statement is rejected: DROP TABLE course_invites; (261.6518ms)
+✔ data-destructive statement is rejected: TRUNCATE course_invites; (295.4953ms)
+✔ data-destructive statement is rejected: DELETE FROM course_invites; (245.0604ms)
+✔ data-destructive statement is rejected: ALTER TABLE course_invites DROP COLUMN token_hash; (249.3889ms)
+✔ comments and strings cannot forge replacement constraints (249.9099ms)
+✔ history reference cannot acquire cascading deletion (235.2601ms)
+ℹ tests 10
+ℹ suites 0
+ℹ pass 10
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2587.8321

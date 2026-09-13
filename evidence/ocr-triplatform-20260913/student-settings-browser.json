@@ -1,0 +1,14 @@
+{
+  "check": "STUDENT_SETTINGS_BROWSER",
+  "release": "student-local-player-20260913",
+  "result": "PASS_SCOPED",
+  "checks": [
+    "help unpublished empty state",
+    "empty feedback description rejected and focused",
+    "own feedback empty state",
+    "Chinese to English immediate update",
+    "English persists after reload and session restore",
+    "Chinese restored"
+  ],
+  "scope": "Production Edge UI on synthetic Zeta; no feedback message sent; no published help detail available"
+}

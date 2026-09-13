@@ -4,10 +4,27 @@
 // identical across platforms per the handover spec.
 
 // Check-in sport glyphs: Tabler Icons outline v3.46.0 (MIT), https://tabler.io/icons
-// Same nine picker values as before — no extra sports.
+// Additional catalogue glyphs below are original SVG outlines in the same visual style.
 // Badminton uses the shuttlecock outline the user supplied from tabler.io
 // (not in the npm 3.46.0 package; same 24×24 / 2px round stroke).
 const SPORT_GLYPHS = {
+  "sport-aerobics": `<circle cx="12" cy="4" r="2"/><path d="M4 7l8 3 7-5M12 10v5l-6 6m6-6 6 6"/>`,
+  "sport-cheerleading": `<circle cx="12" cy="8" r="2"/><path d="M7 6l5 7 5-7M12 13v3l-5 5m5-5 5 5M3 3l4 3-1-4m-3 5 4-1m10 0 4-3m-3-1-1 4 4 1"/>`,
+  "sport-health_qigong": `<circle cx="12" cy="5" r="2"/><path d="M7 9c-5 6 0 7 3 3m7-3c5 6 0 7-3 3M12 9v7m0 0-6 5m6-5 6 5"/>`,
+  "sport-dragon_lion_dance": `<path d="M5 8 3 4l5 1c3-3 5-3 8 0l5-1-2 4v7l-4 5H9l-4-5zM7 10h3m4 0h3M9 15l3 2 3-2M12 11v2"/>`,
+  "sport-frisbee": `<ellipse cx="14" cy="13" rx="7" ry="3" transform="rotate(-25 14 13)"/><path d="m3 5 7 1M2 10h4m-2 9 3-2"/>`,
+  "sport-golf": `<path d="M13 17V3l7 3-7 3M9 18c-6 0-6 3 0 3h7c6 0 6-3 1-3"/><circle cx="6" cy="14" r="1"/>`,
+  "sport-kayaking": `<circle cx="12" cy="6" r="2"/><path d="m10 10 3 3h4M12 9l-2 6M3 15c3 8 15 8 18 0H3Zm2-9 13 13M3 3l4 3-2 2-3-4m15 13 4 3-1 2-4-3"/>`,
+  "sport-pilates": `<circle cx="5" cy="12" r="2"/><path d="m8 14 6 2 5-9m-5 9 7-3M8 14l1-7M3 21h18"/>`,
+  "sport-rugby": `<path d="M3 17C1 7 7 1 17 3c8 10 2 20-14 14Zm5-9 8 8m-6-9-3 3m6-1-4 4m7-1-4 4"/>`,
+  "sport-self_defense": `<circle cx="10" cy="4" r="2"/><path d="m5 8 5 2 5-3 2-4M10 10v5l-5 6m5-6 8 1 3-3M3 7v4"/>`,
+  "sport-stretch_flex": `<circle cx="9" cy="5" r="2"/><path d="m9 9 5 6h6M9 9l8 1m-3 5-8 4H3m11-4 5 6M3 22h18"/>`,
+  "sport-tennis": `<ellipse cx="14" cy="8" rx="5" ry="6" transform="rotate(35 14 8)"/><path d="m10 13-6 8m8-18 6 8m-9-4 7 6M17 3l-7 9"/><circle cx="19" cy="19" r="2"/>`,
+  "sport-yoga": `<circle cx="12" cy="5" r="2"/><path d="M12 9v6m-1-5-4 5H3m10-5 4 5h4M12 15c-13 2-9 7 0 4 9 3 13-2 0-4Z"/>`,
+  "sport-orienteering": `<circle cx="12" cy="12" r="9"/><path d="m16 8-2 6-6 2 2-6 6-2Zm-4-7v2m0 18v2M1 12h2m18 0h2"/>`,
+  "sport-outdoor_leadership": `<path d="m2 21 7-12 5 8 3-5 5 9H2Zm7-12V2l7 2-7 3m-3 8 3 2 3-2"/>`,
+  "sport-chinese_archery": `<path d="M6 3c13 2 13 16 0 18L11 12 6 3Zm-3 9h19m-3-3 3 3-3 3"/>`,
+
   "sport-running": `<path d="M11.007 5a2 2 0 1 0 4 0a2 2 0 1 0 -4 0"/><path d="M4 17l5 1l.75 -1.5"/><path d="M15 21v-4l-4 -3l1 -6"/><path d="M7 12v-3l5 -1l3 3l3 1"/>`,
   "sport-basketball": `<path d="M3 12a9 9 0 1 0 18 0a9 9 0 1 0 -18 0"/><path d="M5.65 5.65l12.7 12.7"/><path d="M5.65 18.35l12.7 -12.7"/><path d="M12 3a9 9 0 0 0 9 9"/><path d="M3 12a9 9 0 0 1 9 9"/>`,
   "sport-football": `<path d="M3 12a9 9 0 1 0 18 0a9 9 0 1 0 -18 0"/><path d="M12 7l4.76 3.45l-1.76 5.55h-6l-1.76 -5.55l4.76 -3.45"/><path d="M12 7v-4m3 13l2.5 3m-.74 -8.55l3.74 -1.45m-11.44 7.05l-2.56 2.95m.74 -8.55l-3.74 -1.45"/>`,

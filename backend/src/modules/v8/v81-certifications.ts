@@ -40,8 +40,8 @@ class RevokeCertificationInput {
   @IsString() @MinLength(1) @MaxLength(1000) reason!: string;
 }
 class AdjustRecognitionInput extends RevokeCertificationInput {
-  @IsInt() @Min(0) @Max(1200) courseMinutes!: number;
-  @IsInt() @Min(0) @Max(1200) generalMinutes!: number;
+  @IsInt() @Min(0) @Max(2147483647) courseMinutes!: number;
+  @IsInt() @Min(0) @Max(2147483647) generalMinutes!: number;
 }
 const include = {
   classSection: { include: { teacher: true } },
@@ -71,6 +71,8 @@ export class V81CertificationsService {
     return {
       organizationId: principal.organizationId,
       applicationType: 'EXERCISE_CHECK_IN',
+      membershipClearedAt: null,
+      enrollment: { status: 'ACTIVE' },
       applicationSubtype: { in: ['SCHOOL_TEAM', 'STUDENT_CLUB'] },
       ...(principal.role === 'STUDENT'
         ? { student: { userId: principal.userId } }

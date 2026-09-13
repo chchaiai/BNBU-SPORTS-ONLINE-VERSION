@@ -1,0 +1,14 @@
+{
+  "check": "GRADE_WORKFLOW_XLSX_BROWSER_AND_COS_READBACK",
+  "result": "PASS",
+  "batchId": "01a0987f-8a53-771c-90ef-f46c327e05e8",
+  "pendingCount": 0,
+  "raw": {
+    "version": 7,
+    "runType": "1000m",
+    "elapsedSeconds": 312,
+    "testedOn": "2026-09-12",
+    "createdAt": "2026-09-13T02:01:41.325Z"
+  },
+  "sourceSha256": "817f283acc19477e86da251bd95687a800248b4c90ccf386192b9f20c3c90ea1"
+}

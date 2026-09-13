@@ -1,0 +1,21 @@
+{
+  "settings": {
+    "width": 720,
+    "height": 1280,
+    "frameRate": 30,
+    "audio": false
+  },
+  "sourceMime": "video/mp4;codecs=avc1.420020",
+  "outputMime": "video/mp4",
+  "playback": {
+    "width": 720,
+    "height": 1280,
+    "currentTime": 0.353333,
+    "duration": 1.588235,
+    "error": null
+  },
+  "preview": {
+    "duration": 1.588235,
+    "thumbnail": true
+  }
+}

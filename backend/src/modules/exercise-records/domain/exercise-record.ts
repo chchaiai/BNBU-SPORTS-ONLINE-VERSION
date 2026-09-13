@@ -6,18 +6,21 @@ export type ExerciseRecordStatus = (typeof EXERCISE_RECORD_STATUSES)[number];
 export const CREDIT_TYPES = ['COURSE_RELATED', 'GENERAL'] as const;
 export type CreditType = (typeof CREDIT_TYPES)[number];
 
-export function creditedDuration(actualDurationSeconds: bigint, minimumMinutes = 30): bigint {
-  if (actualDurationSeconds < 0n || ![30, 45, 60].includes(minimumMinutes)) {
+export function creditedDuration(actualDurationSeconds: bigint, minimumMinutes = 30, maximumMinutes = 60): bigint {
+  if (actualDurationSeconds < 0n || !Number.isInteger(minimumMinutes) || minimumMinutes < 1 || minimumMinutes > 1440) {
     throw new ApplicationError('EXERCISE_RECORD_DURATION_NOT_CREDITABLE', 422);
   }
+  if (!Number.isInteger(maximumMinutes) || maximumMinutes < 1 || maximumMinutes > 1440)
+    throw new ApplicationError('EXERCISE_RECORD_DURATION_NOT_CREDITABLE', 422);
   const minutes = actualDurationSeconds / 60n;
   if (minutes < BigInt(minimumMinutes)) return 0n;
-  return (minutes > 60n ? 60n : minutes) * 60n;
+  return (minutes > BigInt(maximumMinutes) ? BigInt(maximumMinutes) : minutes) * 60n;
 }
 
-export function assertCreditableDuration(actualDurationSeconds: bigint, minimumMinutes = 30): bigint {
-  // A genuine subthreshold session can be recorded; it contributes zero minutes.
-  return creditedDuration(actualDurationSeconds, minimumMinutes);
+export function assertCreditableDuration(actualDurationSeconds: bigint, minimumMinutes = 30, maximumMinutes = 60): bigint {
+  const credit = creditedDuration(actualDurationSeconds, minimumMinutes, maximumMinutes);
+  if (credit === 0n) throw new ApplicationError('EXERCISE_RECORD_DURATION_NOT_CREDITABLE', 422);
+  return credit;
 }
 
 export function normalizeRecordContent(input: {

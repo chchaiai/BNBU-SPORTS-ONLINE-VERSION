@@ -1,0 +1,20 @@
+{
+  "sourceMime": "video/mp4;codecs=avc1.420015",
+  "outputMime": "video/mp4",
+  "playback": {
+    "width": 320,
+    "height": 240,
+    "currentTime": 0.360635,
+    "duration": 1.52,
+    "error": null
+  },
+  "first": {
+    "supported": true,
+    "pending": 0
+  },
+  "replay": {
+    "supported": true,
+    "pending": 0
+  },
+  "id": "native-synthetic-3ffb8be2-68a2-4620-a476-eabd4ebc397f"
+}

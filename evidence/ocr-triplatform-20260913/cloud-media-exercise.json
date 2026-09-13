@@ -1,0 +1,28 @@
+{
+  "check": "REAL_CLOUD_MEDIA_EXERCISE_REGRESSION",
+  "observedAt": "2026-09-12T18:06:16.368Z",
+  "organizationId": "01a096c2-20a2-706b-8c69-802f67dee12c",
+  "results": [
+    {
+      "check": "REAL_STORAGE_SCAN_TEACHER_ORIGINAL_BYTES_PRIVATE",
+      "status": "PASS",
+      "mediaType": "IMAGE",
+      "bytes": 27808,
+      "mediaId": "01a096cc-52bc-74e9-b2d3-57c2ba066f54"
+    },
+    {
+      "check": "REAL_STORAGE_SCAN_TEACHER_ORIGINAL_BYTES_PRIVATE",
+      "status": "PASS",
+      "mediaType": "VIDEO",
+      "bytes": 715711,
+      "mediaId": "01a096cc-614e-710d-a9a6-30460e7de317"
+    },
+    {
+      "check": "COURSE_PUBLISH_SESSION_PAUSE_RESUME_FINISH_MP4_SUBMIT_TEACHER_ALL_EVIDENCE",
+      "status": "PASS",
+      "recordId": "01a096cc-51db-76c2-94ec-c94482005259",
+      "elapsedSeconds": 62,
+      "credit": "pending-manual-review"
+    }
+  ]
+}

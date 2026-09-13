@@ -1,0 +1,121 @@
+{
+  "check": "CLOUD_PHYSICAL_CSV_REVISION",
+  "result": "PASS",
+  "organizationId": "01a096c2-20a2-706b-8c69-802f67dee12c",
+  "sectionId": "01a096e7-a22e-7535-a65d-ce0da82d59af",
+  "importId": "01a09845-03d2-766c-835c-7285535a441d",
+  "checks": [
+    {
+      "path": "/me",
+      "status": 200,
+      "expected": 200,
+      "requestId": "01a09845-010a-71ef-9db8-48df58e30c0f"
+    },
+    {
+      "path": "/student/enrollments/01a096e7-a6ce-73fe-826b-36728b8ba193/physical-result",
+      "status": 200,
+      "expected": 200,
+      "requestId": "01a09845-0328-7421-a05e-baf38de80421"
+    },
+    {
+      "path": "/class-sections/01a096e7-a22e-7535-a65d-ce0da82d59af/physical-imports",
+      "status": 201,
+      "expected": 201,
+      "requestId": "01a09845-03c3-713c-a832-56e34f65fdf3"
+    },
+    {
+      "path": "/class-sections/01a096e7-a22e-7535-a65d-ce0da82d59af/physical-imports",
+      "status": 201,
+      "expected": 201,
+      "requestId": "01a09845-0498-73c9-9a8f-61441e42ee66"
+    },
+    {
+      "path": "/physical-imports/01a09845-03d2-766c-835c-7285535a441d/source",
+      "status": 200,
+      "expected": 200,
+      "requestId": "01a09845-053e-72b8-83dd-37502261e906"
+    },
+    {
+      "path": "/physical-imports/01a09845-03d2-766c-835c-7285535a441d/source",
+      "status": 403,
+      "expected": 403,
+      "requestId": "01a09845-05fd-725c-b34b-6f710ff76486"
+    },
+    {
+      "path": "/enrollments/01a096e7-a6ce-73fe-826b-36728b8ba193/physical-results",
+      "status": 200,
+      "expected": 200,
+      "requestId": "01a09845-0694-724e-9c54-3089820d23f5"
+    },
+    {
+      "path": "/physical-imports/01a09845-03d2-766c-835c-7285535a441d/confirm",
+      "status": 422,
+      "expected": 422,
+      "requestId": "01a09845-0733-77e2-959e-142b52485626"
+    },
+    {
+      "path": "/student/enrollments/01a096e7-a6ce-73fe-826b-36728b8ba193/physical-result",
+      "status": 200,
+      "expected": 200,
+      "requestId": "01a09845-07e7-76a8-8338-008fd77dccb5"
+    },
+    {
+      "path": "/physical-imports/01a09845-03d2-766c-835c-7285535a441d/revisions",
+      "status": 201,
+      "expected": 201,
+      "requestId": "01a09845-0883-75af-b564-06fb498711df"
+    },
+    {
+      "path": "/physical-imports/01a09845-03d2-766c-835c-7285535a441d/revisions",
+      "status": 201,
+      "expected": 201,
+      "requestId": "01a09845-0929-743c-808d-d8c0abafb00d"
+    },
+    {
+      "path": "/physical-imports/01a09845-03d2-766c-835c-7285535a441d/revisions",
+      "status": 409,
+      "expected": 409,
+      "requestId": "01a09845-09c7-70fd-bbe5-1ba665f12b5e"
+    },
+    {
+      "path": "/physical-imports/01a09845-03d2-766c-835c-7285535a441d/revisions?rowNumber=2",
+      "status": 200,
+      "expected": 200,
+      "requestId": "01a09845-0a65-754d-b346-9b1c620918eb"
+    },
+    {
+      "path": "/physical-imports/01a09845-03d2-766c-835c-7285535a441d/confirm",
+      "status": 201,
+      "expected": 201,
+      "requestId": "01a09845-0b02-7004-b663-732a5d8ccb14"
+    },
+    {
+      "path": "/physical-imports/01a09845-03d2-766c-835c-7285535a441d/confirm",
+      "status": 201,
+      "expected": 201,
+      "requestId": "01a09845-0bb4-724b-a6b6-32e6aca6be4d"
+    },
+    {
+      "path": "/physical-imports/01a09845-03d2-766c-835c-7285535a441d/confirm",
+      "status": 409,
+      "expected": 409,
+      "requestId": "01a09845-0c51-764e-88f0-b3e1fb9a7197"
+    },
+    {
+      "path": "/student/enrollments/01a096e7-a6ce-73fe-826b-36728b8ba193/physical-result",
+      "status": 200,
+      "expected": 200,
+      "requestId": "01a09845-0cf0-72de-92e9-1a0530bb279d"
+    }
+  ],
+  "assertions": [
+    "source exact bytes",
+    "student source denied",
+    "mixed confirmation atomic",
+    "revision replay and stale conflict",
+    "revision history",
+    "confirmation replay and conflict",
+    "student result version increment"
+  ],
+  "cleanup": "Retain synthetic import for final fixture cleanup"
+}

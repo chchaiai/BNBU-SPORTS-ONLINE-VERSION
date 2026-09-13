@@ -45,7 +45,20 @@ export class StudentIdentityResolver {
     transaction: Prisma.TransactionClient,
   ): Promise<ResolvedStudentIdentity> {
     const existing = await this.validateExisting(organizationId, identity, transaction);
-    if (existing !== null) return existing;
+    if (existing !== null) {
+      // Existing verified accounts can only be joined by their authenticated owner.
+      if (existing.user.emailVerifiedAt && identity.authenticatedUserId !== existing.user.id) {
+        throw new ApplicationError('AUTH_REQUIRED', 401);
+      }
+      const profile = await transaction.studentProfile.update({ where: { id: existing.profile.id }, data: {
+        ...(identity.collegeName && !existing.profile.collegeName ? { collegeName: identity.collegeName } : {}),
+        ...(identity.majorName && !existing.profile.majorName ? { majorName: identity.majorName } : {}),
+        ...(identity.dateOfBirth && !existing.profile.dateOfBirth ? { dateOfBirth: new Date(`${identity.dateOfBirth}T00:00:00Z`) } : {}),
+        ...(identity.regionCode && !existing.profile.regionCode ? { regionCode: identity.regionCode } : {}),
+        ...(identity.regionCode === "OTHER" && identity.otherRegionName && (!existing.profile.regionCode || existing.profile.regionCode === "OTHER") && !existing.profile.otherRegionName ? {otherRegionName: identity.otherRegionName} : {}),
+      } });
+      return { ...existing, profile };
+    }
 
     const userId = this.ids.next();
     const profileId = this.ids.next();
@@ -71,8 +84,11 @@ export class StudentIdentityResolver {
         fullName: identity.fullName,
         gender: identity.gender,
         gradeYear: identity.gradeYear,
-        collegeName: null,
-        majorName: null,
+        collegeName: identity.collegeName ?? null,
+        majorName: identity.majorName ?? null,
+        dateOfBirth: identity.dateOfBirth ? new Date(`${identity.dateOfBirth}T00:00:00Z`) : null,
+        regionCode: identity.regionCode ?? null,
+        otherRegionName: identity.otherRegionName ?? null,
         administrativeClassName: null,
         status: 'ACTIVE',
         createdAt: now,

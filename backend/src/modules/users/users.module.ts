@@ -7,12 +7,14 @@ import { StudentIdentityNormalizer } from './application/student-identity-normal
 import { StudentIdentityResolver } from './application/student-identity-resolver.js';
 import { ClientCapabilitiesModule } from '../client-capabilities/client-capabilities.module.js';
 import { EmailVerificationService } from './email-verification.service.js';
+import { StudentProfileCompletionService } from './student-profile-completion.service.js';
 
 @Module({
   imports: [ClientCapabilitiesModule],
   controllers: [UsersController, ProfilesController],
   providers: [
     UsersService,
+    StudentProfileCompletionService,
     EmailVerificationService,
     StudentIdentityNormalizer,
     StudentIdentityResolver,

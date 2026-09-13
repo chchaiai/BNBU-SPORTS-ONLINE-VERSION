@@ -1,0 +1,12 @@
+{
+  "check": "CLOUD_ELECTRONIC_IMPORTS",
+  "observedAt": "2026-09-12T18:37:23.151Z",
+  "organizationId": "01a096c2-20a2-706b-8c69-802f67dee12c",
+  "sectionId": "01a096e7-a22e-7535-a65d-ce0da82d59af",
+  "rosterImportId": "01a096e8-e1c7-712c-b62c-f99a5a87d50e",
+  "checks": [
+    "CSV_ROSTER_COS_BYTES_AND_UPLOAD_REPLAY_STUDENT_SOURCE_DENIED",
+    "ELECTRONIC_CONFIRM_ALIGN_DETAIL_STUDENT_MATCH"
+  ],
+  "allChecksCompleted": false
+}

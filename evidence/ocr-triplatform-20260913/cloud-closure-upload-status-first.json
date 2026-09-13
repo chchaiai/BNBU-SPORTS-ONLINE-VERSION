@@ -1,0 +1,12 @@
+{
+  "check": "CLOUD_CLOSURE_APPLICATION_CLEANUP",
+  "observedAt": "2026-09-12T18:11:54.400Z",
+  "organizationId": "01a096c2-20a2-706b-8c69-802f67dee12c",
+  "sectionId": "01a096c2-20a3-76a6-a0b4-15a89a04610b",
+  "applications": [],
+  "mediaIds": [
+    "01a096d1-8fdf-703f-b545-0f01733557c5"
+  ],
+  "checks": [],
+  "allChecksCompleted": false
+}

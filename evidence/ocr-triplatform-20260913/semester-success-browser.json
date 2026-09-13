@@ -1,0 +1,16 @@
+{
+  "result": "PASS_SCOPED_WITH_UI_ISSUE",
+  "organizationId": "01a09918-10d0-75ae-93a0-a4bf948d2495",
+  "targetId": "01a09925-662c-7042-900c-a9765ea178f3",
+  "targetName": "Synthetic browser switch acceptance",
+  "browserConfirmationExecuted": true,
+  "targetRowCurrent": true,
+  "previousRowArchived": true,
+  "upcomingCount": 0,
+  "archivedCount": 3,
+  "historicalCourseAndStudentVisible": "1 / 1",
+  "temporaryAdminDisabled": true,
+  "targetPreparation": "HTTP creation; browser date fill did not retain values and create form validation rejected empty dates",
+  "remainingIssue": "Global header current term appeared unchanged while semester page heading and rows updated; needs source and fresh-page comparison",
+  "scope": "Browser successful switch confirmation with empty current semester; settled-course history preservation separately proved by production HTTP"
+}

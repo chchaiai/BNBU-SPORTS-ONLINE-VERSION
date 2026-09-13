@@ -1,3 +1,4 @@
+import { flushNativeAlbum } from "./native-album.js";
 import { clearProofDrafts } from "./checkin-drafts.js";
 // Root application shell replicated from feature/shell/AppRootScreen.kt.
 // Single state machine — no route strings, mirroring the Compose implementation:
@@ -43,7 +44,7 @@ import { renderScanJoin, renderEnterInviteCode, renderCourseJoinConfirm, renderJ
 import { renderDashboard, dashboardActions } from "./screens/dashboard.js";
 import { renderNotificationSheet, notificationActions } from "./screens/notifications.js";
 import { renderCourses, coursesActions, coursesBackInterceptor } from "./screens/courses.js";
-import { renderCheckIn, checkinActions, checkinTick, checkinBackInterceptor, restoreCheckinContinuity, resumeCheckinContinuity } from "./screens/checkin.js";
+import { attachDraftVideoPreview, renderCheckIn, checkinActions, checkinTick, checkinBackInterceptor, restoreCheckinContinuity, resumeCheckinContinuity } from "./screens/checkin.js";
 import { renderGrades } from "./screens/grades.js";
 import { renderProfile, renderAccountDetails, renderSettings, renderAccountDeletion, profileActions } from "./screens/profile.js";
 import { renderHelpCenter, renderFeedback, renderAbout, renderChangelog, supportActions } from "./screens/support.js";
@@ -194,7 +195,7 @@ export const app = {
     const w = this.state.workspace;
     const activeEnrollment = w.courses.some((c) => c.isCurrent && c.enrollmentStatus === "enrolled");
     const req = w.courseJoinRequest;
-    return !activeEnrollment && !(req && (req.status === "PENDING" || req.status === "ACTIVE"));
+    return !activeEnrollment && !(req && (req.status === "PENDING"));
   },
   visibleNotices() {
     return toVisibleStudentNotices(this.state.workspace.notices);
@@ -299,6 +300,7 @@ export const app = {
     let succeeded = false;
     try {
       const identity = preloadedIdentity || (await loadApiStudentIdentity());
+      void flushNativeAlbum(identity.student.localOwnerId).catch(() => {});
       if (!isCurrentApiSessionEpoch(epoch)) return false;
       const requiresContactBinding =
         identity.me.user?.status === "PENDING_CONTACT_BINDING" ||
@@ -668,9 +670,16 @@ export const app = {
       ? (this.navDirection === "back" ? "anim-enter-back" : "anim-enter-forward")
       : "";
     const cameraVideo = viewport.querySelector('[data-live-camera-video]');
+    const proofVideo = viewport.querySelector('[data-proof-preview-video]');
+    const proofWasPlaying = proofVideo && !proofVideo.paused;
     const activeStream = this.ui.checkin?.liveCamera?.stream;
     viewport.innerHTML = `<div class="root-layer ${animClass}">${content}</div>${s.dialog ? this.renderDialog() : ""}`;
     const cameraReplacement = viewport.querySelector('[data-live-camera-video]');
+    const proofReplacement = viewport.querySelector('[data-proof-preview-video]');
+    if (proofVideo && proofReplacement && proofVideo.dataset.previewId === proofReplacement.dataset.previewId && proofVideo.dataset.previewSource === proofReplacement.dataset.previewSource) {
+      proofReplacement.replaceWith(proofVideo);
+      if (proofWasPlaying) void proofVideo.play().catch(() => {});
+    }
     if (cameraVideo && cameraReplacement && activeStream && cameraVideo.srcObject === activeStream) {
       cameraReplacement.replaceWith(cameraVideo);
       void cameraVideo.play().catch(() => {});
@@ -745,6 +754,7 @@ export const app = {
     this.registerBackInterceptor(checkinBackInterceptor);
     this.registerBackInterceptor(servicesBackInterceptor);
     this.registerAfterRender(attachGuideSwipe);
+    this.registerAfterRender(attachDraftVideoPreview);
     this.registerAfterRender(attachScanCamera);
 
     // Delegated events

@@ -1,0 +1,1 @@
+{"check":"STUDENT_ERASURE_ADMIN_SCOPE","result":"PASS","missingPermissionDenied":true,"grantEffective":true,"crossOrganizationDenied":true,"revocationEffectiveOnExistingToken":true}

@@ -1,0 +1,24 @@
+{
+  "result": "PASS",
+  "observedAt": "2026-09-13T02:51:30.395Z",
+  "checks": [
+    {
+      "purpose": "roster",
+      "bytes": 2227808,
+      "batchId": "01a098ad-1840-7433-8235-45b6c6e1cb0c",
+      "status": 201,
+      "sourceHashMatched": true
+    },
+    {
+      "purpose": "physical",
+      "bytes": 2236842,
+      "batchId": "01a098ad-32dc-7121-9d88-4752de2e3d9f",
+      "status": 201,
+      "sourceHashMatched": true
+    }
+  ],
+  "oversizeBothPaths": 413,
+  "unrelatedApiOriginalLimit": 413,
+  "oversizeBodyBytesSent": 0,
+  "recognitionNotRequested": true
+}

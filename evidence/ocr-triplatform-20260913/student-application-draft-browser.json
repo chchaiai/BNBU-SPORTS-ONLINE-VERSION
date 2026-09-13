@@ -1,0 +1,18 @@
+{
+  "check": "STUDENT_APPLICATION_DRAFT_BROWSER",
+  "result": "PASS_SCOPED",
+  "release": "student-local-player-20260913",
+  "checks": [
+    "empty reason submission rejected and input focused",
+    "reason without material does not submit",
+    "team type exposes required organization name",
+    "missing organization rejected and focused",
+    "leaving and reopening restores type and reason with explicit draft notice",
+    "test-created local draft deleted and reason cleared"
+  ],
+  "limitations": [
+    "No application sent to review in this page pass",
+    "Existing HTTP application/COS/teacher evidence remains separate",
+    "No uploaded material involved in this draft pass"
+  ]
+}

@@ -1,0 +1,5 @@
+{
+  "sha256": "8305a2c6fa9663e3268596cc5942d22445a8de3b4b2eaea62f7fc4f809791796",
+  "destructive": false,
+  "migrationId": "0069_record_rule_snapshots"
+}

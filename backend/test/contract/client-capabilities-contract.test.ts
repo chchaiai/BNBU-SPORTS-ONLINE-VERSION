@@ -213,7 +213,7 @@ describe('Stage 21 client capability contract', () => {
     assert.ok(Object.hasOwn(object(submitExemption.responses, 'submit responses'), '422'));
   });
 
-  it('closes all 126 operations and reports the persisted subset separately from default deny', () => {
+  it('registers every current operation and distinguishes explicit default deny', () => {
     const coverage = JSON.parse(
       readFileSync(new URL('../../runtime-coverage.manifest.json', import.meta.url), 'utf8'),
     ) as {
@@ -221,9 +221,15 @@ describe('Stage 21 client capability contract', () => {
       implemented: JsonObject;
       implementedDefaultDeny: string[];
     };
-    assert.equal(coverage.expectedOperationCount, 126);
-    assert.equal(Object.keys(coverage.implemented).length, 126);
-    assert.equal(coverage.implementedDefaultDeny.length, 17);
+    assert.equal(coverage.expectedOperationCount, Object.keys(operationPolicies).length);
+    assert.deepEqual(Object.keys(coverage.implemented).sort(), Object.keys(operationPolicies).sort());
+    // x-default-deny-error also documents conditional scope denials on live operations.
+    // The manifest records operations with no supported business execution path.
+    assert.equal(new Set(coverage.implementedDefaultDeny).size, coverage.implementedDefaultDeny.length);
+    for (const operationId of coverage.implementedDefaultDeny) {
+      assert.ok(operationId in coverage.implemented, `${operationId} denial has evidence`);
+      assert.ok(operationId in operationPolicies, `${operationId} denial has a policy`);
+    }
     for (const [, , operationId] of bindings) {
       assert.equal(
         coverage.implementedDefaultDeny.includes(operationId),

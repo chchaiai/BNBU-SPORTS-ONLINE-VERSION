@@ -1,0 +1,199 @@
+{
+  "check": "READ_ONLY_NOTIFICATION_HISTORY_AUDIT",
+  "observedAt": "2026-09-13T04:06:28.941Z",
+  "total": 38,
+  "matched": 38,
+  "results": [
+    {
+      "id": "01a08c1a-8d59-752b-979e-585580094761",
+      "result": "UNIQUE_MATCH",
+      "stage": "VALID"
+    },
+    {
+      "id": "01a08c4f-1aae-711e-9565-dc784b7e157b",
+      "result": "UNIQUE_MATCH",
+      "stage": "VALID"
+    },
+    {
+      "id": "01a08f05-88d7-724b-aa9a-b1877fbbabfb",
+      "result": "UNIQUE_MATCH",
+      "stage": "VALID"
+    },
+    {
+      "id": "01a08fad-8e85-7759-9830-f86251868453",
+      "result": "UNIQUE_MATCH",
+      "stage": "AWAITING_SUPPLEMENT"
+    },
+    {
+      "id": "01a08faf-6735-77b8-ac2c-e60864cf2846",
+      "result": "UNIQUE_MATCH",
+      "stage": "PENDING_TEACHER"
+    },
+    {
+      "id": "01a08faf-8041-7489-ad0f-a0f241040156",
+      "result": "UNIQUE_MATCH",
+      "stage": "VALID"
+    },
+    {
+      "id": "01a095c6-52af-72ed-8b43-b57419a3b4de",
+      "result": "UNIQUE_MATCH",
+      "stage": "VALID"
+    },
+    {
+      "id": "01a095e6-1a41-72b2-ae41-1143448df0ad",
+      "result": "UNIQUE_MATCH",
+      "stage": "AWAITING_SUPPLEMENT"
+    },
+    {
+      "id": "01a095f5-8624-7239-a347-c4aaa14cad77",
+      "result": "UNIQUE_MATCH",
+      "stage": "AWAITING_SUPPLEMENT"
+    },
+    {
+      "id": "01a095f9-3f22-730c-b096-8b1cfedb3e7c",
+      "result": "UNIQUE_MATCH",
+      "stage": "PENDING_TEACHER"
+    },
+    {
+      "id": "01a09632-0840-75db-b2b1-5160c4ffbaa0",
+      "result": "UNIQUE_MATCH",
+      "stage": "AWAITING_SUPPLEMENT"
+    },
+    {
+      "id": "01a09632-5438-73ed-9d02-c3027701d659",
+      "result": "UNIQUE_MATCH",
+      "stage": "PENDING_TEACHER"
+    },
+    {
+      "id": "01a096f0-c9db-711f-ae94-ba534d09fc11",
+      "result": "UNIQUE_MATCH",
+      "stage": "AWAITING_SUPPLEMENT"
+    },
+    {
+      "id": "01a096f0-d415-75b3-9e1a-6f0c220e6e3b",
+      "result": "UNIQUE_MATCH",
+      "stage": "PENDING_TEACHER"
+    },
+    {
+      "id": "01a096f0-d5e2-73dd-99a2-5a3d6778d9b6",
+      "result": "UNIQUE_MATCH",
+      "stage": "VALID"
+    },
+    {
+      "id": "01a096ff-da86-7151-9ff3-2c2ea31b87cb",
+      "result": "UNIQUE_MATCH",
+      "stage": "INVALID"
+    },
+    {
+      "id": "01a096ff-de5f-7759-b908-764cbef1d470",
+      "result": "UNIQUE_MATCH",
+      "stage": "VALID"
+    },
+    {
+      "id": "01a09726-65f4-76b8-a193-97bf1187e131",
+      "result": "UNIQUE_MATCH",
+      "stage": "VALID"
+    },
+    {
+      "id": "01a09729-bb77-76eb-b347-4f77e31f3047",
+      "result": "UNIQUE_MATCH",
+      "stage": "AWAITING_SUPPLEMENT"
+    },
+    {
+      "id": "01a09729-ed98-779c-90f5-3ec748faefc9",
+      "result": "UNIQUE_MATCH",
+      "stage": "PENDING_TEACHER"
+    },
+    {
+      "id": "01a09729-ef77-7759-bef8-fe0203276071",
+      "result": "UNIQUE_MATCH",
+      "stage": "VALID"
+    },
+    {
+      "id": "01a09748-54dd-72d1-aaff-47a1a130d198",
+      "result": "UNIQUE_MATCH",
+      "stage": "VALID"
+    },
+    {
+      "id": "01a0974d-0410-75d1-abaa-a33dec804c0c",
+      "result": "UNIQUE_MATCH",
+      "stage": "INVALID"
+    },
+    {
+      "id": "01a0974d-05e2-738c-916c-b33d045cb547",
+      "result": "UNIQUE_MATCH",
+      "stage": "VALID"
+    },
+    {
+      "id": "01a09750-3045-740f-9017-fbbbeab51033",
+      "result": "UNIQUE_MATCH",
+      "stage": "VALID"
+    },
+    {
+      "id": "01a0975e-eae5-71aa-b51f-e26801da1f07",
+      "result": "UNIQUE_MATCH",
+      "stage": "AWAITING_SUPPLEMENT"
+    },
+    {
+      "id": "01a0975f-1d32-7373-b772-2bc58fa109f9",
+      "result": "UNIQUE_MATCH",
+      "stage": "PENDING_TEACHER"
+    },
+    {
+      "id": "01a0975f-1f0a-735f-aa54-be5dcc8a5674",
+      "result": "UNIQUE_MATCH",
+      "stage": "VALID"
+    },
+    {
+      "id": "01a09762-0c4a-719b-8c70-cb295f74894c",
+      "result": "UNIQUE_MATCH",
+      "stage": "VALID"
+    },
+    {
+      "id": "01a09768-9e0d-77df-8342-cd13660c8045",
+      "result": "UNIQUE_MATCH",
+      "stage": "INVALID"
+    },
+    {
+      "id": "01a09768-9fed-776b-be99-6780afcff43d",
+      "result": "UNIQUE_MATCH",
+      "stage": "VALID"
+    },
+    {
+      "id": "01a0978b-e753-73b8-b442-0ce99759481d",
+      "result": "UNIQUE_MATCH",
+      "stage": "VALID"
+    },
+    {
+      "id": "01a09790-0922-73c8-acd4-2a34300e3769",
+      "result": "UNIQUE_MATCH",
+      "stage": "VALID"
+    },
+    {
+      "id": "01a09793-abea-77a0-9e44-dd5a597982da",
+      "result": "UNIQUE_MATCH",
+      "stage": "VALID"
+    },
+    {
+      "id": "01a09797-8f51-70d3-9aed-4e38b12c090d",
+      "result": "UNIQUE_MATCH",
+      "stage": "VALID"
+    },
+    {
+      "id": "01a097a4-26d6-761a-9100-8f5e62dca6bc",
+      "result": "UNIQUE_MATCH",
+      "stage": "VALID"
+    },
+    {
+      "id": "01a097b2-b5a1-709d-855c-b89feeaf1980",
+      "result": "UNIQUE_MATCH",
+      "stage": "VALID"
+    },
+    {
+      "id": "01a09823-884e-738a-984d-0ec20a724520",
+      "result": "UNIQUE_MATCH",
+      "stage": "VALID"
+    }
+  ],
+  "scope": "Bounded production history comparison; no mutation and no teacher comments exposed. Review facts use persisted creation time; review events must precede notification UUIDv7 issuance time and ID. Stored title/body must match uniquely."
+}

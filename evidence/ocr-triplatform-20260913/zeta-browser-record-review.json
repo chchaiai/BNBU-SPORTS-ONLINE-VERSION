@@ -1,0 +1,30 @@
+{
+  "check": "ZETA_BROWSER_RECORD_TEACHER_HTTP_REVIEW",
+  "observedAt": "2026-09-13T00:21:01.377Z",
+  "recordId": "01a09822-6a8b-7719-93c8-e992bddfe59f",
+  "beforeStage": "PENDING_TEACHER",
+  "after": {
+    "recordId": "01a09822-6a8b-7719-93c8-e992bddfe59f",
+    "stage": "VALID",
+    "materialVersion": 1,
+    "supplementUsed": false,
+    "publicReason": null,
+    "publicComment": null,
+    "version": 2,
+    "materials": [
+      {
+        "materialVersion": 1,
+        "mediaId": "01a09822-6b45-77bb-afc4-701bdedb90c4",
+        "position": 1
+      }
+    ],
+    "supplement": null,
+    "credit": {
+      "eligibleMinutes": 1,
+      "creditedMinutes": 1,
+      "reason": null
+    }
+  },
+  "replayEqual": true,
+  "scope": "Synthetic acceptance decision via responsible teacher HTTP; not teacher browser acceptance"
+}

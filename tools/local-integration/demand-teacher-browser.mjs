@@ -1,0 +1,53 @@
+import fs from 'node:fs';
+import assert from 'node:assert/strict';
+import {chromium} from '../../.local/browser-test/node_modules/playwright-core/index.mjs';
+const fixture=JSON.parse(fs.readFileSync('.local/v81-browser-state/demand-fixture.json'));
+const output='.local/demand-browser-evidence';
+const browser=await chromium.launch({executablePath:'C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe',headless:true});
+const page=await browser.newPage({viewport:{width:1280,height:900}});page.setDefaultTimeout(30000);
+page.on('pageerror',e=>console.log(JSON.stringify({browserError:e.message})));
+try{
+ await page.goto('http://127.0.0.1:4275/');await page.locator('#login-account').fill(fixture.teacherEmail);await page.locator('#login-password').fill(fixture.password);await page.getByRole('button',{name:'登录',exact:true}).click();
+ await page.getByRole('button',{name:'通知',exact:true}).waitFor();
+ await page.locator('article.teacher-course-card').filter({hasText:'Synthetic Active Course 1'}).getByRole('button',{name:'进入课程'}).click();
+ await page.getByRole('button',{name:'保存补卡范围',exact:true}).waitFor();
+ const section=page.locator('section.panel').filter({has:page.getByRole('heading',{name:'历史补卡',exact:true})});
+ await section.locator('input[type=date]').first().fill('2026-08-02');await section.getByRole('button',{name:'保存补卡范围',exact:true}).click();
+ await page.getByText('历史补卡范围已保存。',{exact:true}).waitFor();
+ await section.screenshot({path:output+'/teacher-history-settings.png'});
+ assert.equal(await page.locator('#course-minimum-minutes').inputValue(),'35');
+ assert.equal(await page.locator('#course-daily-limit').inputValue(),'2');
+ assert.equal(await page.locator('#course-weekly-limit').inputValue(),'5');
+ await page.getByRole('dialog').getByRole('button',{name:/关闭/}).first().click();
+ await page.getByRole('button',{name:'打卡审核',exact:true}).click();
+ await page.getByText('Synthetic Permanent Student',{exact:true}).first().waitFor();
+ await page.screenshot({path:output+'/teacher-history-records.png',fullPage:true});
+ await page.getByRole('button',{name:'查看记录'}).click();
+ await page.getByText('历史补录 · 必须人工审核',{exact:true}).first().waitFor();
+ await page.screenshot({path:output+'/teacher-history-review.png',fullPage:true});
+ await page.locator('button.checkin-description').first().click();
+ await page.getByText('Synthetic Camera',{exact:true}).waitFor();
+ await page.getByText('拍摄时间',{exact:true}).waitFor();
+ await page.locator('dl[aria-label="照片拍摄信息"]').scrollIntoViewIfNeeded();
+ await page.screenshot({path:output+'/teacher-photo-exif.png',fullPage:true});
+ await page.getByRole('button',{name:'完成查看',exact:true}).click();
+ while(await page.locator('.record-audit-control.is-pending').count()){
+  const before=await page.locator('.record-audit-control.is-pending').count();
+  await page.locator('.record-audit-control.is-pending').first().getByRole('radio',{name:'通过',exact:true}).click();
+  await page.getByRole('button',{name:'确认通过',exact:true}).click();
+  await page.getByRole('dialog').waitFor({state:'hidden'});
+  await page.locator('.record-audit-control').first().waitFor();
+  await page.waitForFunction(count=>document.querySelectorAll('.record-audit-control.is-pending').length<count,before);
+ }
+ const login=await fetch('http://127.0.0.1:3199/api/v1/auth/password-login',{method:'POST',headers:{'content-type':'application/json','idempotency-key':crypto.randomUUID()},body:JSON.stringify({account:fixture.teacherEmail,password:fixture.password})});
+ const auth=(await login.json()).data;
+ const response=await fetch('http://127.0.0.1:3199/api/v1/exercise-records?limit=50',{headers:{authorization:'Bearer '+auth.accessToken}});
+ const records=(await response.json()).data.filter(record=>record.enrollmentId===fixture.enrollmentId && record.recordOrigin==='HISTORICAL' && record.businessDate===fixture.past);
+ console.log(JSON.stringify(records.map(r=>({id:r.id,date:r.businessDate,credit:r.creditedDurationSeconds,stage:r.workflowStage,reason:r.creditReason}))));
+ assert.equal(records.filter(record=>record.creditedDurationSeconds>0).length,2);
+ assert.equal(records.reduce((sum,record)=>sum+record.creditedDurationSeconds,0),6000);
+ await page.screenshot({path:output+'/teacher-daily-cap.png',fullPage:true});
+ console.log(JSON.stringify({check:'TEACHER_BROWSER_SETTINGS_EXIF_REVIEW_DAILY_CAP',result:'PASS'}));
+ fs.writeFileSync(output+'/teacher-dom.txt' ,await page.locator('body').innerText());
+ console.log(JSON.stringify({check:'TEACHER_REAL_LOGIN',result:'PASS'}));
+}catch(error){await page.screenshot({path:output+'/teacher-failure.png',fullPage:true});fs.writeFileSync(output+'/teacher-failure.txt',await page.locator('body').innerText());throw error;}finally{await browser.close();}

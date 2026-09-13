@@ -15,7 +15,7 @@ import { ApplicationError } from '../errors/application-error.js';
 import { MediaStoragePort, type MediaObjectMetadata } from './media-storage.port.js';
 import { storageCredentials } from './tencent-cvm-role-credential-provider.js';
 
-const STORAGE_KEY_PATTERN = /^media\/[0-9a-f-]{36}\/[0-9a-f-]{36}\/(image|video)$/;
+const STORAGE_KEY_PATTERN = /^media\/[0-9a-f-]{36}\/[0-9a-f-]{36}\/(image|video|document)$/;
 
 @Injectable()
 export class S3MediaStorageAdapter extends MediaStoragePort implements OnModuleDestroy {

@@ -135,12 +135,41 @@ export class V81Service {
       ${facts.requestId},${version},${JSON.stringify(data)}::jsonb,${this.clock.now()},'SUCCEEDED')`;
   }
   async rules(principal: AuthenticatedPrincipal, id: string) {
-    await this.section(this.prisma, principal, id);
+    const section=await this.section(this.prisma, principal, id);
     const rows = await this.prisma.$queryRaw<
       Record<string, unknown>[]
     >`SELECT * FROM v81_course_rules WHERE class_section_id=${id}::uuid AND organization_id=${principal.organizationId}::uuid`;
     if (!rows[0]) throw new ApplicationError('PERMISSION_RESOURCE_NOT_FOUND', 404);
-    return rows[0];
+    const goal = await this.readExerciseGoal(this.prisma, principal.organizationId);
+    const settled=await this.prisma.$queryRaw<{id:string}[]>`SELECT id FROM v81_settlement_report_revisions WHERE class_section_id=${id}::uuid LIMIT 1`;
+    const historical=!!section.closedAt||section.semester.status!=='CURRENT'||settled.length>0;
+    return { ...rows[0], maximum_minutes: rows[0].maximum_minutes ?? Math.max(60, Number(rows[0].minimum_minutes)),
+      global_target_minutes: historical?Number(rows[0].course_target)+Number(rows[0].general_target):goal.totalTargetMinutes, global_target_version: goal.version,
+      allocation_pending: !historical&&(rows[0].target_global_version !== goal.version || Number(rows[0].course_target) + Number(rows[0].general_target) !== goal.totalTargetMinutes) };
+  }
+  private async readExerciseGoal(tx: Transaction | PrismaService, organizationId: string) {
+    const rows = await tx.$queryRaw<{ total_target_minutes: number; version: number }[]>`
+      SELECT total_target_minutes,version FROM v81_exercise_goal_settings WHERE organization_id=${organizationId}::uuid`;
+    return { totalTargetMinutes: rows[0]?.total_target_minutes ?? 1200, version: rows[0]?.version ?? 0 };
+  }
+  async exerciseGoal(principal: AuthenticatedPrincipal) {
+    if (principal.role !== 'TEACHER') await requireAdminAccess(this.prisma, principal, 'SUPER');
+    return this.readExerciseGoal(this.prisma, principal.organizationId);
+  }
+  async saveExerciseGoal(principal: AuthenticatedPrincipal, input: { totalTargetMinutes: number; expectedVersion: number }, facts: Facts) {
+    return this.mutation(principal, 'saveV81ExerciseGoal', principal.organizationId, input, facts, async tx => {
+      await requireAdminAccess(tx, principal, 'SUPER');
+      const previous = await this.readExerciseGoal(tx, principal.organizationId);
+      if (previous.version !== input.expectedVersion) throw new ApplicationError('CONFLICT_VERSION_MISMATCH',409);
+      if (previous.totalTargetMinutes === input.totalTargetMinutes) return previous;
+      const version = previous.version + 1;
+      await tx.$executeRaw`INSERT INTO v81_exercise_goal_settings(organization_id,total_target_minutes,version,updated_by,updated_at)
+        VALUES(${principal.organizationId}::uuid,${input.totalTargetMinutes},${version},${principal.userId}::uuid,${this.clock.now()})
+        ON CONFLICT(organization_id) DO UPDATE SET total_target_minutes=EXCLUDED.total_target_minutes,version=EXCLUDED.version,updated_by=EXCLUDED.updated_by,updated_at=EXCLUDED.updated_at`;
+      await this.event(tx,principal,'EXERCISE_GOAL',principal.organizationId,'GLOBAL_TARGET_CHANGED',version,
+        {previousTotalTargetMinutes:previous.totalTargetMinutes,totalTargetMinutes:input.totalTargetMinutes,newCheckins:'PAUSED_UNTIL_TEACHER_ALLOCATION'},facts);
+      return {totalTargetMinutes:input.totalTargetMinutes,version};
+    });
   }
   async saveRules(
     principal: AuthenticatedPrincipal,
@@ -158,15 +187,44 @@ export class V81Service {
     return this.mutation(principal, 'saveV81CourseRules', id, input, facts, async (tx) => {
       await tx.$queryRaw`SELECT id FROM class_sections WHERE id=${id}::uuid AND organization_id=${principal.organizationId}::uuid FOR UPDATE`;
       const section = await this.section(tx, principal, id);
+      const goal = await this.readExerciseGoal(tx, principal.organizationId);
+      if ((input.globalTargetVersion ?? 0) !== goal.version) throw new ApplicationError('CONFLICT_VERSION_MISMATCH',409);
+      if (input.courseTarget + input.generalTarget !== goal.totalTargetMinutes)
+        throw new ApplicationError('VALIDATION_FAILED',422,{reason:'COURSE_TARGET_TOTAL_MISMATCH'});
       await requireUnsettledCourse(tx, principal.organizationId, id);
       if (section.semester.status !== 'CURRENT' || section.closedAt)
         throw new ApplicationError('CONFLICT_STATE_TRANSITION', 409);
       const old = await tx.$queryRaw<
-        { version: number; published_at: Date | null }[]
-      >`SELECT version,published_at FROM v81_course_rules WHERE class_section_id=${id}::uuid FOR UPDATE`;
+        { version: number; published_at: Date | null; course_target: number; general_target: number;
+          maximum_minutes: number | null; target_global_version: number;
+          template_id: string | null; regular_deadline: Date; closing_deadline: Date; settlement_planned_at: Date }[]
+      >`SELECT * FROM v81_course_rules WHERE class_section_id=${id}::uuid FOR UPDATE`;
       if ((old[0]?.version ?? 0) !== input.expectedVersion)
         throw new ApplicationError('CONFLICT_VERSION_MISMATCH', 409);
-      if (old[0]?.published_at) throw new ApplicationError('CONFLICT_STATE_TRANSITION', 409);
+      const maximumMinutes = input.maximumMinutes ?? old[0]?.maximum_minutes ?? Math.max(60,input.minimumMinutes);
+      if (maximumMinutes < input.minimumMinutes) throw new ApplicationError('VALIDATION_FAILED',422,{reason:'MAXIMUM_BELOW_MINIMUM'});
+      if (old[0]?.published_at) {
+        const previous = old[0];
+        if (!input.publish || input.templateId !== previous.template_id ||
+          (previous.target_global_version === goal.version && (input.courseTarget !== previous.course_target || input.generalTarget !== previous.general_target)) ||
+          Date.parse(input.regularDeadline) !== previous.regular_deadline.getTime() ||
+          Date.parse(input.closingDeadline) !== previous.closing_deadline.getTime() ||
+          Date.parse(input.settlementPlannedAt) !== previous.settlement_planned_at.getTime())
+          throw new ApplicationError('CONFLICT_STATE_TRANSITION', 409);
+        await tx.$executeRaw`UPDATE v81_course_rules SET minimum_minutes=${input.minimumMinutes},
+          maximum_minutes=${maximumMinutes},course_target=${input.courseTarget},general_target=${input.generalTarget},target_global_version=${goal.version},
+          weekly_limit=${input.weeklyLimit},daily_limit=${input.dailyLimit ?? 1},version=version+1
+          WHERE class_section_id=${id}::uuid`;
+        await this.event(tx, principal, 'COURSE_RULES', id, 'FUTURE_RULES_UPDATED', input.expectedVersion + 1,
+          { minimumMinutes: input.minimumMinutes, maximumMinutes, courseTarget:input.courseTarget,generalTarget:input.generalTarget,globalTargetVersion:goal.version,weeklyLimit: input.weeklyLimit, dailyLimit: input.dailyLimit ?? 1,
+            effectiveFor: 'NEW_RECORDS',maximumEffectiveFor:'NEW_SESSIONS' }, facts);
+        if(previous.course_target!==input.courseTarget||previous.general_target!==input.generalTarget){
+          const members=await tx.enrollment.findMany({where:{classSectionId:id,organizationId:principal.organizationId},select:{id:true},orderBy:{id:'asc'}});
+          for(const member of members)await recomputeCredits(tx,member.id,this.clock.now());
+        }
+        return { classSectionId: id, ...input, version: input.expectedVersion + 1,
+          publishedAt: previous.published_at!.toISOString() };
+      }
       if (input.publish && !input.templateId) throw new ApplicationError('VALIDATION_FAILED', 422, { reason: 'PUBLISHED_TEMPLATE_REQUIRED' });
       if (input.templateId) {
         const templates = await tx.$queryRaw<{ id: string }[]>`SELECT id FROM v81_rule_templates
@@ -178,6 +236,7 @@ export class V81Service {
         planned = new Date(input.settlementPlannedAt);
       if (
         closing.getTime() - regular.getTime() !== 7 * 86_400_000 ||
+        regular.getTime() < (section.checkInEndDate ?? section.checkInStartDate ?? section.semester.startDate).getTime() - 8 * 3_600_000 ||
         planned < closing ||
         closing.getTime() > section.semester.endDate.getTime() + 86_400_000 - 8 * 3_600_000
       )
@@ -215,10 +274,10 @@ export class V81Service {
           });
       }
       const published = input.publish ? this.clock.now() : null;
-      await tx.$executeRaw`INSERT INTO v81_course_rules(class_section_id,organization_id,minimum_minutes,weekly_limit,course_target,general_target,regular_deadline,closing_deadline,settlement_planned_at,published_at,version,template_id)
-        VALUES (${id}::uuid,${principal.organizationId}::uuid,${input.minimumMinutes},${input.weeklyLimit},${input.courseTarget},${input.generalTarget},${regular},${closing},${planned},${published},${input.expectedVersion + 1},${input.templateId ?? null}::uuid)
-        ON CONFLICT(class_section_id) DO UPDATE SET minimum_minutes=EXCLUDED.minimum_minutes,weekly_limit=EXCLUDED.weekly_limit,course_target=EXCLUDED.course_target,general_target=EXCLUDED.general_target,
-        regular_deadline=EXCLUDED.regular_deadline,closing_deadline=EXCLUDED.closing_deadline,settlement_planned_at=EXCLUDED.settlement_planned_at,published_at=EXCLUDED.published_at,version=EXCLUDED.version,template_id=EXCLUDED.template_id`;
+      await tx.$executeRaw`INSERT INTO v81_course_rules(class_section_id,organization_id,minimum_minutes,weekly_limit,daily_limit,course_target,general_target,regular_deadline,closing_deadline,settlement_planned_at,published_at,version,template_id,maximum_minutes,target_global_version)
+        VALUES (${id}::uuid,${principal.organizationId}::uuid,${input.minimumMinutes},${input.weeklyLimit},${input.dailyLimit ?? 1},${input.courseTarget},${input.generalTarget},${regular},${closing},${planned},${published},${input.expectedVersion + 1},${input.templateId ?? null}::uuid,${maximumMinutes},${goal.version})
+        ON CONFLICT(class_section_id) DO UPDATE SET minimum_minutes=EXCLUDED.minimum_minutes,weekly_limit=EXCLUDED.weekly_limit,daily_limit=EXCLUDED.daily_limit,course_target=EXCLUDED.course_target,general_target=EXCLUDED.general_target,
+        regular_deadline=EXCLUDED.regular_deadline,closing_deadline=EXCLUDED.closing_deadline,settlement_planned_at=EXCLUDED.settlement_planned_at,published_at=EXCLUDED.published_at,version=EXCLUDED.version,template_id=EXCLUDED.template_id,maximum_minutes=EXCLUDED.maximum_minutes,target_global_version=EXCLUDED.target_global_version`;
       if (input.publish) {
         if (section.status !== 'ACTIVE') throw new ApplicationError('CONFLICT_STATE_TRANSITION', 409);
         if (!section.isEnrollmentOpen) {
@@ -255,9 +314,11 @@ export class V81Service {
       sort: 'id', limit: query.limit };
     const position = this.cursors.decode(query.cursor, binding);
     return this.prisma.$transaction(async (tx) => {
-      const rows = await tx.$queryRaw<(Workflow & { record_id: string; session_id: string; class_section_id: string })[]>`
-        SELECT w.*,r.session_id,r.class_section_id FROM v81_record_workflows w
+      const rows = await tx.$queryRaw<(Workflow & { record_id: string; session_id: string; class_section_id: string;
+        course_name:string;started_at:Date;sport_type:string;sport_name:string|null;actual_duration_seconds:bigint })[]>`
+        SELECT w.*,r.session_id,r.class_section_id,c.display_name AS course_name,session.started_at,r.sport_type,r.sport_name,r.actual_duration_seconds FROM v81_record_workflows w
         JOIN exercise_records r ON r.id=w.record_id JOIN student_profiles s ON s.id=r.student_id
+        JOIN class_sections c ON c.id=r.class_section_id JOIN exercise_sessions session ON session.id=r.session_id
         WHERE w.organization_id=${principal.organizationId}::uuid AND s.user_id=${principal.userId}::uuid
           AND w.stage='AWAITING_SUPPLEMENT' AND (${position?.id ?? null}::uuid IS NULL OR r.id>${position?.id ?? null}::uuid)
         ORDER BY r.id LIMIT ${query.limit + 1}`;
@@ -268,6 +329,8 @@ export class V81Service {
         const clock = await this.deadline(tx, principal.organizationId, row.class_section_id, row, now);
         if (!clock) throw new ApplicationError('SYSTEM_DATA_INTEGRITY_ERROR', 500);
         items.push({ recordId: row.record_id, sessionId: row.session_id, workflowVersion: row.version,
+          classSectionId:row.class_section_id,courseName:row.course_name,startedAt:row.started_at.toISOString(),sportType:row.sport_type,sportName:row.sport_name,
+          actualDurationSeconds:Number(row.actual_duration_seconds),source:'TEACHER_REVIEW',
           stage: row.stage, reasonCode: row.public_reason, publicComment: row.public_comment,
           studentVisibleReason: row.public_reason, remainingSeconds: Math.ceil(clock.remainingMs / 1000),
           deadlineAt: clock.deadline.toISOString(), paused: clock.paused, expired: clock.expired });

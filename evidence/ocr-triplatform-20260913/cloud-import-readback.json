@@ -1,0 +1,26 @@
+{
+  "check": "CLOUD_PERSISTED_IMPORT_READBACK",
+  "observedAt": "2026-09-12T19:11:56.665Z",
+  "checks": [
+    {
+      "operationId": "getV81OcrJob",
+      "jobId": "01a096c2-7e78-76f0-bc6b-59ac7bc96f24",
+      "status": "SUCCEEDED",
+      "resultAttempt": 1,
+      "adminStatus": 403
+    },
+    {
+      "operationId": "getV81OcrJob",
+      "jobId": "01a096c2-9c95-724e-a682-f37047dadd7a",
+      "status": "SUCCEEDED",
+      "resultAttempt": 1,
+      "adminStatus": 403
+    },
+    {
+      "operationId": "getCurrentRosterImport",
+      "rosterImportId": "01a096e8-e1c7-712c-b62c-f99a5a87d50e"
+    }
+  ],
+  "allChecksCompleted": true,
+  "newProviderCalls": 0
+}

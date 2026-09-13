@@ -1,0 +1,20 @@
+{
+  "result": "PASS",
+  "release": "portal-feedback-labels-20260913",
+  "imageId": "sha256:9916b2d49b5f681e8117c3cb3bfe96f2a689564738806bea0545115e950ea639",
+  "typecheck": "PASS",
+  "build": "PASS",
+  "tests": "43/43",
+  "browser": {
+    "statusLabels": [
+      "全部",
+      "待受理",
+      "受理中",
+      "待技术团队处理",
+      "处理完成",
+      "已关闭"
+    ],
+    "closedFilterRows": 2
+  },
+  "goalComplete": false
+}

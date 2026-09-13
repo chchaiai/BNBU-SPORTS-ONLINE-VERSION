@@ -1,0 +1,14 @@
+{
+  "check": "CLOUD_REVIEW_COMPATIBILITY_BOUNDARIES",
+  "observedAt": "2026-09-12T19:36:56.350Z",
+  "recordId": "01a096f0-bb67-73ee-a57f-3f4a8897d6a6",
+  "checks": [
+    "V81_REOPEN_REQUIRES_FACT_CORRECTION",
+    "FINAL_RECORD_LEGACY_REVIEW_DENIED",
+    "BATCH_ITEM_DENIAL_REPLAY_PRESERVES_FINAL_FACTS"
+  ],
+  "allChecksCompleted": true,
+  "limitations": [
+    "Denial paths only; batch HTTP 200 is not successful review acceptance"
+  ]
+}

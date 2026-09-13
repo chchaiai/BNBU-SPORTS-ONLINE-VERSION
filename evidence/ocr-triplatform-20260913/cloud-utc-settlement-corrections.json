@@ -1,0 +1,62 @@
+{
+  "check": "CLOUD_SETTLEMENT_AND_CORRECTIONS",
+  "observedAt": "2026-09-12T20:56:53.364Z",
+  "organizationId": "01a096c2-20a2-706b-8c69-802f67dee12c",
+  "sectionId": "01a09760-8764-727d-aaa9-b00210ac2fc5",
+  "checks": [
+    "REAL_DEADLINE_INITIAL_CONFIRM_REPLAY_SAVED_READ",
+    "SAVED_XLSX_FACTS_AND_STUDENT_DENIAL",
+    "SETTLED_PHYSICAL_AND_GRADE_CORRECTION_REPLAY_NEW_REPORTS",
+    "REVIEW_CORRECTION_NEW_VERSIONS_ORIGINAL_SNAPSHOT_IMMUTABLE",
+    "FINAL_SETTLEMENT_CHECK_CLEAR"
+  ],
+  "reports": [
+    {
+      "version": 1,
+      "kind": "INITIAL",
+      "reportSha256": "18187ff19ebadcabef0449ea591b60c3a9c507271cfbb61fc707eded91546c39"
+    },
+    {
+      "version": 2,
+      "kind": "CORRECTION",
+      "reportSha256": "15f0fb22188207d3a78b4f7270f641d0df7af7bdd49db271a16ca0c564fe849b"
+    },
+    {
+      "version": 3,
+      "kind": "CORRECTION",
+      "reportSha256": "aa1f2e8b94b51b00961434ab8380153a9c1997dea8bb0e1d26beadd0cd34e272"
+    },
+    {
+      "version": 4,
+      "kind": "CORRECTION",
+      "reportSha256": "f8cd3c35aa767824182feee39ea0e2a6c49aa395bd7af9319cd1605bf6a6efab"
+    },
+    {
+      "version": 5,
+      "kind": "CORRECTION",
+      "reportSha256": "2c08e26e17a7a638a4df406c583a61d2719f55fcdcffb2bb6470b56ab62d16ae"
+    }
+  ],
+  "exports": [
+    {
+      "version": 1,
+      "bytes": 14063,
+      "sha256": "10edf7df3e89f9c36a4312a916a7053fac0525bf3f8b3ac3c57b5edc0d224237"
+    },
+    {
+      "version": 5,
+      "bytes": 14104,
+      "sha256": "f2e46a18adb37df869af0a84df0af7202aebea46e2d46d18826cbfa6dd9dafa2"
+    },
+    {
+      "version": 1,
+      "bytes": 14063,
+      "sha256": "10edf7df3e89f9c36a4312a916a7053fac0525bf3f8b3ac3c57b5edc0d224237"
+    }
+  ],
+  "allChecksCompleted": true,
+  "limitations": [
+    "Synthetic historical baseline; live publication and email identity are separate acceptance",
+    "No student score disclosure; teacher XLSX files stored locally only"
+  ]
+}

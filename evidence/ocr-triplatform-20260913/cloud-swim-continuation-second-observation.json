@@ -1,0 +1,18 @@
+{
+  "check": "CLOUD_SWIM_LOCKED_BATCH_CONTINUATION",
+  "observedAt": "2026-09-12T21:39:19.795Z",
+  "organizationId": "01a096c2-20a2-706b-8c69-802f67dee12c",
+  "sessionId": "01a0978e-0f15-7458-b097-fbfdecf051d4",
+  "recordId": "01a0978f-019d-71fb-9988-e3e1e71ae2c5",
+  "checks": [
+    "PENDING_UPLOAD_BATCH_ACCEPTED_AND_LOCKED",
+    "UNFINISHED_BATCH_SUBMISSION_DENIED",
+    "ONE_FILE_READY_REMAINS_UNFINISHED_WITH_ORIGINAL_DEADLINE"
+  ],
+  "allChecksCompleted": false,
+  "limitations": [
+    "Within 30-minute continuation; exact expiry and maintenance suspension remain separate",
+    "Synthetic PNG transport, not native camera capture"
+  ],
+  "failureAnalysis": "Harness attempted new upload after locked intake; server correctly returned HTTP 422 MEDIA_BIND_TARGET_INVALID; original two files already continued successfully"
+}

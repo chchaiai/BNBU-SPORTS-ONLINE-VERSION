@@ -1,3 +1,4 @@
+import { isCourseClosureHistoricalMember } from '../enrollments/application/course-closure-memberships.js';
 import { Controller, Get, Injectable, Param, ParseUUIDPipe } from '@nestjs/common';
 import { PrismaService } from '../../common/database/prisma.service.js';
 import { ApplicationError } from '../../common/errors/application-error.js';
@@ -14,7 +15,8 @@ export class V81AdminPhysicalSummaryService {
   async get(principal: AuthenticatedPrincipal, classSectionId: string) {
     return this.prisma.$transaction(async tx => {
       await requireAdminAccess(tx, principal, 'COURSE_VIEW');
-      if (!await tx.classSection.findFirst({ where: { id: classSectionId, organizationId: principal.organizationId }, select: { id: true } }))
+      const section = await tx.classSection.findFirst({ where: { id: classSectionId, organizationId: principal.organizationId }, select: { id: true, status: true, closedAt: true } });
+      if (!section)
         throw new ApplicationError('PERMISSION_RESOURCE_NOT_FOUND', 404);
       const sources = await tx.$queryRaw<{ version: number; rows: { id: string; studentNumber: string | null; fullName: string | null }[] }[]>`
         SELECT c.version,c.source_rows AS rows FROM v81_current_confirmed_rosters c
@@ -28,7 +30,7 @@ export class V81AdminPhysicalSummaryService {
       const registration = projectRosterRegistration(source.rows.map(row => ({ id: row.id, studentNumber: row.studentNumber ?? '',
         fullName: row.fullName ?? '' })), members.map(row => ({ studentId: row.studentId, enrollmentId: row.id,
         studentNumber: row.student.studentNumber, fullName: row.student.fullName,
-        emailVerified: row.student.user.emailVerifiedAt !== null, enrolledInSection: row.status === 'ACTIVE' })));
+        emailVerified: row.student.user.emailVerifiedAt !== null, enrolledInSection: row.status === 'ACTIVE' || isCourseClosureHistoricalMember(row, section) })));
       const recorded = await tx.$queryRaw<{ enrollmentId: string }[]>`
         SELECT DISTINCT p.enrollment_id AS "enrollmentId" FROM v81_physical_result_revisions p
         JOIN enrollments e ON e.id=p.enrollment_id WHERE e.class_section_id=${classSectionId}::uuid

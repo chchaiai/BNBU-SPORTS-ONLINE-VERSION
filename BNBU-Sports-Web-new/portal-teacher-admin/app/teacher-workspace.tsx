@@ -23,6 +23,7 @@ import { AppSelect } from "./app-select";
 import { CourseSettlement } from "./course-settlement";
 import { MakeupWindowForm } from "./makeup-window-form";
 import { PhysicalResultForm } from "./physical-result-form";
+import {CourseHistorySettings} from "./course-history-settings";
 import { CourseClosure } from "./course-closure";
 import {revokeCourseInvite,createTeacherCourse,createCoursePublicationIntent,publishCourseRules,loadCourseRuleSettings,type CourseRules,type CourseTemplate} from './course-rules-api';
 import { businessDateTime } from "./business-time";
@@ -252,6 +253,7 @@ type CheckinRecord = {
   version?: number;
   reviewVersion?: number;
   workflowStage?: string;
+  recordOrigin?: string;
 };
 
 type Grade = {
@@ -313,6 +315,7 @@ type MaterialPreview = {
 type DialogState =
   | { type: "course-new" }
   | { type: "course-manage"; courseId: string }
+  | { type: "course-students"; courseId: string }
   | { type: "invite"; courseId: string }
   | { type: "invite-revoke"; courseId: string }
   | {
@@ -821,6 +824,7 @@ function AuditStatusSelector({
     >
       <div className="record-audit-label">
         <span>审核状态</span>
+        {record.recordOrigin === 'HISTORICAL' && <b>历史补录 · 必须人工审核</b>}
         <b>{record.workflowStage === 'PENDING_AI' ? '等待审核服务' : auditStatusLabels[record.auditStatus]}</b>
       </div>
       <div
@@ -1466,7 +1470,7 @@ export function TeacherWorkspace({
   };
   const [formError, setFormError] = useState<FormErrorState>("");
   const [makeupBusy, setMakeupBusy] = useState(true);
-  const [courseRuleSettings,setCourseRuleSettings]=useState<{templates:CourseTemplate[];rules:CourseRules|null}|null>(null);
+  const [courseRuleSettings,setCourseRuleSettings]=useState<{templates:CourseTemplate[];rules:CourseRules|null;goal:{totalTargetMinutes:number;version:number}}|null>(null);
   const coursePublicationRef=useRef<ReturnType<typeof createCoursePublicationIntent>|null>(null);
   const courseCreationRef=useRef<{name:string;key:string}|null>(null);
   const inviteRevocationRef=useRef<{token:string;key:string}|null>(null);
@@ -1477,7 +1481,7 @@ export function TeacherWorkspace({
     void loadCourseRuleSettings(dialog.courseId).then(settings=>{
       if(cancelled)return;
       setCourseRuleSettings(settings);
-      setForm(current=>({...current,templateId:settings.rules?.template_id??'',minimumMinutes:String(settings.rules?.minimum_minutes??30),weeklyLimit:String(settings.rules?.weekly_limit??3),...(settings.rules?{courseTarget:String(settings.rules.course_target/60),otherTarget:String(settings.rules.general_target/60)}:{})}));
+      setForm(current=>({...current,templateId:settings.rules?.template_id??'',minimumMinutes:String(settings.rules?.minimum_minutes??30),maximumMinutes:String(settings.rules?.maximum_minutes??60),weeklyLimit:String(settings.rules?.weekly_limit??3),dailyLimit:String(settings.rules?.daily_limit??1),...(settings.rules?{courseTarget:String(settings.rules.course_target/60),otherTarget:String(settings.rules.general_target/60)}:{courseTarget:'0',otherTarget:String(settings.goal.totalTargetMinutes/60)})}));
     }).catch(error=>{if(!cancelled)setFormError(toUserFacingError(error));});
     return()=>{cancelled=true;};
   },[mode,dialog]);
@@ -1569,9 +1573,9 @@ export function TeacherWorkspace({
       const nextStudents = sectionIds.length
         ? await loadTeacherStudents(sectionIds)
         : [];
-      const nextRecords = await loadSubmittedCheckins();
-      const knownIds = new Set(nextStudents.map((student) => student.id));
-      if (nextRecords.some((record) => !knownIds.has(record.studentId)))
+      const nextRecords = await loadSubmittedCheckins(sectionIds);
+      const knownIds = new Set(nextStudents.map((student) => `${student.courseId}:${student.id}`));
+      if (nextRecords.some((record) => !knownIds.has(`${record.courseId}:${record.studentId}`)))
         throw new Error("RECORD_STUDENT_PROJECTION_MISSING");
       const [nextGrades, nextExemptions] = await Promise.all([
         loadTeacherGrades(nextStudents),
@@ -2280,11 +2284,31 @@ export function TeacherWorkspace({
   };
 
   const saveCourseSettings = async (courseId: string) => {
-    if(mode==='real'&&courseRuleSettings?.rules?.published_at){setFormError('课程已发布，规则和时间安排已锁定。');return;}
+    if(mode === "real" && !courseRuleSettings){setFormError("课程目标尚未加载，请稍后重试。");return;}
     const selectedTemplate=courseRuleSettings?.templates.find(item=>item.id===form.templateId);
     if(mode==='real'&&!selectedTemplate){setFormError('请选择已发布的规则模板。');return;}
-    const minimumMinutes=Number(form.minimumMinutes),weeklyLimit=Number(form.weeklyLimit);
-    if(mode==='real'&&(!selectedTemplate!.rules.minimumMinutesOptions.includes(minimumMinutes)||!selectedTemplate!.rules.weeklyLimitOptions.includes(weeklyLimit))){setFormError('请选择模板允许的运动门槛和每周次数。');return;}
+    const minimumMinutes=Number(form.minimumMinutes),weeklyLimit=Number(form.weeklyLimit),dailyLimit=Number(form.dailyLimit??1);
+    const maximumMinutes=Number(form.maximumMinutes??60),globalTargetVersion=courseRuleSettings?.goal.version??0;
+    const targetMinutes=courseRuleSettings?.goal.totalTargetMinutes??1200;
+    if(mode==='real'&&(!Number.isInteger(maximumMinutes)||maximumMinutes<minimumMinutes||maximumMinutes>1440)){setFormError('单次最多运动时间须为整数分钟，不低于最低时长且不超过 1440 分钟。');return;}
+    if(!Number.isSafeInteger(dailyLimit)||dailyLimit<1){setFormError('每天最多次数必须为正整数。');return;}
+    if(mode==='real'&&(!Number.isInteger(minimumMinutes)||minimumMinutes<1||minimumMinutes>1440||!Number.isSafeInteger(weeklyLimit)||weeklyLimit<1||weeklyLimit>2147483647)){setFormError('最低运动时长须为 1–1440 分钟，每周次数须为正整数。');return;}
+    if (mode === 'real' && courseRuleSettings?.rules?.published_at) {
+      const previous = courseRuleSettings.rules;
+      const courseTarget=previous.allocation_pending?Math.round(Number(form.courseTarget)*60):previous.course_target;
+      const generalTarget=previous.allocation_pending?Math.round(Number(form.otherTarget)*60):previous.general_target;
+      if(!Number.isSafeInteger(courseTarget)||!Number.isSafeInteger(generalTarget)||courseTarget<0||generalTarget<0||courseTarget+generalTarget!==targetMinutes){setFormError(`两类目标需合计 ${targetMinutes} 分钟。`);return;}
+      try {
+        await publishCourseRules(courseId, { templateId: previous.template_id!, minimumMinutes, maximumMinutes,globalTargetVersion,weeklyLimit, dailyLimit,
+          courseTarget, generalTarget,
+          regularDeadline: previous.regular_deadline, closingDeadline: previous.closing_deadline,
+          settlementPlannedAt: previous.settlement_planned_at, expectedVersion: previous.version }, crypto.randomUUID());
+        await refreshTeacherData();
+        showToast('规则已保存，单次上限应用于之后新开始的打卡。');
+        closeDialog();
+      } catch (error) { setFormError(toUserFacingError(error)); }
+      return;
+    }
     const courseTarget = Number(form.courseTarget);
     const otherTarget = Number(form.otherTarget);
     if (
@@ -2301,9 +2325,9 @@ export function TeacherWorkspace({
     if (
       !Number.isInteger(courseTargetSeconds) ||
       !Number.isInteger(generalTargetSeconds) ||
-      courseTargetSeconds + generalTargetSeconds !== 72000
+      courseTargetSeconds + generalTargetSeconds !== targetMinutes*60
     ) {
-      setFormError("两类学时目标必须合计 20 小时，且精确到秒。");
+      setFormError(`两类学时目标必须合计 ${targetMinutes} 分钟。`);
       return;
     }
     const windowMode =
@@ -2417,7 +2441,7 @@ export function TeacherWorkspace({
       return;
     }
     try {
-      const fingerprint=JSON.stringify({courseId,checkinWindow,templateId:selectedTemplate!.id,minimumMinutes,weeklyLimit,courseTargetSeconds,generalTargetSeconds});
+      const fingerprint=JSON.stringify({courseId,checkinWindow,templateId:selectedTemplate!.id,minimumMinutes,maximumMinutes,globalTargetVersion,weeklyLimit,dailyLimit,courseTargetSeconds,generalTargetSeconds});
       if(coursePublicationRef.current&&coursePublicationRef.current.fingerprint!==fingerprint){
         setFormError('上次发布结果尚未确认，请先按原内容重试并核对结果。');return;
       }
@@ -2442,7 +2466,8 @@ export function TeacherWorkspace({
       const regularDeadline=new Date(`${semesterDeadline}T23:59:59+08:00`).toISOString();
       const closingDeadline=new Date(Date.parse(regularDeadline)+7*86400000).toISOString();
       await publishCourseRules(courseId,{
-        templateId:selectedTemplate!.id,minimumMinutes,
+        dailyLimit,
+        templateId:selectedTemplate!.id,minimumMinutes,maximumMinutes,globalTargetVersion,
         weeklyLimit,courseTarget:courseTargetSeconds/60,generalTarget:generalTargetSeconds/60,
         regularDeadline,closingDeadline,settlementPlannedAt:closingDeadline,expectedVersion:courseRuleSettings?.rules?.version??0,
       },key);
@@ -2476,7 +2501,7 @@ export function TeacherWorkspace({
   };
 
   const generateInvite = async (courseId: string): Promise<boolean> => {
-    const durationMinutes = Math.round(Number(form.inviteDurationMinutes || "30"));
+    const durationMinutes = Number(form.inviteDurationMinutes || "30");
     if (!Number.isInteger(durationMinutes) || durationMinutes < 5 || durationMinutes > 120) {
       showToast("邀请有效期须为 5–120 的整数分钟。");
       return false;
@@ -2496,8 +2521,7 @@ export function TeacherWorkspace({
       return true;
     }
     try {
-      const expiresAt = new Date(Date.now() + durationMinutes * 60 * 1000).toISOString();
-      const invite = await createCourseInvite(courseId, expiresAt);
+      const invite = await createCourseInvite(courseId, durationMinutes);
       setCourses((current) =>
         current.map((course) =>
           course.id === courseId
@@ -2951,8 +2975,8 @@ export function TeacherWorkspace({
       const recognition=['approve','adjust'].includes(decision)&&['校队认证','社团认证'].includes(item.kind);
       const courseRaw=Number(form.courseOffset??'0')*60,generalRaw=Number(form.otherOffset??'0')*60;
       const courseMinutes=Math.round(courseRaw),generalMinutes=Math.round(generalRaw);
-      if(recognition&&(!Number.isFinite(courseRaw)||!Number.isFinite(generalRaw)||courseRaw<0||generalRaw<0||Math.abs(courseRaw-courseMinutes)>1e-7||Math.abs(generalRaw-generalMinutes)>1e-7||courseMinutes+generalMinutes>1200)){
-        setFormError('两类认可量须为非负数并精确到整分钟，合计不得超过 20 小时。');return;
+      if(recognition&&(!Number.isFinite(courseRaw)||!Number.isFinite(generalRaw)||courseRaw<0||generalRaw<0||Math.abs(courseRaw-courseMinutes)>1e-7||Math.abs(generalRaw-generalMinutes)>1e-7||courseMinutes+generalMinutes>2147483647)){
+        setFormError('两类认可量须为非负数并精确到整分钟，且不超过课程相应目标。');return;
       }
       if(exemptionWriteLock.current)return;
       exemptionWriteLock.current=true;setExemptionWritePending(true);
@@ -3081,6 +3105,9 @@ export function TeacherWorkspace({
   const selectedCourseSummary = selectedCourse
     ? getCourseManagementSummary(selectedCourse)
     : undefined;
+  const regularDeadlineMinimum = form.dateRangeEnd || selectedCourse?.checkinWindow.dateRangeEnd || form.dateRangeStart || selectedCourse?.checkinWindow.dateRangeStart;
+  const regularDeadlineMaximum = currentSemester?.id === selectedCourse?.semesterId && currentSemester?.endsOn
+    ? new Date(Date.parse(`${currentSemester.endsOn.slice(0,10)}T00:00:00Z`) - 7 * 86400000).toISOString().slice(0,10) : undefined;
   const selectedStudent =
     dialog && "studentId" in dialog
       ? students.find((student) => student.id === dialog.studentId)
@@ -3253,6 +3280,10 @@ export function TeacherWorkspace({
                   </div>
                 </div>
                 <div className="course-card-footer">
+                  <button className="course-roster-reconciliation-button" type="button"
+                    onClick={() => openDialog({ type: 'course-students', courseId: course.id })}>
+                    学生名单 ({students.filter(student => student.courseId === course.id).length})
+                  </button>
                   <button
                     className="course-roster-reconciliation-button"
                     type="button"
@@ -3264,9 +3295,15 @@ export function TeacherWorkspace({
                   <button
                     className="course-invite-button"
                     type="button"
-                    onClick={() =>
-                      openDialog({ type: "invite", courseId: course.id })
-                    }
+                    onClick={async () => {
+                      try {
+                        if (mode === 'real' && !(await loadCourseRuleSettings(course.id)).rules?.published_at) {
+                          showToast('请点击“进入课程”，设置课程相关信息并保存发布后，再生成邀请二维码。');
+                          return;
+                        }
+                        openDialog({ type: "invite", courseId: course.id });
+                      } catch (error) { showToast(toUserFacingError(error).message); }
+                    }}
                   >
                     <QrCode size={15} aria-hidden="true" />
                     邀请二维码
@@ -4202,19 +4239,19 @@ export function TeacherWorkspace({
           tabs={
             <div className="grade-data-controls">
               <StatusTabs
-                ariaLabel="服务端成绩状态"
+                ariaLabel="成绩状态"
                 value={gradeView}
                 onChange={setGradeView}
                 options={[
                   { value: "all", label: "全部", count: courseGrades.length },
                   {
                     value: "recorded",
-                    label: "已生成",
+                    label: "已录入",
                     count: generatedGrades.length,
                   },
                   {
                     value: "pending",
-                    label: "未生成",
+                    label: "未录入",
                     count: missingGrades.length,
                   },
                   {
@@ -4225,14 +4262,14 @@ export function TeacherWorkspace({
                 ]}
               />
               <p className="admin-planned-banner">
-                本页显示教师手填的最终成绩，保存与发布均保留服务端历史版本。
+                填写并核对学生的最终成绩，保存后再统一发布到内部成绩册。
               </p>
 
-              <p className="record-audit-hint">当前接口不能把换算分发给学生，发布仍只形成内部成绩版本。</p>
+              <p className="record-audit-hint">内部成绩仅供教师管理，不向学生展示或推送。</p>
             </div>
           }
         >
-          <section className="table-surface" aria-label="服务端成绩册">
+          <section className="table-surface" aria-label="内部成绩册">
             <DataTable className="grade-table" minWidth={1220}>
               <thead>
                 <tr>
@@ -4295,8 +4332,8 @@ export function TeacherWorkspace({
             </DataTable>
             {!dataLoading && visibleServerGrades.length === 0 && (
               <EmptyState
-                title="当前筛选没有成绩投影"
-                description="切换状态，或等待服务端成绩任务生成后再刷新。"
+                title="当前筛选没有成绩记录"
+                description="请切换筛选条件，或先为学生录入最终成绩。"
               />
             )}
           </section>
@@ -4368,7 +4405,7 @@ export function TeacherWorkspace({
               ]}
             />
 
-            <p className="record-audit-hint">当前接口不能把换算分发给学生，发布仍只形成内部成绩版本。</p>
+            <p className="record-audit-hint">内部成绩仅供教师管理，不向学生展示或推送。</p>
           </div>
         }
       >
@@ -4835,6 +4872,16 @@ export function TeacherWorkspace({
         </Dialog>
       )}
 
+      {dialog?.type === 'course-students' && selectedCourse && (
+        <Dialog wide title={`${selectedCourse.name} · 学生名单`} description="本课程学生及其入班状态" close={closeDialog}>
+          <div className="table-wrap course-student-list"><table><thead><tr><th>学号</th><th>姓名</th><th>性别</th><th>年级</th><th>入班状态</th></tr></thead>
+            <tbody>{students.filter(student => student.courseId === selectedCourse.id).map(student =>
+              <tr key={student.enrollmentId || student.id}><td>{student.number}</td><td>{student.name}</td><td>{student.gender}</td><td>{student.grade}</td><td>{student.status === 'active' ? '在班' : '已退出'}</td></tr>)}</tbody>
+          </table></div>
+          {!students.some(student => student.courseId === selectedCourse.id) && <p>本课程暂无学生。</p>}
+        </Dialog>
+      )}
+
       {dialog?.type === "course-manage" && selectedCourse && (
         <Dialog
           wide
@@ -4915,8 +4962,9 @@ export function TeacherWorkspace({
 
           <div className="course-target-divider" role="separator" />
 
+          {mode === "real" && <CourseHistorySettings key={`history-${selectedCourse.id}`} classSectionId={selectedCourse.id} />}
           {mode !== "demo" && <CourseSettlement key={selectedCourse.id} classSectionId={selectedCourse.id} />}
-          {mode === "real" && <CourseClosure key={selectedCourse.id} classSectionId={selectedCourse.id} archived={selectedCourse.status==='ARCHIVED'} onClosed={()=>void refreshTeacherData()} />}
+          {mode === "real" && <CourseClosure key={selectedCourse.id} classSectionId={selectedCourse.id} archived={selectedCourse.status==='ARCHIVED'} onClosed={()=>{setDialog(null);void refreshTeacherData();}} />}
 
           <section
             className="course-target-section course-target-config"
@@ -4933,7 +4981,8 @@ export function TeacherWorkspace({
               </div>
             </div>
             <aside className="grade-publication-notice">
-              总目标为 1,200 分钟。课程发布后，运动门槛、周频次和时间安排锁定。
+              {courseRuleSettings ? `总目标为 ${courseRuleSettings.goal.totalTargetMinutes.toLocaleString("zh-CN")} 分钟。` : "正在读取课程总目标。"}
+              课程规则以服务端已发布版本为准。
             </aside>
             <div className="course-target-setting-list">
               <div className="course-target-setting">
@@ -4947,10 +4996,10 @@ export function TeacherWorkspace({
               <div className="course-target-setting">
                 <label htmlFor="course-v8-total-minutes">总目标</label>
                 <div className="course-target-unit-input">
-                  <input id="course-v8-total-minutes" type="number" value="1200" disabled aria-describedby="course-v8-total-help" />
+                  <input id="course-v8-total-minutes" type="number" value={courseRuleSettings?.goal.totalTargetMinutes??""} placeholder="读取中" disabled aria-describedby="course-v8-total-help" />
                   <span>分钟</span>
                 </div>
-                <p id="course-v8-total-help">按当前课程规则累计有效运动，目标合计 20 小时。</p>
+                <p id="course-v8-total-help">总目标由总管理员设置。{courseRuleSettings?.rules?.allocation_pending?'总目标已变更，请重新分配两类目标；保存前学生暂停新打卡。':''}</p>
               </div>
             </div>
             {(
@@ -4962,7 +5011,7 @@ export function TeacherWorkspace({
                 <div className="course-target-unit-input">
                   <input
                     id="course-target-course-hours"
-                    disabled={mode==='real'&&(!courseRuleSettings||!!courseRuleSettings.rules?.published_at)}
+                    disabled={mode==='real'&&(!courseRuleSettings||!!courseRuleSettings.rules?.published_at&&!courseRuleSettings.rules.allocation_pending)}
                     type="number"
                     min="0"
                     value={form.courseTarget ?? selectedCourse.courseTarget}
@@ -4982,7 +5031,7 @@ export function TeacherWorkspace({
                 <div className="course-target-unit-input">
                   <input
                     id="course-target-other-hours"
-                    disabled={mode==='real'&&(!courseRuleSettings||!!courseRuleSettings.rules?.published_at)}
+                    disabled={mode==='real'&&(!courseRuleSettings||!!courseRuleSettings.rules?.published_at&&!courseRuleSettings.rules.allocation_pending)}
                     type="number"
                     min="0"
                     value={form.otherTarget ?? selectedCourse.otherTarget}
@@ -4999,16 +5048,21 @@ export function TeacherWorkspace({
             )}
             {mode==='real'&&<div className="course-target-setting-list">
               <div className="course-target-setting">
-                <label htmlFor="course-minimum-minutes">运动门槛</label>
-                <select id="course-minimum-minutes" value={form.minimumMinutes??'30'} disabled={!courseRuleSettings||!form.templateId||!!courseRuleSettings.rules?.published_at} onChange={event=>updateForm('minimumMinutes',event.target.value)}>
-                  {(courseRuleSettings?.templates.find(item=>item.id===form.templateId)?.rules.minimumMinutesOptions??[30,45,60]).map(value=><option key={value} value={value}>{value} 分钟</option>)}
-                </select>
+                <label htmlFor="course-maximum-minutes">单次最多运动时间（分钟）</label>
+                <input id="course-maximum-minutes" type="number" min={form.minimumMinutes??'1'} max="1440" step="1" value={form.maximumMinutes??'60'} disabled={!courseRuleSettings||!form.templateId} onChange={event=>updateForm('maximumMinutes',event.target.value)}/>
+                <p>达到上限自动结束，单次最多计入相同分钟数；修改仅影响新开始的打卡。</p>
+              </div>
+              <div className="course-target-setting">
+                <label htmlFor="course-minimum-minutes">最低运动时长（分钟）</label><p>保存后仅对新增记录生效，已有记录继续采用原规则。</p>
+                <input id="course-minimum-minutes" type="number" min="1" max="1440" step="1" value={form.minimumMinutes??'30'} disabled={!courseRuleSettings||!form.templateId} onChange={event=>updateForm('minimumMinutes',event.target.value)}/>
               </div>
               <div className="course-target-setting">
                 <label htmlFor="course-weekly-limit">每周最多次数</label>
-                <select id="course-weekly-limit" value={form.weeklyLimit??'3'} disabled={!courseRuleSettings||!form.templateId||!!courseRuleSettings.rules?.published_at} onChange={event=>updateForm('weeklyLimit',event.target.value)}>
-                  {(courseRuleSettings?.templates.find(item=>item.id===form.templateId)?.rules.weeklyLimitOptions??[2,3,4]).map(value=><option key={value} value={value}>{value} 次</option>)}
-                </select>
+                <input id="course-weekly-limit" type="number" min="1" max="2147483647" step="1" value={form.weeklyLimit??'3'} disabled={!courseRuleSettings||!form.templateId} onChange={event=>updateForm('weeklyLimit',event.target.value)}/>
+              </div>
+              <div className="course-target-setting">
+                <label htmlFor="course-daily-limit">每天最多计入次数</label>
+                <input id="course-daily-limit" type="number" min="1" step="1" value={form.dailyLimit??'1'} disabled={!courseRuleSettings||!form.templateId} onChange={event=>updateForm('dailyLimit',event.target.value)}/>
               </div>
             </div>}
             <FormError message={formError} />
@@ -5045,10 +5099,12 @@ export function TeacherWorkspace({
               <Field
                 label="常规提交截止日期"
                 required
-                hint="此日期后不能开始或补交新的打卡记录。"
+                hint={`可设置范围：${regularDeadlineMinimum || '请先设置课程日期'} ～ ${regularDeadlineMaximum || '请先获取学期日期'}。不得早于打卡结束日期；学期结束前须保留完整 7 天收尾期。`}
               >
                 <input
                   type="date"
+                  min={regularDeadlineMinimum}
+                  max={regularDeadlineMaximum}
                   value={
                     form.semesterDeadline ??
                     selectedCourse.checkinWindow.semesterDeadline
@@ -5134,7 +5190,7 @@ export function TeacherWorkspace({
               description={
                 isActiveInvite
                   ? "将二维码投影给学生端扫码，或复制邀请码在学生端手动输入。学生确认资料且服务端校验成功后会立即成为课程成员。"
-                  : "邀请码失效后不能再用于加入课程。有效期 5–120 分钟，到期后仅一次 10 分钟宽限且不得刷新。"
+                  : "邀请有效期为 5–120 分钟。到期前已登记的学生可在到期后 10 分钟内完成入班，重复操作不会延长截止时间。"
               }
               close={closeDialog}
               footer={
@@ -5282,6 +5338,7 @@ export function TeacherWorkspace({
                         type="number"
                         min="5"
                         max="120"
+                        step="1"
                         value={form.inviteDurationMinutes ?? "30"}
                         onChange={(event) =>
                           updateForm("inviteDurationMinutes", event.target.value)
@@ -5289,7 +5346,7 @@ export function TeacherWorkspace({
                       />
                     </Field>
                     <p className="field-note">
-                      5–120，默认 30。到期后仅允许一次 10 分钟宽限，不能刷新续期。
+                      默认 30 分钟。到期后不再接受新登记；已登记流程的截止时间固定为邀请到期后 10 分钟。
                     </p>
                   </div>
                 </section>
@@ -5899,11 +5956,11 @@ export function TeacherWorkspace({
               : undefined;
           return (
             <Dialog
-              title={`${student?.name} · ${mode === "demo" ? "成绩录入" : "服务端成绩"}`}
+              title={`${student?.name} · ${mode === "demo" ? "成绩录入" : "成绩与体测"}`}
               description={
                 mode === "demo"
                   ? `系统已按性别默认 ${distance}，用时将依据“${selectedGrade.gradeGroup}”换算表生成内部换算分，不向学生披露。`
-                  : "教师填写整数最终成绩，保存为草稿；发布仅用于内部成绩管理，历史版本保留。"
+                  : "先填写内部最终成绩；需要补充体测时，在下方录入或导入原始资料。"
               }
               close={closeDialog}
               footer={
@@ -5921,7 +5978,7 @@ export function TeacherWorkspace({
                     disabled={gradeWritePending || (mode==='real' && gradeSettlement?.gradeId!==selectedGrade.id)}
                     onClick={() => saveGrade(selectedGrade.id)}
                   >
-                    {gradeSettlement?.settled?'保存成绩更正':'保存成绩'}
+                    {gradeWritePending?'正在保存…':gradeSettlement?.settled?'保存成绩更正':'保存最终成绩'}
                   </button>
                 </>
               }
@@ -5931,11 +5988,11 @@ export function TeacherWorkspace({
                 <p>
                   {mode === "demo"
                     ? `${selectedGrade.gender} · ${selectedGrade.gradeGroup} · ${distance}`
-                    : `后端成绩状态：${selectedGrade.published ? "已发布" : selectedGrade.finalGrade === undefined ? "未录入" : "草稿"} · 达标状态：${qualificationStatusLabel(selectedGrade.qualificationStatus)} · 总有效时长：${durationHoursLabel(selectedGrade.totalValidDurationSeconds)} · 最终分数：${selectedGrade.finalGrade ?? "尚未录入"}`}
+                    : `成绩状态：${selectedGrade.published ? "已发布" : selectedGrade.finalGrade === undefined ? "未录入" : "草稿"} · 达标状态：${qualificationStatusLabel(selectedGrade.qualificationStatus)} · 总有效时长：${durationHoursLabel(selectedGrade.totalValidDurationSeconds)} · 最终分数：${selectedGrade.finalGrade ?? "尚未录入"}`}
                 </p>
                 {mode === "demo" && selectedGrade.published && (
                   <aside className="inline-warning">
-                    该成绩已发布；保存修改后会立即更新学生端、发送强制通知并记录审计来源。
+                    该成绩已发布，修改后会保留历史版本；内部成绩不向学生展示或推送。
                   </aside>
                 )}
               </div>
@@ -6009,14 +6066,14 @@ export function TeacherWorkspace({
                 )}
                 </div>
               ) : (
-                <><PhysicalResultForm key={selectedGrade.enrollmentId} enrollmentId={selectedGrade.enrollmentId!} courseId={selectedGrade.courseId} gender={selectedGrade.gender} exempt={selectedGrade.enduranceStatus === "Exempt"} onSaved={()=>void refreshTeacherData()}/><Field label="最终成绩" required>
+                <><section className="grade-final-editor"><h3>内部最终成绩</h3><p>填写你核定的整数分数。下方体测资料不会自动改写最终成绩。</p><Field label="最终成绩（分）" required>
                   <input type="text" inputMode="numeric" value={form.finalGrade ?? ""}
                     disabled={gradeWritePending} onChange={(event) => updateForm("finalGrade", event.target.value)} />
                 </Field>{gradeSettlement?.gradeId===selectedGrade.id&&gradeSettlement.settled&&<>
                   <Field label="结算后成绩更正原因" required><textarea maxLength={1000} value={form.gradeCorrectionReason??''} disabled={gradeWritePending} onChange={event=>updateForm('gradeCorrectionReason',event.target.value)}/></Field>
                   <label><input type="checkbox" checked={form.gradeCorrectionPublished==='true'} disabled={gradeWritePending} onChange={event=>updateForm('gradeCorrectionPublished',String(event.target.checked))}/>将本次更正发布到内部成绩册</label>
                   <p>仅更正结算前已存在的成绩；原因用于审计，原成绩和原结算报告保留。待确认请求会按原内容重试。</p>
-                </>}</>
+                </>}</section><PhysicalResultForm key={selectedGrade.enrollmentId} enrollmentId={selectedGrade.enrollmentId!} courseId={selectedGrade.courseId} gender={selectedGrade.gender} exempt={selectedGrade.enduranceStatus === "Exempt"} onSaved={()=>void refreshTeacherData()}/></>
               )}
               <FormError message={formError} />
             </Dialog>

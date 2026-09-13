@@ -1,0 +1,419 @@
+{
+  "check": "CLOUD_POST_INVITE_BRAND_THREE_ROLE_READ_REGRESSION",
+  "productionRelease": "notification-locale-20260913",
+  "observedAt": "2026-09-13T04:25:30.529Z",
+  "organizationId": "01a096c2-20a2-706b-8c69-802f67dee12c",
+  "scope": "Read routes and student role denials; not full mutation or UI acceptance",
+  "passed": 51,
+  "total": 51,
+  "checks": [
+    {
+      "role": "student",
+      "path": "/me",
+      "status": 200,
+      "expected": 200,
+      "requestId": "01a09903-3e49-74d8-8a40-c9310a94c13a",
+      "pass": true
+    },
+    {
+      "role": "student",
+      "path": "/organizations/current",
+      "status": 200,
+      "expected": 200,
+      "requestId": "01a09903-3edd-75bd-9a57-e4edcbc1cb46",
+      "pass": true
+    },
+    {
+      "role": "student",
+      "path": "/semesters/current",
+      "status": 200,
+      "expected": 200,
+      "requestId": "01a09903-3f68-7309-a03b-8c00b0b122f9",
+      "pass": true
+    },
+    {
+      "role": "student",
+      "path": "/student-progress",
+      "status": 200,
+      "expected": 200,
+      "requestId": "01a09903-3ffc-7710-8538-ff831e3cab6e",
+      "pass": true
+    },
+    {
+      "role": "student",
+      "path": "/exercise-sessions/active",
+      "status": 200,
+      "expected": 200,
+      "requestId": "01a09903-408f-7491-abf5-9ee52371aeaf",
+      "pass": true
+    },
+    {
+      "role": "student",
+      "path": "/exercise-records",
+      "status": 200,
+      "expected": 200,
+      "requestId": "01a09903-4126-742e-8b63-6dbf80299ed2",
+      "pass": true
+    },
+    {
+      "role": "student",
+      "path": "/student/proof-todos",
+      "status": 200,
+      "expected": 200,
+      "requestId": "01a09903-41fb-777d-a19f-90154e131f53",
+      "pass": true
+    },
+    {
+      "role": "student",
+      "path": "/student/help-articles",
+      "status": 200,
+      "expected": 200,
+      "requestId": "01a09903-4293-71e2-b96b-3e1ec88a0cf4",
+      "pass": true
+    },
+    {
+      "role": "student",
+      "path": "/notifications",
+      "status": 200,
+      "expected": 200,
+      "requestId": "01a09903-431f-777d-b841-6bbdf965cb81",
+      "pass": true
+    },
+    {
+      "role": "student",
+      "path": "/me/preferences",
+      "status": 200,
+      "expected": 200,
+      "requestId": "01a09903-43ba-74e5-8c16-2d87652e4a52",
+      "pass": true
+    },
+    {
+      "role": "student",
+      "path": "/sport-catalog",
+      "status": 503,
+      "expected": 503,
+      "requestId": "01a09903-4448-75b0-9c7f-61e29f9ae5ef",
+      "pass": true
+    },
+    {
+      "role": "student",
+      "path": "/activity-conversion-rules",
+      "status": 403,
+      "expected": 403,
+      "requestId": "01a09903-44d7-71ad-b3d7-e14a6aed33ed",
+      "pass": true
+    },
+    {
+      "role": "student",
+      "path": "/enrollments/01a096e7-a6ce-73fe-826b-36728b8ba193",
+      "status": 200,
+      "expected": 200,
+      "requestId": "01a09903-4561-754c-b050-763d0286cf29",
+      "pass": true
+    },
+    {
+      "role": "student",
+      "path": "/enrollments/01a096e7-a6ce-73fe-826b-36728b8ba193/roster-status",
+      "status": 200,
+      "expected": 200,
+      "requestId": "01a09903-45fe-7247-ba78-9f354e113369",
+      "pass": true
+    },
+    {
+      "role": "student",
+      "path": "/student/enrollments/01a096e7-a6ce-73fe-826b-36728b8ba193/physical-result",
+      "status": 200,
+      "expected": 200,
+      "requestId": "01a09903-4696-70bc-807b-3dfe1072f9db",
+      "pass": true
+    },
+    {
+      "role": "student",
+      "path": "/student/enrollments/01a096e7-a6ce-73fe-826b-36728b8ba193/settlement-result",
+      "status": 200,
+      "expected": 200,
+      "requestId": "01a09903-472e-76fe-8680-ef6559f3b2cf",
+      "pass": true
+    },
+    {
+      "role": "student",
+      "path": "/enrollments/01a096e7-a6ce-73fe-826b-36728b8ba193/makeup-windows",
+      "status": 200,
+      "expected": 200,
+      "requestId": "01a09903-47be-73de-9d8b-7e8a181fd29a",
+      "pass": true
+    },
+    {
+      "role": "teacher",
+      "path": "/me",
+      "status": 200,
+      "expected": 200,
+      "requestId": "01a09903-4852-71fc-b059-a5abde24d163",
+      "pass": true
+    },
+    {
+      "role": "teacher",
+      "path": "/teacher/semesters",
+      "status": 200,
+      "expected": 200,
+      "requestId": "01a09903-48de-7794-8adf-b62823ec4bf5",
+      "pass": true
+    },
+    {
+      "role": "teacher",
+      "path": "/class-sections",
+      "status": 200,
+      "expected": 200,
+      "requestId": "01a09903-4972-7609-8daa-00df14369027",
+      "pass": true
+    },
+    {
+      "role": "teacher",
+      "path": "/teacher-progress",
+      "status": 200,
+      "expected": 200,
+      "requestId": "01a09903-4a09-779f-850d-a0aafe3430df",
+      "pass": true
+    },
+    {
+      "role": "teacher",
+      "path": "/exemption-application-details",
+      "status": 200,
+      "expected": 200,
+      "requestId": "01a09903-4aaf-70a9-9eb7-30b0a13938d8",
+      "pass": true
+    },
+    {
+      "role": "teacher",
+      "path": "/activity-certification-applications",
+      "status": 200,
+      "expected": 200,
+      "requestId": "01a09903-4b3f-7642-802d-f42da7ac5dff",
+      "pass": true
+    },
+    {
+      "role": "teacher",
+      "path": "/class-sections/01a096e7-a22e-7535-a65d-ce0da82d59af/v81-rules",
+      "status": 200,
+      "expected": 200,
+      "requestId": "01a09903-4bd5-712b-aef0-5b46d2aaa273",
+      "pass": true
+    },
+    {
+      "role": "teacher",
+      "path": "/class-sections/01a096e7-a22e-7535-a65d-ce0da82d59af/history-settings",
+      "status": 200,
+      "expected": 200,
+      "requestId": "01a09903-4c67-75c1-a463-b014d61d6b8e",
+      "pass": true
+    },
+    {
+      "role": "teacher",
+      "path": "/class-sections/01a096e7-a22e-7535-a65d-ce0da82d59af/settlement-check",
+      "status": 200,
+      "expected": 200,
+      "requestId": "01a09903-4cfc-77cf-a83e-ef22755bdf3b",
+      "pass": true
+    },
+    {
+      "role": "teacher",
+      "path": "/class-sections/01a096e7-a22e-7535-a65d-ce0da82d59af/settlement-reports",
+      "status": 200,
+      "expected": 200,
+      "requestId": "01a09903-4d9d-7645-ae7c-5bc9d5a90608",
+      "pass": true
+    },
+    {
+      "role": "teacher",
+      "path": "/class-sections/01a096e7-a22e-7535-a65d-ce0da82d59af/composite-roster",
+      "status": 200,
+      "expected": 200,
+      "requestId": "01a09903-4e30-70af-b1b3-86baf0b916da",
+      "pass": true
+    },
+    {
+      "role": "teacher",
+      "path": "/class-sections/01a096e7-a22e-7535-a65d-ce0da82d59af/ocr-batches",
+      "status": 200,
+      "expected": 200,
+      "requestId": "01a09903-4ecd-769e-934b-c7599d9f98d8",
+      "pass": true
+    },
+    {
+      "role": "teacher",
+      "path": "/class-sections/01a096e7-a22e-7535-a65d-ce0da82d59af/roster-basis",
+      "status": 200,
+      "expected": 200,
+      "requestId": "01a09903-4f63-748c-a02a-65bab587f45d",
+      "pass": true
+    },
+    {
+      "role": "teacher",
+      "path": "/class-sections/01a096e7-a22e-7535-a65d-ce0da82d59af/makeup-windows",
+      "status": 200,
+      "expected": 200,
+      "requestId": "01a09903-4ff3-75a9-95c8-ff0d8b5f0529",
+      "pass": true
+    },
+    {
+      "role": "admin",
+      "path": "/me",
+      "status": 200,
+      "expected": 200,
+      "requestId": "01a09903-5087-7168-ac20-f1c1ac249938",
+      "pass": true
+    },
+    {
+      "role": "admin",
+      "path": "/health/admin",
+      "status": 200,
+      "expected": 200,
+      "requestId": "01a09903-5122-714d-baf3-59d30aa932e7",
+      "pass": true
+    },
+    {
+      "role": "admin",
+      "path": "/admin/subadmins",
+      "status": 200,
+      "expected": 200,
+      "requestId": "01a09903-5260-717c-9e7e-9e5070363296",
+      "pass": true
+    },
+    {
+      "role": "admin",
+      "path": "/admin/teacher-accounts",
+      "status": 200,
+      "expected": 200,
+      "requestId": "01a09903-52f1-767e-ad99-0da2366bd0f6",
+      "pass": true
+    },
+    {
+      "role": "admin",
+      "path": "/admin/semesters",
+      "status": 200,
+      "expected": 200,
+      "requestId": "01a09903-538b-724d-b7e9-74f3ec03f430",
+      "pass": true
+    },
+    {
+      "role": "admin",
+      "path": "/admin/course-directory",
+      "status": 200,
+      "expected": 200,
+      "requestId": "01a09903-541e-77bb-9891-b42a2b52b7cd",
+      "pass": true
+    },
+    {
+      "role": "admin",
+      "path": "/admin/feedback",
+      "status": 200,
+      "expected": 200,
+      "requestId": "01a09903-54c5-76f0-9feb-9bcab2d9a5f2",
+      "pass": true
+    },
+    {
+      "role": "admin",
+      "path": "/admin/help-articles",
+      "status": 200,
+      "expected": 200,
+      "requestId": "01a09903-5556-778c-be08-3a12cc7c7659",
+      "pass": true
+    },
+    {
+      "role": "admin",
+      "path": "/admin/endurance-tables",
+      "status": 200,
+      "expected": 200,
+      "requestId": "01a09903-5605-732a-b324-7570c9cc51b7",
+      "pass": true
+    },
+    {
+      "role": "admin",
+      "path": "/admin/audit-events",
+      "status": 200,
+      "expected": 200,
+      "requestId": "01a09903-56f3-71db-acda-10dcf98ffb9c",
+      "pass": true
+    },
+    {
+      "role": "admin",
+      "path": "/admin/exercise-goal",
+      "status": 200,
+      "expected": 200,
+      "requestId": "01a09903-57d5-732e-a3d0-330323d948d6",
+      "pass": true
+    },
+    {
+      "role": "admin",
+      "path": "/admin/review-services/ocr",
+      "status": 200,
+      "expected": 200,
+      "requestId": "01a09903-5863-7596-9845-2d1efd306745",
+      "pass": true
+    },
+    {
+      "role": "admin",
+      "path": "/admin/review-services/ocr/revisions",
+      "status": 200,
+      "expected": 200,
+      "requestId": "01a09903-58f9-779e-931b-56c25e3120a2",
+      "pass": true
+    },
+    {
+      "role": "admin",
+      "path": "/rule-templates",
+      "status": 200,
+      "expected": 200,
+      "requestId": "01a09903-598e-7776-8670-f0c634f03262",
+      "pass": true
+    },
+    {
+      "role": "admin",
+      "path": "/admin/class-sections/01a096e7-a22e-7535-a65d-ce0da82d59af/roster-summary",
+      "status": 200,
+      "expected": 200,
+      "requestId": "01a09903-5a23-73fa-8360-5a08ae997ea6",
+      "pass": true
+    },
+    {
+      "role": "admin",
+      "path": "/admin/class-sections/01a096e7-a22e-7535-a65d-ce0da82d59af/physical-summary",
+      "status": 200,
+      "expected": 200,
+      "requestId": "01a09903-5ab5-7162-97b9-af85e8e1b1ab",
+      "pass": true
+    },
+    {
+      "role": "admin",
+      "path": "/admin/class-sections/01a096e7-a22e-7535-a65d-ce0da82d59af/settlement-summary",
+      "status": 200,
+      "expected": 200,
+      "requestId": "01a09903-5b4e-71b2-9893-0d5d444d5f3d",
+      "pass": true
+    },
+    {
+      "role": "student",
+      "path": "/ocr-batches/01a096c2-7b4a-761a-addd-24c86465542b",
+      "status": 403,
+      "expected": 403,
+      "requestId": "01a09903-5bf2-752f-92ed-1e6c71db18b3",
+      "pass": true
+    },
+    {
+      "role": "student",
+      "path": "/admin/review-services/ocr",
+      "status": 403,
+      "expected": 403,
+      "requestId": "01a09903-5c83-73ff-90ad-7505e19f675b",
+      "pass": true
+    },
+    {
+      "role": "student",
+      "path": "/admin/subadmins",
+      "status": 403,
+      "expected": 403,
+      "requestId": "01a09903-5d0a-74f4-81a8-7b7719bab588",
+      "pass": true
+    }
+  ]
+}

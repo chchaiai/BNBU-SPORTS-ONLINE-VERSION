@@ -111,7 +111,7 @@ describe('Stage 14 ExerciseSession contract', () => {
     assert.deepEqual(sessionOperations.sort(), expected.map((entry) => entry[2]).sort());
   });
 
-  it('keeps 126 total operations, no Session list, nullable active recovery, and five formal states', async () => {
+  it('matches the operation registry, keeps no Session list, nullable active recovery, and five formal states', async () => {
     const root = await openapi();
     const paths = object(root.paths);
     let count = 0;
@@ -120,7 +120,7 @@ describe('Stage 14 ExerciseSession contract', () => {
         if (['get', 'post', 'put', 'patch', 'delete'].includes(method)) count += 1;
       }
     }
-    assert.equal(count, 126);
+    assert.equal(count, Object.keys(operationPolicies).length);
     assert.equal(object(paths['/exercise-sessions']).get, undefined);
     const schemas = object(object(root.components).schemas);
     assert.deepEqual(object(schemas.ExerciseSessionStatus).enum, [

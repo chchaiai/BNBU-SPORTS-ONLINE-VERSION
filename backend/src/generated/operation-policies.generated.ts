@@ -130,6 +130,19 @@ export const operationPolicies = {
     "resourceResolver": "PRINCIPAL_USER",
     "defaultDeny": true
   },
+  "completeCurrentStudentProfile": {
+    "method": "POST",
+    "route": "/me/student-profile",
+    "policyId": "STUDENT-SELF-PROFILE-COMPLETE",
+    "authentication": "ACCESS_TOKEN",
+    "allowedRoles": [
+      "STUDENT"
+    ],
+    "organizationScope": "PRINCIPAL_ORGANIZATION",
+    "resourceScope": "SELF",
+    "resourceResolver": "PRINCIPAL_USER",
+    "defaultDeny": true
+  },
   "requestCurrentUserEmailChallenge": {
     "method": "POST",
     "route": "/me/email-verification-challenges",
@@ -3175,6 +3188,19 @@ export const operationPolicies = {
     "resourceResolver": "PRINCIPAL_USER",
     "defaultDeny": true
   },
+  "deleteV81Course": {
+    "method": "POST",
+    "route": "/class-sections/{id}/delete",
+    "policyId": "DELETE-V81-COURSE",
+    "authentication": "ACCESS_TOKEN",
+    "allowedRoles": [
+      "TEACHER"
+    ],
+    "organizationScope": "PRINCIPAL_ORGANIZATION",
+    "resourceScope": "SELF",
+    "resourceResolver": "PRINCIPAL_USER",
+    "defaultDeny": true
+  },
   "deleteV81StudentAccount": {
     "method": "POST",
     "route": "/admin/students/{id}/delete",
@@ -3379,6 +3405,86 @@ export const operationPolicies = {
     "authentication": "ACCESS_TOKEN",
     "allowedRoles": [
       "TEACHER"
+    ],
+    "organizationScope": "PRINCIPAL_ORGANIZATION",
+    "resourceScope": "SELF",
+    "resourceResolver": "PRINCIPAL_USER",
+    "defaultDeny": true
+  },
+  "issueMemberJoinCapability": {
+    "method": "POST",
+    "route": "/course-invites/{inviteToken}/join-capabilities/member",
+    "policyId": "MEMBER-JOIN-CAPABILITY-ISSUE",
+    "authentication": "ACCESS_TOKEN",
+    "allowedRoles": [
+      "STUDENT"
+    ],
+    "organizationScope": "PRINCIPAL_ORGANIZATION",
+    "resourceScope": "SELF",
+    "resourceResolver": "PRINCIPAL_USER",
+    "defaultDeny": true
+  },
+  "getV81HistorySettings": {
+    "method": "GET",
+    "route": "/class-sections/{classSectionId}/history-settings",
+    "policyId": "GET-V81HISTORY-SETTINGS",
+    "authentication": "ACCESS_TOKEN",
+    "allowedRoles": [
+      "TEACHER",
+      "STUDENT"
+    ],
+    "organizationScope": "PRINCIPAL_ORGANIZATION",
+    "resourceScope": "SELF",
+    "resourceResolver": "PRINCIPAL_USER",
+    "defaultDeny": true
+  },
+  "saveV81HistorySettings": {
+    "method": "POST",
+    "route": "/class-sections/{classSectionId}/history-settings",
+    "policyId": "SAVE-V81HISTORY-SETTINGS",
+    "authentication": "ACCESS_TOKEN",
+    "allowedRoles": [
+      "TEACHER"
+    ],
+    "organizationScope": "PRINCIPAL_ORGANIZATION",
+    "resourceScope": "SELF",
+    "resourceResolver": "PRINCIPAL_USER",
+    "defaultDeny": true
+  },
+  "createV81HistoricalSession": {
+    "method": "POST",
+    "route": "/enrollments/{enrollmentId}/historical-sessions",
+    "policyId": "CREATE-V81-HISTORICAL-SESSION",
+    "authentication": "ACCESS_TOKEN",
+    "allowedRoles": [
+      "STUDENT"
+    ],
+    "organizationScope": "PRINCIPAL_ORGANIZATION",
+    "resourceScope": "SELF",
+    "resourceResolver": "PRINCIPAL_USER",
+    "defaultDeny": true
+  },
+  "getV81ExerciseGoal": {
+    "method": "GET",
+    "route": "/admin/exercise-goal",
+    "policyId": "GET-V81-EXERCISE-GOAL",
+    "authentication": "ACCESS_TOKEN",
+    "allowedRoles": [
+      "ADMIN",
+      "TEACHER"
+    ],
+    "organizationScope": "PRINCIPAL_ORGANIZATION",
+    "resourceScope": "SELF",
+    "resourceResolver": "PRINCIPAL_USER",
+    "defaultDeny": true
+  },
+  "saveV81ExerciseGoal": {
+    "method": "POST",
+    "route": "/admin/exercise-goal",
+    "policyId": "SAVE-V81-EXERCISE-GOAL",
+    "authentication": "ACCESS_TOKEN",
+    "allowedRoles": [
+      "ADMIN"
     ],
     "organizationScope": "PRINCIPAL_ORGANIZATION",
     "resourceScope": "SELF",

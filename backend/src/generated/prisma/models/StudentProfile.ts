@@ -46,6 +46,9 @@ export type StudentProfileMinAggregateOutputType = {
   gradeYear: number | null
   collegeName: string | null
   majorName: string | null
+  dateOfBirth: Date | null
+  otherRegionName: string | null
+  regionCode: string | null
   administrativeClassName: string | null
   status: string | null
   version: number | null
@@ -64,6 +67,9 @@ export type StudentProfileMaxAggregateOutputType = {
   gradeYear: number | null
   collegeName: string | null
   majorName: string | null
+  dateOfBirth: Date | null
+  otherRegionName: string | null
+  regionCode: string | null
   administrativeClassName: string | null
   status: string | null
   version: number | null
@@ -82,6 +88,9 @@ export type StudentProfileCountAggregateOutputType = {
   gradeYear: number
   collegeName: number
   majorName: number
+  dateOfBirth: number
+  otherRegionName: number
+  regionCode: number
   administrativeClassName: number
   status: number
   version: number
@@ -112,6 +121,9 @@ export type StudentProfileMinAggregateInputType = {
   gradeYear?: true
   collegeName?: true
   majorName?: true
+  dateOfBirth?: true
+  otherRegionName?: true
+  regionCode?: true
   administrativeClassName?: true
   status?: true
   version?: true
@@ -130,6 +142,9 @@ export type StudentProfileMaxAggregateInputType = {
   gradeYear?: true
   collegeName?: true
   majorName?: true
+  dateOfBirth?: true
+  otherRegionName?: true
+  regionCode?: true
   administrativeClassName?: true
   status?: true
   version?: true
@@ -148,6 +163,9 @@ export type StudentProfileCountAggregateInputType = {
   gradeYear?: true
   collegeName?: true
   majorName?: true
+  dateOfBirth?: true
+  otherRegionName?: true
+  regionCode?: true
   administrativeClassName?: true
   status?: true
   version?: true
@@ -253,6 +271,9 @@ export type StudentProfileGroupByOutputType = {
   gradeYear: number
   collegeName: string | null
   majorName: string | null
+  dateOfBirth: Date | null
+  otherRegionName: string | null
+  regionCode: string | null
   administrativeClassName: string | null
   status: string
   version: number
@@ -294,6 +315,9 @@ export type StudentProfileWhereInput = {
   gradeYear?: Prisma.IntFilter<"StudentProfile"> | number
   collegeName?: Prisma.StringNullableFilter<"StudentProfile"> | string | null
   majorName?: Prisma.StringNullableFilter<"StudentProfile"> | string | null
+  dateOfBirth?: Prisma.DateTimeNullableFilter<"StudentProfile"> | Date | string | null
+  otherRegionName?: Prisma.StringNullableFilter<"StudentProfile"> | string | null
+  regionCode?: Prisma.StringNullableFilter<"StudentProfile"> | string | null
   administrativeClassName?: Prisma.StringNullableFilter<"StudentProfile"> | string | null
   status?: Prisma.StringFilter<"StudentProfile"> | string
   version?: Prisma.IntFilter<"StudentProfile"> | number
@@ -324,6 +348,9 @@ export type StudentProfileOrderByWithRelationInput = {
   gradeYear?: Prisma.SortOrder
   collegeName?: Prisma.SortOrderInput | Prisma.SortOrder
   majorName?: Prisma.SortOrderInput | Prisma.SortOrder
+  dateOfBirth?: Prisma.SortOrderInput | Prisma.SortOrder
+  otherRegionName?: Prisma.SortOrderInput | Prisma.SortOrder
+  regionCode?: Prisma.SortOrderInput | Prisma.SortOrder
   administrativeClassName?: Prisma.SortOrderInput | Prisma.SortOrder
   status?: Prisma.SortOrder
   version?: Prisma.SortOrder
@@ -360,6 +387,9 @@ export type StudentProfileWhereUniqueInput = Prisma.AtLeast<{
   gradeYear?: Prisma.IntFilter<"StudentProfile"> | number
   collegeName?: Prisma.StringNullableFilter<"StudentProfile"> | string | null
   majorName?: Prisma.StringNullableFilter<"StudentProfile"> | string | null
+  dateOfBirth?: Prisma.DateTimeNullableFilter<"StudentProfile"> | Date | string | null
+  otherRegionName?: Prisma.StringNullableFilter<"StudentProfile"> | string | null
+  regionCode?: Prisma.StringNullableFilter<"StudentProfile"> | string | null
   administrativeClassName?: Prisma.StringNullableFilter<"StudentProfile"> | string | null
   status?: Prisma.StringFilter<"StudentProfile"> | string
   version?: Prisma.IntFilter<"StudentProfile"> | number
@@ -390,6 +420,9 @@ export type StudentProfileOrderByWithAggregationInput = {
   gradeYear?: Prisma.SortOrder
   collegeName?: Prisma.SortOrderInput | Prisma.SortOrder
   majorName?: Prisma.SortOrderInput | Prisma.SortOrder
+  dateOfBirth?: Prisma.SortOrderInput | Prisma.SortOrder
+  otherRegionName?: Prisma.SortOrderInput | Prisma.SortOrder
+  regionCode?: Prisma.SortOrderInput | Prisma.SortOrder
   administrativeClassName?: Prisma.SortOrderInput | Prisma.SortOrder
   status?: Prisma.SortOrder
   version?: Prisma.SortOrder
@@ -416,6 +449,9 @@ export type StudentProfileScalarWhereWithAggregatesInput = {
   gradeYear?: Prisma.IntWithAggregatesFilter<"StudentProfile"> | number
   collegeName?: Prisma.StringNullableWithAggregatesFilter<"StudentProfile"> | string | null
   majorName?: Prisma.StringNullableWithAggregatesFilter<"StudentProfile"> | string | null
+  dateOfBirth?: Prisma.DateTimeNullableWithAggregatesFilter<"StudentProfile"> | Date | string | null
+  otherRegionName?: Prisma.StringNullableWithAggregatesFilter<"StudentProfile"> | string | null
+  regionCode?: Prisma.StringNullableWithAggregatesFilter<"StudentProfile"> | string | null
   administrativeClassName?: Prisma.StringNullableWithAggregatesFilter<"StudentProfile"> | string | null
   status?: Prisma.StringWithAggregatesFilter<"StudentProfile"> | string
   version?: Prisma.IntWithAggregatesFilter<"StudentProfile"> | number
@@ -432,6 +468,9 @@ export type StudentProfileCreateInput = {
   gradeYear: number
   collegeName?: string | null
   majorName?: string | null
+  dateOfBirth?: Date | string | null
+  otherRegionName?: string | null
+  regionCode?: string | null
   administrativeClassName?: string | null
   status: string
   version?: number
@@ -462,6 +501,9 @@ export type StudentProfileUncheckedCreateInput = {
   gradeYear: number
   collegeName?: string | null
   majorName?: string | null
+  dateOfBirth?: Date | string | null
+  otherRegionName?: string | null
+  regionCode?: string | null
   administrativeClassName?: string | null
   status: string
   version?: number
@@ -488,6 +530,9 @@ export type StudentProfileUpdateInput = {
   gradeYear?: Prisma.IntFieldUpdateOperationsInput | number
   collegeName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   majorName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  otherRegionName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  regionCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   administrativeClassName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.StringFieldUpdateOperationsInput | string
   version?: Prisma.IntFieldUpdateOperationsInput | number
@@ -518,6 +563,9 @@ export type StudentProfileUncheckedUpdateInput = {
   gradeYear?: Prisma.IntFieldUpdateOperationsInput | number
   collegeName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   majorName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  otherRegionName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  regionCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   administrativeClassName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.StringFieldUpdateOperationsInput | string
   version?: Prisma.IntFieldUpdateOperationsInput | number
@@ -546,6 +594,9 @@ export type StudentProfileCreateManyInput = {
   gradeYear: number
   collegeName?: string | null
   majorName?: string | null
+  dateOfBirth?: Date | string | null
+  otherRegionName?: string | null
+  regionCode?: string | null
   administrativeClassName?: string | null
   status: string
   version?: number
@@ -562,6 +613,9 @@ export type StudentProfileUpdateManyMutationInput = {
   gradeYear?: Prisma.IntFieldUpdateOperationsInput | number
   collegeName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   majorName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  otherRegionName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  regionCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   administrativeClassName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.StringFieldUpdateOperationsInput | string
   version?: Prisma.IntFieldUpdateOperationsInput | number
@@ -580,6 +634,9 @@ export type StudentProfileUncheckedUpdateManyInput = {
   gradeYear?: Prisma.IntFieldUpdateOperationsInput | number
   collegeName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   majorName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  otherRegionName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  regionCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   administrativeClassName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.StringFieldUpdateOperationsInput | string
   version?: Prisma.IntFieldUpdateOperationsInput | number
@@ -628,6 +685,9 @@ export type StudentProfileCountOrderByAggregateInput = {
   gradeYear?: Prisma.SortOrder
   collegeName?: Prisma.SortOrder
   majorName?: Prisma.SortOrder
+  dateOfBirth?: Prisma.SortOrder
+  otherRegionName?: Prisma.SortOrder
+  regionCode?: Prisma.SortOrder
   administrativeClassName?: Prisma.SortOrder
   status?: Prisma.SortOrder
   version?: Prisma.SortOrder
@@ -651,6 +711,9 @@ export type StudentProfileMaxOrderByAggregateInput = {
   gradeYear?: Prisma.SortOrder
   collegeName?: Prisma.SortOrder
   majorName?: Prisma.SortOrder
+  dateOfBirth?: Prisma.SortOrder
+  otherRegionName?: Prisma.SortOrder
+  regionCode?: Prisma.SortOrder
   administrativeClassName?: Prisma.SortOrder
   status?: Prisma.SortOrder
   version?: Prisma.SortOrder
@@ -669,6 +732,9 @@ export type StudentProfileMinOrderByAggregateInput = {
   gradeYear?: Prisma.SortOrder
   collegeName?: Prisma.SortOrder
   majorName?: Prisma.SortOrder
+  dateOfBirth?: Prisma.SortOrder
+  otherRegionName?: Prisma.SortOrder
+  regionCode?: Prisma.SortOrder
   administrativeClassName?: Prisma.SortOrder
   status?: Prisma.SortOrder
   version?: Prisma.SortOrder
@@ -909,6 +975,9 @@ export type StudentProfileCreateWithoutOrganizationInput = {
   gradeYear: number
   collegeName?: string | null
   majorName?: string | null
+  dateOfBirth?: Date | string | null
+  otherRegionName?: string | null
+  regionCode?: string | null
   administrativeClassName?: string | null
   status: string
   version?: number
@@ -937,6 +1006,9 @@ export type StudentProfileUncheckedCreateWithoutOrganizationInput = {
   gradeYear: number
   collegeName?: string | null
   majorName?: string | null
+  dateOfBirth?: Date | string | null
+  otherRegionName?: string | null
+  regionCode?: string | null
   administrativeClassName?: string | null
   status: string
   version?: number
@@ -994,6 +1066,9 @@ export type StudentProfileScalarWhereInput = {
   gradeYear?: Prisma.IntFilter<"StudentProfile"> | number
   collegeName?: Prisma.StringNullableFilter<"StudentProfile"> | string | null
   majorName?: Prisma.StringNullableFilter<"StudentProfile"> | string | null
+  dateOfBirth?: Prisma.DateTimeNullableFilter<"StudentProfile"> | Date | string | null
+  otherRegionName?: Prisma.StringNullableFilter<"StudentProfile"> | string | null
+  regionCode?: Prisma.StringNullableFilter<"StudentProfile"> | string | null
   administrativeClassName?: Prisma.StringNullableFilter<"StudentProfile"> | string | null
   status?: Prisma.StringFilter<"StudentProfile"> | string
   version?: Prisma.IntFilter<"StudentProfile"> | number
@@ -1010,6 +1085,9 @@ export type StudentProfileCreateWithoutUserInput = {
   gradeYear: number
   collegeName?: string | null
   majorName?: string | null
+  dateOfBirth?: Date | string | null
+  otherRegionName?: string | null
+  regionCode?: string | null
   administrativeClassName?: string | null
   status: string
   version?: number
@@ -1037,6 +1115,9 @@ export type StudentProfileUncheckedCreateWithoutUserInput = {
   gradeYear: number
   collegeName?: string | null
   majorName?: string | null
+  dateOfBirth?: Date | string | null
+  otherRegionName?: string | null
+  regionCode?: string | null
   administrativeClassName?: string | null
   status: string
   version?: number
@@ -1079,6 +1160,9 @@ export type StudentProfileUpdateWithoutUserInput = {
   gradeYear?: Prisma.IntFieldUpdateOperationsInput | number
   collegeName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   majorName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  otherRegionName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  regionCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   administrativeClassName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.StringFieldUpdateOperationsInput | string
   version?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1106,6 +1190,9 @@ export type StudentProfileUncheckedUpdateWithoutUserInput = {
   gradeYear?: Prisma.IntFieldUpdateOperationsInput | number
   collegeName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   majorName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  otherRegionName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  regionCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   administrativeClassName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.StringFieldUpdateOperationsInput | string
   version?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1132,6 +1219,9 @@ export type StudentProfileCreateWithoutEnrollmentsInput = {
   gradeYear: number
   collegeName?: string | null
   majorName?: string | null
+  dateOfBirth?: Date | string | null
+  otherRegionName?: string | null
+  regionCode?: string | null
   administrativeClassName?: string | null
   status: string
   version?: number
@@ -1161,6 +1251,9 @@ export type StudentProfileUncheckedCreateWithoutEnrollmentsInput = {
   gradeYear: number
   collegeName?: string | null
   majorName?: string | null
+  dateOfBirth?: Date | string | null
+  otherRegionName?: string | null
+  regionCode?: string | null
   administrativeClassName?: string | null
   status: string
   version?: number
@@ -1202,6 +1295,9 @@ export type StudentProfileUpdateWithoutEnrollmentsInput = {
   gradeYear?: Prisma.IntFieldUpdateOperationsInput | number
   collegeName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   majorName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  otherRegionName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  regionCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   administrativeClassName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.StringFieldUpdateOperationsInput | string
   version?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1231,6 +1327,9 @@ export type StudentProfileUncheckedUpdateWithoutEnrollmentsInput = {
   gradeYear?: Prisma.IntFieldUpdateOperationsInput | number
   collegeName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   majorName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  otherRegionName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  regionCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   administrativeClassName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.StringFieldUpdateOperationsInput | string
   version?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1256,6 +1355,9 @@ export type StudentProfileCreateWithoutExerciseSessionsInput = {
   gradeYear: number
   collegeName?: string | null
   majorName?: string | null
+  dateOfBirth?: Date | string | null
+  otherRegionName?: string | null
+  regionCode?: string | null
   administrativeClassName?: string | null
   status: string
   version?: number
@@ -1285,6 +1387,9 @@ export type StudentProfileUncheckedCreateWithoutExerciseSessionsInput = {
   gradeYear: number
   collegeName?: string | null
   majorName?: string | null
+  dateOfBirth?: Date | string | null
+  otherRegionName?: string | null
+  regionCode?: string | null
   administrativeClassName?: string | null
   status: string
   version?: number
@@ -1326,6 +1431,9 @@ export type StudentProfileUpdateWithoutExerciseSessionsInput = {
   gradeYear?: Prisma.IntFieldUpdateOperationsInput | number
   collegeName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   majorName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  otherRegionName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  regionCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   administrativeClassName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.StringFieldUpdateOperationsInput | string
   version?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1355,6 +1463,9 @@ export type StudentProfileUncheckedUpdateWithoutExerciseSessionsInput = {
   gradeYear?: Prisma.IntFieldUpdateOperationsInput | number
   collegeName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   majorName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  otherRegionName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  regionCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   administrativeClassName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.StringFieldUpdateOperationsInput | string
   version?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1380,6 +1491,9 @@ export type StudentProfileCreateWithoutMediaEvidenceInput = {
   gradeYear: number
   collegeName?: string | null
   majorName?: string | null
+  dateOfBirth?: Date | string | null
+  otherRegionName?: string | null
+  regionCode?: string | null
   administrativeClassName?: string | null
   status: string
   version?: number
@@ -1409,6 +1523,9 @@ export type StudentProfileUncheckedCreateWithoutMediaEvidenceInput = {
   gradeYear: number
   collegeName?: string | null
   majorName?: string | null
+  dateOfBirth?: Date | string | null
+  otherRegionName?: string | null
+  regionCode?: string | null
   administrativeClassName?: string | null
   status: string
   version?: number
@@ -1450,6 +1567,9 @@ export type StudentProfileUpdateWithoutMediaEvidenceInput = {
   gradeYear?: Prisma.IntFieldUpdateOperationsInput | number
   collegeName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   majorName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  otherRegionName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  regionCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   administrativeClassName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.StringFieldUpdateOperationsInput | string
   version?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1479,6 +1599,9 @@ export type StudentProfileUncheckedUpdateWithoutMediaEvidenceInput = {
   gradeYear?: Prisma.IntFieldUpdateOperationsInput | number
   collegeName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   majorName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  otherRegionName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  regionCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   administrativeClassName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.StringFieldUpdateOperationsInput | string
   version?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1504,6 +1627,9 @@ export type StudentProfileCreateWithoutExerciseRecordsInput = {
   gradeYear: number
   collegeName?: string | null
   majorName?: string | null
+  dateOfBirth?: Date | string | null
+  otherRegionName?: string | null
+  regionCode?: string | null
   administrativeClassName?: string | null
   status: string
   version?: number
@@ -1533,6 +1659,9 @@ export type StudentProfileUncheckedCreateWithoutExerciseRecordsInput = {
   gradeYear: number
   collegeName?: string | null
   majorName?: string | null
+  dateOfBirth?: Date | string | null
+  otherRegionName?: string | null
+  regionCode?: string | null
   administrativeClassName?: string | null
   status: string
   version?: number
@@ -1574,6 +1703,9 @@ export type StudentProfileUpdateWithoutExerciseRecordsInput = {
   gradeYear?: Prisma.IntFieldUpdateOperationsInput | number
   collegeName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   majorName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  otherRegionName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  regionCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   administrativeClassName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.StringFieldUpdateOperationsInput | string
   version?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1603,6 +1735,9 @@ export type StudentProfileUncheckedUpdateWithoutExerciseRecordsInput = {
   gradeYear?: Prisma.IntFieldUpdateOperationsInput | number
   collegeName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   majorName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  otherRegionName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  regionCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   administrativeClassName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.StringFieldUpdateOperationsInput | string
   version?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1628,6 +1763,9 @@ export type StudentProfileCreateWithoutRosterAlignmentPlatformEntriesInput = {
   gradeYear: number
   collegeName?: string | null
   majorName?: string | null
+  dateOfBirth?: Date | string | null
+  otherRegionName?: string | null
+  regionCode?: string | null
   administrativeClassName?: string | null
   status: string
   version?: number
@@ -1657,6 +1795,9 @@ export type StudentProfileUncheckedCreateWithoutRosterAlignmentPlatformEntriesIn
   gradeYear: number
   collegeName?: string | null
   majorName?: string | null
+  dateOfBirth?: Date | string | null
+  otherRegionName?: string | null
+  regionCode?: string | null
   administrativeClassName?: string | null
   status: string
   version?: number
@@ -1698,6 +1839,9 @@ export type StudentProfileUpdateWithoutRosterAlignmentPlatformEntriesInput = {
   gradeYear?: Prisma.IntFieldUpdateOperationsInput | number
   collegeName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   majorName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  otherRegionName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  regionCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   administrativeClassName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.StringFieldUpdateOperationsInput | string
   version?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1727,6 +1871,9 @@ export type StudentProfileUncheckedUpdateWithoutRosterAlignmentPlatformEntriesIn
   gradeYear?: Prisma.IntFieldUpdateOperationsInput | number
   collegeName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   majorName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  otherRegionName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  regionCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   administrativeClassName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.StringFieldUpdateOperationsInput | string
   version?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1752,6 +1899,9 @@ export type StudentProfileCreateWithoutStudentScoresInput = {
   gradeYear: number
   collegeName?: string | null
   majorName?: string | null
+  dateOfBirth?: Date | string | null
+  otherRegionName?: string | null
+  regionCode?: string | null
   administrativeClassName?: string | null
   status: string
   version?: number
@@ -1781,6 +1931,9 @@ export type StudentProfileUncheckedCreateWithoutStudentScoresInput = {
   gradeYear: number
   collegeName?: string | null
   majorName?: string | null
+  dateOfBirth?: Date | string | null
+  otherRegionName?: string | null
+  regionCode?: string | null
   administrativeClassName?: string | null
   status: string
   version?: number
@@ -1822,6 +1975,9 @@ export type StudentProfileUpdateWithoutStudentScoresInput = {
   gradeYear?: Prisma.IntFieldUpdateOperationsInput | number
   collegeName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   majorName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  otherRegionName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  regionCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   administrativeClassName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.StringFieldUpdateOperationsInput | string
   version?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1851,6 +2007,9 @@ export type StudentProfileUncheckedUpdateWithoutStudentScoresInput = {
   gradeYear?: Prisma.IntFieldUpdateOperationsInput | number
   collegeName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   majorName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  otherRegionName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  regionCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   administrativeClassName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.StringFieldUpdateOperationsInput | string
   version?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1876,6 +2035,9 @@ export type StudentProfileCreateWithoutScoreAdjustmentsInput = {
   gradeYear: number
   collegeName?: string | null
   majorName?: string | null
+  dateOfBirth?: Date | string | null
+  otherRegionName?: string | null
+  regionCode?: string | null
   administrativeClassName?: string | null
   status: string
   version?: number
@@ -1905,6 +2067,9 @@ export type StudentProfileUncheckedCreateWithoutScoreAdjustmentsInput = {
   gradeYear: number
   collegeName?: string | null
   majorName?: string | null
+  dateOfBirth?: Date | string | null
+  otherRegionName?: string | null
+  regionCode?: string | null
   administrativeClassName?: string | null
   status: string
   version?: number
@@ -1946,6 +2111,9 @@ export type StudentProfileUpdateWithoutScoreAdjustmentsInput = {
   gradeYear?: Prisma.IntFieldUpdateOperationsInput | number
   collegeName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   majorName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  otherRegionName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  regionCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   administrativeClassName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.StringFieldUpdateOperationsInput | string
   version?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1975,6 +2143,9 @@ export type StudentProfileUncheckedUpdateWithoutScoreAdjustmentsInput = {
   gradeYear?: Prisma.IntFieldUpdateOperationsInput | number
   collegeName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   majorName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  otherRegionName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  regionCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   administrativeClassName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.StringFieldUpdateOperationsInput | string
   version?: Prisma.IntFieldUpdateOperationsInput | number
@@ -2000,6 +2171,9 @@ export type StudentProfileCreateWithoutExemptionApplicationsInput = {
   gradeYear: number
   collegeName?: string | null
   majorName?: string | null
+  dateOfBirth?: Date | string | null
+  otherRegionName?: string | null
+  regionCode?: string | null
   administrativeClassName?: string | null
   status: string
   version?: number
@@ -2029,6 +2203,9 @@ export type StudentProfileUncheckedCreateWithoutExemptionApplicationsInput = {
   gradeYear: number
   collegeName?: string | null
   majorName?: string | null
+  dateOfBirth?: Date | string | null
+  otherRegionName?: string | null
+  regionCode?: string | null
   administrativeClassName?: string | null
   status: string
   version?: number
@@ -2070,6 +2247,9 @@ export type StudentProfileUpdateWithoutExemptionApplicationsInput = {
   gradeYear?: Prisma.IntFieldUpdateOperationsInput | number
   collegeName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   majorName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  otherRegionName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  regionCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   administrativeClassName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.StringFieldUpdateOperationsInput | string
   version?: Prisma.IntFieldUpdateOperationsInput | number
@@ -2099,6 +2279,9 @@ export type StudentProfileUncheckedUpdateWithoutExemptionApplicationsInput = {
   gradeYear?: Prisma.IntFieldUpdateOperationsInput | number
   collegeName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   majorName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  otherRegionName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  regionCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   administrativeClassName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.StringFieldUpdateOperationsInput | string
   version?: Prisma.IntFieldUpdateOperationsInput | number
@@ -2124,6 +2307,9 @@ export type StudentProfileCreateWithoutLocationConsentsInput = {
   gradeYear: number
   collegeName?: string | null
   majorName?: string | null
+  dateOfBirth?: Date | string | null
+  otherRegionName?: string | null
+  regionCode?: string | null
   administrativeClassName?: string | null
   status: string
   version?: number
@@ -2153,6 +2339,9 @@ export type StudentProfileUncheckedCreateWithoutLocationConsentsInput = {
   gradeYear: number
   collegeName?: string | null
   majorName?: string | null
+  dateOfBirth?: Date | string | null
+  otherRegionName?: string | null
+  regionCode?: string | null
   administrativeClassName?: string | null
   status: string
   version?: number
@@ -2194,6 +2383,9 @@ export type StudentProfileUpdateWithoutLocationConsentsInput = {
   gradeYear?: Prisma.IntFieldUpdateOperationsInput | number
   collegeName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   majorName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  otherRegionName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  regionCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   administrativeClassName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.StringFieldUpdateOperationsInput | string
   version?: Prisma.IntFieldUpdateOperationsInput | number
@@ -2223,6 +2415,9 @@ export type StudentProfileUncheckedUpdateWithoutLocationConsentsInput = {
   gradeYear?: Prisma.IntFieldUpdateOperationsInput | number
   collegeName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   majorName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  otherRegionName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  regionCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   administrativeClassName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.StringFieldUpdateOperationsInput | string
   version?: Prisma.IntFieldUpdateOperationsInput | number
@@ -2248,6 +2443,9 @@ export type StudentProfileCreateWithoutLocationTracksInput = {
   gradeYear: number
   collegeName?: string | null
   majorName?: string | null
+  dateOfBirth?: Date | string | null
+  otherRegionName?: string | null
+  regionCode?: string | null
   administrativeClassName?: string | null
   status: string
   version?: number
@@ -2277,6 +2475,9 @@ export type StudentProfileUncheckedCreateWithoutLocationTracksInput = {
   gradeYear: number
   collegeName?: string | null
   majorName?: string | null
+  dateOfBirth?: Date | string | null
+  otherRegionName?: string | null
+  regionCode?: string | null
   administrativeClassName?: string | null
   status: string
   version?: number
@@ -2318,6 +2519,9 @@ export type StudentProfileUpdateWithoutLocationTracksInput = {
   gradeYear?: Prisma.IntFieldUpdateOperationsInput | number
   collegeName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   majorName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  otherRegionName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  regionCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   administrativeClassName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.StringFieldUpdateOperationsInput | string
   version?: Prisma.IntFieldUpdateOperationsInput | number
@@ -2347,6 +2551,9 @@ export type StudentProfileUncheckedUpdateWithoutLocationTracksInput = {
   gradeYear?: Prisma.IntFieldUpdateOperationsInput | number
   collegeName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   majorName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  otherRegionName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  regionCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   administrativeClassName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.StringFieldUpdateOperationsInput | string
   version?: Prisma.IntFieldUpdateOperationsInput | number
@@ -2373,6 +2580,9 @@ export type StudentProfileCreateManyOrganizationInput = {
   gradeYear: number
   collegeName?: string | null
   majorName?: string | null
+  dateOfBirth?: Date | string | null
+  otherRegionName?: string | null
+  regionCode?: string | null
   administrativeClassName?: string | null
   status: string
   version?: number
@@ -2389,6 +2599,9 @@ export type StudentProfileUpdateWithoutOrganizationInput = {
   gradeYear?: Prisma.IntFieldUpdateOperationsInput | number
   collegeName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   majorName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  otherRegionName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  regionCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   administrativeClassName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.StringFieldUpdateOperationsInput | string
   version?: Prisma.IntFieldUpdateOperationsInput | number
@@ -2417,6 +2630,9 @@ export type StudentProfileUncheckedUpdateWithoutOrganizationInput = {
   gradeYear?: Prisma.IntFieldUpdateOperationsInput | number
   collegeName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   majorName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  otherRegionName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  regionCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   administrativeClassName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.StringFieldUpdateOperationsInput | string
   version?: Prisma.IntFieldUpdateOperationsInput | number
@@ -2444,6 +2660,9 @@ export type StudentProfileUncheckedUpdateManyWithoutOrganizationInput = {
   gradeYear?: Prisma.IntFieldUpdateOperationsInput | number
   collegeName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   majorName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  otherRegionName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  regionCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   administrativeClassName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.StringFieldUpdateOperationsInput | string
   version?: Prisma.IntFieldUpdateOperationsInput | number
@@ -2574,6 +2793,9 @@ export type StudentProfileSelect<ExtArgs extends runtime.Types.Extensions.Intern
   gradeYear?: boolean
   collegeName?: boolean
   majorName?: boolean
+  dateOfBirth?: boolean
+  otherRegionName?: boolean
+  regionCode?: boolean
   administrativeClassName?: boolean
   status?: boolean
   version?: boolean
@@ -2605,6 +2827,9 @@ export type StudentProfileSelectCreateManyAndReturn<ExtArgs extends runtime.Type
   gradeYear?: boolean
   collegeName?: boolean
   majorName?: boolean
+  dateOfBirth?: boolean
+  otherRegionName?: boolean
+  regionCode?: boolean
   administrativeClassName?: boolean
   status?: boolean
   version?: boolean
@@ -2625,6 +2850,9 @@ export type StudentProfileSelectUpdateManyAndReturn<ExtArgs extends runtime.Type
   gradeYear?: boolean
   collegeName?: boolean
   majorName?: boolean
+  dateOfBirth?: boolean
+  otherRegionName?: boolean
+  regionCode?: boolean
   administrativeClassName?: boolean
   status?: boolean
   version?: boolean
@@ -2645,6 +2873,9 @@ export type StudentProfileSelectScalar = {
   gradeYear?: boolean
   collegeName?: boolean
   majorName?: boolean
+  dateOfBirth?: boolean
+  otherRegionName?: boolean
+  regionCode?: boolean
   administrativeClassName?: boolean
   status?: boolean
   version?: boolean
@@ -2653,7 +2884,7 @@ export type StudentProfileSelectScalar = {
   deletedAt?: boolean
 }
 
-export type StudentProfileOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "organizationId" | "userId" | "studentNumber" | "fullName" | "gender" | "gradeYear" | "collegeName" | "majorName" | "administrativeClassName" | "status" | "version" | "createdAt" | "updatedAt" | "deletedAt", ExtArgs["result"]["studentProfile"]>
+export type StudentProfileOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "organizationId" | "userId" | "studentNumber" | "fullName" | "gender" | "gradeYear" | "collegeName" | "majorName" | "dateOfBirth" | "otherRegionName" | "regionCode" | "administrativeClassName" | "status" | "version" | "createdAt" | "updatedAt" | "deletedAt", ExtArgs["result"]["studentProfile"]>
 export type StudentProfileInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -2704,6 +2935,9 @@ export type $StudentProfilePayload<ExtArgs extends runtime.Types.Extensions.Inte
     gradeYear: number
     collegeName: string | null
     majorName: string | null
+    dateOfBirth: Date | null
+    otherRegionName: string | null
+    regionCode: string | null
     administrativeClassName: string | null
     status: string
     version: number
@@ -3154,6 +3388,9 @@ export interface StudentProfileFieldRefs {
   readonly gradeYear: Prisma.FieldRef<"StudentProfile", 'Int'>
   readonly collegeName: Prisma.FieldRef<"StudentProfile", 'String'>
   readonly majorName: Prisma.FieldRef<"StudentProfile", 'String'>
+  readonly dateOfBirth: Prisma.FieldRef<"StudentProfile", 'DateTime'>
+  readonly otherRegionName: Prisma.FieldRef<"StudentProfile", 'String'>
+  readonly regionCode: Prisma.FieldRef<"StudentProfile", 'String'>
   readonly administrativeClassName: Prisma.FieldRef<"StudentProfile", 'String'>
   readonly status: Prisma.FieldRef<"StudentProfile", 'String'>
   readonly version: Prisma.FieldRef<"StudentProfile", 'Int'>

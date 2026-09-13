@@ -225,6 +225,7 @@ export class PrismaClassSectionRepository extends ClassSectionRepository {
     const cursorWhere = this.cursorWhere(query);
     const where: Prisma.ClassSectionWhereInput = {
       organizationId: query.organizationId,
+      retiredAt: null,
       ...(query.teacherId === undefined ? {} : { teacherId: query.teacherId }),
       ...(query.courseId === undefined ? {} : { courseId: query.courseId }),
       ...(query.semesterId === undefined ? {} : { semesterId: query.semesterId }),

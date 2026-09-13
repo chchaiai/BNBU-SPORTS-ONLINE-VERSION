@@ -14,6 +14,7 @@ import { Clock } from '../../../common/time/clock.js';
 import { IdGenerator } from '../../../common/time/id-generator.js';
 import { AuthService } from '../../auth/auth.service.js';
 import { CourseInviteRepository } from '../../course-invites/domain/course-invite.repository.js';
+import { permitsInviteCompletion } from '../../course-invites/domain/invite-timing.js';
 import { JoinCapabilityRepository } from '../../join-capabilities/domain/join-capability.repository.js';
 import type { NormalizedStudentIdentity } from '../../users/application/student-identity.js';
 import { StudentIdentityResolver } from '../../users/application/student-identity-resolver.js';
@@ -135,8 +136,7 @@ export class QrJoinService {
           transaction,
         );
         if (
-          invite?.status !== 'ACTIVE' ||
-          invite.expiresAt <= now ||
+          !invite || !permitsInviteCompletion(invite, capability.issuedAt, now) ||
           section?.status !== 'ACTIVE' ||
           !section.isEnrollmentOpen ||
           section.course.status !== 'ACTIVE' ||

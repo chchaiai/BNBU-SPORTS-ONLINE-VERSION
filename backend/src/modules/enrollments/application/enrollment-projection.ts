@@ -54,6 +54,9 @@ export interface JoinResultProjection {
     gradeYear: number;
     collegeName: string | null;
     majorName: string | null;
+    dateOfBirth?: string | null;
+    regionCode?: string | null;
+    otherRegionName?: string | null;
     administrativeClassName: string | null;
     status: string;
     createdAt: string;
@@ -75,6 +78,9 @@ export function projectJoinResult(
   return {
     studentProfile: {
       ...view.student,
+      dateOfBirth: view.student.dateOfBirth?.toISOString().slice(0, 10) ?? null,
+      regionCode: view.student.regionCode ?? null,
+      otherRegionName: view.student.otherRegionName ?? null,
       organizationId: view.enrollment.organizationId,
       createdAt: view.student.createdAt.toISOString(),
       updatedAt: view.student.updatedAt.toISOString(),

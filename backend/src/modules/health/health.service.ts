@@ -71,6 +71,8 @@ export class HealthService {
         const compatibility = await this.migrations.check();
         if (!compatibility.compatible) throw new Error('MIGRATION_STATE_INCOMPATIBLE');
       }),
+      // Legacy response key: this probes outbox query availability only.
+      // The count includes all business events and is not notification delivery health.
       this.measure('NOTIFICATION_QUEUE', async () =>
         this.prisma.outboxEvent.count({ where: { status: { in: ['PENDING', 'FAILED'] } } }),
       ),

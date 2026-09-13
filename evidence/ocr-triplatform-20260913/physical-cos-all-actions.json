@@ -1,0 +1,17 @@
+{
+  "check": "CVM_ROLE_PHYSICAL_IMPORT_ALL_ACTIONS",
+  "observedAt": "2026-09-13T01:00:01.524Z",
+  "result": "PASS",
+  "key": "v81/physical-imports/01a096c2-20a2-706b-8c69-802f67dee12c/probe-0a298f42-63e5-4777-8057-829f020474fb.txt",
+  "actions": {
+    "PutObject": "PASS",
+    "HeadObject": "PASS",
+    "GetObject": "PASS",
+    "InitiateMultipartUpload": "PASS",
+    "UploadPart": "PASS",
+    "CompleteMultipartUpload": "PASS",
+    "AbortMultipartUpload": "PASS",
+    "DeleteObject": "PASS"
+  },
+  "cleanup": "object deleted; completed and aborted upload IDs terminal"
+}

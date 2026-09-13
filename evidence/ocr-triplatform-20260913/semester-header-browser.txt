@@ -1,0 +1,123 @@
+- complementary:
+  - generic "SPORTS"
+  - generic: Administrator workspace
+  - generic: ADMIN
+  - navigation "Primary navigation":
+    - button "System overview":
+      - generic: System overview
+    - button "Course dashboard":
+      - generic: Course dashboard
+    - button "Term management":
+      - generic: Term management
+    - button "Users & accounts":
+      - generic: Users & accounts
+    - button "Sub-administrator settings":
+      - generic: Sub-administrator settings
+    - button "Student issue feedback":
+      - generic: Student issue feedback
+    - button "Global rules":
+      - generic: Global rules
+    - button "System mode":
+      - generic: System mode
+    - button "Help center":
+      - generic: Help center
+    - button "Audit log":
+      - generic: Audit log
+  - button "Open Synthetic Test Admin A's profile":
+    - generic: S
+    - generic: Synthetic Test Admin A
+    - generic: a***@bnbu.invalid
+  - button "Expand sidebar":
+  - separator "Resize navigation bar"
+- main:
+  - heading "Term management" [level=1]
+  - generic: Current term
+  - generic: Synthetic header synchronization acceptance
+  - generic "Language":
+    - button "中文"
+    - button "English" [pressed]
+  - generic "Theme":
+    - button "Light" [pressed]
+    - button "Dark"
+    - button "System"
+  - button "Notifications":
+  - text: Semester lifecycle
+  - heading "Synthetic header synchronization acceptance" [level=2]
+  - generic: Current
+  - paragraph: Create and configure upcoming semesters, then switch the current semester after confirmation. The previous semester is archived automatically.
+  - button "New semester"
+  - region "Semester summary":
+    - article:
+      - generic: Current
+      - generic: Synthetic header synchronization acceptance
+      - generic: Sep 13, 2026 – Dec 31, 2027
+    - article:
+      - generic: Upcoming
+      - generic: "0"
+      - generic: Editable configurations
+    - article:
+      - generic: Archived
+      - generic: "4"
+      - generic: History retained
+  - heading "All semesters" [level=2]
+  - paragraph: Current status changes only through switching. Archived semesters cannot be restored or deleted.
+  - table:
+    - rowgroup:
+      - row "Semester Academic year Date range Courses / students Status Actions":
+        - columnheader "Semester"
+        - columnheader "Academic year"
+        - columnheader "Date range"
+        - columnheader "Courses / students"
+        - columnheader "Status"
+        - columnheader "Actions"
+    - rowgroup:
+      - row "Synthetic Current Semester FIRST 2026-2027 Aug 1, 2026 – Jan 31, 2027 1 / 1 ARCHIVED Read-only":
+        - cell "Synthetic Current Semester FIRST":
+          - text: Synthetic Current Semester
+          - generic: FIRST
+        - cell "2026-2027"
+        - cell "Aug 1, 2026 – Jan 31, 2027"
+        - cell "1 / 1"
+        - cell "ARCHIVED":
+          - generic: ARCHIVED
+        - cell "Read-only"
+      - row "Synthetic Archived Semester SECOND 2025-2026 Jan 1, 2026 – Jul 31, 2026 3 / 0 ARCHIVED Read-only":
+        - cell "Synthetic Archived Semester SECOND":
+          - text: Synthetic Archived Semester
+          - generic: SECOND
+        - cell "2025-2026"
+        - cell "Jan 1, 2026 – Jul 31, 2026"
+        - cell "3 / 0"
+        - cell "ARCHIVED":
+          - generic: ARCHIVED
+        - cell "Read-only"
+      - row "Synthetic history next semester SECOND 2026-2027 Sep 8, 2026 – Jun 30, 2027 0 / 0 ARCHIVED Read-only":
+        - cell "Synthetic history next semester SECOND":
+          - text: Synthetic history next semester
+          - generic: SECOND
+        - cell "2026-2027"
+        - cell "Sep 8, 2026 – Jun 30, 2027"
+        - cell "0 / 0"
+        - cell "ARCHIVED":
+          - generic: ARCHIVED
+        - cell "Read-only"
+      - row "Synthetic browser switch acceptance SUMMER 2026-2027 Sep 13, 2026 – Sep 30, 2026 0 / 0 ARCHIVED Read-only":
+        - cell "Synthetic browser switch acceptance SUMMER":
+          - text: Synthetic browser switch acceptance
+          - generic: SUMMER
+        - cell "2026-2027"
+        - cell "Sep 13, 2026 – Sep 30, 2026"
+        - cell "0 / 0"
+        - cell "ARCHIVED":
+          - generic: ARCHIVED
+        - cell "Read-only"
+      - row "Synthetic header synchronization acceptance FIRST 2027-2028 Sep 13, 2026 – Dec 31, 2027 0 / 0 CURRENT Read-only":
+        - cell "Synthetic header synchronization acceptance FIRST":
+          - text: Synthetic header synchronization acceptance
+          - generic: FIRST
+        - cell "2027-2028"
+        - cell "Sep 13, 2026 – Dec 31, 2027"
+        - cell "0 / 0"
+        - cell "CURRENT":
+          - generic: CURRENT
+        - cell "Read-only"

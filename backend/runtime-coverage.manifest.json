@@ -1,5 +1,5 @@
 {
-  "expectedOperationCount": 254,
+  "expectedOperationCount": 263,
   "implemented": {
     "getHealthLive": {
       "module": "Health",
@@ -2919,6 +2919,105 @@
       "contractValidation": "scripts/runtime-conformance-hook.mjs (strict HTTP response schemas)",
       "e2eTest": "test/e2e/v81-subadmin-identity.e2e.test.ts",
       "dockerSmoke": "docs/implementation/BUGFIX-20260910.md"
+    },
+    "completeCurrentStudentProfile": {
+      "module": "V8.1",
+      "stage": "V8.1 current authority",
+      "controller": "src/modules/users/users.controller.ts",
+      "useCase": "StudentProfileCompletionService.complete",
+      "repository": "PrismaService",
+      "migration": "0064+0070",
+      "contractTest": "test/contract/openapi-contract.test.ts",
+      "e2eTest": "test/e2e/v81-ocr-governance.e2e.test.ts",
+      "dockerSmoke": "docs/implementation/OCR-TRIPLATFORM-20260913.md (current online regression PENDING; test pointer registration only)"
+    },
+    "deleteV81Course": {
+      "module": "V8.1",
+      "stage": "V8.1 current authority",
+      "controller": "src/modules/v8/v81-course-deletion.ts",
+      "useCase": "V81CourseDeletionService.remove",
+      "repository": "PrismaService",
+      "migration": "0063+0071",
+      "contractTest": "test/contract/openapi-contract.test.ts",
+      "e2eTest": "test/e2e/v81-ocr-governance.e2e.test.ts",
+      "dockerSmoke": "docs/implementation/OCR-TRIPLATFORM-20260913.md (current online regression PENDING; test pointer registration only)"
+    },
+    "deleteV81StudentAccount": {
+      "module": "V8.1",
+      "stage": "V8.1 current authority",
+      "controller": "src/modules/v8/v81-student-deletion.ts",
+      "useCase": "V81StudentDeletionService.remove",
+      "repository": "PrismaService",
+      "migration": "0061",
+      "contractTest": "test/contract/openapi-contract.test.ts",
+      "e2eTest": "test/e2e/v81-ocr-governance.e2e.test.ts",
+      "dockerSmoke": "docs/implementation/OCR-TRIPLATFORM-20260913.md (current online regression PENDING; test pointer registration only)"
+    },
+    "issueMemberJoinCapability": {
+      "module": "V8.1",
+      "stage": "V8.1 current authority",
+      "controller": "src/modules/join-capabilities/interface/http/join-capabilities.controller.ts",
+      "useCase": "JoinCapabilitiesController.issueMember",
+      "repository": "PrismaService",
+      "migration": "0064",
+      "contractTest": "test/contract/openapi-contract.test.ts",
+      "e2eTest": "test/e2e/v81-ocr-governance.e2e.test.ts",
+      "dockerSmoke": "docs/implementation/OCR-TRIPLATFORM-20260913.md (current online regression PENDING; test pointer registration only)"
+    },
+    "getV81HistorySettings": {
+      "module": "V8.1",
+      "stage": "V8.1 current authority",
+      "controller": "src/modules/v8/v81-history-backfill.ts",
+      "useCase": "V81HistoryBackfillService.read",
+      "repository": "PrismaService",
+      "migration": "0067",
+      "contractTest": "test/contract/openapi-contract.test.ts",
+      "e2eTest": "test/e2e/v81-ocr-governance.e2e.test.ts",
+      "dockerSmoke": "docs/implementation/OCR-TRIPLATFORM-20260913.md (current online regression PENDING; test pointer registration only)"
+    },
+    "saveV81HistorySettings": {
+      "module": "V8.1",
+      "stage": "V8.1 current authority",
+      "controller": "src/modules/v8/v81-history-backfill.ts",
+      "useCase": "V81HistoryBackfillService.save",
+      "repository": "PrismaService",
+      "migration": "0067",
+      "contractTest": "test/contract/openapi-contract.test.ts",
+      "e2eTest": "test/e2e/v81-ocr-governance.e2e.test.ts",
+      "dockerSmoke": "docs/implementation/OCR-TRIPLATFORM-20260913.md (current online regression PENDING; test pointer registration only)"
+    },
+    "createV81HistoricalSession": {
+      "module": "V8.1",
+      "stage": "V8.1 current authority",
+      "controller": "src/modules/v8/v81-history-backfill.ts",
+      "useCase": "V81HistoryBackfillService.create",
+      "repository": "PrismaService",
+      "migration": "0067+0069",
+      "contractTest": "test/contract/openapi-contract.test.ts",
+      "e2eTest": "test/e2e/v81-ocr-governance.e2e.test.ts",
+      "dockerSmoke": "docs/implementation/OCR-TRIPLATFORM-20260913.md (current online regression PENDING; test pointer registration only)"
+    },
+    "getV81ExerciseGoal": {
+      "module": "V8.1",
+      "stage": "V8.1 current authority",
+      "controller": "src/modules/v8/v81.controller.ts",
+      "useCase": "V81Service.exerciseGoal",
+      "repository": "PrismaService",
+      "migration": "0072+0073",
+      "contractTest": "test/contract/openapi-contract.test.ts",
+      "e2eTest": "test/e2e/v81-ocr-governance.e2e.test.ts",
+      "dockerSmoke": "docs/implementation/OCR-TRIPLATFORM-20260913.md (current online regression PENDING; test pointer registration only)"
+    },
+    "saveV81ExerciseGoal": {
+      "module": "V8.1",
+      "stage": "V8.1 current authority",
+      "controller": "src/modules/v8/v81.controller.ts",
+      "useCase": "V81Service.saveExerciseGoal",
+      "repository": "PrismaService",
+      "migration": "0072+0073",
+      "contractTest": "test/contract/openapi-contract.test.ts",
+      "e2eTest": "test/e2e/v81-ocr-governance.e2e.test.ts",
+      "dockerSmoke": "docs/implementation/OCR-TRIPLATFORM-20260913.md (current online regression PENDING; test pointer registration only)"
     }
   },
   "implementedDefaultDeny": [

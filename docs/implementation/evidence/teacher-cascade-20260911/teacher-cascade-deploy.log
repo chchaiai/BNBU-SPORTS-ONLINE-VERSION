@@ -1,0 +1,12 @@
+Loaded image: bnbu-backend-production:c33f037b-teacher-cascade
+Loaded image: bnbu-portal-production:c33f037b-teacher-cascade
+{"check": "PRE_RELEASE_DATABASE_BACKUP", "result": "PASS", "path": "/opt/bnbu-sports-production/backups/before-bugfix-20260911T114548Z.dump", "bytes": 3439902}
+ Container bnbu-sports-production-backend-1 Recreate
+ Container bnbu-sports-production-portal-1 Recreate
+ Container bnbu-sports-production-backend-1 Recreated
+ Container bnbu-sports-production-portal-1 Recreated
+ Container bnbu-sports-production-portal-1 Starting
+ Container bnbu-sports-production-backend-1 Starting
+ Container bnbu-sports-production-portal-1 Started
+ Container bnbu-sports-production-backend-1 Started
+{"check": "TEACHER_CASCADE_DEPLOYMENT", "result": "PASS", "release": "/opt/bnbu-sports-production/releases/c33f037b-teacher-cascade", "images": {"backend": "sha256:91012a8df3441372fcfd38a39e8a4a0450fd8a512a6e1fbb5688e955e2aea8ba", "portal": "sha256:ff9056263aed40e15e8b87bcc0063073b97d1176d17f9f204731f5f1cc5b5e9e"}}

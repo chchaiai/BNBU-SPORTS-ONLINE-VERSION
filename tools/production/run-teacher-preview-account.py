@@ -5,7 +5,7 @@ assert os.geteuid()==0
 work=Path('/home/ubuntu/bnbu-bugfix-round2-20260910')
 current=Path('/opt/bnbu-sports-production/current').resolve()
 assert current.parent==Path('/opt/bnbu-sports-production/releases')
-assert current.name in ['e4bd83eb4b5f-student-delete','c33f037b-teacher-cascade','teacher-preview-20260911']
+assert current.name in ['e4bd83eb4b5f-student-delete','c33f037b-teacher-cascade','teacher-preview-20260911','teacher-media-20260911']
 image=subprocess.check_output(['docker','inspect','--format','{{.Config.Image}}','bnbu-sports-production-backend-1'],text=True).strip()
 assert image.startswith('bnbu-backend-production:')
 mode=sys.argv[1];assert mode in ['open','close']

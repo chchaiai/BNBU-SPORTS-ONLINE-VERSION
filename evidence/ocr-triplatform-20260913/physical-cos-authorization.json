@@ -1,0 +1,38 @@
+{
+  "check": "PHYSICAL_COS_ROLE_AUTHORIZATION",
+  "result": "PASS",
+  "policyName": "BNBUSportsHKPhysicalImportObjects",
+  "policyId": "286223510",
+  "roleName": "BNBUSportsHKCVMRole",
+  "roleId": "4611686018448989343",
+  "approval": "User explicitly approved eight scoped actions in this conversation",
+  "policy": {
+    "version": "2.0",
+    "statement": [
+      {
+        "effect": "allow",
+        "action": [
+          "name/cos:GetObject",
+          "name/cos:HeadObject",
+          "name/cos:PutObject",
+          "name/cos:InitiateMultipartUpload",
+          "name/cos:UploadPart",
+          "name/cos:CompleteMultipartUpload",
+          "name/cos:AbortMultipartUpload",
+          "name/cos:DeleteObject"
+        ],
+        "resource": [
+          "qcs::cos:ap-hongkong:uid/1443273655:bnbu-sports-prod-hk-1443273655/v81/physical-imports/*"
+        ]
+      }
+    ]
+  },
+  "console": "Created 2026-09-13 08:54:45; association success; sole selected principal was HK CVM role",
+  "runtime": {
+    "put": "PASS",
+    "delete": "PASS",
+    "observedAt": "2026-09-13T00:56:07.110Z",
+    "probeKey": "v81/physical-imports/01a096c2-20a2-706b-8c69-802f67dee12c/probe-0716c019-5f7c-447c-b4bc-f19f9fb609fd.txt"
+  },
+  "limitations": "Eight granted operations now exercised; see physical-cos-all-actions.json"
+}

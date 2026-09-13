@@ -39,6 +39,7 @@ import {
   projectUserPreference,
 } from './client-messaging.projection.js';
 import { PUSH_TOKEN_CIPHER, PushTokenCipher } from './push-token-cipher.js';
+import { enrichNotificationHistory } from './notification-history.projection.js';
 
 type Transaction = Prisma.TransactionClient;
 
@@ -179,7 +180,8 @@ export class ClientMessagingService {
     const hasMore = rows.length > input.limit;
     const page = hasMore ? rows.slice(0, input.limit) : rows;
     const last = page.at(-1);
-    return pagedResult(page.map(projectNotification), {
+    const enriched = await enrichNotificationHistory(this.prisma, page);
+    return pagedResult(enriched.map(projectNotification), {
       nextCursor:
         hasMore && last !== undefined
           ? this.cursors.encode(binding, { value: last.createdAt.toISOString(), id: last.id })
@@ -218,7 +220,7 @@ export class ClientMessagingService {
         if (current === null) return this.notFound();
         if (current.readAt !== null) {
           return this.idempotency.success(
-            projectNotification(current),
+            projectNotification((await enrichNotificationHistory(transaction, [current]))[0]!),
             this.references(principal, 'NOTIFICATION', current.id),
           );
         }
@@ -247,7 +249,7 @@ export class ClientMessagingService {
           });
           if (raced !== null && raced.readAt !== null) {
             return this.idempotency.success(
-              projectNotification(raced),
+              projectNotification((await enrichNotificationHistory(transaction, [raced]))[0]!),
               this.references(principal, 'NOTIFICATION', raced.id),
             );
           }
@@ -267,7 +269,7 @@ export class ClientMessagingService {
           payload: { notificationId: updated.id, requestId: facts.requestId },
         });
         return this.idempotency.success(
-          projectNotification(updated),
+          projectNotification((await enrichNotificationHistory(transaction, [updated]))[0]!),
           this.references(principal, 'NOTIFICATION', updated.id),
         );
       },

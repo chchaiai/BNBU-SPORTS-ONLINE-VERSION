@@ -1,0 +1,20 @@
+{
+  "observedDate": "2026-09-13",
+  "release": "invite-ui-final-20260913",
+  "result": "PENDING_ARTIFACT",
+  "actor": "Synthetic Test Teacher A",
+  "student": "TEST BETA",
+  "batchDisplayedTime": "2026/9/13 10:01:30",
+  "browser": "Codex in-app browser",
+  "observed": [
+    "Internal gradebook course selection displayed TEST BETA with published final grade 86",
+    "Grade dialog displayed current physical result 1000m, 5:12, 2026-09-12",
+    "Electronic import history displayed four batches",
+    "Latest batch displayed one confirmed row, zero pending rows, and disabled confirmation",
+    "Clicked download original file",
+    "No physical-* file found in the user Downloads directory before or after the action",
+    "A separate Edge tab inherited the existing real administrator session; no login/logout or business mutation was performed there"
+  ],
+  "limitations": "No downloaded bytes or filename were captured. This attempt proves navigation and button interaction only, not successful download or a product defect.",
+  "nextAction": "Use a browser session isolated from the real administrator, sign in as the synthetic teacher, download and compare SHA256 with the original XLSX."
+}

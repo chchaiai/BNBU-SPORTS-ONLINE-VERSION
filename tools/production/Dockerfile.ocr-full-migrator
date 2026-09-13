@@ -1,0 +1,4 @@
+FROM bnbu-migrator-production:membership-20260913
+ARG SOURCE_COMMIT
+COPY --chown=node:node prisma/ /app/prisma/
+LABEL org.opencontainers.image.revision=$SOURCE_COMMIT

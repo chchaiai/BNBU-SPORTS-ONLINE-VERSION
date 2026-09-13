@@ -17,6 +17,7 @@ import {
 } from "../api.js";
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const isSchoolEmail = (value) => EMAIL_PATTERN.test(value.trim()) && value.toLowerCase().includes("bnbu");
 const CODE_PATTERN = /^\d{4,10}$/;
 
 function bindingState(app, mode) {
@@ -124,11 +125,11 @@ export function renderContactBinding(app, { mode }) {
   const state = bindingState(app, mode);
   const required = mode === "requiredActivation";
   const busy = state.sending || state.verifying;
-  const emailValid = EMAIL_PATTERN.test(state.email.trim());
+  const emailValid = isSchoolEmail(state.email);
   const currentCodeValid = !state.initiallyVerified || CODE_PATTERN.test(state.currentEmailCode);
   const newCodeValid = CODE_PATTERN.test(state.newEmailCode);
   const emailError = state.email.trim() && !emailValid
-    ? tx("请输入有效的邮箱地址。", "Enter a valid email address.")
+    ? tx("请输入有效的邮箱地址，地址中须包含 bnbu。", "Enter a valid email address containing bnbu.")
     : backendFieldError(state.error, "email", "newEmail");
   const currentCodeError = state.currentEmailCode && !currentCodeValid
     ? tx("请输入收到的完整验证码。", "Enter the complete code you received.")
@@ -209,7 +210,7 @@ export function renderActivationHelp(app) {
 function syncBindingControls(app, state) {
   const busy = state.sending || state.verifying;
   const send = app._viewport?.querySelector('[data-action="binding.sendCode"]');
-  if (send) send.disabled = busy || state.resend > 0 || !EMAIL_PATTERN.test(state.email.trim());
+  if (send) send.disabled = busy || state.resend > 0 || !isSchoolEmail(state.email);
   const verify = app._viewport?.querySelector('[data-action="binding.verifyCode"]');
   if (verify) verify.disabled = busy || !state.challengeId || challengeSecondsRemaining(state.expiresAt) <= 0 ||
     !CODE_PATTERN.test(state.newEmailCode) || (state.initiallyVerified && !CODE_PATTERN.test(state.currentEmailCode));
@@ -237,7 +238,7 @@ export const bindingActions = {
   },
   "binding.sendCode": async (app) => {
     const state = app.ui.binding;
-    if (!state || !EMAIL_PATTERN.test(state.email.trim()) || state.sending || state.resend > 0) return;
+    if (!state || !isSchoolEmail(state.email) || state.sending || state.resend > 0) return;
     state.sending = true;
     state.message = null;
     state.error = null;

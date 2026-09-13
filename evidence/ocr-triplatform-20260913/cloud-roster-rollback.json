@@ -1,0 +1,13 @@
+{
+  "check": "CLOUD_ROSTER_BASIS_ROLLBACK",
+  "observedAt": "2026-09-12T19:30:35.027Z",
+  "sectionId": "01a096e7-a22e-7535-a65d-ce0da82d59af",
+  "secondRosterImportId": "01a09719-983b-7409-88fe-7caf263b5883",
+  "originalRosterImportId": "01a096e8-e1c7-712c-b62c-f99a5a87d50e",
+  "checks": [
+    "SELECT_PRIOR_CONFIRMED_BASIS_REPLAY",
+    "ROLLBACK_PRIOR_IMPORT_REPLAY",
+    "ORIGINAL_CURRENT_ROSTER_AND_CONFIRMED_BASIS_RESTORED"
+  ],
+  "allChecksCompleted": true
+}

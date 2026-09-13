@@ -1,0 +1,32 @@
+
+> @bnbu/backend-contract-checks@0.0.0 check
+> node ./generate-permission-registry.mjs && node --test ./operation-response-policy.test.mjs ./enum-subset-policy.test.mjs ./system-mode-response-policy.test.mjs && node ./check-contract.mjs && node ./check-system-mode-responses.mjs && node ./apply-contract-errata.mjs
+
+Permission registry checked: 261 operations
+✔ enum references must exist and each value must belong to the referenced domain (0.9377ms)
+✔ number options keep their wire type and null follows JSON Schema type constraints (0.129ms)
+✔ missing declarations fail, while explicit transport constraints remain supported (0.1182ms)
+✔ normal operations require both success and error responses (1.0618ms)
+✔ unavailable operations require an explicit reason and disabled registration (0.2459ms)
+✔ unavailable operations cannot declare successes or omit their actual denial status (0.1401ms)
+✔ YAML quote styles and response aliases do not change status recognition (6.8612ms)
+✔ all mutation methods require an explicit 503 and malformed operations fail (0.3983ms)
+ℹ tests 8
+ℹ suites 0
+ℹ pass 8
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 128.2164
+Deterministic Greenfield contract checks: PASS
+- OpenAPI paths: 222
+- OpenAPI operations: 261
+- OpenAPI schemas: 391
+- Local references checked: 2739
+- Access policies: 261; registry rows: 261; diff: 0
+- Named enums: 86; values: 326; diff: 0
+- Error codes: 154; diff: 0
+- Integer duration fields checked: 11
+Service-unavailable response coverage verified for every mutation.
+Contract errata metadata verified: 16/16 decisions represented.

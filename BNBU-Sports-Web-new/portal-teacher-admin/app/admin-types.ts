@@ -258,6 +258,7 @@ export type AdminCourse = {
 };
 
 export type StudentProfileProjection = {
+  email?: string | null;
   id: string;
   organizationId: string;
   userId: string;
@@ -276,6 +277,7 @@ export type StudentProfileProjection = {
 };
 
 export type TeacherProfileProjection = {
+  email?: string | null;
   id: string;
   organizationId: string;
   userId: string;

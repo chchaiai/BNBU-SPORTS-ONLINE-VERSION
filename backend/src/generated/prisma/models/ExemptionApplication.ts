@@ -46,6 +46,7 @@ export type ExemptionApplicationMinAggregateOutputType = {
   organizationName: string | null
   reason: string | null
   status: string | null
+  membershipClearedAt: Date | null
   publicComment: string | null
   submittedAt: Date | null
   decidedAt: Date | null
@@ -66,6 +67,7 @@ export type ExemptionApplicationMaxAggregateOutputType = {
   organizationName: string | null
   reason: string | null
   status: string | null
+  membershipClearedAt: Date | null
   publicComment: string | null
   submittedAt: Date | null
   decidedAt: Date | null
@@ -86,6 +88,7 @@ export type ExemptionApplicationCountAggregateOutputType = {
   organizationName: number
   reason: number
   status: number
+  membershipClearedAt: number
   publicComment: number
   submittedAt: number
   decidedAt: number
@@ -116,6 +119,7 @@ export type ExemptionApplicationMinAggregateInputType = {
   organizationName?: true
   reason?: true
   status?: true
+  membershipClearedAt?: true
   publicComment?: true
   submittedAt?: true
   decidedAt?: true
@@ -136,6 +140,7 @@ export type ExemptionApplicationMaxAggregateInputType = {
   organizationName?: true
   reason?: true
   status?: true
+  membershipClearedAt?: true
   publicComment?: true
   submittedAt?: true
   decidedAt?: true
@@ -156,6 +161,7 @@ export type ExemptionApplicationCountAggregateInputType = {
   organizationName?: true
   reason?: true
   status?: true
+  membershipClearedAt?: true
   publicComment?: true
   submittedAt?: true
   decidedAt?: true
@@ -263,6 +269,7 @@ export type ExemptionApplicationGroupByOutputType = {
   organizationName: string | null
   reason: string
   status: string
+  membershipClearedAt: Date | null
   publicComment: string | null
   submittedAt: Date | null
   decidedAt: Date | null
@@ -306,6 +313,7 @@ export type ExemptionApplicationWhereInput = {
   organizationName?: Prisma.StringNullableFilter<"ExemptionApplication"> | string | null
   reason?: Prisma.StringFilter<"ExemptionApplication"> | string
   status?: Prisma.StringFilter<"ExemptionApplication"> | string
+  membershipClearedAt?: Prisma.DateTimeNullableFilter<"ExemptionApplication"> | Date | string | null
   publicComment?: Prisma.StringNullableFilter<"ExemptionApplication"> | string | null
   submittedAt?: Prisma.DateTimeNullableFilter<"ExemptionApplication"> | Date | string | null
   decidedAt?: Prisma.DateTimeNullableFilter<"ExemptionApplication"> | Date | string | null
@@ -336,6 +344,7 @@ export type ExemptionApplicationOrderByWithRelationInput = {
   organizationName?: Prisma.SortOrderInput | Prisma.SortOrder
   reason?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  membershipClearedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   publicComment?: Prisma.SortOrderInput | Prisma.SortOrder
   submittedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   decidedAt?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -370,6 +379,7 @@ export type ExemptionApplicationWhereUniqueInput = Prisma.AtLeast<{
   organizationName?: Prisma.StringNullableFilter<"ExemptionApplication"> | string | null
   reason?: Prisma.StringFilter<"ExemptionApplication"> | string
   status?: Prisma.StringFilter<"ExemptionApplication"> | string
+  membershipClearedAt?: Prisma.DateTimeNullableFilter<"ExemptionApplication"> | Date | string | null
   publicComment?: Prisma.StringNullableFilter<"ExemptionApplication"> | string | null
   submittedAt?: Prisma.DateTimeNullableFilter<"ExemptionApplication"> | Date | string | null
   decidedAt?: Prisma.DateTimeNullableFilter<"ExemptionApplication"> | Date | string | null
@@ -400,6 +410,7 @@ export type ExemptionApplicationOrderByWithAggregationInput = {
   organizationName?: Prisma.SortOrderInput | Prisma.SortOrder
   reason?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  membershipClearedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   publicComment?: Prisma.SortOrderInput | Prisma.SortOrder
   submittedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   decidedAt?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -428,6 +439,7 @@ export type ExemptionApplicationScalarWhereWithAggregatesInput = {
   organizationName?: Prisma.StringNullableWithAggregatesFilter<"ExemptionApplication"> | string | null
   reason?: Prisma.StringWithAggregatesFilter<"ExemptionApplication"> | string
   status?: Prisma.StringWithAggregatesFilter<"ExemptionApplication"> | string
+  membershipClearedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"ExemptionApplication"> | Date | string | null
   publicComment?: Prisma.StringNullableWithAggregatesFilter<"ExemptionApplication"> | string | null
   submittedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"ExemptionApplication"> | Date | string | null
   decidedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"ExemptionApplication"> | Date | string | null
@@ -443,6 +455,7 @@ export type ExemptionApplicationCreateInput = {
   organizationName?: string | null
   reason: string
   status: string
+  membershipClearedAt?: Date | string | null
   publicComment?: string | null
   submittedAt?: Date | string | null
   decidedAt?: Date | string | null
@@ -473,6 +486,7 @@ export type ExemptionApplicationUncheckedCreateInput = {
   organizationName?: string | null
   reason: string
   status: string
+  membershipClearedAt?: Date | string | null
   publicComment?: string | null
   submittedAt?: Date | string | null
   decidedAt?: Date | string | null
@@ -493,6 +507,7 @@ export type ExemptionApplicationUpdateInput = {
   organizationName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   reason?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.StringFieldUpdateOperationsInput | string
+  membershipClearedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   publicComment?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   submittedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   decidedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -523,6 +538,7 @@ export type ExemptionApplicationUncheckedUpdateInput = {
   organizationName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   reason?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.StringFieldUpdateOperationsInput | string
+  membershipClearedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   publicComment?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   submittedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   decidedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -548,6 +564,7 @@ export type ExemptionApplicationCreateManyInput = {
   organizationName?: string | null
   reason: string
   status: string
+  membershipClearedAt?: Date | string | null
   publicComment?: string | null
   submittedAt?: Date | string | null
   decidedAt?: Date | string | null
@@ -563,6 +580,7 @@ export type ExemptionApplicationUpdateManyMutationInput = {
   organizationName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   reason?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.StringFieldUpdateOperationsInput | string
+  membershipClearedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   publicComment?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   submittedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   decidedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -583,6 +601,7 @@ export type ExemptionApplicationUncheckedUpdateManyInput = {
   organizationName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   reason?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.StringFieldUpdateOperationsInput | string
+  membershipClearedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   publicComment?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   submittedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   decidedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -618,6 +637,7 @@ export type ExemptionApplicationCountOrderByAggregateInput = {
   organizationName?: Prisma.SortOrder
   reason?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  membershipClearedAt?: Prisma.SortOrder
   publicComment?: Prisma.SortOrder
   submittedAt?: Prisma.SortOrder
   decidedAt?: Prisma.SortOrder
@@ -642,6 +662,7 @@ export type ExemptionApplicationMaxOrderByAggregateInput = {
   organizationName?: Prisma.SortOrder
   reason?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  membershipClearedAt?: Prisma.SortOrder
   publicComment?: Prisma.SortOrder
   submittedAt?: Prisma.SortOrder
   decidedAt?: Prisma.SortOrder
@@ -662,6 +683,7 @@ export type ExemptionApplicationMinOrderByAggregateInput = {
   organizationName?: Prisma.SortOrder
   reason?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  membershipClearedAt?: Prisma.SortOrder
   publicComment?: Prisma.SortOrder
   submittedAt?: Prisma.SortOrder
   decidedAt?: Prisma.SortOrder
@@ -966,6 +988,7 @@ export type ExemptionApplicationCreateWithoutOrganizationInput = {
   organizationName?: string | null
   reason: string
   status: string
+  membershipClearedAt?: Date | string | null
   publicComment?: string | null
   submittedAt?: Date | string | null
   decidedAt?: Date | string | null
@@ -994,6 +1017,7 @@ export type ExemptionApplicationUncheckedCreateWithoutOrganizationInput = {
   organizationName?: string | null
   reason: string
   status: string
+  membershipClearedAt?: Date | string | null
   publicComment?: string | null
   submittedAt?: Date | string | null
   decidedAt?: Date | string | null
@@ -1048,6 +1072,7 @@ export type ExemptionApplicationScalarWhereInput = {
   organizationName?: Prisma.StringNullableFilter<"ExemptionApplication"> | string | null
   reason?: Prisma.StringFilter<"ExemptionApplication"> | string
   status?: Prisma.StringFilter<"ExemptionApplication"> | string
+  membershipClearedAt?: Prisma.DateTimeNullableFilter<"ExemptionApplication"> | Date | string | null
   publicComment?: Prisma.StringNullableFilter<"ExemptionApplication"> | string | null
   submittedAt?: Prisma.DateTimeNullableFilter<"ExemptionApplication"> | Date | string | null
   decidedAt?: Prisma.DateTimeNullableFilter<"ExemptionApplication"> | Date | string | null
@@ -1063,6 +1088,7 @@ export type ExemptionApplicationCreateWithoutStudentInput = {
   organizationName?: string | null
   reason: string
   status: string
+  membershipClearedAt?: Date | string | null
   publicComment?: string | null
   submittedAt?: Date | string | null
   decidedAt?: Date | string | null
@@ -1090,6 +1116,7 @@ export type ExemptionApplicationUncheckedCreateWithoutStudentInput = {
   organizationName?: string | null
   reason: string
   status: string
+  membershipClearedAt?: Date | string | null
   publicComment?: string | null
   submittedAt?: Date | string | null
   decidedAt?: Date | string | null
@@ -1136,6 +1163,7 @@ export type ExemptionApplicationCreateWithoutSemesterInput = {
   organizationName?: string | null
   reason: string
   status: string
+  membershipClearedAt?: Date | string | null
   publicComment?: string | null
   submittedAt?: Date | string | null
   decidedAt?: Date | string | null
@@ -1163,6 +1191,7 @@ export type ExemptionApplicationUncheckedCreateWithoutSemesterInput = {
   organizationName?: string | null
   reason: string
   status: string
+  membershipClearedAt?: Date | string | null
   publicComment?: string | null
   submittedAt?: Date | string | null
   decidedAt?: Date | string | null
@@ -1209,6 +1238,7 @@ export type ExemptionApplicationCreateWithoutClassSectionInput = {
   organizationName?: string | null
   reason: string
   status: string
+  membershipClearedAt?: Date | string | null
   publicComment?: string | null
   submittedAt?: Date | string | null
   decidedAt?: Date | string | null
@@ -1235,6 +1265,7 @@ export type ExemptionApplicationUncheckedCreateWithoutClassSectionInput = {
   organizationName?: string | null
   reason: string
   status: string
+  membershipClearedAt?: Date | string | null
   publicComment?: string | null
   submittedAt?: Date | string | null
   decidedAt?: Date | string | null
@@ -1281,6 +1312,7 @@ export type ExemptionApplicationCreateWithoutEnrollmentInput = {
   organizationName?: string | null
   reason: string
   status: string
+  membershipClearedAt?: Date | string | null
   publicComment?: string | null
   submittedAt?: Date | string | null
   decidedAt?: Date | string | null
@@ -1305,6 +1337,7 @@ export type ExemptionApplicationUncheckedCreateWithoutEnrollmentInput = {
   organizationName?: string | null
   reason: string
   status: string
+  membershipClearedAt?: Date | string | null
   publicComment?: string | null
   submittedAt?: Date | string | null
   decidedAt?: Date | string | null
@@ -1351,6 +1384,7 @@ export type ExemptionApplicationCreateWithoutEventsInput = {
   organizationName?: string | null
   reason: string
   status: string
+  membershipClearedAt?: Date | string | null
   publicComment?: string | null
   submittedAt?: Date | string | null
   decidedAt?: Date | string | null
@@ -1380,6 +1414,7 @@ export type ExemptionApplicationUncheckedCreateWithoutEventsInput = {
   organizationName?: string | null
   reason: string
   status: string
+  membershipClearedAt?: Date | string | null
   publicComment?: string | null
   submittedAt?: Date | string | null
   decidedAt?: Date | string | null
@@ -1415,6 +1450,7 @@ export type ExemptionApplicationUpdateWithoutEventsInput = {
   organizationName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   reason?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.StringFieldUpdateOperationsInput | string
+  membershipClearedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   publicComment?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   submittedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   decidedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1444,6 +1480,7 @@ export type ExemptionApplicationUncheckedUpdateWithoutEventsInput = {
   organizationName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   reason?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.StringFieldUpdateOperationsInput | string
+  membershipClearedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   publicComment?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   submittedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   decidedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1463,6 +1500,7 @@ export type ExemptionApplicationCreateWithoutReviewsInput = {
   organizationName?: string | null
   reason: string
   status: string
+  membershipClearedAt?: Date | string | null
   publicComment?: string | null
   submittedAt?: Date | string | null
   decidedAt?: Date | string | null
@@ -1492,6 +1530,7 @@ export type ExemptionApplicationUncheckedCreateWithoutReviewsInput = {
   organizationName?: string | null
   reason: string
   status: string
+  membershipClearedAt?: Date | string | null
   publicComment?: string | null
   submittedAt?: Date | string | null
   decidedAt?: Date | string | null
@@ -1527,6 +1566,7 @@ export type ExemptionApplicationUpdateWithoutReviewsInput = {
   organizationName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   reason?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.StringFieldUpdateOperationsInput | string
+  membershipClearedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   publicComment?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   submittedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   decidedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1556,6 +1596,7 @@ export type ExemptionApplicationUncheckedUpdateWithoutReviewsInput = {
   organizationName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   reason?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.StringFieldUpdateOperationsInput | string
+  membershipClearedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   publicComment?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   submittedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   decidedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1575,6 +1616,7 @@ export type ExemptionApplicationCreateWithoutMediaInput = {
   organizationName?: string | null
   reason: string
   status: string
+  membershipClearedAt?: Date | string | null
   publicComment?: string | null
   submittedAt?: Date | string | null
   decidedAt?: Date | string | null
@@ -1604,6 +1646,7 @@ export type ExemptionApplicationUncheckedCreateWithoutMediaInput = {
   organizationName?: string | null
   reason: string
   status: string
+  membershipClearedAt?: Date | string | null
   publicComment?: string | null
   submittedAt?: Date | string | null
   decidedAt?: Date | string | null
@@ -1639,6 +1682,7 @@ export type ExemptionApplicationUpdateWithoutMediaInput = {
   organizationName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   reason?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.StringFieldUpdateOperationsInput | string
+  membershipClearedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   publicComment?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   submittedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   decidedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1668,6 +1712,7 @@ export type ExemptionApplicationUncheckedUpdateWithoutMediaInput = {
   organizationName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   reason?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.StringFieldUpdateOperationsInput | string
+  membershipClearedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   publicComment?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   submittedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   decidedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1687,6 +1732,7 @@ export type ExemptionApplicationCreateWithoutV81AcceptedMaterialsInput = {
   organizationName?: string | null
   reason: string
   status: string
+  membershipClearedAt?: Date | string | null
   publicComment?: string | null
   submittedAt?: Date | string | null
   decidedAt?: Date | string | null
@@ -1716,6 +1762,7 @@ export type ExemptionApplicationUncheckedCreateWithoutV81AcceptedMaterialsInput 
   organizationName?: string | null
   reason: string
   status: string
+  membershipClearedAt?: Date | string | null
   publicComment?: string | null
   submittedAt?: Date | string | null
   decidedAt?: Date | string | null
@@ -1751,6 +1798,7 @@ export type ExemptionApplicationUpdateWithoutV81AcceptedMaterialsInput = {
   organizationName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   reason?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.StringFieldUpdateOperationsInput | string
+  membershipClearedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   publicComment?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   submittedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   decidedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1780,6 +1828,7 @@ export type ExemptionApplicationUncheckedUpdateWithoutV81AcceptedMaterialsInput 
   organizationName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   reason?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.StringFieldUpdateOperationsInput | string
+  membershipClearedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   publicComment?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   submittedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   decidedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1799,6 +1848,7 @@ export type ExemptionApplicationCreateWithoutV81CertificationCredit_applicationI
   organizationName?: string | null
   reason: string
   status: string
+  membershipClearedAt?: Date | string | null
   publicComment?: string | null
   submittedAt?: Date | string | null
   decidedAt?: Date | string | null
@@ -1828,6 +1878,7 @@ export type ExemptionApplicationUncheckedCreateWithoutV81CertificationCredit_app
   organizationName?: string | null
   reason: string
   status: string
+  membershipClearedAt?: Date | string | null
   publicComment?: string | null
   submittedAt?: Date | string | null
   decidedAt?: Date | string | null
@@ -1863,6 +1914,7 @@ export type ExemptionApplicationUpdateWithoutV81CertificationCredit_applicationI
   organizationName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   reason?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.StringFieldUpdateOperationsInput | string
+  membershipClearedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   publicComment?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   submittedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   decidedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1892,6 +1944,7 @@ export type ExemptionApplicationUncheckedUpdateWithoutV81CertificationCredit_app
   organizationName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   reason?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.StringFieldUpdateOperationsInput | string
+  membershipClearedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   publicComment?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   submittedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   decidedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1915,6 +1968,7 @@ export type ExemptionApplicationCreateManyOrganizationInput = {
   organizationName?: string | null
   reason: string
   status: string
+  membershipClearedAt?: Date | string | null
   publicComment?: string | null
   submittedAt?: Date | string | null
   decidedAt?: Date | string | null
@@ -1930,6 +1984,7 @@ export type ExemptionApplicationUpdateWithoutOrganizationInput = {
   organizationName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   reason?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.StringFieldUpdateOperationsInput | string
+  membershipClearedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   publicComment?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   submittedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   decidedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1958,6 +2013,7 @@ export type ExemptionApplicationUncheckedUpdateWithoutOrganizationInput = {
   organizationName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   reason?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.StringFieldUpdateOperationsInput | string
+  membershipClearedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   publicComment?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   submittedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   decidedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1982,6 +2038,7 @@ export type ExemptionApplicationUncheckedUpdateManyWithoutOrganizationInput = {
   organizationName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   reason?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.StringFieldUpdateOperationsInput | string
+  membershipClearedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   publicComment?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   submittedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   decidedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -2000,6 +2057,7 @@ export type ExemptionApplicationCreateManyStudentInput = {
   organizationName?: string | null
   reason: string
   status: string
+  membershipClearedAt?: Date | string | null
   publicComment?: string | null
   submittedAt?: Date | string | null
   decidedAt?: Date | string | null
@@ -2015,6 +2073,7 @@ export type ExemptionApplicationUpdateWithoutStudentInput = {
   organizationName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   reason?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.StringFieldUpdateOperationsInput | string
+  membershipClearedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   publicComment?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   submittedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   decidedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -2042,6 +2101,7 @@ export type ExemptionApplicationUncheckedUpdateWithoutStudentInput = {
   organizationName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   reason?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.StringFieldUpdateOperationsInput | string
+  membershipClearedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   publicComment?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   submittedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   decidedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -2065,6 +2125,7 @@ export type ExemptionApplicationUncheckedUpdateManyWithoutStudentInput = {
   organizationName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   reason?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.StringFieldUpdateOperationsInput | string
+  membershipClearedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   publicComment?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   submittedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   decidedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -2083,6 +2144,7 @@ export type ExemptionApplicationCreateManySemesterInput = {
   organizationName?: string | null
   reason: string
   status: string
+  membershipClearedAt?: Date | string | null
   publicComment?: string | null
   submittedAt?: Date | string | null
   decidedAt?: Date | string | null
@@ -2098,6 +2160,7 @@ export type ExemptionApplicationUpdateWithoutSemesterInput = {
   organizationName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   reason?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.StringFieldUpdateOperationsInput | string
+  membershipClearedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   publicComment?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   submittedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   decidedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -2125,6 +2188,7 @@ export type ExemptionApplicationUncheckedUpdateWithoutSemesterInput = {
   organizationName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   reason?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.StringFieldUpdateOperationsInput | string
+  membershipClearedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   publicComment?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   submittedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   decidedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -2148,6 +2212,7 @@ export type ExemptionApplicationUncheckedUpdateManyWithoutSemesterInput = {
   organizationName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   reason?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.StringFieldUpdateOperationsInput | string
+  membershipClearedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   publicComment?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   submittedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   decidedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -2165,6 +2230,7 @@ export type ExemptionApplicationCreateManyClassSectionInput = {
   organizationName?: string | null
   reason: string
   status: string
+  membershipClearedAt?: Date | string | null
   publicComment?: string | null
   submittedAt?: Date | string | null
   decidedAt?: Date | string | null
@@ -2180,6 +2246,7 @@ export type ExemptionApplicationUpdateWithoutClassSectionInput = {
   organizationName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   reason?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.StringFieldUpdateOperationsInput | string
+  membershipClearedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   publicComment?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   submittedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   decidedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -2206,6 +2273,7 @@ export type ExemptionApplicationUncheckedUpdateWithoutClassSectionInput = {
   organizationName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   reason?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.StringFieldUpdateOperationsInput | string
+  membershipClearedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   publicComment?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   submittedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   decidedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -2228,6 +2296,7 @@ export type ExemptionApplicationUncheckedUpdateManyWithoutClassSectionInput = {
   organizationName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   reason?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.StringFieldUpdateOperationsInput | string
+  membershipClearedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   publicComment?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   submittedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   decidedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -2243,6 +2312,7 @@ export type ExemptionApplicationCreateManyEnrollmentInput = {
   organizationName?: string | null
   reason: string
   status: string
+  membershipClearedAt?: Date | string | null
   publicComment?: string | null
   submittedAt?: Date | string | null
   decidedAt?: Date | string | null
@@ -2258,6 +2328,7 @@ export type ExemptionApplicationUpdateWithoutEnrollmentInput = {
   organizationName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   reason?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.StringFieldUpdateOperationsInput | string
+  membershipClearedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   publicComment?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   submittedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   decidedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -2282,6 +2353,7 @@ export type ExemptionApplicationUncheckedUpdateWithoutEnrollmentInput = {
   organizationName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   reason?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.StringFieldUpdateOperationsInput | string
+  membershipClearedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   publicComment?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   submittedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   decidedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -2302,6 +2374,7 @@ export type ExemptionApplicationUncheckedUpdateManyWithoutEnrollmentInput = {
   organizationName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   reason?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.StringFieldUpdateOperationsInput | string
+  membershipClearedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   publicComment?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   submittedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   decidedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -2380,6 +2453,7 @@ export type ExemptionApplicationSelect<ExtArgs extends runtime.Types.Extensions.
   organizationName?: boolean
   reason?: boolean
   status?: boolean
+  membershipClearedAt?: boolean
   publicComment?: boolean
   submittedAt?: boolean
   decidedAt?: boolean
@@ -2411,6 +2485,7 @@ export type ExemptionApplicationSelectCreateManyAndReturn<ExtArgs extends runtim
   organizationName?: boolean
   reason?: boolean
   status?: boolean
+  membershipClearedAt?: boolean
   publicComment?: boolean
   submittedAt?: boolean
   decidedAt?: boolean
@@ -2436,6 +2511,7 @@ export type ExemptionApplicationSelectUpdateManyAndReturn<ExtArgs extends runtim
   organizationName?: boolean
   reason?: boolean
   status?: boolean
+  membershipClearedAt?: boolean
   publicComment?: boolean
   submittedAt?: boolean
   decidedAt?: boolean
@@ -2461,6 +2537,7 @@ export type ExemptionApplicationSelectScalar = {
   organizationName?: boolean
   reason?: boolean
   status?: boolean
+  membershipClearedAt?: boolean
   publicComment?: boolean
   submittedAt?: boolean
   decidedAt?: boolean
@@ -2469,7 +2546,7 @@ export type ExemptionApplicationSelectScalar = {
   version?: boolean
 }
 
-export type ExemptionApplicationOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "organizationId" | "semesterId" | "studentId" | "enrollmentId" | "classSectionId" | "applicationType" | "applicationSubtype" | "organizationName" | "reason" | "status" | "publicComment" | "submittedAt" | "decidedAt" | "createdAt" | "updatedAt" | "version", ExtArgs["result"]["exemptionApplication"]>
+export type ExemptionApplicationOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "organizationId" | "semesterId" | "studentId" | "enrollmentId" | "classSectionId" | "applicationType" | "applicationSubtype" | "organizationName" | "reason" | "status" | "membershipClearedAt" | "publicComment" | "submittedAt" | "decidedAt" | "createdAt" | "updatedAt" | "version", ExtArgs["result"]["exemptionApplication"]>
 export type ExemptionApplicationInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   v81AcceptedMaterials?: boolean | Prisma.ExemptionApplication$v81AcceptedMaterialsArgs<ExtArgs>
   v81CertificationCredit_application?: boolean | Prisma.ExemptionApplication$v81CertificationCredit_applicationArgs<ExtArgs>
@@ -2524,6 +2601,7 @@ export type $ExemptionApplicationPayload<ExtArgs extends runtime.Types.Extension
     organizationName: string | null
     reason: string
     status: string
+    membershipClearedAt: Date | null
     publicComment: string | null
     submittedAt: Date | null
     decidedAt: Date | null
@@ -2974,6 +3052,7 @@ export interface ExemptionApplicationFieldRefs {
   readonly organizationName: Prisma.FieldRef<"ExemptionApplication", 'String'>
   readonly reason: Prisma.FieldRef<"ExemptionApplication", 'String'>
   readonly status: Prisma.FieldRef<"ExemptionApplication", 'String'>
+  readonly membershipClearedAt: Prisma.FieldRef<"ExemptionApplication", 'DateTime'>
   readonly publicComment: Prisma.FieldRef<"ExemptionApplication", 'String'>
   readonly submittedAt: Prisma.FieldRef<"ExemptionApplication", 'DateTime'>
   readonly decidedAt: Prisma.FieldRef<"ExemptionApplication", 'DateTime'>

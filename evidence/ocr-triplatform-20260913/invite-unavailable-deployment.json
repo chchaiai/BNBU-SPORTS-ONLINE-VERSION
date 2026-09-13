@@ -1,0 +1,1 @@
+{"check": "INVITE_UNAVAILABLE_DEPLOYMENT", "result": "PASS", "release": "/opt/bnbu-sports-production/releases/invite-state-20260913", "previous": "/opt/bnbu-sports-production/releases/utc-20260913", "sourceCommit": "aa832e804de281f2f8885578c017e67055ca2fc9", "files": {"join.js": "be5e2a217169f97614315074e06243c202cc6939137d35c25bd606e43464110a"}}

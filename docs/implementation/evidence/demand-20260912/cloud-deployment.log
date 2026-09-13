@@ -1,0 +1,57 @@
+Loaded image: bnbu-backend-production:demand-20260912
+Loaded image: bnbu-portal-production:demand-20260912
+Loaded image: bnbu-migrator-production:demand-20260912
+Loaded image: bnbu-portal-production:demand-20260912
+{"check": "PRE_RELEASE_DATABASE_BACKUP", "result": "PASS", "path": "/opt/bnbu-sports-production/backups/before-bugfix-20260912T062008Z.dump", "bytes": 3396280}
+ Container bnbu-sports-production-migrator-run-0f9460fd1efc Creating 
+ Container bnbu-sports-production-migrator-run-0f9460fd1efc Created 
+
+> @bnbu/sports-backend@0.1.0 db:migrate:deploy:container
+> node ./scripts/run-migration-with-secrets.mjs --harden
+
+Loaded Prisma config from prisma.config.ts.
+
+Prisma schema loaded from prisma/schema.prisma.
+Datasource "db": PostgreSQL database "bnbusports", schema "public" at "172.19.0.16:5432"
+
+68 migrations found in prisma/migrations
+
+Applying migration `0063_demand_course_history`
+Applying migration `0064_student_long_term_profile`
+Applying migration `0065_course_rule_customization`
+Applying migration `0066_exemption_documents_metadata`
+Applying migration `0067_historical_backfill`
+Applying migration `0068_exemption_document_submission`
+
+The following migration(s) have been applied:
+
+migrations/
+  └─ 0063_demand_course_history/
+    └─ migration.sql
+  └─ 0064_student_long_term_profile/
+    └─ migration.sql
+  └─ 0065_course_rule_customization/
+    └─ migration.sql
+  └─ 0066_exemption_documents_metadata/
+    └─ migration.sql
+  └─ 0067_historical_backfill/
+    └─ migration.sql
+  └─ 0068_exemption_document_submission/
+    └─ migration.sql
+
+All migrations have been successfully applied.
+Runtime database privileges hardened; migration history is read-only.
+npm notice
+npm notice New major version of npm available! 11.16.0 -> 12.0.2
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.0.2
+npm notice To update run: npm install -g npm@12.0.2
+npm notice
+ Container bnbu-sports-production-backend-1 Recreate 
+ Container bnbu-sports-production-portal-1 Recreate 
+ Container bnbu-sports-production-backend-1 Recreated 
+ Container bnbu-sports-production-portal-1 Recreated 
+ Container bnbu-sports-production-backend-1 Starting 
+ Container bnbu-sports-production-portal-1 Starting 
+ Container bnbu-sports-production-backend-1 Started 
+ Container bnbu-sports-production-portal-1 Started 
+{"check": "DEMAND_DEPLOYMENT", "result": "PASS", "sourceCommit": "dfbce813d00d6848e2edd96cb27eb326c430734e", "release": "/opt/bnbu-sports-production/releases/demand-20260912", "previous": "/opt/bnbu-sports-production/releases/course-delete-20260911", "staticFilesVerified": 29, "images": {"backend": "sha256:ab96762ac96e3a1058aa3bba716814318e03683a8ab0cb6234b3d203d4cee28b", "portal": "sha256:9e7bf36497f9ffe8c233970fb2b1329e7c03d65e754dfa2d0565d97edff8397b", "migrator": "sha256:4307408698483ebb28a382e7bd28c604b84c123d990eff0def0d2c965eb54bd9"}}

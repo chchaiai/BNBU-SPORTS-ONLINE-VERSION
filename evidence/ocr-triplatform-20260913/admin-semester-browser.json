@@ -1,0 +1,14 @@
+{
+  "result": "PASS_EDIT_ONLY",
+  "semesterId": "01a096da-f8bb-72ae-a15d-abbed0ea9704",
+  "workflow": [
+    "Browser edit future semester name",
+    "Browser list shows modified name",
+    "Browser restore original name",
+    "HTTP readback version 4"
+  ],
+  "finalName": "Synthetic semester regression 20260913",
+  "finalVersion": 4,
+  "currentSemesterUnchanged": true,
+  "switchAcceptance": "PENDING_FINAL_FIXTURE_STAGE"
+}

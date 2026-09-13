@@ -1,3 +1,4 @@
+import {isHistoricalSession,requireHistoricalSubmissionWindow} from '../../v8/v81-history-backfill.js';
 import { permitsExistingCourseSession } from '../../enrollments/application/course-closure-memberships.js';
 import { Injectable } from '@nestjs/common';
 
@@ -112,7 +113,8 @@ export class ExerciseRecordsService {
         ...(scope.studentId === undefined ? {} : { studentId: scope.studentId }),
         ...(scope.teacherUserId === undefined
           ? {}
-          : { classSection: { teacher: { userId: scope.teacherUserId } } }),
+          : { classSection: { teacher: { userId: scope.teacherUserId }, retiredAt: null },
+              enrollment: { status: 'ACTIVE' } }),
         ...(input.classSectionId === undefined ? {} : { classSectionId: input.classSectionId }),
         ...(input.enrollmentId === undefined ? {} : { enrollmentId: input.enrollmentId }),
         ...(input.status === undefined ? {} : { status: input.status }),
@@ -261,6 +263,7 @@ export class ExerciseRecordsService {
           const recordId = this.ids.next();
           const now = this.clock.now();
           const minimumMinutes = await requiredCourseThreshold(transaction, session.classSectionId);
+          assertCreditableDuration(session.actualDurationSeconds, minimumMinutes, (session.maximumDurationSeconds ?? 3600) / 60);
           const created = await transaction.exerciseRecord.create({
             data: {
               id: recordId,
@@ -276,7 +279,7 @@ export class ExerciseRecordsService {
               ...content,
               actualDurationSeconds: session.actualDurationSeconds,
               pausedDurationSeconds: session.pausedDurationSeconds,
-              creditedDurationSeconds: creditedDuration(session.actualDurationSeconds, minimumMinutes),
+              creditedDurationSeconds: creditedDuration(session.actualDurationSeconds, minimumMinutes, (session.maximumDurationSeconds ?? 3600) / 60),
               status: 'DRAFT',
               clientRequestId: input.clientRequestId,
               createdAt: now,
@@ -407,6 +410,7 @@ export class ExerciseRecordsService {
   ): Promise<ExerciseRecordProjection> {
     this.assertStudentContext(principal, context);
     const mediaIds = [...input.mediaIds].sort();
+    const delayReason = input.swimDelayReason?.trim() ?? '';
     const result = await this.idempotency.execute(
       {
         organizationId: principal.organizationId,
@@ -416,10 +420,12 @@ export class ExerciseRecordsService {
         scope: `${principal.organizationId}:${context.recordId}`,
         key: facts.idempotencyKey,
         request: { recordId: context.recordId, mediaIds, expectedVersion: input.expectedVersion,
-          swimDelayReason: input.swimDelayReason?.trim() || null },
+          swimDelayReason: delayReason.length > 0 ? delayReason : null },
         requestId: facts.requestId,
       },
       async (transaction) => {
+        // Keep a replayable failure while rolling back any submission writes.
+        await transaction.$executeRaw`SAVEPOINT exercise_record_submit`;
         try {
           await this.lock(transaction, 'enrollments', context.enrollmentId);
           await this.lock(transaction, 'exercise_records', context.recordId);
@@ -443,8 +449,10 @@ export class ExerciseRecordsService {
           await this.lock(transaction, 'exercise_sessions', current.sessionId);
           const now = this.clock.now();
           await this.assertSubmissionScope(transaction, current, now);
-          const minimumMinutes = await requiredCourseThreshold(transaction, current.classSectionId);
-          const credit = assertCreditableDuration(current.session.actualDurationSeconds, minimumMinutes);
+          await requireHistoricalSubmissionWindow(transaction,current.sessionId,now);
+          const historical = await isHistoricalSession(transaction,current.sessionId);
+          const minimumMinutes = await requiredCourseThreshold(transaction, current.classSectionId, current.id);
+          const credit = assertCreditableDuration(current.session.actualDurationSeconds, minimumMinutes, (current.session.maximumDurationSeconds ?? 3600) / 60);
           if (
             current.actualDurationSeconds !== current.session.actualDurationSeconds ||
             current.pausedDurationSeconds !== current.session.pausedDurationSeconds ||
@@ -464,7 +472,7 @@ export class ExerciseRecordsService {
               ownerStudentId: current.studentId,
               sessionId: current.sessionId,
               businessPurpose: 'EXERCISE_RECORD',
-              captureSource: 'IN_APP_CAMERA',
+              captureSource: historical ? { in: ['IN_APP_CAMERA','FILE_PICKER'] } : 'IN_APP_CAMERA',
               uploadStatus: { in: activeStatuses },
             },
             select: { id: true },
@@ -481,7 +489,7 @@ export class ExerciseRecordsService {
               ownerStudentId: current.studentId,
               sessionId: current.sessionId,
               businessPurpose: 'EXERCISE_RECORD',
-              captureSource: 'IN_APP_CAMERA',
+              captureSource: historical ? { in: ['IN_APP_CAMERA','FILE_PICKER'] } : 'IN_APP_CAMERA',
               uploadStatus: { in: activeStatuses },
             },
             orderBy: { id: 'asc' },
@@ -579,8 +587,12 @@ export class ExerciseRecordsService {
             },
           );
         } catch (error: unknown) {
-          if (error instanceof ApplicationError) return this.idempotency.failure(error);
+          if (error instanceof ApplicationError) {
+            await transaction.$executeRaw`ROLLBACK TO SAVEPOINT exercise_record_submit`;
+            return this.idempotency.failure(error);
+          }
           if (this.isUniqueViolation(error)) {
+            await transaction.$executeRaw`ROLLBACK TO SAVEPOINT exercise_record_submit`;
             return this.idempotency.failure(
               new ApplicationError('EXERCISE_RECORD_DUPLICATE_SUBMISSION', 409),
             );

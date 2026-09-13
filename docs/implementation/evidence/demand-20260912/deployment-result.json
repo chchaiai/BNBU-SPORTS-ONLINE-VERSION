@@ -1,0 +1,13 @@
+{
+  "check": "DEMAND_DEPLOYMENT",
+  "result": "PASS",
+  "sourceCommit": "dfbce813d00d6848e2edd96cb27eb326c430734e",
+  "release": "/opt/bnbu-sports-production/releases/demand-20260912",
+  "previous": "/opt/bnbu-sports-production/releases/course-delete-20260911",
+  "staticFilesVerified": 29,
+  "images": {
+    "backend": "sha256:ab96762ac96e3a1058aa3bba716814318e03683a8ab0cb6234b3d203d4cee28b",
+    "portal": "sha256:9e7bf36497f9ffe8c233970fb2b1329e7c03d65e754dfa2d0565d97edff8397b",
+    "migrator": "sha256:4307408698483ebb28a382e7bd28c604b84c123d990eff0def0d2c965eb54bd9"
+  }
+}

@@ -9,9 +9,11 @@ import { CurrentPrincipal } from '../../common/policy/principal.decorator.js';
 import { UsersService, type CurrentUserProjection } from './users.service.js';
 import {
   EmailVerificationChallengePathDto,
+  CompleteStudentProfileDto,
   EmailVerificationChallengeRequestDto,
   VerifyEmailChallengeRequestDto,
 } from './users.dto.js';
+import { StudentProfileCompletionService } from './student-profile-completion.service.js';
 import {
   EmailVerificationService,
   type EmailVerificationChallengeProjection,
@@ -22,11 +24,22 @@ export class UsersController {
   constructor(
     private readonly users: UsersService,
     private readonly emailVerification: EmailVerificationService,
+    private readonly profileCompletion: StudentProfileCompletionService,
   ) {}
 
   @Get()
   @OperationPolicy('getCurrentUser')
   current(@CurrentPrincipal() principal: AuthenticatedPrincipal): Promise<CurrentUserProjection> {
+    return this.users.current(principal);
+  }
+
+  @Post('student-profile')
+  @HttpCode(200)
+  @OperationPolicy('completeCurrentStudentProfile')
+  async completeProfile(@CurrentPrincipal() principal: AuthenticatedPrincipal,
+    @Body() body: CompleteStudentProfileDto, @Headers('idempotency-key') idempotencyKey: string | undefined,
+    @Req() request: FoundationRequest): Promise<CurrentUserProjection> {
+    await this.profileCompletion.complete(principal,body,{idempotencyKey,requestId:request.requestId});
     return this.users.current(principal);
   }
 

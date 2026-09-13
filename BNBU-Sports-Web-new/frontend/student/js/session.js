@@ -179,11 +179,11 @@ export function sessionDurationMs(session, now = Date.now()) {
   const raw = session.phase === "active" && session.lastResumedAt
     ? session.accumulatedMs + Math.max(0, now - session.lastResumedAt)
     : session.accumulatedMs;
-  return Math.min(raw, SESSION_MAX_MILLIS);
+  return Math.min(raw, Number.isInteger(session.maximumDurationSeconds)?session.maximumDurationSeconds*1000:SESSION_MAX_MILLIS);
 }
 
 export function shouldAutoEnd(session, now = Date.now()) {
-  return false; // V8.1 does not end a legitimate session after two hours.
+  return session?.phase==='active' && Number.isInteger(session.maximumDurationSeconds) && sessionDurationMs(session,now)>=session.maximumDurationSeconds*1000;
 }
 
 export function restoreServerSession(server, details, now = Date.now()) {
@@ -195,14 +195,15 @@ export function restoreServerSession(server, details, now = Date.now()) {
   return {...startSession(details, now), serverId:server.id, serverVersion:server.version,
     enrollmentId:server.enrollmentId, phase:server.status==='PAUSED'?'paused':'active',
     startedAt:Date.parse(server.startedAt), accumulatedMs:server.actualDurationSeconds*1000,
+    maximumDurationSeconds:server.maximumDurationSeconds??null,
     lastResumedAt:server.status==='PAUSED'?null:now};
 }
 
 /** Display estimate only; server review and daily/weekly limits determine actual credit. */
-export function creditedHours(durationMs, minimumMinutes) {
-  if (![30,45,60].includes(minimumMinutes) || !Number.isFinite(durationMs) || durationMs < 0) return null;
+export function creditedHours(durationMs, minimumMinutes, maximumMinutes=60) {
+  if (!Number.isInteger(minimumMinutes) || minimumMinutes < 1 || minimumMinutes > 1440 || !Number.isFinite(durationMs) || durationMs < 0) return null;
   const minutes = Math.floor(durationMs / 60000);
-  return minutes < minimumMinutes ? 0 : Math.min(minutes,60) / 60;
+  return minutes < minimumMinutes ? 0 : Math.min(minutes,maximumMinutes) / 60;
 }
 
 export function formatTimer(durationMs) {

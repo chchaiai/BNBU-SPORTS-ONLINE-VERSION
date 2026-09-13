@@ -2,6 +2,11 @@ export const STUDENT_GENDERS = ['MALE', 'FEMALE', 'OTHER'] as const;
 export type StudentGender = (typeof STUDENT_GENDERS)[number];
 
 export interface StudentIdentityInput {
+  collegeName?: string;
+  majorName?: string;
+  dateOfBirth?: string;
+  regionCode?: string;
+  otherRegionName?: string;
   fullName: string;
   studentNumber: string;
   gender: string;
@@ -9,6 +14,12 @@ export interface StudentIdentityInput {
 }
 
 export interface NormalizedStudentIdentity {
+  collegeName?: string;
+  majorName?: string;
+  dateOfBirth?: string;
+  regionCode?: string;
+  otherRegionName?: string;
+  authenticatedUserId?: string;
   fullName: string;
   studentNumber: string;
   gender: StudentGender;
@@ -37,6 +48,9 @@ export interface ResolvedStudentIdentity {
     gradeYear: number;
     collegeName: string | null;
     majorName: string | null;
+    dateOfBirth?: Date | null;
+    regionCode?: string | null;
+    otherRegionName?: string | null;
     administrativeClassName: string | null;
     status: string;
     createdAt: Date;

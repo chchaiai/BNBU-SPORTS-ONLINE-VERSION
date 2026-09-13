@@ -1,0 +1,12 @@
+{
+  "check": "CLOUD_SYNTHETIC_HELP_FEEDBACK",
+  "observedAt": "2026-09-12T18:49:32.659Z",
+  "organizationId": "01a096c2-20a2-706b-8c69-802f67dee12c",
+  "articleId": "01a096f4-0022-73af-adfa-39489c4eb648",
+  "feedbackId": "01a096f4-05bb-727f-aca8-db7274308897",
+  "checks": [
+    "HELP_DRAFT_PUBLISH_BILINGUAL_DETAIL_ARCHIVE_ROLE_DENIAL",
+    "FEEDBACK_STATUS_REPLAY_HISTORY_REDACTION_NOTIFICATION_ONCE"
+  ],
+  "allChecksCompleted": true
+}

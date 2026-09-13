@@ -1,0 +1,83 @@
+{
+  "check": "CLOUD_SUBADMIN_GOVERNANCE",
+  "organizationId": "01a096c2-20a2-706b-8c69-802f67dee12c",
+  "checks": [
+    {
+      "path": "/me",
+      "status": 200,
+      "expected": 200,
+      "requestId": "01a0984e-d3a9-75b8-a25e-a6e7309054e1"
+    },
+    {
+      "path": "/admin/subadmins",
+      "status": 403,
+      "expected": 403,
+      "requestId": "01a0984e-d5ab-7479-b169-8bc29521ffda"
+    },
+    {
+      "path": "/admin/subadmins",
+      "status": 201,
+      "expected": 201,
+      "requestId": "01a0984e-d636-708e-8ea6-d75f1c9babb5"
+    },
+    {
+      "path": "/admin/subadmins",
+      "status": 201,
+      "expected": 201,
+      "requestId": "01a0984e-d74b-739a-a6c8-4ea0d3af79f3"
+    },
+    {
+      "path": "/auth/password-login",
+      "status": 200,
+      "expected": 200,
+      "requestId": "01a0984e-d84c-704b-9207-b32e9d45cdb0"
+    },
+    {
+      "path": "/auth/account-security",
+      "status": 200,
+      "expected": 200,
+      "requestId": "01a0984e-d968-7546-b2f3-8979412af990"
+    },
+    {
+      "path": "/admin/audit-events",
+      "status": 403,
+      "expected": 403,
+      "requestId": "01a0984e-d9f4-759d-8d58-c8b992db337f"
+    },
+    {
+      "path": "/auth/own-password",
+      "status": 201,
+      "expected": 201,
+      "requestId": "01a0984e-da7e-77df-be7a-c31e03d47dde"
+    },
+    {
+      "path": "/admin/audit-events",
+      "status": 200,
+      "expected": 200,
+      "requestId": "01a0984e-dc06-7348-a99a-06fb3ab61022"
+    },
+    {
+      "path": "/admin/subadmins/c7729544-4053-4799-ad5d-b6f605709768/permissions",
+      "status": 409,
+      "expected": 201,
+      "requestId": "01a0984e-dce6-70c1-9cf0-0ed58a16d93c"
+    },
+    {
+      "path": "/admin/subadmins",
+      "status": 200,
+      "expected": 200,
+      "requestId": "01a0984e-dd7a-775c-b789-1cdf3c466480"
+    },
+    {
+      "path": "/admin/subadmins/c7729544-4053-4799-ad5d-b6f605709768/delete",
+      "status": 201,
+      "expected": 201,
+      "requestId": "01a0984e-de08-759c-9d91-e7caa7359ffd"
+    }
+  ],
+  "subadminId": "c7729544-4053-4799-ad5d-b6f605709768",
+  "result": "FAIL",
+  "error": "{\"path\":\"/admin/subadmins/c7729544-4053-4799-ad5d-b6f605709768/permissions\",\"status\":409,\"code\":\"CONFLICT_VERSION_MISMATCH\"}\n\n409 !== 201\n",
+  "cleanup": "TEST_ACCOUNT_DELETED",
+  "completedAt": "2026-09-13T01:08:21.168Z"
+}

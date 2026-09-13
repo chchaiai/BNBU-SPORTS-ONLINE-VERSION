@@ -1,0 +1,5 @@
+{
+  "destructive": false,
+  "sha256": "546aa0c672be5c6b5e4d68477222e13865d7ab3d8ca4bb4fce5b9dbceaea8c7c",
+  "migrationId": "0064_student_long_term_profile"
+}

@@ -5,7 +5,15 @@ import { appendMaterialVersion } from './v81-materials.js';
 export async function requiredCourseThreshold(
   transaction: Prisma.TransactionClient,
   classSectionId: string,
+  recordId?: string,
 ): Promise<number> {
+  if (recordId) {
+    const snapshot = await transaction.$queryRaw<{ minimum_minutes: number }[]>`
+      SELECT s.minimum_minutes FROM v81_record_rule_snapshots s
+      JOIN exercise_records r ON r.id=s.record_id
+      WHERE r.id=${recordId}::uuid AND r.class_section_id=${classSectionId}::uuid`;
+    if (snapshot[0]) return snapshot[0].minimum_minutes;
+  }
   const rows = await transaction.$queryRaw<{ minimum_minutes: number }[]>`
     SELECT minimum_minutes FROM v81_course_rules WHERE class_section_id = ${classSectionId}::uuid AND published_at IS NOT NULL
   `;

@@ -8,10 +8,13 @@ export interface CreditCandidate {
   actualSeconds: number;
   valid: boolean;
   previouslySelected: boolean;
+  maximumMinutes?: number;
 }
 export interface CreditRules {
-  minimumMinutes: 30 | 45 | 60;
-  weeklyLimit: 2 | 3 | 4;
+  minimumMinutes: number;
+  maximumMinutes?: number;
+  weeklyLimit: number;
+  dailyLimit?: number;
   courseTarget: number;
   generalTarget: number;
 }
@@ -22,22 +25,27 @@ interface State {
   previousCount: number;
   chosen: number[];
 }
-export function eligibleMinutes(actualSeconds: number, minimumMinutes: number): number {
+export function eligibleMinutes(actualSeconds: number, minimumMinutes: number, maximumMinutes = 60): number {
   if (!Number.isSafeInteger(actualSeconds) || actualSeconds < 0)
     throw new Error('INVALID_DURATION');
-  if (![30, 45, 60].includes(minimumMinutes)) throw new Error('INVALID_THRESHOLD');
+  if (!Number.isInteger(minimumMinutes) || minimumMinutes < 1 || minimumMinutes > 1440) throw new Error('INVALID_THRESHOLD');
+  if (!Number.isInteger(maximumMinutes) || maximumMinutes < 1 || maximumMinutes > 1440) throw new Error('INVALID_MAXIMUM');
   const minutes = Math.floor(actualSeconds / 60);
-  return minutes < minimumMinutes ? 0 : Math.min(minutes, 60);
+  return minutes < minimumMinutes ? 0 : Math.min(minutes, maximumMinutes);
 }
 export function validateCreditRules(rules: CreditRules): void {
   if (
-    ![30, 45, 60].includes(rules.minimumMinutes) ||
-    ![2, 3, 4].includes(rules.weeklyLimit) ||
+    !Number.isInteger(rules.minimumMinutes) || rules.minimumMinutes < 1 || rules.minimumMinutes > 1440 ||
+    !Number.isSafeInteger(rules.weeklyLimit) || rules.weeklyLimit < 1 || rules.weeklyLimit > 2147483647 ||
+    !Number.isSafeInteger(rules.dailyLimit ?? 1) ||
+    (rules.dailyLimit ?? 1) < 1 ||
+    (rules.dailyLimit ?? 1) > 2147483647 ||
     !Number.isInteger(rules.courseTarget) ||
     !Number.isInteger(rules.generalTarget) ||
     rules.courseTarget < 0 ||
     rules.generalTarget < 0 ||
-    rules.courseTarget + rules.generalTarget !== 1200
+    rules.courseTarget + rules.generalTarget < 1 || rules.courseTarget + rules.generalTarget > 2147483647 ||
+    (rules.maximumMinutes !== undefined && (!Number.isInteger(rules.maximumMinutes) || rules.maximumMinutes < rules.minimumMinutes || rules.maximumMinutes > 1440))
   )
     throw new Error('INVALID_COURSE_RULES');
 }
@@ -69,6 +77,7 @@ export function selectCredits(
   candidates: readonly CreditCandidate[],
   rules: CreditRules,
   recognized: { course: number; general: number } = { course: 0, general: 0 },
+  reserved: { days: ReadonlyMap<string, number>; weeks: ReadonlyMap<string, number> } = { days: new Map(), weeks: new Map() },
 ) {
   validateCreditRules(rules);
   if (
@@ -90,7 +99,7 @@ export function selectCredits(
     mondayOf(item.businessDate);
     if (!Number.isFinite(Date.parse(item.startedAt))) throw new Error('INVALID_START_TIME');
     if (!['COURSE_RELATED', 'GENERAL'].includes(item.category)) throw new Error('INVALID_CATEGORY');
-    if (item.valid && eligibleMinutes(item.actualSeconds, rules.minimumMinutes) > 0) {
+    if (item.valid && eligibleMinutes(item.actualSeconds, rules.minimumMinutes, item.maximumMinutes) > 0) {
       const group = days.get(item.businessDate) ?? [];
       group.push(index);
       days.set(item.businessDate, group);
@@ -113,13 +122,18 @@ export function selectCredits(
       states = reset;
       week = nextWeek;
     }
-    // Read only yesterday's states so at most one record can be chosen per day.
-    const next = new Map(states);
+    // Track today's count separately; each record is considered once.
+    let daily = new Map<string, { state: State; count: number }>();
     for (const state of states.values()) {
-      if (state.weekCount >= rules.weeklyLimit) continue;
-      for (const index of records) {
+      daily.set(`${state.course}:${state.general}:${state.weekCount}:0`, { state, count: 0 });
+    }
+    for (const index of records) {
+      const next = new Map(daily);
+      for (const { state, count } of daily.values()) {
+        if (state.weekCount + (reserved.weeks.get(nextWeek) ?? 0) >= rules.weeklyLimit ||
+          count + (reserved.days.get(date) ?? 0) >= (rules.dailyLimit ?? 1)) continue;
         const record = sorted[index]!;
-        const amount = eligibleMinutes(record.actualSeconds, rules.minimumMinutes);
+        const amount = eligibleMinutes(record.actualSeconds, rules.minimumMinutes, record.maximumMinutes);
         const course =
           record.category === 'COURSE_RELATED'
             ? Math.min(rules.courseTarget, state.course + amount)
@@ -129,16 +143,23 @@ export function selectCredits(
             ? Math.min(rules.generalTarget, state.general + amount)
             : state.general;
         if (course === state.course && general === state.general) continue;
-        retain(next, {
+        const candidate: State = {
           course,
           general,
           weekCount: state.weekCount + 1,
           previousCount: state.previousCount + Number(record.previouslySelected),
           chosen: [...state.chosen, index].sort((a, b) => a - b),
-        });
+        };
+        const key = `${course}:${general}:${candidate.weekCount}:${count + 1}`;
+        const existing = next.get(key);
+        if (!existing || preferred(candidate, existing.state)) {
+          next.set(key, { state: candidate, count: count + 1 });
+        }
       }
+      daily = next;
     }
-    states = next;
+    states = new Map();
+    for (const { state } of daily.values()) retain(states, state);
   }
   let best: State | undefined;
   for (const state of states.values()) {
@@ -153,7 +174,7 @@ export function selectCredits(
   let courseRemaining = rules.courseTarget - recognized.course;
   let generalRemaining = rules.generalTarget - recognized.general;
   const records = sorted.map((record, index) => {
-    const eligible = eligibleMinutes(record.actualSeconds, rules.minimumMinutes);
+    const eligible = eligibleMinutes(record.actualSeconds, rules.minimumMinutes, record.maximumMinutes);
     let credited = 0;
     if (selected.has(index)) {
       if (record.category === 'COURSE_RELATED') {

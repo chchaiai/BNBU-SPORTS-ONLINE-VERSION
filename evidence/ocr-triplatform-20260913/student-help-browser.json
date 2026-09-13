@@ -1,0 +1,16 @@
+{
+  "observedAt": "2026-09-13T03:23:53.773Z",
+  "articleId": "01a098c9-194d-775e-ae5c-65868cc76428",
+  "student": "TEST ZETA synthetic account",
+  "checks": [
+    "Chinese published title and body visible",
+    "Unmatched search shows no matching help",
+    "Body text search returns article",
+    "English language switch reloads English title and body",
+    "Archived article absent after reopening",
+    "Language restored to Chinese; checked state confirmed by fresh snapshot"
+  ],
+  "fixtureFinalStatus": "archived",
+  "result": "PASS",
+  "scope": "Real student browser with production API; does not prove legacy public help endpoint"
+}

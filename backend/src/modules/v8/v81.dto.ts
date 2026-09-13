@@ -22,6 +22,10 @@ export class ProofTodoQuery {
   @Type(() => Number) @IsInt() @Min(1) @Max(100) limit = 100;
   @IsOptional() @IsString() @MaxLength(2048) cursor?: string;
 }
+export class V81ExerciseGoalInput {
+  @Type(() => Number) @IsInt() @Min(1) @Max(2147483647) totalTargetMinutes!: number;
+  @Type(() => Number) @IsInt() @Min(0) @Max(2147483646) expectedVersion!: number;
+}
 
 export class SwimIntakeItemInput {
   @IsUUID() mediaId!: string;
@@ -36,9 +40,12 @@ export class SwimIntakeInput {
 }
 
 export class V81RulesInput {
+  @ValidateIf((_object, value: unknown) => value !== undefined) @Type(() => Number) @IsInt() @Min(1) @Max(1440) maximumMinutes?: number;
+  @ValidateIf((_object, value: unknown) => value !== undefined) @Type(() => Number) @IsInt() @Min(0) globalTargetVersion?: number;
   @ValidateIf((_object, value: unknown) => value !== undefined) @IsUUID() templateId?: string;
-  @Type(() => Number) @IsInt() @IsIn([30, 45, 60]) minimumMinutes!: 30 | 45 | 60;
-  @Type(() => Number) @IsInt() @IsIn([2, 3, 4]) weeklyLimit!: 2 | 3 | 4;
+  @Type(() => Number) @IsInt() @Min(1) @Max(1440) minimumMinutes!: number;
+  @Type(() => Number) @IsInt() @Min(1) @Max(2147483647) weeklyLimit!: number;
+  @Type(() => Number) @IsInt() @Min(1) @Max(2147483647) dailyLimit = 1;
   @Type(() => Number) @IsInt() @Min(0) courseTarget!: number;
   @Type(() => Number) @IsInt() @Min(0) generalTarget!: number;
   @IsISO8601({ strict: true }) regularDeadline!: string;
