@@ -1024,6 +1024,7 @@ describe('ExerciseRecord HTTP E2E', () => {
       const rejected = await request(`/api/v1/exercise-records/${id}/submit`, authenticated(token, 'POST', body, key));
       assert.equal(rejected.status, 422, JSON.stringify(rejected.body));
       assert.equal(rejected.body.code, 'VALIDATION_FAILED');
+      assert.equal(object(rejected.body.details).reason, 'SWIM_INTAKE_REQUIRED');
       assert.deepEqual(await prisma.exerciseRecord.findUniqueOrThrow({ where: { id } }), beforeRecord);
       assert.equal(await prisma.exerciseRecordMedia.count({ where: { recordId: id } }), 0);
       assert.equal(await prisma.reviewRecord.count({ where: { recordId: id } }), 0);
@@ -1092,6 +1093,21 @@ describe('ExerciseRecord HTTP E2E', () => {
     assert.equal((clock.items as unknown[]).length, 2);
     const rows = await prisma.$queryRaw<{ total: bigint }[]>`SELECT count(*) AS total FROM v81_swim_intake_items WHERE record_id=${String(record.id)}::uuid`;
     assert.equal(Number(required(rows[0]).total), 2);
+    const now = new Date();
+    for (const proofId of [mediaId, afterId]) {
+      await prisma.mediaUploadSession.create({data:{id:uuidv7(),organizationId:fixture.organizationId,
+        mediaId:proofId,status:'CONFIRMED',capabilityExpiresAt:new Date(now.getTime()+1800000),
+        confirmedAt:now,clientEntityTag:'synthetic-etag',observedFileSizeBytes:45n,createdAt:now,updatedAt:now}});
+    }
+    assert.equal(object((await request(path,authenticated(token))).body.data).readyForReview,true);
+    const submitPath = `/api/v1/exercise-records/${String(record.id)}/submit`;
+    const submitKey = uuidv7();
+    const submitBody = {mediaIds:[mediaId,afterId],expectedVersion:record.version};
+    const submitted = await request(submitPath,authenticated(token,'POST',submitBody,submitKey));
+    assert.equal(submitted.status,200,JSON.stringify(submitted.body));
+    assert.deepEqual((await request(submitPath,authenticated(token,'POST',submitBody,submitKey))).body.data,submitted.body.data);
+    assert.equal(await prisma.exerciseRecordMedia.count({where:{recordId:String(record.id)}}),2);
+
   });
 
 });

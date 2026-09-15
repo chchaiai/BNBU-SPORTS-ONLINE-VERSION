@@ -2295,8 +2295,8 @@ export function TeacherWorkspace({
     if(mode==='real'&&(!Number.isInteger(minimumMinutes)||minimumMinutes<1||minimumMinutes>1440||!Number.isSafeInteger(weeklyLimit)||weeklyLimit<1||weeklyLimit>2147483647)){setFormError('最低运动时长须为 1–1440 分钟，每周次数须为正整数。');return;}
     if (mode === 'real' && courseRuleSettings?.rules?.published_at) {
       const previous = courseRuleSettings.rules;
-      const courseTarget=previous.allocation_pending?Math.round(Number(form.courseTarget)*60):previous.course_target;
-      const generalTarget=previous.allocation_pending?Math.round(Number(form.otherTarget)*60):previous.general_target;
+      const courseTarget=Number(form.courseTarget)*60;
+      const generalTarget=Number(form.otherTarget)*60;
       if(!Number.isSafeInteger(courseTarget)||!Number.isSafeInteger(generalTarget)||courseTarget<0||generalTarget<0||courseTarget+generalTarget!==targetMinutes){setFormError(`两类目标需合计 ${targetMinutes} 分钟。`);return;}
       try {
         await publishCourseRules(courseId, { templateId: previous.template_id!, minimumMinutes, maximumMinutes,globalTargetVersion,weeklyLimit, dailyLimit,
@@ -2304,7 +2304,7 @@ export function TeacherWorkspace({
           regularDeadline: previous.regular_deadline, closingDeadline: previous.closing_deadline,
           settlementPlannedAt: previous.settlement_planned_at, expectedVersion: previous.version }, crypto.randomUUID());
         await refreshTeacherData();
-        showToast('规则已保存，单次上限应用于之后新开始的打卡。');
+        showToast('规则已保存，分类目标已应用于本课程学生；已有运动记录保留原计时规则。');
         closeDialog();
       } catch (error) { setFormError(toUserFacingError(error)); }
       return;
@@ -2501,9 +2501,10 @@ export function TeacherWorkspace({
   };
 
   const generateInvite = async (courseId: string): Promise<boolean> => {
-    const durationMinutes = Number(form.inviteDurationMinutes || "30");
-    if (!Number.isInteger(durationMinutes) || durationMinutes < 5 || durationMinutes > 120) {
-      showToast("邀请有效期须为 5–120 的整数分钟。");
+    const parts = [Number(form.inviteDays || "0"), Number(form.inviteHours || "0"), Number(form.inviteDurationMinutes ?? "30")];
+    const durationMinutes = parts[0] * 1440 + parts[1] * 60 + parts[2];
+    if (parts.some(value=>!Number.isSafeInteger(value) || value<0) || !Number.isSafeInteger(durationMinutes) || durationMinutes < 1 || !Number.isFinite(new Date(Date.now() + durationMinutes * 60_000).getTime())) {
+      showToast("请填写非负整数天、小时、分钟，总时长至少 1 分钟，且不得超过学期结束。");
       return false;
     }
     if (mode === "demo") {
@@ -3108,6 +3109,7 @@ export function TeacherWorkspace({
   const regularDeadlineMinimum = form.dateRangeEnd || selectedCourse?.checkinWindow.dateRangeEnd || form.dateRangeStart || selectedCourse?.checkinWindow.dateRangeStart;
   const regularDeadlineMaximum = currentSemester?.id === selectedCourse?.semesterId && currentSemester?.endsOn
     ? new Date(Date.parse(`${currentSemester.endsOn.slice(0,10)}T00:00:00Z`) - 7 * 86400000).toISOString().slice(0,10) : undefined;
+  const regularDeadlineRangeEmpty = Boolean(regularDeadlineMinimum && regularDeadlineMaximum && regularDeadlineMinimum > regularDeadlineMaximum);
   const selectedStudent =
     dialog && "studentId" in dialog
       ? students.find((student) => student.id === dialog.studentId)
@@ -4982,7 +4984,7 @@ export function TeacherWorkspace({
             </div>
             <aside className="grade-publication-notice">
               {courseRuleSettings ? `总目标为 ${courseRuleSettings.goal.totalTargetMinutes.toLocaleString("zh-CN")} 分钟。` : "正在读取课程总目标。"}
-              课程规则以服务端已发布版本为准。
+              课程规则以服务端已发布版本为准。调整分类目标将更新本课程学生的进度与成绩，已有运动记录保留原计时规则。
             </aside>
             <div className="course-target-setting-list">
               <div className="course-target-setting">
@@ -5011,7 +5013,7 @@ export function TeacherWorkspace({
                 <div className="course-target-unit-input">
                   <input
                     id="course-target-course-hours"
-                    disabled={mode==='real'&&(!courseRuleSettings||!!courseRuleSettings.rules?.published_at&&!courseRuleSettings.rules.allocation_pending)}
+                    disabled={mode==='real'&&(!courseRuleSettings||['CLOSED','ARCHIVED'].includes(selectedCourse.status))}
                     type="number"
                     min="0"
                     value={form.courseTarget ?? selectedCourse.courseTarget}
@@ -5031,7 +5033,7 @@ export function TeacherWorkspace({
                 <div className="course-target-unit-input">
                   <input
                     id="course-target-other-hours"
-                    disabled={mode==='real'&&(!courseRuleSettings||!!courseRuleSettings.rules?.published_at&&!courseRuleSettings.rules.allocation_pending)}
+                    disabled={mode==='real'&&(!courseRuleSettings||['CLOSED','ARCHIVED'].includes(selectedCourse.status))}
                     type="number"
                     min="0"
                     value={form.otherTarget ?? selectedCourse.otherTarget}
@@ -5099,11 +5101,12 @@ export function TeacherWorkspace({
               <Field
                 label="常规提交截止日期"
                 required
-                hint={`可设置范围：${regularDeadlineMinimum || '请先设置课程日期'} ～ ${regularDeadlineMaximum || '请先获取学期日期'}。不得早于打卡结束日期；学期结束前须保留完整 7 天收尾期。`}
+                hint={`常规截止日期是学生正常打卡首次提交的最后日期；其后 7 天用于审核、补证和获准补练。${regularDeadlineRangeEmpty ? `当前打卡结束日期晚于允许的最晚截止日期 ${regularDeadlineMaximum}，请先将打卡结束日期调整到该日期或之前。` : `可设置范围：${regularDeadlineMinimum || '请先设置课程日期'} ～ ${regularDeadlineMaximum || '请先获取学期日期'}。不得早于打卡结束日期；学期结束前须保留完整 7 天收尾期。`}`}
               >
                 <input
                   type="date"
-                  min={regularDeadlineMinimum}
+                  disabled={regularDeadlineRangeEmpty}
+                  min={regularDeadlineRangeEmpty ? undefined : regularDeadlineMinimum}
                   max={regularDeadlineMaximum}
                   value={
                     form.semesterDeadline ??
@@ -5190,7 +5193,7 @@ export function TeacherWorkspace({
               description={
                 isActiveInvite
                   ? "将二维码投影给学生端扫码，或复制邀请码在学生端手动输入。学生确认资料且服务端校验成功后会立即成为课程成员。"
-                  : "邀请有效期为 5–120 分钟。到期前已登记的学生可在到期后 10 分钟内完成入班，重复操作不会延长截止时间。"
+                  : "邀请有效期由教师自定义，至少 1 分钟，截止时间不得超过学期结束。到期前已登记的学生可在到期后 10 分钟内完成入班，重复操作不会延长截止时间。"
               }
               close={closeDialog}
               footer={
@@ -5333,20 +5336,15 @@ export function TeacherWorkspace({
                           ? "生成后可投影二维码、下载或打印，也可将邀请码发送给学生。"
                           : "如需重新展示，请生成新邀请码；服务端会同时使此前的有效邀请码失效。"}
                     </p>
-                    <Field label="邀请有效期（分钟）" required>
-                      <input
-                        type="number"
-                        min="5"
-                        max="120"
-                        step="1"
-                        value={form.inviteDurationMinutes ?? "30"}
-                        onChange={(event) =>
-                          updateForm("inviteDurationMinutes", event.target.value)
-                        }
-                      />
-                    </Field>
+                    <div className="form-grid">
+                      {[['inviteDays','天','0'],['inviteHours','小时','0'],['inviteDurationMinutes','分钟','30']].map(([key,label,fallback]) => (
+                        <Field key={key} label={`邀请有效期（${label}）`} required>
+                          <input type="number" min="0" step="1" value={form[key] ?? fallback} onChange={event=>updateForm(key,event.target.value)} />
+                        </Field>
+                      ))}
+                    </div>
                     <p className="field-note">
-                      默认 30 分钟。到期后不再接受新登记；已登记流程的截止时间固定为邀请到期后 10 分钟。
+                      默认 30 分钟，可组合天、小时、分钟，总时长至少 1 分钟，截止时间不得超过学期结束。到期后不再接受新登记；已登记流程的截止时间固定为邀请到期后 10 分钟。
                     </p>
                   </div>
                 </section>

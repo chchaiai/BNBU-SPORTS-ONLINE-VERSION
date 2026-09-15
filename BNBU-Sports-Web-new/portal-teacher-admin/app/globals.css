@@ -990,3 +990,6 @@ code { padding: 4px 6px; border-radius: 6px; background: var(--color-surface-var
   .course-toolbar { margin: 0 0 12px; }
   .teacher-course-grid { grid-template-columns: 1fr; }
 }
+
+.admin-bulk-student-toolbar { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; padding: 16px 20px; border-bottom: 1px solid var(--border, #e5e7eb); }
+.admin-bulk-student-toolbar > span { margin-right: auto; }

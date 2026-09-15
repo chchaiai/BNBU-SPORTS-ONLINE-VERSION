@@ -392,7 +392,7 @@ check("check-in sport icons share one stroke set and keep each activity recogniz
   for (const sport of SPORT_OPTIONS) {
     const svg = icon(sport.icon,24);
     assert.match(svg, /stroke="currentColor"/u);
-    assert.match(svg, /stroke-width="2"/u);
+    assert.match(svg, /stroke-width="1.5"/u);
     assert.match(svg, /<svg /u);
     assert.ok(sport.zh && sport.en && sport.value);
   }
@@ -1103,6 +1103,21 @@ check("public runtime config loads before the student application", () => {
   const runtimeConfigIndex = studentIndexSource.indexOf('<script src="/runtime-config.js"></script>');
   const appModuleIndex = studentIndexSource.indexOf('<script type="module" src="./js/app.js"></script>');
   assert.ok(runtimeConfigIndex >= 0 && runtimeConfigIndex < appModuleIndex);
+});
+
+check("student login distinguishes account enrollment guidance from invalid codes in both languages", () => {
+  for (const language of ["zh", "en"]) {
+    setLanguage(language);
+    const missing = toUserFacingError(new ApiError(404, {code:"USER_NOT_FOUND",details:{resourceType:"STUDENT_SIGN_IN_ACCOUNT"}}), {log:false});
+    assert.match(missing.message, language === "zh" ? /扫码加入课程/ : /course invitation/);
+    assert.equal(missing.retryable,false);
+    const invalid = toUserFacingError(new ApiError(401,{code:"AUTH_VERIFICATION_CODE_INVALID"}),{log:false});
+    assert.match(invalid.message, language === "zh" ? /验证码错误或已过期，请重新获取验证码/ : /Request a new code/);
+    const generic = toUserFacingError(new ApiError(404,{code:"USER_NOT_FOUND"}),{log:false});
+    assert.doesNotMatch(generic.message,/扫码|course invitation/);
+    assert.equal(t("login_verification_email_placeholder"),"student@mail.bnbu.edu.cn");
+  }
+  setLanguage("zh");
 });
 
 check("user-facing errors cover status families without exposing raw server text", () => {

@@ -83,6 +83,7 @@ export function renderLogin(app) {
         <button class="text-btn pressable" data-action="login.recovery" style="align-self:center;min-height:48px;padding:10px 4px;margin:0 auto;display:flex">
           <span class="label-large">${t("login_recovery")}</span>
         </button>
+        <a href="https://verityai.cn/" target="_blank" rel="noopener noreferrer" aria-label="Powered by Verity AI" style="display:flex;align-items:center;justify-content:center;gap:10px;min-height:44px;margin-top:16px;text-decoration:none;color:var(--color-on-background)"><span class="body-small">Powered by</span><img src="/student/assets/verity-ai-logo.svg" alt="Verity AI" width="134" height="23" style="background:#fff;border-radius:4px;padding:6px;box-sizing:content-box"></a>
       </div>
     </div>
   </div>`;

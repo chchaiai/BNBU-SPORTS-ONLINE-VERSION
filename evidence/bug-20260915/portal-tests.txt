@@ -1,0 +1,19 @@
+✔ the snapshot is bound to the declared current API local candidate (8.2467ms)
+✔ the generated types are the ones openapi-typescript emits for that snapshot (1.3669ms)
+✔ the client never re-derives a review state the Backend owns (0.8813ms)
+✔ FormField preserves a native control id and connects its label (5.9176ms)
+✔ FormField gives a native control and its label the same generated id (0.4697ms)
+✔ FormField connects AppSelect and forwards required accessibility state (1.7921ms)
+✔ FormField links hint and error text and marks the native control invalid (0.4513ms)
+✔ FormField merges a child's existing aria-describedby ids with its own ids (0.4441ms)
+✔ AdminField delegates label, required state and inline error association to FormField (0.463ms)
+✔ keeps translation resources unique and covers all static system text (112.7935ms)
+✔ keeps portals, accessibility attributes, enum labels, and reverse switching in the i18n boundary (3.1505ms)
+ℹ tests 11
+ℹ suites 0
+ℹ pass 11
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 854.9684

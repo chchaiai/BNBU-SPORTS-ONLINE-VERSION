@@ -1,0 +1,23 @@
+{
+  "verifiedAt": "2026-09-14T07:40:31.287849+00:00",
+  "sourceCommit": "249f66dc5dbcac19de91be2623bcdd21b65c6ce0",
+  "backendFiles": {
+    "backend/dist/common/errors/application-error.js": "8d9b55f17a1154b21212b281dc621386f26e2f5fa1a2db0cf31e274f98663708",
+    "backend/dist/common/errors/application-error.js.map": "f82cfa4c04dbd0ac974cb1f2db4330ac4f8ee972ab1b8480500d2cf5bc03293a",
+    "backend/dist/generated/openapi.document.generated.json": "ff66819d7b3ba612d8d49913893bbf0d0920410bbb5c8fd87269b8c7930d712f",
+    "backend/dist/generated/openapi.manifest.generated.json": "f9b0871eef065aa24e7c409fc05d8181fa6752a97c85a0d33f0e1ed249709b31"
+  },
+  "backendHashes": "PASS",
+  "localChecks": {
+    "studentSmoke": 87,
+    "studentFocusedAndErrorProjection": 10,
+    "backendDomainAndErrorProjection": 8,
+    "httpPostgreSQL": 12,
+    "typecheck": "PASS",
+    "targetedESLint": "PASS",
+    "linuxBuild": "PASS"
+  },
+  "visualScreenshot": "BLOCKED_BY_TOOL_POLICY",
+  "nativeAndroidDevice": "NOT_TESTED",
+  "realStudentDataModified": false
+}

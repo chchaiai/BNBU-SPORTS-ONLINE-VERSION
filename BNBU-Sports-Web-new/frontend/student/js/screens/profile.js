@@ -6,6 +6,7 @@ import { icon } from "../icons.js";
 import { esc, brandMark, sectionTitle, statusBadge, emptyPlaceholder, segmented, spinner, fieldLabel, fieldControlAttrs, fieldSupport, userFacingErrorPanel, focusFirstInvalidField } from "../ui.js";
 import { localStore } from "../store.js";
 import { studentRegionLabel, studentRegionOptions } from '../student-regions.js';
+import { STUDENT_COLLEGES, academicMajorOptions, allowsCustomMajor, validAcademicDetails } from '../student-academics.js';
 import {
   ApiError,
   request,
@@ -34,7 +35,9 @@ function profileCompletionForm(app) {
   const field = (id,label,type='text',max=200) => `<label class="col" style="gap:6px">${esc(label)}<input class="text-field" placeholder="${esc(label)}" data-input="profile.detailsField" data-field="${id}" type="${type}" maxlength="${max}" required value="${esc(state[id] || '')}" ${state.busy ? 'disabled' : ''}></label>`;
   return `<form class="swiss-panel col" style="gap:16px" data-profile-details-form data-submit="profile.saveDetails">
     <h3>${tx('完善个人资料','Complete personal details')}</h3>
-    ${profileFields.slice(0,3).map(([id,,label])=>field(id,label(),id==='dateOfBirth'?'date':'text')).join('')}
+    <label class="col">${tx('学院','College')}<select class="text-field" required data-input="profile.detailsField" data-field="collegeName" ${state.busy?'disabled':''}><option value="">${tx('请选择','Select')}</option>${STUDENT_COLLEGES.map(item=>`<option value="${item.code}" ${state.collegeName===item.code?'selected':''}>${esc(item.code+' '+item.name)}</option>`).join('')}</select></label>
+    ${allowsCustomMajor(state.collegeName) ? field('majorName',tx('其他专业（仅大写英文字母）','Other major (uppercase letters only)')) : `<label class="col">${tx('专业','Major')}<select class="text-field" required data-input="profile.detailsField" data-field="majorName" ${state.busy?'disabled':''}><option value="">${tx('请选择','Select')}</option>${academicMajorOptions(state.collegeName).map(value=>`<option value="${value}" ${state.majorName===value?'selected':''}>${value}</option>`).join('')}</select></label>`}
+    ${field('dateOfBirth',tx('出生年月日','Date of birth'),'date')}
     <label class="col">${tx('地域','Region')}<select class="text-field" required data-input="profile.detailsField" data-field="regionCode" ${state.busy?'disabled':''}><option value="">${tx('请选择','Select')}</option>${studentRegionOptions().map(option=>`<option value="${option.value}" ${state.regionCode===option.value?'selected':''}>${esc(option.label)}</option>`).join('')}</select></label>
     ${state.regionCode==='OTHER'?field('otherRegionName',tx('国家或地区名称','Country or region name'),'text',100):''}
     ${state.error?`<p role="alert" class="text-error">${esc(state.error)}</p>`:''}
@@ -385,12 +388,14 @@ export const profileActions = {
     const state=app.ui.profileDetails;
     if (!state || state.busy) return;
     state[el.dataset.field]=el.value; state.error=null;
+    if (el.dataset.field==='collegeName') { state.majorName=''; app.render(); }
     if (el.dataset.field==='regionCode') app.render();
   },
   "profile.cancelDetails": (app) => {app.ui.profileDetails=null;app.render();},
   "profile.saveDetails": async (app) => {
     const state=app.ui.profileDetails, form=app._viewport?.querySelector('[data-profile-details-form]');
     if (!state || state.busy || !form?.reportValidity()) return;
+    if (!validAcademicDetails(state.collegeName,state.majorName.trim())) { state.error=tx('专业须符合学院选项，且仅包含大写英文字母。','Choose a valid major containing uppercase letters only.'); app.render(); return; }
     state.busy=true;state.error=null;app.render();
     try {
       await request('/me/student-profile',{method:'POST',idempotent:true,body:{

@@ -1,0 +1,76 @@
+{
+  "site": "sports",
+  "hostname": "VM-0-13-ubuntu",
+  "engineSha256": "d23fc6473e8854eb7bb83341ff90b3c95d820e3e4a6d46595d6070825c008be0",
+  "configSha256": "fbb7b02c4bd2fbfa6dcceb039b41ad0d9d2a42b805cca4474c5ac8defe929ed1",
+  "url": "https://bnbusports.cn",
+  "actualReleaseId": "20260914T061507Z-041ca5c46903-65a894bb",
+  "current": {
+    "acceptedAt": "2026-09-14T06:15:56.466153+00:00",
+    "gitCommit": "041ca5c46903198aa8e94acd696b597f4d819ac3",
+    "previousReleaseId": "20260913T031113Z-8e939cc9ad46-b348a52f",
+    "releaseId": "20260914T061507Z-041ca5c46903-65a894bb"
+  },
+  "operation": {
+    "backup": {
+      "archiveSha256": "82c67310e455815a55422a62586252fecf0a0ce7887bb0009e6f84597933539e",
+      "gitCommit": "8e939cc9ad4641aa6faeacf656809eb3c3e29f4f",
+      "path": "/var/backups/bnbu-sports-download/20260913T031113Z-8e939cc9ad46-b348a52f.tar.gz",
+      "releaseId": "20260913T031113Z-8e939cc9ad46-b348a52f",
+      "retiredAt": "2026-09-14T06:15:51.463099+00:00"
+    },
+    "checks": {
+      "homepageAndAllFiles": true,
+      "privatePathsDenied": true,
+      "productionRedirects": true,
+      "transport": "origin and public HTTPS"
+    },
+    "createdAt": "2026-09-14T06:15:50.476078+00:00",
+    "operationId": "20260914T061507Z-041ca5c46903-65a894bb",
+    "previousRecord": {
+      "acceptedAt": "2026-09-13T03:12:50.061666+00:00",
+      "gitCommit": "8e939cc9ad4641aa6faeacf656809eb3c3e29f4f",
+      "previousReleaseId": "20260910T101557Z-cad9eb3826aa-c886cd49",
+      "releaseId": "20260913T031113Z-8e939cc9ad46-b348a52f"
+    },
+    "previousReleaseId": "20260913T031113Z-8e939cc9ad46-b348a52f",
+    "request": {
+      "action": "publish",
+      "archiveSha256": "d2f9e3904295d5254d201dd96f61749c6b2ae114d6af185ecb4fa6a5a1aa03c7",
+      "releaseId": "20260914T061507Z-041ca5c46903-65a894bb"
+    },
+    "status": "SUCCEEDED",
+    "updatedAt": "2026-09-14T06:15:56.469785+00:00"
+  },
+  "backups": [
+    {
+      "archiveSha256": "3cca5204cd65b718075a10eb9eb3e1a53a0b40667569959cac628adc3714f2e9",
+      "gitCommit": "4bdcccfc1f001b16ce392c4d5fb0c7dd26c1ce59",
+      "path": "/var/backups/bnbu-sports-download/20260905T230349Z-4bdcccfc1f00-3d3d1268.tar.gz",
+      "releaseId": "20260905T230349Z-4bdcccfc1f00-3d3d1268",
+      "retiredAt": "2026-09-06T17:26:05.239988+00:00"
+    },
+    {
+      "archiveSha256": "916e1b58385039e5a5a3527a8792e81453c70a3b63cec3dfca361a5827cc3431",
+      "gitCommit": "f14ad3a9c1622c1c9096627abcde33fedcb7b2c0",
+      "path": "/var/backups/bnbu-sports-download/20260906T172523Z-f14ad3a9c162-b89d1b7c.tar.gz",
+      "releaseId": "20260906T172523Z-f14ad3a9c162-b89d1b7c",
+      "retiredAt": "2026-09-10T10:16:39.288985+00:00"
+    },
+    {
+      "archiveSha256": "02981c470007f310a41e341b8b5a5ee47c7bd715c718b25732dd519d9c0ec898",
+      "gitCommit": "cad9eb3826aa6c63c95db8abb7f9c04c11804e24",
+      "path": "/var/backups/bnbu-sports-download/20260910T101557Z-cad9eb3826aa-c886cd49.tar.gz",
+      "releaseId": "20260910T101557Z-cad9eb3826aa-c886cd49",
+      "retiredAt": "2026-09-13T03:12:09.683559+00:00"
+    },
+    {
+      "archiveSha256": "82c67310e455815a55422a62586252fecf0a0ce7887bb0009e6f84597933539e",
+      "gitCommit": "8e939cc9ad4641aa6faeacf656809eb3c3e29f4f",
+      "path": "/var/backups/bnbu-sports-download/20260913T031113Z-8e939cc9ad46-b348a52f.tar.gz",
+      "releaseId": "20260913T031113Z-8e939cc9ad46-b348a52f",
+      "retiredAt": "2026-09-14T06:15:51.463099+00:00"
+    }
+  ],
+  "freeBytes": 17247498240
+}

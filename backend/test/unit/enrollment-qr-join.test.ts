@@ -24,18 +24,18 @@ function qrCrypto(): QrJoinCryptoService {
 }
 
 describe('Stage 12 student identity and QR security', () => {
-  it('normalizes the student number without losing leading zeros and applies NFC', () => {
+  it('validates ten-digit student numbers and applies NFC', () => {
     const normalizer = new StudentIdentityNormalizer();
     assert.deepEqual(
       normalizer.normalize({
         fullName: ' Jose\u0301 Synthetic ',
-        studentNumber: ' 00ab-12 ',
+        studentNumber: ' 2300000001 ',
         gender: 'OTHER',
         gradeYear: 9999,
       }),
       {
         fullName: 'José Synthetic',
-        studentNumber: '00AB-12',
+        studentNumber: '2300000001',
         gender: 'OTHER',
         gradeYear: 9999,
       },
@@ -50,7 +50,7 @@ describe('Stage 12 student identity and QR security', () => {
     ] as const) {
       const dto = plainToInstance(IssueJoinCapabilityRequestDto, {
         fullName: 'Synthetic',
-        studentNumber: '0001',
+        studentNumber: '2300000001',
         gender,
         gradeYear,
       });
@@ -66,7 +66,7 @@ describe('Stage 12 student identity and QR security', () => {
     ] as const) {
       const dto = plainToInstance(IssueJoinCapabilityRequestDto, {
         fullName: 'Synthetic',
-        studentNumber: '0001',
+        studentNumber: '2300000001',
         gender,
         gradeYear,
       });
@@ -79,7 +79,7 @@ describe('Stage 12 student identity and QR security', () => {
     assert.equal(
       normalizer.normalize({
         fullName: 'Synthetic',
-        studentNumber: '0001',
+        studentNumber: '2300000001',
         gender: 'MALE',
         gradeYear: 1000,
       }).gradeYear,
@@ -88,17 +88,17 @@ describe('Stage 12 student identity and QR security', () => {
     assert.equal(
       normalizer.normalize({
         fullName: 'Synthetic',
-        studentNumber: '0001',
+        studentNumber: '2300000001',
         gender: 'FEMALE',
         gradeYear: 2028,
       }).gradeYear,
       2028,
     );
     for (const input of [
-      { fullName: 'Synthetic', studentNumber: '0001', gender: 'UNKNOWN', gradeYear: 2026 },
-      { fullName: 'Synthetic', studentNumber: '0001', gender: 'MALE', gradeYear: 999 },
-      { fullName: 'Synthetic', studentNumber: '0001', gender: 'MALE', gradeYear: 10_000 },
-      { fullName: 'Synthetic', studentNumber: '0001', gender: 'MALE', gradeYear: 2026.5 },
+      { fullName: 'Synthetic', studentNumber: '2300000001', gender: 'UNKNOWN', gradeYear: 2026 },
+      { fullName: 'Synthetic', studentNumber: '2300000001', gender: 'MALE', gradeYear: 999 },
+      { fullName: 'Synthetic', studentNumber: '2300000001', gender: 'MALE', gradeYear: 10_000 },
+      { fullName: 'Synthetic', studentNumber: '2300000001', gender: 'MALE', gradeYear: 2026.5 },
       { fullName: 'Synthetic', studentNumber: '0001 bad', gender: 'MALE', gradeYear: 2026 },
     ]) {
       assert.throws(

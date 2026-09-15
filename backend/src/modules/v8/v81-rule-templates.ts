@@ -1,3 +1,4 @@
+import { permitsSystemMode } from '../system-mode/system-mode-access.js';
 import { Body, Controller, Get, Headers, Injectable, Param, ParseUUIDPipe, Post, Query, Req } from '@nestjs/common';
 import { Type } from 'class-transformer';
 import { IsInt, IsString, Matches, Max, MaxLength, Min, ValidateIf } from 'class-validator';
@@ -51,8 +52,7 @@ export class V81RuleTemplatesService {
       request: input, requestId, key }, async tx => {
       await tx.$queryRaw`SELECT id FROM organizations WHERE id=${principal.organizationId}::uuid FOR NO KEY UPDATE`;
       await requireAdminAccess(tx, principal, 'SUPER');
-      if ((await tx.systemPolicy.findUnique({ where: { organizationId: principal.organizationId } }))?.systemMode !== 'NORMAL')
-        throw new ApplicationError('SYSTEM_MAINTENANCE', 503);
+      if (!permitsSystemMode((await tx.systemPolicy.findUnique({ where: { organizationId: principal.organizationId } }))?.systemMode, principal.role)) throw new ApplicationError('SYSTEM_MAINTENANCE', 503);
       const versions = await tx.$queryRaw<{ version: number }[]>`SELECT coalesce(max(version),0)::integer AS version FROM v81_rule_templates WHERE organization_id=${principal.organizationId}::uuid`;
       const version = versions[0]!.version;
       if (input.expectedVersion !== version) throw new ApplicationError('CONFLICT_VERSION_MISMATCH', 409);

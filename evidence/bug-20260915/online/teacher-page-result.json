@@ -1,0 +1,13 @@
+{
+  "result": "PASS",
+  "origin": "https://www.teacher.bnbusports.cn/",
+  "passwordLogin": "PASS",
+  "inviteMinutes": 1563,
+  "inviteStatus": 201,
+  "regularDeadlineMaximum": "2027-01-24",
+  "invalidDateRange": {
+    "hintVisible": true,
+    "disabled": true,
+    "minAttributeAbsent": true
+  }
+}

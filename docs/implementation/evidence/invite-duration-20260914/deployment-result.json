@@ -1,0 +1,21 @@
+{
+  "result": "PASS",
+  "phase": "DEPLOYED",
+  "sourceCommit": "3fbb17593d4355bfaf50259fd45cd240fb833b1d",
+  "previous": "/opt/bnbu-sports-production/releases/swim-intake-20260914",
+  "release": "/opt/bnbu-sports-production/releases/invite-duration-20260914",
+  "images": {
+    "backend": "sha256:3d36e4506d94ab253214b447e152399a304398e888c6a23449a565217250e692",
+    "portal": "sha256:ea259308ce7aa0432f5ad10434ccf0970a799a9b3f4755112bbfe2cefaa971b3"
+  },
+  "health": {
+    "https://www.teacher.bnbusports.cn/": 200,
+    "https://www.student.bnbusports.cn/student/": 200,
+    "https://www.student.bnbusports.cn/api/v1/health/ready": 200,
+    "https://bnbusports.cn/": 200
+  },
+  "studentModuleHashes": "PASS",
+  "migrationExecuted": false,
+  "runtimeConfiguration": "PRESERVED",
+  "rollbackExercised": false
+}

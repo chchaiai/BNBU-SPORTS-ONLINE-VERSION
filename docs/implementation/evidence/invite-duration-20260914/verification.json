@@ -1,0 +1,15 @@
+{
+  "verifiedAt": "2026-09-14T12:02:41.911176+00:00",
+  "backendModuleHashes": "PASS",
+  "backendFileCount": 6,
+  "sourceCommit": "3fbb17593d4355bfaf50259fd45cd240fb833b1d",
+  "unitTests": 4,
+  "httpPostgreSQLTests": 12,
+  "portalTests": {
+    "passed": 14,
+    "baselineFailures": 2,
+    "newFailures": 0
+  },
+  "migrationsExecuted": false,
+  "realEnrollmentOrInviteCreated": false
+}

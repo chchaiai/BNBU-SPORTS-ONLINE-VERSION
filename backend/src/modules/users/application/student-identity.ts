@@ -14,6 +14,8 @@ export interface StudentIdentityInput {
 }
 
 export interface NormalizedStudentIdentity {
+  verifiedEmail?: string;
+  verificationChallengeId?: string;
   collegeName?: string;
   majorName?: string;
   dateOfBirth?: string;

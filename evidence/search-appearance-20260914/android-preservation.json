@@ -1,0 +1,14 @@
+{
+  "result": "PASS",
+  "files": {
+    "1.1.1-build6/SHA256SUMS.txt": "c532517185898f48de46a983371e256e3d08d93b7c6bf28f5d3dd751ca541295",
+    "1.1.1-build6/index.html": "7faa3cf636f2ed17eb4fceac0221d3030f82d027bba90ccea727cfcfcd0856ec",
+    "1.1.1-build6/BNBU-Student-1.1.1-build6-release.apk": "592dfbe494f0826fea21d7403be804562c0cf68591b491f759b89a4e34246234",
+    "1.1.1-build5/BNBU-Student-1.1.1-build5-release.apk": "0b57d342c49b9c98fcef74f81d5d671ebbd1b671648dd2dd7c846719b5ee6054",
+    "1.1.1-build5/SHA256SUMS.txt": "a11975966dcd2f24ebaa6034bad6c50fefc55a87d86994c7c4c4e29e7da34125",
+    "1.1.1-build5/index.html": "52827ab5fa8f1770d4c37765a503f8a5866974b7f39ba1d34782179c73439b08"
+  },
+  "target": "/var/www/bnbu-sports-artifacts/android",
+  "backup": "/var/backups/bnbu-search-artifacts-20260914",
+  "existingReleaseRestoredToManifest": true
+}

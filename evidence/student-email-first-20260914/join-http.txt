@@ -1,0 +1,69 @@
+
+> @bnbu/sports-backend@0.1.0 prebuild
+> npm run db:generate && npm run generate
+
+
+> @bnbu/sports-backend@0.1.0 db:generate
+> prisma generate
+
+Loaded Prisma config from prisma.config.ts.
+
+Prisma schema loaded from prisma/schema.prisma.
+
+✔ Generated Prisma Client (7.9.1) to ./src/generated/prisma in 881ms
+
+
+> @bnbu/sports-backend@0.1.0 generate
+> npm run openapi:generate && npm run db:manifest:generate
+
+
+> @bnbu/sports-backend@0.1.0 openapi:generate
+> node ./scripts/generate-openapi.mjs
+
+Generated 3 OpenAPI artifacts from 263 operations.
+
+> @bnbu/sports-backend@0.1.0 db:manifest:generate
+> node ./scripts/generate-migration-manifest.mjs
+
+Generated migration manifest updated.
+
+> @bnbu/sports-backend@0.1.0 build
+> nest build
+
+Loaded Prisma config from prisma.config.ts.
+
+Prisma schema loaded from prisma/schema.prisma.
+Datasource "db": PostgreSQL database "bnbu_sports_test", schema "public" at "127.0.0.1:5432"
+
+78 migrations found in prisma/migrations
+
+
+No pending migrations to apply.
+▶ Stage 21 client capabilities with real PostgreSQL
+  ✔ verifies email before creating a student or enrollment and reuses verified member identity (933.119564ms)
+  ✔ distinguishes verified codes without an account, preserves replay and rejects invalid proofs (535.249594ms)
+  ✔ logs in verified enrolled and withdrawn students and rejects expired or changed-email challenges (527.85501ms)
+  ✔ returns registered student data and scopes email access, filters and cursors (682.216989ms)
+  ✔ keeps student account deletion deferred with no challenge or account mutation (479.428469ms)
+  ✔ accepts an organization-scoped student challenge without exposing its code and keeps an empty release policy fail-closed (345.993528ms)
+  ✔ rejects PHONE without creating a challenge and activates a pending student through first email binding (467.829778ms)
+  ✔ requires both current and new mailbox codes for email rebinding (469.880497ms)
+  ✔ uses the numeric iOS build number for enforcement and keeps marketing version display-only (352.728108ms)
+  ✔ establishes a student OTP session and completes the private exemption-media review flow (678.602938ms)
+  ✔ completes TEACHER recovery and revokes every prior session (655.514737ms)
+  ✔ completes ADMIN recovery and revokes every prior session (655.525105ms)
+  ✔ lists and marks only the authenticated user notification with durable evidence (463.46181ms)
+  ✔ accepts only authenticated bounded client diagnostics with durable replay and no free-form metadata (749.550838ms)
+  ✔ marks 24 distinct notifications concurrently with one durable event per notification (1094.563038ms)
+  ✔ registers and revokes an IOS push token without exposing plaintext or ciphertext (521.783244ms)
+  ✔ persists preferences and feedback while exposing only published help content (521.6272ms)
+  ✔ keeps all location and conversion capabilities explicitly fail-closed (741.478852ms)
+✔ Stage 21 client capabilities with real PostgreSQL (12628.449037ms)
+ℹ tests 18
+ℹ suites 1
+ℹ pass 18
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 12946.784471

@@ -1,0 +1,1 @@
+{"check":"TEACHER_REAL_DOCKER_DEADLINE_AND_COMBINED_INVITE","result":"PASS","minutes":1563,"regularDeadlineMaximum":"2027-01-24"}

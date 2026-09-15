@@ -1,6 +1,7 @@
 import { ERROR_HTTP_STATUS } from './error-http-status.js';
 
 export interface PublicErrorDetails {
+  reason?: string;
   fieldErrors?: unknown[];
   resourceType?: string;
   resourceId?: string;
@@ -24,7 +25,6 @@ export interface ErrorDetails extends PublicErrorDetails {
   currentVersion?: number | null;
   capability?: string;
   platform?: string;
-  reason?: string;
   alignmentRunId?: string;
   rosterImportId?: string;
   failureCode?: string | null;
@@ -49,7 +49,9 @@ export function publicErrorDetails(details: ErrorDetails): PublicErrorDetails {
         : {}),
     };
   });
+  const swimReasons = new Set(['SWIM_INTAKE_REQUIRED','SWIM_BEFORE_AFTER_REQUIRED','SWIM_ORIGINAL_BEFORE_AFTER_REQUIRED','SWIM_LOCKED_BATCH_MISMATCH','SWIM_LOCKED_CONTENT_MISMATCH','SWIM_DELAY_REASON_REQUIRED','SWIM_DELAY_WINDOW_EXPIRED','LOCKED_BATCH_CONTENT_HASH_REQUIRED']);
   return {
+    ...(details.reason && swimReasons.has(details.reason) ? { reason: details.reason } : {}),
     ...(details.fieldErrors === undefined ? {} : { fieldErrors: details.fieldErrors }),
     ...(details.resourceType === undefined ? {} : { resourceType: details.resourceType }),
     ...(details.resourceId === undefined ? {} : { resourceId: details.resourceId }),

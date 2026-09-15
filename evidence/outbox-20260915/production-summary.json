@@ -1,0 +1,502 @@
+{
+  "checkedAt": "2026-09-14T18:24:12.442Z",
+  "statuses": [
+    {
+      "status": "PENDING",
+      "count": 6805,
+      "oldest": "2026-09-09T06:57:29.209Z",
+      "newest": "2026-09-14T18:24:08.215Z",
+      "attempts": 0,
+      "errors": 0,
+      "locked": 0
+    }
+  ],
+  "types": [
+    {
+      "event_type": "AUTH_REFRESH_TOKEN_ROTATED",
+      "count": 1233,
+      "attempts": 0
+    },
+    {
+      "event_type": "EMAIL_VERIFICATION_CHALLENGE_ISSUED_V1",
+      "count": 510,
+      "attempts": 0
+    },
+    {
+      "event_type": "STUDENT_SESSION_ESTABLISHED_V1",
+      "count": 488,
+      "attempts": 0
+    },
+    {
+      "event_type": "ENROLLMENT_CREATED_V1",
+      "count": 444,
+      "attempts": 0
+    },
+    {
+      "event_type": "STUDENT_IDENTITY_CREATED_V1",
+      "count": 440,
+      "attempts": 0
+    },
+    {
+      "event_type": "USER_EMAIL_VERIFIED_V1",
+      "count": 438,
+      "attempts": 0
+    },
+    {
+      "event_type": "AUTH_CHALLENGE_ISSUED",
+      "count": 434,
+      "attempts": 0
+    },
+    {
+      "event_type": "EXERCISE_SESSION_STARTED_V1",
+      "count": 282,
+      "attempts": 0
+    },
+    {
+      "event_type": "MEDIA_UPLOAD_INITIATED",
+      "count": 259,
+      "attempts": 0
+    },
+    {
+      "event_type": "MEDIA_PROCESSING_STARTED",
+      "count": 252,
+      "attempts": 0
+    },
+    {
+      "event_type": "MEDIA_BOUND",
+      "count": 252,
+      "attempts": 0
+    },
+    {
+      "event_type": "MEDIA_AVAILABLE",
+      "count": 252,
+      "attempts": 0
+    },
+    {
+      "event_type": "MEDIA_UPLOAD_CONFIRMED",
+      "count": 252,
+      "attempts": 0
+    },
+    {
+      "event_type": "AUTH_SESSION_CREATED",
+      "count": 211,
+      "attempts": 0
+    },
+    {
+      "event_type": "EXERCISE_SESSION_COMPLETED_V1",
+      "count": 172,
+      "attempts": 0
+    },
+    {
+      "event_type": "EXERCISE_SESSION_PAUSED_V1",
+      "count": 135,
+      "attempts": 0
+    },
+    {
+      "event_type": "COURSE_INVITE_ROTATED_V1",
+      "count": 102,
+      "attempts": 0
+    },
+    {
+      "event_type": "EXERCISE_SESSION_CANCELLED_V1",
+      "count": 98,
+      "attempts": 0
+    },
+    {
+      "event_type": "EXERCISE_RECORD_DRAFT_CREATED_V1",
+      "count": 89,
+      "attempts": 0
+    },
+    {
+      "event_type": "EXERCISE_RECORD_SUBMITTED_V1",
+      "count": 82,
+      "attempts": 0
+    },
+    {
+      "event_type": "EXERCISE_SESSION_RESUMED_V1",
+      "count": 65,
+      "attempts": 0
+    },
+    {
+      "event_type": "AUTH_SESSION_REVOKED",
+      "count": 56,
+      "attempts": 0
+    },
+    {
+      "event_type": "EXEMPTION_APPLICATION_CHANGED",
+      "count": 55,
+      "attempts": 0
+    },
+    {
+      "event_type": "CLASS_SECTION_UPDATED",
+      "count": 51,
+      "attempts": 0
+    },
+    {
+      "event_type": "USER_PREFERENCES_UPDATED_V1",
+      "count": 32,
+      "attempts": 0
+    },
+    {
+      "event_type": "STUDENT_SIGN_IN_CHALLENGE_CONSUMED",
+      "count": 22,
+      "attempts": 0
+    },
+    {
+      "event_type": "EXERCISE_SESSION_RECONCILED_V1",
+      "count": 21,
+      "attempts": 0
+    },
+    {
+      "event_type": "NOTIFICATION_READ_V1",
+      "count": 14,
+      "attempts": 0
+    },
+    {
+      "event_type": "ROSTER_IMPORT_RECEIVED_V1",
+      "count": 8,
+      "attempts": 0
+    },
+    {
+      "event_type": "ENROLLMENT_REMOVED_V1",
+      "count": 8,
+      "attempts": 0
+    },
+    {
+      "event_type": "ROSTER_ALIGNMENT_COMPLETED_V1",
+      "count": 6,
+      "attempts": 0
+    },
+    {
+      "event_type": "CLASS_SECTION_CLOSED",
+      "count": 6,
+      "attempts": 0
+    },
+    {
+      "event_type": "ROSTER_IMPORT_VALIDATED_V1",
+      "count": 6,
+      "attempts": 0
+    },
+    {
+      "event_type": "CLASS_SECTION_CREATED",
+      "count": 5,
+      "attempts": 0
+    },
+    {
+      "event_type": "MEDIA_UPLOAD_FAILED",
+      "count": 5,
+      "attempts": 0
+    },
+    {
+      "event_type": "ENROLLMENT_RESTORED_V1",
+      "count": 3,
+      "attempts": 0
+    },
+    {
+      "event_type": "AUTH_REFRESH_TOKEN_REUSE_DETECTED",
+      "count": 2,
+      "attempts": 0
+    },
+    {
+      "event_type": "ROSTER_VERSION_ROLLED_BACK_V1",
+      "count": 2,
+      "attempts": 0
+    },
+    {
+      "event_type": "EXERCISE_SESSION_RECONCILIATION_REQUIRED_V1",
+      "count": 2,
+      "attempts": 0
+    },
+    {
+      "event_type": "ROSTER_IMPORT_FAILED_V1",
+      "count": 2,
+      "attempts": 0
+    },
+    {
+      "event_type": "FEEDBACK_CREATED_V1",
+      "count": 2,
+      "attempts": 0
+    },
+    {
+      "event_type": "EXERCISE_RECORD_DISCARDED_V1",
+      "count": 1,
+      "attempts": 0
+    },
+    {
+      "event_type": "EXERCISE_RECORD_DRAFT_UPDATED_V1",
+      "count": 1,
+      "attempts": 0
+    },
+    {
+      "event_type": "ROSTER_ALIGNMENT_CONFIRMED_V1",
+      "count": 1,
+      "attempts": 0
+    },
+    {
+      "event_type": "ROSTER_ALIGNMENT_REOPENED_V1",
+      "count": 1,
+      "attempts": 0
+    },
+    {
+      "event_type": "ROSTER_ALIGNMENT_RESOLVED_V1",
+      "count": 1,
+      "attempts": 0
+    },
+    {
+      "event_type": "PUSH_DEVICE_REVOKED_V1",
+      "count": 1,
+      "attempts": 0
+    },
+    {
+      "event_type": "PUSH_DEVICE_REGISTERED_V1",
+      "count": 1,
+      "attempts": 0
+    }
+  ],
+  "otherOrganizations": [
+    {
+      "organization_code": "BNBU-TEST-OCR13-MTYOQLMS",
+      "count": 457
+    },
+    {
+      "organization_code": "BNBU-TEST-PERF-MTWL4GDP",
+      "count": 264
+    },
+    {
+      "organization_code": "BNBU-TEST-LONG-MTVQYNXP",
+      "count": 112
+    },
+    {
+      "organization_code": "BNBU-TEST-MEMBER13-MTYLRTYH",
+      "count": 41
+    },
+    {
+      "organization_code": "BNBU-TEST-CLOSE-MTWPXLE6",
+      "count": 28
+    },
+    {
+      "organization_code": "BNBU-TEST-BUG12-MTYGPDFP",
+      "count": 27
+    },
+    {
+      "organization_code": "BNBU-TEST-LIMIT12-MTYJ1M1T",
+      "count": 26
+    },
+    {
+      "organization_code": "BNBU-TEST-ROUND2-MTVQB4WG",
+      "count": 24
+    },
+    {
+      "organization_code": "BNBU-TEST-BUG15-MU1IDSYR",
+      "count": 18
+    },
+    {
+      "organization_code": "BNBU-TEST-BUGMEDIA-MTVF72RJ",
+      "count": 16
+    },
+    {
+      "organization_code": "BNBU-TEST-SH-MTZC2HUD",
+      "count": 6
+    },
+    {
+      "organization_code": "BNBU-TEST-CDELETE-MTX2O0B4",
+      "count": 5
+    },
+    {
+      "organization_code": "BNBU-TEST-PROD-MTU882VX",
+      "count": 5
+    },
+    {
+      "organization_code": "BNBU-TEST-TCASCADE-MTWW36VI",
+      "count": 3
+    },
+    {
+      "organization_code": "BNBU-TEST-ERASE-MTWSIUOO",
+      "count": 2
+    },
+    {
+      "organization_code": "BNBU-TEST-BUG15-MU1IC1RD",
+      "count": 1
+    },
+    {
+      "organization_code": "BNBU-TEST-BUG15-MU1ICULG",
+      "count": 1
+    }
+  ],
+  "scope": [
+    {
+      "scope": "BNBU",
+      "count": 5769,
+      "organizations": 1
+    },
+    {
+      "scope": "OTHER_ORGANIZATIONS",
+      "count": 1036,
+      "organizations": 17
+    }
+  ],
+  "days": [
+    {
+      "event_date": "2026-09-09T00:00:00.000Z",
+      "count": 74
+    },
+    {
+      "event_date": "2026-09-10T00:00:00.000Z",
+      "count": 497
+    },
+    {
+      "event_date": "2026-09-11T00:00:00.000Z",
+      "count": 199
+    },
+    {
+      "event_date": "2026-09-12T00:00:00.000Z",
+      "count": 556
+    },
+    {
+      "event_date": "2026-09-13T00:00:00.000Z",
+      "count": 2261
+    },
+    {
+      "event_date": "2026-09-14T00:00:00.000Z",
+      "count": 3218
+    }
+  ],
+  "due": [
+    {
+      "due": 6805,
+      "future": 0,
+      "last_hour": 27
+    }
+  ],
+  "bnbuTypes": [
+    {
+      "event_type": "AUTH_REFRESH_TOKEN_ROTATED",
+      "count": 1170
+    },
+    {
+      "event_type": "EMAIL_VERIFICATION_CHALLENGE_ISSUED_V1",
+      "count": 509
+    },
+    {
+      "event_type": "STUDENT_SESSION_ESTABLISHED_V1",
+      "count": 460
+    },
+    {
+      "event_type": "ENROLLMENT_CREATED_V1",
+      "count": 438
+    },
+    {
+      "event_type": "USER_EMAIL_VERIFIED_V1",
+      "count": 436
+    },
+    {
+      "event_type": "STUDENT_IDENTITY_CREATED_V1",
+      "count": 436
+    },
+    {
+      "event_type": "AUTH_CHALLENGE_ISSUED",
+      "count": 434
+    },
+    {
+      "event_type": "MEDIA_UPLOAD_INITIATED",
+      "count": 203
+    },
+    {
+      "event_type": "MEDIA_BOUND",
+      "count": 198
+    },
+    {
+      "event_type": "MEDIA_UPLOAD_CONFIRMED",
+      "count": 198
+    },
+    {
+      "event_type": "MEDIA_PROCESSING_STARTED",
+      "count": 198
+    },
+    {
+      "event_type": "MEDIA_AVAILABLE",
+      "count": 198
+    },
+    {
+      "event_type": "EXERCISE_SESSION_STARTED_V1",
+      "count": 160
+    },
+    {
+      "event_type": "EXERCISE_SESSION_COMPLETED_V1",
+      "count": 148
+    },
+    {
+      "event_type": "EXERCISE_SESSION_PAUSED_V1",
+      "count": 92
+    },
+    {
+      "event_type": "COURSE_INVITE_ROTATED_V1",
+      "count": 80
+    },
+    {
+      "event_type": "AUTH_SESSION_CREATED",
+      "count": 70
+    },
+    {
+      "event_type": "EXERCISE_RECORD_DRAFT_CREATED_V1",
+      "count": 63
+    },
+    {
+      "event_type": "EXERCISE_RECORD_SUBMITTED_V1",
+      "count": 60
+    },
+    {
+      "event_type": "AUTH_SESSION_REVOKED",
+      "count": 49
+    },
+    {
+      "event_type": "CLASS_SECTION_UPDATED",
+      "count": 46
+    },
+    {
+      "event_type": "EXERCISE_SESSION_RESUMED_V1",
+      "count": 22
+    },
+    {
+      "event_type": "STUDENT_SIGN_IN_CHALLENGE_CONSUMED",
+      "count": 22
+    },
+    {
+      "event_type": "EXEMPTION_APPLICATION_CHANGED",
+      "count": 22
+    },
+    {
+      "event_type": "EXERCISE_SESSION_RECONCILED_V1",
+      "count": 19
+    },
+    {
+      "event_type": "USER_PREFERENCES_UPDATED_V1",
+      "count": 14
+    },
+    {
+      "event_type": "NOTIFICATION_READ_V1",
+      "count": 10
+    },
+    {
+      "event_type": "MEDIA_UPLOAD_FAILED",
+      "count": 5
+    },
+    {
+      "event_type": "CLASS_SECTION_CLOSED",
+      "count": 4
+    },
+    {
+      "event_type": "ROSTER_IMPORT_RECEIVED_V1",
+      "count": 2
+    },
+    {
+      "event_type": "ROSTER_IMPORT_FAILED_V1",
+      "count": 2
+    },
+    {
+      "event_type": "AUTH_REFRESH_TOKEN_REUSE_DETECTED",
+      "count": 1
+    }
+  ],
+  "runtimeOutboxConsumers": []
+}

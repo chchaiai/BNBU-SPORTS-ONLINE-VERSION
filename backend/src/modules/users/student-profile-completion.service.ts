@@ -26,7 +26,7 @@ export class StudentProfileCompletionService {
       if (!profile) throw new ApplicationError('USER_NOT_FOUND',404);
       if (profile.version !== input.expectedVersion) throw new ApplicationError('CONFLICT_VERSION_MISMATCH',409);
       const details = this.normalizer.normalize({...input,studentNumber:profile.studentNumber,
-        fullName:profile.fullName,gender:profile.gender,gradeYear:profile.gradeYear});
+        fullName:profile.fullName,gender:profile.gender,gradeYear:profile.gradeYear}, {preserveStoredStudentNumber:true});
       const now=this.clock.now();
       const changed = await tx.studentProfile.updateMany({where:{id:profile.id,version:input.expectedVersion},data:{
         collegeName:details.collegeName!,majorName:details.majorName!,dateOfBirth:new Date(`${details.dateOfBirth}T00:00:00Z`),

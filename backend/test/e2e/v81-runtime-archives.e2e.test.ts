@@ -229,6 +229,7 @@ describe('V81 runtime archives HTTP E2E', () => {
   it('generates a scoped private ZIP with the live worker, downloads it and revokes access on cancellation', async () => {
     const adminToken = await login(fixture.adminEmail);
     const teacherToken = await login(fixture.teacherEmail);
+    await prisma.systemPolicy.updateMany({ data: { systemMode: 'MAINTENANCE' } });
     const row = { msg: 'http_request_completed', time: new Date().toISOString(), requestId: uuidv7(),
       organizationId: fixture.organizationId, operationId: 'getV81AccountSecurity', method: 'GET',
       statusCode: 200, durationMs: 1, secret: 'SYNTHETIC_SENSITIVE_MARKER' };
@@ -249,6 +250,7 @@ describe('V81 runtime archives HTTP E2E', () => {
     const source = await readFile(resolve(logDirectory, 'synthetic.ndjson'), 'utf8');
     const { V81RuntimeArchiveWorker } = await import(compiledModule('modules/v8/v81-runtime-archives.js'));
     const worker = app.get<{ cleanup(): Promise<void> }>(V81RuntimeArchiveWorker);
+    await prisma.systemPolicy.updateMany({ data: { systemMode: 'NORMAL' } });
     await worker.cleanup();
     await worker.cleanup();
     assert.equal(storage.objects.has(required(beforeCleanup[0]).storage_key), false);

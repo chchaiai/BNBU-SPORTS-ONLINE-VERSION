@@ -1,0 +1,13 @@
+✔ a lost registration response retries the same issue key and cannot renew the flow (31.4573ms)
+✔ an uncertain join retries the registered capability with the original consumption key (0.5437ms)
+✔ unavailable invitation replaces remaining-time claim and blocks repeated submission (17.6571ms)
+✔ new registration renders email verification before editable student details (17.7878ms)
+✔ verified logged-in student goes directly to information confirmation (0.3322ms)
+ℹ tests 5
+ℹ suites 0
+ℹ pass 5
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 162.8399

@@ -1,0 +1,60 @@
+{
+  "result": "PASS",
+  "release": "/opt/bnbu-sports-production/releases/student-email-domain-20260915",
+  "previous": "/opt/bnbu-sports-production/releases/aoksend-mail-20260915",
+  "image": "sha256:f67f7a5d177424d0bbd3dde8aac15bea90452e5c90e949b7c98a3a124e5a1e4c",
+  "healthAndStaticHashes": "PASS",
+  "backendHashes": "PASS",
+  "invalidSuffixProbes": [
+    {
+      "account": "suffix-probe@mail.bnbu.edu",
+      "joining": false,
+      "status": 422,
+      "requestId": "01a0a350-3a1e-708f-bb77-fc1a47aa9d10"
+    },
+    {
+      "account": "suffix-probe@mail.bnbu.edu",
+      "joining": true,
+      "status": 422,
+      "requestId": "01a0a350-3a2f-7676-bd3c-2aa80a860422"
+    },
+    {
+      "account": "suffix-probe@bnbu.edu.cn",
+      "joining": false,
+      "status": 422,
+      "requestId": "01a0a350-3a3d-70bf-91ce-8023ec64f326"
+    },
+    {
+      "account": "suffix-probe@bnbu.edu.cn",
+      "joining": true,
+      "status": 422,
+      "requestId": "01a0a350-3a4a-71a8-8c2a-854b46fb0f18"
+    },
+    {
+      "account": "bnbu-suffix-probe@example.invalid",
+      "joining": false,
+      "status": 422,
+      "requestId": "01a0a350-3a58-72c8-bb09-ff9424f6be1d"
+    },
+    {
+      "account": "bnbu-suffix-probe@example.invalid",
+      "joining": true,
+      "status": 422,
+      "requestId": "01a0a350-3a66-749e-9383-71c8ce3cd659"
+    },
+    {
+      "account": "suffix-probe@mail.bnbu.edu.cn.example.invalid",
+      "joining": false,
+      "status": 422,
+      "requestId": "01a0a350-3a75-7709-b94e-e248894f9786"
+    },
+    {
+      "account": "suffix-probe@mail.bnbu.edu.cn.example.invalid",
+      "joining": true,
+      "status": 422,
+      "requestId": "01a0a350-3a85-76aa-af7f-22b95bde1957"
+    }
+  ],
+  "migrationExecuted": false,
+  "rollbackExercised": false
+}

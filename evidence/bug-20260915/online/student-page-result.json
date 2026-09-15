@@ -1,0 +1,14 @@
+{
+  "result": "PASS",
+  "profile": {
+    "colleges": 7,
+    "saiMajors": 34,
+    "dependentReset": true,
+    "invalidPairExcluded": true,
+    "lowercaseRejected": true,
+    "saveStatus": 200
+  },
+  "checkinSvgCount": 34,
+  "sportOptions": 25,
+  "scope": "Production pages with isolated synthetic legacy student; session bootstrap"
+}

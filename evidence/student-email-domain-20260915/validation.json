@@ -1,0 +1,12 @@
+{
+  "unit": 4,
+  "frontendTargeted": 4,
+  "studentSmoke": 87,
+  "postgresHttp": 3,
+  "typecheck": "PASS",
+  "build": "PASS",
+  "diffCheck": "PASS",
+  "production": "PASS",
+  "realInboxDeliveryTested": false,
+  "physicalAndroidTested": false
+}

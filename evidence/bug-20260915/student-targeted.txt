@@ -1,0 +1,14 @@
+✔ maintenance announcement renders before a delayed supplementary-task response (21.314ms)
+✔ seven colleges expose matching catalogs, all majors for SAI and custom text only for SGE and GS (0.942ms)
+✔ changing college clears a previous major before showing the new options (0.18ms)
+✔ short and exactly ten-second clips pass while actual over-limit and unknown durations fail (0.6716ms)
+✔ first frame with NaN waits for finite mobile duration (0.6549ms)
+✔ first frame with Infinity waits for finite mobile duration (0.1208ms)
+ℹ tests 6
+ℹ suites 0
+ℹ pass 6
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 122.8449

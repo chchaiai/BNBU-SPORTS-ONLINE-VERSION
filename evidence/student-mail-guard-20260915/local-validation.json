@@ -1,0 +1,16 @@
+{
+  "postgresHttp": {
+    "passed": 6,
+    "failed": 0,
+    "mailProvider": "local SMTP Mailpit"
+  },
+  "unit": {
+    "passed": 17,
+    "failed": 0
+  },
+  "typecheck": "PASS",
+  "build": "PASS",
+  "openapiCheck": "PASS",
+  "frontendSyntax": "PASS",
+  "scopedDiffCheck": "PASS"
+}

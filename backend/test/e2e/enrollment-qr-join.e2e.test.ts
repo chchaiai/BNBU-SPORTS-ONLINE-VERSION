@@ -1,3 +1,7 @@
+import { QrJoinCryptoService } from '../../src/common/security/qr-join-crypto.service.js';
+import type { RuntimeConfig } from '../../src/common/config/environment.js';
+import { createHmac } from 'node:crypto';
+import { AuthCodeCrypto } from '../../src/modules/client-capabilities/auth-code.crypto.js';
 import assert from 'node:assert/strict';
 import { spawn, type ChildProcessWithoutNullStreams } from 'node:child_process';
 import { createServer } from 'node:net';
@@ -27,6 +31,8 @@ interface HttpResult {
 }
 
 interface SyntheticIdentity {
+  collegeName?: string;
+  majorName?: string;
   fullName: string;
   studentNumber: string;
   gender: string;
@@ -35,7 +41,7 @@ interface SyntheticIdentity {
 
 const IDENTITY: SyntheticIdentity = {
   fullName: 'Synthetic QR Student',
-  studentNumber: '00001234',
+  studentNumber: '2300001234',
   gender: 'MALE',
   gradeYear: 2026,
 };
@@ -122,16 +128,37 @@ describe('Student identity, Enrollment, and QR Join HTTP E2E', () => {
       authenticated(teacherToken, 'POST', {}, idempotencyKey),
     );
 
-  const issueCapability = async (
-    inviteToken: string,
-    identity: SyntheticIdentity = IDENTITY,
-    idempotencyKey = uuidv7(),
-  ): Promise<HttpResult> =>
-    request(`/api/v1/course-invites/${encodeURIComponent(inviteToken)}/join-capabilities`, {
-      method: 'POST',
-      headers: { 'content-type': 'application/json', 'idempotency-key': idempotencyKey },
-      body: JSON.stringify(identity),
-    });
+  const emailProofs = new Map<string,string>();
+  const issueCapability = async (inviteToken: string, identity: SyntheticIdentity = IDENTITY, idempotencyKey = uuidv7(), registrationAgeMs = 0): Promise<HttpResult> => {
+    const email = `${identity.studentNumber.toLowerCase()}@mail.bnbu.edu.cn`;
+    const owner = await prisma.user.findFirst({where:{organizationId:fixture.organizationId,primaryEmailNormalized:email,emailVerifiedAt:{not:null},role:'STUDENT'}});
+    const cacheKey = `${inviteToken}:${identity.studentNumber}:${owner?.id ?? 'new'}`;
+    let proof = emailProofs.get(cacheKey);
+    if (!proof) {
+      const id=uuidv7(), now=new Date(), key='synthetic-test-hmac-key-never-use-in-production';
+      const derive=(purpose:string)=>createHmac('sha256',key).update(`auth-code:${purpose}:v1`).digest();
+      const crypto=new AuthCodeCrypto({digestKey:derive('digest'),escrowKey:derive('escrow'),escrowKeyVersion:1});
+      await prisma.studentSignInChallenge.create({data:{id,organizationId:fixture.organizationId,userId:owner?.id??null,channel:'EMAIL',locale:'zh-CN',
+        accountDigest:createHmac('sha256',key).update('auth-code-account\0EMAIL\0'+email).digest('hex'),
+        codeDigest:crypto.digestCode(`STUDENT_SIGN_IN:${id}`,'284613'),codeKeyVersion:1,status:'ACTIVE',failedAttempts:0,maxAttempts:5,
+        requestedAt:now,deliveredAt:now,expiresAt:new Date(now.getTime()+600000),requestId:uuidv7()}});
+      const verified=await request('/api/v1/auth/student-sign-in-codes/verify',{method:'POST',headers:{'content-type':'application/json','idempotency-key':uuidv7()},
+        body:JSON.stringify({challengeId:id,code:'284613',deviceId:'synthetic-join-regression',joinEmail:email,joinInviteToken:inviteToken})});
+      assert.equal(verified.status,200,JSON.stringify(verified.body));
+      proof=String(object(verified.body.data).joinEmailProof);
+      if (registrationAgeMs > 0) {
+        // Simulate an earlier verified registration while keeping the request identical for replay.
+        const receiptCrypto = new QrJoinCryptoService({qrJoinSecretEncryptionKey: Buffer.alloc(32, 13)} as RuntimeConfig);
+        const receipt = receiptCrypto.decrypt<Record<string, unknown>>('join-email-proof', inviteToken.split('.')[0]!, proof);
+        receipt.verifiedAt = new Date(Date.now() - registrationAgeMs).toISOString();
+        proof = receiptCrypto.encrypt('join-email-proof', inviteToken.split('.')[0]!, receipt);
+      }
+      emailProofs.set(cacheKey,proof);
+    }
+    return request(`/api/v1/course-invites/${encodeURIComponent(inviteToken)}/join-capabilities`,{
+      method:'POST',headers:{'content-type':'application/json','idempotency-key':idempotencyKey},
+      body:JSON.stringify({collegeName:'FST',majorName:'CST',dateOfBirth:'2005-01-01',regionCode:'CN-44',...identity,joinEmailProof:proof})});
+  };
 
   const join = async (
     inviteToken: string,
@@ -174,7 +201,7 @@ describe('Student identity, Enrollment, and QR Join HTTP E2E', () => {
           id: profileId,
           organizationId: fixture.organizationId,
           userId,
-          studentNumber: '00005678',
+          studentNumber: '2300005678',
           fullName: 'Synthetic Manual Student',
           gender: 'FEMALE',
           gradeYear: 2026,
@@ -267,22 +294,54 @@ describe('Student identity, Enrollment, and QR Join HTTP E2E', () => {
     await prisma.$disconnect();
   });
 
+  it('rejects invalid enrollment academics without creating profiles and accepts SAI and custom graduate majors', async () => {
+    const teacher = await login(fixture.teacherEmail);
+    const token = String(object((await createInvite(teacher)).body.data).inviteToken);
+    const profiles = await prisma.studentProfile.count();
+    for (const input of [
+      {studentNumber:'1300001234'}, {studentNumber:'230001234'}, {studentNumber:'23000012345'},
+      {studentNumber:'230000123A'}, {collegeName:'OTHER'}, {majorName:'ACCT'},
+      {collegeName:'GS',majorName:'custom'}, {collegeName:'GS',majorName:'M1'},
+    ]) assert.equal((await issueCapability(token,{...IDENTITY,...input})).status,422);
+    assert.equal(await prisma.studentProfile.count(),profiles);
+    for (const input of [{collegeName:'SAI',majorName:'ACCT'},{collegeName:'SAI',majorName:'CST'},
+      {collegeName:'GS',majorName:'CUSTOM'},{collegeName:'SGE',majorName:'CUSTOM'}]) {
+      const result=await issueCapability(token,{...IDENTITY,...input});
+      assert.equal(result.status,201,JSON.stringify(result.body));
+    }
+  });
+
   it('enforces server-relative invite validity and rejects ambiguous or out-of-range input', async () => {
     const teacher = await login(fixture.teacherEmail);
     const route = `/api/v1/class-sections/${fixture.teacherAActiveSectionId}/course-invites`;
-    for (const body of [{}, {expiresInMinutes:5}, {expiresInMinutes:120}]) {
+    for (const body of [{}, {expiresInMinutes:1}, {expiresInMinutes:4}, {expiresInMinutes:5}, {expiresInMinutes:120}, {expiresInMinutes:121}, {expiresInMinutes:1440}, {expiresInMinutes:10080}]) {
       const result = await request(route, authenticated(teacher, 'POST', body, uuidv7()));
       assert.equal(result.status, 201);
       const row = await prisma.courseInvite.findUniqueOrThrow({where:{id:String(object(result.body.data).inviteToken).split('.')[0]!}});
       assert.equal(row.expiresAt.getTime()-row.createdAt.getTime(), ('expiresInMinutes' in body ? body.expiresInMinutes : 30)*60_000);
     }
     const before = await prisma.courseInvite.count();
-    for (const body of [{expiresInMinutes:4}, {expiresInMinutes:121}, {expiresInMinutes:5.5}, {expiresInMinutes:null},
+    for (const body of [{expiresInMinutes:0}, {expiresInMinutes:999999999}, {expiresInMinutes:5.5}, {expiresInMinutes:null},
       {expiresInMinutes:30,expiresAt:new Date(Date.now()+1_800_000).toISOString()},
-      {expiresAt:new Date(Date.now()+604_800_000).toISOString()}]) {
+      {expiresAt:new Date(Date.now()+400*86_400_000).toISOString()}]) {
       assert.equal((await request(route, authenticated(teacher,'POST',body,uuidv7()))).status,422);
     }
     assert.equal(await prisma.courseInvite.count(),before);
+  });
+
+  it('rejects an identity created by another flow after capability issuance without binding its email', async () => {
+    const teacher = await login(fixture.teacherEmail);
+    const token = String(object((await createInvite(teacher)).body.data).inviteToken);
+    const capability = String(object((await issueCapability(token)).body.data).joinCapability);
+    const userId = uuidv7(), now = new Date();
+    await prisma.user.create({data:{id:userId,organizationId:fixture.organizationId,role:'STUDENT',status:'PENDING_CONTACT_BINDING',createdAt:now,updatedAt:now}});
+    await prisma.studentProfile.create({data:{id:uuidv7(),organizationId:fixture.organizationId,userId,...IDENTITY,gender:'MALE',status:'ACTIVE',createdAt:now,updatedAt:now}});
+    const before = await prisma.enrollment.count();
+    const result = await join(token, capability, uuidv7());
+    assert.equal(result.status, 401, JSON.stringify(result.body));
+    assert.equal(await prisma.enrollment.count(), before);
+    const user = await prisma.user.findUniqueOrThrow({where:{id:userId}});
+    assert.equal(user.emailVerifiedAt, null); assert.equal(user.primaryEmail, null);
   });
 
   const expireRegisteredFlow = async (inviteToken: string, capability: string, expiredMs = 30_000) => {
@@ -295,7 +354,7 @@ describe('Student identity, Enrollment, and QR Join HTTP E2E', () => {
   it('finishes a registered flow during natural-expiry grace without renewing or opening a new flow', async () => {
     const teacher=await login(fixture.teacherEmail), invite=await createInvite(teacher);
     const token=String(object(invite.body.data).inviteToken), capabilityKey=uuidv7();
-    const issued=await issueCapability(token,IDENTITY,capabilityKey), capability=String(object(issued.body.data).joinCapability);
+    const issued=await issueCapability(token,IDENTITY,capabilityKey,120_000), capability=String(object(issued.body.data).joinCapability);
     const before=await prisma.joinCapability.findUniqueOrThrow({where:{id:capability.split('.')[0]!}});
     const inviteRow=await prisma.courseInvite.findUniqueOrThrow({where:{id:token.split('.')[0]!}});
     assert.equal(before.expiresAt.getTime(),inviteRow.expiresAt.getTime()+600_000);
@@ -380,7 +439,7 @@ describe('Student identity, Enrollment, and QR Join HTTP E2E', () => {
     assert.equal(await prisma.joinCapability.count(), 1);
     const storedCapability = await prisma.joinCapability.findFirstOrThrow();
     assert.notEqual(storedCapability.tokenHash, capability);
-    assert.equal(storedCapability.encryptedIdentitySnapshot.includes('00001234'), false);
+    assert.equal(storedCapability.encryptedIdentitySnapshot.includes('2300001234'), false);
     assert.deepEqual(
       {
         users: await prisma.user.count(),
@@ -412,7 +471,7 @@ describe('Student identity, Enrollment, and QR Join HTTP E2E', () => {
 
     const accepted = await issueCapability(inviteToken, {
       ...IDENTITY,
-      studentNumber: '00009999',
+      studentNumber: '2300009999',
       gender: 'FEMALE',
       gradeYear: 9999,
     });
@@ -441,8 +500,8 @@ describe('Student identity, Enrollment, and QR Join HTTP E2E', () => {
     const profile = object(data.studentProfile);
     const enrollment = object(data.enrollment);
     const auth = object(data.authSession);
-    assert.equal(object(auth.user).status, 'PENDING_CONTACT_BINDING');
-    assert.equal(profile.studentNumber, '00001234');
+    assert.equal(object(auth.user).status, 'ACTIVE');
+    assert.equal(profile.studentNumber, '2300001234');
     assert.equal(enrollment.status, 'ACTIVE');
     assert.equal(object(data.course).id, fixture.activeCourseId);
     assert.equal(object(data.classSection).id, fixture.teacherAActiveSectionId);
@@ -462,11 +521,10 @@ describe('Student identity, Enrollment, and QR Join HTTP E2E', () => {
     const studentToken = String(auth.accessToken);
     const me = await request('/api/v1/me', authenticated(studentToken));
     assert.equal(me.status, 200);
-    assert.equal(object(object(me.body.data).studentProfile).studentNumber, '00001234');
-    assert.equal(object(object(me.body.data).user).status, 'PENDING_CONTACT_BINDING');
-    const blockedPreferences = await request('/api/v1/me/preferences', authenticated(studentToken));
-    assert.equal(blockedPreferences.status, 409);
-    assert.equal(blockedPreferences.body.code, 'USER_STATUS_NOT_ACTIVE');
+    assert.equal(object(object(me.body.data).studentProfile).studentNumber, '2300001234');
+    assert.equal(object(object(me.body.data).user).status, 'ACTIVE');
+    const preferences = await request('/api/v1/me/preferences', authenticated(studentToken));
+    assert.equal(preferences.status, 200);
     assert.equal(childOutput.includes(firstSecret(capability)), false);
     assert.equal(childOutput.includes(String(auth.refreshToken)), false);
     const revokePath = `/api/v1/class-sections/${fixture.teacherAActiveSectionId}/course-invites/revocations`;
@@ -482,7 +540,7 @@ describe('Student identity, Enrollment, and QR Join HTTP E2E', () => {
     assert.deepEqual((await request(revokePath, authenticated(teacher, 'POST', revokeBody, revokeKey))).body.data, revoked.body.data);
     assert.equal((await request(revokePath, authenticated(teacher, 'POST', revokeBody, uuidv7()))).status, 409);
     assert.equal((await request(`/api/v1/course-invites/${encodeURIComponent(inviteToken)}/preview`)).body.code, 'COURSE_INVITE_REVOKED');
-    assert.equal((await issueCapability(inviteToken)).body.code, 'COURSE_INVITE_REVOKED');
+    assert.equal((await request(`/api/v1/course-invites/${encodeURIComponent(inviteToken)}/join-capabilities`, {method:'POST',headers:{'content-type':'application/json','idempotency-key':uuidv7()},body:JSON.stringify(IDENTITY)})).body.code, 'COURSE_INVITE_REVOKED');
     assert.equal(await prisma.courseInvite.count({ where: { status: 'ACTIVE' } }), 0);
     assert.equal(await prisma.enrollment.count({ where: { status: 'ACTIVE' } }), 1);
     assert.equal(await prisma.enrollmentStatusEvent.count(), 1);

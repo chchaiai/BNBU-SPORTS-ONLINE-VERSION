@@ -1,0 +1,163 @@
+[
+  {
+    "file": "backend/src/modules/system-mode/system-mode-access.ts",
+    "current": {},
+    "baseline": {}
+  },
+  {
+    "file": "backend/src/modules/system-mode/system-mode.guard.ts",
+    "current": {},
+    "baseline": {}
+  },
+  {
+    "file": "backend/src/modules/v8/v81-endurance.ts",
+    "current": {
+      "@typescript-eslint/consistent-type-definitions": 2,
+      "@typescript-eslint/explicit-function-return-type": 9
+    },
+    "baseline": {
+      "@typescript-eslint/consistent-type-definitions": 2,
+      "@typescript-eslint/explicit-function-return-type": 9
+    }
+  },
+  {
+    "file": "backend/src/modules/v8/v81-feedback.ts",
+    "current": {
+      "@typescript-eslint/consistent-type-definitions": 1,
+      "@typescript-eslint/explicit-function-return-type": 11
+    },
+    "baseline": {
+      "@typescript-eslint/consistent-type-definitions": 1,
+      "@typescript-eslint/explicit-function-return-type": 11
+    }
+  },
+  {
+    "file": "backend/src/modules/v8/v81-help.ts",
+    "current": {
+      "@typescript-eslint/consistent-type-definitions": 1,
+      "@typescript-eslint/explicit-function-return-type": 13
+    },
+    "baseline": {
+      "@typescript-eslint/consistent-type-definitions": 1,
+      "@typescript-eslint/explicit-function-return-type": 13
+    }
+  },
+  {
+    "file": "backend/src/modules/v8/v81-rule-templates.ts",
+    "current": {
+      "@typescript-eslint/consistent-type-definitions": 1,
+      "@typescript-eslint/explicit-function-return-type": 9
+    },
+    "baseline": {
+      "@typescript-eslint/consistent-type-definitions": 1,
+      "@typescript-eslint/explicit-function-return-type": 9
+    }
+  },
+  {
+    "file": "backend/src/modules/v8/v81-runtime-archives.ts",
+    "current": {
+      "@typescript-eslint/consistent-type-definitions": 1,
+      "@typescript-eslint/explicit-function-return-type": 22,
+      "@typescript-eslint/no-unsafe-argument": 1
+    },
+    "baseline": {
+      "@typescript-eslint/consistent-type-definitions": 1,
+      "@typescript-eslint/explicit-function-return-type": 22,
+      "@typescript-eslint/no-unsafe-argument": 1
+    }
+  },
+  {
+    "file": "backend/src/modules/v8/v81-semesters.ts",
+    "current": {
+      "@typescript-eslint/explicit-function-return-type": 17
+    },
+    "baseline": {
+      "@typescript-eslint/explicit-function-return-type": 17
+    }
+  },
+  {
+    "file": "backend/src/modules/v8/v81-student-deletion.ts",
+    "current": {},
+    "baseline": {}
+  },
+  {
+    "file": "backend/src/modules/v8/v81-subadmin-identity.ts",
+    "current": {
+      "@typescript-eslint/explicit-function-return-type": 14,
+      "@typescript-eslint/consistent-type-definitions": 2,
+      "@typescript-eslint/no-unused-vars": 1,
+      "@typescript-eslint/prefer-optional-chain": 2
+    },
+    "baseline": {
+      "@typescript-eslint/explicit-function-return-type": 14,
+      "@typescript-eslint/consistent-type-definitions": 2,
+      "@typescript-eslint/no-unused-vars": 1,
+      "@typescript-eslint/prefer-optional-chain": 2
+    }
+  },
+  {
+    "file": "backend/src/modules/v8/v81-subadmins.ts",
+    "current": {
+      "@typescript-eslint/consistent-type-definitions": 1,
+      "@typescript-eslint/explicit-function-return-type": 8
+    },
+    "baseline": {
+      "@typescript-eslint/consistent-type-definitions": 1,
+      "@typescript-eslint/explicit-function-return-type": 8
+    }
+  },
+  {
+    "file": "backend/src/modules/v8/v81-teacher-deletion.ts",
+    "current": {},
+    "baseline": {}
+  },
+  {
+    "file": "backend/src/modules/v8/v81-teacher-imports.ts",
+    "current": {
+      "@typescript-eslint/explicit-function-return-type": 6
+    },
+    "baseline": {
+      "@typescript-eslint/explicit-function-return-type": 6
+    }
+  },
+  {
+    "file": "backend/src/modules/v8/v81.service.ts",
+    "current": {
+      "@typescript-eslint/consistent-type-definitions": 2,
+      "@typescript-eslint/explicit-function-return-type": 18,
+      "@typescript-eslint/prefer-optional-chain": 2
+    },
+    "baseline": {
+      "@typescript-eslint/consistent-type-definitions": 2,
+      "@typescript-eslint/explicit-function-return-type": 18,
+      "@typescript-eslint/prefer-optional-chain": 2
+    }
+  },
+  {
+    "file": "backend/test/e2e/v81-runtime-archives.e2e.test.ts",
+    "current": {
+      "@typescript-eslint/no-unused-vars": 4,
+      "@typescript-eslint/no-unsafe-assignment": 2,
+      "@typescript-eslint/no-unsafe-argument": 1
+    },
+    "baseline": {
+      "@typescript-eslint/no-unused-vars": 4,
+      "@typescript-eslint/no-unsafe-assignment": 2,
+      "@typescript-eslint/no-unsafe-argument": 1
+    }
+  },
+  {
+    "file": "backend/test/e2e/v81-system-management.e2e.test.ts",
+    "current": {
+      "@typescript-eslint/no-unnecessary-type-assertion": 2
+    },
+    "baseline": {
+      "@typescript-eslint/no-unnecessary-type-assertion": 2
+    }
+  },
+  {
+    "file": "backend/test/unit/system-mode-access.test.ts",
+    "current": {},
+    "baseline": {}
+  }
+]

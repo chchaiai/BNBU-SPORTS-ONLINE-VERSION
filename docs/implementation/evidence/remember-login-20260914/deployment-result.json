@@ -1,0 +1,15 @@
+{
+  "result": "PASS",
+  "sourceCommit": "6277d9879b3927248c7c27045cd262baa37d1e00",
+  "phase": "DEPLOYED",
+  "release": "/opt/bnbu-sports-production/releases/remember-login-20260914",
+  "previous": "/opt/bnbu-sports-production/releases/invite-duration-20260914",
+  "health": {
+    "https://www.student.bnbusports.cn/student/": 200,
+    "https://www.student.bnbusports.cn/api/v1/health/ready": 200,
+    "https://www.teacher.bnbusports.cn/": 200
+  },
+  "studentHashes": "PASS",
+  "servicesRestarted": false,
+  "migrationExecuted": false
+}

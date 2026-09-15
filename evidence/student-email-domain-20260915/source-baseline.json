@@ -1,0 +1,10 @@
+{
+  "backend/src/modules/client-capabilities/client-authentication.service.ts": "ea04dadddf9a5aacc77ad3577d0c668ef49b31a755b9932b7c95e5d9422c29f4",
+  "backend/src/modules/users/email-verification.service.ts": "70cd49d3e745909cb53ba3a6acdfe2ac1394326121b29369b1fe865228c12926",
+  "backend/src/modules/join-capabilities/application/join-capabilities.service.ts": "f8e14026088fe9cf8a316a6ee26f9c02386f923d18460ecf9168f6c98518b526",
+  "backend/src/modules/enrollments/application/qr-join.service.ts": "90af072b05aacfe1ef66ec8824e3f405ebe24dde6ae92a3b84c0fa1d6a0568ca",
+  "BNBU-Sports-Web-new/frontend/student/js/screens/join.js": "11de9eded593ad3c1244b9a1c38ffeb61a8b5743df4dc22538ff72ac3ccc0c6d",
+  "BNBU-Sports-Web-new/frontend/student/js/screens/verification.js": "643ae372f4971704bbbccacdf63381da9da8bceed136bedcc96f453eb8e1265f",
+  "BNBU-Sports-Web-new/frontend/student/js/screens/binding.js": "8b5dff453299683ed82933e17d03b6cb327d917a33e939ee1701797aa350993e",
+  "BNBU-Sports-Web-new/frontend/student/js/i18n.js": "2af18f74b6113e217f215b2642c79c436cfdcf859716c5683ae1f3d9895f5f22"
+}

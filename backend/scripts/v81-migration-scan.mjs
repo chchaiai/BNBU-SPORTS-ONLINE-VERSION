@@ -35,6 +35,7 @@ export function maskSql(source,maskStrings=false){
 
 export function prepareV81MigrationScan(migrationId,sql){
   const demandConstraints = {
+    '0077_credit_projection_minutes': ['v81_credit_projections_eligible_minutes_check'],
     '0065_course_rule_customization': ['v81_course_rules_minimum_minutes_check','v81_course_rules_weekly_limit_check'],
     '0066_exemption_documents_metadata': ['media_evidence_media_type_check','media_evidence_duration_check','media_evidence_verified_complete_check'],
     '0067_historical_backfill': ['media_evidence_capture_source_check'],

@@ -1,0 +1,76 @@
+✔ object-storage rejection explains retained evidence without claiming the student has no business permission (1.2654ms)
+✔ network failure remains renderable and does not log the private transport cause (1.7528ms)
+[BNBU_WEB_CLIENT_ERROR] {
+  timestamp: '2026-09-14T12:11:29.821Z',
+  level: 'ERROR',
+  requestId: null,
+  errorCode: 'NETWORK_UNAVAILABLE',
+  category: 'NETWORK',
+  httpStatus: null,
+  method: 'GET',
+  route: '/me',
+  retryable: true,
+  client: 'WEB_STUDENT'
+}
+[BNBU_WEB_CLIENT_ERROR] {
+  timestamp: '2026-09-14T12:11:29.840Z',
+  level: 'ERROR',
+  requestId: null,
+  errorCode: 'AUTH_VERIFICATION_CODE_INVALID',
+  category: 'AUTHENTICATION',
+  httpStatus: 401,
+  method: 'GET',
+  route: '/me',
+  retryable: false,
+  client: 'WEB_STUDENT'
+}
+[BNBU_WEB_CLIENT_ERROR] {
+  timestamp: '2026-09-14T12:11:29.841Z',
+  level: 'ERROR',
+  requestId: null,
+  errorCode: 'AUTH_SESSION_REVOKED',
+  category: 'AUTHENTICATION',
+  httpStatus: 401,
+  method: 'GET',
+  route: '/me',
+  retryable: false,
+  client: 'WEB_STUDENT'
+}
+[BNBU_WEB_CLIENT_ERROR] {
+  timestamp: '2026-09-14T12:11:29.841Z',
+  level: 'ERROR',
+  requestId: null,
+  errorCode: 'AUTH_ACCOUNT_DISABLED',
+  category: 'AUTHORIZATION',
+  httpStatus: 403,
+  method: 'GET',
+  route: '/me',
+  retryable: false,
+  client: 'WEB_STUDENT'
+}
+✔ a fresh module recovers persistent credentials after closing the page (3.1083ms)
+✔ missing or damaged presentation marker is rebuilt without another sign-in (0.3054ms)
+✔ verified identity repairs the display marker using the server student number (0.3933ms)
+✔ offline startup retains login and finishes loading so retry remains available (4.6185ms)
+✔ a non-terminal 401 does not destroy the remembered session (16.1256ms)
+✔ revoked and disabled sessions return to sign-in without a stuck loading shell (0.8566ms)
+✔ expired access credentials rotate automatically without user sign-in (1.4336ms)
+✔ a delayed rejection from an old request cannot sign out a new login (1.0484ms)
+✔ explicit logout, removed site data and expired refresh credentials require sign-in (0.232ms)
+✔ a login in another page also protects the new session from an older rejection (3.0955ms)
+✔ prepares all IDs before intake, labels video OTHER and locks the accepted batch (2.1892ms)
+✔ lost acceptance response keeps files locked and reconciles on retry (0.3247ms)
+✔ delay correction renews only rejected intake identity (0.3409ms)
+✔ missing truthful stages and replacement of locked files are rejected (0.4147ms)
+✔ historical swimming and non-swimming do not use realtime intake (0.1088ms)
+✔ safe swimming reasons replace misleading field-format guidance (1.3071ms)
+✔ finished lower-case swimming session renders truthful photo controls and delay reason (14.6232ms)
+✔ media preparation sends only metadata and uploads the same locked ID after intake (23.8356ms)
+ℹ tests 20
+ℹ suites 0
+ℹ pass 20
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 156.117

@@ -1,3 +1,4 @@
+import { isStudentSchoolEmail } from '../../common/security/student-school-email.js';
 import { Injectable } from '@nestjs/common';
 
 import { AuditService } from '../../common/audit/audit.service.js';
@@ -93,7 +94,7 @@ export class EmailVerificationService {
 
     const targetEmail = input.email.trim();
     const targetEmailNormalized = targetEmail.toLowerCase();
-    if (principal.role === 'STUDENT' && !targetEmailNormalized.includes('bnbu')) {
+    if (principal.role === 'STUDENT' && !isStudentSchoolEmail(targetEmailNormalized)) {
       throw new ApplicationError('VALIDATION_FAILED', 422, {
         fieldErrors: [{ field: 'email', code: 'BNBU_EMAIL_REQUIRED', i18nKey: 'error.validation.failed', params: {} }],
       });
@@ -168,7 +169,7 @@ export class EmailVerificationService {
           },
           include: { user: true },
         });
-        if (challenge === null) {
+        if (challenge === null || (principal.role === 'STUDENT' && !isStudentSchoolEmail(challenge.targetEmailNormalized))) {
           return this.idempotency.failure(this.invalidCode());
         }
 

@@ -1,3 +1,4 @@
+import { permitsSystemMode } from '../system-mode/system-mode-access.js';
 import { Body, Controller, Get, Headers, Injectable, Param, ParseUUIDPipe, Post, Req } from '@nestjs/common';
 import { IsIn, IsInt, IsString, Min, Max } from 'class-validator';
 import { CurrentPrincipal } from '../../common/policy/principal.decorator.js';
@@ -79,7 +80,7 @@ export class V81EnduranceService {
       await tx.$queryRaw`SELECT id FROM organizations WHERE id=${principal.organizationId}::uuid FOR NO KEY UPDATE`;
       await requireAdminAccess(tx, principal, 'GLOBAL_RULES');
       const policy = await tx.systemPolicy.findUnique({ where: { organizationId: principal.organizationId } });
-      if (policy?.systemMode !== 'NORMAL') throw new ApplicationError('SYSTEM_MAINTENANCE', 503);
+      if (!permitsSystemMode(policy?.systemMode, principal.role)) throw new ApplicationError('SYSTEM_MAINTENANCE', 503);
       const previous = await this.read(tx, principal.organizationId, table);
       if (input.expectedVersion !== previous.version) throw new ApplicationError('CONFLICT_VERSION_MISMATCH', 409);
       const before = previous.bands.find(row => row.id === input.ruleId);

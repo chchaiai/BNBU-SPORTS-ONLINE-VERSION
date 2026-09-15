@@ -1,0 +1,18 @@
+{
+  "result": "PASS",
+  "maintenanceAnnouncement": "PASS",
+  "video": {
+    "durationSeconds": 11.2,
+    "draftCount": 0,
+    "indexedDbCount": 0,
+    "result": "PASS"
+  },
+  "sports": {
+    "count": 24,
+    "result": "PASS",
+    "scope": "Deployed SVG gallery plus authenticated real student check-in page, 24 sports and Other"
+  },
+  "brandingPage": "PASS",
+  "teacherSettingsPage": "PASS",
+  "browser": "Microsoft Edge headless desktop; real MediaRecorder canvas video; mobile camera not tested"
+}

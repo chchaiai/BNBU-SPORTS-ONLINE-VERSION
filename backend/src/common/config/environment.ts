@@ -58,7 +58,18 @@ export interface TencentSesEmailDeliveryConfig {
   };
 }
 
-export type EmailDeliveryConfig = SmtpEmailDeliveryConfig | TencentSesEmailDeliveryConfig;
+export interface AokSendEmailDeliveryConfig {
+  provider: 'AOKSEND';
+  appKey: string;
+  templateId: string;
+  timeoutMs: number;
+  fallback: TencentSesEmailDeliveryConfig;
+}
+
+export type EmailDeliveryConfig =
+  | SmtpEmailDeliveryConfig
+  | TencentSesEmailDeliveryConfig
+  | AokSendEmailDeliveryConfig;
 
 export interface RuntimeConfig {
   runtimeLogDirectory?: string | null;
@@ -434,8 +445,20 @@ function emailDeliveryConfiguration(
     throw new Error('EMAIL_DELIVERY_PROVIDER is required outside local and test environments');
   }
   if (provider === 'TENCENT_SES') return tencentSesEmailDeliveryConfiguration(raw);
+  if (provider === 'AOKSEND') {
+    return {
+      provider: 'AOKSEND',
+      appKey: required(raw, 'AOKSEND_APP_KEY'),
+      templateId: required(raw, 'AOKSEND_TEMPLATE_ID'),
+      timeoutMs: integer({ ...raw, AOKSEND_TIMEOUT_MS: raw.AOKSEND_TIMEOUT_MS ?? '5000' }, 'AOKSEND_TIMEOUT_MS', {
+        minimum: 1000,
+        maximum: 10000,
+      }),
+      fallback: tencentSesEmailDeliveryConfiguration(raw),
+    };
+  }
   if (provider !== 'SMTP') {
-    throw new Error('EMAIL_DELIVERY_PROVIDER must be SMTP or TENCENT_SES');
+    throw new Error('EMAIL_DELIVERY_PROVIDER must be SMTP, TENCENT_SES or AOKSEND');
   }
   if (smtpPresentCount !== coreNames.length) {
     throw new Error('SMTP email delivery configuration must be either complete or omitted');

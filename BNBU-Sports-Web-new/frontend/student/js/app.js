@@ -182,8 +182,8 @@ export const app = {
   async refreshSystemMode() {
     if (!remoteSystemModeEnabled) return;
     if (this._systemModeRefresh) return this._systemModeRefresh;
-    this._systemModeRefresh = getSystemModeStatus()
-      .catch(() => ({ mode: "MAINTENANCE", policyVersion: null, updatedAt: null }))
+    this._systemModeRefresh = getSystemModeStatus((status) => this.applySystemModeStatus(status))
+      .catch(() => ({ ...this.state.systemModeStatus, mode: "MAINTENANCE" }))
       .then((status) => this.applySystemModeStatus(status))
       .finally(() => { this._systemModeRefresh = null; });
     return this._systemModeRefresh;
@@ -236,7 +236,7 @@ export const app = {
   // ── Auth ─────────────────────────────────────────────────────
   /** True when the signed-in session talks to the real backend. */
   isApiMode() {
-    return localStore.getSession()?.kind === "api";
+    return hasApiSession() || localStore.getSession()?.kind === "api";
   },
   /** True only for the local UI-review shell. Not a formal join or check-in. */
   isLocalPreview() {
@@ -285,6 +285,19 @@ export const app = {
     this.navDirection = "forward";
     return this.reloadApiWorkspace(identity);
   },
+  /** Tokens are durable authority; the presentation marker can be rebuilt. */
+  restoreRememberedSession() {
+    if (!hasApiSession()) return false;
+    const previous = localStore.getSession();
+    const session = previous?.kind === 'api' ? previous : {kind:'api',accountId:null,signedInAt:null};
+    localStore.setSession(session);
+    this.state.authenticated = true;
+    this.state.postEnrollmentGuideCompleted = Boolean(session.accountId && localStore.hasCompletedPostEnrollmentGuide(session.accountId));
+    this.state.isRestoringSession = false;
+    this.navDirection = 'forward';
+    void this.reloadApiWorkspace();
+    return true;
+  },
   /** Loads/refreshes the live workspace; keeps the shell usable on failure. */
   async reloadApiWorkspace(preloadedIdentity = null) {
     if (this.isLocalPreview()) {
@@ -302,6 +315,10 @@ export const app = {
       const identity = preloadedIdentity || (await loadApiStudentIdentity());
       void flushNativeAlbum(identity.student.localOwnerId).catch(() => {});
       if (!isCurrentApiSessionEpoch(epoch)) return false;
+      const accountId = identity.profile.studentNumber;
+      const saved = localStore.getSession();
+      localStore.setSession({kind:'api',accountId,signedInAt:saved?.kind==='api' ? saved.signedInAt : null});
+      this.state.postEnrollmentGuideCompleted = localStore.hasCompletedPostEnrollmentGuide(accountId);
       const requiresContactBinding =
         identity.me.user?.status === "PENDING_CONTACT_BINDING" ||
         !identity.student.emailVerified;
@@ -334,16 +351,16 @@ export const app = {
       this.state.isShowingCachedData = false;
       succeeded = true;
     } catch (error) {
-      if (!isCurrentApiSessionEpoch(epoch)) return false;
+      // A terminal API failure may have cleared this epoch. A newer login or
+      // an explicit logout must never be changed by this old request.
+      if (!isCurrentApiSessionEpoch(epoch) && (hasApiSession() || !this.state.authenticated)) return false;
       this.state.lastError = toUserFacingError(error);
       this.state.isShowingCachedData = true;
-      if (error?.status === 401 || (this.isApiMode() && !hasApiSession())) {
-        // Session is unrecoverable — return to the login flow.
-        clearApiSession();
+      if (!hasApiSession()) {
+        // Only the API's authenticated-session policy can invalidate tokens.
         localStore.clearSession();
         this.state.authenticated = false;
-        // clearApiSession advances the epoch, so render this terminal state
-        // here instead of waiting for the stale epoch's finally block.
+        // The API may have advanced the epoch; finish this loading state now.
         this.state.isLoading = false;
         this.render();
       }
@@ -802,7 +819,8 @@ export const app = {
     this.render();
     if (remoteSystemModeEnabled) void this.refreshSystemMode();
     subscribeSystemMaintenance(() => {
-      this.applySystemModeStatus({ mode: "MAINTENANCE", policyVersion: null, updatedAt: null });
+      this.applySystemModeStatus({ ...this.state.systemModeStatus, mode: "MAINTENANCE" });
+      void this.refreshSystemMode();
     });
     loadPolicyMarkdown();
     const restoreSession = () => {
@@ -816,14 +834,7 @@ export const app = {
       }
       this.state.needsPrivacyConsent = !privacyAccepted;
       this.state.loginPrivacyAccepted = privacyAccepted;
-      if (session?.kind === "api" && hasApiSession()) {
-        this.state.authenticated = true;
-        this.state.postEnrollmentGuideCompleted = localStore.hasCompletedPostEnrollmentGuide(session.accountId);
-        this.state.isRestoringSession = false;
-        this.navDirection = "forward";
-        this.reloadApiWorkspace();
-        return;
-      }
+      if (this.restoreRememberedSession()) return;
       if (session) {
         // API tokens are gone; fall back to a fresh sign-in.
         localStore.clearSession();

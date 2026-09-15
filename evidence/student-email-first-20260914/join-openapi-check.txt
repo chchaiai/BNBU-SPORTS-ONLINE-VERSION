@@ -1,0 +1,5 @@
+
+> @bnbu/sports-backend@0.1.0 openapi:check
+> node ./scripts/generate-openapi.mjs --check
+
+Generated OpenAPI artifacts: PASS (263 operations)

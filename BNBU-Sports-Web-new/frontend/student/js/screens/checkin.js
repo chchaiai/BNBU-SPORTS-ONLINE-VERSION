@@ -1,3 +1,4 @@
+import {isRealtimeSwim, ensureSwimIntake} from "../swim-submission.js";
 import {savePhotoOriginal,listPhotoOriginals,removePhotoOriginal,prepareJpegEvidence} from "../photo-originals.js";
 import {SPORT_OPTIONS} from "../sports-catalog.js";
 import {proofTodoContext} from '../proof-todo.js';
@@ -24,7 +25,7 @@ import {
 } from "../session.js";
 import {
   request, startServerSession, pauseServerSession, resumeServerSession, finishServerSession,
-  cancelServerSession, createRecordDraft, submitRecord,
+  cancelServerSession, createRecordDraft, submitRecord, getSwimIntake, acceptSwimIntake,
   uploadMediaDraft, cacheRecordProofs, createMediaAccessUrl, proxyObjectUrl,
   getRecordWorkflow, getRecordEvidenceContext, submitRecordSupplement,
   loadServerRecordProofs,
@@ -516,6 +517,20 @@ function renderPreparation(app) {
 //  #21 Running / paused
 // ═══════════════════════════════════════════════════════════════
 
+function swimEvidenceHtml(app) {
+  const session = loadSession(accountId(app));
+  if (selectedProofTodo(app) || !isRealtimeSwim(session)) return '';
+  const ui = checkinState(app);
+  return `<div class="swiss-panel col" style="gap:12px;margin-top:12px">
+    <strong>${tx('游泳前后凭证', 'Swimming evidence')}</strong>
+    <p class="body-small">${tx('请在下水前、出水后分别拍照，并按真实拍摄阶段标记。预受理后材料批次锁定，请保管原始文件并继续上传。请勿在更衣室拍摄。', 'Take photos before entering and after leaving the water, then label them truthfully. The accepted batch is locked; retain the original files. Do not photograph changing rooms.')}</p>
+    ${ui.drafts.filter(d=>d.type==='image').map((d,i)=>`<label>${tx(`照片 ${i+1} 拍摄阶段`, `Photo ${i+1} stage`)}<select data-change="checkin.swimPhase" data-draft-id="${esc(d.id)}" ${ui.finish.submitting || d.swimLocked ? 'disabled' : ''}>
+      ${[['','未标记','Not labelled'],['BEFORE','运动前','Before swimming'],['AFTER','运动后','After swimming'],['OTHER','其他','Other']].map(([v,zh,en])=>`<option value="${v}" ${d.swimPhase===v?'selected':''} ${v==='BEFORE'&&d.capturedAfterEnd?'disabled':''}>${tx(zh,en)}</option>`).join('')}</select></label>`).join('')}
+    <label>${tx('延迟原因（如适用）', 'Delay reason (if applicable)')}<textarea maxlength="1000" data-change="checkin.swimDelay" ${ui.finish.submitting?'disabled':''}>${esc(session.swimDelayReason||'')}</textarea></label>
+    <span class="body-small">${tx('结束后超过15分钟预受理或超过续传时限时，需填写真实原因，由教师审核；超过24小时无法提交。', 'A truthful reason is required for intake more than 15 minutes after finishing or late transfer, for teacher review. Submission closes after 24 hours.')}</span>
+  </div>`;
+}
+
 function draftListHtml(app, { submissionRequired = false } = {}) {
   const ui = checkinState(app);
   const imageCount = ui.drafts.filter((draft) => draft.type === "image").length;
@@ -533,9 +548,9 @@ function draftListHtml(app, { submissionRequired = false } = {}) {
     : "";
   if (!ui.drafts.length) {
     const emptyText = submissionRequired
-      ? tx("请先现场拍摄至少 1 张照片或 1 个视频。", "Capture at least one on-site photo or video first.")
+      ? (isRealtimeSwim(loadSession(accountId(app))) ? tx("请提供运动前、运动后照片各至少一张。", "Provide at least one photo before and one after swimming.") : tx("请先现场拍摄至少 1 张照片或 1 个视频。", "Capture at least one on-site photo or video first."))
       : tx("拍摄完成后，照片和视频会立即显示在这里。", "Captured photos and videos will appear here immediately.");
-    return `${header}<div class="proof-empty body-small text-muted">${icon("camera-alt", 20)}<span>${emptyText}</span></div>${submissionNote}`;
+    return `${header}<div class="proof-empty body-small text-muted">${icon("camera-alt", 20)}<span>${emptyText}</span></div>${submissionNote}${swimEvidenceHtml(app)}`;
   }
   return `${header}
     <div class="proof-card-strip">${ui.drafts
@@ -562,7 +577,7 @@ function draftListHtml(app, { submissionRequired = false } = {}) {
     )
     .join("")}</div>
     <div class="body-small text-muted proof-preview-hint">${tx("点击某项凭证可预览；正式提交开始前，可以删除不合适的照片或视频。", "Open an evidence item to preview it. Before formal submission starts, you can delete an unsuitable photo or video.")}</div>
-    ${submissionNote}`;
+    ${submissionNote}${swimEvidenceHtml(app)}`;
 }
 
 function draftPreviewOverlayHtml(app) {
@@ -610,7 +625,7 @@ export function attachDraftVideoPreview(app) {
 /** Confirmed/bound Session evidence is append-only for final submission. */
 export function isRetainedEvidenceLocked(draft) {
   return Boolean(
-    draft?.mediaId ||
+    draft?.swimLocked || draft?.mediaId ||
     draft?.pendingUpload?.confirmed ||
     draft?.pendingUpload?.bound
   );
@@ -627,10 +642,13 @@ function captureButtonsHtml(app, { allowVideo }) {
   const ui = checkinState(app);
   const imageCount = ui.drafts.filter((d) => d.type === "image").length;
   const videoCount = ui.drafts.filter((d) => d.type === "video").length;
-  const photoLimit = imageCount >= MAX_IMAGES;
-  const videoLimit = videoCount >= MAX_VIDEOS;
+  const batchLocked = ui.drafts.some(d=>d.swimLocked);
+  const photoLimit = batchLocked || imageCount >= MAX_IMAGES;
+  const videoLimit = batchLocked || videoCount >= MAX_VIDEOS;
   let limitNote = "";
-  if (photoLimit && allowVideo && videoLimit) {
+  if (batchLocked) {
+    limitNote = tx('游泳材料已锁定，请使用现有文件继续提交。', 'Swimming evidence is locked. Continue with the retained files.');
+  } else if (photoLimit && allowVideo && videoLimit) {
     limitNote = tx("照片和视频均已达到本次运动的凭证上限；可点击凭证预览并在提交前删除。", "Photo and video evidence limits are reached; open an item to preview or delete it before submission.");
   } else if (photoLimit) {
     limitNote = tx(`照片已达到 ${MAX_IMAGES} 张上限；可点击照片并在提交前删除。`, `The ${MAX_IMAGES}-photo limit is reached; open a photo to delete it before submission.`);
@@ -757,7 +775,7 @@ function renderFinished(app, session) {
       ${captureButtonsHtml(app, { allowVideo: true })}
       <div class="course-divider" style="margin:18px 0 16px"></div>
       <span class="title-medium text-on-surface">${tx("本次打卡凭证", "Check-in proof")}</span>
-      <span class="body-small text-muted">${tx("至少拍摄 1 项，当前保留素材会全部提交", "Capture at least one item; all retained media will be submitted")}</span>
+      <span class="body-small text-muted">${isRealtimeSwim(session) ? tx("运动前后照片各至少 1 张，当前保留素材会全部提交", "At least one before and one after photo; all retained media will be submitted") : tx("至少拍摄 1 项，当前保留素材会全部提交", "Capture at least one item; all retained media will be submitted")}</span>
       <div style="height:10px"></div>
       ${draftListHtml(app, { submissionRequired: true })}
     </div>
@@ -1608,7 +1626,7 @@ export function capturedRecordingDurationSeconds(startedAt, endedAt = Date.now()
   return Math.min(MAX_PROOF_VIDEO_SECONDS, Math.max(0.1, elapsedSeconds));
 }
 
-async function addDraftFromFile(app, file, type, capturedDurationSeconds = null, existingDraftId = null, nativeCapture = false) {
+export async function addDraftFromFile(app, file, type, capturedDurationSeconds = null, existingDraftId = null, nativeCapture = false) {
   const ui = checkinState(app);
   const converting = type === "video";
   if (converting && ui.normalizingVideo) return;
@@ -1618,6 +1636,10 @@ async function addDraftFromFile(app, file, type, capturedDurationSeconds = null,
 }
 
 async function addDraftFromFileImpl(app, file, type, capturedDurationSeconds, existingDraftId, converting, nativeCapture) {
+  if (checkinState(app).drafts.some(d=>d.swimLocked)) {
+    apiFailureDialog(app,new ApiError(422,{code:'VALIDATION_FAILED',details:{reason:'SWIM_LOCKED_BATCH_MISMATCH'}}),tx('材料已锁定','Evidence locked'));
+    return;
+  }
   const ui = checkinState(app), owner = accountId(app), scope = draftScope(app);
   ui.captureError = null;
   const name = capturedDurationSeconds !== null ? tx('刚录制的视频', 'Recorded video')
@@ -1631,6 +1653,21 @@ async function addDraftFromFileImpl(app, file, type, capturedDurationSeconds, ex
   let uploadFile = file, normalizedPreview = null;
   if (converting) {
     if (file.size < 1 || file.size > PROOF_VIDEO_MAX_BYTES) { rejectWith(tx("视频为空或超过 100MB，请重新录制。", "The video is empty or exceeds 100MB. Record it again.")); return; }
+    const probeUrl = URL.createObjectURL(file);
+    let measured;
+    try { measured = await readVideoPreview(probeUrl); }
+    finally { URL.revokeObjectURL(probeUrl); }
+    if (Number.isFinite(measured.durationSeconds) && measured.durationSeconds > (nativeCapture ? 10 : MAX_PROOF_VIDEO_SECONDS)) {
+      if (existingDraftId) {
+        await removeProofDraft(owner, scope, draftId);
+        const rejected = ui.drafts.find(d => d.id === draftId);
+        if (rejected?.url) URL.revokeObjectURL(rejected.url);
+        ui.drafts = ui.drafts.filter(d => d.id !== draftId);
+      }
+      rejectWith(tx(`视频超过 ${nativeCapture ? 10 : MAX_PROOF_VIDEO_SECONDS} 秒上限，请重新录制。`, `The video exceeds ${nativeCapture ? 10 : MAX_PROOF_VIDEO_SECONDS} seconds. Record again.`));
+      return;
+    }
+    if (accountId(app) !== owner || app.ui.checkin !== ui) return;
     let originalSaved = false;
     try {
       const pending = {id:draftId,type,blob:file,url:URL.createObjectURL(file),byteCount:file.size,mimeType:file.type,
@@ -1696,6 +1733,12 @@ async function addDraftFromFileImpl(app, file, type, capturedDurationSeconds, ex
     verdict = validateVideoDraftDuration(uploadFile, durationSeconds, nativeCapture);
     if (!verdict.ok && verdict.error === "duration") {
       URL.revokeObjectURL(url);
+      if (durationSeconds !== null) {
+        await removeProofDraft(owner, scope, draftId);
+        const rejected = ui.drafts.find(d => d.id === draftId);
+        if (rejected?.url) URL.revokeObjectURL(rejected.url);
+        ui.drafts = ui.drafts.filter(d => d.id !== draftId);
+      }
       rejectWith(durationSeconds === null
         ? tx(`无法读取「${name}」的实际时长，请重新录制。`, `The actual duration of “${name}” could not be read. Record it again.`)
         : tx(
@@ -1715,6 +1758,7 @@ async function addDraftFromFileImpl(app, file, type, capturedDurationSeconds, ex
     url,
     blob: uploadFile,
     mimeType: verdict.mimeType,
+    capturedAfterEnd: ['finished','submitted'].includes(loadSession(accountId(app))?.phase),
     captureSource: !selectedProofTodo(app)&&loadSession(accountId(app))?.recordOrigin === 'HISTORICAL' ? 'FILE_PICKER' : 'IN_APP_CAMERA',
   };
   try {
@@ -1795,13 +1839,26 @@ async function submitCheckInApi(app, session, retained) {
       record = await createRecordDraft(session.recordSubmission.input, session.recordSubmission.createKey);
     }
     const alreadySubmitted = record.status !== 'DRAFT';
+    if (!alreadySubmitted && isRealtimeSwim(session)) {
+      ui.mediaNotice = tx('正在预受理游泳材料…', 'Accepting swimming evidence…');
+      app.render();
+      await ensureSwimIntake({
+        record, drafts: retained, intent: session.recordSubmission, delayReason: session.swimDelayReason,
+        get: getSwimIntake, accept: acceptSwimIntake,
+        prepare: async draft => uploadMediaDraft(session.serverId, draft, draft.blob || await fetch(draft.url).then(r=>r.blob()), {prepareOnly:true}),
+        save: async draft => { if(draft) await saveProofDraft(accountId(app), session.serverId, draft); persist(app,session); },
+        fail: reason => new ApiError(422,{code:'VALIDATION_FAILED',details:{reason}}),
+      });
+    }
     const uploaded = alreadySubmitted ? await loadServerRecordProofs(record.id) : [];
     for (let index = 0; !alreadySubmitted && index < retained.length; index++) {
       const draft = retained[index];
       ui.mediaNotice = tx(`正在处理凭证 ${index + 1}/${retained.length}…`, `Processing proof ${index + 1}/${retained.length}…`);
       app.render();
       const blob = draft.blob || (await fetch(draft.url).then((r) => r.blob()));
-      const mediaId = draft.mediaId || (await uploadMediaDraft(session.serverId, draft, blob)).mediaId;
+      let mediaId;
+      try { mediaId = draft.mediaId || (await uploadMediaDraft(session.serverId, draft, blob)).mediaId; }
+      finally { await saveProofDraft(accountId(app), session.serverId, draft); }
       uploaded.push({
         mediaId,
         type: draft.type,
@@ -1812,7 +1869,11 @@ async function submitCheckInApi(app, session, retained) {
     }
     ui.mediaNotice = tx("全部凭证已验证，正在提交打卡…", "All proof is verified. Submitting the check-in…");
     app.render();
-    const submittedRecord = alreadySubmitted ? record : await submitRecord(record.id, uploaded.map((u) => u.mediaId), record.version, undefined, session.recordSubmission.submitKey);
+    const submitFingerprint = JSON.stringify({mediaIds:uploaded.map(u=>u.mediaId), delay:session.swimDelayReason?.trim()||''});
+    if (session.recordSubmission.submitFingerprint && session.recordSubmission.submitFingerprint !== submitFingerprint) session.recordSubmission.submitKey = crypto.randomUUID();
+    session.recordSubmission.submitFingerprint = submitFingerprint;
+    persist(app,session);
+    const submittedRecord = alreadySubmitted ? record : await submitRecord(record.id, uploaded.map((u) => u.mediaId), record.version, session.swimDelayReason, session.recordSubmission.submitKey);
     cacheRecordProofs(record.id, uploaded);
     // The server has committed submission. Album failure must never turn this
     // into a failed check-in; persisted native work retries on the next visit.
@@ -1874,6 +1935,14 @@ export function checkinTick(app) {
 // ═══════════════════════════════════════════════════════════════
 
 export const checkinActions = {
+  "checkin.swimPhase": async (app,el) => {
+    const ui=checkinState(app), draft=ui.drafts.find(d=>d.id===el.dataset.draftId);
+    if(!draft || ui.finish.submitting || draft.swimLocked || !['','BEFORE','AFTER','OTHER'].includes(el.value) || (el.value==='BEFORE' && draft.capturedAfterEnd)) return;
+    draft.swimPhase=el.value;
+    await saveProofDraft(accountId(app),draftScope(app),draft);
+    app.render();
+  },
+  "checkin.swimDelay": (app,el) => { const session=loadSession(accountId(app)); if(session && !checkinState(app).finish.submitting){session.swimDelayReason=el.value.trim();persist(app,session);} },
   'checkin.selectProof':async(app,el)=>{
     const ui=checkinState(app);
     if(ui.finish.submitting)return;
@@ -2200,7 +2269,7 @@ export const checkinActions = {
       if (blob.size > 0) {
         const extension = blob.type.startsWith("video/mp4") ? "mp4" : "webm";
         const file = new File([blob], `live_video_${Date.now()}.${extension}`, { type: blob.type, lastModified: Date.now() });
-        void addDraftFromFile(app, file, "video", recordedDurationSeconds);
+        void addDraftFromFile(app, file, "video", recordedDurationSeconds, null, true);
       }
     };
     recorder.start(250);

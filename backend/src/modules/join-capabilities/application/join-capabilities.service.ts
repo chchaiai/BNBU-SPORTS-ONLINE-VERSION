@@ -1,3 +1,5 @@
+import { isStudentSchoolEmail } from '../../../common/security/student-school-email.js';
+import { PrismaService } from '../../../common/database/prisma.service.js';
 import { Injectable } from '@nestjs/common';
 
 import { ApplicationError } from '../../../common/errors/application-error.js';
@@ -10,7 +12,7 @@ import { IdGenerator } from '../../../common/time/id-generator.js';
 import { StudentIdentityNormalizer } from '../../users/application/student-identity-normalizer.js';
 import { StudentIdentityResolver } from '../../users/application/student-identity-resolver.js';
 import { CourseInviteRepository } from '../../course-invites/domain/course-invite.repository.js';
-import { INVITE_GRACE_MS } from '../../course-invites/domain/invite-timing.js';
+import { INVITE_GRACE_MS, permitsInviteCompletion } from '../../course-invites/domain/invite-timing.js';
 import { JoinCapabilityRepository } from '../domain/join-capability.repository.js';
 import { JoinCapabilityEntity } from '../domain/join-capability.js';
 import type { IssueJoinCapabilityRequestDto } from '../interface/http/join-capabilities.dto.js';
@@ -27,6 +29,7 @@ interface IssueFacts {
 export class JoinCapabilitiesService {
   constructor(
     private readonly repository: JoinCapabilityRepository,
+    private readonly prisma: PrismaService,
     private readonly invites: CourseInviteRepository,
     private readonly identities: StudentIdentityResolver,
     private readonly normalizer: StudentIdentityNormalizer,
@@ -42,8 +45,28 @@ export class JoinCapabilitiesService {
     input: IssueJoinCapabilityRequestDto,
     facts: IssueFacts,
   ): Promise<JoinCapabilityProjection> {
+    let proof: { email: string; challengeId: string; organizationId: string; userId: string | null; verifiedAt: string; expiresAt: string } | null = null;
+    if (input.joinEmailProof) {
+      try { proof = this.crypto.decrypt('join-email-proof', invite.inviteId, input.joinEmailProof); }
+      catch { throw new ApplicationError('AUTH_JOIN_CAPABILITY_INVALID', 401); }
+      if (!proof || !isStudentSchoolEmail(proof.email) || proof.organizationId !== invite.organizationId || Date.parse(proof.expiresAt) <= this.clock.now().getTime() ||
+          !Number.isFinite(Date.parse(proof.verifiedAt)) || Date.parse(proof.verifiedAt) >= invite.expiresAt.getTime())
+        throw new ApplicationError('AUTH_JOIN_CAPABILITY_INVALID', 401);
+      const challenge = await this.prisma.studentSignInChallenge.findUnique({ where: { id: proof.challengeId } });
+      if (challenge?.status !== 'CONSUMED' || challenge.organizationId !== invite.organizationId)
+        throw new ApplicationError('AUTH_JOIN_CAPABILITY_INVALID', 401);
+    }
+    const owner = facts.authenticatedUserId ?? proof?.userId ?? undefined;
+    const user = owner ? await this.prisma.user.findFirst({ where: { id: owner, organizationId: invite.organizationId,
+      role: 'STUDENT', status: { in: ['ACTIVE','PENDING_CONTACT_BINDING'] }, deletedAt: null } }) : null;
+    if (!proof && (!user?.emailVerifiedAt || !isStudentSchoolEmail(user.primaryEmailNormalized)))
+      throw new ApplicationError('AUTH_REQUIRED', 401);
+    if (proof && user?.emailVerifiedAt && user.primaryEmailNormalized !== proof.email)
+      throw new ApplicationError('USER_IDENTITY_CONFLICT', 409);
     const identity = { ...this.normalizer.normalize(input),
-      ...(facts.authenticatedUserId ? { authenticatedUserId: facts.authenticatedUserId } : {}) };
+      ...(owner ? { authenticatedUserId: owner } : {}),
+      ...(proof ? { verifiedEmail: proof.email, verificationChallengeId: proof.challengeId } : {}) };
+    if (!identity.collegeName || !identity.majorName) throw new ApplicationError('USER_PROFILE_INVALID', 422);
     const identityFingerprint = this.crypto.identityFingerprint({
       organizationId: invite.organizationId,
       inviteId: invite.inviteId,
@@ -54,11 +77,13 @@ export class JoinCapabilitiesService {
       `qr:issue:source-identity:${this.crypto.opaqueReference('source-identity', `${facts.sourceIp ?? 'unavailable'}\0${identityFingerprint}`)}`,
     ]);
     const existing = await this.identities.validateExisting(invite.organizationId, identity);
-    if ((existing?.user.emailVerifiedAt && facts.authenticatedUserId !== existing.user.id) ||
-        (facts.authenticatedUserId && existing?.user.id !== facts.authenticatedUserId)) {
+    if ((existing?.user.emailVerifiedAt && owner !== existing.user.id) ||
+        (owner && existing?.user.id !== owner)) {
       throw new ApplicationError('AUTH_REQUIRED', 401);
     }
 
+    if (existing && !owner) throw new ApplicationError('AUTH_REQUIRED', 401);
+    const registeredAt = proof ? new Date(proof.verifiedAt) : null;
     const reference = await this.idempotency.execute(
       {
         organizationId: invite.organizationId,
@@ -80,8 +105,7 @@ export class JoinCapabilitiesService {
         const currentInvite = await this.invites.findById(invite.inviteId, transaction);
         if (
           lockedSection === null ||
-          currentInvite?.status !== 'ACTIVE' ||
-          currentInvite.expiresAt <= now ||
+          !currentInvite || !permitsInviteCompletion(currentInvite, registeredAt ?? now, now) ||
           lockedSection.status !== 'ACTIVE' ||
           !lockedSection.isEnrollmentOpen ||
           lockedSection.teacher.status !== 'ACTIVE' ||
@@ -95,6 +119,9 @@ export class JoinCapabilitiesService {
             new ApplicationError('COURSE_CLASS_SECTION_NOT_JOINABLE', 409),
           );
         }
+        if (currentInvite.expiresAt <= now && await transaction.joinCapability.findFirst({ where: {
+          courseInviteId: invite.inviteId, identityFingerprint,
+        } })) return this.idempotency.failure(new ApplicationError('COURSE_CLASS_SECTION_NOT_JOINABLE', 409));
         await this.identities.validateExisting(invite.organizationId, identity, transaction);
         const capabilityId = this.ids.next();
         const issued = this.crypto.issueToken('join-capability', capabilityId);
@@ -119,7 +146,7 @@ export class JoinCapabilitiesService {
             identity,
           ),
           identityKeyVersion: this.crypto.keyVersion,
-          issuedAt: now,
+          issuedAt: registeredAt ?? now,
           expiresAt,
           createdRequestId: facts.requestId,
         });

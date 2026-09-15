@@ -1,0 +1,320 @@
+time="2026-09-14T19:57:08+08:00" level=warning msg="Found orphan containers (bnbu-swim-regression-20260914, bnbu-target-regression) for this project. If you removed or renamed this service in your compose file, you can run this command with the --remove-orphans flag to clean it up."
+ Container bnbu-login-regression-integration-media-1 Starting
+ Container bnbu-login-regression-mailpit-1 Starting
+ Container bnbu-login-regression-integration-postgres-1 Starting
+ Container bnbu-login-regression-mailpit-1 Started
+ Container bnbu-login-regression-integration-media-1 Started
+ Container bnbu-login-regression-integration-postgres-1 Started
+ Container bnbu-login-regression-integration-postgres-1 Waiting
+ Container bnbu-login-regression-integration-media-1 Waiting
+ Container bnbu-login-regression-mailpit-1 Waiting
+ Container bnbu-login-regression-mailpit-1 Healthy
+ Container bnbu-login-regression-integration-postgres-1 Healthy
+ Container bnbu-login-regression-integration-media-1 Healthy
+ Container bnbu-invite-regression-20260914 Creating
+ Container bnbu-invite-regression-20260914 Created
+
+> @bnbu/sports-backend@0.1.0 prebuild
+> npm run db:generate && npm run generate
+
+
+> @bnbu/sports-backend@0.1.0 db:generate
+> prisma generate
+
+Loaded Prisma config from prisma.config.ts.
+
+Prisma schema loaded from prisma/schema.prisma.
+
+✔ Generated Prisma Client (7.9.1) to ./src/generated/prisma in 1.13s
+
+┌─────────────────────────────────────────────────────────┐
+│  Update available 7.9.1 -> 8.0.0-rc.15                  │
+│                                                         │
+│  This is a major update - please follow the guide at    │
+│  https://pris.ly/d/major-version-upgrade                │
+│                                                         │
+│  Run the following to update                            │
+│    npm i --save-dev prisma@latest                       │
+│    npm i @prisma/client@latest                          │
+└─────────────────────────────────────────────────────────┘
+
+> @bnbu/sports-backend@0.1.0 generate
+> npm run openapi:generate && npm run db:manifest:generate
+
+
+> @bnbu/sports-backend@0.1.0 openapi:generate
+> node ./scripts/generate-openapi.mjs
+
+Generated 3 OpenAPI artifacts from 263 operations.
+
+> @bnbu/sports-backend@0.1.0 db:manifest:generate
+> node ./scripts/generate-migration-manifest.mjs
+
+Generated migration manifest updated.
+
+> @bnbu/sports-backend@0.1.0 build
+> nest build
+
+Loaded Prisma config from prisma.config.ts.
+
+Prisma schema loaded from prisma/schema.prisma.
+Datasource "db": PostgreSQL database "bnbu_sports_test", schema "public" at "127.0.0.1:5432"
+
+76 migrations found in prisma/migrations
+
+Applying migration `0001_greenfield_foundation`
+Applying migration `0002_teaching_structure`
+Applying migration `0003_identity_enrollment_qr_join`
+Applying migration `0004_official_roster_alignment`
+Applying migration `0005_exercise_session`
+Applying migration `0006_media_evidence`
+Applying migration `0007_exercise_record`
+Applying migration `0008_review_core`
+Applying migration `0009_score`
+Applying migration `0010_export_audit_governance`
+Applying migration `0011_client_capabilities`
+Applying migration `0012_ios_auth_release_exemption`
+Applying migration `0013_production_rate_limits`
+Applying migration `0014_email_only_auth`
+Applying migration `0015_email_verification_fk_alignment`
+Applying migration `0016_optional_course_exercise_description`
+Applying migration `0017_exemption_application_details`
+Applying migration `0018_default_valid_exercise_reviews`
+Applying migration `0019_default_valid_initial_review_constraint`
+Applying migration `0020_staging_fixture_audit_action`
+Applying migration `0021_v81_business_foundation`
+Applying migration `0022_v81_account_security`
+Applying migration `0023_v81_application_materials`
+Applying migration `0024_v81_certification_revocation`
+Applying migration `0025_v81_swim_intake`
+Applying migration `0026_v81_final_grades`
+Applying migration `0027_v81_feedback_history`
+Applying migration `0028_v81_feedback_mutation`
+Applying migration `0029_v81_help_articles`
+Applying migration `0030_v81_endurance_tables`
+Applying migration `0031_v81_physical_results`
+Applying migration `0032_v81_physical_imports`
+Applying migration `0033_v81_physical_source_format`
+Applying migration `0034_v81_confirmed_rosters`
+Applying migration `0035_v81_roster_source_format`
+Applying migration `0036_v81_ocr_sources`
+Applying migration `0037_v81_ocr_jobs`
+Applying migration `0038_v81_ocr_drafts`
+Applying migration `0039_v81_ocr_physical_confirmations`
+Applying migration `0040_v81_unified_roster_basis`
+Applying migration `0041_v81_makeup_windows`
+Applying migration `0042_v81_rule_templates`
+Applying migration `0043_v81_course_reminder_dedup`
+Applying migration `0044_v81_runtime_archives`
+Applying migration `0045_v81_runtime_archive_cleanup`
+Applying migration `0046_v81_history_subjects`
+Applying migration `0047_v81_history_references`
+Applying migration `0048_v81_account_deletion_challenges`
+Applying migration `0049_v81_session_history_subjects`
+Applying migration `0050_v81_event_actor_snapshot`
+Applying migration `0051_v81_system_event_provenance`
+Applying migration `0052_v81_ocr_service_governance`
+Applying migration `0053_v81_subadmin_identity`
+Applying migration `0054_v81_subadmin_ephemeral_cleanup`
+Applying migration `0055_v81_invite_revocation`
+Applying migration `0056_v81_settlement_reports`
+Applying migration `0057_v81_roster_duplicates`
+Applying migration `0058_client_diagnostics_rate_limit`
+Applying migration `0059_v81_recognition_adjustment`
+Applying migration `0060_subadmin_contact_email_scope`
+Applying migration `0061_admin_student_erasure`
+Applying migration `0062_teacher_course_erasure`
+Applying migration `0063_demand_course_history`
+Applying migration `0064_student_long_term_profile`
+Applying migration `0065_course_rule_customization`
+Applying migration `0066_exemption_documents_metadata`
+Applying migration `0067_historical_backfill`
+Applying migration `0068_exemption_document_submission`
+Applying migration `0069_record_rule_snapshots`
+Applying migration `0070_student_other_region`
+Applying migration `0071_course_retirement_invite_revocation`
+Applying migration `0072_exercise_limits`
+Applying migration `0073_exercise_goal_recognition`
+Applying migration `0074_membership_application_clear`
+Applying migration `0075_ocr_course_closure_confirmation`
+Applying migration `0076_notification_review_content`
+
+The following migration(s) have been applied:
+
+migrations/
+  └─ 0001_greenfield_foundation/
+    └─ migration.sql
+  └─ 0002_teaching_structure/
+    └─ migration.sql
+  └─ 0003_identity_enrollment_qr_join/
+    └─ migration.sql
+  └─ 0004_official_roster_alignment/
+    └─ migration.sql
+  └─ 0005_exercise_session/
+    └─ migration.sql
+  └─ 0006_media_evidence/
+    └─ migration.sql
+  └─ 0007_exercise_record/
+    └─ migration.sql
+  └─ 0008_review_core/
+    └─ migration.sql
+  └─ 0009_score/
+    └─ migration.sql
+  └─ 0010_export_audit_governance/
+    └─ migration.sql
+  └─ 0011_client_capabilities/
+    └─ migration.sql
+  └─ 0012_ios_auth_release_exemption/
+    └─ migration.sql
+  └─ 0013_production_rate_limits/
+    └─ migration.sql
+  └─ 0014_email_only_auth/
+    └─ migration.sql
+  └─ 0015_email_verification_fk_alignment/
+    └─ migration.sql
+  └─ 0016_optional_course_exercise_description/
+    └─ migration.sql
+  └─ 0017_exemption_application_details/
+    └─ migration.sql
+  └─ 0018_default_valid_exercise_reviews/
+    └─ migration.sql
+  └─ 0019_default_valid_initial_review_constraint/
+    └─ migration.sql
+  └─ 0020_staging_fixture_audit_action/
+    └─ migration.sql
+  └─ 0021_v81_business_foundation/
+    └─ migration.sql
+  └─ 0022_v81_account_security/
+    └─ migration.sql
+  └─ 0023_v81_application_materials/
+    └─ migration.sql
+  └─ 0024_v81_certification_revocation/
+    └─ migration.sql
+  └─ 0025_v81_swim_intake/
+    └─ migration.sql
+  └─ 0026_v81_final_grades/
+    └─ migration.sql
+  └─ 0027_v81_feedback_history/
+    └─ migration.sql
+  └─ 0028_v81_feedback_mutation/
+    └─ migration.sql
+  └─ 0029_v81_help_articles/
+    └─ migration.sql
+  └─ 0030_v81_endurance_tables/
+    └─ migration.sql
+  └─ 0031_v81_physical_results/
+    └─ migration.sql
+  └─ 0032_v81_physical_imports/
+    └─ migration.sql
+  └─ 0033_v81_physical_source_format/
+    └─ migration.sql
+  └─ 0034_v81_confirmed_rosters/
+    └─ migration.sql
+  └─ 0035_v81_roster_source_format/
+    └─ migration.sql
+  └─ 0036_v81_ocr_sources/
+    └─ migration.sql
+  └─ 0037_v81_ocr_jobs/
+    └─ migration.sql
+  └─ 0038_v81_ocr_drafts/
+    └─ migration.sql
+  └─ 0039_v81_ocr_physical_confirmations/
+    └─ migration.sql
+  └─ 0040_v81_unified_roster_basis/
+    └─ migration.sql
+  └─ 0041_v81_makeup_windows/
+    └─ migration.sql
+  └─ 0042_v81_rule_templates/
+    └─ migration.sql
+  └─ 0043_v81_course_reminder_dedup/
+    └─ migration.sql
+  └─ 0044_v81_runtime_archives/
+    └─ migration.sql
+  └─ 0045_v81_runtime_archive_cleanup/
+    └─ migration.sql
+  └─ 0046_v81_history_subjects/
+    └─ migration.sql
+  └─ 0047_v81_history_references/
+    └─ migration.sql
+  └─ 0048_v81_account_deletion_challenges/
+    └─ migration.sql
+  └─ 0049_v81_session_history_subjects/
+    └─ migration.sql
+  └─ 0050_v81_event_actor_snapshot/
+    └─ migration.sql
+  └─ 0051_v81_system_event_provenance/
+    └─ migration.sql
+  └─ 0052_v81_ocr_service_governance/
+    └─ migration.sql
+  └─ 0053_v81_subadmin_identity/
+    └─ migration.sql
+  └─ 0054_v81_subadmin_ephemeral_cleanup/
+    └─ migration.sql
+  └─ 0055_v81_invite_revocation/
+    └─ migration.sql
+  └─ 0056_v81_settlement_reports/
+    └─ migration.sql
+  └─ 0057_v81_roster_duplicates/
+    └─ migration.sql
+  └─ 0058_client_diagnostics_rate_limit/
+    └─ migration.sql
+  └─ 0059_v81_recognition_adjustment/
+    └─ migration.sql
+  └─ 0060_subadmin_contact_email_scope/
+    └─ migration.sql
+  └─ 0061_admin_student_erasure/
+    └─ migration.sql
+  └─ 0062_teacher_course_erasure/
+    └─ migration.sql
+  └─ 0063_demand_course_history/
+    └─ migration.sql
+  └─ 0064_student_long_term_profile/
+    └─ migration.sql
+  └─ 0065_course_rule_customization/
+    └─ migration.sql
+  └─ 0066_exemption_documents_metadata/
+    └─ migration.sql
+  └─ 0067_historical_backfill/
+    └─ migration.sql
+  └─ 0068_exemption_document_submission/
+    └─ migration.sql
+  └─ 0069_record_rule_snapshots/
+    └─ migration.sql
+  └─ 0070_student_other_region/
+    └─ migration.sql
+  └─ 0071_course_retirement_invite_revocation/
+    └─ migration.sql
+  └─ 0072_exercise_limits/
+    └─ migration.sql
+  └─ 0073_exercise_goal_recognition/
+    └─ migration.sql
+  └─ 0074_membership_application_clear/
+    └─ migration.sql
+  └─ 0075_ocr_course_closure_confirmation/
+    └─ migration.sql
+  └─ 0076_notification_review_content/
+    └─ migration.sql
+
+All migrations have been successfully applied.
+▶ Student identity, Enrollment, and QR Join HTTP E2E
+  ✔ enforces server-relative invite validity and rejects ambiguous or out-of-range input (920.683059ms)
+  ✔ finishes a registered flow during natural-expiry grace without renewing or opening a new flow (635.266005ms)
+  ✔ rejects registered invitation grace when GRACE_EXPIRED (490.52174ms)
+  ✔ rejects registered invitation grace when REVOKED (520.094446ms)
+  ✔ rejects registered invitation grace when ENROLLMENT_CLOSED (498.653195ms)
+  ✔ rejects registered invitation grace when COURSE_CLOSED (464.085394ms)
+  ✔ rejects registered invitation grace when SEMESTER_ARCHIVED (484.190898ms)
+  ✔ rotates digest-only invites and issues one replayable capability without creating identity (506.922936ms)
+  ✔ rejects non-binary QR join genders and malformed cohort years before issuing a capability (537.051861ms)
+  ✔ joins atomically, replays the exact encrypted result, and grants only Enrollment projections (832.116347ms)
+  ✔ manually enrolls an existing student and enforces remove, restore, read, and withdraw scopes (733.222572ms)
+  ✔ rolls back a second same-semester join and refuses self rejoin after teacher removal (679.207346ms)
+✔ Student identity, Enrollment, and QR Join HTTP E2E (9521.203198ms)
+ℹ tests 12
+ℹ suites 1
+ℹ pass 12
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 10127.006847

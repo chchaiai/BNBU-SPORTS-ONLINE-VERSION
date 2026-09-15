@@ -1,0 +1,5 @@
+{
+  "migrationId": "0078_admin_maintenance_access",
+  "sha256": "92a9a0eb41c61814facb64ac295cdf3a380e4d486f8a71a363a5b2808c88b2af",
+  "destructive": false
+}

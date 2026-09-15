@@ -1,0 +1,20 @@
+{
+  "result": "PASS",
+  "release": "/opt/bnbu-sports-production/releases/student-bulk-deletion-20260914",
+  "previous": "/opt/bnbu-sports-production/releases/credit-projection-0077-20260914",
+  "imageId": "sha256:67e29b272c452efe1085faaa21c2dc63a5bfb2771edd8209bb81454bea5214bd",
+  "backendUnchanged": true,
+  "verifiedPublicAssets": 9,
+  "businessDeletesExecuted": 0,
+  "localBrowser": {
+    "data": "12 synthetic students; all APIs in memory",
+    "individualSelection": "PASS",
+    "pageSelection10": "PASS",
+    "filteredSelection12": "PASS",
+    "crossPageSelection": "PASS",
+    "filterChangeClearsSelection": "PASS",
+    "confirmationAndCancel": "PASS",
+    "syntheticBatch12of12": "PASS",
+    "subAdminControlsAbsent": "PASS"
+  }
+}

@@ -1,0 +1,1 @@
+{"check":"BUG15_REAL_BROWSER_BRANDING_AND_OVERLONG_VIDEO_STORAGE","result":"PASS","video":{"drafts":0,"stored":0,"message":"视频超过 10 秒上限，请重新录制。"},"studentOrigin":"http://127.0.0.1:4274","teacherOrigin":"http://localhost:3300"}

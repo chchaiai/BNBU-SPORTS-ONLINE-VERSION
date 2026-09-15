@@ -14,8 +14,18 @@ type LanguageToggleProps = {
 // display boundary lets the existing forms retain their Chinese status values and
 // validation logic while presenting a complete English teacher experience.
 const englishText: Record<string, string> = {
-  "邀请有效期为 5–120 分钟。到期前已登记的学生可在到期后 10 分钟内完成入班，重复操作不会延长截止时间。": "Invitations last 5–120 minutes. Students registered before expiry can finish joining within 10 minutes after expiry. Repeated actions do not extend the deadline.",
-  "默认 30 分钟。到期后不再接受新登记；已登记流程的截止时间固定为邀请到期后 10 分钟。": "The default is 30 minutes. New registrations stop at expiry; existing registrations have a fixed deadline 10 minutes after invitation expiry.",
+  "天": "Days",
+  "BNBU Sports 教师与管理端｜体育课程管理": "BNBU Sports Teacher and Admin Portal | Physical Education",
+  "北师香港浸会大学体育课程管理入口。教师管理课程、学生名单与运动记录；管理员管理学生账户、学期和平台规则。": "BNBU physical education portal. Teachers manage courses, rosters and exercise records; administrators manage student accounts, semesters and platform rules.",
+  "BNBU Sports 教师与管理端": "BNBU Sports Teacher and Admin Portal",
+  "体育课程、学生名单、运动记录与学期管理。": "Physical education courses, student rosters, exercise records and semester management.",
+  "规则已保存，分类目标已应用于本课程学生；已有运动记录保留原计时规则。": "Rules saved and category targets applied to course students. Existing exercise records retain their original timing rules.",
+  "课程规则以服务端已发布版本为准。调整分类目标将更新本课程学生的进度与成绩，已有运动记录保留原计时规则。": "Published server rules apply. Changing category targets updates student progress and grades; existing exercise records retain their original timing rules.",
+  "请填写非负整数天、小时、分钟，总时长至少 1 分钟，且不得超过学期结束。": "Enter nonnegative whole days, hours and minutes. Total duration must be at least 1 minute and end within the semester.",
+  "邀请有效期由教师自定义，至少 1 分钟，截止时间不得超过学期结束。到期前已登记的学生可在到期后 10 分钟内完成入班，重复操作不会延长截止时间。": "Teachers choose a duration of at least 1 minute, ending within the semester. Students registered before expiry have 10 minutes afterwards to complete joining; repeated actions do not extend that deadline.",
+  "默认 30 分钟，可组合天、小时、分钟，总时长至少 1 分钟，截止时间不得超过学期结束。到期后不再接受新登记；已登记流程的截止时间固定为邀请到期后 10 分钟。": "Default: 30 minutes. Combine days, hours and minutes, totaling at least 1 minute and ending within the semester. New registration stops at expiry; existing registrations have a fixed deadline 10 minutes afterwards.",
+  "邀请有效期由教师自定义，至少 5 分钟，截止时间不得超过学期结束。到期前已登记的学生可在到期后 10 分钟内完成入班，重复操作不会延长截止时间。": "Teachers choose invitation duration, at least 5 minutes and ending no later than semester end. Students registered before expiry can finish joining within 10 minutes after expiry. Repeated actions do not extend the deadline.",
+  "默认 30 分钟，可自定义为至少 5 分钟，截止时间不得超过学期结束。到期后不再接受新登记；已登记流程的截止时间固定为邀请到期后 10 分钟。": "The default is 30 minutes. Choose at least 5 minutes, ending no later than semester end. New registrations stop at expiry; existing registrations have a fixed deadline 10 minutes after invitation expiry.",
   "使用当前密码验证并设置新密码": "Verify your current password and set a new password",
   "课程目标尚未加载，请稍后重试。": "The course target has not loaded. Please try again shortly.",
   "填写并核对学生的最终成绩，保存后再统一发布到内部成绩册。": "Enter and check final grades, save them, then publish them to the internal gradebook.",
@@ -1794,8 +1804,8 @@ const englishText: Record<string, string> = {
     "Published parameters are locked; the template cannot be changed.",
   "已发布课程的门槛与周频次锁定。创建课程前请在管理端发布模板并用 createCourse.sportTemplateId。":
     "Published-course thresholds and weekly frequency stay locked. Publish a template in admin and pass createCourse.sportTemplateId before creating a course.",
-  "邀请有效期须为 5–120 的整数分钟。":
-    "Invitation duration must be a whole number of minutes from 5 to 120.",
+  "邀请有效期须为至少 5 的整数分钟，且截止时间须为有效日期。":
+    "Invitation duration must be a whole number of at least 5 minutes with a valid expiry date.",
   "缺少课程版本，无法按 Contract 生成邀请。":
     "The course version is missing, so a Contract invitation cannot be created.",
   "该操作没有已批准的后端能力，真实模式不会创建本地减免事实。":
@@ -2197,6 +2207,9 @@ function formatEnglishMonthYear(year: string, month: string) {
 }
 
 const dynamicText: Array<[RegExp, (...matches: string[]) => string]> = [
+  [/^邀请有效期（(天|小时|分钟)）$/u, (_,unit)=>`Invitation duration (${unit==='天'?'days':unit==='小时'?'hours':'minutes'})`],
+  [/^常规截止日期是学生正常打卡首次提交的最后日期；其后 7 天用于审核、补证和获准补练。当前打卡结束日期晚于允许的最晚截止日期 (.*)，请先将打卡结束日期调整到该日期或之前。$/u, (_,date)=>`The regular deadline is the last day for initial exercise submissions. The next 7 days are for review, supplementary evidence and approved make-up exercise. The exercise end date is later than the latest permitted deadline, ${date}. Move the exercise end date to that day or earlier.`],
+  [/^常规截止日期是学生正常打卡首次提交的最后日期；其后 7 天用于审核、补证和获准补练。可设置范围：(.*) ～ (.*)。不得早于打卡结束日期；学期结束前须保留完整 7 天收尾期。$/u, (_,min,max)=>`The regular deadline is the last day for initial exercise submissions. The next 7 days are for review, supplementary evidence and approved make-up exercise. Allowed range: ${min} to ${max}. It must not precede the exercise end date, and 7 full closing days must remain within the semester.`],
   [/^后端核对结果：官方名单或平台成员存在重复身份记录。 原始名单行：(.*)。$/u,
     (_, rows) => `The server found duplicate identities in the official roster or platform members. Original roster rows: ${rows}.`],
   [/^(\d{4})级$/, (_, year) => `Cohort ${year}`],

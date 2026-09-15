@@ -1,0 +1,41 @@
+✖ keeps translation resources unique and covers all static system text (112.0209ms)
+✔ keeps portals, accessibility attributes, enum labels, and reverse switching in the i18n boundary (2.7387ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 1
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 429.1538
+
+✖ failing tests:
+
+test at .local\invite-baseline\BNBU-Sports-Web-new\portal-teacher-admin\tests\i18n-resources.test.mjs:67:1
+✖ keeps translation resources unique and covers all static system text (112.0209ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+
+  + [
+  +   'app/layout.tsx:23 BNBU Sports 教师与管理端｜体育课程管理',
+  +   'app/layout.tsx:24 北师香港浸会大学体育课程管理入口。教师管理课程、学生名单与运动记录；管理员管理学生账户、学期和平台规则。',
+  +   'app/layout.tsx:28 BNBU Sports 教师与管理端',
+  +   'app/layout.tsx:30 BNBU Sports 教师与管理端｜体育课程管理',
+  +   'app/layout.tsx:31 体育课程、学生名单、运动记录与学期管理。',
+  +   'app/layout.tsx:36 BNBU Sports 教师与管理端｜体育课程管理',
+  +   'app/layout.tsx:37 体育课程、学生名单、运动记录与学期管理。',
+  +   'app/teacher-workspace.tsx:2307 规则已保存，分类目标已应用于本课程学生；已有运动记录保留原计时规则。',
+  +   'app/teacher-workspace.tsx:4985 课程规则以服务端已发布版本为准。调整分类目标将更新本课程学生的进度与成绩，已有运动记录保留原计时规则。'
+  + ]
+  - []
+
+      at TestContext.<anonymous> (file:///C:/Users/23328/Desktop/new_version/.local/invite-baseline/BNBU-Sports-Web-new/portal-teacher-admin/tests/i18n-resources.test.mjs:101:10)
+      at async Test.run (node:internal/test_runner/test:1110:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:358:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: [ 'app/layout.tsx:23 BNBU Sports 教师与管理端｜体育课程管理', 'app/layout.tsx:24 北师香港浸会大学体育课程管理入口。教师管理课程、学生名单与运动记录；管理员管理学生账户、学期和平台规则。', 'app/layout.tsx:28 BNBU Sports 教师与管理端', 'app/layout.tsx:30 BNBU Sports 教师与管理端｜体育课程管理', 'app/layout.tsx:31 体育课程、学生名单、运动记录与学期管理。', 'app/layout.tsx:36 BNBU Sports 教师与管理端｜体育课程管理', 'app/layout.tsx:37 体育课程、学生名单、运动记录与学期管理。', 'app/teacher-workspace.tsx:2307 规则已保存，分类目标已应用于本课程学生；已有运动记录保留原计时规则。', 'app/teacher-workspace.tsx:4985 课程规则以服务端已发布版本为准。调整分类目标将更新本课程学生的进度与成绩，已有运动记录保留原计时规则。' ],
+    expected: [],
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }

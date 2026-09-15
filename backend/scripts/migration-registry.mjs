@@ -76,4 +76,6 @@ export const migrationIds = [
   '0074_membership_application_clear',
   '0075_ocr_course_closure_confirmation',
   '0076_notification_review_content',
+  '0077_credit_projection_minutes',
+  '0078_admin_maintenance_access',
 ];

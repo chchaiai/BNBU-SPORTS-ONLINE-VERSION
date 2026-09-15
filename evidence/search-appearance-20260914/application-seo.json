@@ -1,0 +1,14 @@
+[
+  {
+    "url": "https://www.student.bnbusports.cn/student/",
+    "title": "BNBU Sports 学生端｜体育打卡与学时查询",
+    "description": true,
+    "canonical": true
+  },
+  {
+    "url": "https://www.teacher.bnbusports.cn/",
+    "title": "BNBU Sports 教师与管理端｜体育课程管理",
+    "description": true,
+    "canonical": true
+  }
+]

@@ -1,0 +1,30 @@
+{
+  "result": "PASS",
+  "phase": "DEPLOYED",
+  "sourceCommit": "d34e3e38bade4bb53d4c1ac8d4bd4b2adb04a3bc",
+  "previous": "/opt/bnbu-sports-production/releases/semester-header-20260913",
+  "release": "/opt/bnbu-sports-production/releases/login-admin-d34e3e38-20260914",
+  "images": {
+    "backend": "sha256:cf96eb8b367e41e5b3bedad9b9c7d0a5fda0840db0dd1cd4f04a37ef04be3a1f",
+    "portal": "sha256:e29b4172416e99583628cec4996f4648c71627ff6969145b99d2ef4f589b17bc"
+  },
+  "health": {
+    "https://www.teacher.bnbusports.cn/": 200,
+    "https://www.student.bnbusports.cn/student/": 200,
+    "https://www.student.bnbusports.cn/api/v1/health/ready": 200,
+    "https://bnbusports.cn/": 200
+  },
+  "studentModuleHashes": "PASS",
+  "invalidChallenge": "401 AUTH_VERIFICATION_CODE_INVALID",
+  "migrationExecuted": false,
+  "runtimeConfiguration": "PRESERVED",
+  "rollbackExercised": false,
+  "verifiedAt": "2026-09-14T11:12:00.154170+08:00",
+  "archiveSha256": "31e98cf4673bef75df56269f2931ca8894528480f24e306adaea99bebaa980b0",
+  "browserChecks": {
+    "studentEmailGuidance": "PASS",
+    "studentEmailExample": "student@mail.bnbu.edu.cn",
+    "portalLoginPage": "PASS"
+  },
+  "productionBusinessMutationTested": false
+}

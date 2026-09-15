@@ -475,13 +475,8 @@ export function PortalApp() {
     (status: PortalSystemModeStatus) => {
       setSystemModeStatus(status);
       if (status.mode === "NORMAL") setMaintenanceAdminEntry(false);
-      if (role === "admin" && status.checked && status.mode === "MAINTENANCE") {
-        setActive("system");
-        setModal(null);
-        updateAdminHash("system");
-      }
     },
-    [role],
+    [],
   );
 
   const enterWorkspace = useCallback(
@@ -1296,6 +1291,10 @@ export function PortalApp() {
                   >
                     忘记密码或无法登录？
                   </button>
+                  <a href="https://verityai.cn/" target="_blank" rel="noopener noreferrer" aria-label="Powered by Verity AI" style={{display:'flex',alignItems:'center',justifyContent:'center',gap:10,minHeight:44,marginTop:16,textDecoration:'none',color:'inherit'}}>
+                    <span>Powered by</span>
+                    <img src="/brand/verity-ai-logo.svg" alt="Verity AI" width={134} height={23} style={{background:'#fff',borderRadius:4,padding:6,boxSizing:'content-box'}} />
+                  </a>
                   {IS_LOCAL_REVIEW_ENTRY && (
                     <details
                       className="review-access"
@@ -1424,11 +1423,7 @@ export function PortalApp() {
   }
 
   const displayUser = currentUser;
-  const nav = role === "teacher"
-    ? teacherNav
-    : systemModeStatus.mode === "MAINTENANCE"
-      ? adminNav.filter((item) => item.id === "system")
-      : adminNav;
+  const nav = role === "teacher" ? teacherNav : adminNav;
   const baseCopy =
     pageCopy[role][active] ??
     pageCopy[role][role === "teacher" ? "courses" : "overview"];

@@ -1,0 +1,27 @@
+{
+  "result": "PASS",
+  "phase": "DEPLOYED",
+  "sourceCommit": "ef4ccbffc8eb60a6898080145b7bd0221918685b",
+  "previous": "/opt/bnbu-sports-production/releases/student-bulk-deletion-20260914",
+  "release": "/opt/bnbu-sports-production/releases/admin-maintenance-20260914",
+  "images": {
+    "backend": "sha256:1a4a71b2dc17f9d45f6f4afaba9a1ba7c4b99b1c95f40628c610fa724eedce23",
+    "portal": "sha256:7d168a4e19c3d367b6f5c0cd96739b55d9cf0577c49fad611ab60f6f078505bb"
+  },
+  "health": {
+    "https://www.teacher.bnbusports.cn/": 200,
+    "https://www.student.bnbusports.cn/student/": 200,
+    "https://www.student.bnbusports.cn/api/v1/health/ready": 200,
+    "https://bnbusports.cn/": 200
+  },
+  "studentModuleHashes": "PASS",
+  "migrationExecuted": "0078_admin_maintenance_access",
+  "runtimeConfiguration": "PRESERVED",
+  "rollbackExercised": false,
+  "databaseBackup": {
+    "check": "PRE_RELEASE_DATABASE_BACKUP",
+    "result": "PASS",
+    "path": "/opt/bnbu-sports-production/backups/before-bugfix-20260914T133408Z.dump",
+    "bytes": 13469416
+  }
+}

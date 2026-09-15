@@ -1,0 +1,24 @@
+
+> @bnbu/sports-backend@0.1.0 build
+> nest build
+
+Datasource "db": PostgreSQL database "bnbu_sports_test", schema "public" at "127.0.0.1:5432"
+
+76 migrations found in prisma/migrations
+
+
+No pending migrations to apply.
+▶ V81 target reallocation HTTP E2E
+  ✔ reallocates repeatedly and preserves record facts while recomputing credit (1248.727991ms)
+✔ V81 target reallocation HTTP E2E (2374.791863ms)
+ℹ tests 1
+ℹ suites 1
+ℹ pass 1
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2970.712438
+Loaded Prisma config from prisma.config.ts.
+
+Prisma schema loaded from prisma/schema.prisma.

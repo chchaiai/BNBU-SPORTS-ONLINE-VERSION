@@ -178,6 +178,243 @@ describe('Stage 21 client capabilities with real PostgreSQL', () => {
     await prisma.$disconnect();
   });
 
+  it('verifies email before creating a student or enrollment and reuses verified member identity', async () => {
+    await prisma.classSection.update({ where: { id: fixture.teacherAActiveSectionId }, data: { isEnrollmentOpen: true } });
+    const teacher = await login(fixture.teacherEmail);
+    const post = (path: string, body: Record<string, unknown>, token?: string, key = uuidv7()) => request(`/api/v1${path}`, {
+      method: 'POST', headers: { 'content-type': 'application/json', 'idempotency-key': key,
+        ...(token ? authorization(token) : {}) }, body: JSON.stringify(body),
+    });
+    const inviteResponse = await post(`/class-sections/${fixture.teacherAActiveSectionId}/course-invites`, {}, teacher.data.accessToken);
+    assert.equal(inviteResponse.status, 201, JSON.stringify(inviteResponse.body));
+    const invite = String(object(inviteResponse.body.data).inviteToken), base = `/course-invites/${invite}`;
+    const identity = { fullName: 'Synthetic Email First', studentNumber: '2300009001', gender: 'MALE', gradeYear: 2026,
+      collegeName: 'FST', majorName: 'CST', dateOfBirth: '2005-01-01', regionCode: 'CN-44' };
+    const count = await prisma.enrollment.count(), users = await prisma.user.count();
+    assert.equal((await post(`${base}/join-capabilities`, identity)).status, 401);
+    const email = 'email-first@mail.bnbu.edu.cn';
+    const issued = await post('/auth/student-sign-in-codes', { organizationCode: 'BNBU-TEST', account: email, channel: 'EMAIL', locale: 'zh-CN', joinInviteToken: invite });
+    assert.equal(issued.status, 202);
+    const challengeId = String(object(issued.body.data).challengeId);
+    await prisma.studentSignInChallenge.update({ where: { id: challengeId }, data: {
+      codeDigest: authCodeCrypto().digestCode(`STUDENT_SIGN_IN:${challengeId}`, '284613'),
+    } });
+    const body = { challengeId, code: '284613', deviceId: 'email-first-test', joinInviteToken: invite, joinEmail: email };
+    assert.equal((await post('/auth/student-sign-in-codes/verify', { ...body, code: '000000' })).status, 401);
+    const key = uuidv7(), verified = await post('/auth/student-sign-in-codes/verify', body, undefined, key);
+    assert.equal(verified.status, 200, JSON.stringify(verified.body));
+    const proof = object(verified.body.data);
+    assert.equal(proof.profile, null);
+    assert.deepEqual(object((await post('/auth/student-sign-in-codes/verify', body, undefined, key)).body.data), proof);
+    assert.equal(await prisma.enrollment.count(), count); assert.equal(await prisma.user.count(), users);
+    assert.equal((await post('/auth/student-sign-in-codes/verify', body)).status, 401);
+    assert.equal((await post(`${base}/join-capabilities`, { ...identity, joinEmailProof: `${String(proof.joinEmailProof)}x` })).status, 401);
+    const capability = await post(`${base}/join-capabilities`, { ...identity, joinEmailProof: proof.joinEmailProof });
+    assert.equal(capability.status, 201, JSON.stringify(capability.body));
+    assert.equal(await prisma.enrollment.count(), count); assert.equal(await prisma.user.count(), users);
+    const joinKey = uuidv7(), join = () => request(`/api/v1${base}/join`, { method: 'POST', headers: {
+      'x-join-capability': String(object(capability.body.data).joinCapability), 'idempotency-key': joinKey,
+    } });
+    const joined = await join(); assert.equal(joined.status, 201, JSON.stringify(joined.body));
+    assert.equal(await prisma.enrollment.count(), count + 1);
+    const saved = await prisma.user.findFirstOrThrow({ where: { primaryEmailNormalized: email, role: 'STUDENT' } });
+    assert.ok(saved.emailVerifiedAt); assert.equal(saved.status, 'ACTIVE');
+    assert.equal((await join()).status, 201); assert.equal(await prisma.enrollment.count(), count + 1);
+    const session = object(object(joined.body.data).authSession);
+    const again = await post(`${base}/join-capabilities/member`, identity, String(session.accessToken));
+    assert.equal(again.status, 201, JSON.stringify(again.body));
+  });
+
+  it('mail abuse: concurrent requests reserve only one code and replay does not consume quota', async () => {
+    const student = await seedExerciseSessionStudent(prisma, fixture, 'MAIL-RACE');
+    const body = { organizationCode: 'BNBU-TEST', account: student.email, channel: 'EMAIL', locale: 'zh-CN' };
+    const post = (key: string) => request('/api/v1/auth/student-sign-in-codes', { method: 'POST',
+      headers: { 'content-type': 'application/json', 'idempotency-key': key }, body: JSON.stringify(body) });
+    const keys = Array.from({ length: 6 }, () => uuidv7());
+    const results = await Promise.all(keys.map(post));
+    assert.equal(results.filter(r => r.status === 202).length, 1, JSON.stringify(results));
+    assert.equal(results.filter(r => r.status === 429).length, 5, JSON.stringify(results));
+    const winner = results.findIndex(r => r.status === 202);
+    assert.deepEqual((await post(keys[winner]!)).body.data, results[winner]!.body.data);
+    assert.equal(await prisma.studentSignInChallenge.count(), 1);
+    assert.equal(await prisma.authRateLimitFact.count(), 3);
+  });
+
+  it('mail abuse: half-hour, daily and global caps reject before creating a challenge', async () => {
+    const student = await seedExerciseSessionStudent(prisma, fixture, 'MAIL-CAPS');
+    const digest = (purpose: string, value: string) => createHmac('sha256', 'synthetic-test-hmac-key-never-use-in-production').update(purpose + '\0' + value).digest('hex');
+    const accountDigest = digest('auth-code-account', 'EMAIL\0' + student.email);
+    for (const policy of [
+      { scopeType: 'ACCOUNT', scopeDigest: accountDigest, count: 5, age: 120000 },
+      { scopeType: 'ACCOUNT', scopeDigest: accountDigest, count: 10, age: 3600000 },
+      { scopeType: 'SOURCE', scopeDigest: digest('student-mail-global', 'all'), count: 100, age: 1000 },
+    ]) {
+      await prisma.authRateLimitFact.deleteMany();
+      await prisma.authRateLimitFact.createMany({ data: Array.from({ length: policy.count }, () => ({
+        id: uuidv7(), organizationId: fixture.organizationId, purpose: 'STUDENT_SIGN_IN',
+        scopeType: policy.scopeType, scopeDigest: policy.scopeDigest, occurredAt: new Date(Date.now() - policy.age),
+      })) });
+      const result = await request('/api/v1/auth/student-sign-in-codes', { method: 'POST',
+        headers: { 'content-type': 'application/json', 'idempotency-key': uuidv7() },
+        body: JSON.stringify({ organizationCode: 'BNBU-TEST', account: student.email, channel: 'EMAIL', locale: 'zh-CN' }) });
+      assert.equal(result.status, 429, JSON.stringify(result));
+      assert.ok(Number(object(result.body.details).retryAfterSeconds) > 0);
+      assert.equal(await prisma.studentSignInChallenge.count(), 0);
+    }
+  });
+
+  it('student school suffix: invalid domains create no challenge or quota, valid domain retains replay', async () => {
+    const post = (account: string, key = uuidv7(), joinInviteToken?: string) => request('/api/v1/auth/student-sign-in-codes', {
+      method: 'POST', headers: { 'content-type': 'application/json', 'idempotency-key': key },
+      body: JSON.stringify({ organizationCode: 'BNBU-TEST', account, channel: 'EMAIL', locale: 'zh-CN',
+        ...(joinInviteToken ? { joinInviteToken } : {}) }),
+    });
+    for (const account of ['s@mail.bnbu.edu', 's@bnbu.edu.cn', 'bnbu@example.com', 's@mail.bnbu.edu.cn.evil.com']) {
+      for (const token of [undefined, 'synthetic-invite-token']) {
+        const result = await post(account, uuidv7(), token);
+        assert.equal(result.status, 422, JSON.stringify(result));
+        assert.equal(result.body.code, 'VALIDATION_FAILED');
+      }
+    }
+    assert.equal(await prisma.studentSignInChallenge.count(), 0);
+    assert.equal(await prisma.authRateLimitFact.count(), 0);
+    const key = uuidv7(), account = ' Unknown@MAIL.BNBU.EDU.CN ';
+    const first = await post(account, key), replay = await post(account, key);
+    assert.equal(first.status, 202, JSON.stringify(first));
+    assert.deepEqual(replay.body.data, first.body.data);
+    assert.equal((await post(account)).status, 429);
+    assert.equal(await prisma.studentSignInChallenge.count(), 1);
+  });
+
+  it('mail abuse: unknown accounts reserve no mail quota and forged invitations are rejected', async () => {
+    const post = (extra = {}) => request('/api/v1/auth/student-sign-in-codes', { method: 'POST',
+      headers: { 'content-type': 'application/json', 'idempotency-key': uuidv7() },
+      body: JSON.stringify({ organizationCode: 'BNBU-TEST', account: 'unknown@mail.bnbu.edu.cn', channel: 'EMAIL', locale: 'zh-CN', ...extra }) });
+    assert.equal((await post()).status, 202);
+    assert.equal(await prisma.authRateLimitFact.count(), 2);
+    assert.equal((await post({ joinInviteToken: 'invalid-invite-token' })).status, 401);
+    assert.equal(await prisma.studentSignInChallenge.count(), 1);
+  });
+
+  it('distinguishes verified codes without an account, preserves replay and rejects invalid proofs', async () => {
+    const student = await seedExerciseSessionStudent(prisma, fixture, 'LOGIN-UNBOUND');
+    await prisma.user.update({ where: { id: student.userId }, data: { emailVerifiedAt: null } });
+    for (const email of ['absent@mail.bnbu.edu.cn', student.email]) {
+      const issued = await request('/api/v1/auth/student-sign-in-codes', {
+        method: 'POST', headers: { 'content-type': 'application/json', 'idempotency-key': uuidv7() },
+        body: JSON.stringify({ organizationCode: 'BNBU-TEST', account: email, channel: 'EMAIL', locale: 'zh-CN' }),
+      });
+      assert.equal(issued.status, 202);
+      const challengeId = String(object(issued.body.data).challengeId);
+      const code = '284613';
+      await prisma.studentSignInChallenge.update({ where: { id: challengeId }, data: {
+        codeDigest: authCodeCrypto().digestCode(`STUDENT_SIGN_IN:${challengeId}`, code),
+      } });
+      const verify = (inputCode: string, key = uuidv7()) => request('/api/v1/auth/student-sign-in-codes/verify', {
+        method: 'POST', headers: { 'content-type': 'application/json', 'idempotency-key': key },
+        body: JSON.stringify({ challengeId, code: inputCode, deviceId: 'login-regression' }),
+      });
+      const before = await prisma.authSession.count();
+      const wrong = await verify('000000');
+      assert.equal(wrong.status, 401); assert.equal(wrong.body.code, 'AUTH_VERIFICATION_CODE_INVALID');
+      const key = uuidv7();
+      const correct = await verify(code, key);
+      assert.equal(correct.status, 404, JSON.stringify(correct.body));
+      assert.equal(correct.body.code, 'USER_NOT_FOUND');
+      assert.equal(object(correct.body.details).resourceType, 'STUDENT_SIGN_IN_ACCOUNT');
+      const replay = await verify(code, key);
+      assert.equal(replay.status, 404); assert.equal(replay.body.code, 'USER_NOT_FOUND');
+      assert.equal((await verify(code)).body.code, 'AUTH_VERIFICATION_CODE_INVALID');
+      const stored = await prisma.studentSignInChallenge.findUniqueOrThrow({ where: { id: challengeId } });
+      assert.equal(stored.status, 'CONSUMED'); assert.equal(stored.failedAttempts, 1);
+      assert.equal(stored.userId, null); assert.equal(await prisma.authSession.count(), before);
+    }
+  });
+
+  it('logs in verified enrolled and withdrawn students and rejects expired or changed-email challenges', async () => {
+    for (const membership of ['ACTIVE', 'REMOVED'] as const) {
+      const student = await seedExerciseSessionStudent(prisma, fixture, `LOGIN-${membership}`, membership);
+      const issue = async () => {
+        const challengeId = uuidv7(); const now = new Date();
+        await prisma.studentSignInChallenge.create({ data: {
+          id: challengeId, organizationId: fixture.organizationId, userId: student.userId, channel: 'EMAIL', locale: 'zh-CN',
+          accountDigest: createHmac('sha256', 'synthetic-test-hmac-key-never-use-in-production').update('auth-code-account\0EMAIL\0' + student.email).digest('hex'),
+          codeDigest: authCodeCrypto().digestCode(`STUDENT_SIGN_IN:${challengeId}`, '284613'), codeKeyVersion: 1,
+          status: 'ACTIVE', failedAttempts: 0, maxAttempts: 5, requestedAt: now, deliveredAt: now,
+          expiresAt: new Date(now.getTime()+600000), requestId: uuidv7(),
+        } }); return challengeId;
+      };
+      const verify = (challengeId: string) => request('/api/v1/auth/student-sign-in-codes/verify', {
+        method: 'POST', headers: { 'content-type': 'application/json', 'idempotency-key': uuidv7() },
+        body: JSON.stringify({ challengeId, code: '284613', deviceId: 'login-regression' }),
+      });
+      const valid = await verify(await issue()); assert.equal(valid.status, 200, JSON.stringify(valid.body));
+      assert.equal(object(object(valid.body.data).user).id, student.userId);
+      const expired = await issue();
+      await prisma.studentSignInChallenge.update({ where: { id: expired }, data: { requestedAt: new Date(Date.now()-601000), deliveredAt: new Date(Date.now()-600000), expiresAt: new Date(Date.now()-1000) } });
+      assert.equal((await verify(expired)).body.code, 'AUTH_VERIFICATION_CODE_INVALID');
+      const changed = await issue();
+      await prisma.user.update({ where: { id: student.userId }, data: { primaryEmail: `changed-${membership.toLowerCase()}@mail.bnbu.edu.cn`, primaryEmailNormalized: `changed-${membership.toLowerCase()}@mail.bnbu.edu.cn` } });
+      assert.equal((await verify(changed)).body.code, 'USER_NOT_FOUND');
+    }
+  });
+
+  it('updates academic details over HTTP while preserving a legacy student number and rejecting invalid majors', async () => {
+    const student=await seedExerciseSessionStudent(prisma,fixture,'LEGACY-ACADEMICS');
+    const before=await prisma.studentProfile.findUniqueOrThrow({where:{id:student.studentId}});
+    const token=await studentAccessToken(student.userId,student.authSessionId);
+    const update=(majorName:string,key=uuidv7())=>request('/api/v1/me/student-profile',{
+      method:'POST',headers:{authorization:`Bearer ${token}`,'content-type':'application/json','idempotency-key':key},
+      body:JSON.stringify({collegeName:'GS',majorName,dateOfBirth:'2004-02-29',regionCode:'HK',expectedVersion:before.version})});
+    assert.equal((await update('invalid')).status,422);
+    assert.equal((await prisma.studentProfile.findUniqueOrThrow({where:{id:student.studentId}})).version,before.version);
+    const key=uuidv7(),result=await update('CUSTOM',key);assert.equal(result.status,200,JSON.stringify(result.body));
+    assert.equal((await update('CUSTOM',key)).status,200);
+    const after=await prisma.studentProfile.findUniqueOrThrow({where:{id:student.studentId}});
+    assert.equal(after.studentNumber,before.studentNumber);assert.equal(after.majorName,'CUSTOM');assert.equal(after.version,before.version+1);
+  });
+
+  it('returns registered student data and scopes email access, filters and cursors', async () => {
+    const student = await seedExerciseSessionStudent(prisma, fixture, 'PROFILE-A');
+    await seedExerciseSessionStudent(prisma, fixture, 'PROFILE-B');
+    await prisma.studentProfile.update({ where: { id: student.studentId }, data: {
+      collegeName: 'Regression College', majorName: 'Sports', administrativeClassName: 'Class A',
+      gradeYear: 2026, gender: 'FEMALE', dateOfBirth: new Date('2007-01-02'), regionCode: 'OTHER', otherRegionName: 'Test region',
+    } });
+    const admin = await login(fixture.adminEmail);
+    assert.equal(admin.result.status, 200);
+    const read = (path: string) => request(path, { headers: authorization(admin.data.accessToken) });
+    assert.equal((await read('/api/v1/students')).status, 403);
+    await prisma.v81AdminAccess.update({ where: { userId: fixture.adminUserId }, data: { permissions: ['USER_ACCOUNTS'] } });
+    const response = await read('/api/v1/students?collegeName=Regression%20College&gradeYear=2026&gender=FEMALE&email=PROFILE-A');
+    assert.equal(response.status, 200, JSON.stringify(response.body));
+    const rows = array(response.body.data); assert.equal(rows.length, 1);
+    const row = object(rows[0]); assert.equal(row.email, student.email); assert.equal(row.emailVerified, true);
+    assert.equal(row.dateOfBirth, '2007-01-02'); assert.equal(row.otherRegionName, 'Test region');
+    assert.equal(array(row.courseAssociations).length, 1); assert.equal('user' in row, false); assert.equal('enrollments' in row, false);
+    const detail = await read(`/api/v1/students/${student.studentId}`);
+    assert.equal(object(detail.body.data).email, student.email);
+    assert.deepEqual(object(detail.body.data).courseAssociations, row.courseAssociations);
+    assert.equal(array((await read('/api/v1/students?email=no-match')).body.data).length, 0);
+    assert.equal((await read('/api/v1/students?gradeYear=bad')).status, 422);
+    await prisma.enrollment.update({ where: { id: student.enrollmentId }, data: { status: 'REMOVED', endedAt: new Date(), endReason: 'Regression withdrawal' } });
+    const withdrawn = await read('/api/v1/students?status=PENDING');
+    assert.equal(array(withdrawn.body.data).length,1); assert.equal(object(array(withdrawn.body.data)[0]).id,student.studentId);
+    assert.equal(object((await read(`/api/v1/students/${student.studentId}`)).body.data).status,'PENDING');
+    assert.equal((await read('/api/v1/students?status=DISABLED')).status,422);
+
+    const page = await read('/api/v1/students?limit=1');
+    const cursor = object(object(page.body.meta).pagination).nextCursor;
+    assert.equal(typeof cursor, 'string');
+    const next = await read(`/api/v1/students?limit=1&cursor=${encodeURIComponent(String(cursor))}`);
+    assert.equal(next.status, 200); assert.notEqual(object(array(next.body.data)[0]).id, object(array(page.body.data)[0]).id);
+    assert.equal((await read(`/api/v1/students?limit=1&gender=FEMALE&cursor=${encodeURIComponent(String(cursor))}`)).status, 422);
+    const teacher = await login();
+    const teacherRows = await request('/api/v1/students', { headers: authorization(teacher.data.accessToken) });
+    assert.equal(teacherRows.status, 200); assert.equal('email' in object(array(teacherRows.body.data)[0]), false);
+    assert.equal((await request('/api/v1/students?email=PROFILE', { headers: authorization(teacher.data.accessToken) })).status, 403);
+  });
+
   it('keeps student account deletion deferred with no challenge or account mutation', async () => {
     const student = await seedExerciseSessionStudent(prisma, fixture, 'DEFERRED');
     const token = await studentAccessToken(student.userId, student.authSessionId);
@@ -464,7 +701,7 @@ describe('Stage 21 client capabilities with real PostgreSQL', () => {
         userId: student.userId,
         channel: 'EMAIL',
         locale: 'zh-CN',
-        accountDigest: 'a'.repeat(64),
+        accountDigest: createHmac('sha256', 'synthetic-test-hmac-key-never-use-in-production').update('auth-code-account\0EMAIL\0' + student.email).digest('hex'),
         sourceIpDigest: null,
         codeDigest: authCodeCrypto().digestCode(`STUDENT_SIGN_IN:${challengeId}`, code),
         codeKeyVersion: 1,

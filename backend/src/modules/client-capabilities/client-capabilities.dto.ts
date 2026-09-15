@@ -28,6 +28,11 @@ const trim = ({ value }: { value: unknown }): unknown =>
   typeof value === 'string' ? value.trim() : value;
 
 export class StudentSignInCodeRequestDto {
+  @ValidateIf((_object, value: unknown) => value !== undefined)
+  @IsString()
+  @Length(16, 200)
+  joinInviteToken?: string;
+
   @Transform(trim)
   @Matches(/^[A-Z0-9][A-Z0-9_-]{1,31}$/)
   organizationCode!: string;
@@ -45,6 +50,8 @@ export class StudentSignInCodeRequestDto {
 }
 
 export class StudentSignInCodeVerificationRequestDto {
+  @ValidateIf((_object, value: unknown) => value !== undefined) @IsString() @Length(16, 200) joinInviteToken?: string;
+  @ValidateIf((_object, value: unknown) => value !== undefined) @IsEmail() @Length(3, 254) joinEmail?: string;
   @IsUUID()
   challengeId!: string;
 
