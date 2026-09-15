@@ -1,0 +1,160 @@
+{
+  "result": "PASS",
+  "organizationId": "01a0a0ef-2a54-71ce-ac8c-f05bb95d0db8",
+  "checks": [
+    {
+      "check": "TEACHER_PASSWORD_LOGIN",
+      "status": 200,
+      "requestId": "01a0a119-f7ab-71bb-bff1-039da7e2eca4"
+    },
+    {
+      "check": "STUDENT_SESSION_REFRESH",
+      "status": 200,
+      "requestId": "01a0a119-f89b-718a-922d-04a228d50f03"
+    },
+    {
+      "check": "INVITE_ZERO_REJECTED",
+      "status": 422,
+      "code": "VALIDATION_FAILED",
+      "requestId": "01a0a119-f8dc-705a-81c7-c45c9a4ae5f7"
+    },
+    {
+      "check": "INVITE_PAST_SEMESTER_REJECTED",
+      "status": 422,
+      "code": "VALIDATION_FAILED",
+      "requestId": "01a0a119-f903-718e-8b4f-54e8e60fb01e"
+    },
+    {
+      "check": "INVITE_ONE_MINUTE",
+      "status": 201,
+      "requestId": "01a0a119-f915-7158-b92a-5131baf1380c"
+    },
+    {
+      "check": "INVITE_COMBINED_1563",
+      "status": 201,
+      "requestId": "01a0a119-f935-744b-84a5-1a1eb3045ab0"
+    },
+    {
+      "check": "PROFILE_LOWERCASE_REJECTED",
+      "status": 422,
+      "code": "USER_PROFILE_INVALID",
+      "requestId": "01a0a119-f956-7669-8cb5-103173e7e17e"
+    },
+    {
+      "check": "LEGACY_PROFILE_EDIT",
+      "status": 200,
+      "requestId": "01a0a119-f964-7160-a3c9-cd52271e3f74"
+    },
+    {
+      "check": "PROFILE_REPLAY",
+      "status": 200,
+      "requestId": "01a0a119-f97b-711b-8204-4302d81233ce"
+    },
+    {
+      "check": "PROFILE_BAD_OTHER_CST",
+      "status": 422,
+      "code": "VALIDATION_FAILED",
+      "requestId": "01a0a119-f992-74a9-bf5c-9bae0ad4152e"
+    },
+    {
+      "check": "PROFILE_BAD_FST_ACCT",
+      "status": 422,
+      "code": "USER_PROFILE_INVALID",
+      "requestId": "01a0a119-f99b-769b-8089-d4d72dcfdf05"
+    },
+    {
+      "check": "PROFILE_BAD_GS_M1",
+      "status": 422,
+      "code": "USER_PROFILE_INVALID",
+      "requestId": "01a0a119-f9a8-7362-9d68-58964ca893ae"
+    },
+    {
+      "check": "PROFILE_ACADEMIC_SAI_ACCT",
+      "status": 200,
+      "requestId": "01a0a119-f9b5-746d-aa0d-028fddf15544"
+    },
+    {
+      "check": "PROFILE_ACADEMIC_SAI_CST",
+      "status": 200,
+      "requestId": "01a0a119-f9cb-7631-b1cd-152194048aef"
+    },
+    {
+      "check": "PROFILE_ACADEMIC_SGE_CUSTOM",
+      "status": 200,
+      "requestId": "01a0a119-f9e8-729a-9f1a-8b0bc052a5dc"
+    },
+    {
+      "check": "PROFILE_ACADEMIC_GS_CUSTOM",
+      "status": 200,
+      "requestId": "01a0a119-f9fb-750b-84c7-37cc8f0d1948"
+    },
+    {
+      "check": "PERSISTED_LEGACY_ID_AND_INVITE_TIMING",
+      "result": "PASS"
+    },
+    {
+      "check": "SYNTHETIC_EMAIL_PROOF_VERIFY",
+      "status": 200,
+      "requestId": "01a0a119-fa1d-76c0-8bb2-fd0b3400d94f"
+    },
+    {
+      "check": "BAD_ID",
+      "status": 422,
+      "code": "USER_PROFILE_INVALID",
+      "requestId": "01a0a119-fa36-758d-a37b-b0e40fb80bed"
+    },
+    {
+      "check": "BAD_COLLEGE",
+      "status": 422,
+      "code": "VALIDATION_FAILED",
+      "requestId": "01a0a119-fa4f-768f-b9db-7fe775c9ea93"
+    },
+    {
+      "check": "BAD_PAIR",
+      "status": 422,
+      "code": "USER_PROFILE_INVALID",
+      "requestId": "01a0a119-fa5e-7239-9b1f-2e0d89d8b723"
+    },
+    {
+      "check": "LOWER_CUSTOM",
+      "status": 422,
+      "code": "USER_PROFILE_INVALID",
+      "requestId": "01a0a119-fa6c-773d-a3b7-48b6f297e6e9"
+    },
+    {
+      "check": "ACADEMIC_ACCEPT_SAI_ACCT",
+      "status": 201,
+      "requestId": "01a0a119-fa7a-76ab-956e-0b0710deef1c"
+    },
+    {
+      "check": "ACADEMIC_ACCEPT_SAI_CST",
+      "status": 201,
+      "requestId": "01a0a119-fa9f-777c-9ad0-b9b80f86fdd6"
+    },
+    {
+      "check": "ACADEMIC_ACCEPT_SGE_CUSTOM",
+      "status": 201,
+      "requestId": "01a0a119-fabe-708c-9626-6d63fd431743"
+    },
+    {
+      "check": "ACADEMIC_ACCEPT_GS_CUSTOM",
+      "status": 201,
+      "requestId": "01a0a119-fadf-716e-97dd-70d46e56faed"
+    },
+    {
+      "check": "FINAL_JOIN_CAPABILITY",
+      "status": 201,
+      "requestId": "01a0a119-fb02-779c-81fe-32e138abbf50"
+    },
+    {
+      "check": "JOIN_REAL_HTTP",
+      "status": 201,
+      "requestId": "01a0a119-fb2a-764f-b108-c8c7a3f5b583"
+    },
+    {
+      "check": "PERSISTED_LEGACY_ID_AND_INVITE_TIMING",
+      "result": "PASS"
+    }
+  ],
+  "scope": "Real cloud HTTP and PostgreSQL; synthetic email challenge bootstrap, no SMTP delivery claim"
+}

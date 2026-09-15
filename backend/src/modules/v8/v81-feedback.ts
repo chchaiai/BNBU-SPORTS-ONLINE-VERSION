@@ -1,3 +1,4 @@
+import { permitsSystemMode } from '../system-mode/system-mode-access.js';
 import { Body, Controller, Get, Headers, Injectable, Param, ParseUUIDPipe, Post, Query, Req } from '@nestjs/common';
 import { IsIn, IsInt, IsString, Matches, MaxLength, Min, Max, ValidateIf } from 'class-validator';
 import { Type } from 'class-transformer';
@@ -112,7 +113,7 @@ export class V81FeedbackService {
       await tx.$queryRaw`SELECT id FROM organizations WHERE id=${principal.organizationId}::uuid FOR NO KEY UPDATE`;
       await requireAdminAccess(tx, principal, 'STUDENT_FEEDBACK');
       const policy = await tx.systemPolicy.findUnique({ where: { organizationId: principal.organizationId } });
-      if (policy?.systemMode !== 'NORMAL') throw new ApplicationError('SYSTEM_MAINTENANCE', 503);
+      if (!permitsSystemMode(policy?.systemMode, principal.role)) throw new ApplicationError('SYSTEM_MAINTENANCE', 503);
       const row = await tx.feedback.findFirst({ where: { id, organizationId: principal.organizationId } });
       if (!row) throw new ApplicationError('PERMISSION_RESOURCE_NOT_FOUND', 404);
       if (row.version !== input.expectedVersion) throw new ApplicationError('CONFLICT_VERSION_MISMATCH', 409);

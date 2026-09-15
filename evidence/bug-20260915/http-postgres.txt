@@ -1,0 +1,45 @@
+▶ Stage 21 client capabilities with real PostgreSQL
+  ✔ verifies email before creating a student or enrollment and reuses verified member identity (1105.9782ms)
+  ✔ distinguishes verified codes without an account, preserves replay and rejects invalid proofs (630.8857ms)
+  ✔ logs in verified enrolled and withdrawn students and rejects expired or changed-email challenges (599.7447ms)
+  ✔ updates academic details over HTTP while preserving a legacy student number and rejecting invalid majors (483.7058ms)
+  ✔ returns registered student data and scopes email access, filters and cursors (792.29ms)
+  ✔ keeps student account deletion deferred with no challenge or account mutation (517.8602ms)
+  ✔ accepts an organization-scoped student challenge without exposing its code and keeps an empty release policy fail-closed (474.368ms)
+  ✔ rejects PHONE without creating a challenge and activates a pending student through first email binding (573.7889ms)
+  ✔ requires both current and new mailbox codes for email rebinding (544.0599ms)
+  ✔ uses the numeric iOS build number for enforcement and keeps marketing version display-only (383.132ms)
+  ✔ establishes a student OTP session and completes the private exemption-media review flow (809.1298ms)
+  ✔ completes TEACHER recovery and revokes every prior session (706.1995ms)
+  ✔ completes ADMIN recovery and revokes every prior session (728.0951ms)
+  ✔ lists and marks only the authenticated user notification with durable evidence (520.7027ms)
+  ✔ accepts only authenticated bounded client diagnostics with durable replay and no free-form metadata (997.959ms)
+  ✔ marks 24 distinct notifications concurrently with one durable event per notification (1659.031ms)
+  ✔ registers and revokes an IOS push token without exposing plaintext or ciphertext (603.3241ms)
+  ✔ persists preferences and feedback while exposing only published help content (550.167ms)
+  ✔ keeps all location and conversion capabilities explicitly fail-closed (717.0929ms)
+✔ Stage 21 client capabilities with real PostgreSQL (15564.6819ms)
+▶ Student identity, Enrollment, and QR Join HTTP E2E
+  ✔ rejects invalid enrollment academics without creating profiles and accepts SAI and custom graduate majors (1153.5565ms)
+  ✔ enforces server-relative invite validity and rejects ambiguous or out-of-range input (770.8211ms)
+  ✔ rejects an identity created by another flow after capability issuance without binding its email (575.931ms)
+  ✔ finishes a registered flow during natural-expiry grace without renewing or opening a new flow (753.3199ms)
+  ✔ rejects registered invitation grace when GRACE_EXPIRED (553.581ms)
+  ✔ rejects registered invitation grace when REVOKED (598.6914ms)
+  ✔ rejects registered invitation grace when ENROLLMENT_CLOSED (556.437ms)
+  ✔ rejects registered invitation grace when COURSE_CLOSED (597.9691ms)
+  ✔ rejects registered invitation grace when SEMESTER_ARCHIVED (583.5319ms)
+  ✔ rotates digest-only invites and issues one replayable capability without creating identity (629.2846ms)
+  ✔ rejects non-binary QR join genders and malformed cohort years before issuing a capability (670.4906ms)
+  ✔ joins atomically, replays the exact encrypted result, and grants only Enrollment projections (915.3093ms)
+  ✔ manually enrolls an existing student and enforces remove, restore, read, and withdraw scopes (815.588ms)
+  ✔ rolls back a second same-semester join and refuses self rejoin after teacher removal (982.4182ms)
+✔ Student identity, Enrollment, and QR Join HTTP E2E (12384.5008ms)
+ℹ tests 33
+ℹ suites 2
+ℹ pass 33
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 28971.1102

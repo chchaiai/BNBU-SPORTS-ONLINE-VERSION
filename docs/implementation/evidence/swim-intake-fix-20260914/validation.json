@@ -1,0 +1,36 @@
+{
+  "sourceCommit": "249f66dc5dbcac19de91be2623bcdd21b65c6ce0",
+  "checks": {
+    "http": "PASS",
+    "typecheck": "PASS",
+    "build": "PASS",
+    "student": "PASS"
+  },
+  "previous": "search-20260914",
+  "release": "swim-intake-20260914",
+  "baseImages": {
+    "backend": "sha256:74ac4e285dd6f386c5be8566412a8620ab7118eb9f2c0765ca1ea9210012686b",
+    "portal": "sha256:401d3e50f81dcb4b0c302d1f0e490ab9e9fa355f6ec914115896917cd7feaadd"
+  },
+  "baselineBackendService": "6465f85f11f8bff792078d2107d808b2564bd7a060b211c238c660718463c317",
+  "baselineStudent": {
+    "student/js/api.js": "bebb75a68562735ada26c2a6195369a204bbe92ba5de6ec975af0b5481e28e6d",
+    "student/js/screens/checkin.js": "e29a54ae64556aa9d23cacfb0cf81a91d6650f6d58c73aa249c842d7eaeeb17b"
+  },
+  "studentFiles": [
+    "student/js/api.js",
+    "student/js/screens/checkin.js",
+    "student/js/swim-submission.js"
+  ],
+  "files": {
+    "backend/dist/common/errors/application-error.js": "8d9b55f17a1154b21212b281dc621386f26e2f5fa1a2db0cf31e274f98663708",
+    "backend/dist/common/errors/application-error.js.map": "f82cfa4c04dbd0ac974cb1f2db4330ac4f8ee972ab1b8480500d2cf5bc03293a",
+    "backend/dist/generated/openapi.document.generated.json": "ff66819d7b3ba612d8d49913893bbf0d0920410bbb5c8fd87269b8c7930d712f",
+    "backend/dist/generated/openapi.manifest.generated.json": "f9b0871eef065aa24e7c409fc05d8181fa6752a97c85a0d33f0e1ed249709b31",
+    "backend/Dockerfile": "ff0d0e554e4c2d36ddb3d0f89070b593405a71b1441accd06bea3d443aa1ba10",
+    "deploy.py": "cfdb613d686276a08ee3e0a68b7d24a84da1f21452276c249f26d321bdf2676d",
+    "web/student/js/api.js": "50bb2aeb223d433dcaadc80d400b8095c03bea2c5f3775a8a4fc7932ffd5e00b",
+    "web/student/js/screens/checkin.js": "c3f960877c5ccea144f537edd7795c135eb6504d3b9b81ce5bfb50fc0318bb32",
+    "web/student/js/swim-submission.js": "191e23c059e2cc4b87900d0f1cbfd40933d62a7b395cf50f00b7169ef58b9df9"
+  }
+}

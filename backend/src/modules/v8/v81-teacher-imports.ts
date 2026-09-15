@@ -1,3 +1,4 @@
+import { permitsSystemMode } from '../system-mode/system-mode-access.js';
 import { Body, Controller, Get, Headers, Injectable, Post, Query, Req } from '@nestjs/common';
 import { IsOptional, IsString, IsUUID, Matches, MaxLength } from 'class-validator';
 import { timingSafeEqual } from 'node:crypto';
@@ -60,7 +61,7 @@ export class V81TeacherImportsService {
       await tx.$queryRaw`SELECT id FROM organizations WHERE id=${principal.organizationId}::uuid FOR NO KEY UPDATE`;
       await requireAdminAccess(tx, principal, 'USER_ACCOUNTS');
       const policy = await tx.systemPolicy.findUnique({ where: { organizationId: principal.organizationId } });
-      if (policy?.systemMode !== 'NORMAL') throw new ApplicationError('SYSTEM_MAINTENANCE', 503);
+      if (!permitsSystemMode(policy?.systemMode, principal.role)) throw new ApplicationError('SYSTEM_MAINTENANCE', 503);
       const teachers = await tx.teacherProfile.findMany({ where: { organizationId: principal.organizationId,
         employeeNumber: { in: rows.map(row => row.employeeId) } }, select: { employeeNumber: true } });
       const users = await tx.user.findMany({ where: { organizationId: principal.organizationId,

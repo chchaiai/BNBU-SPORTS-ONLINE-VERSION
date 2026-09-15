@@ -1,0 +1,13 @@
+{
+  "result": "PASS",
+  "sourceCommit": "1a188f5a4743aae4702e4356ea7f99d7f390fb91",
+  "previous": "/opt/bnbu-sports-production/releases/email-first-20260914",
+  "release": "/opt/bnbu-sports-production/releases/bug-20260915",
+  "images": {
+    "backend": "sha256:013c407625fba21eff579cdae284217784ddfe0aaeedad496d0a2865593239a2",
+    "portal": "sha256:67d8a3ca9d37858f26d2e804a1134ce6cbffcd72d4ee6ce9dd69be158d862455"
+  },
+  "studentHashes": "PASS",
+  "migrationExecuted": false,
+  "rollbackExercised": false
+}

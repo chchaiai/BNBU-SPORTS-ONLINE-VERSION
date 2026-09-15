@@ -7,11 +7,11 @@ export function resolveInviteExpiry(input: { expiresAt?: string | null; expiresI
   if (input.expiresAt != null && input.expiresInMinutes !== undefined)
     throw new ApplicationError('VALIDATION_FAILED', 422, { field: 'expiresInMinutes' });
   const minutes = input.expiresInMinutes ?? INVITE_DEFAULT_MINUTES;
-  if (!Number.isInteger(minutes) || minutes < 5 || minutes > 120)
+  if (!Number.isSafeInteger(minutes) || minutes < 1)
     throw new ApplicationError('VALIDATION_FAILED', 422, { field: 'expiresInMinutes' });
   const expiry = input.expiresAt == null ? new Date(now.getTime() + minutes * 60_000) : new Date(input.expiresAt);
   const duration = expiry.getTime() - now.getTime();
-  if (!Number.isFinite(duration) || duration < 5 * 60_000 || duration > 120 * 60_000 ||
+  if (!Number.isFinite(duration) || duration < 60_000 ||
       expiry.getTime() > semesterEnd.getTime() + 86_400_000 - 1)
     throw new ApplicationError('VALIDATION_FAILED', 422, { field: 'expiresAt' });
   return expiry;

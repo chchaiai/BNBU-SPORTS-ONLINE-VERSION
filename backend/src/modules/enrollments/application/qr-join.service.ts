@@ -1,3 +1,4 @@
+import { isStudentSchoolEmail } from '../../../common/security/student-school-email.js';
 import { Inject, Injectable } from '@nestjs/common';
 import { requireUnsettledCourse } from '../../v8/v81-settlement-write-guard.js';
 
@@ -81,6 +82,8 @@ export class QrJoinService {
       },
       async (transaction) => {
         await transaction.$queryRaw`SELECT id FROM organizations WHERE id=${context.organizationId}::uuid FOR NO KEY UPDATE`;
+        if ((await transaction.systemPolicy.findUnique({ where: { organizationId: context.organizationId } }))?.systemMode !== 'NORMAL')
+          throw new ApplicationError('SYSTEM_MAINTENANCE', 503);
         const now = this.clock.now();
         const capability = await this.capabilities.lockById(context.capabilityId, transaction);
         if (
@@ -167,12 +170,52 @@ export class QrJoinService {
             new ApplicationError('AUTH_JOIN_CAPABILITY_INVALID', 401),
           );
         }
-        const resolved = await this.identities.resolveOrCreate(
+        // Legacy capabilities issued before email verification cannot bypass the new flow.
+        const owner = identity.authenticatedUserId ? await transaction.user.findFirst({ where: {
+          id: identity.authenticatedUserId, organizationId: capability.organizationId, role: 'STUDENT',
+          status: { in: ['ACTIVE','PENDING_CONTACT_BINDING'] }, deletedAt: null,
+        } }) : null;
+        if (identity.verificationChallengeId && identity.verifiedEmail) {
+          const verification = await transaction.studentSignInChallenge.findUnique({ where: { id: identity.verificationChallengeId } });
+          if (!isStudentSchoolEmail(identity.verifiedEmail) || verification?.status !== 'CONSUMED' || verification.organizationId !== capability.organizationId)
+            throw new ApplicationError('AUTH_REQUIRED', 401);
+          const emailOwner = await transaction.user.findFirst({ where: { organizationId: capability.organizationId,
+            role: 'STUDENT', primaryEmailNormalized: identity.verifiedEmail, emailVerifiedAt: { not: null }, deletedAt: null } });
+          if ((emailOwner && emailOwner.id !== owner?.id) || (owner?.emailVerifiedAt && owner.primaryEmailNormalized !== identity.verifiedEmail))
+            throw new ApplicationError('USER_IDENTITY_CONFLICT', 409);
+        } else if (!owner?.emailVerifiedAt || !isStudentSchoolEmail(owner.primaryEmailNormalized)) {
+          throw new ApplicationError('AUTH_REQUIRED', 401);
+        }
+        const existingIdentity = await this.identities.validateExisting(capability.organizationId, identity, transaction);
+        if (existingIdentity && existingIdentity.user.id !== identity.authenticatedUserId)
+          throw new ApplicationError('AUTH_REQUIRED', 401);
+        let resolved = await this.identities.resolveOrCreate(
           capability.organizationId,
           identity,
           now,
           transaction,
         );
+        if (!resolved.profile.collegeName || !resolved.profile.majorName || !resolved.profile.dateOfBirth || !resolved.profile.regionCode ||
+            (resolved.profile.regionCode === 'OTHER' && !resolved.profile.otherRegionName))
+          throw new ApplicationError('VALIDATION_FAILED', 422);
+        if (identity.verifiedEmail && !resolved.user.emailVerifiedAt) {
+          const verifiedUser = await transaction.user.update({ where: { id: resolved.user.id }, data: {
+            primaryEmail: identity.verifiedEmail, primaryEmailNormalized: identity.verifiedEmail,
+            emailVerifiedAt: now, status: 'ACTIVE', version: { increment: 1 }, updatedAt: now,
+          } });
+          resolved = { ...resolved, user: verifiedUser };
+          const revokedSessions = await transaction.authSession.updateMany({ where: { userId: verifiedUser.id, status: 'ACTIVE' },
+            data: { status: 'REVOKED', revokedAt: now, revokeReasonCode: 'EMAIL_REBOUND', version: { increment: 1 } } });
+          await transaction.refreshToken.updateMany({ where: { authSession: { userId: verifiedUser.id }, revokedAt: null }, data: { revokedAt: now } });
+          await this.audit.append(transaction, { organizationId: capability.organizationId, actorUserId: verifiedUser.id,
+            actorRoleSnapshot: 'STUDENT', permissionId: 'ENROLLMENT-JOIN', actionType: 'USER_PROFILE_UPDATED',
+            targetType: 'USER', targetId: verifiedUser.id, requestId: facts.requestId,
+            idempotencyKeyReference: this.keyReference(idempotencyKey), outcome: 'SUCCEEDED',
+            safeMetadata: { changedFields: ['primaryEmail','emailVerifiedAt','status'] } });
+          await this.outbox.append(transaction, { organizationId: capability.organizationId, aggregateType: 'USER',
+            aggregateId: verifiedUser.id, eventType: 'USER_EMAIL_VERIFIED_V1', eventVersion: verifiedUser.version,
+            payload: { requestId: facts.requestId, userId: verifiedUser.id, challengeId: identity.verificationChallengeId!, otherSessionsRevoked: revokedSessions.count } });
+        }
         const permanent = await this.enrollments.findForClassStudent(
           capability.classSectionId,
           resolved.profile.id,

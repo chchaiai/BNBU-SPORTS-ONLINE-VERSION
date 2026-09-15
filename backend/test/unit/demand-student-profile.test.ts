@@ -2,11 +2,11 @@ import assert from 'node:assert/strict';
 import { test } from 'node:test';
 import { StudentIdentityNormalizer, STUDENT_REGION_CODES } from '../../src/modules/users/application/student-identity-normalizer.js';
 const normalizer = new StudentIdentityNormalizer();
-const identity = { fullName: ' Student ', studentNumber: ' test01 ', gender: 'FEMALE', gradeYear: 2026 };
+const identity = { fullName: ' Student ', studentNumber: ' 2300000001 ', gender: 'FEMALE', gradeYear: 2026 };
 test('long-term personal details normalize without changing stable identity', () => {
-  assert.deepEqual(normalizer.normalize({ ...identity, collegeName: '  College ', majorName: '  Computing ', dateOfBirth: '2004-02-29', regionCode: 'HK' }), {
-    fullName: 'Student', studentNumber: 'TEST01', gender: 'FEMALE', gradeYear: 2026,
-    collegeName: 'College', majorName: 'Computing', dateOfBirth: '2004-02-29', regionCode: 'HK',
+  assert.deepEqual(normalizer.normalize({ ...identity, collegeName: '  FST ', majorName: '  CST ', dateOfBirth: '2004-02-29', regionCode: 'HK' }), {
+    fullName: 'Student', studentNumber: '2300000001', gender: 'FEMALE', gradeYear: 2026,
+    collegeName: 'FST', majorName: 'CST', dateOfBirth: '2004-02-29', regionCode: 'HK',
   });
 });
 test('rejects impossible, future and malformed birth dates', () => {

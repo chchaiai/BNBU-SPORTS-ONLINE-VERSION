@@ -1,0 +1,218 @@
+--- before/backend/src/modules/client-capabilities/client-authentication.service.ts
++++ after/backend/src/modules/client-capabilities/client-authentication.service.ts
+@@ -1,3 +1,4 @@
++import { isStudentSchoolEmail } from '../../common/security/student-school-email.js';
+ import { QrJoinCryptoService } from '../../common/security/qr-join-crypto.service.js';
+ import { Inject, Injectable } from '@nestjs/common';
+ 
+@@ -109,8 +110,13 @@
+     input: StudentSignInCodeRequestDto,
+     context: PublicRequestContext,
+   ): Promise<StudentSignInCodeAcceptedProjection> {
++    const normalized = this.normalizeAccount(input.account);
++    if (!isStudentSchoolEmail(normalized)) {
++      throw new ApplicationError('VALIDATION_FAILED', 422, {
++        fieldErrors: [{ field: 'account', code: 'BNBU_EMAIL_REQUIRED', i18nKey: 'error.validation.failed', params: { suffix: '@mail.bnbu.edu.cn' } }],
++      });
++    }
+     const organization = await this.resolveOrganization(input.organizationCode);
+-    const normalized = this.normalizeAccount(input.account);
+     const accountDigest = this.accountDigest(input.channel, normalized);
+     const user = await this.findUser(organization.id, normalized, 'STUDENT');
+     let joining = false;
+@@ -119,7 +125,7 @@
+       const invite = parsed ? await this.prisma.courseInvite.findUnique({ where: { id: parsed.publicId } }) : null;
+       joining = !!(parsed && invite && invite.organizationId === organization.id &&
+         invite.status === 'ACTIVE' && invite.expiresAt > this.clock.now() &&
+-        this.joinCrypto.matches(invite.tokenHash, parsed.tokenHash) && normalized.includes('bnbu'));
++        this.joinCrypto.matches(invite.tokenHash, parsed.tokenHash) && isStudentSchoolEmail(normalized));
+       if (!joining) throw new ApplicationError('AUTH_JOIN_CAPABILITY_INVALID', 401);
+     }
+     const reservation = await this.reserveChallenge(
+@@ -187,7 +193,7 @@
+           const parsed = this.joinCrypto.parseToken('course-invite', input.joinInviteToken);
+           const invite = parsed ? await transaction.courseInvite.findUnique({ where: { id: parsed.publicId } }) : null;
+           const now = this.clock.now();
+-          if (!email.includes('bnbu') || !email.includes('@') || challenge.channel !== 'EMAIL' ||
++          if (!isStudentSchoolEmail(email) || challenge.channel !== 'EMAIL' ||
+               this.accountDigest('EMAIL', email) !== challenge.accountDigest || !invite || !parsed ||
+               invite.organizationId !== challenge.organizationId || invite.status !== 'ACTIVE' || invite.expiresAt <= now ||
+               !this.joinCrypto.matches(invite.tokenHash, parsed.tokenHash)) {
+--- before/backend/src/modules/users/email-verification.service.ts
++++ after/backend/src/modules/users/email-verification.service.ts
+@@ -1,3 +1,4 @@
++import { isStudentSchoolEmail } from '../../common/security/student-school-email.js';
+ import { Injectable } from '@nestjs/common';
+ 
+ import { AuditService } from '../../common/audit/audit.service.js';
+@@ -93,7 +94,7 @@
+ 
+     const targetEmail = input.email.trim();
+     const targetEmailNormalized = targetEmail.toLowerCase();
+-    if (principal.role === 'STUDENT' && !targetEmailNormalized.includes('bnbu')) {
++    if (principal.role === 'STUDENT' && !isStudentSchoolEmail(targetEmailNormalized)) {
+       throw new ApplicationError('VALIDATION_FAILED', 422, {
+         fieldErrors: [{ field: 'email', code: 'BNBU_EMAIL_REQUIRED', i18nKey: 'error.validation.failed', params: {} }],
+       });
+@@ -168,7 +169,7 @@
+           },
+           include: { user: true },
+         });
+-        if (challenge === null) {
++        if (challenge === null || (principal.role === 'STUDENT' && !isStudentSchoolEmail(challenge.targetEmailNormalized))) {
+           return this.idempotency.failure(this.invalidCode());
+         }
+ 
+--- before/backend/src/modules/join-capabilities/application/join-capabilities.service.ts
++++ after/backend/src/modules/join-capabilities/application/join-capabilities.service.ts
+@@ -1,3 +1,4 @@
++import { isStudentSchoolEmail } from '../../../common/security/student-school-email.js';
+ import { PrismaService } from '../../../common/database/prisma.service.js';
+ import { Injectable } from '@nestjs/common';
+ 
+@@ -48,7 +49,7 @@
+     if (input.joinEmailProof) {
+       try { proof = this.crypto.decrypt('join-email-proof', invite.inviteId, input.joinEmailProof); }
+       catch { throw new ApplicationError('AUTH_JOIN_CAPABILITY_INVALID', 401); }
+-      if (!proof || proof.organizationId !== invite.organizationId || Date.parse(proof.expiresAt) <= this.clock.now().getTime() ||
++      if (!proof || !isStudentSchoolEmail(proof.email) || proof.organizationId !== invite.organizationId || Date.parse(proof.expiresAt) <= this.clock.now().getTime() ||
+           !Number.isFinite(Date.parse(proof.verifiedAt)) || Date.parse(proof.verifiedAt) >= invite.expiresAt.getTime())
+         throw new ApplicationError('AUTH_JOIN_CAPABILITY_INVALID', 401);
+       const challenge = await this.prisma.studentSignInChallenge.findUnique({ where: { id: proof.challengeId } });
+@@ -58,7 +59,7 @@
+     const owner = facts.authenticatedUserId ?? proof?.userId ?? undefined;
+     const user = owner ? await this.prisma.user.findFirst({ where: { id: owner, organizationId: invite.organizationId,
+       role: 'STUDENT', status: { in: ['ACTIVE','PENDING_CONTACT_BINDING'] }, deletedAt: null } }) : null;
+-    if (!proof && (!user?.emailVerifiedAt || !user.primaryEmailNormalized?.includes('bnbu')))
++    if (!proof && (!user?.emailVerifiedAt || !isStudentSchoolEmail(user.primaryEmailNormalized)))
+       throw new ApplicationError('AUTH_REQUIRED', 401);
+     if (proof && user?.emailVerifiedAt && user.primaryEmailNormalized !== proof.email)
+       throw new ApplicationError('USER_IDENTITY_CONFLICT', 409);
+--- before/backend/src/modules/enrollments/application/qr-join.service.ts
++++ after/backend/src/modules/enrollments/application/qr-join.service.ts
+@@ -1,3 +1,4 @@
++import { isStudentSchoolEmail } from '../../../common/security/student-school-email.js';
+ import { Inject, Injectable } from '@nestjs/common';
+ import { requireUnsettledCourse } from '../../v8/v81-settlement-write-guard.js';
+ 
+@@ -176,13 +177,13 @@
+         } }) : null;
+         if (identity.verificationChallengeId && identity.verifiedEmail) {
+           const verification = await transaction.studentSignInChallenge.findUnique({ where: { id: identity.verificationChallengeId } });
+-          if (verification?.status !== 'CONSUMED' || verification.organizationId !== capability.organizationId)
++          if (!isStudentSchoolEmail(identity.verifiedEmail) || verification?.status !== 'CONSUMED' || verification.organizationId !== capability.organizationId)
+             throw new ApplicationError('AUTH_REQUIRED', 401);
+           const emailOwner = await transaction.user.findFirst({ where: { organizationId: capability.organizationId,
+             role: 'STUDENT', primaryEmailNormalized: identity.verifiedEmail, emailVerifiedAt: { not: null }, deletedAt: null } });
+           if ((emailOwner && emailOwner.id !== owner?.id) || (owner?.emailVerifiedAt && owner.primaryEmailNormalized !== identity.verifiedEmail))
+             throw new ApplicationError('USER_IDENTITY_CONFLICT', 409);
+-        } else if (!owner?.emailVerifiedAt || !owner.primaryEmailNormalized?.includes('bnbu')) {
++        } else if (!owner?.emailVerifiedAt || !isStudentSchoolEmail(owner.primaryEmailNormalized)) {
+           throw new ApplicationError('AUTH_REQUIRED', 401);
+         }
+         const existingIdentity = await this.identities.validateExisting(capability.organizationId, identity, transaction);
+--- before/BNBU-Sports-Web-new/frontend/student/js/screens/join.js
++++ after/BNBU-Sports-Web-new/frontend/student/js/screens/join.js
+@@ -1,3 +1,4 @@
++import { isStudentSchoolEmail } from "../student-school-email.js";
+ // Course join flow: QR scan (#9), manual invite code (#10), join confirm (#11)
+ // and join request status (#19) — feature/courses/ScanJoinScreen.kt,
+ // EnterInviteCodeScreen.kt, CourseJoinConfirmScreen.kt, JoinRequestStatusScreen.kt.
+@@ -15,7 +16,6 @@
+ const isInviteCode = (value) => INVITE_CODE_PATTERN.test(value.trim());
+ const MAX_NAME = 64;
+ const MAX_STUDENT_NUMBER = 10;
+-const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+ 
+ /** Extracts an invite code from the HTTPS /join/{code} QR URL, or accepts a
+  *  bare backend invite token rendered directly as QR content. */
+@@ -528,7 +528,7 @@
+         ${course && course.real
+           ? joinSelect({ id: "gender", label: tx("性别（必填）", "Gender (required)"), value: ui.gender, options: GENDER_OPTIONS(), disabled: ui.submitting || !writeEnabled, error: ui.invalidField === "gender" ? tx("请选择性别。", "Select your gender.") : null })
+             + joinSelect({ id: "gradeYear", label: tx("入学年份（必填）", "Admission year (required)"), value: ui.gradeYear, options: GRADE_YEAR_OPTIONS(), disabled: ui.submitting || !writeEnabled, error: ui.invalidField === "gradeYear" ? tx("请选择入学年份。", "Select your admission year.") : null })
+-          : joinField({ id: "email", label: tx("邮箱（选填）", "Email (optional)"), value: ui.email, disabled: ui.submitting || !writeEnabled, inputMode: "email", required: false, error: ui.invalidField === "email" ? tx("请输入有效的邮箱地址。", "Enter a valid email address.") : null })}
++          : joinField({ id: "email", label: tx("邮箱（选填）", "Email (optional)"), value: ui.email, disabled: ui.submitting || !writeEnabled, inputMode: "email", required: false, error: ui.invalidField === "email" ? tx("请输入以 @mail.bnbu.edu.cn 结尾的完整学校邮箱。", "Enter your complete school email ending in @mail.bnbu.edu.cn.") : null })}
+         ${course?.real ? joinSelect({id:'collegeName',label:tx('学院','College'),value:ui.collegeName,options:STUDENT_COLLEGES.map(item=>({value:item.code,label:`${item.code} ${item.name}`})),disabled:!formEnabled})
+         + (allowsCustomMajor(ui.collegeName) ? joinField({id:'majorName',label:tx('其他专业（仅大写英文字母）','Other major (uppercase letters only)'),value:ui.majorName,disabled:!formEnabled,maxlength:200})
+         : joinSelect({id:'majorName',label:tx('专业','Major'),value:ui.majorName,options:academicMajorOptions(ui.collegeName).map(value=>({value,label:value})),disabled:!formEnabled || !ui.collegeName}))
+@@ -792,8 +792,8 @@
+   "joinConfirm.sendEmail": async (app) => {
+     const ui = app.ui.joinConfirm;
+     if (!ui || ui.verifyingEmail || !app.isWriteAllowed()) return;
+-    if (!EMAIL_PATTERN.test(ui.email.trim()) || !ui.email.trim().toLowerCase().includes('bnbu')) {
+-      ui.error = tx('请输入学校邮箱。', 'Enter your school email.'); app.render(); return;
++    if (!isStudentSchoolEmail(ui.email)) {
++      ui.error = tx('请输入以 @mail.bnbu.edu.cn 结尾的完整学校邮箱。', 'Enter your complete school email ending in @mail.bnbu.edu.cn.'); app.render(); return;
+     }
+     ui.verifyingEmail = true; ui.error = null; app.render();
+     const invite = app.state.authenticated ? app.state.subParams?.inviteCode : app.state.pendingInvite?.code;
+@@ -880,7 +880,7 @@
+           ? "gender"
+           : realJoin && !ui.gradeYear
+             ? "gradeYear"
+-            : !realJoin && email && !EMAIL_PATTERN.test(email)
++            : !realJoin && email && !isStudentSchoolEmail(email)
+               ? "email"
+               : null;
+     ui.error = null;
+--- before/BNBU-Sports-Web-new/frontend/student/js/screens/verification.js
++++ after/BNBU-Sports-Web-new/frontend/student/js/screens/verification.js
+@@ -1,3 +1,4 @@
++import { isStudentSchoolEmail } from "../student-school-email.js";
+ // current API email-only student verification-code sign-in.
+ 
+ import { t, tx } from "../i18n.js";
+@@ -11,7 +12,6 @@
+ 
+ const CODE_MAX_LENGTH = 10;
+ const RESEND_COOLDOWN = 60;
+-const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+ 
+ function verificationState(app) {
+   if (!app.ui.verification) {
+@@ -33,7 +33,7 @@
+ }
+ 
+ function derived(state) {
+-  const emailValid = EMAIL_PATTERN.test(state.contact.trim());
++  const emailValid = isStudentSchoolEmail(state.contact);
+   const contactInvalid = (state.contactAttempted || state.contact.trim() !== "") && !emailValid;
+   const codeValid = /^\d{4,10}$/.test(state.code);
+   const codeInvalid = (state.codeAttempted || state.code !== "") && !codeValid;
+--- before/BNBU-Sports-Web-new/frontend/student/js/screens/binding.js
++++ after/BNBU-Sports-Web-new/frontend/student/js/screens/binding.js
+@@ -1,3 +1,4 @@
++import { isStudentSchoolEmail } from "../student-school-email.js";
+ // current API email-only first binding and verified-email change flow.
+ 
+ import { tx } from "../i18n.js";
+@@ -16,8 +17,7 @@
+   toUserFacingError,
+ } from "../api.js";
+ 
+-const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+-const isSchoolEmail = (value) => EMAIL_PATTERN.test(value.trim()) && value.toLowerCase().includes("bnbu");
++const isSchoolEmail = isStudentSchoolEmail;
+ const CODE_PATTERN = /^\d{4,10}$/;
+ 
+ function bindingState(app, mode) {
+@@ -129,7 +129,7 @@
+   const currentCodeValid = !state.initiallyVerified || CODE_PATTERN.test(state.currentEmailCode);
+   const newCodeValid = CODE_PATTERN.test(state.newEmailCode);
+   const emailError = state.email.trim() && !emailValid
+-    ? tx("请输入有效的邮箱地址，地址中须包含 bnbu。", "Enter a valid email address containing bnbu.")
++    ? tx("请输入以 @mail.bnbu.edu.cn 结尾的完整学校邮箱。", "Enter your complete school email ending in @mail.bnbu.edu.cn.")
+     : backendFieldError(state.error, "email", "newEmail");
+   const currentCodeError = state.currentEmailCode && !currentCodeValid
+     ? tx("请输入收到的完整验证码。", "Enter the complete code you received.")
+--- before/BNBU-Sports-Web-new/frontend/student/js/i18n.js
++++ after/BNBU-Sports-Web-new/frontend/student/js/i18n.js
+@@ -179,7 +179,7 @@
+   login_verification_submit: ["登录", "Sign in"],
+   login_verification_code_expiry: ["验证码 10 分钟内有效，且仅可使用一次。", "The code is valid for 10 minutes and can be used once."],
+   login_verification_privacy_notice: ["继续即表示你已阅读并同意《隐私政策》。", "By continuing, you acknowledge the Privacy Policy."],
+-  login_verification_email_invalid: ["请输入有效的邮箱地址。", "Enter a valid email address."],
++  login_verification_email_invalid: ["请输入以 @mail.bnbu.edu.cn 结尾的完整学校邮箱。", "Enter your complete school email ending in @mail.bnbu.edu.cn."],
+   login_verification_code_invalid: ["请输入 4–10 位数字验证码。", "Enter the 4–10 digit verification code."],
+   login_verification_email_code_sent: ["如果该邮箱已关联学生账号，验证码将发送至该邮箱。未入班请先扫码入班。", "If this email is linked to a student account, a code will be sent. New students should scan a class invitation first."],
+   login_verification_error_rate_limited: ["发送过于频繁，请在 60 秒后再试。", "Too many requests. Try again in 60 seconds."],

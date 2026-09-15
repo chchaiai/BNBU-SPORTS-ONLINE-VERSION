@@ -1,0 +1,80 @@
+Container bnbu-login-regression-mailpit-1 Running
+ Container bnbu-login-regression-integration-postgres-1 Running
+ Container bnbu-login-regression-integration-media-1 Running
+ Container bnbu-login-regression-integration-postgres-1 Waiting
+ Container bnbu-login-regression-integration-media-1 Waiting
+ Container bnbu-login-regression-mailpit-1 Waiting
+ Container bnbu-login-regression-integration-postgres-1 Healthy
+ Container bnbu-login-regression-integration-media-1 Healthy
+ Container bnbu-login-regression-mailpit-1 Healthy
+ Container bnbu-login-regression-integration-tests-run-3b5e0657fae4 Creating
+ Container bnbu-login-regression-integration-tests-run-3b5e0657fae4 Created
+
+> @bnbu/sports-backend@0.1.0 prebuild
+> npm run db:generate && npm run generate
+
+
+> @bnbu/sports-backend@0.1.0 db:generate
+> prisma generate
+
+Loaded Prisma config from prisma.config.ts.
+
+Prisma schema loaded from prisma/schema.prisma.
+
+┌─────────────────────────────────────────────────────────┐
+✔ Generated Prisma Client (7.9.1) to ./src/generated/prisma in 920ms
+│  Update available 7.9.1 -> 8.0.0-rc.14                  │
+│                                                         │
+│  This is a major update - please follow the guide at    │
+│  https://pris.ly/d/major-version-upgrade                │
+
+│                                                         │
+│  Run the following to update                            │
+│    npm i --save-dev prisma@latest                       │
+│    npm i @prisma/client@latest                          │
+└─────────────────────────────────────────────────────────┘
+
+> @bnbu/sports-backend@0.1.0 generate
+> npm run openapi:generate && npm run db:manifest:generate
+
+
+> @bnbu/sports-backend@0.1.0 openapi:generate
+> node ./scripts/generate-openapi.mjs
+
+Generated 3 OpenAPI artifacts from 263 operations.
+
+> @bnbu/sports-backend@0.1.0 db:manifest:generate
+> node ./scripts/generate-migration-manifest.mjs
+
+Generated migration manifest updated.
+
+> @bnbu/sports-backend@0.1.0 build
+> nest build
+
+▶ Stage 21 client capabilities with real PostgreSQL
+  ✔ distinguishes verified codes without an account, preserves replay and rejects invalid proofs (836.934295ms)
+  ✔ logs in verified enrolled and withdrawn students and rejects expired or changed-email challenges (551.846878ms)
+  ✔ returns registered student data and scopes email access, filters and cursors (761.443074ms)
+  ✔ keeps student account deletion deferred with no challenge or account mutation (487.852457ms)
+  ✔ accepts an organization-scoped student challenge without exposing its code and keeps an empty release policy fail-closed (361.299786ms)
+  ✔ rejects PHONE without creating a challenge and activates a pending student through first email binding (459.434792ms)
+  ✔ requires both current and new mailbox codes for email rebinding (434.979605ms)
+  ✔ uses the numeric iOS build number for enforcement and keeps marketing version display-only (334.747036ms)
+  ✔ establishes a student OTP session and completes the private exemption-media review flow (678.139061ms)
+  ✔ completes TEACHER recovery and revokes every prior session (666.869958ms)
+  ✔ completes ADMIN recovery and revokes every prior session (645.127046ms)
+  ✔ lists and marks only the authenticated user notification with durable evidence (502.454087ms)
+  ✔ accepts only authenticated bounded client diagnostics with durable replay and no free-form metadata (765.259638ms)
+  ✔ marks 24 distinct notifications concurrently with one durable event per notification (1183.923498ms)
+  ✔ registers and revokes an IOS push token without exposing plaintext or ciphertext (556.44921ms)
+  ✔ persists preferences and feedback while exposing only published help content (492.581675ms)
+  ✔ keeps all location and conversion capabilities explicitly fail-closed (665.145856ms)
+✔ Stage 21 client capabilities with real PostgreSQL (12232.57538ms)
+ℹ tests 17
+ℹ suites 1
+ℹ pass 17
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 12781.667633

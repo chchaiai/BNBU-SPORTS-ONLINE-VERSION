@@ -78,7 +78,7 @@ export function renderPrivacyPolicy(app, { context } = {}) {
 }
 
 function policySection(title, paragraphs) {
-  return `<div class="swiss-panel">
+  return `<div class="swiss-panel" data-nosnippet>
     <div class="title-medium text-on-surface">${esc(title)}</div>
     <div style="height:12px"></div>
     ${paragraphs
@@ -89,7 +89,7 @@ function policySection(title, paragraphs) {
 
 export function renderPrivacyConsent(app) {
   if (app.ui.consent?.showFullPolicy) return renderPrivacyPolicy(app, { context: "consent" });
-  return `<div class="screen consent-screen">
+  return `<div class="screen consent-screen" data-nosnippet>
     <div class="screen-scroll" data-scroll-key="consent">
       <div class="consent-column">
         <div class="label-medium text-primary">${t("privacy_consent_eyebrow")}</div>
@@ -98,7 +98,7 @@ export function renderPrivacyConsent(app) {
         <div style="height:12px"></div>
         <div class="body-large text-muted">${t("privacy_consent_intro")}</div>
         <div style="height:32px"></div>
-        <div class="swiss-panel">
+        <div class="swiss-panel" data-nosnippet>
           <div class="title-medium text-on-surface">${t("privacy_consent_summary_title")}</div>
           <div style="height:12px"></div>
           <div class="body-medium text-muted">${t("privacy_consent_summary")}</div>

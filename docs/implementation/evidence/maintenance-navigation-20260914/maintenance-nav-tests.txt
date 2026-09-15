@@ -1,0 +1,44 @@
+✔ the mock state uses role-specific student states and two system modes (1.6053ms)
+✔ system availability opens only for an explicit NORMAL projection (0.151ms)
+✔ persisted preview state removes legacy student and read-only states (0.8564ms)
+✔ help authoring categories and Markdown projection match student clients (0.7554ms)
+✔ the new endurance tables use one point per three-second band (0.7668ms)
+✔ business state machines expose only documented transitions (0.1052ms)
+✔ semester validation rejects invalid years, reversed dates, and duplicate terms (0.4029ms)
+✔ CSV parsing preserves quoted commas and import preview catches duplicates atomically (0.6051ms)
+✔ endurance tables detect gaps and overlaps while accepting continuous ranges (0.3454ms)
+✔ real admin mutations preserve UserFacingError details while demo errors stay local (6.4319ms)
+✔ portal starts a fresh refresh intent after a definitive maintenance denial (16.0386ms)
+✔ authenticated API base ignores persisted cross-origin overrides (0.163ms)
+✔ account recovery injects portal organization context outside the page form (0.4878ms)
+✔ portal persists the complete versioned refresh session (0.3608ms)
+✔ portal rejects malformed or refresh-expired persisted sessions (0.1444ms)
+✔ temporary portal startup failure preserves the persisted session (0.4238ms)
+✔ disabled portal account clears the persisted session (0.3412ms)
+✔ 401 refresh retries a portal mutation with one stable Idempotency-Key (0.5367ms)
+✔ admin audit queries send date filters to the Backend and collect every download page (0.8068ms)
+✔ portal errors post only the closed redacted audit envelope (6.0543ms)
+✔ password-free review mode blocks every API request before fetch (0.2338ms)
+✔ switching to review mode wins an in-flight password login race (0.2736ms)
+✔ a stale terminal response cannot clear a later real login (0.4708ms)
+✔ invalid portal access token is terminal, does not refresh, and clears local auth (0.2789ms)
+✔ ambiguous portal refresh failure keeps the session and reuses its intent key (0.6005ms)
+✔ terminal portal refresh rejection clears the local session (0.3439ms)
+✔ logout wins a portal refresh race without clearing a later session (0.7471ms)
+✔ UserFacingError maps the required HTTP and transport families (0.3671ms)
+✔ UserFacingError never exposes raw backend or transport text (0.1348ms)
+✔ UserFacingError allowlists field names and replaces backend field messages (0.1977ms)
+✔ UserFacingError gives review, media and exemption codes safe domain copy (0.1915ms)
+✔ safe client diagnostics redact dynamic routes and query data (0.1952ms)
+✔ transport diagnostics retain only a sanitized request route (0.1423ms)
+✔ administrator sidebar retains all workspace routes in NORMAL (1.2597ms)
+✔ administrator sidebar retains all workspace routes in MAINTENANCE (0.4412ms)
+✔ teacher navigation remains role specific (0.4437ms)
+ℹ tests 36
+ℹ suites 0
+ℹ pass 36
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 271.5353

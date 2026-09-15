@@ -36,7 +36,7 @@ export class SystemModeGuard implements CanActivate {
         ? await this.systemMode.getPublic()
         : await this.systemMode.getForOrganization(organizationId);
     if (allowed.includes(projection.mode)) return true;
-    if (projection.mode === 'MAINTENANCE' && request.operationId === 'getCurrentUser' && request.principal?.role === 'ADMIN') return true;
+    if (projection.mode === 'MAINTENANCE' && request.principal?.role === 'ADMIN') return true;
     if (projection.mode === 'MAINTENANCE') throw new ApplicationError('SYSTEM_MAINTENANCE', 503);
     throw new ApplicationError('SYSTEM_MODE_UNSUPPORTED', 503);
   }

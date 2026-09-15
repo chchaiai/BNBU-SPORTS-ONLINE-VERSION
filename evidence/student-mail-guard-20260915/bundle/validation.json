@@ -1,0 +1,29 @@
+{
+  "checks": {
+    "postgresHttp": 6,
+    "unit": 17,
+    "typecheck": "PASS",
+    "build": "PASS"
+  },
+  "baseImage": "sha256:013c407625fba21eff579cdae284217784ddfe0aaeedad496d0a2865593239a2",
+  "baselineStudent": {
+    "student/js/api.js": "7225f9be637e5f26be6b38cc931e8f39c92e36194762bc8f120a272106b67ad6",
+    "student/js/i18n.js": "a024ad3446b488722b196a19695d9f5e3b632c837565366d942b3b381c6d4bdf",
+    "student/js/screens/join.js": "70e72d5447fb2b45b03c1bb8175191e3b413b6585b0cc44f8132bbfdbcf78cad"
+  },
+  "baselineBackend": {
+    "modules/client-capabilities/client-authentication.service.js": "0d9ff7e125f3ac7bab9d9de0abf59430219cb24af4d2bd72d16b3f130ef2f391",
+    "modules/client-capabilities/client-capabilities.dto.js": "fc6a0749ec585cd84d07e0809522e0e442d211f3ae2ce8b562ea5f2a73962a71"
+  },
+  "files": {
+    "deploy.py": "27841d50d8def73c874ce0c214065879ad586bf1d809888da789fb1f17863d06",
+    "backend/Dockerfile": "6413b4b2582ff99de5bf781078e35f1d5f538eda1e3eea1503041b05c78b95b5",
+    "web/student/js/api.js": "05f7fdc2571069a58075afc046b1a31ef4c29eb0c26d0108897855159f58e8d7",
+    "web/student/js/i18n.js": "2af18f74b6113e217f215b2642c79c436cfdcf859716c5683ae1f3d9895f5f22",
+    "web/student/js/screens/join.js": "11de9eded593ad3c1244b9a1c38ffeb61a8b5743df4dc22538ff72ac3ccc0c6d",
+    "backend/dist/modules/client-capabilities/client-authentication.service.js": "d10cf5af6756327a71c3877864f91427c9a3517d317d75de056faceceaa8ad14",
+    "backend/dist/modules/client-capabilities/client-authentication.service.js.map": "6feff190dfde442949a6eae8af954837683044c320c04366bf210f11d35a9e98",
+    "backend/dist/modules/client-capabilities/client-capabilities.dto.js": "c63478d08c79102aacde1120c041b57d49191e8ba4a92677f892b5f2b5061d0d",
+    "backend/dist/modules/client-capabilities/client-capabilities.dto.js.map": "7b1dc885412e8f841c8bdc8ba5bfc26ba129ee4003bacc9acb09a7979d2b8f85"
+  }
+}

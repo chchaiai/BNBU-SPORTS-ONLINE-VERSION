@@ -11,6 +11,7 @@ export const RUNTIME_SECRET_KEYS = [
   'QR_JOIN_TOKEN_HASH_KEY',
   'QR_JOIN_SECRET_ENCRYPTION_KEY',
   'PUSH_TOKEN_ENCRYPTION_KEY',
+  'AOKSEND_APP_KEY',
 ] as const;
 
 export type RuntimeSecretKey = (typeof RUNTIME_SECRET_KEYS)[number];
@@ -84,13 +85,17 @@ export async function loadRuntimeSecrets(
     );
   }
 
-  const missingKeys = RUNTIME_SECRET_KEYS.filter((key) => optionalText(secret[key]) === null);
+  const requiredKeys = RUNTIME_SECRET_KEYS.filter(
+    (key) => key !== 'AOKSEND_APP_KEY' || environment.EMAIL_DELIVERY_PROVIDER === 'AOKSEND',
+  );
+  const missingKeys = requiredKeys.filter((key) => optionalText(secret[key]) === null);
   if (missingKeys.length > 0) {
     throw new Error(`Runtime JSON secret file is missing keys: ${missingKeys.join(', ')}`);
   }
 
-  for (const key of RUNTIME_SECRET_KEYS) environment[key] = secret[key];
-  return { provider, injectedKeys: [...RUNTIME_SECRET_KEYS] };
+  const injectedKeys = RUNTIME_SECRET_KEYS.filter((key) => optionalText(secret[key]) !== null);
+  for (const key of injectedKeys) environment[key] = secret[key];
+  return { provider, injectedKeys };
 }
 
 function parseSecretJson(value: string): Record<string, string> {

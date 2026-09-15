@@ -3,6 +3,8 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { confirmTeacherAccounts, previewTeacherAccounts } from './teacher-import-api';
 import { AdminStudentDeletion } from './admin-student-deletion';
+import { AdminStudentBulkDeletion } from './admin-student-bulk-deletion';
+import { selectedStudents, type DeletionStudent } from './student-deletion-batch';
 import { AppSelect } from "./app-select";
 import { pageItems } from "./admin-domain";
 import { adminCopy, adminErrorCopy } from "./admin-i18n";
@@ -12,6 +14,8 @@ import { AdminServiceError, type AdminLocale, type AdminUser, type StudentProfil
 import { AdminBadge, AdminDialog, AdminDrawer, AdminEmpty, AdminField, AdminLoading, AdminPagination, AdminSectionHeading, formatAdminDate } from "./admin-components";
 import { ErrorPanel } from "./error-panel";
 import { useAdminStore } from "./admin-store";
+
+import { adminStudentRegion } from "./student-region";
 
 const demoOrganizationId = "org-bnbu-demo";
 const teacherCsvTemplate = "employee_id,name,email,college\nT2026001,教师姓名,teacher@bnbu.edu.cn,体育部";
@@ -56,13 +60,13 @@ function demoTeacher(user: AdminUser): TeacherProfileProjection {
 
 export function AdminUsers({ locale }: { locale: AdminLocale }) {
   const { mode, state, busyKey, error: mutationError, clearError, run } = useAdminStore();
-  const [canEraseStudent, setCanEraseStudent] = useState(false);
+  const [studentDeletionAccess, setStudentDeletionAccess] = useState<{ adminId: string | undefined; userId: string; allowed: boolean } | null>(null);
+  const canEraseStudent = mode === 'real' && studentDeletionAccess?.adminId === state?.currentAdminId && studentDeletionAccess?.allowed === true;
   useEffect(() => {
     let active = true;
-    setCanEraseStudent(false);
     if (mode === 'real') void getAccountSecurity().then(access => {
-      if (active) setCanEraseStudent(access.adminKind === 'SUPER' && !access.mustChangePassword);
-    }).catch(() => { if (active) setCanEraseStudent(false); });
+      if (active) setStudentDeletionAccess({ adminId: state?.currentAdminId, userId: access.userId, allowed: access.adminKind === 'SUPER' && !access.mustChangePassword });
+    }).catch(() => { if (active) setStudentDeletionAccess(null); });
     return () => { active = false; };
   }, [mode, state?.currentAdminId]);
   const [students, setStudents] = useState<StudentProfileProjection[]>([]);
@@ -77,8 +81,14 @@ export function AdminUsers({ locale }: { locale: AdminLocale }) {
   const [grade, setGrade] = useState("all");
   const [gender, setGender] = useState("all");
   const [department, setDepartment] = useState("all");
+  const [course, setCourse] = useState("all");
+  const [emailVerification, setEmailVerification] = useState("all");
+  const [registeredFrom, setRegisteredFrom] = useState("");
+  const [registeredTo, setRegisteredTo] = useState("");
   const [studentDetail, setStudentDetail] = useState<StudentProfileProjection | null>(null);
   const [studentDeleteTarget, setStudentDeleteTarget] = useState<StudentProfileProjection | null>(null);
+  const [selectedStudentIds, setSelectedStudentIds] = useState<string[]>([]);
+  const [batchTargets, setBatchTargets] = useState<DeletionStudent[] | null>(null);
   const [teacherDetail, setTeacherDetail] = useState<TeacherProfileProjection | null>(null);
   const [importOpen, setImportOpen] = useState(false);
   const [csvText, setCsvText] = useState(teacherCsvTemplate);
@@ -102,6 +112,7 @@ export function AdminUsers({ locale }: { locale: AdminLocale }) {
   const [deleteConfirmation, setDeleteConfirmation] = useState("");
 
   const load = useCallback(async () => {
+    setSelectedStudentIds([]);
     setLoading(true);
     setError(null);
     try {
@@ -133,26 +144,39 @@ export function AdminUsers({ locale }: { locale: AdminLocale }) {
   const filtered = useMemo(() => {
     const normalized = query.trim().toLocaleLowerCase();
     return students.filter((student) => {
+      if (emailVerification !== "all" && student.emailVerified !== (emailVerification === "verified")) return false;
+      if (course !== "all" && !(student.courseAssociations ?? []).some(item => item.classSectionId === course)) return false;
+      const registeredDate = new Date(student.createdAt);
+      const registered = `${registeredDate.getFullYear()}-${String(registeredDate.getMonth()+1).padStart(2,"0")}-${String(registeredDate.getDate()).padStart(2,"0")}`;
+      if (registeredFrom && registered < registeredFrom) return false;
+      if (registeredTo && registered > registeredTo) return false;
       if (grade !== "all" && String(student.gradeYear) !== grade) return false;
       if (gender !== "all" && student.gender !== gender) return false;
       if (status !== "all" && student.status !== status) return false;
       if (college !== "all" && student.collegeName !== college) return false;
-      return !normalized || [student.studentNumber, student.fullName, student.collegeName, student.majorName, student.administrativeClassName]
+      return !normalized || [student.studentNumber, student.fullName, student.collegeName, student.majorName, student.email, student.dateOfBirth, student.regionCode, student.otherRegionName, adminStudentRegion(student, locale), ...(student.courseAssociations ?? []).flatMap(item => [item.classCode, item.className, item.courseName, item.semesterName])]
         .filter(Boolean).join(" ").toLocaleLowerCase().includes(normalized);
     });
-  }, [college, query, status, students, grade, gender]);
+  }, [college, query, status, students, grade, gender, course, registeredFrom, registeredTo, emailVerification, locale]);
   const filteredTeachers = teachers.filter(teacher =>
     (status === 'all' || teacher.status === status) && (college === 'all' || teacher.collegeName === college) &&
     (department === 'all' || teacher.departmentName === department) &&
     (!query.trim() || [teacher.employeeNumber, teacher.fullName, teacher.collegeName, teacher.departmentName, teacher.title].filter(Boolean).join(' ').toLowerCase().includes(query.trim().toLowerCase())));
   const teacherPaged = pageItems(filteredTeachers, page, 10);
-  const resetFilters = () => { setQuery(''); setStatus('all'); setCollege('all'); setGrade('all'); setGender('all'); setDepartment('all'); setPage(1); };
+  const resetFilters = () => { setQuery(''); setStatus('all'); setCollege('all'); setGrade('all'); setGender('all'); setDepartment('all'); setCourse('all'); setEmailVerification('all'); setRegisteredFrom(''); setRegisteredTo(''); setPage(1); setSelectedStudentIds([]); };
   const paged = pageItems(filtered, page, 10);
+  const selected = selectedStudents(selectedStudentIds, filtered);
+  const selectedSet = new Set(selected.map(student => student.id));
+  const allPageSelected = paged.items.length > 0 && paged.items.every(student => selectedSet.has(student.id));
+  function selectPage(checked: boolean) {
+    const pageIds = new Set(paged.items.map(student => student.id));
+    setSelectedStudentIds(ids => checked ? [...new Set([...ids, ...pageIds])] : ids.filter(id => !pageIds.has(id)));
+  }
   const studentTitle = locale === "zh" ? "学生账户" : "Student accounts";
   const teacherTitle = locale === "zh" ? "教师账户" : "Teacher accounts";
   const studentDescription = locale === "zh"
-    ? "查看学生资料与当前状态，可在详情中删除学生账号及历史记录。"
-    : "View student profiles and current status. Delete an account and its history from the details panel.";
+    ? "查看并筛选学生登记资料、邮箱验证和课程关联情况。"
+    : "View and filter registered student details, email verification and course associations.";
   const teacherDescription = locale === "zh"
     ? "查看和筛选教师资料，批量建立或管理教师账号。"
     : "View and filter teacher profiles, create accounts in batches and manage accounts.";
@@ -314,20 +338,43 @@ export function AdminUsers({ locale }: { locale: AdminLocale }) {
       </nav>
 
           <div className="admin-audit-filters">
-            <AdminField locale={locale} label={adminCopy(locale, "search")}><input type="search" value={query} onChange={(event) => { setQuery(event.target.value); setPage(1); }} placeholder={adminCopy(locale, "account_search")} /></AdminField>
-            <AppSelect label={adminCopy(locale, "status_filter")} value={status} options={[{ value: "all", label: adminCopy(locale, "all") }, ...statuses.map((value) => ({ value, label: value }))]} onChange={(value) => { if (value) { setStatus(String(value)); setPage(1); } }} />
-            <AppSelect label={adminCopy(locale, "college")} value={college} searchable options={[{ value: "all", label: adminCopy(locale, "all") }, ...colleges.map((value) => ({ value, label: value }))]} onChange={(value) => { if (value) { setCollege(String(value)); setPage(1); } }} />
+            <AdminField locale={locale} label={adminCopy(locale, "search")}><input type="search" value={query} onChange={(event) => { setQuery(event.target.value); setPage(1); setSelectedStudentIds([]); }} placeholder={view === "students" ? (locale === "zh" ? "学号、姓名、邮箱、专业、课程或地域" : "Number, name, email, major, course or region") : adminCopy(locale, "account_search")} /></AdminField>
+            <AppSelect label={adminCopy(locale, "status_filter")} value={status} options={[{ value: "all", label: adminCopy(locale, "all") }, ...statuses.map((value) => ({ value, label: view === "students" ? (value === "ACTIVE" ? (locale === "zh" ? "已进班" : "Enrolled") : (locale === "zh" ? "已退班" : "Withdrawn")) : value }))]} onChange={(value) => { if (value) { setStatus(String(value)); setPage(1); setSelectedStudentIds([]); } }} />
+            <AppSelect label={adminCopy(locale, "college")} value={college} searchable options={[{ value: "all", label: adminCopy(locale, "all") }, ...colleges.map((value) => ({ value, label: value }))]} onChange={(value) => { if (value) { setCollege(String(value)); setPage(1); setSelectedStudentIds([]); } }} />
             {view === 'students' ? <>
-              <AppSelect label={locale === 'zh' ? '入学年份' : 'Admission year'} value={grade} options={[{value:'all',label:adminCopy(locale,'all')}, ...[...new Set(students.map(s=>s.gradeYear))].sort().map(value=>({value:String(value),label:String(value)}))]} onChange={value=>{setGrade(String(value));setPage(1);}} />
-              <AppSelect label={adminCopy(locale,'gender')} value={gender} options={[{value:'all',label:adminCopy(locale,'all')},{value:'MALE',label:locale==='zh'?'男':'Male'},{value:'FEMALE',label:locale==='zh'?'女':'Female'},{value:'UNKNOWN',label:locale==='zh'?'未填写':'Unknown'}]} onChange={value=>{setGender(String(value));setPage(1);}} />
-            </> : <AppSelect label={adminCopy(locale,'department')} value={department} options={[{value:'all',label:adminCopy(locale,'all')}, ...[...new Set(teachers.map(t=>t.departmentName).filter((v):v is string=>Boolean(v)))].sort().map(value=>({value,label:value}))]} onChange={value=>{setDepartment(String(value));setPage(1);}} />}
+              <AppSelect label={locale === 'zh' ? '邮箱验证' : 'Email verification'} value={emailVerification} options={[{value:'all',label:adminCopy(locale,'all')},{value:'verified',label:locale==='zh'?'已验证':'Verified'},{value:'unverified',label:locale==='zh'?'未验证':'Unverified'}]} onChange={value=>{setEmailVerification(String(value));setPage(1); setSelectedStudentIds([]);}} />
+              <AppSelect label={locale === 'zh' ? '课程/教学班（含历史）' : 'Course/class (including history)'} value={course} searchable options={[{value:'all',label:adminCopy(locale,'all')}, ...Array.from(new Map(students.flatMap(s => (s.courseAssociations ?? []).map(item => [item.classSectionId, {value:item.classSectionId,label:`${item.semesterName} · ${item.courseName} · ${item.className}`}] as const))).values())]} onChange={value=>{setCourse(String(value));setPage(1); setSelectedStudentIds([]);}} />
+              <AdminField locale={locale} label={locale === 'zh' ? '注册日期起' : 'Registered from'}><input type="date" value={registeredFrom} onChange={event=>{setRegisteredFrom(event.target.value);setPage(1); setSelectedStudentIds([]);}} /></AdminField>
+              <AdminField locale={locale} label={locale === 'zh' ? '注册日期止' : 'Registered through'}><input type="date" value={registeredTo} min={registeredFrom || undefined} onChange={event=>{setRegisteredTo(event.target.value);setPage(1); setSelectedStudentIds([]);}} /></AdminField>
+              <AppSelect label={locale === 'zh' ? '入学年份' : 'Admission year'} value={grade} options={[{value:'all',label:adminCopy(locale,'all')}, ...[...new Set(students.map(s=>s.gradeYear))].sort().map(value=>({value:String(value),label:String(value)}))]} onChange={value=>{setGrade(String(value));setPage(1); setSelectedStudentIds([]);}} />
+              <AppSelect label={adminCopy(locale,'gender')} value={gender} options={[{value:'all',label:adminCopy(locale,'all')},{value:'MALE',label:locale==='zh'?'男':'Male'},{value:'FEMALE',label:locale==='zh'?'女':'Female'},{value:'OTHER',label:locale==='zh'?'其他':'Other'},{value:'UNKNOWN',label:locale==='zh'?'未填写':'Unknown'}]} onChange={value=>{setGender(String(value));setPage(1); setSelectedStudentIds([]);}} />
+            </> : <AppSelect label={adminCopy(locale,'department')} value={department} options={[{value:'all',label:adminCopy(locale,'all')}, ...[...new Set(teachers.map(t=>t.departmentName).filter((v):v is string=>Boolean(v)))].sort().map(value=>({value,label:value}))]} onChange={value=>{setDepartment(String(value));setPage(1); setSelectedStudentIds([]);}} />}
             <button className="text-button" type="button" onClick={resetFilters}>{locale === 'zh' ? '重置筛选' : 'Reset filters'}</button>
           </div>
 
       {view === "students" ? (
         <section className="admin-surface admin-table-surface">
           <AdminSectionHeading title={studentTitle} description={studentDescription} action={<button className="text-button" type="button" onClick={() => void load()}>{adminCopy(locale, "refresh_data")}</button>} />
-          {paged.items.length === 0 ? <AdminEmpty locale={locale} filtered={Boolean(query || status !== "all" || college !== "all")} /> : <div className="table-wrap"><table className="admin-table"><thead><tr><th>{adminCopy(locale, "student_number")}</th><th>{adminCopy(locale, "name")}</th><th>{adminCopy(locale, "college")}</th><th>{adminCopy(locale, "class_name")}</th><th>{adminCopy(locale,"gender")}</th><th>{adminCopy(locale,"grade_year")}</th><th>{adminCopy(locale, "status")}</th><th>{adminCopy(locale, "details")}</th></tr></thead><tbody>{paged.items.map((student) => <tr key={student.id}><td><code>{student.studentNumber}</code></td><td><b>{student.fullName}</b><small className="table-sub">{student.majorName ?? adminCopy(locale, "not_available")}</small></td><td>{student.collegeName ?? adminCopy(locale, "not_available")}</td><td>{student.administrativeClassName ?? adminCopy(locale, "not_available")}</td><td>{student.gender === "MALE" ? (locale === "zh" ? "男" : "Male") : student.gender === "FEMALE" ? (locale === "zh" ? "女" : "Female") : "—"}</td><td>{student.gradeYear || "—"}</td><td><AdminBadge tone={student.status === "ACTIVE" ? "green" : "gray"}>{student.status}</AdminBadge><small className="table-sub">{student.status === "ACTIVE" ? (locale === "zh" ? "已进班" : "Enrolled") : (locale === "zh" ? "已退班" : "Withdrawn")}</small></td><td><button className="text-button" type="button" onClick={() => void openStudent(student.id)}>{adminCopy(locale, "details")} →</button></td></tr>)}</tbody></table></div>}
+          {canEraseStudent && <div className="admin-bulk-student-toolbar" role="group" aria-label={locale === 'zh' ? '批量选择学生' : 'Select students in bulk'}>
+            <span role="status">{locale === 'zh' ? `已选择 ${selected.length} 人 / 筛选结果 ${filtered.length} 人` : `${selected.length} selected / ${filtered.length} filtered students`}</span>
+            <button type="button" className="secondary-button" disabled={!paged.items.length} onClick={() => selectPage(true)}>{locale === 'zh' ? `选择当前页（${paged.items.length}）` : `Select this page (${paged.items.length})`}</button>
+            <button type="button" className="secondary-button" disabled={!filtered.length} onClick={() => setSelectedStudentIds(filtered.map(student => student.id))}>{locale === 'zh' ? `选择当前筛选结果（${filtered.length}）` : `Select all filtered (${filtered.length})`}</button>
+            <button type="button" className="text-button" disabled={!selected.length} onClick={() => setSelectedStudentIds([])}>{locale === 'zh' ? '清空选择' : 'Clear selection'}</button>
+            <button type="button" className="danger-button" disabled={!selected.length} onClick={() => setBatchTargets(selected.map(student => ({...student})))}>{locale === 'zh' ? `批量删除（${selected.length}）` : `Delete selected (${selected.length})`}</button>
+          </div>}
+          {paged.items.length === 0 ? <AdminEmpty locale={locale} filtered={Boolean(query || status !== "all" || college !== "all" || grade !== "all" || gender !== "all" || course !== "all" || emailVerification !== "all" || registeredFrom || registeredTo)} /> : <div className="table-wrap"><table className="admin-table admin-student-accounts-table"><thead><tr>
+            {canEraseStudent && <th><input type="checkbox" aria-label={locale === 'zh' ? '选择或取消当前页' : 'Select or clear this page'} checked={allPageSelected} ref={node => { if (node) node.indeterminate = !allPageSelected && paged.items.some(student => selectedSet.has(student.id)); }} onChange={event => selectPage(event.target.checked)} /></th>}
+            {(locale === "zh" ? ["学号", "姓名", "邮箱", "性别", "入学年份", "学院", "专业", "课程/教学班（含历史）", "出生日期", "地域", "注册时间", "账号状态", "详情"] : ["Student number", "Name", "Email", "Gender", "Admission year", "College", "Major", "Courses/classes (including history)", "Date of birth", "Region", "Registered", "Status", "Details"]).map(label=><th key={label}>{label}</th>)}
+          </tr></thead><tbody>{paged.items.map(student=><tr key={student.id}>
+            {canEraseStudent && <td><input type="checkbox" aria-label={`${locale === 'zh' ? '选择' : 'Select'} ${student.studentNumber} ${student.fullName}`} checked={selectedSet.has(student.id)} onChange={event => setSelectedStudentIds(ids => event.target.checked ? [...new Set([...ids, student.id])] : ids.filter(id => id !== student.id))} /></td>}
+            <td><code>{student.studentNumber}</code></td><td><b>{student.fullName}</b></td>
+            <td>{student.email ?? (locale === "zh" ? "尚未绑定" : "Not bound")}<small className="table-sub">{student.emailVerified === true ? (locale === "zh" ? "已验证" : "Verified") : student.emailVerified === false ? (locale === "zh" ? "未验证" : "Unverified") : ""}</small></td>
+            <td>{student.gender === "MALE" ? (locale === "zh" ? "男" : "Male") : student.gender === "FEMALE" ? (locale === "zh" ? "女" : "Female") : student.gender === "OTHER" ? (locale === "zh" ? "其他" : "Other") : "—"}</td>
+            <td>{student.gradeYear || "—"}</td><td>{student.collegeName ?? "—"}</td><td>{student.majorName ?? "—"}</td>
+            <td>{courseAssociationText(student, locale)}</td><td>{student.dateOfBirth ?? "—"}</td><td>{adminStudentRegion(student, locale)}</td>
+            <td>{formatAdminDate(locale, student.createdAt, true)}</td><td><AdminBadge tone={student.status === "ACTIVE" ? "green" : "gray"}>{student.status === "ACTIVE" ? (locale === "zh" ? "已进班" : "Enrolled") : (locale === "zh" ? "已退班" : "Withdrawn")}</AdminBadge></td>
+            <td><button className="text-button" type="button" onClick={()=>void openStudent(student.id)}>{adminCopy(locale,"details")} →</button></td>
+          </tr>)}</tbody></table></div>}
           <AdminPagination locale={locale} page={paged.page} totalPages={paged.totalPages} total={paged.total} onPage={setPage} />
         </section>
       ) : (
@@ -344,6 +391,9 @@ export function AdminUsers({ locale }: { locale: AdminLocale }) {
       )}
 
       {studentDetail && <StudentDrawer locale={locale} student={studentDetail} close={() => setStudentDetail(null)} onDelete={mode === "real" && canEraseStudent ? () => { setStudentDeleteTarget(studentDetail); setStudentDetail(null); } : undefined} />}
+      {canEraseStudent && studentDeletionAccess?.userId && <AdminStudentBulkDeletion key={studentDeletionAccess.userId} students={batchTargets} ownerId={studentDeletionAccess.userId} locale={locale}
+        close={() => { setBatchTargets(null); setSelectedStudentIds([]); void load(); }}
+        removed={ids => { const deletedIds = new Set(ids); setStudents(current => current.filter(student => !deletedIds.has(student.id))); setSelectedStudentIds(current => current.filter(id => !deletedIds.has(id))); }} />}
       {studentDeleteTarget && <AdminStudentDeletion student={studentDeleteTarget} locale={locale} close={() => setStudentDeleteTarget(null)} completed={async () => { setStudentDeleteTarget(null); setStudentDetail(null); await load(); }} />}
       {teacherDetail && <TeacherDrawer locale={locale} teacher={teacherDetail} mode={mode} assignedCourseCount={state?.users.find((user) => user.id === teacherDetail.userId && user.role === "teacher")?.assignedCourseCount ?? 0} close={() => setTeacherDetail(null)} onDelete={() => beginTeacherDelete(teacherDetail)} />}
 
@@ -402,6 +452,10 @@ export function AdminUsers({ locale }: { locale: AdminLocale }) {
   );
 }
 
+function courseAssociationText(student: StudentProfileProjection, locale: AdminLocale) {
+  return (student.courseAssociations ?? []).map(item => `${item.semesterName} · ${item.courseName} · ${item.className} (${item.classCode}) · ${item.status === "ACTIVE" ? (locale === "zh" ? "在课" : "Enrolled") : (locale === "zh" ? "历史" : "Historical")}`).join("；") || (locale === "zh" ? "暂无课程关联" : "No course associations");
+}
+
 function StudentDrawer({ locale, student, close, onDelete }: { locale: AdminLocale; student: StudentProfileProjection; close: () => void; onDelete?: () => void }) {
   return (
     <AdminDrawer locale={locale} title={student.fullName} description={student.studentNumber} close={close} footer={onDelete ? <button className="danger-button" type="button" onClick={onDelete}>{locale === "zh" ? "删除学生账号" : "Delete student account"}</button> : undefined}>
@@ -409,11 +463,15 @@ function StudentDrawer({ locale, student, close, onDelete }: { locale: AdminLoca
         <Detail label={adminCopy(locale, "user_id")} value={student.userId} />
         {"email" in student && <Detail label={locale === "zh" ? "邮箱" : "Email"} value={student.email ?? (locale === "zh" ? "尚未绑定" : "Not bound")} />}
         <Detail label={adminCopy(locale, "organization")} value={student.organizationId} />
+        <Detail label={locale === "zh" ? "出生日期" : "Date of birth"} value={student.dateOfBirth} />
+        <Detail label={locale === "zh" ? "地域" : "Region"} value={adminStudentRegion(student, locale)} />
+        <Detail label={locale === "zh" ? "注册时间" : "Registered"} value={formatAdminDate(locale,student.createdAt,true)} />
+        <Detail label={locale === "zh" ? "课程/教学班（含历史）" : "Courses/classes (including history)"} value={courseAssociationText(student,locale)} />
+        <Detail label={locale === "zh" ? "邮箱验证" : "Email verification"} value={student.emailVerified === undefined ? "—" : student.emailVerified ? (locale === "zh" ? "已验证" : "Verified") : (locale === "zh" ? "未验证" : "Unverified")} />
         <Detail label={adminCopy(locale, "gender")} value={student.gender} />
         <Detail label={adminCopy(locale, "grade_year")} value={student.gradeYear} />
         <Detail label={adminCopy(locale, "college")} value={student.collegeName} />
         <Detail label={adminCopy(locale, "major")} value={student.majorName} />
-        <Detail label={adminCopy(locale, "class_name")} value={student.administrativeClassName} />
         <Detail label={adminCopy(locale, "status")} value={`${student.status} · ${student.status === "ACTIVE" ? (locale === "zh" ? "已进班" : "Enrolled") : (locale === "zh" ? "已绑定邮箱但已退班" : "Email-bound but withdrawn")}`} />
         <Detail label={adminCopy(locale, "updated_at")} value={formatAdminDate(locale, student.updatedAt, true)} />
         <Detail label={adminCopy(locale, "record_version")} value={student.version} />

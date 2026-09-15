@@ -1,0 +1,50 @@
+{
+  "sourceCommit": "45aefdcf22c315892324ef1a4dc25d75162885e5",
+  "checks": {
+    "http": "PASS",
+    "typecheck": "PASS",
+    "build": "PASS",
+    "student": "PASS"
+  },
+  "previous": "maintenance-navigation-20260914",
+  "release": "email-first-20260914",
+  "baseImages": {
+    "backend": "sha256:1a4a71b2dc17f9d45f6f4afaba9a1ba7c4b99b1c95f40628c610fa724eedce23",
+    "portal": "sha256:f4a5a795fd45352fb5d73726c85b0e1c27592b6a1bb75d7ccb1e1e0bf658e4c1"
+  },
+  "baselineBackendService": "8d9b55f17a1154b21212b281dc621386f26e2f5fa1a2db0cf31e274f98663708",
+  "baselineStudent": {
+    "student/js/api.js": "888df1afa0a654e995989f9f2f55ee3656b7971e77a1a1f42d414656dda2d60a",
+    "student/js/screens/join.js": "be5e2a217169f97614315074e06243c202cc6939137d35c25bd606e43464110a"
+  },
+  "studentFiles": [
+    "student/js/api.js",
+    "student/js/screens/join.js"
+  ],
+  "files": {
+    "deploy.py": "0d0c8608e090765ea4beb0e9b79387d32f3001e47fe1f072f00ad172d202153a",
+    "backend/Dockerfile": "e35521690dfb2f8c0fe255a227c3aac1867c2d8671cf0362604e53fd5db4b5fb",
+    "web/student/js/api.js": "3bb84b77ef72df0cdc4ec55542c3cd80ba5b3e296786d3190b80f5842f7b2422",
+    "web/student/js/screens/join.js": "7afdd7d143bc8218d4d63dd6e672395513f00e87b8fc2697eb2a2b8e3a0dfe8c",
+    "backend/src/generated/openapi.document.generated.json": "1fc0138edb4821554bac0d0bb5c57a9b3ca9b0005ae9bb4c139099afaa45c072",
+    "backend/src/generated/openapi.manifest.generated.json": "948b4031864a7adf87320d1a6e6d923a23699eaf3a2ecc3219e1a1cc92943d16",
+    "backend/dist/generated/openapi.document.generated.json": "1fc0138edb4821554bac0d0bb5c57a9b3ca9b0005ae9bb4c139099afaa45c072",
+    "backend/dist/generated/openapi.manifest.generated.json": "948b4031864a7adf87320d1a6e6d923a23699eaf3a2ecc3219e1a1cc92943d16",
+    "backend/dist/modules/client-capabilities/client-authentication.service.js": "0d9ff7e125f3ac7bab9d9de0abf59430219cb24af4d2bd72d16b3f130ef2f391",
+    "backend/dist/modules/client-capabilities/client-authentication.service.js.map": "c131c2d278f09bf00d3b011e3db3353b12e7b40663224906ae12ad2f4ee0d038",
+    "backend/dist/modules/client-capabilities/client-capabilities.controller.js": "09c4b6cd82ad9b205c0139100167872abf363c8183b099ef08e1be405ebbb8df",
+    "backend/dist/modules/client-capabilities/client-capabilities.controller.js.map": "983f195fd05686f83167368338a65451169a379c118b4666102776ecad5e6c2a",
+    "backend/dist/modules/client-capabilities/client-capabilities.dto.js": "f4ab4c429ab2353ea29c8a5981dced4be4c04c24277cc88e3c12693c8215e9df",
+    "backend/dist/modules/client-capabilities/client-capabilities.dto.js.map": "11beb4e4b2ff26b389460810f89b0cc8adca7b8bc750eedd5b6d80ba1e8c5ec4",
+    "backend/dist/modules/users/application/student-identity.js": "b3370cd60766dfa9adf0a7353d399f4cf417e15a3c4a8f3fda8fe10efda433c5",
+    "backend/dist/modules/users/application/student-identity.js.map": "ab86924d7fa76ba8ac152eb98afd1922514d3776feb1243ac4d5b2860881ff9e",
+    "backend/dist/modules/join-capabilities/application/join-capabilities.service.js": "13de3a3af7bca30a6ec276ba42869c38dce76a13db55aecd7ffaa8e6fb91a6dd",
+    "backend/dist/modules/join-capabilities/application/join-capabilities.service.js.map": "99ec4b94cc51ae9b423596d78af0d2e25c5cc48666d6fb8aaa288d29f911c481",
+    "backend/dist/modules/join-capabilities/interface/http/join-capabilities.dto.js": "9f36751457f65d70519a32be923d001a5d8375d18d734f8ef41f6c9a30930955",
+    "backend/dist/modules/join-capabilities/interface/http/join-capabilities.dto.js.map": "dc24ea22fa10dae1172324cde7f19a120f7d8b2bd9b579131f08315125131d64",
+    "backend/dist/modules/enrollments/application/qr-join.service.js": "e6f22d2b76d40cbf2960abe552660c030cfcbafacf70274f86d5e5920638a325",
+    "backend/dist/modules/enrollments/application/qr-join.service.js.map": "5d831431414e5e0be14757aac0f48282c6712e4dccebce68105a1456054aed72",
+    "backend/dist/common/security/qr-join-crypto.service.js": "bb3a53a3b0509e795895ca859bf13b028a209fdf609dfa8e101f4acd18db935b",
+    "backend/dist/common/security/qr-join-crypto.service.js.map": "4b2c9e202754bc3ed4e05d7dac353c0e101fc2006ef2af4a1026ae2a57f58808"
+  }
+}

@@ -1,0 +1,64 @@
+{
+  "date": "2026-09-14",
+  "scope": "local real HTTP/PostgreSQL and browser with synthetic accounts",
+  "backend_e2e": {
+    "suite": "backend/test/e2e/client-capabilities.e2e.test.ts",
+    "passed": 17,
+    "failed": 0
+  },
+  "unit_contract": {
+    "passed": 25,
+    "failed": 0
+  },
+  "student_smoke": {
+    "passed": 87,
+    "failed": 0
+  },
+  "openapi_parity": {
+    "operations": 263,
+    "handlers": 263,
+    "errors": 154,
+    "result": "PASS"
+  },
+  "typecheck": {
+    "backend": "PASS",
+    "portal": "PASS"
+  },
+  "build": {
+    "backend": "PASS",
+    "portal": "PASS"
+  },
+  "targeted_eslint": {
+    "backend": "PASS",
+    "portal": "PASS"
+  },
+  "browser": [
+    "Student login explains verified enrollment email; example student@mail.bnbu.edu.cn verified in source/smoke.",
+    "Unknown mailbox code delivered through local SMTP/Mailpit; wrong code returns invalid-code message; correct code returns enrollment guidance and disables reuse.",
+    "Existing verified withdrawn student receives local SMTP code and reaches authenticated student home with withdrawn status.",
+    "Real administrator list loads 38 synthetic students across 4 pages and exposes registered attributes.",
+    "Full email search reduces to one matching row and its detail shows the same full email and course association.",
+    "Female email match plus male filter yields zero results.",
+    "Withdrawn status filter produces 3 withdrawn rows.",
+    "Course filter produces 6 rows; adding unverified email filter yields zero; reset restores 38 rows.",
+    "Horizontal table screenshot inspected; headings remain horizontal and course names wrap within bounded cells."
+  ],
+  "database_migrations_added": 0,
+  "excluded_evidence": [
+    "production deployment",
+    "real institutional email delivery",
+    "capacity/load acceptance"
+  ],
+  "raw_local_logs": [
+    ".local/login-regression-http.log",
+    ".local/login-unit-contract.log",
+    ".local/login-student-smoke.log",
+    ".local/login-portal-build.log"
+  ],
+  "archived_logs": {
+    "http-tests.txt": "b3cc1d7efdca626d9eee0bce446b70eaba7a2601ac77b6e7d7af95737b2b4e16",
+    "unit-contract-tests.txt": "cbbb688f7346b2208dbc75f049a58ae5637fc98969633c4107a020fac37099b6",
+    "student-smoke.txt": "ef0564aa140c026685febcb14b0512d0e17bc09169767531f5eb6a3312093d7b"
+  },
+  "log_normalization": "UTF-8, LF and trailing whitespace removed; original output retained in .local logs."
+}

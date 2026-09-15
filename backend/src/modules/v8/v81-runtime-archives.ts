@@ -1,3 +1,4 @@
+import { permitsSystemMode } from '../system-mode/system-mode-access.js';
 import { Body, Controller, Get, Header, Headers, HttpCode, Inject, Injectable, Logger, Param, ParseUUIDPipe, Post, Query, Req, Res, type OnApplicationBootstrap, type OnModuleDestroy } from '@nestjs/common';
 import { IsInt, IsString, Matches, Max, Min } from 'class-validator';
 import { createHash, randomBytes, randomUUID } from 'node:crypto';
@@ -49,7 +50,7 @@ export class V81RuntimeArchivesService {
   private async normal(tx:Prisma.TransactionClient,p:AuthenticatedPrincipal) {
     await tx.$queryRaw`SELECT id FROM organizations WHERE id=${p.organizationId}::uuid FOR NO KEY UPDATE`;
     await requireAdminAccess(tx,p,'AUDIT_QUERY');
-    if ((await tx.systemPolicy.findUnique({where:{organizationId:p.organizationId}}))?.systemMode!=='NORMAL') throw new ApplicationError('SYSTEM_MAINTENANCE',503);
+    if (!permitsSystemMode((await tx.systemPolicy.findUnique({where:{organizationId:p.organizationId}}))?.systemMode, p.role)) throw new ApplicationError('SYSTEM_MAINTENANCE', 503);
   }
   async get(p:AuthenticatedPrincipal,id:string) { return this.prisma.$transaction(async tx=>projection(await this.scope(tx,p,id),this.clock.now())); }
   async create(p:AuthenticatedPrincipal,input:RuntimeArchiveInput,requestId:string,key?:string) {
@@ -192,12 +193,12 @@ export class V81RuntimeArchiveWorker implements OnApplicationBootstrap,OnModuleD
   }
   async processOne(){
     const now=this.clock.now(),candidate=(await this.prisma.$queryRaw<Job[]>`SELECT j.* FROM v81_runtime_archives j JOIN system_policies p ON p.organization_id=j.organization_id
-      WHERE (j.status='QUEUED' OR (j.status='RUNNING' AND j.lease_until<=${now})) AND j.expires_at>${now} AND p.system_mode='NORMAL' ORDER BY j.created_at,j.id LIMIT 1`)[0];
+      WHERE (j.status='QUEUED' OR (j.status='RUNNING' AND j.lease_until<=${now})) AND j.expires_at>${now} AND p.system_mode IN ('NORMAL','MAINTENANCE') ORDER BY j.created_at,j.id LIMIT 1`)[0];
     if(!candidate)return null;
     const owner=randomUUID(),job=await this.prisma.$transaction(async tx=>{
       await tx.$queryRaw`SELECT id FROM organizations WHERE id=${candidate.organization_id}::uuid FOR NO KEY UPDATE`;
       const rows=await tx.$queryRaw<Job[]>`SELECT * FROM v81_runtime_archives WHERE id=${candidate.id}::uuid AND (status='QUEUED' OR (status='RUNNING' AND lease_until<=${now})) FOR UPDATE SKIP LOCKED`;
-      if(!rows[0] || (await tx.systemPolicy.findUnique({where:{organizationId:candidate.organization_id}}))?.systemMode!=='NORMAL')return null;
+      if(!rows[0] || !permitsSystemMode((await tx.systemPolicy.findUnique({where:{organizationId:candidate.organization_id}}))?.systemMode, 'ADMIN'))return null;
       const authorized=await this.allowed(tx,rows[0]);
       const claimed=await tx.$queryRaw<Job[]>`UPDATE v81_runtime_archives SET status=${authorized?'RUNNING':'FAILED'},version=version+1,updated_at=${now},
         lease_owner=${owner}::uuid,lease_until=${new Date(now.getTime()+120000)},failure_code=${authorized?null:'PERMISSION_REVOKED'} WHERE id=${candidate.id}::uuid RETURNING *`;
@@ -223,7 +224,7 @@ export class V81RuntimeArchiveWorker implements OnApplicationBootstrap,OnModuleD
     const committed=await this.prisma.$transaction(async tx=>{
       await tx.$queryRaw`SELECT id FROM organizations WHERE id=${job.organization_id}::uuid FOR NO KEY UPDATE`;
       const at=this.clock.now();
-      if((await tx.systemPolicy.findUnique({where:{organizationId:job.organization_id}}))?.systemMode!=='NORMAL')return false;
+      if(!permitsSystemMode((await tx.systemPolicy.findUnique({where:{organizationId:job.organization_id}}))?.systemMode, 'ADMIN'))return false;
       if(!await this.allowed(tx,job))failure='PERMISSION_REVOKED';
       const rows=await tx.$queryRaw<Job[]>`UPDATE v81_runtime_archives SET status=${failure?'FAILED':'SUCCEEDED'},version=version+1,updated_at=${at},failure_code=${failure},
         storage_key=${failure?null:storageKey},sha256=${failure||!bytes?null:createHash('sha256').update(bytes).digest('hex')},byte_length=${failure||!bytes?null:BigInt(bytes.length)},record_count=${failure?null:recordCount}

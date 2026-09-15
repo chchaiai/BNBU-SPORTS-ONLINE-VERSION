@@ -1,3 +1,4 @@
+import { permitsSystemMode } from '../system-mode/system-mode-access.js';
 import { Body, Controller, Get, Headers, Injectable, Param, ParseUUIDPipe, Post, Query, Req } from '@nestjs/common';
 import { IsIn, IsInt, IsOptional, IsString, IsUUID, Matches, Max, MaxLength, Min, ValidateIf } from 'class-validator';
 import { Type } from 'class-transformer';
@@ -99,7 +100,7 @@ export class V81SemestersService {
       await tx.$queryRaw`SELECT id FROM organizations WHERE id=${principal.organizationId}::uuid FOR NO KEY UPDATE`;
       await requireAdminAccess(tx, principal, 'SEMESTER_MANAGE');
       const policy = await tx.systemPolicy.findUnique({ where: { organizationId: principal.organizationId } });
-      if (policy?.systemMode !== 'NORMAL') throw new ApplicationError('SYSTEM_MAINTENANCE', 503);
+      if (!permitsSystemMode(policy?.systemMode, principal.role)) throw new ApplicationError('SYSTEM_MAINTENANCE', 503);
       const check = await this.switchCheckInTransaction(tx, principal, id, { limit: 1 });
       if (check.target.version !== input.expectedVersion || (check.current?.id ?? null) !== input.currentSemesterId ||
         (check.current?.version ?? null) !== input.currentSemesterVersion)
@@ -148,7 +149,7 @@ export class V81SemestersService {
       await tx.$queryRaw`SELECT id FROM organizations WHERE id=${principal.organizationId}::uuid FOR NO KEY UPDATE`;
       await requireAdminAccess(tx, principal, 'SEMESTER_MANAGE');
       const policy = await tx.systemPolicy.findUnique({ where: { organizationId: principal.organizationId } });
-      if (policy?.systemMode !== 'NORMAL') throw new ApplicationError('SYSTEM_MAINTENANCE', 503);
+      if (!permitsSystemMode(policy?.systemMode, principal.role)) throw new ApplicationError('SYSTEM_MAINTENANCE', 503);
       const previous = id ? await tx.semester.findFirst({ where: { id, organizationId: principal.organizationId } }) : null;
       if (id && !previous) throw new ApplicationError('PERMISSION_RESOURCE_NOT_FOUND', 404);
       if (previous && (previous.status !== 'UPCOMING')) throw new ApplicationError('CONFLICT_STATE_TRANSITION', 409);

@@ -1265,3 +1265,9 @@
 .admin-i18n-boundary {
   display: contents;
 }
+
+/* Registered student attributes remain readable in the horizontal table. */
+.admin-student-accounts-table { min-width: 1800px; }
+.admin-student-accounts-table th { white-space: nowrap; }
+.admin-student-accounts-table td { min-width: 72px; }
+.admin-student-accounts-table td:nth-child(9) { min-width: 240px; max-width: 320px; overflow-wrap: anywhere; }

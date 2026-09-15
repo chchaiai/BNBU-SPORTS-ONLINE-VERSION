@@ -258,6 +258,11 @@ export type AdminCourse = {
 };
 
 export type StudentProfileProjection = {
+  dateOfBirth?: string | null;
+  regionCode?: string | null;
+  otherRegionName?: string | null;
+  emailVerified?: boolean;
+  courseAssociations?: { classSectionId: string; classCode: string; className: string; courseName: string; semesterName: string; status: string }[];
   email?: string | null;
   id: string;
   organizationId: string;

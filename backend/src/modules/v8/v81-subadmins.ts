@@ -1,3 +1,4 @@
+import { permitsSystemMode } from '../system-mode/system-mode-access.js';
 import {
   Body,
   Controller,
@@ -102,7 +103,7 @@ export class V81SubadminsService {
         const mode = await tx.systemPolicy.findUnique({
           where: { organizationId: principal.organizationId },
         });
-        if (mode?.systemMode !== 'NORMAL') throw new ApplicationError('SYSTEM_MAINTENANCE', 503);
+        if (!permitsSystemMode(mode?.systemMode, principal.role)) throw new ApplicationError('SYSTEM_MAINTENANCE', 503);
         const access = await tx.$queryRaw<
           { version: number; kind: string }[]
         >`SELECT version,kind FROM v81_admin_access WHERE user_id=${id}::uuid AND organization_id=${principal.organizationId}::uuid FOR UPDATE`;
@@ -169,8 +170,7 @@ export class V81SubadminsService {
       requestId: facts.requestId, key: facts.idempotencyKey }, async tx => {
       await tx.$queryRaw`SELECT id FROM organizations WHERE id=${principal.organizationId}::uuid FOR NO KEY UPDATE`;
       await requireAdminAccess(tx, principal, 'SUPER');
-      if ((await tx.systemPolicy.findUnique({ where: { organizationId: principal.organizationId } }))?.systemMode !== 'NORMAL')
-        throw new ApplicationError('SYSTEM_MAINTENANCE', 503);
+      if (!permitsSystemMode((await tx.systemPolicy.findUnique({ where: { organizationId: principal.organizationId } }))?.systemMode, principal.role)) throw new ApplicationError('SYSTEM_MAINTENANCE', 503);
       const rows = await tx.$queryRaw<{ version: number; permissions: AdminPermission[] }[]>`SELECT a.version,a.permissions
         FROM v81_admin_access a JOIN users u ON u.id=a.user_id AND u.organization_id=a.organization_id
         WHERE a.user_id=${id}::uuid AND a.organization_id=${principal.organizationId}::uuid AND a.kind='SUB'

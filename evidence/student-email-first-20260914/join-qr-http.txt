@@ -1,0 +1,55 @@
+
+> @bnbu/sports-backend@0.1.0 prebuild
+> npm run db:generate && npm run generate
+
+
+> @bnbu/sports-backend@0.1.0 db:generate
+> prisma generate
+
+Loaded Prisma config from prisma.config.ts.
+
+Prisma schema loaded from prisma/schema.prisma.
+
+✔ Generated Prisma Client (7.9.1) to ./src/generated/prisma in 1.03s
+
+
+> @bnbu/sports-backend@0.1.0 generate
+> npm run openapi:generate && npm run db:manifest:generate
+
+
+> @bnbu/sports-backend@0.1.0 openapi:generate
+> node ./scripts/generate-openapi.mjs
+
+Generated 3 OpenAPI artifacts from 263 operations.
+
+> @bnbu/sports-backend@0.1.0 db:manifest:generate
+> node ./scripts/generate-migration-manifest.mjs
+
+Generated migration manifest updated.
+
+> @bnbu/sports-backend@0.1.0 build
+> nest build
+
+▶ Student identity, Enrollment, and QR Join HTTP E2E
+  ✔ enforces server-relative invite validity and rejects ambiguous or out-of-range input (802.159097ms)
+  ✔ rejects an identity created by another flow after capability issuance without binding its email (547.869356ms)
+  ✔ finishes a registered flow during natural-expiry grace without renewing or opening a new flow (592.425913ms)
+  ✔ rejects registered invitation grace when GRACE_EXPIRED (468.833111ms)
+  ✔ rejects registered invitation grace when REVOKED (467.012858ms)
+  ✔ rejects registered invitation grace when ENROLLMENT_CLOSED (453.745747ms)
+  ✔ rejects registered invitation grace when COURSE_CLOSED (463.0726ms)
+  ✔ rejects registered invitation grace when SEMESTER_ARCHIVED (473.14007ms)
+  ✔ rotates digest-only invites and issues one replayable capability without creating identity (519.852648ms)
+  ✔ rejects non-binary QR join genders and malformed cohort years before issuing a capability (503.263111ms)
+  ✔ joins atomically, replays the exact encrypted result, and grants only Enrollment projections (696.148482ms)
+  ✔ manually enrolls an existing student and enforces remove, restore, read, and withdraw scopes (677.337961ms)
+  ✔ rolls back a second same-semester join and refuses self rejoin after teacher removal (799.327581ms)
+✔ Student identity, Enrollment, and QR Join HTTP E2E (9221.897026ms)
+ℹ tests 13
+ℹ suites 1
+ℹ pass 13
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 9732.152621

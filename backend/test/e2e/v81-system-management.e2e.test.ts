@@ -191,6 +191,59 @@ describe('V81 system management HTTP E2E', () => {
     return object(result.body.data);
   };
 
+  it('enforces all eight subadministrator permissions during maintenance', async () => {
+    await prisma.systemPolicy.updateMany({ data: { systemMode: 'MAINTENANCE' } });
+    const admin = await login(fixture.adminEmail);
+    const routes = { COURSE_VIEW: '/admin/course-directory', SEMESTER_MANAGE: '/admin/semesters',
+      USER_ACCOUNTS: '/admin/teacher-accounts', STUDENT_FEEDBACK: '/admin/feedback',
+      GLOBAL_RULES: '/admin/endurance-tables', SYSTEM_MODE: '/system-mode/history',
+      HELP_CENTER: '/admin/help-articles', AUDIT_QUERY: '/admin/audit-events' };
+    for (const permission of Object.keys(routes)) {
+      await prisma.v81AdminAccess.update({ where: { userId: fixture.adminUserId }, data: { permissions: [permission] } });
+      for (const [required, path] of Object.entries(routes)) {
+        assert.equal((await request(`/api/v1${path}`, authenticated(admin))).status, permission === required ? 200 : 403, `${permission}: ${path}`);
+      }
+    }
+  });
+
+  for (const kind of ['SUPER', 'SUB'] as const) {
+    it(`allows ${kind} authorized reads and writes during maintenance without expanding permissions`, async () => {
+      await prisma.v81AdminAccess.update({ where: { userId: fixture.adminUserId }, data: {
+        kind, permissions: ['HELP_CENTER'],
+      } });
+      const teacher = await login(fixture.teacherEmail);
+      const student = await seedExerciseSessionStudent(prisma, fixture, 'MAINT');
+      const profile = await prisma.studentProfile.findUniqueOrThrow({ where: { id: student.studentId } });
+      await prisma.systemPolicy.updateMany({ data: { systemMode: 'MAINTENANCE' } });
+      const admin = await login(fixture.adminEmail);
+      const base = '/api/v1/admin/help-articles';
+      const input = { titleZh: '维护帮助', titleEn: 'Maintenance help', bodyZh: '测试', bodyEn: 'Test',
+        keywords: ['maintenance'], category: 'maintenance', status: 'draft', sortWeight: 0, expectedVersion: 0 };
+      const key = uuidv7();
+      const article = data(await request(base, authenticated(admin, 'POST', input, key)), 201);
+      assert.deepEqual(data(await request(base, authenticated(admin, 'POST', input, key)), 201), article);
+      assert.equal((await request(base, authenticated(admin))).status, 200);
+      assert.equal((await request('/api/v1/teacher/courses', authenticated(teacher, 'POST', { displayName: 'Blocked maintenance test' }, uuidv7()))).status, 503);
+      const goal = await request('/api/v1/admin/exercise-goal', authenticated(admin));
+      assert.equal(goal.status, kind === 'SUPER' ? 200 : 403);
+      if (kind === 'SUPER') {
+        data(await request(`/api/v1/admin/students/${student.studentId}/delete`, authenticated(admin, 'POST', {
+          expectedVersion: profile.version, confirmationStudentNumber: profile.studentNumber, reason: 'Synthetic maintenance deletion',
+        }, uuidv7())), 201);
+        data(await request('/api/v1/rule-templates', authenticated(admin, 'POST', {
+          displayName: 'Maintenance template', expectedVersion: 0,
+        }, uuidv7())), 201);
+        const previous = object(goal.body.data);
+        data(await request('/api/v1/admin/exercise-goal', authenticated(admin, 'POST', {
+          totalTargetMinutes: 1260, expectedVersion: previous.version,
+        }, uuidv7())), 201);
+      }
+      await prisma.v81AdminAccess.update({ where: { userId: fixture.adminUserId }, data: { kind: 'SUB', permissions: ['SYSTEM_MODE'] } });
+      assert.equal((await request(base, authenticated(admin))).status, 403);
+      assert.equal((await request(base, authenticated(admin, 'POST', input, uuidv7()))).status, 403);
+    });
+  }
+
   it('changes maintenance mode with replay, durable history, public announcement and recovery', async () => {
     const admin = await login(fixture.adminEmail);
     const teacher = await login(fixture.teacherEmail);

@@ -1,0 +1,14 @@
+[
+  {
+    "path": "student/js/api.js",
+    "status": 200,
+    "hash": "888df1afa0a654e995989f9f2f55ee3656b7971e77a1a1f42d414656dda2d60a",
+    "cacheControl": "no-store"
+  },
+  {
+    "path": "student/js/app.js",
+    "status": 200,
+    "hash": "3e6475dc646cc4e71a7e85012f5b7af1fb386021a82777b8d9131d442d0d906e",
+    "cacheControl": "no-store"
+  }
+]

@@ -1,0 +1,15 @@
+{
+  "result": "PASS",
+  "release": "/opt/bnbu-sports-production/releases/student-mail-guard-20260915",
+  "previous": "/opt/bnbu-sports-production/releases/bug-20260915",
+  "image": "sha256:a1f4fe61a66db2b988fa161a6369d0b15454b914f8671d7a209edf8aa30bc791",
+  "healthAndStaticHashes": "PASS",
+  "backendHashes": "PASS",
+  "unknownEmailAccepted": 202,
+  "idempotentReplay": "PASS",
+  "cooldown": 429,
+  "invalidInvitation": 401,
+  "probeChallengeId": "01a0a2fb-8c04-715e-870e-881fc5ee244e",
+  "migrationExecuted": false,
+  "rollbackExercised": false
+}

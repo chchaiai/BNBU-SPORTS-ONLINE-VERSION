@@ -1,0 +1,35 @@
+#0 building with "default" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 135B done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/library/bnbu-backend-production:admin-maintenance-20260914
+#2 DONE 0.0s
+
+#3 [internal] load .dockerignore
+#3 transferring context: 2B done
+#3 DONE 0.0s
+
+#4 [internal] load build context
+#4 transferring context: 1.56MB 0.0s done
+#4 DONE 0.1s
+
+#5 [1/2] FROM docker.io/library/bnbu-backend-production:admin-maintenance-20260914@sha256:1a4a71b2dc17f9d45f6f4afaba9a1ba7c4b99b1c95f40628c610fa724eedce23
+#5 resolve docker.io/library/bnbu-backend-production:admin-maintenance-20260914@sha256:1a4a71b2dc17f9d45f6f4afaba9a1ba7c4b99b1c95f40628c610fa724eedce23 0.1s done
+#5 DONE 0.6s
+
+#6 [2/2] COPY --chown=bnbu:bnbu dist/ /app/dist/
+#6 DONE 0.1s
+
+#7 exporting to image
+#7 exporting layers 0.1s done
+#7 exporting manifest sha256:7041cc6ba91c9d5f4a77b498bc9d1f40935b9487a6ec86b89dbf6f844455da3d
+#7 exporting manifest sha256:7041cc6ba91c9d5f4a77b498bc9d1f40935b9487a6ec86b89dbf6f844455da3d 0.0s done
+#7 exporting config sha256:a31c99253c6ede6e6a9ae2c72dd18e2ceb2f67d7953dc32a52575ec650048556 0.0s done
+#7 exporting attestation manifest sha256:bddd4d708eac0851b5409ae04800d31895b920a541dcc1786fcf270e2eda8c4a 0.0s done
+#7 exporting manifest list sha256:3444d2eb12c6327b1d623a336dd985b230f73db2c0d11105ea8a3a1c8751e30e 0.0s done
+#7 naming to docker.io/library/bnbu-backend-production:email-first-20260914 done
+#7 unpacking to docker.io/library/bnbu-backend-production:email-first-20260914 0.1s done
+#7 DONE 0.3s
+{"result": "PASS", "phase": "PREPARED", "images": {"backend": "sha256:3444d2eb12c6327b1d623a336dd985b230f73db2c0d11105ea8a3a1c8751e30e"}, "sourceCommit": "45aefdcf22c315892324ef1a4dc25d75162885e5", "migrationExecuted": false}

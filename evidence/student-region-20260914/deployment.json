@@ -1,0 +1,20 @@
+{
+  "result": "PASS",
+  "phase": "DEPLOYED",
+  "sourceCommit": "c931d34520fb8290175a701203a496c903f96658",
+  "previous": "/opt/bnbu-sports-production/releases/login-admin-d34e3e38-20260914",
+  "release": "/opt/bnbu-sports-production/releases/student-region-20260914",
+  "images": {
+    "portal": "sha256:d848187a2684ccccb6cf63580c59e729db30cc765a744c9a166be3195fa11502"
+  },
+  "health": {
+    "https://www.teacher.bnbusports.cn/": 200,
+    "https://www.student.bnbusports.cn/student/": 200,
+    "https://www.student.bnbusports.cn/api/v1/health/ready": 200,
+    "https://bnbusports.cn/": 200
+  },
+  "studentModuleHashes": "PASS",
+  "migrationExecuted": false,
+  "runtimeConfiguration": "PRESERVED",
+  "rollbackExercised": false
+}

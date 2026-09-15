@@ -1,0 +1,9 @@
+{
+  "result": "PASS",
+  "phase": "PREPARED",
+  "images": {
+    "backend": "sha256:3444d2eb12c6327b1d623a336dd985b230f73db2c0d11105ea8a3a1c8751e30e"
+  },
+  "sourceCommit": "45aefdcf22c315892324ef1a4dc25d75162885e5",
+  "migrationExecuted": false
+}

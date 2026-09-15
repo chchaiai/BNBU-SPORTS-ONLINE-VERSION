@@ -1,0 +1,41 @@
+{
+  "baseImage": "sha256:c4c946f102f13131b181cfe06c9f55ab3942db481301ec16444db757405fb039",
+  "checks": {
+    "postgresHttp": 3,
+    "unit": 4,
+    "frontend": 4,
+    "smoke": 87,
+    "typecheck": "PASS",
+    "build": "PASS"
+  },
+  "baselineBackend": {
+    "modules/client-capabilities/client-authentication.service.js": "d10cf5af6756327a71c3877864f91427c9a3517d317d75de056faceceaa8ad14",
+    "modules/users/email-verification.service.js": "9e85aada965964286231b6d364e7aee5df48bb5701c79e85ced1d0abce8797fd",
+    "modules/join-capabilities/application/join-capabilities.service.js": "691451b89e201299da99d39b5fe63d61e8e92b246e72ce3e07e58ae10327833c",
+    "modules/enrollments/application/qr-join.service.js": "e6f22d2b76d40cbf2960abe552660c030cfcbafacf70274f86d5e5920638a325"
+  },
+  "baselineStudent": {
+    "student/js/screens/join.js": "11de9eded593ad3c1244b9a1c38ffeb61a8b5743df4dc22538ff72ac3ccc0c6d",
+    "student/js/screens/verification.js": "643ae372f4971704bbbccacdf63381da9da8bceed136bedcc96f453eb8e1265f",
+    "student/js/screens/binding.js": "d7a6b1e4e8655a5e7e639d7afa573b0fb2d0f32a755e8e70f338cd4861618ad5",
+    "student/js/i18n.js": "2af18f74b6113e217f215b2642c79c436cfdcf859716c5683ae1f3d9895f5f22"
+  },
+  "files": {
+    "backend/Dockerfile": "f5a58becb0f2529903ea1079c712aa483a14890d34a78deb1e14bd362becc094",
+    "web/student/js/i18n.js": "f344472ec8161029d07c674452fbb5df1f6b93b8989dd7f618779cccd8ac234d",
+    "web/student/js/student-school-email.js": "f8803c2e5d5d4935b2b29c82b1d5a82b83d1ab34a2cc3fffa670a97147d4476f",
+    "web/student/js/screens/binding.js": "c5734f58299d5a1c75ff453ee019400aceaf78e0506d17fe930cd322da0a3d5c",
+    "web/student/js/screens/join.js": "1929ab1e58706f0833f8a0acd92e673f7ecf3523bbc5c0ff092a766df77d70be",
+    "web/student/js/screens/verification.js": "6029f3ec996067cd65847f1039e888100001cb326c1730761517b6f18433f2d7",
+    "backend/dist/modules/client-capabilities/client-authentication.service.js": "f13e5fb4ac8fd0e79f8bbf051fb7a88cb5df30d79284fd427e830533a837b669",
+    "backend/dist/modules/client-capabilities/client-authentication.service.js.map": "eb5e840d55e70e0ec5b965b2465ceb4f14532c6bb9707d1d3fde43eeb4515905",
+    "backend/dist/modules/users/email-verification.service.js": "4ad365a430e51a9ee5cd8ed54d3b0914edab26ec26d794a08816b198319a3088",
+    "backend/dist/modules/users/email-verification.service.js.map": "484144a493b42d7755a9187dbba8c9e2c032518cd4e48924709e2c871dd03614",
+    "backend/dist/modules/join-capabilities/application/join-capabilities.service.js": "dba90f7ec5cc11d12c534e617ff6ee46cc0d0e60c776cd2cefdafdbce01ecab1",
+    "backend/dist/modules/join-capabilities/application/join-capabilities.service.js.map": "c77fb975dbfbdb18f0793813b90dcc95d4f1fccb9d334c26f99736fbab5575f8",
+    "backend/dist/modules/enrollments/application/qr-join.service.js": "0f0be796e0f79e8b127b2f6e0c74058908333262c7b2e627db1d3d45b5a7df04",
+    "backend/dist/modules/enrollments/application/qr-join.service.js.map": "eacd4951559fd2c9b658b1ebfa9265947e06b5310c2a6c45944059f345b6034b",
+    "backend/dist/common/security/student-school-email.js": "a2f12aa94c9f1a919b8c226737c6cb30246960f90d44353522ecd3364401cf03",
+    "backend/dist/common/security/student-school-email.js.map": "a9234b9eab8679c6047214b4fd78d3a2c26fe7df511262f52f7826bf4f09507c"
+  }
+}

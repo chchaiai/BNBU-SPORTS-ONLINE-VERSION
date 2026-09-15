@@ -9,6 +9,10 @@ export async function seedSubmittedExerciseRecord(
   fixture: FoundationFixture,
   suffix: string,
   initialResult: 'PENDING' | 'VALID' = 'PENDING',
+  duration: { actualSeconds: number; maximumSeconds: number | null; configureCourse?: boolean } = {
+    actualSeconds: 3600,
+    maximumSeconds: null,
+  },
 ): Promise<{
   recordId: string;
   sessionId: string;
@@ -17,7 +21,7 @@ export async function seedSubmittedExerciseRecord(
   studentAuthSessionId: string;
   studentEmail: string;
 }> {
-  const student = await seedExerciseSessionStudent(prisma, fixture, `REVIEW-${suffix}`);
+  const student = await seedExerciseSessionStudent(prisma, fixture, `REVIEW-${suffix}`, 'ACTIVE', duration.configureCourse ?? true);
   const now = new Date();
   const businessDate = new Date(`${now.toISOString().slice(0, 10)}T00:00:00.000Z`);
   const sessionId = uuidv7();
@@ -32,11 +36,12 @@ export async function seedSubmittedExerciseRecord(
       semesterId: fixture.semesterId,
       startedByAuthSessionId: student.authSessionId,
       status: 'COMPLETED',
-      startedAt: new Date(now.getTime() - 3_600_000),
+      startedAt: new Date(now.getTime() - duration.actualSeconds * 1000),
       businessDate,
       completedAt: now,
       endReason: 'USER_COMPLETED',
-      actualDurationSeconds: 3600n,
+      actualDurationSeconds: BigInt(duration.actualSeconds),
+      maximumDurationSeconds: duration.maximumSeconds,
       pausedDurationSeconds: 0n,
       createdAt: now,
       updatedAt: now,
@@ -57,9 +62,9 @@ export async function seedSubmittedExerciseRecord(
       creditType: 'GENERAL',
       sportType: 'RUNNING',
       description: `Synthetic review record ${suffix}`,
-      actualDurationSeconds: 3600n,
+      actualDurationSeconds: BigInt(duration.actualSeconds),
       pausedDurationSeconds: 0n,
-      creditedDurationSeconds: 3600n,
+      creditedDurationSeconds: BigInt(Math.min(duration.actualSeconds, duration.maximumSeconds ?? 3600)),
       status: initialResult === 'VALID' ? 'REVIEWED' : 'SUBMITTED',
       submittedAt: now,
       clientRequestId: `review-record-${suffix}-${uuidv7()}`,

@@ -15,7 +15,7 @@ import {
 } from 'class-validator';
 
 export class CompleteStudentProfileDto {
-  @Transform(({value}: {value: unknown}) => typeof value === 'string' ? value.trim() : value) @IsString() @Length(1,200) collegeName!: string;
+  @Transform(({value}: {value: unknown}) => typeof value === 'string' ? value.trim() : value) @IsIn(['FBM','FHSS','FST','SCC','SAI','SGE','GS']) collegeName!: string;
   @Transform(({value}: {value: unknown}) => typeof value === 'string' ? value.trim() : value) @IsString() @Length(1,200) majorName!: string;
   @IsString() @Length(10,10) dateOfBirth!: string;
   @IsString() @Length(1,32) regionCode!: string;
@@ -37,6 +37,17 @@ export class TeacherPathDto {
 }
 
 export class StudentListQueryDto {
+  @IsOptional() @Transform(trim) @IsString() @Length(1, 200)
+  collegeName?: string;
+
+  @IsOptional() @IsIn(['MALE', 'FEMALE', 'OTHER', 'UNKNOWN'])
+  gender?: string;
+
+  @IsOptional() @Type(() => Number) @IsInt() @Min(1000) @Max(9999)
+  gradeYear?: number;
+
+  @IsOptional() @Transform(trim) @IsString() @Length(1, 254)
+  email?: string;
   @IsOptional()
   @IsString()
   @MaxLength(2048)
@@ -64,7 +75,7 @@ export class StudentListQueryDto {
   classSectionId?: string;
 
   @IsOptional()
-  @Matches(/^[A-Z][A-Z0-9_]*$/)
+  @IsIn(['ACTIVE', 'PENDING'])
   status?: string;
 }
 

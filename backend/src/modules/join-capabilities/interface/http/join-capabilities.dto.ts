@@ -7,8 +7,9 @@ const trim = ({ value }: { value: unknown }): unknown =>
   typeof value === 'string' ? value.trim() : value;
 
 export class IssueJoinCapabilityRequestDto {
+  @ValidateIf((_object, value: unknown) => value !== undefined) @IsString() @Length(1, 4000) joinEmailProof?: string;
   @ValidateIf((_object, value: unknown) => value !== undefined) @IsString() @Length(1, 100) otherRegionName?: string;
-  @ValidateIf((_object, value: unknown) => value !== undefined) @IsString() @Length(1, 200) collegeName?: string;
+  @ValidateIf((_object, value: unknown) => value !== undefined) @IsIn(['FBM','FHSS','FST','SCC','SAI','SGE','GS']) collegeName?: string;
   @ValidateIf((_object, value: unknown) => value !== undefined) @IsString() @Length(1, 200) majorName?: string;
   @ValidateIf((_object, value: unknown) => value !== undefined) @IsString() @Length(10, 10) dateOfBirth?: string;
   @ValidateIf((_object, value: unknown) => value !== undefined) @IsString() @Length(1, 32) regionCode?: string;

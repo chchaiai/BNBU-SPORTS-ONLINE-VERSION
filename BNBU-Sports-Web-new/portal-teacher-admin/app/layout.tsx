@@ -20,17 +20,21 @@ export async function generateMetadata(): Promise<Metadata> {
   const imageUrl = `${protocol}://${host}/og.png`;
 
   return {
-    title: "BNBU 体育课程管理平台",
-    description: "教师与管理员统一入口，按身份进入清晰、专注的职责工作台。",
+    title: "BNBU Sports 教师与管理端｜体育课程管理",
+    description: "北师香港浸会大学体育课程管理入口。教师管理课程、学生名单与运动记录；管理员管理学生账户、学期和平台规则。",
+    alternates: { canonical: "https://www.teacher.bnbusports.cn/" },
     openGraph: {
-      title: "BNBU 体育课程管理平台",
-      description: "统一入口 · 职责清晰 · 高效协同",
+      type: "website",
+      siteName: "BNBU Sports 教师与管理端",
+      url: "https://www.teacher.bnbusports.cn/",
+      title: "BNBU Sports 教师与管理端｜体育课程管理",
+      description: "体育课程、学生名单、运动记录与学期管理。",
       images: [{ url: imageUrl, width: 1200, height: 630 }],
     },
     twitter: {
       card: "summary_large_image",
-      title: "BNBU 体育课程管理平台",
-      description: "统一入口 · 职责清晰 · 高效协同",
+      title: "BNBU Sports 教师与管理端｜体育课程管理",
+      description: "体育课程、学生名单、运动记录与学期管理。",
       images: [imageUrl],
     },
   };

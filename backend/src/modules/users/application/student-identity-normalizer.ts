@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { STUDENT_COLLEGE_CODES, validAcademicDetails } from './student-academics.js';
 
 import { ApplicationError } from '../../../common/errors/application-error.js';
 import {
@@ -8,7 +9,7 @@ import {
   type StudentIdentityInput,
 } from './student-identity.js';
 
-const STUDENT_NUMBER_PATTERN = /^[A-Z0-9._-]{1,32}$/;
+const STUDENT_NUMBER_PATTERN = /^2[0-9]{9}$/;
 export const STUDENT_REGION_CODES = new Set([
   'CN-11','CN-12','CN-13','CN-14','CN-15','CN-21','CN-22','CN-23','CN-31','CN-32','CN-33','CN-34','CN-35','CN-36','CN-37',
   'CN-41','CN-42','CN-43','CN-44','CN-45','CN-46','CN-50','CN-51','CN-52','CN-53','CN-54','CN-61','CN-62','CN-63','CN-64','CN-65','HK','MO','TW','OTHER',
@@ -16,10 +17,10 @@ export const STUDENT_REGION_CODES = new Set([
 
 @Injectable()
 export class StudentIdentityNormalizer {
-  normalize(input: StudentIdentityInput): NormalizedStudentIdentity {
-    const studentNumber = input.studentNumber.trim().toUpperCase();
+  normalize(input: StudentIdentityInput, options: { preserveStoredStudentNumber?: boolean } = {}): NormalizedStudentIdentity {
+    const studentNumber = options.preserveStoredStudentNumber ? input.studentNumber : input.studentNumber.trim();
     const fullName = input.fullName.trim().normalize('NFC');
-    if (!STUDENT_NUMBER_PATTERN.test(studentNumber)) this.invalid('studentNumber');
+    if (!options.preserveStoredStudentNumber && !STUDENT_NUMBER_PATTERN.test(studentNumber)) this.invalid('studentNumber');
     if (fullName.length < 1 || fullName.length > 100) this.invalid('fullName');
     if (!STUDENT_GENDERS.includes(input.gender as StudentGender)) this.invalid('gender');
     if (
@@ -37,6 +38,8 @@ export class StudentIdentityNormalizer {
         details[field] = value;
       }
     }
+    if (details.collegeName !== undefined && !STUDENT_COLLEGE_CODES.includes(details.collegeName)) this.invalid('collegeName');
+    if (details.majorName !== undefined && !validAcademicDetails(details.collegeName ?? '', details.majorName)) this.invalid('majorName');
     if (input.dateOfBirth !== undefined) {
       const date = input.dateOfBirth;
       const at = new Date(`${date}T00:00:00Z`);

@@ -1,0 +1,11 @@
+{
+  "result": "DEPLOYED",
+  "release": "/opt/bnbu-sports-production/releases/aoksend-mail-20260915",
+  "previous": "/opt/bnbu-sports-production/releases/student-mail-guard-20260915",
+  "image": "sha256:c4c946f102f13131b181cfe06c9f55ab3942db481301ec16444db757405fb039",
+  "provider": "AOKSEND",
+  "templateId": "E_154193113758",
+  "fallback": "TENCENT_SES",
+  "health": "PASS",
+  "migrationExecuted": false
+}

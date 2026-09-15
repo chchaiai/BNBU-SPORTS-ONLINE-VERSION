@@ -1,0 +1,13 @@
+{
+  "testedAt": "2026-09-15T11:28:45+08:00",
+  "environment": "Hong Kong production host, isolated probe container",
+  "deliveryId": "mail-probe-7998a4c0-7204-4454-a7d6-a089468d5b30",
+  "baseImage": "sha256:a1f4fe61a66db2b988fa161a6369d0b15454b914f8671d7a209edf8aa30bc791",
+  "primary": {"provider": "AOKSEND", "httpStatus": 200, "providerCode": 40003, "accepted": false, "elapsedMs": 118},
+  "fallback": {"provider": "TENCENT_SES", "called": true, "accepted": true, "elapsedMs": 232},
+  "received": "USER_CONFIRMED_RECEIVED",
+  "images": "USER_CONFIRMED_DISPLAYED",
+  "studentSignIn": "PENDING",
+  "studentJoinBinding": "PENDING",
+  "productionSwitched": false
+}

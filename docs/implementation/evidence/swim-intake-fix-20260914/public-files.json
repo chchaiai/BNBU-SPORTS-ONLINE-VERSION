@@ -1,0 +1,20 @@
+[
+  {
+    "name": "student/js/api.js",
+    "status": 200,
+    "hash": "50bb2aeb223d433dcaadc80d400b8095c03bea2c5f3775a8a4fc7932ffd5e00b",
+    "cacheControl": "no-store"
+  },
+  {
+    "name": "student/js/screens/checkin.js",
+    "status": 200,
+    "hash": "c3f960877c5ccea144f537edd7795c135eb6504d3b9b81ce5bfb50fc0318bb32",
+    "cacheControl": "no-store"
+  },
+  {
+    "name": "student/js/swim-submission.js",
+    "status": 200,
+    "hash": "191e23c059e2cc4b87900d0f1cbfd40933d62a7b395cf50f00b7169ef58b9df9",
+    "cacheControl": "no-store"
+  }
+]

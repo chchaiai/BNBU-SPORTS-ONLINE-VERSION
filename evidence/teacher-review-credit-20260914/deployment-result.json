@@ -1,0 +1,96 @@
+{
+  "result": "PASS",
+  "release": "/opt/bnbu-sports-production/releases/credit-projection-0077-20260914",
+  "previous": "/opt/bnbu-sports-production/releases/remember-login-20260914",
+  "migration": "0077_credit_projection_minutes",
+  "migrationSha256": "a44d86c97880b8d49c3393987a7d0120ee2b86e2635b849ce931b02e2ca1bdfc",
+  "sourceBaseCommit": "e27679969b68478c19532caef70dc685b6f34988",
+  "backup": {
+    "check": "PRE_RELEASE_DATABASE_BACKUP",
+    "result": "PASS",
+    "path": "/opt/bnbu-sports-production/backups/before-bugfix-20260914T123356Z.dump",
+    "bytes": 12992240
+  },
+  "probe": {
+    "result": "PASS",
+    "checks": [
+      {
+        "recordId": "01a09d8e-0982-7398-9c44-946d27f9616b",
+        "simulatedReview": "VALID",
+        "eligible_minutes": 65,
+        "credited_minutes": 0,
+        "selected": false,
+        "calculationReason": "CREDIT_LIMIT",
+        "totalMinutes": 0
+      },
+      {
+        "recordId": "01a09d8e-0982-7398-9c44-946d27f9616b",
+        "simulatedReview": "AWAITING_SUPPLEMENT",
+        "eligible_minutes": 65,
+        "credited_minutes": 0,
+        "selected": false,
+        "calculationReason": "NOT_VALID",
+        "totalMinutes": 0
+      },
+      {
+        "recordId": "01a09d89-c8fa-754f-aa16-c659f1a0f0f8",
+        "simulatedReview": "VALID",
+        "eligible_minutes": 76,
+        "credited_minutes": 0,
+        "selected": false,
+        "calculationReason": "CREDIT_LIMIT",
+        "totalMinutes": 0
+      },
+      {
+        "recordId": "01a09d89-c8fa-754f-aa16-c659f1a0f0f8",
+        "simulatedReview": "AWAITING_SUPPLEMENT",
+        "eligible_minutes": 76,
+        "credited_minutes": 0,
+        "selected": false,
+        "calculationReason": "NOT_VALID",
+        "totalMinutes": 0
+      }
+    ],
+    "writeScope": "TEMPORARY_TABLE_ONLY",
+    "realReviewsChanged": false
+  },
+  "health": {
+    "https://www.student.bnbusports.cn/api/v1/health/ready": 200,
+    "https://www.teacher.bnbusports.cn/": 200,
+    "https://www.student.bnbusports.cn/student/": 200
+  },
+  "runtimeRestarted": false,
+  "affectedRecordsBefore": [
+    {
+      "id": "01a09d89-c8fa-754f-aa16-c659f1a0f0f8",
+      "actual_duration_seconds": 4580,
+      "maximum_minutes": 120,
+      "stage": "PENDING_TEACHER",
+      "version": 1
+    },
+    {
+      "id": "01a09d8e-0982-7398-9c44-946d27f9616b",
+      "actual_duration_seconds": 3940,
+      "maximum_minutes": 120,
+      "stage": "PENDING_TEACHER",
+      "version": 1
+    }
+  ],
+  "affectedRecordsAfter": [
+    {
+      "id": "01a09d89-c8fa-754f-aa16-c659f1a0f0f8",
+      "actual_duration_seconds": 4580,
+      "maximum_minutes": 120,
+      "stage": "PENDING_TEACHER",
+      "version": 1
+    },
+    {
+      "id": "01a09d8e-0982-7398-9c44-946d27f9616b",
+      "actual_duration_seconds": 3940,
+      "maximum_minutes": 120,
+      "stage": "PENDING_TEACHER",
+      "version": 1
+    }
+  ],
+  "rollback": "Application remains compatible. Retain the expanded constraint; do not shrink it after longer credits are accepted."
+}

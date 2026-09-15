@@ -1,0 +1,27 @@
+{
+  "sourceCommit": "6277d9879b3927248c7c27045cd262baa37d1e00",
+  "checks": {
+    "studentSmoke": 87,
+    "focusedTests": 20,
+    "diffCheck": "PASS"
+  },
+  "previous": "invite-duration-20260914",
+  "release": "remember-login-20260914",
+  "baseImages": {
+    "backend": "sha256:3d36e4506d94ab253214b447e152399a304398e888c6a23449a565217250e692",
+    "portal": "sha256:ea259308ce7aa0432f5ad10434ccf0970a799a9b3f4755112bbfe2cefaa971b3"
+  },
+  "baselineStudent": {
+    "student/js/api.js": "50bb2aeb223d433dcaadc80d400b8095c03bea2c5f3775a8a4fc7932ffd5e00b",
+    "student/js/app.js": "180dbdae7bba4c7cccf032367b58799a3bfab948a54cecca27036956168d3bd7"
+  },
+  "studentFiles": [
+    "student/js/api.js",
+    "student/js/app.js"
+  ],
+  "files": {
+    "deploy.py": "e0fc3bdef2c993961db22f013b7dbb20b03b0d1563958cc75d42a7ec1a5f8608",
+    "web/student/js/api.js": "888df1afa0a654e995989f9f2f55ee3656b7971e77a1a1f42d414656dda2d60a",
+    "web/student/js/app.js": "3e6475dc646cc4e71a7e85012f5b7af1fb386021a82777b8d9131d442d0d906e"
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "testedAt": "2026-09-15T11:39:48+08:00",
+  "environment": "Hong Kong production host, isolated probe container",
+  "deliveryId": "mail-probe-88ea43da-c4df-4861-b6a5-71beb7be3e4f",
+  "provider": "AOKSEND",
+  "templateId": "E_154193113758",
+  "httpStatus": 200,
+  "providerCode": 200,
+  "elapsedMs": 112,
+  "fallbackCalled": false,
+  "received": "USER_CONFIRMED",
+  "codeDisplayed": "USER_CONFIRMED",
+  "studentLoginDelivery": {
+    "deliveryId": "01a0a32a-34f9-7069-90d8-087da24f10e9",
+    "outcome": "ACCEPTED",
+    "elapsedMs": 79,
+    "loginCompleted": true,
+    "verification": "Production browser reached authenticated home and account page for the authorized test student"
+  },
+  "firstEnrollment": {
+    "status": "PENDING_TEST_ACCOUNT",
+    "reason": "Authorized student already enrolled; courses page has no new enrollment entry. Awaiting an unenrolled school email."
+  }
+}

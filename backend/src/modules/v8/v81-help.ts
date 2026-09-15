@@ -1,3 +1,4 @@
+import { permitsSystemMode } from '../system-mode/system-mode-access.js';
 import { Body, Controller, Get, Headers, Injectable, Param, ParseUUIDPipe, Post, Query, Req } from '@nestjs/common';
 import { IsArray, IsIn, IsInt, IsNumber, IsString, Min, Max, MaxLength, ValidateIf } from 'class-validator';
 import { Type } from 'class-transformer';
@@ -100,7 +101,7 @@ export class V81HelpService {
       await tx.$queryRaw`SELECT id FROM organizations WHERE id=${principal.organizationId}::uuid FOR NO KEY UPDATE`;
       await requireAdminAccess(tx, principal, 'HELP_CENTER');
       const policy = await tx.systemPolicy.findUnique({ where: { organizationId: principal.organizationId } });
-      if (policy?.systemMode !== 'NORMAL') throw new ApplicationError('SYSTEM_MAINTENANCE', 503);
+      if (!permitsSystemMode(policy?.systemMode, principal.role)) throw new ApplicationError('SYSTEM_MAINTENANCE', 503);
       const previous = id === null ? [] : await tx.$queryRaw<HelpRevision[]>`SELECT * FROM v81_help_article_revisions
         WHERE article_id=${id}::uuid AND organization_id=${principal.organizationId}::uuid ORDER BY version DESC LIMIT 1`;
       if (id !== null && !previous[0]) throw new ApplicationError('PERMISSION_RESOURCE_NOT_FOUND', 404);

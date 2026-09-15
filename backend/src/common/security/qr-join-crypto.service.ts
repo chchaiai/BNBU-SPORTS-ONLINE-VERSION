@@ -19,6 +19,7 @@ const CURRENT_KEY_VERSION = 1;
 
 export type QrJoinTokenKind = 'course-invite' | 'join-capability';
 export type QrJoinCipherPurpose =
+  | 'join-email-proof'
   | 'course-invite-issuance'
   | 'join-capability-issuance'
   | 'join-identity-snapshot'

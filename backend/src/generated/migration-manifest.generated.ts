@@ -381,6 +381,16 @@ export const foundationMigrations = [
     sha256: '96852a28e23c1771028b2c58bbfba16cc9735170157920e2898b44fc65cf6210',
     destructive: false,
   },
+  {
+    migrationId: '0077_credit_projection_minutes',
+    sha256: 'a44d86c97880b8d49c3393987a7d0120ee2b86e2635b849ce931b02e2ca1bdfc',
+    destructive: false,
+  },
+  {
+    migrationId: '0078_admin_maintenance_access',
+    sha256: '92a9a0eb41c61814facb64ac295cdf3a380e4d486f8a71a363a5b2808c88b2af',
+    destructive: false,
+  },
 ] as const;
 
 export const foundationMigration = foundationMigrations[0];

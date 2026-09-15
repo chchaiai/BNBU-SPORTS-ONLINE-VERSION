@@ -1,3 +1,4 @@
+import { permitsSystemMode } from '../system-mode/system-mode-access.js';
 import {
   Body,
   Controller,
@@ -67,11 +68,8 @@ export class V81TeacherDeletionService {
       async (tx) => {
         await tx.$queryRaw`SELECT id FROM organizations WHERE id=${p.organizationId}::uuid FOR UPDATE`;
         await requireAdminAccess(tx, p, 'USER_ACCOUNTS');
-        if (
-          (await tx.systemPolicy.findUnique({ where: { organizationId: p.organizationId } }))
-            ?.systemMode !== 'NORMAL'
-        )
-          throw new ApplicationError('SYSTEM_MAINTENANCE', 503);
+        if (!permitsSystemMode((await tx.systemPolicy.findUnique({ where: { organizationId: p.organizationId } }))
+            ?.systemMode, p.role)) throw new ApplicationError('SYSTEM_MAINTENANCE', 503);
         const rows = await tx.$queryRaw<
           { id: string; user_id: string; employee_number: string; version: number }[]
         >`SELECT t.id,t.user_id,t.employee_number,t.version

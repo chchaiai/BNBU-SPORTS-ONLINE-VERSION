@@ -112,9 +112,9 @@ export class V81Service {
           where: { organizationId: principal.organizationId },
         });
         if (policy?.systemMode !== 'NORMAL') {
-          if (operation !== 'setV81ManualMode')
+          if (policy?.systemMode !== 'MAINTENANCE' || principal.role !== 'ADMIN')
             throw new ApplicationError('SYSTEM_MAINTENANCE', 503);
-          await requireAdminAccess(tx, principal, 'SUPER');
+          await requireAdminAccess(tx, principal, 'ANY');
         }
         return this.idempotency.success(await work(tx));
       },
@@ -206,7 +206,6 @@ export class V81Service {
       if (old[0]?.published_at) {
         const previous = old[0];
         if (!input.publish || input.templateId !== previous.template_id ||
-          (previous.target_global_version === goal.version && (input.courseTarget !== previous.course_target || input.generalTarget !== previous.general_target)) ||
           Date.parse(input.regularDeadline) !== previous.regular_deadline.getTime() ||
           Date.parse(input.closingDeadline) !== previous.closing_deadline.getTime() ||
           Date.parse(input.settlementPlannedAt) !== previous.settlement_planned_at.getTime())
@@ -217,7 +216,8 @@ export class V81Service {
           WHERE class_section_id=${id}::uuid`;
         await this.event(tx, principal, 'COURSE_RULES', id, 'FUTURE_RULES_UPDATED', input.expectedVersion + 1,
           { minimumMinutes: input.minimumMinutes, maximumMinutes, courseTarget:input.courseTarget,generalTarget:input.generalTarget,globalTargetVersion:goal.version,weeklyLimit: input.weeklyLimit, dailyLimit: input.dailyLimit ?? 1,
-            effectiveFor: 'NEW_RECORDS',maximumEffectiveFor:'NEW_SESSIONS' }, facts);
+            effectiveFor: 'NEW_RECORDS',maximumEffectiveFor:'NEW_SESSIONS',
+            targetsEffectiveFor: 'ALL_COURSE_ENROLLMENTS', previousCourseTarget: previous.course_target, previousGeneralTarget: previous.general_target }, facts);
         if(previous.course_target!==input.courseTarget||previous.general_target!==input.generalTarget){
           const members=await tx.enrollment.findMany({where:{classSectionId:id,organizationId:principal.organizationId},select:{id:true},orderBy:{id:'asc'}});
           for(const member of members)await recomputeCredits(tx,member.id,this.clock.now());

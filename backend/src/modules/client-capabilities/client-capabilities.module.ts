@@ -21,6 +21,7 @@ import {
 import { ExemptionApplicationsService } from './exemption-applications.service.js';
 import { SmtpAuthCodeDeliveryAdapter } from './smtp-auth-code-delivery.adapter.js';
 import { TencentSesAuthCodeDeliveryAdapter } from './tencent-ses-auth-code-delivery.adapter.js';
+import { AokSendAuthCodeDeliveryAdapter } from './aoksend-auth-code-delivery.adapter.js';
 
 @Module({
   imports: [AuthModule],
@@ -51,7 +52,12 @@ import { TencentSesAuthCodeDeliveryAdapter } from './tencent-ses-auth-code-deliv
         config.emailDelivery !== null
           ? config.emailDelivery.provider === 'SMTP'
             ? new SmtpAuthCodeDeliveryAdapter(config.emailDelivery)
-            : new TencentSesAuthCodeDeliveryAdapter(config.emailDelivery)
+            : config.emailDelivery.provider === 'AOKSEND'
+              ? new AokSendAuthCodeDeliveryAdapter(
+                  config.emailDelivery,
+                  new TencentSesAuthCodeDeliveryAdapter(config.emailDelivery.fallback),
+                )
+              : new TencentSesAuthCodeDeliveryAdapter(config.emailDelivery)
           : config.appEnvironment === 'test'
             ? new InMemoryTestAuthCodeDeliveryAdapter('test')
             : new DisabledAuthCodeDeliveryAdapter(),

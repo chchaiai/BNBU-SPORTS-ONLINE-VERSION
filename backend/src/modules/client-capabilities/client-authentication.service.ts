@@ -1,3 +1,5 @@
+import { isStudentSchoolEmail } from '../../common/security/student-school-email.js';
+import { QrJoinCryptoService } from '../../common/security/qr-join-crypto.service.js';
 import { Inject, Injectable } from '@nestjs/common';
 
 import { AuditService } from '../../common/audit/audit.service.js';
@@ -55,6 +57,7 @@ interface PublicRequestContext {
 }
 
 interface ChallengeStage {
+  deliveryAllowed?: boolean;
   purpose: AuthCodePurpose;
   challengeId: string;
   organizationId: string;
@@ -77,10 +80,19 @@ export interface AccountRecoveryAcceptedProjection {
   expiresAt: string;
 }
 
+export interface JoinEmailProjection {
+  joinEmailProof: string;
+  expiresAt: string;
+  profile: { fullName: string; studentNumber: string; gender: string; gradeYear: number;
+    collegeName: string | null; majorName: string | null; dateOfBirth: string | null;
+    regionCode: string | null; otherRegionName: string | null } | null;
+}
+
 @Injectable()
 export class ClientAuthenticationService {
   constructor(
     private readonly prisma: PrismaService,
+    private readonly joinCrypto: QrJoinCryptoService,
     private readonly auth: AuthService,
     private readonly passwords: PasswordHasherService,
     private readonly idempotency: IdempotencyService,
@@ -98,10 +110,24 @@ export class ClientAuthenticationService {
     input: StudentSignInCodeRequestDto,
     context: PublicRequestContext,
   ): Promise<StudentSignInCodeAcceptedProjection> {
-    const organization = await this.resolveOrganization(input.organizationCode);
     const normalized = this.normalizeAccount(input.account);
+    if (!isStudentSchoolEmail(normalized)) {
+      throw new ApplicationError('VALIDATION_FAILED', 422, {
+        fieldErrors: [{ field: 'account', code: 'BNBU_EMAIL_REQUIRED', i18nKey: 'error.validation.failed', params: { suffix: '@mail.bnbu.edu.cn' } }],
+      });
+    }
+    const organization = await this.resolveOrganization(input.organizationCode);
     const accountDigest = this.accountDigest(input.channel, normalized);
     const user = await this.findUser(organization.id, normalized, 'STUDENT');
+    let joining = false;
+    if (input.joinInviteToken !== undefined) {
+      const parsed = this.joinCrypto.parseToken('course-invite', input.joinInviteToken);
+      const invite = parsed ? await this.prisma.courseInvite.findUnique({ where: { id: parsed.publicId } }) : null;
+      joining = !!(parsed && invite && invite.organizationId === organization.id &&
+        invite.status === 'ACTIVE' && invite.expiresAt > this.clock.now() &&
+        this.joinCrypto.matches(invite.tokenHash, parsed.tokenHash) && isStudentSchoolEmail(normalized));
+      if (!joining) throw new ApplicationError('AUTH_JOIN_CAPABILITY_INVALID', 401);
+    }
     const reservation = await this.reserveChallenge(
       'STUDENT_SIGN_IN',
       organization.id,
@@ -111,6 +137,8 @@ export class ClientAuthenticationService {
       input.locale,
       accountDigest,
       context,
+      user !== null || joining,
+      input.joinInviteToken,
     );
     if (reservation.kind === 'REPLAY') {
       return reservation.value;
@@ -121,13 +149,13 @@ export class ClientAuthenticationService {
   async verifyStudentSignInCode(
     input: StudentSignInCodeVerificationRequestDto,
     context: PublicRequestContext,
-  ): Promise<AuthProjection> {
+  ): Promise<AuthProjection | JoinEmailProjection> {
     const reference = await this.prisma.studentSignInChallenge.findUnique({
       where: { id: input.challengeId },
       select: { organizationId: true },
     });
     if (reference === null) throw this.invalidCode();
-    return this.idempotency.execute(
+    return this.idempotency.execute<AuthProjection | JoinEmailProjection>(
       {
         organizationId: reference.organizationId,
         principalId: null,
@@ -156,13 +184,51 @@ export class ClientAuthenticationService {
             challenge.codeDigest,
           ),
         );
-        if (
-          !attempted.accepted ||
-          challenge.user?.role !== 'STUDENT' ||
-          !['PENDING_CONTACT_BINDING', 'ACTIVE'].includes(challenge.user.status)
-        ) {
+        if (!attempted.accepted) {
           await this.updateStudentChallengeAttempt(transaction, challenge, attempted.next);
           return this.idempotency.failure(this.invalidCode());
+        }
+        if (input.joinInviteToken !== undefined) {
+          const email = this.normalizeAccount(input.joinEmail ?? '');
+          const parsed = this.joinCrypto.parseToken('course-invite', input.joinInviteToken);
+          const invite = parsed ? await transaction.courseInvite.findUnique({ where: { id: parsed.publicId } }) : null;
+          const now = this.clock.now();
+          if (!isStudentSchoolEmail(email) || challenge.channel !== 'EMAIL' ||
+              this.accountDigest('EMAIL', email) !== challenge.accountDigest || !invite || !parsed ||
+              invite.organizationId !== challenge.organizationId || invite.status !== 'ACTIVE' || invite.expiresAt <= now ||
+              !this.joinCrypto.matches(invite.tokenHash, parsed.tokenHash)) {
+            return this.idempotency.failure(new ApplicationError('AUTH_JOIN_CAPABILITY_INVALID', 401));
+          }
+          if (challenge.user && (challenge.user.role !== 'STUDENT' || challenge.user.deletedAt || challenge.user.status !== 'ACTIVE'))
+            return this.idempotency.failure(new ApplicationError('AUTH_ACCOUNT_DISABLED', 403));
+          await this.updateStudentChallengeAttempt(transaction, challenge, attempted.next);
+          const profile = challenge.userId ? await transaction.studentProfile.findFirst({ where: {
+            userId: challenge.userId, organizationId: challenge.organizationId, deletedAt: null,
+          } }) : null;
+          const expiresAt = new Date(invite.expiresAt.getTime() + 600000).toISOString();
+          return this.idempotency.success({
+            joinEmailProof: this.joinCrypto.encrypt('join-email-proof', invite.id, {
+              email, challengeId: challenge.id, organizationId: challenge.organizationId,
+              userId: challenge.userId, verifiedAt: now.toISOString(), expiresAt,
+            }), expiresAt,
+            profile: profile ? { fullName: profile.fullName, studentNumber: profile.studentNumber,
+              gender: profile.gender, gradeYear: profile.gradeYear, collegeName: profile.collegeName,
+              majorName: profile.majorName, dateOfBirth: profile.dateOfBirth?.toISOString().slice(0,10) ?? null,
+              regionCode: profile.regionCode, otherRegionName: profile.otherRegionName } : null,
+          });
+        }
+        if (
+          challenge.user?.role !== 'STUDENT' ||
+          challenge.user.organizationId !== challenge.organizationId ||
+          challenge.user.deletedAt !== null ||
+          challenge.user.emailVerifiedAt === null ||
+          !['PENDING_CONTACT_BINDING', 'ACTIVE'].includes(challenge.user.status) ||
+          this.accountDigest(challenge.channel, challenge.user.primaryEmailNormalized ?? '') !== challenge.accountDigest
+        ) {
+          await this.updateStudentChallengeAttempt(transaction, challenge, attempted.next);
+          return this.idempotency.failure(new ApplicationError('USER_NOT_FOUND', 404, {
+            resourceType: 'STUDENT_SIGN_IN_ACCOUNT',
+          }));
         }
         const auth = await this.auth.establishStudentSession(transaction, challenge.user, {
           requestId: context.requestId,
@@ -374,6 +440,8 @@ export class ClientAuthenticationService {
     localeText: string,
     accountDigest: string,
     context: PublicRequestContext,
+    deliveryAllowed: boolean,
+    joinInviteToken: string | undefined,
   ): Promise<IdempotencyStageReservation<ChallengeStage, StudentSignInCodeAcceptedProjection>> {
     const channel = channelText as AuthCodeChannel;
     const locale = localeText as 'zh-CN' | 'en';
@@ -385,7 +453,7 @@ export class ClientAuthenticationService {
         operationId: 'requestStudentSignInCode',
         scope: `${purpose}:${accountDigest}`,
         key: context.idempotencyKey,
-        request: { organizationId, accountDigest, channel, locale },
+        request: { organizationId, accountDigest, channel, locale, joinInviteToken },
         requestId: context.requestId,
       },
       async (transaction, stageContext) => {
@@ -398,6 +466,7 @@ export class ClientAuthenticationService {
           accountDigest,
           context.sourceIp,
           now,
+          deliveryAllowed,
         );
         if (limited !== null) return limited;
         const challengeId = this.ids.next();
@@ -428,6 +497,7 @@ export class ClientAuthenticationService {
         return this.idempotency.stage(
           {
             purpose,
+            deliveryAllowed,
             challengeId,
             organizationId,
             userId,
@@ -578,6 +648,7 @@ export class ClientAuthenticationService {
   }
 
   private deliver(stage: ChallengeStage): Promise<void> {
+    if (stage.deliveryAllowed === false) return Promise.resolve();
     return this.delivery.deliver({
       deliveryId: stage.challengeId,
       purpose: stage.purpose,
@@ -696,7 +767,11 @@ export class ClientAuthenticationService {
     accountDigest: string,
     sourceIp: string | undefined,
     now: Date,
+    deliveryAllowed = true,
   ): Promise<IdempotentFailure | null> {
+    if (purpose === 'STUDENT_SIGN_IN') {
+      return this.recordStudentMailRateFacts(transaction, organizationId, accountDigest, sourceIp, now, deliveryAllowed);
+    }
     const scopes = [
       { scopeType: 'ACCOUNT', scopeDigest: accountDigest },
       {
@@ -741,6 +816,51 @@ export class ClientAuthenticationService {
         occurredAt: now,
       })),
     });
+    return null;
+  }
+
+  private async recordStudentMailRateFacts(
+    transaction: Prisma.TransactionClient,
+    organizationId: string,
+    accountDigest: string,
+    sourceIp: string | undefined,
+    now: Date,
+    deliveryAllowed: boolean,
+  ): Promise<IdempotentFailure | null> {
+    // The surrounding serializable transaction makes check + reservation atomic,
+    // including requests using different idempotency keys and backend instances.
+    const scopes = [
+      { scopeType: 'ACCOUNT', scopeDigest: accountDigest, policies: [
+        { windowSeconds: 60, limit: 1 }, { windowSeconds: 1800, limit: 5 },
+        { windowSeconds: 86400, limit: 10 },
+      ] },
+      ...(sourceIp === undefined ? [] : [{ scopeType: 'SOURCE',
+        scopeDigest: this.digest.digest('auth-code-source-ip', sourceIp),
+        policies: [{ windowSeconds: 600, limit: 300 }],
+      }]),
+      // SOURCE also represents the shared mail source; the digest has its own namespace.
+      ...(deliveryAllowed ? [{ scopeType: 'SOURCE',
+        scopeDigest: this.digest.digest('student-mail-global', 'all'),
+        policies: [{ windowSeconds: 60, limit: 100 }],
+      }] : []),
+    ];
+    for (const scope of scopes) {
+      const attempts = await transaction.authRateLimitFact.findMany({
+        where: { ...(scope.scopeDigest === this.digest.digest('student-mail-global', 'all') ? {} : { organizationId }), purpose: 'STUDENT_SIGN_IN', scopeType: scope.scopeType,
+          scopeDigest: scope.scopeDigest,
+          occurredAt: { gt: new Date(now.getTime() - Math.max(...scope.policies.map(p => p.windowSeconds)) * 1000) } },
+        orderBy: { occurredAt: 'desc' }, take: Math.max(...scope.policies.map(p => p.limit)),
+        select: { occurredAt: true },
+      });
+      const retryAfterSeconds = Math.max(...scope.policies.map(policy =>
+        evaluateDurableRateWindow(attempts.map(a => a.occurredAt), now, policy).retryAfterSeconds));
+      if (retryAfterSeconds > 0) return this.idempotency.failure(
+        new ApplicationError('AUTH_RATE_LIMITED', 429, { retryAfterSeconds }));
+    }
+    await transaction.authRateLimitFact.createMany({ data: scopes.map(scope => ({
+      id: this.ids.next(), organizationId, purpose: 'STUDENT_SIGN_IN',
+      scopeType: scope.scopeType, scopeDigest: scope.scopeDigest, occurredAt: now,
+    })) });
     return null;
   }
 

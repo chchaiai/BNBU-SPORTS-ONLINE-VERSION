@@ -1,0 +1,32 @@
+[
+  {
+    "path": "/assets/worker-entry-KuIQxfqK.css",
+    "status": 200,
+    "hash": "b1efde2a66ce300629bce5fb279fb8837e3ba0b3bc561a22e12ae7f25d2da4a0"
+  },
+  {
+    "path": "/assets/index--GOAG3NG.css",
+    "status": 200,
+    "hash": "4386b24a90b949ae546d26cc726c6b727fb62e4e2d12dd0448ee7b6dfd9e7006"
+  },
+  {
+    "path": "/assets/worker-entry-BA2Mbrw0.js",
+    "status": 200,
+    "hash": "39434bc7bed5164d6dff4ebbfaa63af88a542e437de38aa1528d100d2c49f3a1"
+  },
+  {
+    "path": "/assets/rolldown-runtime-hePW80VL.js",
+    "status": 200,
+    "hash": "580ad8c58061a4dde99bde0a56905e382f0568516ee2f5b84dbfb52085709021"
+  },
+  {
+    "path": "/assets/framework-bym5aI3S.js",
+    "status": 200,
+    "hash": "a9b4ce28eb1fd24f44bd6afc700324f83feec30c0419725ce29a8c61bfa8996a"
+  },
+  {
+    "path": "/assets/index-DyQbce0G.js",
+    "status": 200,
+    "hash": "4f061d5a1edc2f92da259f3251b4eea96417e6c1f70ba115efdfe830bf30d3db"
+  }
+]

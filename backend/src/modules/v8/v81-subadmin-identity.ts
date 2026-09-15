@@ -1,3 +1,4 @@
+import { permitsSystemMode } from '../system-mode/system-mode-access.js';
 import { Body, Controller, Headers, Injectable, Param, ParseUUIDPipe, Post, Req } from '@nestjs/common';
 import { Transform } from 'class-transformer';
 import { ArrayMaxSize, ArrayMinSize, ArrayUnique, IsArray, IsBoolean, IsEmail, IsIn, IsInt, IsString, IsUUID, Matches, Max, MaxLength, Min, MinLength, ValidateIf } from 'class-validator';
@@ -58,8 +59,7 @@ export class V81SubadminIdentityService {
   private async guard(tx: Prisma.TransactionClient, p: AuthenticatedPrincipal) {
     await tx.$queryRaw`SELECT id FROM organizations WHERE id=${p.organizationId}::uuid FOR NO KEY UPDATE`;
     await requireAdminAccess(tx, p, 'SUPER');
-    if ((await tx.systemPolicy.findUnique({ where: { organizationId: p.organizationId } }))?.systemMode !== 'NORMAL')
-      throw new ApplicationError('SYSTEM_MAINTENANCE', 503);
+    if (!permitsSystemMode((await tx.systemPolicy.findUnique({ where: { organizationId: p.organizationId } }))?.systemMode, p.role)) throw new ApplicationError('SYSTEM_MAINTENANCE', 503);
   }
   private binding(p: AuthenticatedPrincipal, operationId: string, scope: string, request: unknown, f: Facts) {
     return { organizationId: p.organizationId, principalId: p.userId, authSessionId: p.sessionId,

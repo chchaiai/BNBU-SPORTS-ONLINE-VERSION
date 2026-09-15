@@ -63,6 +63,7 @@ import type {
 import type { PagedResult } from '../../common/http/envelope.interceptor.js';
 import {
   ClientAuthenticationService,
+  type JoinEmailProjection,
   type AccountRecoveryAcceptedProjection,
   type StudentSignInCodeAcceptedProjection,
 } from './client-authentication.service.js';
@@ -110,7 +111,7 @@ export class ClientCapabilitiesController {
     @Body() body: StudentSignInCodeVerificationRequestDto,
     @Headers('idempotency-key') idempotencyKey: string | undefined,
     @Req() request: FoundationRequest,
-  ): Promise<AuthProjection> {
+  ): Promise<AuthProjection | JoinEmailProjection> {
     return this.clientAuthentication.verifyStudentSignInCode(body, {
       requestId: request.requestId,
       idempotencyKey,

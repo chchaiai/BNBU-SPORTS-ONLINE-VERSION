@@ -8,9 +8,12 @@ import { ScopedCursorService } from '../../common/pagination/scoped-cursor.servi
 import { Prisma } from '../../generated/prisma/client.js';
 import { projectUser, type UserProjection } from './user-projection.js';
 import type { StudentListQueryDto } from './users.dto.js';
+import { requireAdminAccess } from '../v8/v81-admin-access.js';
 
 export interface StudentProfileProjection {
   email?: string | null;
+  emailVerified?: boolean;
+  courseAssociations?: { classSectionId: string; classCode: string; className: string; courseName: string; semesterName: string; status: string }[];
   dateOfBirth: string | null;
   regionCode: string | null;
   otherRegionName: string | null;
@@ -129,12 +132,18 @@ export class UsersService {
     principal: AuthenticatedPrincipal,
     input: StudentListQueryDto,
   ): Promise<PagedResult<StudentProfileProjection>> {
+    if (principal.role === 'ADMIN') await requireAdminAccess(this.prisma, principal, 'USER_ACCOUNTS');
+    if (input.email !== undefined && principal.role !== 'ADMIN') throw new ApplicationError('PERMISSION_RESOURCE_SCOPE_DENIED', 403);
     const descending = input.sort.startsWith('-');
     const sortField = input.sort.replace(/^-/, '') as 'fullName' | 'studentNumber' | 'createdAt';
     const filters = {
       q: input.q ?? null,
       classSectionId: input.classSectionId ?? null,
       status: input.status ?? null,
+      collegeName: input.collegeName ?? null,
+      gender: input.gender ?? null,
+      gradeYear: input.gradeYear ?? null,
+      email: input.email ?? null,
     };
     const binding = {
       resource: 'STUDENT_PROFILE' as const,
@@ -175,6 +184,7 @@ export class UsersService {
               { collegeName: { contains: input.q, mode: 'insensitive' } },
               { majorName: { contains: input.q, mode: 'insensitive' } },
               { administrativeClassName: { contains: input.q, mode: 'insensitive' } },
+              ...(principal.role === 'ADMIN' ? [{ user: { primaryEmailNormalized: { contains: input.q.toLowerCase() } } }] : []),
             ],
           };
     const cursorWhere = this.studentCursorWhere(sortField, descending, position);
@@ -183,8 +193,20 @@ export class UsersService {
       where: {
         organizationId: principal.organizationId,
         deletedAt: null,
-        ...(input.status === undefined ? {} : { status: input.status }),
+        ...(input.status === undefined ? {} : { enrollments: input.status === 'ACTIVE'
+          ? { some: { status: 'ACTIVE' } } : { none: { status: 'ACTIVE' } } }),
+        ...(input.collegeName === undefined ? {} : { collegeName: input.collegeName }),
+        ...(input.gender === undefined ? {} : { gender: input.gender }),
+        ...(input.gradeYear === undefined ? {} : { gradeYear: input.gradeYear }),
+        ...(input.email === undefined ? {} : { user: { primaryEmailNormalized: { contains: input.email.toLowerCase() } } }),
         AND: [scope, section, search, cursorWhere],
+      },
+      include: {
+        user: { select: { primaryEmail: true, emailVerifiedAt: true } },
+        enrollments: { where: { organizationId: principal.organizationId,
+          ...(principal.role === 'TEACHER' ? { status: 'ACTIVE', classSection: { teacher: { userId: principal.userId } } } : {}) },
+          include: { classSection: { include: { course: true } }, semester: true },
+          orderBy: [{ joinedAt: 'desc' }, { id: 'asc' }] },
       },
       orderBy,
       take: input.limit + 1,
@@ -193,7 +215,16 @@ export class UsersService {
     const page = hasMore ? rows.slice(0, input.limit) : rows;
     const last = page.at(-1);
     return pagedResult(
-      page.map((row) => this.projectStudent(row)),
+      page.map(({ user, enrollments, ...row }) => ({
+        ...this.projectStudent(row),
+        status: enrollments.some(enrollment => enrollment.status === 'ACTIVE') ? 'ACTIVE' : 'PENDING',
+        ...(principal.role === 'ADMIN' ? { email: user.primaryEmail, emailVerified: user.emailVerifiedAt !== null } : {}),
+        courseAssociations: enrollments.map(enrollment => ({
+          classSectionId: enrollment.classSectionId, classCode: enrollment.classSection.classCode,
+          className: enrollment.classSection.displayName, courseName: enrollment.classSection.course.courseName,
+          semesterName: enrollment.semester.displayName, status: enrollment.status,
+        })),
+      })),
       {
         nextCursor:
           hasMore && last !== undefined
@@ -214,7 +245,15 @@ export class UsersService {
   ): Promise<StudentProfileProjection> {
     const student = await this.findAuthorizedStudent(principal, studentId);
     if (student === null) throw new ApplicationError('USER_NOT_FOUND', 404);
-    return { ...this.projectStudent(student), ...await this.superAdminEmail(principal, student.userId) };
+    if (principal.role !== 'ADMIN') return this.projectStudent(student);
+    await requireAdminAccess(this.prisma, principal, 'USER_ACCOUNTS');
+    const user = await this.prisma.user.findUniqueOrThrow({ where: { id: student.userId }, select: { primaryEmail: true, emailVerifiedAt: true } });
+    const enrollments = await this.prisma.enrollment.findMany({ where: { studentId, organizationId: principal.organizationId },
+      include: { classSection: { include: { course: true } }, semester: true }, orderBy: [{ joinedAt: 'desc' }, { id: 'asc' }] });
+    return { ...this.projectStudent(student), status: enrollments.some(enrollment => enrollment.status === 'ACTIVE') ? 'ACTIVE' : 'PENDING', email: user.primaryEmail, emailVerified: user.emailVerifiedAt !== null,
+      courseAssociations: enrollments.map(enrollment => ({ classSectionId: enrollment.classSectionId,
+        classCode: enrollment.classSection.classCode, className: enrollment.classSection.displayName,
+        courseName: enrollment.classSection.course.courseName, semesterName: enrollment.semester.displayName, status: enrollment.status })) };
   }
 
   async denyStudentUpdate(principal: AuthenticatedPrincipal, studentId: string): Promise<never> {

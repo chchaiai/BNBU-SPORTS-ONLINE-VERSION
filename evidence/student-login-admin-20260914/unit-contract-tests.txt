@@ -1,0 +1,49 @@
+▶ Stage 21 client capability contract
+  ✔ binds all thirty added operations and keeps only unresolved capabilities default-deny (1.2633ms)
+  ✔ keeps GPS raw coordinates write-only and exposes only a coarse review summary (0.1298ms)
+  ✔ supports IOS in every public client-platform contract without removing Android or Web (0.8468ms)
+  ✔ preserves exact exemption subtypes and the pre-authentication QR join sequence (0.3445ms)
+  ✔ registers every current operation and distinguishes explicit default deny (2.5927ms)
+✔ Stage 21 client capability contract (6.331ms)
+▶ Stage 19 Export, Audit Read, and governance contract
+  ✔ binds all ten remaining operations to real handlers and generated policy (0.5342ms)
+  ✔ freezes the five exact default-deny operations without fake Export persistence (0.7176ms)
+  ✔ keeps the expanded operation registry closed without upgrading Export or Production gates (9.4726ms)
+✔ Stage 19 Export, Audit Read, and governance contract (11.3765ms)
+▶ authentication-code cryptography
+  ✔ generates CSPRNG-backed fixed-length numeric codes and rejects unsafe lengths (2.0267ms)
+  ✔ digests codes with context binding and verifies wrong inputs without leaking a match (0.3974ms)
+  ✔ deterministically escrows canonical auth results and authenticates their AAD (10.0539ms)
+  ✔ rejects tampered escrow ciphertexts (0.3134ms)
+✔ authentication-code cryptography (13.4699ms)
+▶ authentication challenge state machine
+  ✔ consumes a valid challenge exactly once (1.6971ms)
+  ✔ expires at the exact TTL boundary (0.1254ms)
+  ✔ increments durable attempts and locks at the configured maximum (0.1596ms)
+  ✔ activates only a pending challenge delivered before expiry (0.1382ms)
+✔ authentication challenge state machine (2.3264ms)
+▶ authentication-code delivery ports
+  ✔ fails closed when no delivery provider is configured (0.4355ms)
+  ✔ prevents the in-memory capture adapter from running outside tests (0.1638ms)
+  ✔ captures only test deliveries and preserves delivery-id idempotency (0.3806ms)
+✔ authentication-code delivery ports (1.1397ms)
+▶ durable rate-window evaluation
+  ✔ uses repository timestamps and excludes the exact window cutoff (0.2826ms)
+  ✔ rejects future repository facts instead of treating them as valid attempts (0.0795ms)
+✔ durable rate-window evaluation (0.4417ms)
+▶ app release policy projection
+  ✔ selects only the currently effective IOS policy without comparing version syntax (0.2515ms)
+  ✔ compares iOS build numbers numerically and never uses marketing version text (0.1983ms)
+  ✔ fails on equal-time policy ambiguity instead of depending on input order (0.1442ms)
+✔ app release policy projection (0.723ms)
+▶ Stage 21 client capability boundary
+  ✔ returns the same stable default-deny error for public and authenticated capabilities (0.6601ms)
+✔ Stage 21 client capability boundary (1.3861ms)
+ℹ tests 25
+ℹ suites 8
+ℹ pass 25
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1724.3755

@@ -1,0 +1,13 @@
+{
+  "result": "PASS",
+  "backendFiles": 30,
+  "publicPortalAssets": 6,
+  "assets": [
+    "/assets/framework-bym5aI3S.js",
+    "/assets/index-BExROdWN.css",
+    "/assets/index-CFH1zLmO.js",
+    "/assets/rolldown-runtime-hePW80VL.js",
+    "/assets/worker-entry-BjHrHija.js",
+    "/assets/worker-entry-KuIQxfqK.css"
+  ]
+}

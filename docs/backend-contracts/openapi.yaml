@@ -615,7 +615,21 @@ paths:
           in: query
           schema:
             type: string
-            pattern: ^[A-Z][A-Z0-9_]*$
+            enum: [ACTIVE, PENDING]
+          description: Derived from active enrollment presence, not the stored profile status.
+        - name: collegeName
+          in: query
+          schema: { type: string, minLength: 1, maxLength: 200 }
+        - name: gender
+          in: query
+          schema: { type: string, enum: [MALE, FEMALE, OTHER, UNKNOWN] }
+        - name: gradeYear
+          in: query
+          schema: { type: integer, minimum: 1000, maximum: 9999 }
+        - name: email
+          in: query
+          description: Case-insensitive substring; only administrators with USER_ACCOUNTS may use this filter. Search q also includes email for these administrators.
+          schema: { type: string, minLength: 1, maxLength: 254 }
       responses:
         "200":
           $ref: "#/components/responses/StudentListSuccess"
@@ -3961,10 +3975,7 @@ paths:
         resourceScope: NONE
         resourceResolver: NONE
         defaultDeny: true
-      summary: Verify a student sign-in challenge and establish an AuthSession
-      description: Consumes a valid single-use challenge and reuses the existing JWT, refresh-token
-        rotation, session revocation, AuditLog, and Outbox boundary. Students do not receive or
-        create passwords.
+      summary: Verify a student sign-in challenge or verify school email for course joining
       security: []
       parameters:
         - $ref: "#/components/parameters/RequestIdHeader"
@@ -3975,9 +3986,34 @@ paths:
           application/json:
             schema:
               $ref: "#/components/schemas/StudentSignInCodeVerificationRequest"
+      description: With joinInviteToken and joinEmail, verify the school email and return an invite-scoped joinEmailProof and the verified owner profile without creating a user, session, or enrollment. Pass this proof to join-capabilities after confirming student details; the final join atomically creates the verified account and enrollment. An authenticated student with an already verified school email may omit the proof at the member capability endpoint. Otherwise verify the one-time code for normal sign-in first. A valid code without a currently eligible verified student account consumes the challenge and returns USER_NOT_FOUND (404), with details.resourceType STUDENT_SIGN_IN_ACCOUNT. Incorrect, expired, locked, or consumed codes return AUTH_VERIFICATION_CODE_INVALID (401). The request endpoint retains a uniform accepted response.
       responses:
+        "404":
+          $ref: "#/components/responses/NotFound"
         "200":
-          $ref: "#/components/responses/AuthSuccess"
+          description: Authenticated session for sign-in, or verified email proof when joinInviteToken and joinEmail are supplied.
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: "#/components/schemas/AuthEnvelope"
+                  - type: object
+                    required: [data, meta]
+                    properties:
+                      meta:
+                        type: object
+                      data:
+                        type: object
+                        required: [joinEmailProof, expiresAt, profile]
+                        properties:
+                          joinEmailProof:
+                            type: string
+                          expiresAt:
+                            type: string
+                            format: date-time
+                          profile:
+                            type: [object, 'null']
+                            description: Only the verified email owner's student profile, or null for first registration.
         "401":
           $ref: "#/components/responses/Unauthorized"
         "422":
@@ -18617,6 +18653,18 @@ components:
       type: object
       additionalProperties: false
       properties:
+        reason:
+          type: string
+          description: Allowlisted swimming rejection reason; clients may render specific guidance. Unknown internal reasons are omitted.
+          enum:
+          - SWIM_INTAKE_REQUIRED
+          - SWIM_BEFORE_AFTER_REQUIRED
+          - SWIM_ORIGINAL_BEFORE_AFTER_REQUIRED
+          - SWIM_LOCKED_BATCH_MISMATCH
+          - SWIM_LOCKED_CONTENT_MISMATCH
+          - SWIM_DELAY_REASON_REQUIRED
+          - SWIM_DELAY_WINDOW_EXPIRED
+          - LOCKED_BATCH_CONTENT_HASH_REQUIRED
         fieldErrors:
           type: array
           maxItems: 100
@@ -19045,7 +19093,24 @@ components:
         email:
           type: [ string, "null" ]
           format: email
-          description: Present only for detail reads by a super administrator.
+          description: Full email is present on student list and detail reads for SUPER or USER_ACCOUNTS administrators only.
+        emailVerified:
+          type: boolean
+          description: Present with email for authorized administrators.
+        courseAssociations:
+          type: array
+          description: Administrators see current and historical associations; teacher lists include only their active memberships.
+          items:
+            type: object
+            additionalProperties: false
+            properties:
+              classSectionId: { $ref: "#/components/schemas/OpaqueId" }
+              classCode: { type: string }
+              className: { type: string }
+              courseName: { type: string }
+              semesterName: { type: string }
+              status: { type: string }
+            required: [classSectionId, classCode, className, courseName, semesterName, status]
         id:
           $ref: "#/components/schemas/OpaqueId"
         organizationId:
@@ -20956,8 +21021,8 @@ components:
       additionalProperties: false
       required: [ collegeName, majorName, dateOfBirth, regionCode, expectedVersion ]
       properties:
-        collegeName: { type: string, minLength: 1, maxLength: 200 }
-        majorName: { type: string, minLength: 1, maxLength: 200 }
+        collegeName: { type: string, enum: [FBM, FHSS, FST, SCC, SAI, SGE, GS] }
+        majorName: { type: string, minLength: 1, maxLength: 200, pattern: '^[A-Z]+$' }
         dateOfBirth: { type: string, format: date }
         regionCode: { type: string, minLength: 1, maxLength: 32 }
         otherRegionName: { type: string, minLength: 1, maxLength: 100 }
@@ -21196,15 +21261,14 @@ components:
       properties:
         expiresInMinutes:
           type: integer
-          minimum: 5
-          maximum: 120
-          description: Server-relative validity; defaults to 30 minutes. Mutually exclusive with non-null expiresAt.
+          minimum: 1
+          description: Teacher-defined server-relative validity without a 120-minute cap; defaults to 30 minutes and must end no later than semester end. Mutually exclusive with non-null expiresAt.
         expiresAt:
           type:
             - string
             - "null"
           format: date-time
-          description: Legacy absolute expiry, constrained to 5–120 minutes after server acceptance. Prefer expiresInMinutes to avoid client clock and network skew.
+          description: Legacy absolute expiry, at least 1 minute after server acceptance and no later than semester end. Prefer expiresInMinutes to avoid client clock and network skew.
       description: Enrollment Gate transport only; invite plaintext is returned once and only its
         irreversible digest may be persisted.
     IssueJoinCapabilityRequest:
@@ -21216,14 +21280,21 @@ components:
         - gender
         - gradeYear
       properties:
+        joinEmailProof:
+          type: string
+          minLength: 1
+          maxLength: 4000
+          writeOnly: true
+          description: Required for anonymous first-time registration. Authenticated students may reuse their verified school email.
         fullName:
           type: string
           minLength: 1
           maxLength: 100
         studentNumber:
           type: string
-          minLength: 1
-          maxLength: 32
+          pattern: '^2[0-9]{9}$'
+          minLength: 10
+          maxLength: 10
         gender:
           $ref: "#/components/schemas/CourseJoinGender"
         gradeYear:
@@ -21234,10 +21305,13 @@ components:
             current date.
         collegeName:
           type: string
+          enum: [FBM, FHSS, FST, SCC, SAI, SGE, GS]
           minLength: 1
           maxLength: 200
         majorName:
           type: string
+          pattern: '^[A-Z]+$'
+          description: College-linked catalog code; SAI accepts all catalog majors, SGE and GS accept custom uppercase letters.
           minLength: 1
           maxLength: 200
         dateOfBirth:
@@ -22515,6 +22589,12 @@ components:
         - channel
         - locale
       properties:
+        joinInviteToken:
+          type: string
+          minLength: 16
+          maxLength: 200
+          writeOnly: true
+          description: Valid course invitation required to send a code to a new student email before enrollment.
         organizationCode:
           type: string
           pattern: ^[A-Z0-9][A-Z0-9_-]{1,31}$
@@ -22558,6 +22638,17 @@ components:
         - code
         - deviceId
       properties:
+        joinInviteToken:
+          type: string
+          minLength: 16
+          maxLength: 200
+          writeOnly: true
+          description: Optional registration branch. With joinEmail, returns a course-bound email proof instead of an AuthSession; creates no membership.
+        joinEmail:
+          type: string
+          format: email
+          maxLength: 254
+          writeOnly: true
         challengeId:
           $ref: "#/components/schemas/OpaqueId"
         code:
