@@ -1,0 +1,308 @@
+{
+  "result": "PASS",
+  "scope": "Real public HTTP + private COS + deployed automatic worker + Tencent IMS/TokenHub; synthetic exercise setup",
+  "organizationId": "01a0ae73-db93-70c9-ab57-9b0e00b929a1",
+  "checks": [
+    {
+      "kind": "IMAGE",
+      "recordId": "01a0ae74-6a00-7191-9a6f-e119b19d2de1",
+      "ai": {
+        "status": "SUCCEEDED",
+        "materialVersion": 1,
+        "recommendation": "TEACHER_REVIEW",
+        "flags": [
+          "INSUFFICIENT_EVIDENCE"
+        ],
+        "completedAt": "2026-09-17T08:21:02.799Z",
+        "errorCode": null,
+        "policyVersion": "default-valid-exceptions-v3"
+      },
+      "initialValid": true,
+      "aiExceptionsRouted": true,
+      "studentAdviceHidden": true
+    },
+    {
+      "kind": "VIDEO",
+      "recordId": "01a0ae74-9394-757d-948d-9b44cc26de88",
+      "ai": {
+        "status": "SUCCEEDED",
+        "materialVersion": 1,
+        "recommendation": "TEACHER_REVIEW",
+        "flags": [
+          "INSUFFICIENT_EVIDENCE",
+          "VIDEO_SAMPLED"
+        ],
+        "completedAt": "2026-09-17T08:21:18.491Z",
+        "errorCode": null,
+        "policyVersion": "default-valid-exceptions-v3"
+      },
+      "initialValid": true,
+      "aiExceptionsRouted": true,
+      "studentAdviceHidden": true
+    },
+    {
+      "kind": "IMAGE",
+      "recordId": "01a0ae74-d066-742b-89ac-711eb90b8d65",
+      "ai": {
+        "status": "SUCCEEDED",
+        "materialVersion": 1,
+        "recommendation": "SUSPECTED_RISK",
+        "flags": [
+          "EXACT_DUPLICATE",
+          "INSUFFICIENT_EVIDENCE"
+        ],
+        "completedAt": "2026-09-17T08:21:32.216Z",
+        "errorCode": null,
+        "policyVersion": "default-valid-exceptions-v3"
+      },
+      "initialValid": true,
+      "aiExceptionsRouted": true,
+      "studentAdviceHidden": true
+    },
+    {
+      "teacherFinalDecision": "VALID",
+      "aiAdviceRetained": true,
+      "recordId": "01a0ae74-6a00-7191-9a6f-e119b19d2de1"
+    },
+    {
+      "teacherInvalidDecision": true,
+      "studentReadback": true,
+      "recordId": "01a0ae74-9394-757d-948d-9b44cc26de88"
+    }
+  ],
+  "jobs": [
+    {
+      "recordId": "01a0ae74-d066-742b-89ac-711eb90b8d65",
+      "status": "SUCCEEDED",
+      "attempts": 1,
+      "provider": "TENCENT_IMS_TOKENHUB",
+      "model": "hy-vision-2.0-instruct"
+    },
+    {
+      "recordId": "01a0ae74-6a00-7191-9a6f-e119b19d2de1",
+      "status": "SUCCEEDED",
+      "attempts": 1,
+      "provider": "TENCENT_IMS_TOKENHUB",
+      "model": "hy-vision-2.0-instruct"
+    },
+    {
+      "recordId": "01a0ae74-9394-757d-948d-9b44cc26de88",
+      "status": "SUCCEEDED",
+      "attempts": 1,
+      "provider": "TENCENT_IMS_TOKENHUB",
+      "model": "hy-vision-2.0-instruct"
+    }
+  ],
+  "requests": [
+    {
+      "path": "/media-uploads",
+      "status": 201,
+      "requestId": "c8291eb6-cd06-4c8c-956a-73d7dd9207b3"
+    },
+    {
+      "path": "/media-uploads/01a0ae74-545a-767f-ad06-0f74a16f287b/confirm",
+      "status": 200,
+      "requestId": "3599902c-0832-4e42-89b5-9b94253ca6d6"
+    },
+    {
+      "path": "/media/01a0ae74-545a-767f-ad06-0a98751918a8/bind",
+      "status": 200,
+      "requestId": "3b7b8578-47e3-4634-abef-3dd99ab77856"
+    },
+    {
+      "path": "/media/01a0ae74-545a-767f-ad06-0a98751918a8",
+      "status": 200,
+      "requestId": "74d62a3b-e827-40e3-b724-8dec2b661a74"
+    },
+    {
+      "path": "/media/01a0ae74-545a-767f-ad06-0a98751918a8",
+      "status": 200,
+      "requestId": "b7b9d2a9-ec11-4603-871a-4ff320403a68"
+    },
+    {
+      "path": "/exercise-records",
+      "status": 201,
+      "requestId": "28621c89-69a0-473f-8830-748a2cb5b02b"
+    },
+    {
+      "path": "/exercise-records/01a0ae74-6a00-7191-9a6f-e119b19d2de1/submit",
+      "status": 200,
+      "requestId": "479d04a5-373d-44ae-b4ee-bb0bb6c975a0"
+    },
+    {
+      "path": "/exercise-records/01a0ae74-6a00-7191-9a6f-e119b19d2de1/submit",
+      "status": 200,
+      "requestId": "6b63d36f-682c-475a-90c6-19d00b2f7426"
+    },
+    {
+      "path": "/exercise-records/01a0ae74-6a00-7191-9a6f-e119b19d2de1",
+      "status": 200,
+      "requestId": "10dfb220-c4c3-47cd-bc85-a4956da2dece"
+    },
+    {
+      "path": "/exercise-records/01a0ae74-6a00-7191-9a6f-e119b19d2de1",
+      "status": 200,
+      "requestId": "945202f2-d250-4f66-b5f3-386d317a0a3e"
+    },
+    {
+      "path": "/exercise-records/01a0ae74-6a00-7191-9a6f-e119b19d2de1",
+      "status": 200,
+      "requestId": "b41bbfac-8cc2-4946-a371-e1ef6a86c7a3"
+    },
+    {
+      "path": "/media-uploads",
+      "status": 201,
+      "requestId": "6de2229b-7544-4ce5-98cc-b02fcd196755"
+    },
+    {
+      "path": "/media-uploads/01a0ae74-7edb-726d-8df8-c04abe1672ae/confirm",
+      "status": 200,
+      "requestId": "dd5e4f95-a474-4a21-adf5-9675c237935a"
+    },
+    {
+      "path": "/media/01a0ae74-7edb-726d-8df8-beb534bf1494/bind",
+      "status": 200,
+      "requestId": "e45eae45-c94d-4bb8-b5c3-6e868a0015b7"
+    },
+    {
+      "path": "/media/01a0ae74-7edb-726d-8df8-beb534bf1494",
+      "status": 200,
+      "requestId": "c7873d07-9d14-4243-a0d4-da43c71b2c14"
+    },
+    {
+      "path": "/media/01a0ae74-7edb-726d-8df8-beb534bf1494",
+      "status": 200,
+      "requestId": "207ad116-6f9b-4ee7-8884-c884d6802c4e"
+    },
+    {
+      "path": "/exercise-records",
+      "status": 201,
+      "requestId": "841c974e-b7d3-4d03-84de-810fac83fa4f"
+    },
+    {
+      "path": "/exercise-records/01a0ae74-9394-757d-948d-9b44cc26de88/submit",
+      "status": 200,
+      "requestId": "a636dd5d-d61d-43d1-b286-62954b01a1d9"
+    },
+    {
+      "path": "/exercise-records/01a0ae74-9394-757d-948d-9b44cc26de88/submit",
+      "status": 200,
+      "requestId": "5e50b5e3-696d-4bf8-9b66-524077dc1df6"
+    },
+    {
+      "path": "/exercise-records/01a0ae74-9394-757d-948d-9b44cc26de88",
+      "status": 200,
+      "requestId": "9bf7bd2c-9db3-4cb0-b6ab-27cef4e68017"
+    },
+    {
+      "path": "/exercise-records/01a0ae74-9394-757d-948d-9b44cc26de88",
+      "status": 200,
+      "requestId": "b1c7e718-46a3-4cbc-8e6a-73f60587c86e"
+    },
+    {
+      "path": "/exercise-records/01a0ae74-9394-757d-948d-9b44cc26de88",
+      "status": 200,
+      "requestId": "9e98b34f-7b97-44d0-b216-40e0d9ed227a"
+    },
+    {
+      "path": "/exercise-records/01a0ae74-9394-757d-948d-9b44cc26de88",
+      "status": 200,
+      "requestId": "39f8b45f-6bf6-4ce2-b553-b9d2a8b5b5e2"
+    },
+    {
+      "path": "/media-uploads",
+      "status": 201,
+      "requestId": "1f599e23-9472-46bb-a672-7cb206e9fa13"
+    },
+    {
+      "path": "/media-uploads/01a0ae74-bbc8-7070-808e-4e176b311253/confirm",
+      "status": 200,
+      "requestId": "6a158c8a-d800-433e-aea3-12ffbb871fa4"
+    },
+    {
+      "path": "/media/01a0ae74-bbc7-7176-baaa-8776216b7354/bind",
+      "status": 200,
+      "requestId": "0d367047-9ee8-4b7a-bb8b-d17f18e8b746"
+    },
+    {
+      "path": "/media/01a0ae74-bbc7-7176-baaa-8776216b7354",
+      "status": 200,
+      "requestId": "38c2fb58-9174-4fdc-a8b7-6a7303d1a43d"
+    },
+    {
+      "path": "/media/01a0ae74-bbc7-7176-baaa-8776216b7354",
+      "status": 200,
+      "requestId": "826d7d04-4dc9-4bc0-8247-6e321634d3b9"
+    },
+    {
+      "path": "/exercise-records",
+      "status": 201,
+      "requestId": "ec2852f8-f218-408e-93e8-0f7921d2f4a2"
+    },
+    {
+      "path": "/exercise-records/01a0ae74-d066-742b-89ac-711eb90b8d65/submit",
+      "status": 200,
+      "requestId": "83e9ace3-a67d-496b-bd96-17ed589b7c2e"
+    },
+    {
+      "path": "/exercise-records/01a0ae74-d066-742b-89ac-711eb90b8d65/submit",
+      "status": 200,
+      "requestId": "ae36945c-2d7b-4edf-82b2-ce46a2317d20"
+    },
+    {
+      "path": "/exercise-records/01a0ae74-d066-742b-89ac-711eb90b8d65",
+      "status": 200,
+      "requestId": "55680b8d-f863-46d0-87b1-0540d20fa4cd"
+    },
+    {
+      "path": "/exercise-records/01a0ae74-d066-742b-89ac-711eb90b8d65",
+      "status": 200,
+      "requestId": "47c5d4f8-c4a9-4fe3-97c3-44f208ec0098"
+    },
+    {
+      "path": "/exercise-records/01a0ae74-d066-742b-89ac-711eb90b8d65",
+      "status": 200,
+      "requestId": "47f1fb49-a1ae-41d2-b3f1-24d0b379e31a"
+    },
+    {
+      "path": "/exercise-records/01a0ae74-d066-742b-89ac-711eb90b8d65",
+      "status": 200,
+      "requestId": "2ed15cb8-7949-4b9c-863a-9d4a217c18e8"
+    },
+    {
+      "path": "/exercise-records?aiReview=SUSPECTED_RISK",
+      "status": 200,
+      "requestId": "1634479b-963d-41fe-b17d-d582b0bdb018"
+    },
+    {
+      "path": "/exercise-records/01a0ae74-6a00-7191-9a6f-e119b19d2de1",
+      "status": 200,
+      "requestId": "9e2279e4-1769-47c5-8677-583e9455bb98"
+    },
+    {
+      "path": "/exercise-records/01a0ae74-6a00-7191-9a6f-e119b19d2de1/v81-reviews",
+      "status": 201,
+      "requestId": "7c4a8333-abd3-46b4-969c-f19b56fcda07"
+    },
+    {
+      "path": "/exercise-records/01a0ae74-6a00-7191-9a6f-e119b19d2de1",
+      "status": 200,
+      "requestId": "7386a816-9ef9-4342-a217-c3ed5d779eee"
+    },
+    {
+      "path": "/exercise-records/01a0ae74-9394-757d-948d-9b44cc26de88",
+      "status": 200,
+      "requestId": "a9a5bd52-9e82-4826-a359-8150ba528e0a"
+    },
+    {
+      "path": "/exercise-records/01a0ae74-9394-757d-948d-9b44cc26de88/v81-reviews",
+      "status": 201,
+      "requestId": "91ddbada-bc9b-49c0-8987-01a228530882"
+    },
+    {
+      "path": "/exercise-records/01a0ae74-9394-757d-948d-9b44cc26de88",
+      "status": 200,
+      "requestId": "d3d9c0a8-3fdf-4cae-b82d-56a48a709356"
+    }
+  ]
+}

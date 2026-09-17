@@ -1,0 +1,45 @@
+{
+  "result": "PASS",
+  "durationSeconds": 11,
+  "declaredDurationOmitted": true,
+  "mediaFailureCode": "MEDIA_VIDEO_DURATION_EXCEEDED",
+  "submissionStatus": 422,
+  "newAiCalls": 0,
+  "requests": [
+    {
+      "path": "/media-uploads",
+      "status": 201,
+      "requestId": "465f4cd8-bc90-4014-a373-9f2ddc3ad97f"
+    },
+    {
+      "path": "/media-uploads/01a0ae76-6a66-770c-9d79-7b0c665984b4/confirm",
+      "status": 200,
+      "requestId": "7323f3ce-3a11-4477-a1bd-ad27a14fbd5b"
+    },
+    {
+      "path": "/media/01a0ae76-6a66-770c-9d79-75c6faf6973a/bind",
+      "status": 200,
+      "requestId": "e0bc24af-0b07-4d7a-bd12-47307d305fba"
+    },
+    {
+      "path": "/media/01a0ae76-6a66-770c-9d79-75c6faf6973a",
+      "status": 200,
+      "requestId": "2443fb3c-a675-46bf-af02-006db79a7aac"
+    },
+    {
+      "path": "/media/01a0ae76-6a66-770c-9d79-75c6faf6973a",
+      "status": 200,
+      "requestId": "449918c0-0450-4c95-b56d-c93a54a6d8b8"
+    },
+    {
+      "path": "/exercise-records",
+      "status": 201,
+      "requestId": "10855b65-9423-4f45-8a65-ed2b40415c08"
+    },
+    {
+      "path": "/exercise-records/01a0ae76-8021-76f9-a3e1-9a9bc31278e3/submit",
+      "status": 422,
+      "requestId": "65430858-3f6d-4e32-b3c2-b8cc71258d74"
+    }
+  ]
+}

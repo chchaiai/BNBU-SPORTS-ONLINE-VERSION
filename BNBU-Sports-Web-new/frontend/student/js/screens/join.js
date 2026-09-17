@@ -19,17 +19,27 @@ const MAX_STUDENT_NUMBER = 10;
 
 /** Extracts an invite code from the HTTPS /join/{code} QR URL, or accepts a
  *  bare backend invite token rendered directly as QR content. */
-function inviteCodeFromQr(rawValue) {
+export function inviteCodeFromQr(rawValue) {
   const raw = rawValue.trim();
   try {
     const uri = new URL(raw);
     if (uri.protocol !== "https:" || !uri.host) return null;
+    if (uri.hostname === 'www.student.bnbusports.cn' && uri.pathname === '/student/') {
+      const code = uri.searchParams.get('invite') || '';
+      return isInviteCode(code) ? code : null;
+    }
     const segments = uri.pathname.split("/").filter(Boolean);
     if (segments.length !== 2 || segments[0] !== "join") return null;
     return isInviteCode(segments[1]) ? segments[1] : null;
   } catch {
     return raw.includes(".") && isInviteCode(raw) ? raw : null;
   }
+}
+
+export function openInviteLink(app, code) {
+  if (app.state.authenticated) app.openSub('scan');
+  else app.state.showScanJoin = true;
+  resolveCode(app, code);
 }
 
 /** Every invite lookup uses the real backend. Failures never fall back to mock data. */

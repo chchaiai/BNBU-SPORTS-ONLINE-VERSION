@@ -682,14 +682,14 @@ check("account details show gender and endurance exemption distance follows it",
 
 check("live camera duration uses the measured recording interval", () => {
   assert.equal(capturedRecordingDurationSeconds(1_000, 6_250), 5.25);
-  assert.equal(capturedRecordingDurationSeconds(1_000, 99_000), 15);
+  assert.equal(capturedRecordingDurationSeconds(1_000, 99_000), 10);
   assert.equal(capturedRecordingDurationSeconds(1_000, 9_250, 3_000), 5.25);
   assert.match(checkinScreenSource, /"checkin\.cameraPauseVideo":/u);
   assert.match(checkinScreenSource, /"checkin\.cameraResumeVideo":/u);
   assert.match(checkinScreenSource, /"checkin\.cameraRetakeVideo":/u);
   assert.deepEqual(videoThumbnailDimensions(1920, 1080), { width: 640, height: 360 });
   assert.deepEqual(videoThumbnailDimensions(480, 640), { width: 480, height: 640 });
-  assert.match(checkinScreenSource, /thumbnailUrl = preview\.thumbnailUrl/u);
+  assert.match(checkinScreenSource, /thumbnailUrl = (preview|metadata)\.thumbnailUrl/u);
   assert.match(checkinScreenSource, /data-proof-preview-video/u);
   assert.match(checkinScreenSource, /requestAnimationFrame\(\(\) => attachDraftVideoPreview\(app\)\)/u);
 });
@@ -776,7 +776,7 @@ check("time window blocks excluded dates and passed deadlines", () => {
   assert.equal(canStartExercise(base, now), null);
   const excluded = canStartExercise({ ...base, excludedDates: ["2026-07-29"] }, now);
   assert.ok(excluded && excluded.length > 0);
-  const pastDeadline = canStartExercise({ ...base, semesterDeadline: "2026-07-28" }, now);
+  const pastDeadline = canStartExercise({ ...base, dateRangeEnd: "2026-07-28" }, now);
   assert.ok(pastDeadline && pastDeadline.includes("2026-07-28"));
 });
 
@@ -793,19 +793,19 @@ check("proof rules follow the exact current API media allowlist", () => {
   assert.deepEqual(validateProofFile({ type: "image/webp", size: 100 }, "image"), { ok: false, error: "format" });
   assert.deepEqual(validateProofFile({ type: "image/jpeg", size: 10_485_761 }, "image"), { ok: false, error: "size" });
 
-  const mp4 = validateProofFile({ type: "video/mp4;codecs=avc1.42001e,mp4a.40.2", size: 100 }, "video", { durationSeconds: 14.1 });
-  assert.deepEqual(mp4, { ok: true, extension: "mp4", mimeType: "video/mp4", durationSeconds: 15 });
+  const mp4 = validateProofFile({ type: "video/mp4;codecs=avc1.42001e,mp4a.40.2", size: 100 }, "video", { durationSeconds: 9.1 });
+  assert.deepEqual(mp4, { ok: true, extension: "mp4", mimeType: "video/mp4", durationSeconds: 10 });
   for (const type of ["video/quicktime", "video/3gpp", "video/webm"]) {
     assert.equal(validateProofFile({ type, size: 100 }, "video", { durationSeconds: 15 }).ok, false);
   }
   assert.deepEqual(validateProofFile({ type: "video/x-matroska", size: 100 }, "video", { durationSeconds: 10 }), { ok: false, error: "format" });
   assert.deepEqual(validateProofFile({ name: "capture.mov", type: "", size: 100 }, "video", { durationSeconds: 10 }), { ok: false, error: "format" });
   assert.deepEqual(validateProofFile({ type: "video/mp4", size: 100 }, "video", { durationSeconds: 15.4 }), { ok: false, error: "duration" });
-  assert.deepEqual(validateProofFile({ type: "video/mp4", size: 100 }, "video", { durationSeconds: null }), { ok: false, error: "duration" });
+  assert.equal(validateProofFile({ type: "video/mp4", size: 100 }, "video", { durationSeconds: null }).ok, true);
   assert.deepEqual(validateProofFile({ type: "video/mp4", size: 0 }, "video", { durationSeconds: 10 }), { ok: false, error: "empty" });
   assert.equal(validateProofFile({ type: "image/jpeg", size: 10_485_760 }, "image").ok, true);
   assert.equal(validateProofFile({ type: "video/mp4", size: 104_857_600 }, "video", { durationSeconds: 10 }).ok, true);
-  assert.equal(validateProofFile({ type: "video/mp4", size: 104_857_601 }, "video", { durationSeconds: 10 }).ok, false);
+  assert.equal(validateProofFile({ type: "video/mp4", size: 209_715_201 }, "video", { durationSeconds: 10 }).ok, false);
 });
 
 check("check-in proof UI follows the Android preview-then-delete flow", () => {

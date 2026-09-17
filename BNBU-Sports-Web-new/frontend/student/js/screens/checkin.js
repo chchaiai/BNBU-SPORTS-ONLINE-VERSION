@@ -1,6 +1,6 @@
 import {isRealtimeSwim, ensureSwimIntake} from "../swim-submission.js";
-import {uploadProgressLabel} from '../upload-progress.js';
-import {savePhotoOriginal,listPhotoOriginals,removePhotoOriginal,prepareJpegEvidence,photoCameraFields} from "../photo-originals.js";
+import {uploadProgressLabel, uploadProgressHtml} from '../upload-progress.js';
+import {savePhotoOriginal,listPhotoOriginals,removePhotoOriginal,prepareJpegEvidence} from "../photo-originals.js";
 import {SPORT_OPTIONS} from "../sports-catalog.js";
 import {proofTodoContext} from '../proof-todo.js';
 // Exercise check-in flow (#20–#24) — feature/checkin/CheckInScreen.kt,
@@ -274,7 +274,7 @@ export function renderCheckIn(app) {
   const ui = checkinState(app);
   const session = loadSession(accountId(app));
   const phase = session?.phase || "idle";
-  const mediaStatus = ui.mediaNotice && (['active', 'paused', 'finished'].includes(phase) || selectedProofTodo(app)) ? `<div data-checkin-upload-status role="status" aria-live="polite" class="swiss-panel" style="position:sticky;bottom:16px;z-index:5;padding:16px;background:var(--color-surface)">${esc(ui.mediaNotice)}</div>` : "";
+  const mediaStatus = ui.finish.submitting ? uploadProgressHtml(ui.uploadProgress || {phase:'WAITING'}, ui.mediaNotice) : ui.mediaNotice && (['active', 'paused', 'finished'].includes(phase) || selectedProofTodo(app)) ? `<div data-checkin-upload-status role="status" aria-live="polite" class="swiss-panel" style="position:sticky;bottom:16px;z-index:5;padding:16px;background:var(--color-surface)">${esc(ui.mediaNotice)}</div>` : "";
 
   if (ui.selectedRecordId) {
     const record = app.state.workspace.records.find((r) => r.id === ui.selectedRecordId);
@@ -665,8 +665,7 @@ function captureButtonsHtml(app, { allowVideo }) {
       <button class="capture-btn pressable" data-action="checkin.capturePhoto" ${photoLimit ? "disabled" : ""}>${icon("camera-alt", 20)}<span>${tx("现场拍照", "Take photo")}</span></button>
       ${allowVideo ? `<button class="capture-btn pressable" data-action="checkin.captureVideo" ${videoLimit ? "disabled" : ""}>${icon("videocam", 20)}<span>${tx("现场录像", "Record video")}</span></button>` : ""}
     </div>
-    <label class="capture-btn"><span>${tx("使用手机相机拍照", "Take photo with device camera")}</span><input style="display:none" type="file" accept="image/*" capture="environment" data-change="checkin.nativePhoto" ${photoLimit ? "disabled" : ""}/></label>
-    ${allowVideo ? `<label class="capture-btn"><span>${tx("使用手机相机录像", "Record with device camera")}</span><input style="display:none" type="file" accept="video/*" capture="environment" data-change="checkin.nativeVideo" ${videoLimit ? "disabled" : ""}/></label><p class="body-small text-muted" style="margin:8px 0 0">${tx("视频请保留声音，单段最长 10 秒。网页录像无声时，请使用手机相机录像并在提交前试听。手机相机照片可保留设备提供的焦距、ISO 等信息。", "Keep audio enabled, up to 10 seconds. If web recording is silent, use the device camera and check playback before submitting. Device photos retain camera metadata when available.")}</p>` : ""}
+    ${allowVideo ? `<p class="body-small text-muted" style="margin:8px 0 0">${tx("视频最长 10 秒，请保留声音。系统相机返回后将检查时长，超过 10 秒无法提交。", "Keep audio enabled and record up to 10 seconds. Longer videos cannot be submitted.")}</p>` : ""}
     ${limitNote ? `<div class="body-small" style="color:${ORANGE};margin-top:8px">${esc(limitNote)}</div>` : ""}`;
 }
 
@@ -1515,11 +1514,10 @@ async function openLiveCamera(app, mode, facingMode = 'environment') {
 }
 
 export function prefersDeviceCamera(userAgent = navigator.userAgent) {
-  return /(?:Android|HarmonyOS|OpenHarmony|HUAWEI|HONOR)/i.test(userAgent) && /Edg(?:A)?\//i.test(userAgent);
+  return /(?:Android|iPhone|iPad|iPod|HarmonyOS|OpenHarmony|HUAWEI|HONOR)/i.test(userAgent);
 }
 
 function openCapture(app, mode) {
-  if (!prefersDeviceCamera()) { void openLiveCamera(app, mode); return; }
   const input = document.createElement('input');
   input.type = 'file'; input.accept = mode === 'video' ? 'video/*' : 'image/*';
   input.setAttribute('capture', 'environment'); input.style.display = 'none';
@@ -1718,9 +1716,11 @@ async function addDraftFromFileImpl(app, file, type, capturedDurationSeconds, ex
   let thumbnailUrl = null;
   let verdict = preVerdict;
   if (type === "video") {
-    durationSeconds = capturedDurationSeconds;
+    const metadata = await readVideoPreview(url);
+    durationSeconds = metadata.durationSeconds ?? capturedDurationSeconds;
+    thumbnailUrl = metadata.thumbnailUrl;
     verdict = validateVideoDraftDuration(uploadFile, durationSeconds, nativeCapture);
-    if (!verdict.ok) { URL.revokeObjectURL(url); rejectWith(tx('视频超过 10 秒时长限制，请重新录制。', 'Video exceeds 10 seconds. Record again.')); return; }
+    if (!verdict.ok) { URL.revokeObjectURL(url); rejectWith(tx('素材已超过十秒，请拍摄小于10秒的素材', 'Video exceeds 10 seconds. Record again.')); return; }
   }
 
   const draft = {
@@ -1746,13 +1746,8 @@ async function addDraftFromFileImpl(app, file, type, capturedDurationSeconds, ex
   for (const previous of ui.drafts.filter(d=>d.id===draftId)) URL.revokeObjectURL(previous.url);
   ui.drafts = ui.drafts.filter(d=>d.id!==draftId);
   ui.drafts.push(draft);
-  const cameraFields = type === "image" ? await photoCameraFields(uploadFile) : [];
   if (accountId(app) !== owner || app.ui.checkin !== ui) return;
-  ui.mediaNotice = type === "image"
-    ? cameraFields.length === 8
-      ? tx("已添加照片，拍摄时间、相机及曝光信息已保留。", "Photo added with capture time, camera and exposure metadata preserved.")
-      : tx("已添加照片，但原图未提供完整拍摄信息。请使用手机相机拍照；设备未提供的焦距、ISO 等字段将显示无数据。", "Photo added, but the original lacks complete camera metadata. Use the device camera; fields such as focal length and ISO will show no data if not supplied by the device.")
-    : tx("已添加现场视频。", "On-site video added.");
+  ui.mediaNotice = type === "image" ? tx("已添加照片。", "Photo added.") : tx("已添加现场视频。", "On-site video added.");
   app.render();
 }
 
@@ -1797,6 +1792,7 @@ function submitCheckIn(app, session) {
 async function submitCheckInApi(app, session, retained) {
   const ui = checkinState(app);
   const details = session.details;
+  ui.uploadProgress = {phase:'WAITING'};
   try {
     session.recordSubmission ||= { createKey: crypto.randomUUID(), submitKey: crypto.randomUUID() };
     persist(app, session);
@@ -1840,7 +1836,7 @@ async function submitCheckInApi(app, session, retained) {
       app.render();
       const blob = draft.blob || (await fetch(draft.url).then((r) => r.blob()));
       let mediaId;
-      try { mediaId = draft.mediaId || (await uploadMediaDraft(session.serverId, draft, blob,{onProgress:progress=>{const label=uploadProgressLabel(progress);if(ui.mediaNotice!==label){ui.mediaNotice=label;app.render();}}})).mediaId; }
+      try { mediaId = draft.mediaId || (await uploadMediaDraft(session.serverId, draft, blob,{onProgress:progress=>{ui.uploadProgress=progress;ui.mediaNotice=uploadProgressLabel(progress);app.render();}})).mediaId; }
       finally { await saveProofDraft(accountId(app), session.serverId, draft); }
       uploaded.push({
         mediaId,
@@ -2418,7 +2414,7 @@ export const checkinActions = {
         const mediaIds = workflow.materials.filter((item) => item.materialVersion === 1).map((item) => item.mediaId);
         for (const draft of drafts) {
           const blob = draft.blob || (await fetch(draft.url).then((response) => response.blob()));
-          mediaIds.push(draft.mediaId || (await uploadMediaDraft(context.sessionId, draft, blob,{onProgress:progress=>{const label=uploadProgressLabel(progress);if(ui.mediaNotice!==label){ui.mediaNotice=label;app.render();}}})).mediaId);
+          mediaIds.push(draft.mediaId || (await uploadMediaDraft(context.sessionId, draft, blob,{onProgress:progress=>{ui.uploadProgress=progress;ui.mediaNotice=uploadProgressLabel(progress);app.render();}})).mediaId);
         }
         intent = { recordId: todo.recordId, mediaIds: [...new Set(mediaIds)],
           expectedVersion: workflow.version, key: crypto.randomUUID() };

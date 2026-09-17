@@ -1,4 +1,18 @@
 import { tx } from './i18n.js';
+import { esc } from './ui.js';
+
+export function uploadProgressHtml(progress, message = '') {
+  const percent = progress.phase === 'UPLOADING' && Number.isFinite(progress.percent)
+    ? Math.max(0, Math.min(100, Math.floor(progress.percent))) : null;
+  return `<div data-checkin-upload-status class="upload-progress-overlay" role="status" aria-live="polite" style="position:fixed;inset:0;z-index:1000;display:grid;place-items:center;padding:24px;background:rgba(0,0,0,.38)">
+    <div style="width:min(100%,360px);box-sizing:border-box;padding:28px;border-radius:20px;background:var(--color-surface,#fff);color:var(--color-on-surface,#172032);box-shadow:0 16px 48px rgba(0,0,0,.2);text-align:center">
+      <strong>${esc(uploadProgressLabel(progress) || message || tx('正在提交…','Submitting…'))}</strong>
+      <div class="evidence-upload-loader ${percent === null ? 'is-processing' : ''}" role="progressbar" aria-label="${esc(tx('当前素材上传进度','Current file upload progress'))}" aria-valuemin="0" aria-valuemax="100" ${percent === null ? '' : `aria-valuenow="${percent}"`} style="--upload-percent:${percent ?? 0}%">
+        <span class="evidence-upload-fill"></span><span class="evidence-upload-percentage">${percent === null ? esc(tx('处理中…','Processing…')) : `${percent}%`}</span>
+      </div>
+      <span>${esc(tx('请保持页面打开，上传完成后仍需服务器确认。','Keep this page open. Server confirmation follows the upload.'))}</span>
+    </div></div>`;
+}
 
 export function uploadProgressLabel({phase,percent}) {
   if(phase==='UPLOADING')return Number.isFinite(percent)?tx(`正在上传 ${percent}%`,`Uploading ${percent}%`):tx('正在上传…','Uploading…');

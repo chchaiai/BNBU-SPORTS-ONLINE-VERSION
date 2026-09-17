@@ -94,14 +94,14 @@ function png(): Buffer {
   return readFileSync(new URL('../fixtures/v81-media/sample.png', import.meta.url));
 }
 
-it('verifies native MediaRecorder fragmented MP4 with zero movie duration across stream boundaries', async () => {
+it('rejects over-ten-second fragmented MP4 even when declared duration is missing', async () => {
   const body = readFileSync(
     new URL('../fixtures/v81-media/media-recorder-fragmented.mp4', import.meta.url),
   );
   const chunks = Array.from({ length: Math.ceil(body.length / 97) }, (_, index) =>
     body.subarray(index * 97, (index + 1) * 97),
   );
-  const verified = await new MediaValidator().readAndVerify(
+  await assert.rejects(new MediaValidator().readAndVerify(
     Readable.from(chunks),
     {
       businessPurpose: 'EXERCISE_RECORD',
@@ -109,15 +109,10 @@ it('verifies native MediaRecorder fragmented MP4 with zero movie duration across
       mimeType: 'video/mp4',
       fileSizeBytes: body.length,
       contentSha256: createHash('sha256').update(body).digest('hex'),
-      durationSeconds: 11,
+      durationSeconds: null,
     },
     config,
-  );
-  assert.deepEqual(verified.safeMetadata, {
-    durationSeconds: 11,
-    audioTrackCount: 1,
-    videoTrackCount: 1,
-  });
+  ), (error:unknown) => error instanceof ApplicationError && error.code === 'MEDIA_VIDEO_DURATION_EXCEEDED');
 });
 
 for (const mutation of [
@@ -478,7 +473,7 @@ describe('MediaEvidence validation core', () => {
 
   it('streams video verification and enforces the trusted duration at the exact boundary', async () => {
     const validator = new MediaValidator();
-    const accepted = mp4(15_000);
+    const accepted = mp4(10_000);
     const verified = await validator.readAndVerify(
       Readable.from([accepted.subarray(0, 37), accepted.subarray(37)]),
       {
@@ -487,18 +482,18 @@ describe('MediaEvidence validation core', () => {
         mimeType: 'video/mp4',
         fileSizeBytes: accepted.length,
         contentSha256: createHash('sha256').update(accepted).digest('hex'),
-        durationSeconds: 15,
+        durationSeconds: 10,
       },
       config,
     );
-    assert.equal(verified.durationSeconds, 15);
+    assert.equal(verified.durationSeconds, 10);
     assert.deepEqual(verified.safeMetadata, {
-      durationSeconds: 15,
+      durationSeconds: 10,
       audioTrackCount: 1,
       videoTrackCount: 1,
     });
 
-    const rejected = mp4(15_001);
+    const rejected = mp4(10_001);
     await assert.rejects(
       validator.readAndVerify(
         Readable.from(rejected),
@@ -517,9 +512,9 @@ describe('MediaEvidence validation core', () => {
     );
   });
 
-  it('accepts a 15-second audible WebM and verifies its actual tracks and duration', async () => {
+  it('accepts a 10-second audible WebM and verifies its actual tracks and duration', async () => {
     const validator = new MediaValidator();
-    const accepted = webm(15);
+    const accepted = webm(10);
     const verified = await validator.readAndVerify(
       Readable.from([accepted.subarray(0, 11), accepted.subarray(11, 47), accepted.subarray(47)]),
       {
@@ -528,14 +523,14 @@ describe('MediaEvidence validation core', () => {
         mimeType: 'video/webm',
         fileSizeBytes: accepted.length,
         contentSha256: createHash('sha256').update(accepted).digest('hex'),
-        durationSeconds: 15,
+        durationSeconds: 10,
       },
       config,
     );
     assert.equal(verified.mimeType, 'video/webm');
-    assert.equal(verified.durationSeconds, 15);
+    assert.equal(verified.durationSeconds, 10);
     assert.deepEqual(verified.safeMetadata, {
-      durationSeconds: 15,
+      durationSeconds: 10,
       audioTrackCount: 1,
       videoTrackCount: 1,
     });
@@ -544,7 +539,7 @@ describe('MediaEvidence validation core', () => {
   it('rejects WebM duration overflow, missing audio, and location tags', async () => {
     const validator = new MediaValidator();
     for (const [body, durationSeconds, code] of [
-      [webm(15.001), 16, 'MEDIA_VIDEO_DURATION_EXCEEDED'],
+      [webm(10.001), 16, 'MEDIA_VIDEO_DURATION_EXCEEDED'],
       [webm(8, { hasAudio: false }), 8, 'MEDIA_AUDIO_TRACK_REQUIRED'],
       [webm(8, { hasLocationMetadata: true }), 8, 'MEDIA_LOCATION_METADATA_NOT_ALLOWED'],
     ] as const) {

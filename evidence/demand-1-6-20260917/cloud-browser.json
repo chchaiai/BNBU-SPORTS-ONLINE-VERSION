@@ -1,0 +1,10 @@
+{
+  "result": "PASS",
+  "mediaLoaded": true,
+  "photoParametersHidden": true,
+  "actualQrDecoded": true,
+  "officialStudentUrl": true,
+  "schoolEmailFlow": true,
+  "testInviteRevoked": true,
+  "pageErrors": []
+}

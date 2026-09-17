@@ -44,7 +44,7 @@ import { renderLogin, loginActions } from "./screens/login.js";
 import { renderVerificationLogin, verificationActions } from "./screens/verification.js";
 import { renderRecoveryRequest, recoveryActions } from "./screens/recovery.js";
 import { renderContactBinding, renderActivationHelp, bindingActions } from "./screens/binding.js";
-import { renderScanJoin, renderEnterInviteCode, renderCourseJoinConfirm, renderJoinRequestStatus, joinActions, joinBackInterceptor, attachScanCamera } from "./screens/join.js";
+import { renderScanJoin, renderEnterInviteCode, renderCourseJoinConfirm, renderJoinRequestStatus, joinActions, joinBackInterceptor, attachScanCamera, openInviteLink } from "./screens/join.js";
 import { renderDashboard, dashboardActions } from "./screens/dashboard.js";
 import { renderNotificationSheet, notificationActions } from "./screens/notifications.js";
 import { renderCourses, coursesActions, coursesBackInterceptor } from "./screens/courses.js";
@@ -696,6 +696,14 @@ export const app = {
   render() {
     const viewport = this._viewport;
     if (!viewport) return;
+    if (!this.inviteLinkConsumed && params.has('invite') && !this.state.isRestoringSession &&
+        this.state.privacyConsentChecked && !this.state.needsPrivacyConsent) {
+      this.inviteLinkConsumed = true;
+      const code = params.get('invite') || '';
+      const url = new URL(location.href); url.searchParams.delete('invite');
+      history.replaceState(history.state, '', url.pathname + url.search + url.hash);
+      queueMicrotask(() => openInviteLink(this, code));
+    }
     if (!supportsStudentDevice()) {
       viewport.innerHTML = renderStudentDeviceNotice();
       return;

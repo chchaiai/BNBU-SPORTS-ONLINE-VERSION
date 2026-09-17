@@ -4,7 +4,7 @@ const titles = {
   VALID: ['运动记录有效', 'Exercise record accepted'],
   INVALID: ['运动记录无效', 'Exercise record invalid'],
   AWAITING_SUPPLEMENT: ['请补充本次运动材料', 'Supplementary evidence required'],
-  PENDING_TEACHER: ['补证已受理，等待教师复核', 'Supplement received, awaiting teacher review'],
+  PENDING_TEACHER: ['运动记录等待教师复核', 'Exercise record awaiting teacher review'],
 } as const;
 
 // Candidates must come from immutable history for this exact organization/record.
