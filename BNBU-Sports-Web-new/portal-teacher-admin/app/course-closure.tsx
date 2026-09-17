@@ -1,6 +1,6 @@
 "use client";
 import {useEffect,useRef,useState} from 'react';
-import {ApiError,apiSessionUserId,currentApiSessionEpoch,request,toUserFacingError} from './api-client';
+import {ApiError,apiSessionUserId,currentApiSessionEpoch,request,toUserFacingError, formatUserFacingError} from './api-client';
 type Section={id:string;status:string;version:number;displayName:string};
 type Intent={key:string;body:{reason:string;expectedVersion:number;confirmationCourseName:string;confirmCourseRetirement:true}};
 export function CourseClosure({classSectionId,onClosed,}:{classSectionId:string;onClosed:()=>void;archived?:boolean}){
@@ -9,7 +9,7 @@ export function CourseClosure({classSectionId,onClosed,}:{classSectionId:string;
  const valid=()=>mounted.current&&epoch===currentApiSessionEpoch();
  const path=`/class-sections/${classSectionId}`,storageKey=`bnbu:course-delete:${apiSessionUserId()}:${classSectionId}`;
  const load=async()=>{setPending(sessionStorage.getItem(storageKey)!==null);const result=await request<Section>(path);if(valid()){setSection(result);setPending(sessionStorage.getItem(storageKey)!==null);}};
- const run=async(action:()=>Promise<void>)=>{if(locked.current)return;locked.current=true;setBusy(true);setError('');try{await action();}catch(failure){if(valid())setError(toUserFacingError(failure,'zh').message);}finally{locked.current=false;if(valid())setBusy(false);}};
+ const run=async(action:()=>Promise<void>)=>{if(locked.current)return;locked.current=true;setBusy(true);setError('');try{await action();}catch(failure){if(valid())setError(formatUserFacingError(failure));}finally{locked.current=false;if(valid())setBusy(false);}};
  useEffect(()=>{mounted.current=true;void run(load);return()=>{mounted.current=false;};},[classSectionId]);
  const close=async()=>{
   let intent:Intent;const stored=sessionStorage.getItem(storageKey);

@@ -1,4 +1,5 @@
 "use client";
+import { StudentMajorCorrection } from './student-major-correction';
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { confirmTeacherAccounts, previewTeacherAccounts } from './teacher-import-api';
@@ -8,7 +9,7 @@ import { selectedStudents, type DeletionStudent } from './student-deletion-batch
 import { AppSelect } from "./app-select";
 import { pageItems } from "./admin-domain";
 import { adminCopy, adminErrorCopy } from "./admin-i18n";
-import { ApiError, request, getAccountSecurity, toUserFacingError, type UserFacingError } from "./api-client";
+import { ApiError, request, getAccountSecurity, toUserFacingError, formatUserFacingError, type UserFacingError } from "./api-client";
 import { deleteTeacherUser, getStudentProfile, getTeacherProfile, importUsers, listAssociatedTeacherProfiles, listStudentProfiles, previewUserImport } from "./admin-service";
 import { AdminServiceError, type AdminLocale, type AdminUser, type StudentProfileProjection, type TeacherProfileProjection } from "./admin-types";
 import { AdminBadge, AdminDialog, AdminDrawer, AdminEmpty, AdminField, AdminLoading, AdminPagination, AdminSectionHeading, formatAdminDate } from "./admin-components";
@@ -75,6 +76,10 @@ export function AdminUsers({ locale }: { locale: AdminLocale }) {
   const [error, setError] = useState<UserFacingError | null>(null);
   const [view, setView] = useState<"students" | "teacher">("students");
   const [query, setQuery] = useState("");
+  const [qualityFilter, setQualityFilter] = useState("all");
+  const [markingProfile, setMarkingProfile] = useState(false);
+  const [markTarget,setMarkTarget] = useState<StudentProfileProjection|null>(null);
+  const [markReason,setMarkReason] = useState("");
   const [status, setStatus] = useState("all");
   const [college, setCollege] = useState("all");
   const [page, setPage] = useState(1);
@@ -144,6 +149,7 @@ export function AdminUsers({ locale }: { locale: AdminLocale }) {
   const filtered = useMemo(() => {
     const normalized = query.trim().toLocaleLowerCase();
     return students.filter((student) => {
+      if(qualityFilter!=="all" && student.profileQualityStatus!==qualityFilter) return false;
       if (emailVerification !== "all" && student.emailVerified !== (emailVerification === "verified")) return false;
       if (course !== "all" && !(student.courseAssociations ?? []).some(item => item.classSectionId === course)) return false;
       const registeredDate = new Date(student.createdAt);
@@ -157,13 +163,13 @@ export function AdminUsers({ locale }: { locale: AdminLocale }) {
       return !normalized || [student.studentNumber, student.fullName, student.collegeName, student.majorName, student.email, student.dateOfBirth, student.regionCode, student.otherRegionName, adminStudentRegion(student, locale), ...(student.courseAssociations ?? []).flatMap(item => [item.classCode, item.className, item.courseName, item.semesterName])]
         .filter(Boolean).join(" ").toLocaleLowerCase().includes(normalized);
     });
-  }, [college, query, status, students, grade, gender, course, registeredFrom, registeredTo, emailVerification, locale]);
+  }, [qualityFilter, college, query, status, students, grade, gender, course, registeredFrom, registeredTo, emailVerification, locale]);
   const filteredTeachers = teachers.filter(teacher =>
     (status === 'all' || teacher.status === status) && (college === 'all' || teacher.collegeName === college) &&
     (department === 'all' || teacher.departmentName === department) &&
     (!query.trim() || [teacher.employeeNumber, teacher.fullName, teacher.collegeName, teacher.departmentName, teacher.title].filter(Boolean).join(' ').toLowerCase().includes(query.trim().toLowerCase())));
   const teacherPaged = pageItems(filteredTeachers, page, 10);
-  const resetFilters = () => { setQuery(''); setStatus('all'); setCollege('all'); setGrade('all'); setGender('all'); setDepartment('all'); setCourse('all'); setEmailVerification('all'); setRegisteredFrom(''); setRegisteredTo(''); setPage(1); setSelectedStudentIds([]); };
+  const resetFilters = () => { setQualityFilter("all"); setQuery(''); setStatus('all'); setCollege('all'); setGrade('all'); setGender('all'); setDepartment('all'); setCourse('all'); setEmailVerification('all'); setRegisteredFrom(''); setRegisteredTo(''); setPage(1); setSelectedStudentIds([]); };
   const paged = pageItems(filtered, page, 10);
   const selected = selectedStudents(selectedStudentIds, filtered);
   const selectedSet = new Set(selected.map(student => student.id));
@@ -213,7 +219,7 @@ export function AdminUsers({ locale }: { locale: AdminLocale }) {
       const text = await file.text();
       if (revision === importRevision.current) setCsvText(text);
     } catch (failure) {
-      if (revision === importRevision.current) setImportIssue(toUserFacingError(failure, locale).message);
+      if (revision === importRevision.current) setImportIssue(formatUserFacingError(failure, locale));
     }
   }
 
@@ -243,7 +249,7 @@ export function AdminUsers({ locale }: { locale: AdminLocale }) {
     } catch (failure) {
       if (revision !== importRevision.current) return;
       setImportPreview([]);
-      setImportIssue(mode === 'real' ? toUserFacingError(failure, locale).message : failure instanceof AdminServiceError
+      setImportIssue(mode === 'real' ? formatUserFacingError(failure, locale) : failure instanceof AdminServiceError
         ? adminErrorCopy(locale, failure.message)
         : (locale === "zh" ? "无法读取导入内容，请检查 CSV 格式。" : "The import could not be read. Check the CSV format."));
     }
@@ -328,6 +334,7 @@ export function AdminUsers({ locale }: { locale: AdminLocale }) {
   return (
     <div className="admin-page-stack admin-users-page">
       <ErrorPanel error={error} locale={locale} />
+      {markTarget && <div className="admin-surface" role="dialog" aria-label={locale==='zh'?'要求重新完善':'Require correction'}><h3>{markTarget.fullName} · {markTarget.studentNumber}</h3><p>{locale==='zh'?'保存后，该学生必须完善资料才能打卡。原因将向学生展示。':'The student must correct their profile before checking in. The reason is visible to the student.'}</p><input aria-label={locale==='zh'?'原因':'Reason'} maxLength={200} value={markReason} onChange={event=>setMarkReason(event.target.value)} disabled={markingProfile}/><button className="primary-button" disabled={markingProfile || !markReason.trim()} onClick={async()=>{setMarkingProfile(true);try{await request(`/students/${markTarget.id}`,{method:'PATCH',body:{expectedVersion:markTarget.version,profileUpdateReason:markReason.trim()}});setMarkTarget(null);await load();}catch(failure){setError(toUserFacingError(failure,locale));}finally{setMarkingProfile(false);}}}>{locale==='zh'?'保存':'Save'}</button><button disabled={markingProfile} onClick={()=>setMarkTarget(null)}>{locale==='zh'?'取消':'Cancel'}</button></div>}
       <nav className="admin-profile-switcher" aria-label={locale === "zh" ? "账户类型" : "Account type"}>
         <button type="button" className={view === "students" ? "is-active" : ""} aria-pressed={view === "students"} onClick={() => { setView("students"); resetFilters(); }}>
           <span>{studentTitle}</span><small>{students.length}</small>
@@ -338,10 +345,11 @@ export function AdminUsers({ locale }: { locale: AdminLocale }) {
       </nav>
 
           <div className="admin-audit-filters">
-            <AdminField locale={locale} label={adminCopy(locale, "search")}><input type="search" value={query} onChange={(event) => { setQuery(event.target.value); setPage(1); setSelectedStudentIds([]); }} placeholder={view === "students" ? (locale === "zh" ? "学号、姓名、邮箱、专业、课程或地域" : "Number, name, email, major, course or region") : adminCopy(locale, "account_search")} /></AdminField>
+            <AdminField locale={locale} label={adminCopy(locale, "search")}><input type="search" value={query} onChange={(event) => { setQuery(event.target.value); setPage(1); setSelectedStudentIds([]); }} placeholder={view === "students" ? (locale === "zh" ? "学号、姓名、邮箱、专业、课程或生源地" : "Number, name, email, major, course or region") : adminCopy(locale, "account_search")} /></AdminField>
             <AppSelect label={adminCopy(locale, "status_filter")} value={status} options={[{ value: "all", label: adminCopy(locale, "all") }, ...statuses.map((value) => ({ value, label: view === "students" ? (value === "ACTIVE" ? (locale === "zh" ? "已进班" : "Enrolled") : (locale === "zh" ? "已退班" : "Withdrawn")) : value }))]} onChange={(value) => { if (value) { setStatus(String(value)); setPage(1); setSelectedStudentIds([]); } }} />
             <AppSelect label={adminCopy(locale, "college")} value={college} searchable options={[{ value: "all", label: adminCopy(locale, "all") }, ...colleges.map((value) => ({ value, label: value }))]} onChange={(value) => { if (value) { setCollege(String(value)); setPage(1); setSelectedStudentIds([]); } }} />
             {view === 'students' ? <>
+              <AppSelect label={locale==='zh'?'个人信息状态':'Profile status'} value={qualityFilter} options={['all','NORMAL','REQUIRES_PROFILE_UPDATE','PENDING_REVIEW'].map(value=>({value,label:qualityLabel(value,locale)}))} onChange={value=>{setQualityFilter(String(value));setPage(1);}} />
               <AppSelect label={locale === 'zh' ? '邮箱验证' : 'Email verification'} value={emailVerification} options={[{value:'all',label:adminCopy(locale,'all')},{value:'verified',label:locale==='zh'?'已验证':'Verified'},{value:'unverified',label:locale==='zh'?'未验证':'Unverified'}]} onChange={value=>{setEmailVerification(String(value));setPage(1); setSelectedStudentIds([]);}} />
               <AppSelect label={locale === 'zh' ? '课程/教学班（含历史）' : 'Course/class (including history)'} value={course} searchable options={[{value:'all',label:adminCopy(locale,'all')}, ...Array.from(new Map(students.flatMap(s => (s.courseAssociations ?? []).map(item => [item.classSectionId, {value:item.classSectionId,label:`${item.semesterName} · ${item.courseName} · ${item.className}`}] as const))).values())]} onChange={value=>{setCourse(String(value));setPage(1); setSelectedStudentIds([]);}} />
               <AdminField locale={locale} label={locale === 'zh' ? '注册日期起' : 'Registered from'}><input type="date" value={registeredFrom} onChange={event=>{setRegisteredFrom(event.target.value);setPage(1); setSelectedStudentIds([]);}} /></AdminField>
@@ -364,7 +372,7 @@ export function AdminUsers({ locale }: { locale: AdminLocale }) {
           </div>}
           {paged.items.length === 0 ? <AdminEmpty locale={locale} filtered={Boolean(query || status !== "all" || college !== "all" || grade !== "all" || gender !== "all" || course !== "all" || emailVerification !== "all" || registeredFrom || registeredTo)} /> : <div className="table-wrap"><table className="admin-table admin-student-accounts-table"><thead><tr>
             {canEraseStudent && <th><input type="checkbox" aria-label={locale === 'zh' ? '选择或取消当前页' : 'Select or clear this page'} checked={allPageSelected} ref={node => { if (node) node.indeterminate = !allPageSelected && paged.items.some(student => selectedSet.has(student.id)); }} onChange={event => selectPage(event.target.checked)} /></th>}
-            {(locale === "zh" ? ["学号", "姓名", "邮箱", "性别", "入学年份", "学院", "专业", "课程/教学班（含历史）", "出生日期", "地域", "注册时间", "账号状态", "详情"] : ["Student number", "Name", "Email", "Gender", "Admission year", "College", "Major", "Courses/classes (including history)", "Date of birth", "Region", "Registered", "Status", "Details"]).map(label=><th key={label}>{label}</th>)}
+            {(locale === "zh" ? ["学号", "姓名", "邮箱", "性别", "入学年份", "学院", "专业", "课程/教学班（含历史）", "出生日期", "生源地", "注册时间", "账号状态", "个人信息状态", "详情"] : ["Student number", "Name", "Email", "Gender", "Admission year", "College", "Major", "Courses/classes (including history)", "Date of birth", "Region", "Registered", "Status", "Profile status", "Details"]).map(label=><th key={label}>{label}</th>)}
           </tr></thead><tbody>{paged.items.map(student=><tr key={student.id}>
             {canEraseStudent && <td><input type="checkbox" aria-label={`${locale === 'zh' ? '选择' : 'Select'} ${student.studentNumber} ${student.fullName}`} checked={selectedSet.has(student.id)} onChange={event => setSelectedStudentIds(ids => event.target.checked ? [...new Set([...ids, student.id])] : ids.filter(id => id !== student.id))} /></td>}
             <td><code>{student.studentNumber}</code></td><td><b>{student.fullName}</b></td>
@@ -373,6 +381,7 @@ export function AdminUsers({ locale }: { locale: AdminLocale }) {
             <td>{student.gradeYear || "—"}</td><td>{student.collegeName ?? "—"}</td><td>{student.majorName ?? "—"}</td>
             <td>{courseAssociationText(student, locale)}</td><td>{student.dateOfBirth ?? "—"}</td><td>{adminStudentRegion(student, locale)}</td>
             <td>{formatAdminDate(locale, student.createdAt, true)}</td><td><AdminBadge tone={student.status === "ACTIVE" ? "green" : "gray"}>{student.status === "ACTIVE" ? (locale === "zh" ? "已进班" : "Enrolled") : (locale === "zh" ? "已退班" : "Withdrawn")}</AdminBadge></td>
+            <td><b>{qualityLabel(student.profileQualityStatus ?? 'NORMAL',locale)}</b><small className="table-sub">{(student.profileQualityReasons ?? []).map(reason=>qualityReason(reason,locale)).join('；')}</small><small className="table-sub">{student.profileConfirmedAt?(locale==='zh'?'已重新填写：':'Confirmed: ')+formatAdminDate(locale,student.profileConfirmedAt):(locale==='zh'?'尚未重新填写':'Not reconfirmed')}</small><small className="table-sub">{formatAdminDate(locale,student.updatedAt)}</small>{mode!=='demo' && <button className="text-button" type="button" disabled={markingProfile} onClick={()=>{setMarkTarget(student);setMarkReason('');}}>{locale==='zh'?'要求重新完善':'Require correction'}</button>}</td>
             <td><button className="text-button" type="button" onClick={()=>void openStudent(student.id)}>{adminCopy(locale,"details")} →</button></td>
           </tr>)}</tbody></table></div>}
           <AdminPagination locale={locale} page={paged.page} totalPages={paged.totalPages} total={paged.total} onPage={setPage} />
@@ -390,7 +399,7 @@ export function AdminUsers({ locale }: { locale: AdminLocale }) {
         </section>
       )}
 
-      {studentDetail && <StudentDrawer locale={locale} student={studentDetail} close={() => setStudentDetail(null)} onDelete={mode === "real" && canEraseStudent ? () => { setStudentDeleteTarget(studentDetail); setStudentDetail(null); } : undefined} />}
+      {studentDetail && <StudentDrawer locale={locale} student={studentDetail} close={() => setStudentDetail(null)} onCorrected={mode==='real'?()=>{setStudentDetail(null);void load();}:undefined} onDelete={mode === "real" && canEraseStudent ? () => { setStudentDeleteTarget(studentDetail); setStudentDetail(null); } : undefined} />}
       {canEraseStudent && studentDeletionAccess?.userId && <AdminStudentBulkDeletion key={studentDeletionAccess.userId} students={batchTargets} ownerId={studentDeletionAccess.userId} locale={locale}
         close={() => { setBatchTargets(null); setSelectedStudentIds([]); void load(); }}
         removed={ids => { const deletedIds = new Set(ids); setStudents(current => current.filter(student => !deletedIds.has(student.id))); setSelectedStudentIds(current => current.filter(id => !deletedIds.has(id))); }} />}
@@ -456,7 +465,7 @@ function courseAssociationText(student: StudentProfileProjection, locale: AdminL
   return (student.courseAssociations ?? []).map(item => `${item.semesterName} · ${item.courseName} · ${item.className} (${item.classCode}) · ${item.status === "ACTIVE" ? (locale === "zh" ? "在课" : "Enrolled") : (locale === "zh" ? "历史" : "Historical")}`).join("；") || (locale === "zh" ? "暂无课程关联" : "No course associations");
 }
 
-function StudentDrawer({ locale, student, close, onDelete }: { locale: AdminLocale; student: StudentProfileProjection; close: () => void; onDelete?: () => void }) {
+function StudentDrawer({ locale, student, close, onDelete, onCorrected }: { locale: AdminLocale; student: StudentProfileProjection; close: () => void; onDelete?: () => void; onCorrected?:()=>void }) {
   return (
     <AdminDrawer locale={locale} title={student.fullName} description={student.studentNumber} close={close} footer={onDelete ? <button className="danger-button" type="button" onClick={onDelete}>{locale === "zh" ? "删除学生账号" : "Delete student account"}</button> : undefined}>
       <div className="admin-detail-list">
@@ -464,7 +473,7 @@ function StudentDrawer({ locale, student, close, onDelete }: { locale: AdminLoca
         {"email" in student && <Detail label={locale === "zh" ? "邮箱" : "Email"} value={student.email ?? (locale === "zh" ? "尚未绑定" : "Not bound")} />}
         <Detail label={adminCopy(locale, "organization")} value={student.organizationId} />
         <Detail label={locale === "zh" ? "出生日期" : "Date of birth"} value={student.dateOfBirth} />
-        <Detail label={locale === "zh" ? "地域" : "Region"} value={adminStudentRegion(student, locale)} />
+        <Detail label={locale === "zh" ? "生源地" : "Region"} value={adminStudentRegion(student, locale)} />
         <Detail label={locale === "zh" ? "注册时间" : "Registered"} value={formatAdminDate(locale,student.createdAt,true)} />
         <Detail label={locale === "zh" ? "课程/教学班（含历史）" : "Courses/classes (including history)"} value={courseAssociationText(student,locale)} />
         <Detail label={locale === "zh" ? "邮箱验证" : "Email verification"} value={student.emailVerified === undefined ? "—" : student.emailVerified ? (locale === "zh" ? "已验证" : "Verified") : (locale === "zh" ? "未验证" : "Unverified")} />
@@ -472,6 +481,7 @@ function StudentDrawer({ locale, student, close, onDelete }: { locale: AdminLoca
         <Detail label={adminCopy(locale, "grade_year")} value={student.gradeYear} />
         <Detail label={adminCopy(locale, "college")} value={student.collegeName} />
         <Detail label={adminCopy(locale, "major")} value={student.majorName} />
+        {onCorrected && <StudentMajorCorrection student={student} locale={locale} onSaved={onCorrected}/>}
         <Detail label={adminCopy(locale, "status")} value={`${student.status} · ${student.status === "ACTIVE" ? (locale === "zh" ? "已进班" : "Enrolled") : (locale === "zh" ? "已绑定邮箱但已退班" : "Email-bound but withdrawn")}`} />
         <Detail label={adminCopy(locale, "updated_at")} value={formatAdminDate(locale, student.updatedAt, true)} />
         <Detail label={adminCopy(locale, "record_version")} value={student.version} />
@@ -499,4 +509,14 @@ function TeacherDrawer({ locale, teacher, mode, assignedCourseCount, close, onDe
 
 function Detail({ label, value }: { label: string; value: string | number | null | undefined }) {
   return <span><small>{label}</small><b>{value ?? "—"}</b></span>;
+}
+
+function qualityLabel(value:string,locale:AdminLocale) {
+  const labels:Record<string,[string,string]>={all:['全部','All'],NORMAL:['正常','Normal'],REQUIRES_PROFILE_UPDATE:['必须完善','Correction required'],PENDING_REVIEW:['待核查','Review needed']};
+  return labels[value]?.[locale==='zh'?0:1] ?? value;
+}
+function qualityReason(value:string,locale:AdminLocale) {
+  if(value.startsWith('manual:')) return value.slice(7);
+  const labels:Record<string,[string,string]>={studentNumber:['学号格式','Student number'],fullName:['姓名格式','Name'],gender:['性别','Gender'],gradeYear:['入学年份','Admission year'],collegeName:['学院','College'],majorName:['专业','Major'],dateOfBirth:['出生日期','Birth date'],regionCode:['生源地','Region'],'fullName.review':['姓名需确认','Confirm name']};
+  return labels[value]?.[locale==='zh'?0:1] ?? value;
 }

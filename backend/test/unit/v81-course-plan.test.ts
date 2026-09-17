@@ -18,9 +18,9 @@ test('a passed local start window is not counted at publication', () => {
   assert.equal(coursePlanCapacity(input).availableSlots, 1);
   assert.equal(coursePlanCapacity({ ...input, now: new Date('2026-09-07T02:02:00Z') }).availableSlots, 0);
 });
-test('deadline before local daily opening excludes that day', () => {
+test('legacy regular deadline does not shorten the teacher exercise window', () => {
   assert.equal(coursePlanCapacity({ ...plan, endDate: '2026-09-07',
-    regularDeadline: new Date('2026-09-07T01:30:00Z') }).availableSlots, 0);
+    regularDeadline: new Date('2026-09-07T01:30:00Z') }).availableSlots, 1);
 });
 test('daily and shared weekly limits include exclusions and partial weeks', () => {
   const result = coursePlanCapacity({ ...plan, endDate: '2026-09-14',

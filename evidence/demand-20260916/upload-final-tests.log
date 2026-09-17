@@ -1,0 +1,15 @@
+✔ upload reports measured byte progress separately from confirmation (1.0998ms)
+✔ unknown upload length shows a phase rather than an invented percentage (0.591ms)
+✔ check-in retries an expired object URL with fresh authorization and the same evidence bytes (19.0207ms)
+✔ exemption retries an expired object URL with fresh authorization and the same evidence bytes (1.9069ms)
+✔ proof todos read every backend page through the normal API envelope (0.5989ms)
+✔ proof todo pagination rejects a repeated cursor instead of looping (0.2603ms)
+✔ a supplement retry preserves its original media, workflow version and idempotency key (0.4177ms)
+ℹ tests 7
+ℹ suites 0
+ℹ pass 7
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 98.358

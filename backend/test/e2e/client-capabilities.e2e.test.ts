@@ -192,7 +192,7 @@ describe('Stage 21 client capabilities with real PostgreSQL', () => {
       collegeName: 'FST', majorName: 'CST', dateOfBirth: '2005-01-01', regionCode: 'CN-44' };
     const count = await prisma.enrollment.count(), users = await prisma.user.count();
     assert.equal((await post(`${base}/join-capabilities`, identity)).status, 401);
-    const email = 'email-first@mail.bnbu.edu.cn';
+    const email = 'a123456789@mail.bnbu.edu.cn';
     const issued = await post('/auth/student-sign-in-codes', { organizationCode: 'BNBU-TEST', account: email, channel: 'EMAIL', locale: 'zh-CN', joinInviteToken: invite });
     assert.equal(issued.status, 202);
     const challengeId = String(object(issued.body.data).challengeId);
@@ -289,7 +289,7 @@ describe('Stage 21 client capabilities with real PostgreSQL', () => {
   it('mail abuse: unknown accounts reserve no mail quota and forged invitations are rejected', async () => {
     const post = (extra = {}) => request('/api/v1/auth/student-sign-in-codes', { method: 'POST',
       headers: { 'content-type': 'application/json', 'idempotency-key': uuidv7() },
-      body: JSON.stringify({ organizationCode: 'BNBU-TEST', account: 'unknown@mail.bnbu.edu.cn', channel: 'EMAIL', locale: 'zh-CN', ...extra }) });
+      body: JSON.stringify({ organizationCode: 'BNBU-TEST', account: 'a987654321@mail.bnbu.edu.cn', channel: 'EMAIL', locale: 'zh-CN', ...extra }) });
     assert.equal((await post()).status, 202);
     assert.equal(await prisma.authRateLimitFact.count(), 2);
     assert.equal((await post({ joinInviteToken: 'invalid-invite-token' })).status, 401);
@@ -359,8 +359,9 @@ describe('Stage 21 client capabilities with real PostgreSQL', () => {
     }
   });
 
-  it('updates academic details over HTTP while preserving a legacy student number and rejecting invalid majors', async () => {
+  it('updates undeclared academic details over HTTP while preserving the student number and rejecting invalid majors', async () => {
     const student=await seedExerciseSessionStudent(prisma,fixture,'LEGACY-ACADEMICS');
+    await prisma.studentProfile.update({where:{id:student.studentId},data:{collegeName:'GS',majorName:'未分流'}});
     const before=await prisma.studentProfile.findUniqueOrThrow({where:{id:student.studentId}});
     const token=await studentAccessToken(student.userId,student.authSessionId);
     const update=(majorName:string,key=uuidv7())=>request('/api/v1/me/student-profile',{
@@ -386,7 +387,7 @@ describe('Stage 21 client capabilities with real PostgreSQL', () => {
     const read = (path: string) => request(path, { headers: authorization(admin.data.accessToken) });
     assert.equal((await read('/api/v1/students')).status, 403);
     await prisma.v81AdminAccess.update({ where: { userId: fixture.adminUserId }, data: { permissions: ['USER_ACCOUNTS'] } });
-    const response = await read('/api/v1/students?collegeName=Regression%20College&gradeYear=2026&gender=FEMALE&email=PROFILE-A');
+    const response = await read('/api/v1/students?collegeName=Regression%20College&gradeYear=2026&gender=FEMALE&email='+encodeURIComponent(student.email));
     assert.equal(response.status, 200, JSON.stringify(response.body));
     const rows = array(response.body.data); assert.equal(rows.length, 1);
     const row = object(rows[0]); assert.equal(row.email, student.email); assert.equal(row.emailVerified, true);
@@ -446,7 +447,7 @@ describe('Stage 21 client capabilities with real PostgreSQL', () => {
       headers: { 'content-type': 'application/json', 'idempotency-key': uuidv7() },
       body: JSON.stringify({
         organizationCode: 'BNBU-TEST',
-        account: 'synthetic@invalid.test',
+        account: 'a135792468@mail.bnbu.edu.cn',
         channel: 'EMAIL',
         locale: 'zh-CN',
       }),
@@ -507,7 +508,7 @@ describe('Stage 21 client capabilities with real PostgreSQL', () => {
     assert.equal(blocked.status, 409);
     assert.equal(blocked.body.code, 'USER_STATUS_NOT_ACTIVE');
 
-    const targetEmail = 'pending.student@bnbu.invalid';
+    const targetEmail = 'b123456789@mail.bnbu.edu.cn';
     const requested = await request('/api/v1/me/email-verification-challenges', {
       method: 'POST',
       headers: {
@@ -583,7 +584,7 @@ describe('Stage 21 client capabilities with real PostgreSQL', () => {
     const accessToken = await studentAccessToken(student.userId, student.authSessionId);
     const current = await request('/api/v1/me', { headers: authorization(accessToken) });
     const user = object(object(current.body.data).user);
-    const targetEmail = 'rebound.student@bnbu.invalid';
+    const targetEmail = 'c123456789@mail.bnbu.edu.cn';
     const requested = await request('/api/v1/me/email-verification-challenges', {
       method: 'POST',
       headers: {

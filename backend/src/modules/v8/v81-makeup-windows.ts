@@ -86,7 +86,12 @@ export class V81MakeupWindowsService {
       if (!rule?.published_at) throw new ApplicationError('CONFLICT_STATE_TRANSITION', 409, { reason: 'PUBLISHED_RULE_REQUIRED' });
       if (rule.version !== input.expectedRuleVersion) throw new ApplicationError('CONFLICT_VERSION_MISMATCH', 409);
       const now = this.clock.now(), startsAt = new Date(input.startsAt), endsAt = new Date(input.endsAt);
-      try { validateMakeupWindow({ now, startsAt, endsAt, regularDeadline: rule.regular_deadline, closingDeadline: rule.closing_deadline }); }
+      const boundary=(await tx.$queryRaw<{startBoundary:Date;endBoundary:Date}[]>`SELECT
+        c.check_in_start_date::timestamp AT TIME ZONE o.timezone AS "startBoundary",
+        (c.check_in_end_date + interval '1 day') AT TIME ZONE o.timezone AS "endBoundary"
+        FROM class_sections c JOIN organizations o ON o.id=c.organization_id WHERE c.id=${classId}::uuid`)[0];
+      if(!boundary?.startBoundary || !boundary.endBoundary) throw new ApplicationError('VALIDATION_FAILED',422);
+      try { validateMakeupWindow({ now, startsAt, endsAt, ...boundary }); }
       catch (error) { throw new ApplicationError('VALIDATION_FAILED', 422, { reason: error instanceof Error ? error.message : 'MAKEUP_TIME_INVALID' }); }
       if (this.time.businessDate(startsAt, section.organization.timezone) < section.semester.startDate.toISOString().slice(0, 10) ||
         this.time.businessDate(new Date(endsAt.getTime() - 1), section.organization.timezone) > section.semester.endDate.toISOString().slice(0, 10))

@@ -29,6 +29,10 @@ export class ExerciseRecordPathDto {
 
 export class ExerciseRecordListQueryDto {
   @IsOptional()
+  @IsIn(['SUGGEST_PASS', 'TEACHER_REVIEW', 'SUSPECTED_RISK', 'QUEUED', 'RUNNING', 'FAILED'])
+  aiReview?: string;
+
+  @IsOptional()
   @IsString()
   @MaxLength(2048)
   cursor?: string;

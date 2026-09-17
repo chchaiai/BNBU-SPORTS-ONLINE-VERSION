@@ -1,0 +1,11 @@
+{
+  "result": "PASS",
+  "worker": "real browser Worker",
+  "playback": true,
+  "duration": 10.041,
+  "elapsedMs": 675,
+  "bytePersistence": true,
+  "legacyDraft": true,
+  "deleteDuringSave": true,
+  "reloadRestoresPending": true
+}

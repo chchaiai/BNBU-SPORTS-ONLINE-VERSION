@@ -1,0 +1,8 @@
+{
+  "result": "PASS",
+  "release": "/opt/bnbu-sports-production/releases/ai-review-ui-20260917",
+  "previous": "/opt/bnbu-sports-production/releases/ai-review-20260917",
+  "portalImage": "sha256:6e2be76cecc1d980ef8199a69e0a9f2ca51f4a56b469aa849594d050d69b2ea8",
+  "backendUnchanged": true,
+  "publicCssHash": "PASS"
+}

@@ -1,0 +1,10 @@
+{
+  "result": "PASS",
+  "release": "/opt/bnbu-sports-production/releases/course-settings-final-20260915",
+  "previous": "/opt/bnbu-sports-production/releases/course-settings-ui-20260915",
+  "imageId": "sha256:609fd46ddc2db2cc57b4816815ffdac34a11375954905917c607c2b05389524b",
+  "backendUnchanged": true,
+  "verifiedPublicAssets": 9,
+  "businessDeletesExecuted": 0,
+  "localRegression": "2/2 real HTTP plus browser including rules-only save and duplicate key check"
+}

@@ -248,7 +248,7 @@ describe('V81 OCR governance HTTP E2E', () => {
     const post = async (path: string, body: Record<string, unknown>, token = teacher, status = 201, key = uuidv7()) =>
       data(await request('/api/v1' + path, authenticated(token, 'POST', body, key)), status);
     const me = await get('/me', own);
-    const profile = {collegeName:'Synthetic College',majorName:'Software',dateOfBirth:'2004-02-29',
+    const profile = {collegeName:'SCC',majorName:'JC',dateOfBirth:'2004-02-29',
       regionCode:'OTHER',otherRegionName:'Japan',expectedVersion:object(me.studentProfile).version};
     const profileKey = uuidv7();
     const completed = await post('/me/student-profile', profile, own, 200, profileKey);

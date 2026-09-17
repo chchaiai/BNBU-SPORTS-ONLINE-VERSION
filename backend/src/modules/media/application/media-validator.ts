@@ -61,18 +61,46 @@ export class MediaValidator {
     if (facts.mediaType !== 'VIDEO' && facts.fileSizeBytes > config.maxImageBytes) {
       throw new ApplicationError('MEDIA_SIZE_EXCEEDED', 413);
     }
-    if (facts.mediaType === 'VIDEO' && facts.fileSizeBytes > config.maxVideoTransportBytes) {
+    if (facts.mediaType === 'VIDEO' && facts.fileSizeBytes > Math.min(config.maxVideoTransportBytes, 200 * 1024 * 1024)) {
       throw new ApplicationError('MEDIA_SIZE_EXCEEDED', 413);
     }
     if (facts.mediaType !== 'VIDEO' && facts.durationSeconds !== null) {
       throw new ApplicationError('VALIDATION_FAILED', 422);
     }
     if (facts.mediaType === 'VIDEO') {
-      if (facts.durationSeconds === null || facts.durationSeconds < 1) {
+      if (facts.durationSeconds !== null && facts.durationSeconds < 1) {
         throw new ApplicationError('VALIDATION_FAILED', 422);
       }
-      this.enforceVideoDuration(facts.businessPurpose, facts.durationSeconds, 1);
+      if (facts.durationSeconds !== null) {
+        if (facts.businessPurpose === 'EXERCISE_RECORD' && facts.durationSeconds > 10) throw new ApplicationError('MEDIA_VIDEO_DURATION_EXCEEDED', 422);
+        this.enforceVideoDuration(facts.businessPurpose, facts.durationSeconds, 1);
+      }
     }
+  }
+
+  async readRawVideo(stream: Readable, declared: DeclaredMediaFacts, config: MediaConfig): Promise<VerifiedMediaFacts> {
+    if (config.scannerMode === 'EXTERNAL_REQUIRED') stream = scannedMediaStream(stream, config.scannerHost, config.scannerPort);
+    const hash = createHash('sha256');
+    let size = 0;
+    let prefix = Buffer.alloc(0);
+    let tail = Buffer.alloc(0);
+    for await (const chunk of stream) {
+      const bytes = Buffer.isBuffer(chunk) ? chunk : Buffer.from(chunk as Uint8Array);
+      size += bytes.length;
+      if (size > Math.min(config.maxVideoTransportBytes, 200 * 1024 * 1024)) throw new ApplicationError('MEDIA_SIZE_EXCEEDED',413);
+      if (prefix.length < 16) prefix = Buffer.concat([prefix, bytes.subarray(0,16-prefix.length)]);
+      const scan = Buffer.concat([tail,bytes]);
+      if (scan.includes(EICAR)) this.integrityFailure();
+      tail = Buffer.from(scan.subarray(Math.max(0,scan.length-64)));
+      hash.update(bytes);
+    }
+    const digest = hash.digest('hex');
+    if (size !== declared.fileSizeBytes || (declared.contentSha256 !== null && digest !== declared.contentSha256)) this.integrityFailure();
+    const isWebm = prefix.subarray(0,4).equals(WEBM_SIGNATURE);
+    if (!isWebm && prefix.subarray(4,8).toString('ascii') !== 'ftyp') this.integrityFailure();
+    const mimeType = isWebm ? 'video/webm' : this.isoBaseMediaMimeType(prefix.subarray(8,12).toString('ascii'));
+    if (mimeType !== declared.mimeType) this.integrityFailure();
+    return {mimeType,fileSizeBytes:size,contentSha256:digest,durationSeconds:null,safeMetadata:{videoPipeline:1}};
   }
 
   async readAndVerify(
@@ -147,7 +175,7 @@ export class MediaValidator {
     const tags = ['DateTimeOriginal', 'Make', 'Model', 'FocalLength', 'FNumber', 'ISO', 'ExposureTime', 'Orientation'];
     try {
       const data = await exifr.parse(body, { pick: tags, gps: false, xmp: false, iptc: false,
-        reviveValues: false, translateValues: false }) as Record<string, unknown> | undefined;
+        reviveValues: false, translateValues: false });
       return Object.fromEntries(tags.flatMap(tag => {
         const value = data?.[tag];
         return (typeof value === 'number' && Number.isFinite(value)) || typeof value === 'string'
@@ -242,7 +270,7 @@ export class MediaValidator {
     if (declared.businessPurpose === 'EXERCISE_RECORD' && audioTrackCount < 1) {
       throw new ApplicationError('MEDIA_AUDIO_TRACK_REQUIRED', 422);
     }
-    if (declared.durationSeconds === null || durationSeconds !== declared.durationSeconds) {
+    if (declared.durationSeconds !== null && durationSeconds !== declared.durationSeconds) {
       this.integrityFailure();
     }
     return {

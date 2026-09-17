@@ -1,0 +1,89 @@
+
+> @bnbu/sports-backend@0.1.0 test:security
+> node ./scripts/run-test-layer.mjs security
+
+▶ Stage 21 client capability security
+  ✔ keeps locally integrated client capabilities inside their approved principal scope (0.8563ms)
+  ✔ redacts authentication, push, and location secrets recursively (0.1448ms)
+  ✔ accepts only EMAIL for student sign-in and staff recovery requests (2.9054ms)
+  ✔ binds every GPS mutation to a student-owned existing ExerciseSession (0.0987ms)
+  ✔ uses record scope for summaries and reserves privacy-policy mutation for ADMIN (0.0735ms)
+  ✔ rejects out-of-range coordinates and more than one bounded batch (4.558ms)
+  ✔ accepts Android, Web, and iOS while rejecting unknown client platforms (0.6444ms)
+✔ Stage 21 client capability security (9.9153ms)
+▶ Docker database role separation
+  ✔ uses a bootstrap identity distinct from the migration and runtime identities (4.1578ms)
+  ✔ makes migration history read-only to the runtime identity after every deploy (1.4833ms)
+  ✔ makes every migrator artifact readable by the non-root node identity (0.6693ms)
+✔ Docker database role separation (6.9458ms)
+▶ Stage 12 security negatives
+  ✔ accepts only X-Join-Capability and rejects ordinary Authorization on atomic Join (1.0554ms)
+  ✔ logs only the generated route template, never a raw invite token path (0.8277ms)
+  ✔ redacts identity snapshots, ciphertexts, token hashes, and names recursively (0.1581ms)
+  ✔ rate limits public QR keys together and resets only after the configured window (0.2912ms)
+✔ Stage 12 security negatives (2.8999ms)
+▶ Stage 16 ExerciseRecord security
+  ✔ permits self mutations only and preserves teacher/admin read-only scope (3.5202ms)
+  ✔ strips mass-assigned identity, duration, state, review, and storage fields (2.325ms)
+  ✔ projects only the frozen student-safe current review (0.5557ms)
+✔ Stage 16 ExerciseRecord security (6.9558ms)
+▶ Stage 17 ExerciseReview security
+  ✔ allows only TEACHER for single, history, reopen, and batch routes (1.3107ms)
+  ✔ strips forged identity, status, chain, and duration fields while retaining explicit override denial input (2.0062ms)
+  ✔ validates every nested batch item and prevents envelope field smuggling (1.0838ms)
+✔ Stage 17 ExerciseReview security (4.9309ms)
+▶ Stage 14 ExerciseSession security
+  ✔ allows only STUDENT for all eight Session operations (3.2466ms)
+  ✔ rejects whitespace cancellation reasons and malformed reconciliation input (2.2894ms)
+  ✔ whitelists Session inputs so identity, time, duration, status, and version cannot be assigned (0.6705ms)
+  ✔ never exposes auth-session linkage, interval internals, safe metadata, or storage fields (0.1893ms)
+✔ Stage 14 ExerciseSession security (6.977ms)
+▶ Stage 19 Export and audit governance security
+  ✔ strips forged identity and persistence facts from default-deny DTOs (3.334ms)
+  ✔ does not expose arbitrary JSON search and bounds every audit query input (0.4173ms)
+  ✔ keeps audit ADMIN-only and all five unresolved mutations fail-closed (0.0854ms)
+✔ Stage 19 Export and audit governance security (4.3583ms)
+▶ Stage 15 MediaEvidence security
+  ✔ enforces Student mutations and only current metadata read roles (1.8243ms)
+  ✔ rejects mass assignment and Record targets at the DTO boundary (1.9238ms)
+  ✔ never projects storage facts and redacts every capability field recursively (0.358ms)
+✔ Stage 15 MediaEvidence security (4.6601ms)
+▶ Stage 13 roster security boundaries
+  ✔ parses explicit boolean query values and rejects whitespace-only mutation reasons (2.8217ms)
+  ✔ allows ADMIN only on governance reads, TEACHER on owned-scope operations, and no STUDENT (1.5148ms)
+  ✔ returns role-specific projections without raw rows, storage data, or ADMIN identity values (0.8498ms)
+  ✔ redacts roster source facts and identity differences recursively (0.1982ms)
+  ✔ implements ignore as a validated, scoped default deny with zero mutation side effects (0.3755ms)
+  ✔ rejects whitespace-only resolution reasons before idempotency or database access (0.2795ms)
+✔ Stage 13 roster security boundaries (6.6692ms)
+▶ Stage 18 Score security
+  ✔ strips forged score facts and identity from rule, approval, and recalculate requests (2.5228ms)
+  ✔ accepts only bounded adjustment inputs and rejects URL or script evidence injection (1.0034ms)
+  ✔ keeps every score operation fail-closed with the frozen role boundary (0.1446ms)
+✔ Stage 18 Score security (4.1922ms)
+(node:14588) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+▶ security negative gates
+  ✔ rejects placeholders and malformed production configuration (1.8671ms)
+  ✔ fails closed when staging email delivery is absent or unauthenticated (1.1523ms)
+  ✔ allows an isolated unauthenticated SMTP sink only for local development (0.9315ms)
+  ✔ accepts explicit Tencent SES template configuration without static cloud credentials (0.6517ms)
+  ✔ requires CVM role storage and rejects static COS credentials in staging (0.5258ms)
+  ✔ requires exact HTTPS CORS origins in staging while retaining HTTP support for tests (0.7199ms)
+  ✔ rejects a forged role or organization even when token verification succeeds (0.5631ms)
+  ✔ returns a five-field envelope for oversized or malformed bodies without echoing content (0.3398ms)
+  ✔ redacts every frozen sensitive field without leaking nested values (0.2438ms)
+  ✔ fails closed for unknown operation policies and unsupported resource resolvers (0.5197ms)
+  ✔ accepts only the frozen Stage 13 roster resolver identifiers (0.1803ms)
+  ✔ rejects an otherwise valid access token after its session is revoked (0.3422ms)
+  ✔ rejects organization, teacher, course, and query mass assignment at the DTO boundary (3.3561ms)
+  ✔ maps database constraint failures without exposing SQL or constraint names (0.3674ms)
+✔ security negative gates (12.766ms)
+ℹ tests 53
+ℹ suites 11
+ℹ pass 53
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 6800.9566

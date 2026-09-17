@@ -1,0 +1,67 @@
+
+> @bnbu/sports-backend@0.1.0 test:contract
+> node ./scripts/run-test-layer.mjs contract
+
+▶ Stage 21 client capability contract
+  ✔ binds all thirty added operations and keeps only unresolved capabilities default-deny (0.7778ms)
+  ✔ keeps GPS raw coordinates write-only and exposes only a coarse review summary (0.0935ms)
+  ✔ supports IOS in every public client-platform contract without removing Android or Web (0.5289ms)
+  ✔ preserves exact exemption subtypes and the pre-authentication QR join sequence (0.1945ms)
+  ✔ registers every current operation and distinguishes explicit default deny (1.7453ms)
+✔ Stage 21 client capability contract (3.9522ms)
+▶ Stage 12 Enrollment and QR Join contract
+  ✔ binds all ten operations to the frozen authentication and resource policies (451.0171ms)
+  ✔ freezes sensitive response headers and the complete atomic Join result (463.7998ms)
+  ✔ uses canonical capability errors and preserves the expanded operation baseline (377.7355ms)
+✔ Stage 12 Enrollment and QR Join contract (1293.3361ms)
+▶ Stage 16 ExerciseRecord contract
+  ✔ binds eight operations to real handlers and role-scoped resolvers (0.8981ms)
+  ✔ freezes server-derived duration, safe currentReview, and private media boundaries (0.1832ms)
+  ✔ requires descriptions only for GENERAL exercise records (0.1361ms)
+  ✔ keeps withdraw as a routed default deny and Review handlers outside the Record controller (0.0815ms)
+✔ Stage 16 ExerciseRecord contract (1.8604ms)
+▶ Stage 17 ExerciseReview contract
+  ✔ binds exactly four teacher-only operations to real handlers (0.8229ms)
+  ✔ freezes dual versions, reason validation, nullable PENDING facts, and override fail-closed (0.1244ms)
+  ✔ keeps batch per-item outcomes and excludes claim, UNDER_REVIEW, Score, and Export from Stage 17 (7.5562ms)
+✔ Stage 17 ExerciseReview contract (9.0883ms)
+▶ Stage 14 ExerciseSession contract
+  ✔ binds exactly eight Student-only Session operations to runtime policy and Controller methods (483.1732ms)
+  ✔ matches the operation registry, keeps no Session list, nullable active recovery, and five formal states (425.7462ms)
+  ✔ keeps integer durations, RFC3339 instants, date-only businessDate, expectedVersion, and idempotency headers (401.3054ms)
+✔ Stage 14 ExerciseSession contract (1311.0433ms)
+▶ Stage 19 Export, Audit Read, and governance contract
+  ✔ binds all ten remaining operations to real handlers and generated policy (0.5528ms)
+  ✔ retains default-deny Export operations while permitting scoped student corrections (0.6225ms)
+  ✔ keeps the expanded operation registry closed without upgrading Export or Production gates (8.5762ms)
+✔ Stage 19 Export, Audit Read, and governance contract (10.3352ms)
+▶ Stage 15 MediaEvidence contract
+  ✔ binds exactly five operations to real Controller methods and frozen policies (0.9258ms)
+  ✔ freezes stable media identity, declared/verified separation, and Session-only binding (0.1458ms)
+  ✔ publishes trusted track and location failures only on upload confirmation (0.0987ms)
+  ✔ publishes the byte-verified browser WebM transport without requiring GPS (0.1735ms)
+  ✔ matches the operation registry and keeps exactly five MediaEvidence operations (0.5054ms)
+✔ Stage 15 MediaEvidence contract (2.4644ms)
+▶ Stage 13 Official Roster and Alignment contract
+  ✔ freezes all thirteen operations, role scopes, resolvers, and Controller bindings (470.8684ms)
+  ✔ accepts CSV and XLSX upload with server snapshot versioning and typed resolution evidence (435.3092ms)
+  ✔ freezes six classifications, safe projections, roster errors, and true ignore default deny (396.2438ms)
+✔ Stage 13 Official Roster and Alignment contract (1303.1778ms)
+▶ authoritative OpenAPI contract
+  ✔ parses every local reference and exposes complete unique access policies (468.8514ms)
+  ✔ binds every implemented controller method to its generated operation policy (0.318ms)
+  ✔ freezes envelope fields and the safe student currentReview projection (418.1749ms)
+✔ authoritative OpenAPI contract (888.162ms)
+▶ Stage 18 Score contract
+  ✔ binds all 15 frozen operations to real handlers and generated policies (0.8915ms)
+  ✔ freezes the fixed formula and rejects client-authored calculation facts (8.4277ms)
+  ✔ keeps correction as an explicit default deny and score decimals bounded to two places (0.1951ms)
+✔ Stage 18 Score contract (10.2271ms)
+ℹ tests 35
+ℹ suites 10
+ℹ pass 35
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 11637.8837

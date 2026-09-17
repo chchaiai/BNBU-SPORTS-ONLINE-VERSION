@@ -1,0 +1,1687 @@
+diff --git a/.gitattributes b/.gitattributes
+index 37980dbf..60c99704 100644
+--- a/.gitattributes
++++ b/.gitattributes
+@@ -2,4 +2,5 @@ docs/backend-contracts/contract-history/2.0.11-contract-c3bdba5999404ea5c58b4840
+ backend/prisma/migrations/0058_client_diagnostics_rate_limit/migration.sql text eol=lf
+ backend/prisma/migrations/0059_v81_recognition_adjustment/migration.sql text eol=lf
+ backend/prisma/migrations/0061_admin_student_erasure/migration.sql text eol=lf
++backend/prisma/migrations/0077_credit_projection_minutes/migration.sql text eol=lf
+ docs/backend-contracts/openapi.yaml text eol=lf
+diff --git a/BNBU-Sports-Web-new/frontend/student/client-error-projection.test.mjs b/BNBU-Sports-Web-new/frontend/student/client-error-projection.test.mjs
+index 14e2d306..8219320b 100644
+--- a/BNBU-Sports-Web-new/frontend/student/client-error-projection.test.mjs
++++ b/BNBU-Sports-Web-new/frontend/student/client-error-projection.test.mjs
+@@ -2,6 +2,13 @@ import test from 'node:test';
+ import assert from 'node:assert/strict';
+ import {ApiError,ClientTransportError,toUserFacingError} from './js/api.js';
+ 
++test('local proof storage errors do not tell the student to check the network',()=>{
++ const error=new Error('private storage detail');error.name='ProofDraftStorageError';
++ const result=toUserFacingError(error,{log:false});
++ assert.equal(result.category,'UNKNOWN');assert.match(result.message,/存储|storage/);
++ assert.doesNotMatch(result.message,/网络连接失败|Network connection failed|private/);
++});
++
+ test('object-storage rejection explains retained evidence without claiming the student has no business permission',()=>{
+   const result=toUserFacingError(new ApiError(403,{code:'MEDIA_UPLOAD_FAILED'}),{log:false});
+   assert.equal(result.category,'SERVER');
+diff --git a/BNBU-Sports-Web-new/frontend/student/js/api.js b/BNBU-Sports-Web-new/frontend/student/js/api.js
+index 0fa5e1f1..58d3371d 100644
+--- a/BNBU-Sports-Web-new/frontend/student/js/api.js
++++ b/BNBU-Sports-Web-new/frontend/student/js/api.js
+@@ -293,6 +293,11 @@ export function sessionStartErrorText(error) {
+ }
+ 
+ function knownApiErrorMessage(error) {
++  if (error?.name === 'ProofDraftStorageError') return tx('凭证暂未保存到本机，请保持页面打开，释放设备存储空间后重试。', 'Evidence could not be saved on this device. Keep this page open, free storage and retry.');
++  if (error instanceof ApiError && error.code === 'AUTH_RATE_LIMITED' && Number.isFinite(error.details?.retryAfterSeconds)) {
++    const seconds = Math.max(1, Math.ceil(error.details.retryAfterSeconds));
++    return tx(`请求过于频繁，请在 ${seconds} 秒后重试。`, `Too many requests. Try again in ${seconds} seconds.`);
++  }
+   if (error instanceof ApiError && error.code === "USER_NOT_FOUND" && error.details?.resourceType === "STUDENT_SIGN_IN_ACCOUNT") {
+     return tx("当前邮箱尚未关联学生账号，请先扫码加入课程完成入班并验证邮箱后再登录。", "This email is not linked to a student account. Scan a course invitation to enroll and verify your email before signing in.");
+   }
+@@ -462,6 +467,7 @@ function isTimeoutError(error) {
+ }
+ 
+ function userErrorCategory(error) {
++  if (error?.name === 'ProofDraftStorageError') return 'UNKNOWN';
+   if (isTimeoutError(error)) return "TIMEOUT";
+   if (!(error instanceof ApiError)) return "NETWORK";
+   if (error.code === 'MEDIA_UPLOAD_FAILED') return 'SERVER';
+@@ -1376,9 +1382,15 @@ export async function uploadMediaDraft(serverSessionId, draft, blob, { prepareOn
+   if (draft.swimLocked && draft.pendingUpload?.signature !== signature) throw new ApiError(422, {code:"VALIDATION_FAILED", details:{reason:"SWIM_LOCKED_BATCH_MISMATCH"}});
+   if (draft.pendingUpload?.signature !== signature) draft.pendingUpload = null;
+ 
++  if (!draft.swimLocked && draft.pendingUpload && !draft.pendingUpload.objectUploaded &&
++      Date.parse(draft.pendingUpload.initiated.expiresAt) <= Date.now()) {
++    draft.pendingUpload = null;
++    draft.initiateIdempotencyKey = uuid();
++  }
++
+   if (!draft.pendingUpload) {
+     draft.initiateIdempotencyKey ||= uuid();
+-    const initiated = await request("/media-uploads", {
++    const initiate = () => request("/media-uploads", {
+       method: "POST",
+       headers: { "Idempotency-Key": draft.initiateIdempotencyKey },
+       body: {
+@@ -1392,6 +1404,19 @@ export async function uploadMediaDraft(serverSessionId, draft, blob, { prepareOn
+         durationSeconds: isVideo ? verdict.durationSeconds : null,
+       },
+     });
++    let initiated;
++    try { initiated = await initiate(); }
++    catch (error) {
++      if (!(error instanceof ApiError) || error.code !== "MEDIA_COUNT_LIMIT_EXCEEDED") throw error;
++      // A quota rejection is stored by the server. Re-evaluate once with a new
++      // key so an expired reservation or a recoverable upload can be reconciled.
++      draft.initiateIdempotencyKey = uuid();
++      try { initiated = await initiate(); }
++      catch (retryError) {
++        if (retryError instanceof ApiError && retryError.code === "MEDIA_COUNT_LIMIT_EXCEEDED") draft.initiateIdempotencyKey = uuid();
++        throw retryError;
++      }
++    }
+     draft.pendingUpload = {
+       signature,
+       initiated,
+@@ -1607,10 +1632,10 @@ export function readRecordProofs(recordId) {
+ }
+ 
+ // ── Email-only student authentication and binding ────────────────
+-export const requestStudentSignInCode = (account) =>
++export const requestStudentSignInCode = (account, joinInviteToken) =>
+   request("/auth/student-sign-in-codes", {
+     method: "POST", auth: false, idempotent: true,
+-    body: { organizationCode: organizationCode(), account: account.trim(), channel: "EMAIL", locale: apiLocale() },
++    body: { organizationCode: organizationCode(), account: account.trim(), channel: "EMAIL", locale: apiLocale(), ...(joinInviteToken ? { joinInviteToken } : {}) },
+   });
+ 
+ export const verifyJoinEmail = (challengeId, code, joinEmail, joinInviteToken) =>
+diff --git a/BNBU-Sports-Web-new/frontend/student/js/checkin-drafts.js b/BNBU-Sports-Web-new/frontend/student/js/checkin-drafts.js
+index f5d7f443..209e3561 100644
+--- a/BNBU-Sports-Web-new/frontend/student/js/checkin-drafts.js
++++ b/BNBU-Sports-Web-new/frontend/student/js/checkin-drafts.js
+@@ -2,6 +2,16 @@
+ // Blob URLs are document-local and must be rebuilt after a page restart.
+ const DB_NAME = "bnbu.student.web.checkin-drafts";
+ let database;
++let writes = Promise.resolve();
++const enqueue = work => {
++  const result = writes.then(work).catch(() => {
++    const error = new Error('Local proof storage failed');
++    error.name = 'ProofDraftStorageError';
++    throw error;
++  });
++  writes = result.catch(() => {});
++  return result;
++};
+ function openDatabase() {
+   if (!database) database = new Promise((resolve, reject) => {
+     const request = indexedDB.open(DB_NAME, 1);
+@@ -21,28 +31,32 @@ async function operation(mode, callback) {
+     transaction.onabort = transaction.onerror = () => reject(transaction.error || new Error("Draft storage failed"));
+   });
+ }
+-export async function saveProofDraft(owner, scope, draft) {
++export const saveProofDraft = (owner, scope, draft) => enqueue(async () => {
+   if (!owner || !scope || !(draft.blob instanceof Blob)) throw new Error("Draft identity or bytes missing");
+-  const {url, thumbnailUrl, ...stored} = draft;
++  const {url, thumbnailUrl, blob, ...stored} = draft;
++  const fileBytes = await blob.arrayBuffer();
+   await operation("readwrite", store => store.put({key:[owner,scope,draft.id],owner,scope,...stored,
++    fileBytes, fileType: blob.type,
+     thumbnailUrl: thumbnailUrl?.startsWith("blob:") ? null : thumbnailUrl}));
+   // A declined persistence request does not invalidate the completed write.
+   void globalThis.navigator?.storage?.persist?.().catch(() => {});
+-}
++});
+ export async function loadProofDrafts(owner, scope) {
++  await writes;
+   const rows = await operation("readonly", store => store.getAll(IDBKeyRange.bound([owner,scope], [owner,scope,[]])));
+   return rows.filter(row => row.owner === owner && row.scope === scope).map(row => {
+-    const {key, owner: ignoredOwner, scope: ignoredScope, ...draft} = row;
++    const {key, owner: ignoredOwner, scope: ignoredScope, fileBytes, fileType, ...draft} = row;
++    if (fileBytes) draft.blob = new Blob([fileBytes], {type: fileType || draft.mimeType});
+     return {...draft,url:URL.createObjectURL(draft.blob)};
+   });
+ }
+-export async function removeProofDraft(owner, scope, id) {
++export const removeProofDraft = (owner, scope, id) => enqueue(async () => {
+   await operation("readwrite", store => store.delete([owner,scope,id]));
+-}
+-export async function clearProofDrafts(owner, scope) {
++});
++export const clearProofDrafts = (owner, scope) => enqueue(async () => {
+   const range = scope === undefined ? IDBKeyRange.bound([owner], [owner,[]]) : IDBKeyRange.bound([owner,scope], [owner,scope,[]]);
+   const rows = await operation("readonly", store => store.getAll(range));
+   await operation("readwrite", store => {
+     for (const row of rows) if (row.owner === owner && (scope === undefined || row.scope === scope)) store.delete(row.key);
+   });
+-}
++});
+diff --git a/BNBU-Sports-Web-new/frontend/student/js/i18n.js b/BNBU-Sports-Web-new/frontend/student/js/i18n.js
+index 6046ca0a..08e813e9 100644
+--- a/BNBU-Sports-Web-new/frontend/student/js/i18n.js
++++ b/BNBU-Sports-Web-new/frontend/student/js/i18n.js
+@@ -179,9 +179,9 @@ const STRINGS = {
+   login_verification_submit: ["登录", "Sign in"],
+   login_verification_code_expiry: ["验证码 10 分钟内有效，且仅可使用一次。", "The code is valid for 10 minutes and can be used once."],
+   login_verification_privacy_notice: ["继续即表示你已阅读并同意《隐私政策》。", "By continuing, you acknowledge the Privacy Policy."],
+-  login_verification_email_invalid: ["请输入有效的邮箱地址。", "Enter a valid email address."],
++  login_verification_email_invalid: ["请输入以 @mail.bnbu.edu.cn 结尾的完整学校邮箱。", "Enter your complete school email ending in @mail.bnbu.edu.cn."],
+   login_verification_code_invalid: ["请输入 4–10 位数字验证码。", "Enter the 4–10 digit verification code."],
+-  login_verification_email_code_sent: ["验证码已发送，请查收邮箱。", "Verification code sent. Check your email."],
++  login_verification_email_code_sent: ["如果该邮箱已关联学生账号，验证码将发送至该邮箱。未入班请先扫码入班。", "If this email is linked to a student account, a code will be sent. New students should scan a class invitation first."],
+   login_verification_error_rate_limited: ["发送过于频繁，请在 60 秒后再试。", "Too many requests. Try again in 60 seconds."],
+   login_verification_error_expired: ["验证码已过期，请重新获取。", "The code has expired. Request a new one."],
+   login_verification_error_invalid: ["验证码错误，请重新输入。", "Incorrect code. Enter it again."],
+diff --git a/BNBU-Sports-Web-new/frontend/student/js/recorded-video.js b/BNBU-Sports-Web-new/frontend/student/js/recorded-video.js
+index 4cd6d3a2..0488f091 100644
+--- a/BNBU-Sports-Web-new/frontend/student/js/recorded-video.js
++++ b/BNBU-Sports-Web-new/frontend/student/js/recorded-video.js
+@@ -2,7 +2,21 @@
+ // output (including fragmented MP4) to a finalized H.264/AAC MP4 in a worker.
+ import {PROOF_VIDEO_MAX_BYTES, mimeEssence} from './proofs.js';
+ 
+-export async function normalizeRecordedVideo(file) {
++export class VideoProcessingError extends Error {
++ constructor(stage, timedOut = false) {
++  super(`Video processing failed: ${stage}`);
++  this.name = 'VideoProcessingError'; this.stage = stage; this.timedOut = timedOut;
++ }
++}
++
++export function canRemuxRecording(streams) {
++ const video = streams.find(stream => stream.codec_type === 'video');
++ const audio = streams.find(stream => stream.codec_type === 'audio');
++ return video?.codec_name === 'h264' && video.pix_fmt === 'yuv420p' &&
++  Math.max(video.width, video.height) <= 1920 && audio?.codec_name === 'aac';
++}
++
++export async function normalizeRecordedVideo(file, {createWorker} = {}) {
+  let type=mimeEssence(file.type);
+  if(!['video/mp4','video/webm','video/quicktime'].includes(type)) {
+   const header=new Uint8Array(await file.slice(0,16).arrayBuffer());
+@@ -10,28 +24,54 @@ export async function normalizeRecordedVideo(file) {
+   else if(header[0]===0x1a&&header[1]===0x45&&header[2]===0xdf&&header[3]===0xa3)type='video/webm';
+  }
+  if(!['video/mp4','video/webm','video/quicktime'].includes(type)||file.size<1||file.size>PROOF_VIDEO_MAX_BYTES)throw new Error('Unsupported recording source');
+- const {FFmpeg}=await import('../vendor/ffmpeg/api/index.js');const worker=new FFmpeg();let timeout;
++ const worker = createWorker ? await createWorker() : new (await import('../vendor/ffmpeg/api/classes.js?v=iphone-20260915')).FFmpeg();
++ const step = async (stage, work, milliseconds = 30000) => {
++  let timeout;
++  try {
++   return await Promise.race([Promise.resolve().then(work), new Promise((_, reject) => {
++    timeout = setTimeout(() => reject(new VideoProcessingError(stage, true)), milliseconds);
++   })]);
++  } catch (error) { throw error instanceof VideoProcessingError ? error : new VideoProcessingError(stage); }
++  finally { clearTimeout(timeout); }
++ };
+  try{
+-  const task=(async()=>{
+-   await worker.load({coreURL:new URL('../vendor/ffmpeg/core/ffmpeg-core.js?v=67a48f11645f',import.meta.url).href,wasmURL:new URL('../vendor/ffmpeg/core/ffmpeg-core.wasm?v=9f57947a5bd5',import.meta.url).href});
+-   await worker.writeFile('source',new Uint8Array(await file.arrayBuffer()));
+-   const result=await worker.exec(['-i','source','-map','0:v:0','-map','0:a:0?','-vf',"scale='if(gte(iw,ih),min(iw,1280),min(iw,720))':'if(gte(iw,ih),min(ih,720),min(ih,1280))':force_original_aspect_ratio=decrease:force_divisible_by=2,fps=30,setsar=1",'-c:v','libx264','-profile:v','baseline','-level:v','3.1','-preset','ultrafast','-crf','24','-pix_fmt','yuv420p','-c:a','aac','-profile:a','aac_low','-ar','44100','-ac','2','-map_metadata','-1','-movflags','+faststart','-threads','1','output.mp4']);
+-   if(result!==0)throw new Error('Recording conversion failed');const bytes=await worker.readFile('output.mp4');
++   await step('load', () => worker.load({coreURL:new URL('../vendor/ffmpeg/core/ffmpeg-core.js?v=67a48f11645f',import.meta.url).href,wasmURL:new URL('../vendor/ffmpeg/core/ffmpeg-core.wasm?v=9f57947a5bd5-iphone-20260915',import.meta.url).href}), 90000);
++   await step('read', async () => worker.writeFile('source',new Uint8Array(await file.arrayBuffer())));
++   const streams = await step('probe', async () => {
++    const result = await worker.ffprobe(['-v','error','-show_streams','-of','json','source','-o','streams.json'], 30000);
++    // This shipped core leaves ret=-1 after a successful ffprobe. Require
++    // parseable stream output as well; positive exit codes are failures.
++    if (result !== 0 && result !== -1) throw new Error('Recording probe failed');
++    const streams = JSON.parse(await worker.readFile('streams.json','utf8')).streams;
++    if (!Array.isArray(streams) || !streams.some(stream => stream.codec_type === 'video')) throw new Error('No video stream');
++    return streams;
++   });
++   if (!streams.some(stream => stream.codec_type === 'audio')) throw new VideoProcessingError('audio');
++   let remuxed = false;
++   if (canRemuxRecording(streams)) {
++    remuxed = await step('remux', async () => (await worker.exec(['-i','source','-map','0:v:0','-map','0:a:0','-c','copy','-map_metadata','-1','-map_metadata:s','-1','-map_chapters','-1','-movflags','+faststart','output.mp4'],30000)) === 0);
++   }
++   if (!remuxed) await step('encode', async () => {
++    const result=await worker.exec(['-threads','1','-i','source','-map','0:v:0','-map','0:a:0','-vf',"scale='if(gte(iw,ih),min(iw,1280),min(iw,720))':'if(gte(iw,ih),min(ih,720),min(ih,1280))':force_original_aspect_ratio=decrease:force_divisible_by=2,fps=30,setsar=1",'-c:v','libx264','-profile:v','baseline','-level:v','3.1','-preset','ultrafast','-crf','24','-pix_fmt','yuv420p','-c:a','aac','-profile:a','aac_low','-ar','44100','-ac','2','-map_metadata','-1','-map_metadata:s','-1','-map_chapters','-1','-movflags','+faststart','-threads','1','output.mp4'],120000);
++    if(result!==0)throw new Error('Recording conversion failed');
++   }, 125000);
++   return await step('preview', async () => {
++   const bytes=await worker.readFile('output.mp4');
+    if(!bytes.length||bytes.length>PROOF_VIDEO_MAX_BYTES)throw new Error('Converted recording size invalid');
+    const durationSeconds = finalizedMp4Duration(bytes);
+    if (!durationSeconds) throw new Error('Converted recording duration invalid');
+    // Decode the finalized output in the worker. A hidden HTML video is subject
+    // to mobile autoplay/preload policy and cannot serve as a codec verdict.
+-   const posterResult = await worker.exec(['-i','output.mp4','-frames:v','1','-vf','scale=640:640:force_original_aspect_ratio=decrease','-q:v','3','poster.jpg']);
++   await worker.deleteFile('source');
++   const posterResult = await worker.exec(['-threads','1','-i','output.mp4','-frames:v','1','-vf','scale=640:640:force_original_aspect_ratio=decrease','-q:v','3','-threads','1','poster.jpg'],30000);
+    if (posterResult !== 0) throw new Error('Converted recording frame decode failed');
+    const poster = await worker.readFile('poster.jpg');
+    if (!poster.length) throw new Error('Converted recording frame missing');
+    let binary='';for(const byte of poster)binary+=String.fromCharCode(byte);
+    return {file:new File([bytes],'recording.mp4',{type:'video/mp4'}),
+      preview:{durationSeconds,thumbnailUrl:'data:image/jpeg;base64,'+btoa(binary)}};
+-  })();
+-  return await Promise.race([task,new Promise((_,reject)=>{timeout=setTimeout(()=>reject(new Error('Recording conversion timed out')),90000);})]);
+- }finally{clearTimeout(timeout);worker.terminate();}
++   });
++ }finally{worker.terminate();}
+ }
+ 
+ // Read mvhd from a finalized MP4, including extended atom sizes and version 1.
+diff --git a/BNBU-Sports-Web-new/frontend/student/js/screens/binding.js b/BNBU-Sports-Web-new/frontend/student/js/screens/binding.js
+index 5db197bf..85912dcc 100644
+--- a/BNBU-Sports-Web-new/frontend/student/js/screens/binding.js
++++ b/BNBU-Sports-Web-new/frontend/student/js/screens/binding.js
+@@ -1,3 +1,4 @@
++import { isStudentSchoolEmail } from "../student-school-email.js";
+ // current API email-only first binding and verified-email change flow.
+ 
+ import { tx } from "../i18n.js";
+@@ -16,8 +17,7 @@ import {
+   toUserFacingError,
+ } from "../api.js";
+ 
+-const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+-const isSchoolEmail = (value) => EMAIL_PATTERN.test(value.trim()) && value.toLowerCase().includes("bnbu");
++const isSchoolEmail = isStudentSchoolEmail;
+ const CODE_PATTERN = /^\d{4,10}$/;
+ 
+ function bindingState(app, mode) {
+@@ -129,7 +129,7 @@ export function renderContactBinding(app, { mode }) {
+   const currentCodeValid = !state.initiallyVerified || CODE_PATTERN.test(state.currentEmailCode);
+   const newCodeValid = CODE_PATTERN.test(state.newEmailCode);
+   const emailError = state.email.trim() && !emailValid
+-    ? tx("请输入有效的邮箱地址，地址中须包含 bnbu。", "Enter a valid email address containing bnbu.")
++    ? tx("请输入以 @mail.bnbu.edu.cn 结尾的完整学校邮箱。", "Enter your complete school email ending in @mail.bnbu.edu.cn.")
+     : backendFieldError(state.error, "email", "newEmail");
+   const currentCodeError = state.currentEmailCode && !currentCodeValid
+     ? tx("请输入收到的完整验证码。", "Enter the complete code you received.")
+diff --git a/BNBU-Sports-Web-new/frontend/student/js/screens/checkin.js b/BNBU-Sports-Web-new/frontend/student/js/screens/checkin.js
+index 585e8af1..3b462266 100644
+--- a/BNBU-Sports-Web-new/frontend/student/js/screens/checkin.js
++++ b/BNBU-Sports-Web-new/frontend/student/js/screens/checkin.js
+@@ -1680,8 +1680,18 @@ async function addDraftFromFileImpl(app, file, type, capturedDurationSeconds, ex
+       const normalized = await normalizeRecordedVideo(file);
+       uploadFile = normalized.file;
+       normalizedPreview = normalized.preview;
+-    } catch {
+-      rejectWith(originalSaved ? tx("视频原件已保存在本机，暂未完成格式处理。请重试，或重新打开网页继续处理。", "The original video is saved on this device. Retry or reopen the page to finish processing.") : tx("无法保存视频原件，请释放设备存储空间后重新录制。", "Cannot save the original video. Free device storage and record again."));
++    } catch (error) {
++      const reasons = {
++        load: tx('视频处理程序未能加载，请检查网络后重试。', 'The video processor could not load. Check your connection and retry.'),
++        read: tx('暂时无法读取视频，请保持页面打开后重试。', 'The video could not be read. Keep this page open and retry.'),
++        probe: tx('暂时无法识别视频，请重试处理。', 'The video could not be recognized. Retry processing.'),
++        audio: tx('视频没有音轨，请开启录音后重新拍摄。', 'The video has no audio track. Enable audio and record again.'),
++        remux: tx('视频整理未完成，请保持页面在前台并重试。', 'Video finalization did not finish. Keep the page in the foreground and retry.'),
++        encode: tx('视频转换未完成，请保持页面在前台并重试。', 'Video conversion did not finish. Keep the page in the foreground and retry.'),
++        preview: tx('视频画面校验未完成，请重试处理。', 'Video frame verification did not finish. Retry processing.'),
++      };
++      const reason = reasons[error?.stage] || tx('暂未完成格式处理，请重试。', 'Video processing did not finish. Please retry.');
++      rejectWith(originalSaved ? tx('视频原件已保存在本机。', 'The original video is saved on this device. ') + reason : tx("无法保存视频原件，请释放设备存储空间后重新录制。", "Cannot save the original video. Free device storage and record again."));
+       return;
+     }
+   }
+diff --git a/BNBU-Sports-Web-new/frontend/student/js/screens/join.js b/BNBU-Sports-Web-new/frontend/student/js/screens/join.js
+index 9cd0bfda..75c43417 100644
+--- a/BNBU-Sports-Web-new/frontend/student/js/screens/join.js
++++ b/BNBU-Sports-Web-new/frontend/student/js/screens/join.js
+@@ -1,3 +1,4 @@
++import { isStudentSchoolEmail } from "../student-school-email.js";
+ // Course join flow: QR scan (#9), manual invite code (#10), join confirm (#11)
+ // and join request status (#19) — feature/courses/ScanJoinScreen.kt,
+ // EnterInviteCodeScreen.kt, CourseJoinConfirmScreen.kt, JoinRequestStatusScreen.kt.
+@@ -15,7 +16,6 @@ const INVITE_CODE_PATTERN = /^[A-Za-z0-9][A-Za-z0-9._~-]{15,199}$/;
+ const isInviteCode = (value) => INVITE_CODE_PATTERN.test(value.trim());
+ const MAX_NAME = 64;
+ const MAX_STUDENT_NUMBER = 10;
+-const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+ 
+ /** Extracts an invite code from the HTTPS /join/{code} QR URL, or accepts a
+  *  bare backend invite token rendered directly as QR content. */
+@@ -528,7 +528,7 @@ export function renderCourseJoinConfirm(app, params) {
+         ${course && course.real
+           ? joinSelect({ id: "gender", label: tx("性别（必填）", "Gender (required)"), value: ui.gender, options: GENDER_OPTIONS(), disabled: ui.submitting || !writeEnabled, error: ui.invalidField === "gender" ? tx("请选择性别。", "Select your gender.") : null })
+             + joinSelect({ id: "gradeYear", label: tx("入学年份（必填）", "Admission year (required)"), value: ui.gradeYear, options: GRADE_YEAR_OPTIONS(), disabled: ui.submitting || !writeEnabled, error: ui.invalidField === "gradeYear" ? tx("请选择入学年份。", "Select your admission year.") : null })
+-          : joinField({ id: "email", label: tx("邮箱（选填）", "Email (optional)"), value: ui.email, disabled: ui.submitting || !writeEnabled, inputMode: "email", required: false, error: ui.invalidField === "email" ? tx("请输入有效的邮箱地址。", "Enter a valid email address.") : null })}
++          : joinField({ id: "email", label: tx("邮箱（选填）", "Email (optional)"), value: ui.email, disabled: ui.submitting || !writeEnabled, inputMode: "email", required: false, error: ui.invalidField === "email" ? tx("请输入以 @mail.bnbu.edu.cn 结尾的完整学校邮箱。", "Enter your complete school email ending in @mail.bnbu.edu.cn.") : null })}
+         ${course?.real ? joinSelect({id:'collegeName',label:tx('学院','College'),value:ui.collegeName,options:STUDENT_COLLEGES.map(item=>({value:item.code,label:`${item.code} ${item.name}`})),disabled:!formEnabled})
+         + (allowsCustomMajor(ui.collegeName) ? joinField({id:'majorName',label:tx('其他专业（仅大写英文字母）','Other major (uppercase letters only)'),value:ui.majorName,disabled:!formEnabled,maxlength:200})
+         : joinSelect({id:'majorName',label:tx('专业','Major'),value:ui.majorName,options:academicMajorOptions(ui.collegeName).map(value=>({value,label:value})),disabled:!formEnabled || !ui.collegeName}))
+@@ -792,11 +792,12 @@ export const joinActions = {
+   "joinConfirm.sendEmail": async (app) => {
+     const ui = app.ui.joinConfirm;
+     if (!ui || ui.verifyingEmail || !app.isWriteAllowed()) return;
+-    if (!EMAIL_PATTERN.test(ui.email.trim()) || !ui.email.trim().toLowerCase().includes('bnbu')) {
+-      ui.error = tx('请输入学校邮箱。', 'Enter your school email.'); app.render(); return;
++    if (!isStudentSchoolEmail(ui.email)) {
++      ui.error = tx('请输入以 @mail.bnbu.edu.cn 结尾的完整学校邮箱。', 'Enter your complete school email ending in @mail.bnbu.edu.cn.'); app.render(); return;
+     }
+     ui.verifyingEmail = true; ui.error = null; app.render();
+-    try { const result = await requestStudentSignInCode(ui.email.trim()); ui.challengeId = result.challengeId; ui.challengeEmail = ui.email.trim(); }
++    const invite = app.state.authenticated ? app.state.subParams?.inviteCode : app.state.pendingInvite?.code;
++    try { const result = await requestStudentSignInCode(ui.email.trim(), invite); ui.challengeId = result.challengeId; ui.challengeEmail = ui.email.trim(); }
+     catch (error) { ui.error = toUserFacingError(error); }
+     finally { ui.verifyingEmail = false; app.render(); }
+   },
+@@ -879,7 +880,7 @@ export const joinActions = {
+           ? "gender"
+           : realJoin && !ui.gradeYear
+             ? "gradeYear"
+-            : !realJoin && email && !EMAIL_PATTERN.test(email)
++            : !realJoin && email && !isStudentSchoolEmail(email)
+               ? "email"
+               : null;
+     ui.error = null;
+diff --git a/BNBU-Sports-Web-new/frontend/student/js/screens/verification.js b/BNBU-Sports-Web-new/frontend/student/js/screens/verification.js
+index 3393b9c8..fde23c45 100644
+--- a/BNBU-Sports-Web-new/frontend/student/js/screens/verification.js
++++ b/BNBU-Sports-Web-new/frontend/student/js/screens/verification.js
+@@ -1,3 +1,4 @@
++import { isStudentSchoolEmail } from "../student-school-email.js";
+ // current API email-only student verification-code sign-in.
+ 
+ import { t, tx } from "../i18n.js";
+@@ -11,7 +12,6 @@ import {
+ 
+ const CODE_MAX_LENGTH = 10;
+ const RESEND_COOLDOWN = 60;
+-const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+ 
+ function verificationState(app) {
+   if (!app.ui.verification) {
+@@ -33,7 +33,7 @@ function verificationState(app) {
+ }
+ 
+ function derived(state) {
+-  const emailValid = EMAIL_PATTERN.test(state.contact.trim());
++  const emailValid = isStudentSchoolEmail(state.contact);
+   const contactInvalid = (state.contactAttempted || state.contact.trim() !== "") && !emailValid;
+   const codeValid = /^\d{4,10}$/.test(state.code);
+   const codeInvalid = (state.codeAttempted || state.code !== "") && !codeValid;
+diff --git a/BNBU-Sports-Web-new/frontend/student/vendor/ffmpeg/api/classes.js b/BNBU-Sports-Web-new/frontend/student/vendor/ffmpeg/api/classes.js
+index fae47533..0a801c64 100644
+--- a/BNBU-Sports-Web-new/frontend/student/vendor/ffmpeg/api/classes.js
++++ b/BNBU-Sports-Web-new/frontend/student/vendor/ffmpeg/api/classes.js
+@@ -25,6 +25,11 @@ export class FFmpeg {
+      */
+     #registerHandlers = () => {
+         if (this.#worker) {
++            this.#worker.onerror = this.#worker.onmessageerror = () => {
++                for (const reject of Object.values(this.#rejects)) reject(new Error('Video worker failed'));
++                this.#resolves = {};
++                this.#rejects = {};
++            };
+             this.#worker.onmessage = ({ data: { id, type, data }, }) => {
+                 switch (type) {
+                     case FFMessageType.LOAD:
+diff --git a/backend/scripts/migration-registry.mjs b/backend/scripts/migration-registry.mjs
+index 05d2d80b..270bea0b 100644
+--- a/backend/scripts/migration-registry.mjs
++++ b/backend/scripts/migration-registry.mjs
+@@ -76,5 +76,6 @@ export const migrationIds = [
+   '0074_membership_application_clear',
+   '0075_ocr_course_closure_confirmation',
+   '0076_notification_review_content',
++  '0077_credit_projection_minutes',
+   '0078_admin_maintenance_access',
+ ];
+diff --git a/backend/scripts/v81-migration-scan.mjs b/backend/scripts/v81-migration-scan.mjs
+index 892d11c1..a258e45a 100644
+--- a/backend/scripts/v81-migration-scan.mjs
++++ b/backend/scripts/v81-migration-scan.mjs
+@@ -35,6 +35,7 @@ export function maskSql(source,maskStrings=false){
+ 
+ export function prepareV81MigrationScan(migrationId,sql){
+   const demandConstraints = {
++    '0077_credit_projection_minutes': ['v81_credit_projections_eligible_minutes_check'],
+     '0065_course_rule_customization': ['v81_course_rules_minimum_minutes_check','v81_course_rules_weekly_limit_check'],
+     '0066_exemption_documents_metadata': ['media_evidence_media_type_check','media_evidence_duration_check','media_evidence_verified_complete_check'],
+     '0067_historical_backfill': ['media_evidence_capture_source_check'],
+diff --git a/backend/src/generated/migration-manifest.generated.ts b/backend/src/generated/migration-manifest.generated.ts
+index e49271f0..028cf7b4 100644
+--- a/backend/src/generated/migration-manifest.generated.ts
++++ b/backend/src/generated/migration-manifest.generated.ts
+@@ -381,6 +381,11 @@ export const foundationMigrations = [
+     sha256: '96852a28e23c1771028b2c58bbfba16cc9735170157920e2898b44fc65cf6210',
+     destructive: false,
+   },
++  {
++    migrationId: '0077_credit_projection_minutes',
++    sha256: 'a44d86c97880b8d49c3393987a7d0120ee2b86e2635b849ce931b02e2ca1bdfc',
++    destructive: false,
++  },
+   {
+     migrationId: '0078_admin_maintenance_access',
+     sha256: '92a9a0eb41c61814facb64ac295cdf3a380e4d486f8a71a363a5b2808c88b2af',
+diff --git a/backend/src/generated/openapi.document.generated.json b/backend/src/generated/openapi.document.generated.json
+index 0cd9d38f..28656626 100644
+--- a/backend/src/generated/openapi.document.generated.json
++++ b/backend/src/generated/openapi.document.generated.json
+@@ -36588,6 +36588,13 @@
+           "locale"
+         ],
+         "properties": {
++          "joinInviteToken": {
++            "type": "string",
++            "minLength": 16,
++            "maxLength": 200,
++            "writeOnly": true,
++            "description": "Valid course invitation required to send a code to a new student email before enrollment."
++          },
+           "organizationCode": {
+             "type": "string",
+             "pattern": "^[A-Z0-9][A-Z0-9_-]{1,31}$"
+diff --git a/backend/src/generated/openapi.manifest.generated.json b/backend/src/generated/openapi.manifest.generated.json
+index 7f18880d..6064cd3f 100644
+--- a/backend/src/generated/openapi.manifest.generated.json
++++ b/backend/src/generated/openapi.manifest.generated.json
+@@ -1,6 +1,6 @@
+ {
+   "source": "docs/backend-contracts/openapi.yaml",
+-  "sha256": "9179ee5d5d6cfd4810a39b7ed54b08cb21a12dee514c4e83d68b1c3875f46930",
++  "sha256": "cc2bcd861864eb0df3f52f0a65f119a99d913360067ea02ec03d3c3f72aa0c48",
+   "openapi": "3.1.0",
+   "paths": 223,
+   "operations": 263,
+diff --git a/backend/src/modules/client-capabilities/client-authentication.service.ts b/backend/src/modules/client-capabilities/client-authentication.service.ts
+index 40a4e95e..8ec50bd2 100644
+--- a/backend/src/modules/client-capabilities/client-authentication.service.ts
++++ b/backend/src/modules/client-capabilities/client-authentication.service.ts
+@@ -1,3 +1,4 @@
++import { isStudentSchoolEmail } from '../../common/security/student-school-email.js';
+ import { QrJoinCryptoService } from '../../common/security/qr-join-crypto.service.js';
+ import { Inject, Injectable } from '@nestjs/common';
+ 
+@@ -56,6 +57,7 @@ interface PublicRequestContext {
+ }
+ 
+ interface ChallengeStage {
++  deliveryAllowed?: boolean;
+   purpose: AuthCodePurpose;
+   challengeId: string;
+   organizationId: string;
+@@ -108,10 +110,24 @@ export class ClientAuthenticationService {
+     input: StudentSignInCodeRequestDto,
+     context: PublicRequestContext,
+   ): Promise<StudentSignInCodeAcceptedProjection> {
+-    const organization = await this.resolveOrganization(input.organizationCode);
+     const normalized = this.normalizeAccount(input.account);
++    if (!isStudentSchoolEmail(normalized)) {
++      throw new ApplicationError('VALIDATION_FAILED', 422, {
++        fieldErrors: [{ field: 'account', code: 'BNBU_EMAIL_REQUIRED', i18nKey: 'error.validation.failed', params: { suffix: '@mail.bnbu.edu.cn' } }],
++      });
++    }
++    const organization = await this.resolveOrganization(input.organizationCode);
+     const accountDigest = this.accountDigest(input.channel, normalized);
+     const user = await this.findUser(organization.id, normalized, 'STUDENT');
++    let joining = false;
++    if (input.joinInviteToken !== undefined) {
++      const parsed = this.joinCrypto.parseToken('course-invite', input.joinInviteToken);
++      const invite = parsed ? await this.prisma.courseInvite.findUnique({ where: { id: parsed.publicId } }) : null;
++      joining = !!(parsed && invite && invite.organizationId === organization.id &&
++        invite.status === 'ACTIVE' && invite.expiresAt > this.clock.now() &&
++        this.joinCrypto.matches(invite.tokenHash, parsed.tokenHash) && isStudentSchoolEmail(normalized));
++      if (!joining) throw new ApplicationError('AUTH_JOIN_CAPABILITY_INVALID', 401);
++    }
+     const reservation = await this.reserveChallenge(
+       'STUDENT_SIGN_IN',
+       organization.id,
+@@ -121,6 +137,8 @@ export class ClientAuthenticationService {
+       input.locale,
+       accountDigest,
+       context,
++      user !== null || joining,
++      input.joinInviteToken,
+     );
+     if (reservation.kind === 'REPLAY') {
+       return reservation.value;
+@@ -175,7 +193,7 @@ export class ClientAuthenticationService {
+           const parsed = this.joinCrypto.parseToken('course-invite', input.joinInviteToken);
+           const invite = parsed ? await transaction.courseInvite.findUnique({ where: { id: parsed.publicId } }) : null;
+           const now = this.clock.now();
+-          if (!email.includes('bnbu') || !email.includes('@') || challenge.channel !== 'EMAIL' ||
++          if (!isStudentSchoolEmail(email) || challenge.channel !== 'EMAIL' ||
+               this.accountDigest('EMAIL', email) !== challenge.accountDigest || !invite || !parsed ||
+               invite.organizationId !== challenge.organizationId || invite.status !== 'ACTIVE' || invite.expiresAt <= now ||
+               !this.joinCrypto.matches(invite.tokenHash, parsed.tokenHash)) {
+@@ -422,6 +440,8 @@ export class ClientAuthenticationService {
+     localeText: string,
+     accountDigest: string,
+     context: PublicRequestContext,
++    deliveryAllowed: boolean,
++    joinInviteToken: string | undefined,
+   ): Promise<IdempotencyStageReservation<ChallengeStage, StudentSignInCodeAcceptedProjection>> {
+     const channel = channelText as AuthCodeChannel;
+     const locale = localeText as 'zh-CN' | 'en';
+@@ -433,7 +453,7 @@ export class ClientAuthenticationService {
+         operationId: 'requestStudentSignInCode',
+         scope: `${purpose}:${accountDigest}`,
+         key: context.idempotencyKey,
+-        request: { organizationId, accountDigest, channel, locale },
++        request: { organizationId, accountDigest, channel, locale, joinInviteToken },
+         requestId: context.requestId,
+       },
+       async (transaction, stageContext) => {
+@@ -446,6 +466,7 @@ export class ClientAuthenticationService {
+           accountDigest,
+           context.sourceIp,
+           now,
++          deliveryAllowed,
+         );
+         if (limited !== null) return limited;
+         const challengeId = this.ids.next();
+@@ -476,6 +497,7 @@ export class ClientAuthenticationService {
+         return this.idempotency.stage(
+           {
+             purpose,
++            deliveryAllowed,
+             challengeId,
+             organizationId,
+             userId,
+@@ -626,6 +648,7 @@ export class ClientAuthenticationService {
+   }
+ 
+   private deliver(stage: ChallengeStage): Promise<void> {
++    if (stage.deliveryAllowed === false) return Promise.resolve();
+     return this.delivery.deliver({
+       deliveryId: stage.challengeId,
+       purpose: stage.purpose,
+@@ -744,7 +767,11 @@ export class ClientAuthenticationService {
+     accountDigest: string,
+     sourceIp: string | undefined,
+     now: Date,
++    deliveryAllowed = true,
+   ): Promise<IdempotentFailure | null> {
++    if (purpose === 'STUDENT_SIGN_IN') {
++      return this.recordStudentMailRateFacts(transaction, organizationId, accountDigest, sourceIp, now, deliveryAllowed);
++    }
+     const scopes = [
+       { scopeType: 'ACCOUNT', scopeDigest: accountDigest },
+       {
+@@ -792,6 +819,51 @@ export class ClientAuthenticationService {
+     return null;
+   }
+ 
++  private async recordStudentMailRateFacts(
++    transaction: Prisma.TransactionClient,
++    organizationId: string,
++    accountDigest: string,
++    sourceIp: string | undefined,
++    now: Date,
++    deliveryAllowed: boolean,
++  ): Promise<IdempotentFailure | null> {
++    // The surrounding serializable transaction makes check + reservation atomic,
++    // including requests using different idempotency keys and backend instances.
++    const scopes = [
++      { scopeType: 'ACCOUNT', scopeDigest: accountDigest, policies: [
++        { windowSeconds: 60, limit: 1 }, { windowSeconds: 1800, limit: 5 },
++        { windowSeconds: 86400, limit: 10 },
++      ] },
++      ...(sourceIp === undefined ? [] : [{ scopeType: 'SOURCE',
++        scopeDigest: this.digest.digest('auth-code-source-ip', sourceIp),
++        policies: [{ windowSeconds: 600, limit: 300 }],
++      }]),
++      // SOURCE also represents the shared mail source; the digest has its own namespace.
++      ...(deliveryAllowed ? [{ scopeType: 'SOURCE',
++        scopeDigest: this.digest.digest('student-mail-global', 'all'),
++        policies: [{ windowSeconds: 60, limit: 100 }],
++      }] : []),
++    ];
++    for (const scope of scopes) {
++      const attempts = await transaction.authRateLimitFact.findMany({
++        where: { ...(scope.scopeDigest === this.digest.digest('student-mail-global', 'all') ? {} : { organizationId }), purpose: 'STUDENT_SIGN_IN', scopeType: scope.scopeType,
++          scopeDigest: scope.scopeDigest,
++          occurredAt: { gt: new Date(now.getTime() - Math.max(...scope.policies.map(p => p.windowSeconds)) * 1000) } },
++        orderBy: { occurredAt: 'desc' }, take: Math.max(...scope.policies.map(p => p.limit)),
++        select: { occurredAt: true },
++      });
++      const retryAfterSeconds = Math.max(...scope.policies.map(policy =>
++        evaluateDurableRateWindow(attempts.map(a => a.occurredAt), now, policy).retryAfterSeconds));
++      if (retryAfterSeconds > 0) return this.idempotency.failure(
++        new ApplicationError('AUTH_RATE_LIMITED', 429, { retryAfterSeconds }));
++    }
++    await transaction.authRateLimitFact.createMany({ data: scopes.map(scope => ({
++      id: this.ids.next(), organizationId, purpose: 'STUDENT_SIGN_IN',
++      scopeType: scope.scopeType, scopeDigest: scope.scopeDigest, occurredAt: now,
++    })) });
++    return null;
++  }
++
+   private async resolveOrganization(organizationCode: string): Promise<{ id: string }> {
+     const organization = await this.prisma.organization.findUnique({
+       where: { organizationCode },
+diff --git a/backend/src/modules/client-capabilities/client-capabilities.dto.ts b/backend/src/modules/client-capabilities/client-capabilities.dto.ts
+index a29d1be2..79b0d25b 100644
+--- a/backend/src/modules/client-capabilities/client-capabilities.dto.ts
++++ b/backend/src/modules/client-capabilities/client-capabilities.dto.ts
+@@ -28,6 +28,11 @@ const trim = ({ value }: { value: unknown }): unknown =>
+   typeof value === 'string' ? value.trim() : value;
+ 
+ export class StudentSignInCodeRequestDto {
++  @ValidateIf((_object, value: unknown) => value !== undefined)
++  @IsString()
++  @Length(16, 200)
++  joinInviteToken?: string;
++
+   @Transform(trim)
+   @Matches(/^[A-Z0-9][A-Z0-9_-]{1,31}$/)
+   organizationCode!: string;
+diff --git a/backend/src/modules/enrollments/application/qr-join.service.ts b/backend/src/modules/enrollments/application/qr-join.service.ts
+index 0254ab66..1331c38e 100644
+--- a/backend/src/modules/enrollments/application/qr-join.service.ts
++++ b/backend/src/modules/enrollments/application/qr-join.service.ts
+@@ -1,4 +1,5 @@
+ import { assertProfileReady } from '../../users/application/student-profile-quality.js';
++import { isStudentSchoolEmail } from '../../../common/security/student-school-email.js';
+ import { Inject, Injectable } from '@nestjs/common';
+ import { requireUnsettledCourse } from '../../v8/v81-settlement-write-guard.js';
+ 
+@@ -177,13 +178,13 @@ export class QrJoinService {
+         } }) : null;
+         if (identity.verificationChallengeId && identity.verifiedEmail) {
+           const verification = await transaction.studentSignInChallenge.findUnique({ where: { id: identity.verificationChallengeId } });
+-          if (verification?.status !== 'CONSUMED' || verification.organizationId !== capability.organizationId)
++          if (!isStudentSchoolEmail(identity.verifiedEmail) || verification?.status !== 'CONSUMED' || verification.organizationId !== capability.organizationId)
+             throw new ApplicationError('AUTH_REQUIRED', 401);
+           const emailOwner = await transaction.user.findFirst({ where: { organizationId: capability.organizationId,
+             role: 'STUDENT', primaryEmailNormalized: identity.verifiedEmail, emailVerifiedAt: { not: null }, deletedAt: null } });
+           if ((emailOwner && emailOwner.id !== owner?.id) || (owner?.emailVerifiedAt && owner.primaryEmailNormalized !== identity.verifiedEmail))
+             throw new ApplicationError('USER_IDENTITY_CONFLICT', 409);
+-        } else if (!owner?.emailVerifiedAt || !owner.primaryEmailNormalized?.includes('bnbu')) {
++        } else if (!owner?.emailVerifiedAt || !isStudentSchoolEmail(owner.primaryEmailNormalized)) {
+           throw new ApplicationError('AUTH_REQUIRED', 401);
+         }
+         const existingIdentity = await this.identities.validateExisting(capability.organizationId, identity, transaction);
+diff --git a/backend/src/modules/join-capabilities/application/join-capabilities.service.ts b/backend/src/modules/join-capabilities/application/join-capabilities.service.ts
+index 9541d390..3854bb8d 100644
+--- a/backend/src/modules/join-capabilities/application/join-capabilities.service.ts
++++ b/backend/src/modules/join-capabilities/application/join-capabilities.service.ts
+@@ -1,3 +1,4 @@
++import { isStudentSchoolEmail } from '../../../common/security/student-school-email.js';
+ import { PrismaService } from '../../../common/database/prisma.service.js';
+ import { Injectable } from '@nestjs/common';
+ 
+@@ -48,7 +49,7 @@ export class JoinCapabilitiesService {
+     if (input.joinEmailProof) {
+       try { proof = this.crypto.decrypt('join-email-proof', invite.inviteId, input.joinEmailProof); }
+       catch { throw new ApplicationError('AUTH_JOIN_CAPABILITY_INVALID', 401); }
+-      if (!proof || proof.organizationId !== invite.organizationId || Date.parse(proof.expiresAt) <= this.clock.now().getTime() ||
++      if (!proof || !isStudentSchoolEmail(proof.email) || proof.organizationId !== invite.organizationId || Date.parse(proof.expiresAt) <= this.clock.now().getTime() ||
+           !Number.isFinite(Date.parse(proof.verifiedAt)) || Date.parse(proof.verifiedAt) >= invite.expiresAt.getTime())
+         throw new ApplicationError('AUTH_JOIN_CAPABILITY_INVALID', 401);
+       const challenge = await this.prisma.studentSignInChallenge.findUnique({ where: { id: proof.challengeId } });
+@@ -58,7 +59,7 @@ export class JoinCapabilitiesService {
+     const owner = facts.authenticatedUserId ?? proof?.userId ?? undefined;
+     const user = owner ? await this.prisma.user.findFirst({ where: { id: owner, organizationId: invite.organizationId,
+       role: 'STUDENT', status: { in: ['ACTIVE','PENDING_CONTACT_BINDING'] }, deletedAt: null } }) : null;
+-    if (!proof && (!user?.emailVerifiedAt || !user.primaryEmailNormalized?.includes('bnbu')))
++    if (!proof && (!user?.emailVerifiedAt || !isStudentSchoolEmail(user.primaryEmailNormalized)))
+       throw new ApplicationError('AUTH_REQUIRED', 401);
+     if (proof && user?.emailVerifiedAt && user.primaryEmailNormalized !== proof.email)
+       throw new ApplicationError('USER_IDENTITY_CONFLICT', 409);
+diff --git a/backend/src/modules/media/application/media.service.ts b/backend/src/modules/media/application/media.service.ts
+index c94c35c3..af9598f1 100644
+--- a/backend/src/modules/media/application/media.service.ts
++++ b/backend/src/modules/media/application/media.service.ts
+@@ -180,7 +180,8 @@ export class MediaService {
+       storageKey: reservation.value.storageKey,
+       contentType: reservation.value.declaredMimeType,
+       contentLength: reservation.value.declaredFileSizeBytes,
+-      expiresInSeconds: config.uploadUrlTtlSeconds,
++      expiresInSeconds: Math.max(1, Math.min(config.uploadUrlTtlSeconds,
++        Math.floor((reservation.value.capabilityExpiresAt.getTime() - this.clock.now().getTime()) / 1000))),
+     });
+     const response: MediaUploadSessionProjection = {
+       uploadSessionId: reservation.value.uploadSessionId,
+@@ -584,6 +585,40 @@ export class MediaService {
+       now,
+     );
+     const window = target.sessionId === null ? null : await exerciseUploadWindow(transaction, target.sessionId, now);
++    // A lost/denied object PUT must not reserve a second slot for the same bytes.
++    // Only renew an unconfirmed, unfrozen upload owned by this student/session.
++    if (target.sessionId !== null && input.declaredContentSha256) {
++      const pending = await transaction.mediaEvidence.findFirst({
++        where: {
++          organizationId: principal.organizationId,
++          initiatedByUserId: principal.userId,
++          ownerStudentId: target.studentId,
++          sessionId: target.sessionId,
++          businessPurpose: 'EXERCISE_RECORD',
++          mediaType: input.mediaType,
++          captureSource: input.captureSource,
++          declaredMimeType: input.mimeType,
++          declaredFileSizeBytes: BigInt(input.fileSizeBytes),
++          declaredContentSha256: input.declaredContentSha256,
++          declaredDurationSeconds: input.durationSeconds ?? null,
++          uploadStatus: 'PENDING_UPLOAD',
++          ...(window?.frozenMediaIds.length ? { id: { notIn: window.frozenMediaIds } } : {}),
++          uploadSession: { is: { status: 'ACTIVE', capabilityExpiresAt: { gt: now } } },
++        },
++        include: { uploadSession: true },
++        orderBy: { createdAt: 'asc' },
++      });
++      if (pending?.uploadSession) {
++        return this.idempotency.stage({
++          mediaId: pending.id,
++          uploadSessionId: pending.uploadSession.id,
++          storageKey: pending.storageKey,
++          declaredMimeType: pending.declaredMimeType,
++          declaredFileSizeBytes: Number(pending.declaredFileSizeBytes),
++          capabilityExpiresAt: pending.uploadSession.capabilityExpiresAt,
++        }, { resourceType: 'MEDIA_EVIDENCE', resourceId: pending.id });
++      }
++    }
+     const activeCount = await transaction.mediaEvidence.count({
+       where: {
+         ...(window?.frozenMediaIds.length ? { id: { notIn: window.frozenMediaIds } } : {}),
+diff --git a/backend/src/modules/users/email-verification.service.ts b/backend/src/modules/users/email-verification.service.ts
+index f1f798bb..5008b5a9 100644
+--- a/backend/src/modules/users/email-verification.service.ts
++++ b/backend/src/modules/users/email-verification.service.ts
+@@ -1,3 +1,4 @@
++import { isStudentSchoolEmail } from '../../common/security/student-school-email.js';
+ import { Injectable } from '@nestjs/common';
+ 
+ import { AuditService } from '../../common/audit/audit.service.js';
+@@ -93,7 +94,7 @@ export class EmailVerificationService {
+ 
+     const targetEmail = input.email.trim();
+     const targetEmailNormalized = targetEmail.toLowerCase();
+-    if (principal.role === 'STUDENT' && !targetEmailNormalized.includes('bnbu')) {
++    if (principal.role === 'STUDENT' && !isStudentSchoolEmail(targetEmailNormalized)) {
+       throw new ApplicationError('VALIDATION_FAILED', 422, {
+         fieldErrors: [{ field: 'email', code: 'BNBU_EMAIL_REQUIRED', i18nKey: 'error.validation.failed', params: {} }],
+       });
+@@ -168,7 +169,7 @@ export class EmailVerificationService {
+           },
+           include: { user: true },
+         });
+-        if (challenge === null) {
++        if (challenge === null || (principal.role === 'STUDENT' && !isStudentSchoolEmail(challenge.targetEmailNormalized))) {
+           return this.idempotency.failure(this.invalidCode());
+         }
+ 
+diff --git a/backend/test/e2e/client-capabilities.e2e.test.ts b/backend/test/e2e/client-capabilities.e2e.test.ts
+index 0b6835b3..287d9d41 100644
+--- a/backend/test/e2e/client-capabilities.e2e.test.ts
++++ b/backend/test/e2e/client-capabilities.e2e.test.ts
+@@ -193,7 +193,7 @@ describe('Stage 21 client capabilities with real PostgreSQL', () => {
+     const count = await prisma.enrollment.count(), users = await prisma.user.count();
+     assert.equal((await post(`${base}/join-capabilities`, identity)).status, 401);
+     const email = 'email-first@mail.bnbu.edu.cn';
+-    const issued = await post('/auth/student-sign-in-codes', { organizationCode: 'BNBU-TEST', account: email, channel: 'EMAIL', locale: 'zh-CN' });
++    const issued = await post('/auth/student-sign-in-codes', { organizationCode: 'BNBU-TEST', account: email, channel: 'EMAIL', locale: 'zh-CN', joinInviteToken: invite });
+     assert.equal(issued.status, 202);
+     const challengeId = String(object(issued.body.data).challengeId);
+     await prisma.studentSignInChallenge.update({ where: { id: challengeId }, data: {
+@@ -225,6 +225,77 @@ describe('Stage 21 client capabilities with real PostgreSQL', () => {
+     assert.equal(again.status, 201, JSON.stringify(again.body));
+   });
+ 
++  it('mail abuse: concurrent requests reserve only one code and replay does not consume quota', async () => {
++    const student = await seedExerciseSessionStudent(prisma, fixture, 'MAIL-RACE');
++    const body = { organizationCode: 'BNBU-TEST', account: student.email, channel: 'EMAIL', locale: 'zh-CN' };
++    const post = (key: string) => request('/api/v1/auth/student-sign-in-codes', { method: 'POST',
++      headers: { 'content-type': 'application/json', 'idempotency-key': key }, body: JSON.stringify(body) });
++    const keys = Array.from({ length: 6 }, () => uuidv7());
++    const results = await Promise.all(keys.map(post));
++    assert.equal(results.filter(r => r.status === 202).length, 1, JSON.stringify(results));
++    assert.equal(results.filter(r => r.status === 429).length, 5, JSON.stringify(results));
++    const winner = results.findIndex(r => r.status === 202);
++    assert.deepEqual((await post(keys[winner]!)).body.data, results[winner]!.body.data);
++    assert.equal(await prisma.studentSignInChallenge.count(), 1);
++    assert.equal(await prisma.authRateLimitFact.count(), 3);
++  });
++
++  it('mail abuse: half-hour, daily and global caps reject before creating a challenge', async () => {
++    const student = await seedExerciseSessionStudent(prisma, fixture, 'MAIL-CAPS');
++    const digest = (purpose: string, value: string) => createHmac('sha256', 'synthetic-test-hmac-key-never-use-in-production').update(purpose + '\0' + value).digest('hex');
++    const accountDigest = digest('auth-code-account', 'EMAIL\0' + student.email);
++    for (const policy of [
++      { scopeType: 'ACCOUNT', scopeDigest: accountDigest, count: 5, age: 120000 },
++      { scopeType: 'ACCOUNT', scopeDigest: accountDigest, count: 10, age: 3600000 },
++      { scopeType: 'SOURCE', scopeDigest: digest('student-mail-global', 'all'), count: 100, age: 1000 },
++    ]) {
++      await prisma.authRateLimitFact.deleteMany();
++      await prisma.authRateLimitFact.createMany({ data: Array.from({ length: policy.count }, () => ({
++        id: uuidv7(), organizationId: fixture.organizationId, purpose: 'STUDENT_SIGN_IN',
++        scopeType: policy.scopeType, scopeDigest: policy.scopeDigest, occurredAt: new Date(Date.now() - policy.age),
++      })) });
++      const result = await request('/api/v1/auth/student-sign-in-codes', { method: 'POST',
++        headers: { 'content-type': 'application/json', 'idempotency-key': uuidv7() },
++        body: JSON.stringify({ organizationCode: 'BNBU-TEST', account: student.email, channel: 'EMAIL', locale: 'zh-CN' }) });
++      assert.equal(result.status, 429, JSON.stringify(result));
++      assert.ok(Number(object(result.body.details).retryAfterSeconds) > 0);
++      assert.equal(await prisma.studentSignInChallenge.count(), 0);
++    }
++  });
++
++  it('student school suffix: invalid domains create no challenge or quota, valid domain retains replay', async () => {
++    const post = (account: string, key = uuidv7(), joinInviteToken?: string) => request('/api/v1/auth/student-sign-in-codes', {
++      method: 'POST', headers: { 'content-type': 'application/json', 'idempotency-key': key },
++      body: JSON.stringify({ organizationCode: 'BNBU-TEST', account, channel: 'EMAIL', locale: 'zh-CN',
++        ...(joinInviteToken ? { joinInviteToken } : {}) }),
++    });
++    for (const account of ['s@mail.bnbu.edu', 's@bnbu.edu.cn', 'bnbu@example.com', 's@mail.bnbu.edu.cn.evil.com']) {
++      for (const token of [undefined, 'synthetic-invite-token']) {
++        const result = await post(account, uuidv7(), token);
++        assert.equal(result.status, 422, JSON.stringify(result));
++        assert.equal(result.body.code, 'VALIDATION_FAILED');
++      }
++    }
++    assert.equal(await prisma.studentSignInChallenge.count(), 0);
++    assert.equal(await prisma.authRateLimitFact.count(), 0);
++    const key = uuidv7(), account = ' Unknown@MAIL.BNBU.EDU.CN ';
++    const first = await post(account, key), replay = await post(account, key);
++    assert.equal(first.status, 202, JSON.stringify(first));
++    assert.deepEqual(replay.body.data, first.body.data);
++    assert.equal((await post(account)).status, 429);
++    assert.equal(await prisma.studentSignInChallenge.count(), 1);
++  });
++
++  it('mail abuse: unknown accounts reserve no mail quota and forged invitations are rejected', async () => {
++    const post = (extra = {}) => request('/api/v1/auth/student-sign-in-codes', { method: 'POST',
++      headers: { 'content-type': 'application/json', 'idempotency-key': uuidv7() },
++      body: JSON.stringify({ organizationCode: 'BNBU-TEST', account: 'unknown@mail.bnbu.edu.cn', channel: 'EMAIL', locale: 'zh-CN', ...extra }) });
++    assert.equal((await post()).status, 202);
++    assert.equal(await prisma.authRateLimitFact.count(), 2);
++    assert.equal((await post({ joinInviteToken: 'invalid-invite-token' })).status, 401);
++    assert.equal(await prisma.studentSignInChallenge.count(), 1);
++  });
++
+   it('distinguishes verified codes without an account, preserves replay and rejects invalid proofs', async () => {
+     const student = await seedExerciseSessionStudent(prisma, fixture, 'LOGIN-UNBOUND');
+     await prisma.user.update({ where: { id: student.userId }, data: { emailVerifiedAt: null } });
+diff --git a/backend/test/e2e/media-evidence.e2e.test.ts b/backend/test/e2e/media-evidence.e2e.test.ts
+index c027ee5d..0211c67d 100644
+--- a/backend/test/e2e/media-evidence.e2e.test.ts
++++ b/backend/test/e2e/media-evidence.e2e.test.ts
+@@ -196,6 +196,7 @@ describe('MediaEvidence HTTP E2E', () => {
+     ...(body === undefined ? {} : { body: JSON.stringify(body) }),
+   });
+ 
++  let clockOffsetMs = 0;
+   before(async () => {
+     const databaseUrl = requireTestDatabaseUrl();
+     prisma = createTestPrisma(databaseUrl);
+@@ -223,7 +224,11 @@ describe('MediaEvidence HTTP E2E', () => {
+     const { validationException } = (await import(compiledModule('common/http/validation.js'))) as {
+       validationException: typeof ValidationExceptionFactory;
+     };
++    const { Clock } = await import(compiledModule('common/time/clock.js')) as {
++      Clock: Type<{ now(): Date }>;
++    };
+     const module = await Test.createTestingModule({ imports: [AppModule] })
++      .overrideProvider(Clock).useValue({ now: () => new Date(Date.now() + clockOffsetMs) })
+       .overrideProvider(MEDIA_STORAGE_PORT)
+       .useValue(storage)
+       .compile();
+@@ -253,6 +258,7 @@ describe('MediaEvidence HTTP E2E', () => {
+   });
+ 
+   beforeEach(async () => {
++    clockOffsetMs = 0;
+     await resetFoundationDatabase(prisma);
+     fixture = await seedFoundationFixture(prisma);
+     await prisma.v81AccountSecurity.create({ data: {
+@@ -346,7 +352,10 @@ describe('MediaEvidence HTTP E2E', () => {
+     assert.deepEqual(replay.body.data, initiated.body.data);
+     assert.equal(initiated.headers.get('cache-control'), 'no-store');
+     assert.equal(initiated.headers.get('referrer-policy'), 'no-referrer');
+-    const capability = object(initiated.body.data);
++    const resumed = await request('/api/v1/media-uploads', authenticated(token, 'POST', initiateBody, uuidv7()));
++    assert.equal(resumed.status, 201);
++    assert.equal(object(resumed.body.data).mediaId, object(initiated.body.data).mediaId);
++    const capability = object(resumed.body.data);
+     const mediaId = String(capability.mediaId);
+     const uploadSessionId = String(capability.uploadSessionId);
+     const etag = storage.upload(String(capability.uploadUrl), body, 'image/png');
+@@ -404,6 +413,47 @@ describe('MediaEvidence HTTP E2E', () => {
+     assert.equal(await prisma.outboxEvent.count({ where: { aggregateId: mediaId } }), 5);
+   });
+ 
++  const videoDeclaration = (digest = 'a'.repeat(64)) => ({
++    sessionId, businessPurpose: 'EXERCISE_RECORD', mediaType: 'VIDEO', mimeType: 'video/mp4',
++    fileSizeBytes: 1024, captureSource: 'IN_APP_CAMERA', declaredContentSha256: digest, durationSeconds: 5,
++  });
++
++  it('recovers a pending video under fresh concurrent keys without consuming another slot', async () => {
++    const token = await studentToken(), declaration = videoDeclaration();
++    const first = await request('/api/v1/media-uploads', authenticated(token, 'POST', declaration, uuidv7()));
++    assert.equal(first.status, 201);
++    const recovered = await Promise.all([1, 2, 3].map(() =>
++      request('/api/v1/media-uploads', authenticated(token, 'POST', declaration, uuidv7()))));
++    for (const result of recovered) {
++      assert.equal(result.status, 201, JSON.stringify(result.body));
++      assert.equal(object(result.body.data).mediaId, object(first.body.data).mediaId);
++      assert.equal(object(result.body.data).expiresAt, object(first.body.data).expiresAt);
++    }
++    assert.equal(await prisma.mediaEvidence.count({ where: { sessionId } }), 1);
++    assert.equal(await prisma.mediaUploadSession.count({ where: { media: { sessionId } } }), 1);
++    const different = await request('/api/v1/media-uploads', authenticated(token, 'POST', videoDeclaration('b'.repeat(64)), uuidv7()));
++    assert.equal(different.body.code, 'MEDIA_COUNT_LIMIT_EXCEEDED');
++    const changedFacts = await request('/api/v1/media-uploads', authenticated(token, 'POST', {...declaration, fileSizeBytes: 2048}, uuidv7()));
++    assert.equal(changedFacts.body.code, 'MEDIA_COUNT_LIMIT_EXCEEDED');
++  });
++
++  it('releases an expired video reservation and recovers after a stored quota failure using a fresh key', async () => {
++    const token = await studentToken();
++    const first = await request('/api/v1/media-uploads', authenticated(token, 'POST', videoDeclaration(), uuidv7()));
++    assert.equal(first.status, 201);
++    const failedKey = uuidv7(), changed = videoDeclaration('b'.repeat(64));
++    assert.equal((await request('/api/v1/media-uploads', authenticated(token, 'POST', changed, failedKey))).status, 422);
++    clockOffsetMs = 301_000;
++    assert.equal((await request('/api/v1/media-uploads', authenticated(token, 'POST', changed, failedKey))).status, 422);
++    const recovered = await request('/api/v1/media-uploads', authenticated(token, 'POST', changed, uuidv7()));
++    assert.equal(recovered.status, 201, JSON.stringify(recovered.body));
++    assert.notEqual(object(recovered.body.data).mediaId, object(first.body.data).mediaId);
++    const old = await prisma.mediaEvidence.findUniqueOrThrow({ where: { id: String(object(first.body.data).mediaId) } });
++    assert.equal(old.uploadStatus, 'FAILED');
++    assert.equal(old.failureCode, 'MEDIA_UPLOAD_SESSION_EXPIRED');
++    assert.equal(await prisma.mediaEvidence.count({ where: { sessionId, uploadStatus: 'PENDING_UPLOAD' } }), 1);
++  });
++
+   it('accepts a byte-verified 15-second audible WebM upload', async () => {
+     const token = await studentToken();
+     const body = webm(15);
+diff --git a/backend/test/helpers/exercise-review.ts b/backend/test/helpers/exercise-review.ts
+index 033d440c..a3d941ab 100644
+--- a/backend/test/helpers/exercise-review.ts
++++ b/backend/test/helpers/exercise-review.ts
+@@ -9,6 +9,10 @@ export async function seedSubmittedExerciseRecord(
+   fixture: FoundationFixture,
+   suffix: string,
+   initialResult: 'PENDING' | 'VALID' = 'PENDING',
++  duration: { actualSeconds: number; maximumSeconds: number | null; configureCourse?: boolean } = {
++    actualSeconds: 3600,
++    maximumSeconds: null,
++  },
+ ): Promise<{
+   recordId: string;
+   sessionId: string;
+@@ -17,7 +21,7 @@ export async function seedSubmittedExerciseRecord(
+   studentAuthSessionId: string;
+   studentEmail: string;
+ }> {
+-  const student = await seedExerciseSessionStudent(prisma, fixture, `REVIEW-${suffix}`);
++  const student = await seedExerciseSessionStudent(prisma, fixture, `REVIEW-${suffix}`, 'ACTIVE', duration.configureCourse ?? true);
+   const now = new Date();
+   const businessDate = new Date(`${now.toISOString().slice(0, 10)}T00:00:00.000Z`);
+   const sessionId = uuidv7();
+@@ -32,11 +36,12 @@ export async function seedSubmittedExerciseRecord(
+       semesterId: fixture.semesterId,
+       startedByAuthSessionId: student.authSessionId,
+       status: 'COMPLETED',
+-      startedAt: new Date(now.getTime() - 3_600_000),
++      startedAt: new Date(now.getTime() - duration.actualSeconds * 1000),
+       businessDate,
+       completedAt: now,
+       endReason: 'USER_COMPLETED',
+-      actualDurationSeconds: 3600n,
++      actualDurationSeconds: BigInt(duration.actualSeconds),
++      maximumDurationSeconds: duration.maximumSeconds,
+       pausedDurationSeconds: 0n,
+       createdAt: now,
+       updatedAt: now,
+@@ -57,9 +62,9 @@ export async function seedSubmittedExerciseRecord(
+       creditType: 'GENERAL',
+       sportType: 'RUNNING',
+       description: `Synthetic review record ${suffix}`,
+-      actualDurationSeconds: 3600n,
++      actualDurationSeconds: BigInt(duration.actualSeconds),
+       pausedDurationSeconds: 0n,
+-      creditedDurationSeconds: 3600n,
++      creditedDurationSeconds: BigInt(Math.min(duration.actualSeconds, duration.maximumSeconds ?? 3600)),
+       status: initialResult === 'VALID' ? 'REVIEWED' : 'SUBMITTED',
+       submittedAt: now,
+       clientRequestId: `review-record-${suffix}-${uuidv7()}`,
+diff --git a/bug.md b/bug.md
+index 5a169e13..2939cf5f 100644
+--- a/bug.md
++++ b/bug.md
+@@ -1,69 +1,63 @@
+-1. 修复学生邮箱验证码登录异常提示
+-问题描述
+-当前学生使用邮箱验证码登录时，存在以下异常情况：
+-- 用户输入的验证码正确；
+-- 服务器保存的验证码校验值一致；
+-- 验证码未过期；
+-- 但是由于该邮箱尚未关联到可登录的学生账号，系统仍返回：验证码不正确或已过期
+-该错误提示与实际原因不符，容易误导用户。
+-根因
+-系统在验证码校验通过后，没有正确区分：
+-1. 验证码错误/过期；
+-2. 邮箱不存在对应学生账号。
+-导致“用户不存在”的业务错误被错误映射为“验证码错误”。
+-修复要求
+-当用户使用邮箱验证码登录时：
+-- 如果验证码错误或已过期：
+-  - 提示：验证码错误或已过期，请重新获取验证码。
+-- 如果验证码正确，但是该邮箱不存在对应的可登录学生账号：
+-  - 提示：当前邮箱尚未关联学生账号，请先扫码加入课程完成入班后再登录。
+-或优化为：
+-当前不存在与该邮箱对应的学生用户，请先通过扫码入班完成账号注册。
+ 
+-验收标准
+-- 未扫码入班、未绑定邮箱的学生使用验证码登录：
+-  - 能正确提示需要先入班；
+-  - 不再显示验证码错误。
+-- 已完成入班并绑定邮箱的学生：
+-  - 正常验证码登录。
+-- 验证码错误：
+-  - 保持原错误逻辑。
+-2. 修改学生登录页面邮箱示例
+-当前问题
+-学生登录页面邮箱输入框示例不符合学校邮箱规范。
+-修改要求
+-将邮箱示例修改为：
+-example@mail.bnbu.edu.cn
+-或者：
+-student@mail.bnbu.edu.cn
+-确保学生明确填写学校邮箱格式。
+-3. 管理端学生账户列表信息完善
+-当前问题
+-管理端学生账户列表展示的信息不完整，管理员无法查看学生完整登记信息。
+-修改要求
+-学生账户列表需要展示学生所有已登记属性，包括但不限于：
+-- 学号
+-- 姓名
+-- 邮箱
+-- 性别
+-- 年级
+-- 学院
+-- 班级/课程关联情况
+-- 注册时间
+-- 账号状态
+-- 其他已有学生字段
+-具体字段以当前数据库学生模型为准，不新增无业务依据字段。
+-4. 管理端学生筛选条件同步扩展
+-修改要求
+-学生列表筛选条件需要同步支持新增展示字段。
+-例如：
+-支持按照以下条件筛选：
+-- 学号
+-- 姓名
+-- 邮箱
+-- 学院
+-- 年级
+-- 性别
+-- 课程/班级
+-- 状态
+-筛选逻辑需要与列表展示字段保持一致。
+\ No newline at end of file
++1.删除学生端扫码界面的邀请码有效期5-120分钟，默认30分钟，到期前已登记的同一次流程可有10分钟宽限，且不得刷新续期的字段，老师端的进入课程设置  可以自定义选择天数或者分钟 
++
++2.维护模式下，学生端修复过一会才会出现设定好的维护模式的相关信息
++
++3.常规截止日期的解释，需要向老师解释常规截止日期是什么含义，并且修复出现（可设置范围:2026-12-11~2026-12-04。不得早于打卡结束日期;）设置范围反过来，不可出现这个设置范围反过来的情况
++
++4.学生端拍摄视频自动检测超过十秒不许入素材库
++
++5.打卡界面图标修改，图标如上传图所示
++
++6. 修改填写入班时的信息格式    
++学号必须是10位，然后必须是2开头，不能含任何字母。
++学院只能从下面五个学院，不能自己填写
++工商管理学院	FBM
++人文社科学院	FHSS	
++理工科技学院	FST	
++文化与创意学院	SCC	
++博雅智能学院	SAI	
++通识教育学院 SGE
++研究生院GS
++
++专业填写仅限大写字母，也是从下面专业选择，不能自己填写
++| 学院              | 专业                  | 官方英文缩写   |
++| --------------- | ------------------- | -------- |
++| **FBM 工商管理学院**  | 会计学                 | **ACCT** |
++|                 | 财务学                 | **FIN**  |
++|                 | 应用经济学               | **AE**   |
++|                 | 商业分析                | **BUSA** |
++|                 | 人力资源管理              | **MHR**  |
++|                 | 市场营销管理              | **MKT**  |
++|                 | 电子商务与资讯系统管理         | **EBIS** |
++|                 | 创业与创新管理             | **EPIN** |
++|                 | 数字媒体管理              | **DMM**  |
++| **FHSS 人文社科学院** | 中华文化与国际传播           | **CCGC** |
++|                 | 媒体与传播学              | **MCOM** |
++|                 | 公共关系与广告学            | **PRA**  |
++|                 | 应用翻译学               | **ATS**  |
++|                 | 英语语言文学              | **ELLS** |
++|                 | 数字跨文化研究             | **DIS**  |
++|                 | 数字人文跨学科研究           | **TDH**  |
++|                 | 数字社会科学              | **DGS**  |
++|                 | 全球化与发展              | **GAD**  |
++| **FST 理工科技学院**  | 应用数学                | **AM**   |
++|                 | 金融数学                | **FM**   |
++|                 | 统计学                 | **STAT** |
++|                 | 数据科学                | **DS**   |
++|                 | 人工智能                | **AI**   |
++|                 | 计算机科学与技术            | **CST**  |
++|                 | 环境科学                | **ENVS** |
++|                 | 食品科学与工程             | **FS**   |
++|                 | 应用心理学               | **APSY** |
++| **SCC 文化与创意学院** | 文化创意与管理             | **CCM**  |
++|                 | 媒体艺术与设计             | **MAD**  |
++|                 | 旅游、酒店与会展管理          | **THEM** |
++|                 | 动画与互动媒体             | **AIM**  |
++|                 | 影视学                 | **CTV**  |
++|                 | 游戏设计                | **GD**   |
++|                 | 音乐表演 / Musical Arts | **MUS**  |
++
++
++请把学院和专业做成二级联动，选择学院后，专业会自动筛选到该学院包含的专业。  最后再加个其他 让用户自己填写
++
+diff --git a/demand.md b/demand.md
+index c602975d..98d119d3 100644
+--- a/demand.md
++++ b/demand.md
+@@ -1,367 +1,158 @@
+-# BNBU Sports 新一轮需求与改动整理
++建议不要继续按“iPhone Air 修一次、iPhone 17 Pro 再修一次”的方式打补丁。你现在遇到的更像是**视频处理链路的兼容性边界不够宽**。
+ 
+-## 一、学生身份与个人资料体系调整
++新款 iPhone 确实更容易把这个问题暴露出来：iPhone Air 可以拍摄 4K Dolby Vision，录制格式包括 HEVC/H.264；iPhone 17 Pro 除 HEVC/H.264 外，还支持 ProRes、ProRes RAW，并且能出现 4K 120fps 等更重的视频。
+ 
+-### 1. 学生改为“一次认证，长期使用”
++### 我建议直接改成这套架构
+ 
+-目前学生在新学期扫码加入课程时，可能需要再次完成邮箱绑定或身份认证。需要调整为：
++**不要让手机网页负责“处理视频”，手机只负责上传原文件。**
+ 
+-* 学生第一次使用 BNBU Sports 时完成身份认证及邮箱绑定。
+-* 一旦认证成功，该认证结果与学生个人账号长期绑定。
+-* 后续新学期扫码加入新的课程时，不需要再次进行邮箱绑定或重复身份认证。
+-* 新学期加入课程只处理“加入该课程”的关系，不重新创建学生身份。
++```text
++iPhone 选择/拍摄视频
++        ↓
++前端只做：
++大小检查 + 上传
++        ↓
++COS 原始视频
++        ↓
++服务器确认上传成功
++        ↓
++腾讯云 MPS / 服务端转码
++        ↓
++统一标准视频
++MP4 + H.264 + AAC
++1080p / 30fps / SDR
++        ↓
++学生提交 + 教师预览
++```
+ 
+-同时需要明确学生数据的生命周期：
++你们本来就在用 COS，这个路线很合适。腾讯云 MPS 可以直接处理 COS 中的视频，并且支持“COS 上传完成后自动触发媒体处理”；其转码输入支持 MOV、MP4，以及 H.264、H.265/HEVC 等格式。
+ 
+-* 教师将学生从自己负责的课程中移除时，只解除学生与该课程之间的关系。
+-* 不得因此删除学生账号。
+-* 不得删除该学生在其他课程中的数据。
+-* 不得直接删除该学生过去已经产生的历史运动记录。
+-* 学生历史数据应继续归属于学生本人。
+-* 总管理员仍然需要保留“删除学生全部数据”的最高管理权限。
+-* 当管理员执行“删除学生全部数据”时，应有明确的二次确认，避免误操作。
++这样做的底层逻辑是：**不要要求所有学生手机产生相同的视频，而是在服务器端把各种视频统一成你平台自己的标准格式。**
+ 
+-核心逻辑：
++### 现在优先排查这 5 个环节
+ 
+-**学生账号属于平台，而不是属于某一门课程。课程只是学生账号下面的一段课程关系。**
++尤其不要只看最终的“视频上传失败”。
+ 
+----
++1. **选取文件失败**
++   - Safari 有没有正常拿到 `File`
++   - `name / type / size` 是什么
+ 
+-### 2. 扫码加入课程时增加学院信息
++2. **前端处理失败**
++   - 是否在浏览器里做压缩、转码、读取帧、生成缩略图
++   - 如果有，这里是我最怀疑的地方
++   - 4K/HDR/HEVC 视频很容易把移动端浏览器内存或解码能力推到边界
+ 
+-学生扫码成功、进入“填写入班信息”页面时，需要新增：
++3. **COS 上传失败**
++   - 预签名是否成功
++   - PUT 请求状态
++   - 上传了多少字节
++   - COS 是否真的存在对象
+ 
+-**学院**
++4. **上传成功但确认失败**
++   - COS 已有视频，但 backend `confirm` 没成功
++   - 这和你刚才遇到的“视频名额被未完成上传占住”还要一起修
+ 
+-该信息填写后应保存到学生个人资料中，而不仅仅属于当前课程。
++5. **上传成功但预览/处理失败**
++   - 原视频其实已经在 COS
++   - 只是网页 `<video>` 或后续处理不认识编码/HDR
+ 
+----
++建议诊断编号后台直接记录：
+ 
+-### 3. 学生个人资料进一步完善
++```text
++device
++iOS version
++browser version
+ 
+-学生扫码成功后填写入班信息时，需要同时采集以下个人资料：
++filename
++MIME type
++file size
+ 
+-* 学院
+-* 专业
+-* 出生年月日
+-* 地域
++COS object key
++upload started
++upload completed
++HTTP status
+ 
+-其中“地域”需要支持以下分类：
++server detected:
++container
++codec
++width × height
++fps
++duration
++HDR/SDR
+ 
+-* 中国大陆各省 / 自治区 / 直辖市
+-* 香港
+-* 澳门
+-* 台湾
+-* 其他国家或地区
++transcode task id
++transcode result
++failure stage
++```
+ 
+-这些信息填写完成后应进入学生长期个人档案。
++以后看到：
+ 
+-学生端「我的 / 个人中心」页面需要展示：
++> 诊断编号：VID-XXXXXXXX
+ 
+-* 姓名
+-* 学号
+-* 学院
+-* 专业
+-* 出生年月日
+-* 地域
+-* 其他现有个人资料
++开发人员就能直接知道失败在：
+ 
+-原则上后续加入其他课程时不应要求学生重复填写这些已经存在的信息。
++> 文件读取 → 申请上传 → COS → 上传确认 → 转码 → 预览
+ 
+----
++而不是再拿一台 iPhone 17 Pro 猜原因。
+ 
+-# 二、学生运动打卡规则调整
++### 最关键的改动
+ 
+-## 4. 打卡页面明确展示次数和时间限制
++我建议把你们现在的视频流程改成：
+ 
+-学生端运动打卡页面需要更加明确地告诉学生当前课程的运动规则。
++**原文件上传成功 = 上传成功**
+ 
+-页面至少展示：
+-
+-* 每周最多可计入多少次运动
+-* 每天最多可计入多少次运动
+-* 单次最低运动时长
+-
+-例如：
+-
+-> 本课程运动要求
+-> 每周最多计入：3 次
+-> 每天最多计入：1 次
+-> 单次最低运动时长：60 分钟
+-
+-需要注意：
+-
+-这里展示的必须是当前课程实际配置的规则，而不是写死的数据。
+-
+----
+-
+-## 5. 「自主运动」增加 BNBU 全部体育课程
+-
+-学生创建自主运动记录时，目前可选择的运动项目需要进一步扩展。
+-
+-要求：
+-
+-* 整理 BNBU 当前开设的体育课程 / 体育项目。
+-* 将适合用于学生自主运动打卡的项目加入运动类型列表。
+-* 尽量覆盖学校现有体育课程。
+-* 运动项目名称应保持统一，避免同一种运动出现多个不同名称。
+-
+-后续需要根据 BNBU 官方课程信息整理完整体育项目清单后接入系统。
+-
+----
+-
+-# 三、教师课程运动规则配置
+-
+-## 6. “运动门槛”改名为“最低运动时长”
+-
+-教师创建班级后，进入课程详情页面，目前存在一个：
+-
+-**运动门槛**
+-
+-该名称不够直观，需要修改为：
+-
+-**最低运动时长**
+-
+-例如：
+-
+-> 最低运动时长：60 分钟
+-
+-含义是：
+-
+-只有单次运动达到教师设定的最低运动时间，才满足课程运动记录要求。
+-
+----
+-
+-## 7. 教师可以自定义运动规则
+-
+-教师需要能够针对自己的课程设置：
+-
+-* 每周最多计入运动次数
+-* 每天最多计入运动次数
+-* 单次最低运动时长
+-
+-例如某课程可以配置：
+-
+-* 每周最多 3 次
+-* 每天最多 1 次
+-* 最低运动时长 60 分钟
+-
+-另一门课程则可以使用不同规则。
+-
+-学生端打卡页面必须同步展示教师配置的当前课程规则。
+-
+-即：
+-
+-**教师配置 → 后端保存 → 学生端实时按照课程配置展示和校验。**
+-
+-不要只修改页面文字，需要保证真实业务规则也按照配置执行。
+-
+----
+-
+-# 四、历史补卡功能
+-
+-## 8. 支持学生补录学期开始阶段的运动记录
+-
+-存在部分情况：
+-
+-学生在正式使用 BNBU Sports 之前，学期已经开始，并且已经完成了一些运动。
+-
+-因此系统需要增加：
+-
+-**补卡 / 历史运动记录提交功能**
+-
+-学生可以选择过去的日期提交运动记录。
+-
+-需要满足：
+-
+-* 只能选择允许范围内的过去日期。
+-* 不允许选择未来日期。
+-* 补卡记录需要清楚标记为“补卡”或“历史补录”。
+-* 补卡仍然需要提交对应的运动凭证。
+-* 补卡仍需要教师审核。
+-* 补卡仍然受每天最多次数、每周最多次数等规则限制。
+-* 补卡通过后正常计入运动次数和课程统计。
+-
+-后续需要统一确定：
+-
+-**学生最多允许往前补多少天，或者最早允许补到课程 / 学期开始日期。**
+-
+----
+-
+-# 五、课程截止日期设置优化
+-
+-## 9. 教师设置常规截止日期时增加范围提示
+-
+-目前教师设置课程常规截止日期时，不容易知道系统允许设置什么时间范围。
+-
+-需要在日期选择界面增加明显提示。
+-
+-例如：
+-
+-> 可设置范围：2026 年 9 月 1 日 ～ 2027 年 1 月 15 日
+-
+-如果存在系统限制，也应明确说明：
+-
+-> 截止日期不得早于课程开始日期。
+-> 截止日期不得晚于当前学期结束日期。
+-
+-日期选择器本身也应限制不可选择的日期，而不是等教师提交后才报错。
+-
+-目标是让教师在操作之前就知道：
+-
+-**“我到底可以设置哪些日期。”**
+-
+----
+-
+-# 六、免测申请 Bug 修复
+-
+-## 10. 修复免测申请“上传文件与声明不一致”问题
+-
+-当前学生提交免测申请时存在 Bug：
+-
+-即使学生按照要求上传文件，系统仍可能提示：
+-
+-**“上传的文件与声明不一致”**
+-
+-导致学生无法正常提交免测申请。
+-
+-修复目标：
+-
+-学生上传符合要求的材料后，可以正常提交免测申请。
+-
+-如果文件确实不符合要求，需要给学生展示明确、可理解的错误原因，例如：
+-
+-> 仅支持 PDF、JPG、PNG 格式。
+-
+-而不是统一显示“文件与声明不一致”。
+-
+----
+-
+-# 七、运动照片与凭证审核增强
+-
+-## 11. 学生拍照后保留原始照片
++而不是：
+ 
+-学生通过学生端拍摄运动凭证后：
++**前端成功处理/压缩视频 = 才允许上传**
+ 
+-* 原始照片应继续保留在学生手机本地。
+-* 上传照片不能影响或删除本地原图。
+-* 系统上传的图片应尽可能保留原始图片信息。
++原始视频可以放：
+ 
+-需要特别注意，不要因为：
++```text
++/raw/video/xxx.mov
++```
+ 
+-* 压缩
+-* 图片重新编码
+-* 图片格式转换
++处理完成后生成：
+ 
+-导致原图的关键 EXIF 信息全部丢失。
++```text
++/processed/video/xxx.mp4
++```
+ 
+----
++数据库：
+ 
+-## 12. 教师审核时展示照片元数据
++```text
++upload_status = UPLOADED
++processing_status = PROCESSING
++processing_status = READY
++processing_status = FAILED
++```
+ 
+-教师审核学生运动拍摄凭证时，需要能够查看照片的拍摄信息。
++学生看到：
+ 
+-包括在照片存在对应 EXIF 数据的情况下展示：
++> 视频已上传，正在处理，可以继续填写其他内容。
+ 
+-* 拍摄时间
+-* 相机 / 手机设备型号
+-* 焦距
+-* 光圈
+-* ISO
+-* 快门速度 / 曝光时间
+-* 图片尺寸
+-* 其他可用 EXIF 信息
++而不是卡着用户一直等视频处理。
+ 
+-可以考虑在图片预览页面增加：
++如果转码失败：
+ 
+-**「查看照片信息」**
++> 视频处理失败，请重新上传  
++> 诊断编号：VID-XXXXXX
+ 
+-点击后展开详细数据。
++并且**释放视频占位**，不能再次出现你刚才那个“第一次失败把唯一视频名额永久占住”的问题。
+ 
+-如果某项信息不存在，则显示：
++### 临时止血方案
+ 
+-> 无数据
++在完整改造之前，可以让出现问题的学生：
+ 
+-而不是报错。
++**iPhone 设置 → 相机 → 格式 → 兼容性最佳**
+ 
+----
++Apple 说明关闭 ProRes 后，普通视频可在 HEVC 和兼容性更好的 H.264 之间选择。
+ 
+-# 八、本轮需求的整体数据关系
++但这只能作为临时措施。**正式系统不能要求几百个学生为了你们的平台修改手机拍摄设置。**
+ 
+-本轮最重要的结构调整可以概括为：
++所以我会把这次问题定性为：
+ 
+-**学生账号 → 长期个人档案 → 学期课程关系 → 运动记录**
++> **“视频上传链路兼容性升级”，而不是“iPhone 17 Pro Bug”。**
+ 
+-而不是：
++最终目标应该是：**HEVC / H.264 / MOV / MP4 / HDR / 高帧率等常见手机视频都允许原样进入 COS，再由服务端统一标准化。**这样以后 iPhone 18、19 出来，也不用重新追着机型修。
+ 
+-**课程 → 创建一个学生 → 新学期重新创建 / 重新认证**
+-
+-新的推荐数据关系为：
+-
+-学生账号
+-↓
+-长期身份认证
+-↓
+-个人资料
+-
+-* 姓名
+-* 学号
+-* 邮箱
+-* 学院
+-* 专业
+-* 出生年月日
+-* 地域
+-
+-↓
+-加入不同学期、不同课程
+-
+-↓
+-每门课程拥有独立的：
+-
+-* 教师
+-* 最低运动时长
+-* 每天最多次数
+-* 每周最多次数
+-* 开始日期
+-* 截止日期
+-
+-↓
+-学生在课程下面产生：
+-
+-* 正常运动记录
+-* 补卡记录
+-* 免测申请
+-* 教师审核记录
+-* 教师评论
+-* 学时统计
+-
+-即使学生退出某一门课程，其平台身份和历史数据依然存在。
+-
+-只有拥有最高管理权限的管理员，才可以执行学生全量数据删除。
+-
+----
+-
+-# 九、本轮需求汇总
+-
+-本轮可以最终归纳成 11 个主要工作项：
+-
+-1. 学生身份改成一次认证、跨学期长期使用。
+-2. 教师移除学生时只解除课程关系，不删除学生历史数据。
+-3. 学生入班时新增学院、专业、出生年月日、地域信息。
+-4. 学生个人中心展示完整个人资料。
+-5. 打卡页面展示每周次数、每天次数和最低运动时长。
+-6. 自主运动补充 BNBU 体育课程 / 体育项目。
+-7. 教师可配置每周次数、每天次数和最低运动时长。
+-8. “运动门槛”统一改为“最低运动时长”。
+-9. 增加历史日期补卡能力。
+-10. 优化常规截止日期的可选范围及提示。
+-11. 修复免测申请文件校验 Bug，并增强照片原图保存及 EXIF 信息审核能力。
+-# 2026-09-12 验收反馈确认
+-
+-本节记录用户在原需求后的确认，优先于下文存在冲突的旧描述：
+-
+-- 教师修改已发布课程的最低运动时长、每天及每周最多次数，只影响修改后新增的记录。每条记录保存创建时的规则版本；原记录的计入规则不追溯变更，日/周已有名额仍占用。
+-- 删除打卡页和个人中心的「本机照片原图」入口。原生应用首次获得授权后，在打卡上传成功时自动保存上传的照片、视频到系统相册。覆盖 Android 和 iOS / iPadOS；浏览器不宣称能静默写入相册。
+-- OTHER 地域必须填写具体国家或地区名称并持久化；学生缺少学院、专业、出生日期或地域等必填资料时提示补全。
+-- 学生新绑定邮箱必须包含 bnbu 四个字母，忽略大小写；前后端一致校验。
+-- 教师课程卡提供学生名单入口；生成邀请前必须先完成课程规则设置。总管理员用户详情可查看邮箱，学生和教师列表补充属性与筛选。
++如果你现在要让 Codex 直接处理，我也建议就按这个方向给它一个 Goal：**定位新款 iPhone 视频失败根因 → 改造为原文件直传 COS → 服务端/MPS 标准化 → 修复占位恢复机制 → 真机兼容性回归 → 部署线上复测。**
+\ No newline at end of file
+diff --git a/docs/backend-contracts/openapi.yaml b/docs/backend-contracts/openapi.yaml
+index fbd1773f..18856f97 100644
+--- a/docs/backend-contracts/openapi.yaml
++++ b/docs/backend-contracts/openapi.yaml
+@@ -22592,6 +22592,12 @@ components:
+         - channel
+         - locale
+       properties:
++        joinInviteToken:
++          type: string
++          minLength: 16
++          maxLength: 200
++          writeOnly: true
++          description: Valid course invitation required to send a code to a new student email before enrollment.
+         organizationCode:
+           type: string
+           pattern: ^[A-Z0-9][A-Z0-9_-]{1,31}$
+diff --git a/docs/business/10-student-flow.md b/docs/business/10-student-flow.md
+index 68f96fd5..2ef9b338 100644
+--- a/docs/business/10-student-flow.md
++++ b/docs/business/10-student-flow.md
+@@ -444,7 +444,7 @@
+ 
+ ## 2026-09-12 用户验收反馈补充
+ 
+-学生必填资料缺失时提示补全；OTHER 需具体国家或地区。新绑定邮箱必须包含 bnbu，忽略大小写。网页不提供静默保存到系统相册的能力；原生宿主自动保存随客户端移除退出当前交付范围。
++学生必填资料缺失时提示补全；OTHER 需具体国家或地区。学生输入的邮箱必须完整使用 @mail.bnbu.edu.cn 后缀，忽略大小写并去除首尾空格；登录、入班及新绑定/修改邮箱均在发码前校验（2026-09-15 用户确认）。网页不提供静默保存到系统相册的能力；原生宿主自动保存随客户端移除退出当前交付范围。
+ 
+ 
+ ## 2026-09-12 本轮 bug.md 确认修订

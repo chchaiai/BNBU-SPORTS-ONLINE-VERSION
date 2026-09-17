@@ -1,0 +1,985 @@
+{
+  "scope": "Confirmed demand requirements plus already deployed media/mail/credit prerequisites needed to rebuild this tested source snapshot. Unrelated previous deployment artifacts and private sessions remain outside the commit.",
+  "files": [
+    {
+      "path": "BNBU-Sports-Web-new/frontend/student/client-error-projection.test.mjs",
+      "sha256": "8e2f62f552d58664900818952bcfd25a60cbe36b88d8f5cf448689436e5ce0be"
+    },
+    {
+      "path": "BNBU-Sports-Web-new/frontend/student/index.html",
+      "sha256": "b054ca9ec0106ca6d3caf39b99507622c6702a2a136419107b3ab5893a8705d2"
+    },
+    {
+      "path": "BNBU-Sports-Web-new/frontend/student/js/api.js",
+      "sha256": "c045c2c5216da30f0e059d929f4a36535913fe1d71df0d26731e3f7ec50bb885"
+    },
+    {
+      "path": "BNBU-Sports-Web-new/frontend/student/js/checkin-drafts.js",
+      "sha256": "d85e51455669726d4184a8c7dd19fe6dc616f1f3ce100d6ab37a90756c99b38f"
+    },
+    {
+      "path": "BNBU-Sports-Web-new/frontend/student/js/i18n.js",
+      "sha256": "f344472ec8161029d07c674452fbb5df1f6b93b8989dd7f618779cccd8ac234d"
+    },
+    {
+      "path": "BNBU-Sports-Web-new/frontend/student/js/proofs.js",
+      "sha256": "fa979d1d99ff99dbbfc7b9f0a89f19292d8ed10baee960a1b49997d56b16dc5b"
+    },
+    {
+      "path": "BNBU-Sports-Web-new/frontend/student/js/recorded-video.js",
+      "sha256": "167dc9bdbd07a18870a78cad3d697b3f7c0ec643f5391543c39a83c899b84134"
+    },
+    {
+      "path": "BNBU-Sports-Web-new/frontend/student/js/screens/binding.js",
+      "sha256": "d21a41570c29069e807e03cce1fc1129848db27e65a7fbe8718ee983375fdeb8"
+    },
+    {
+      "path": "BNBU-Sports-Web-new/frontend/student/js/screens/checkin.js",
+      "sha256": "29430e6f4b24948d965cb7451ccee27fd2478fa8158f63eb5782240c07cea08a"
+    },
+    {
+      "path": "BNBU-Sports-Web-new/frontend/student/js/screens/join.js",
+      "sha256": "cdefb86bf15f5f128fc53c1decef43b3e3ddf46ce1bd49d80967d46359cf135f"
+    },
+    {
+      "path": "BNBU-Sports-Web-new/frontend/student/js/screens/profile.js",
+      "sha256": "11ccd0023c5971c8c0a87fa2f91834426bdacbca5d80621489a5448c57353672"
+    },
+    {
+      "path": "BNBU-Sports-Web-new/frontend/student/js/screens/services.js",
+      "sha256": "78c75606f281d9968f1e4b4a2b98df1cd4e71a62802c42fa324c1ad3ac33d96e"
+    },
+    {
+      "path": "BNBU-Sports-Web-new/frontend/student/js/screens/verification.js",
+      "sha256": "6029f3ec996067cd65847f1039e888100001cb326c1730761517b6f18433f2d7"
+    },
+    {
+      "path": "BNBU-Sports-Web-new/frontend/student/js/session.js",
+      "sha256": "04a53580e0bb9a038f56c717b0d826e5d10f6cda50dfc4769a77251f464789b0"
+    },
+    {
+      "path": "BNBU-Sports-Web-new/frontend/student/js/student-academics.js",
+      "sha256": "6c87ab8ae4f8f66143796445a902f81e8f4981afe547e5b5f2eb0011c2453b9e"
+    },
+    {
+      "path": "BNBU-Sports-Web-new/frontend/student/js/student-school-email.js",
+      "sha256": "bb6e41018901774d10bd9fe9d77f69afc80cad0ba1eadee564b62883ffa085e4"
+    },
+    {
+      "path": "BNBU-Sports-Web-new/frontend/student/js/swim-submission.js",
+      "sha256": "93fd1e185c501c81d3dcbc1918e3bc1825a3dff4fa6ea52859a672565e29ef63"
+    },
+    {
+      "path": "BNBU-Sports-Web-new/frontend/student/js/ui.js",
+      "sha256": "864d8d842b64cb4281a47f1e9f7b05e7afd24625f75fc3a8e13142463f9014dd"
+    },
+    {
+      "path": "BNBU-Sports-Web-new/frontend/student/js/upload-progress.js",
+      "sha256": "b900fdfb04338664cbc2c0cdd34bcdf030e68355c4a96ea5a7eab876e3f0f310"
+    },
+    {
+      "path": "BNBU-Sports-Web-new/frontend/student/js/video-source.js",
+      "sha256": "de2260a108ef9df91c6cd2967a4c1560d33471b1a0041838fcaf9a068cac5d2d"
+    },
+    {
+      "path": "BNBU-Sports-Web-new/frontend/student/media-upload-recovery.test.mjs",
+      "sha256": "ff2fb1a442733a9d8f856955ad00a48a3d2301ba26810dc150ff038147ab7bb5"
+    },
+    {
+      "path": "BNBU-Sports-Web-new/frontend/student/student-academics.test.mjs",
+      "sha256": "f771af514605829465124d6ce177f11cadbb11170e6d6cf21f2f69d3d7fc41f8"
+    },
+    {
+      "path": "BNBU-Sports-Web-new/frontend/student/student-major-confirmation.test.mjs",
+      "sha256": "ca00c91719db37db834a98fa22a4c0f3874d850a1f0a74264bb55ad4cb6a7fae"
+    },
+    {
+      "path": "BNBU-Sports-Web-new/frontend/student/student-school-email.test.mjs",
+      "sha256": "4802dc3c61935073f05aaa99ba32a5339955d4e25cb4594c5001244ac2629b05"
+    },
+    {
+      "path": "BNBU-Sports-Web-new/frontend/student/swim-submission.test.mjs",
+      "sha256": "9e7cf22a2f5e4356af71f2856a426b17219a058c1b8b4abcc9e9aeaabfd0a226"
+    },
+    {
+      "path": "BNBU-Sports-Web-new/frontend/student/upload-progress.test.mjs",
+      "sha256": "51e2176ff96c46fc15f3698ed24058e31fcbb54ffcd95509eda0f08569e41c72"
+    },
+    {
+      "path": "BNBU-Sports-Web-new/frontend/student/v81-proof-client.test.mjs",
+      "sha256": "8bd693bd945548bcf5ef106cb812d480b3129fda626c23be9b9cd59c6e551d5c"
+    },
+    {
+      "path": "BNBU-Sports-Web-new/frontend/student/vendor/ffmpeg/api/classes.js",
+      "sha256": "59a565e4c5fb64bfc1c90c746e7f2cfd9dd770bbea70b3dc67419398e17af25c"
+    },
+    {
+      "path": "BNBU-Sports-Web-new/frontend/student/video-preview-metadata.test.mjs",
+      "sha256": "debeb31e2ee11829d3683bf851587b1fd238a9de15354a2943938e830cfc85d0"
+    },
+    {
+      "path": "BNBU-Sports-Web-new/frontend/student/video-source.test.mjs",
+      "sha256": "99e4be87a6a1748f5c49681dcaf6230bd00544908ae78b503fd1c7ad2b75e465"
+    },
+    {
+      "path": "BNBU-Sports-Web-new/frontend/student/video-worker-errors.test.mjs",
+      "sha256": "4f02b3fc03767009b7c3b98e4063f11ababcf4da8533a57237f792046a40c1c0"
+    },
+    {
+      "path": "BNBU-Sports-Web-new/portal-teacher-admin/app/admin-outbox.tsx",
+      "sha256": "ba0204ea5e773804362bb061cc4597fa424df8fe61b194f4ae9f4bb5968b392c"
+    },
+    {
+      "path": "BNBU-Sports-Web-new/portal-teacher-admin/app/admin-overview.tsx",
+      "sha256": "192b80786cdfd5adb7d9a576a378a8ed2f1eded3bd7e9fe5d722baac1acfe1cb"
+    },
+    {
+      "path": "BNBU-Sports-Web-new/portal-teacher-admin/app/admin-semesters.tsx",
+      "sha256": "0013e52af73fd850bcce946037d3dbf0f4448896e3727bc83dcb737e8a3486fc"
+    },
+    {
+      "path": "BNBU-Sports-Web-new/portal-teacher-admin/app/admin-subadmins.tsx",
+      "sha256": "3da58972fb9126bc5ccc03075a57489189f1978dfe365be264d39851c104431f"
+    },
+    {
+      "path": "BNBU-Sports-Web-new/portal-teacher-admin/app/admin-support.tsx",
+      "sha256": "be66fd47f32d70ce9e2329585a55494ad31cf37ee8de3b66a6893e8c656cff86"
+    },
+    {
+      "path": "BNBU-Sports-Web-new/portal-teacher-admin/app/admin-users.tsx",
+      "sha256": "d5194d09fd3735431f0f8fd5b99eeab813f0a2bfea9e8bbba29694ffad360b94"
+    },
+    {
+      "path": "BNBU-Sports-Web-new/portal-teacher-admin/app/admin-workspace.css",
+      "sha256": "c8b63ae266eed4c398e78ef944a22a27c5bcd9525518cedd9fb1369870878806"
+    },
+    {
+      "path": "BNBU-Sports-Web-new/portal-teacher-admin/app/api-client.ts",
+      "sha256": "cdce84dcfbbb25004e981025e84568dce820f86ca7013fd5f2f07e30a65b7f38"
+    },
+    {
+      "path": "BNBU-Sports-Web-new/portal-teacher-admin/app/course-closure.tsx",
+      "sha256": "25fbe17e88cd196736e5e2c1004eee43bc5741445b315a791d9ff8f29ccd87d4"
+    },
+    {
+      "path": "BNBU-Sports-Web-new/portal-teacher-admin/app/course-history-settings.tsx",
+      "sha256": "5f91cd89871f3ff677c36027a0de34a643c8b93e2f862bdf322a848a91f0d195"
+    },
+    {
+      "path": "BNBU-Sports-Web-new/portal-teacher-admin/app/course-name-settings.tsx",
+      "sha256": "a43545ad3c8a71b7a5405c927f3e556ef7b8f83c9f526b43858b185165bbfbaf"
+    },
+    {
+      "path": "BNBU-Sports-Web-new/portal-teacher-admin/app/course-settlement.tsx",
+      "sha256": "173f7f8f18ee4caf7cd79770b64b4455eee8293b1b5c9febe01e470c356f037f"
+    },
+    {
+      "path": "BNBU-Sports-Web-new/portal-teacher-admin/app/error-panel.tsx",
+      "sha256": "dc8b9c7254c4b915dfdeafc73523f3fb7f5ec1e696c130e2be658539b6c305af"
+    },
+    {
+      "path": "BNBU-Sports-Web-new/portal-teacher-admin/app/language.tsx",
+      "sha256": "10a31e6f126f94c03e11250e2c3d76c26c228a3c5a45db642721dc53f751f7b4"
+    },
+    {
+      "path": "BNBU-Sports-Web-new/portal-teacher-admin/app/makeup-window-form.tsx",
+      "sha256": "2e75f2831adf9590138ad603a44c9de60c3b62ad243a8025d5b71ee12d705b65"
+    },
+    {
+      "path": "BNBU-Sports-Web-new/portal-teacher-admin/app/ocr-import-panel.tsx",
+      "sha256": "f944c07bca25e9da7e00dfa03bb3f66bb7bfb96256d74ce244c43742fa992114"
+    },
+    {
+      "path": "BNBU-Sports-Web-new/portal-teacher-admin/app/physical-import-panel.tsx",
+      "sha256": "e350ad2c421826017c9d1b8ad21022007d4020ab32d38816261a25c347ba6549"
+    },
+    {
+      "path": "BNBU-Sports-Web-new/portal-teacher-admin/app/physical-result-form.tsx",
+      "sha256": "b52047dfd134f70c4e1c1cd0d294d145146162b4cc1bdf1dc324c4afe7e4593a"
+    },
+    {
+      "path": "BNBU-Sports-Web-new/portal-teacher-admin/app/student-major-correction.tsx",
+      "sha256": "7d7be0b8178cff70576df65edb9177e34348afd5237c4ddb04ae7330d494c401"
+    },
+    {
+      "path": "BNBU-Sports-Web-new/portal-teacher-admin/app/teacher-data.ts",
+      "sha256": "7c9e62e99033cf35b34b5d36763ce9be258216776d09aab9ddd50ea92b7a8d3b"
+    },
+    {
+      "path": "BNBU-Sports-Web-new/portal-teacher-admin/app/teacher-workspace.tsx",
+      "sha256": "27643b3d7a359d4b3624e68c70de077fe56f9ab1916d53a5790b190e3a780890"
+    },
+    {
+      "path": "BNBU-Sports-Web-new/portal-teacher-admin/tests/api-client.test.mjs",
+      "sha256": "73d749102589771871db70a019716653b5a3160e052ec4a9e275b456853e2bb9"
+    },
+    {
+      "path": "BNBU-Sports-Web-new/portal-teacher-admin/tests/checkin-audit.test.mjs",
+      "sha256": "e5dcae694c20aac1098a24bf383074d8f1499abcef8b3308e5fb17bf9e0c977f"
+    },
+    {
+      "path": "BNBU-Sports-Web-new/portal-teacher-admin/tests/course-name-projection.test.mjs",
+      "sha256": "ec550014cf3f95d6bebe8ec680e2db6a31b898d15190d26dc6957cc3184c8e45"
+    },
+    {
+      "path": "BNBU-Sports-Web-new/portal-teacher-admin/tests/i18n-resources.test.mjs",
+      "sha256": "c47bc17c2ffaaf9b4faf84a4c7f5804ab80205d24a9f53f03cdc751d147bf04e"
+    },
+    {
+      "path": "BNBU-Sports-Web-new/portal-teacher-admin/tests/input-ui-coverage.test.mjs",
+      "sha256": "6f78e8d884d377338a67512b571d46830755b47035e49599c11425f73473fb9a"
+    },
+    {
+      "path": "BNBU-Sports-Web-new/portal-teacher-admin/tests/rendered-html.test.mjs",
+      "sha256": "5c7ddd92832ec47f4aab2af212d52abf45b099706e32a4a5849d8d1d16bb00d4"
+    },
+    {
+      "path": "backend/Dockerfile",
+      "sha256": "03d00447a9869351530beb2d009bd9f223ac79265ec41ad29bfabebf6f1364ac"
+    },
+    {
+      "path": "backend/prisma/migrations/0077_credit_projection_minutes/manifest.json",
+      "sha256": "79760c27be7ec90b03f11af3cf2bc70e273fc5327d4d1035e271a9925da247ce"
+    },
+    {
+      "path": "backend/prisma/migrations/0077_credit_projection_minutes/migration.sql",
+      "sha256": "a44d86c97880b8d49c3393987a7d0120ee2b86e2635b849ce931b02e2ca1bdfc"
+    },
+    {
+      "path": "backend/prisma/migrations/0079_server_video_normalization/manifest.json",
+      "sha256": "6d272731ca04c8289019b782a30f7b6f55d751aba11d98c6ea17f4359d3c879a"
+    },
+    {
+      "path": "backend/prisma/migrations/0079_server_video_normalization/migration.sql",
+      "sha256": "39baf6c1bfb0fcf48ec5552ea042f35aa08e1387d285dbac4483ae7e641ed7cb"
+    },
+    {
+      "path": "backend/prisma/migrations/0081_media_capability_renewal/manifest.json",
+      "sha256": "7501899dd46974a106d5f52a9ab3c63eedc67ca221f717a5fa949b8146cb622a"
+    },
+    {
+      "path": "backend/prisma/migrations/0081_media_capability_renewal/migration.sql",
+      "sha256": "c5cb00540d5de2cc3cbbe43d69cbb15649903082c684fac585f3e1b56a54fbf4"
+    },
+    {
+      "path": "backend/prisma/migrations/0082_exercise_date_boundaries/manifest.json",
+      "sha256": "f18f38595f050e4f735318cf2b0c10681c499aec964103d84c33289856d85247"
+    },
+    {
+      "path": "backend/prisma/migrations/0082_exercise_date_boundaries/migration.sql",
+      "sha256": "df9b3aee491ee7da0b58600d830331bd66d0a742e37011ade1ce211720a9069c"
+    },
+    {
+      "path": "backend/runtime-coverage.manifest.json",
+      "sha256": "178f689e9b1b8e6a35fa10d3a136e35ba88a6d0bf65c08f1d8bef0ec890e7a37"
+    },
+    {
+      "path": "backend/scripts/migration-registry.mjs",
+      "sha256": "582e5b9a6d02b253d191ea3bc92852a8a8885c279773a25e9eb06af97c0e4bed"
+    },
+    {
+      "path": "backend/scripts/v81-migration-scan.mjs",
+      "sha256": "ac38114c32b9b9f9711a262c73a3319f043ee13a812f0027982155a55f174eba"
+    },
+    {
+      "path": "backend/src/common/object-storage/s3-media-storage.adapter.ts",
+      "sha256": "c0f60ae0eab538731c960f43de82fd00a554e52a825bd07c70372b736b32ed4d"
+    },
+    {
+      "path": "backend/src/common/policy/v81-admin-permission.guard.ts",
+      "sha256": "17d22aa877a7784f5cca88ed548fc39bd04b612cb4b4ffb066a49551a4ca29ab"
+    },
+    {
+      "path": "backend/src/common/security/student-school-email.ts",
+      "sha256": "1d16e1d72ad573f2061c0e46601e8eeef5ca340872490f7ae8bdfa2f89931afe"
+    },
+    {
+      "path": "backend/src/generated/migration-manifest.generated.ts",
+      "sha256": "a7277da6bd6a08091d741c1aebaa9f84d4c5e2a88c13a2882480ce5bccd081be"
+    },
+    {
+      "path": "backend/src/generated/openapi.document.generated.json",
+      "sha256": "605817baad6006b8748dad6c6a299adc65972947b4512e768d0c6ee50647546b"
+    },
+    {
+      "path": "backend/src/generated/openapi.manifest.generated.json",
+      "sha256": "3347c75b5dd640dd81548777db7feb19800ec1735bde3de903a33b7ae7bf26bf"
+    },
+    {
+      "path": "backend/src/generated/operation-policies.generated.ts",
+      "sha256": "f8ec97950b1a8fb22ff332904f31378ca7a7bd41091da140b1f5e8e179048a18"
+    },
+    {
+      "path": "backend/src/modules/client-capabilities/client-authentication.service.ts",
+      "sha256": "abca4a55e21a190dac8f33e7f98baf3e04c1af7bab7ebe8f21edbf7dbf49e811"
+    },
+    {
+      "path": "backend/src/modules/client-capabilities/client-capabilities.dto.ts",
+      "sha256": "1f957ad24dc14678f7dd5d83926c530cb031bc144a6338027ef7d4a53e1316d2"
+    },
+    {
+      "path": "backend/src/modules/enrollments/application/qr-join.service.ts",
+      "sha256": "3c95aa8eaf64a232d38fe2a0dd5cc7bddd1be6e70e5b5b0accf6a30042c5709e"
+    },
+    {
+      "path": "backend/src/modules/exercise-records/application/exercise-records.service.ts",
+      "sha256": "c6910880006f896fe825e8e9bad77302a3a94f2b27a8e8d3e9bf46c118e70835"
+    },
+    {
+      "path": "backend/src/modules/exercise-sessions/application/exercise-sessions.service.ts",
+      "sha256": "8de4b920dc813ed89046113e4aece16e81c4cb4819ddbd421745f2604c20e02d"
+    },
+    {
+      "path": "backend/src/modules/health/health.controller.ts",
+      "sha256": "c5c00e91d754c68e6cca4fa4da2a2c69249b48c4a2aadb00bfbb61617c7507e2"
+    },
+    {
+      "path": "backend/src/modules/health/health.module.ts",
+      "sha256": "0832c05848aa93ea801302362a02b5bb4a56811ab3d838c99d1c6f96e1ae443f"
+    },
+    {
+      "path": "backend/src/modules/health/health.service.ts",
+      "sha256": "75fced3caae842719a3e11e47d3460f24e835a8e22cb35123da1ac933671ec94"
+    },
+    {
+      "path": "backend/src/modules/health/outbox-diagnostics.service.ts",
+      "sha256": "e926f12160b913c0ede5ec830e4edc03de26d2b8a5a82e2262577423564510af"
+    },
+    {
+      "path": "backend/src/modules/join-capabilities/application/join-capabilities.service.ts",
+      "sha256": "2505a547df221e4b0038dbe57f243bb2ecc275bd22516e9eaf7773a46d0437f4"
+    },
+    {
+      "path": "backend/src/modules/media/application/media-processing.worker.ts",
+      "sha256": "07f42c5dc11af9b4cb81345ed8751b769a2c6efa5a98845511bf2e71745c12ca"
+    },
+    {
+      "path": "backend/src/modules/media/application/media-projection.ts",
+      "sha256": "800c13044b30e4cde387228cadcd784a80307667f4f9d01638513d6ea16d7748"
+    },
+    {
+      "path": "backend/src/modules/media/application/media-validator.ts",
+      "sha256": "565b7d4145605ca4b43629d84b8f8b0cd97c54bffbce5968f0c3399cc844736b"
+    },
+    {
+      "path": "backend/src/modules/media/application/media.service.ts",
+      "sha256": "6e232d95a060fa5668d3978ddf72a1fdd5c4e92f4524984666e92baf825f79a4"
+    },
+    {
+      "path": "backend/src/modules/media/application/video-normalizer.ts",
+      "sha256": "bc1c7140d063724d4451d23604a6406e1cb7d46913016a950fd816173b1f2e04"
+    },
+    {
+      "path": "backend/src/modules/users/application/student-academics.ts",
+      "sha256": "b3ed96e1d087902292c9836d749faede270c4b2d0d8b28f3c771fa8b2a8f6ae7"
+    },
+    {
+      "path": "backend/src/modules/users/application/student-profile-quality.ts",
+      "sha256": "a774ae5d311df30284baede03c234f6a375d656d909e3b5c719298e57ca40c35"
+    },
+    {
+      "path": "backend/src/modules/users/email-verification.service.ts",
+      "sha256": "6145cc47c38a406ad385552116d6764765ece8a88f457a5277f6245d3135afbf"
+    },
+    {
+      "path": "backend/src/modules/users/student-profile-completion.service.ts",
+      "sha256": "26d194552e24a24aaf37e11460278b812f6b44f993016ef52959bedf9164f5ae"
+    },
+    {
+      "path": "backend/src/modules/users/users.dto.ts",
+      "sha256": "db36a922e590ba1ae9215aef047a6347f265881f2cd71a1c80744962b36d97b9"
+    },
+    {
+      "path": "backend/src/modules/users/users.service.ts",
+      "sha256": "9fdc2661401a07e3a2bbc4a5d31f3899013dd156c1c44523105c1cf9daba287d"
+    },
+    {
+      "path": "backend/src/modules/v8/domain/course-plan.ts",
+      "sha256": "e319964c6bbc96cbe79ed89c92c6b313eaf34ff416f0cc707e77654bd28ec03c"
+    },
+    {
+      "path": "backend/src/modules/v8/domain/makeup-window.ts",
+      "sha256": "5618b404346dc893c8cbd87866c08f81788a120dcfa8f0ceb1fd0f01253bf229"
+    },
+    {
+      "path": "backend/src/modules/v8/v81-course-reminders.ts",
+      "sha256": "66dd2ec94fb742f322d1cc54db68f3dc74b6fd5a72d23b516ed4fb6d42ef9ba8"
+    },
+    {
+      "path": "backend/src/modules/v8/v81-history-backfill.ts",
+      "sha256": "23169406a9d829162a93e6f8cd0e048e81fe8a65fcb469b3f4b58e719227cb0c"
+    },
+    {
+      "path": "backend/src/modules/v8/v81-makeup-windows.ts",
+      "sha256": "4fc10866ced6a168527e02b91f2485424022f61096f0ab3d0eb1fac1b3b89fc8"
+    },
+    {
+      "path": "backend/src/modules/v8/v81-materials.ts",
+      "sha256": "ea4559b4d78874a758ae03fcf4119c6c5228ed214d7d4d064c08c607959b1ed1"
+    },
+    {
+      "path": "backend/src/modules/v8/v81-settlement-check.ts",
+      "sha256": "551ae695bf4307c6496b47319a4e3b6757752d5e80b5cfed63da1a5807ba0446"
+    },
+    {
+      "path": "backend/src/modules/v8/v81-upload-window.ts",
+      "sha256": "c640efef2faede096504364f8f23cff5d41e0411b0ce8fc8ce46616e07cb2a53"
+    },
+    {
+      "path": "backend/src/modules/v8/v81.dto.ts",
+      "sha256": "c72e2309fb9a14487c6414d8e2ae85df186b6b13b997bdf53a3d13de59e57515"
+    },
+    {
+      "path": "backend/src/modules/v8/v81.service.ts",
+      "sha256": "a4d52141cfa237f55b51b25e064eab28d3d5707588e11c7000bdd526a0d5c318"
+    },
+    {
+      "path": "backend/test/contract/export-audit-governance-contract.test.ts",
+      "sha256": "89f132445d69230cccd951890e543b385936126444d51d72a1ca79a68e7b740a"
+    },
+    {
+      "path": "backend/test/contract/openapi-contract.test.ts",
+      "sha256": "f3ef4c7c6ed5e63cb848bfeef057859286c43ecd3e243ec034329dc0f911b5c0"
+    },
+    {
+      "path": "backend/test/e2e/auth.e2e.test.ts",
+      "sha256": "3fdaf407f2f8b6cea091c27335103fd300cfca0bb5d790a548580efbee4edc6e"
+    },
+    {
+      "path": "backend/test/e2e/client-capabilities.e2e.test.ts",
+      "sha256": "809b778a61024307222aa02a91a483526d00d85dd5b4a8fc002edd042b0d4ba6"
+    },
+    {
+      "path": "backend/test/e2e/enrollment-qr-join.e2e.test.ts",
+      "sha256": "441ef93c4297dd1caacd92135a0508b319e19f09f9b5b59ecb74c811bf42c3de"
+    },
+    {
+      "path": "backend/test/e2e/exercise-record.e2e.test.ts",
+      "sha256": "b1633ebcc6ef54445b4a17668794d8137d84e519917450ee44bdce56b81564a4"
+    },
+    {
+      "path": "backend/test/e2e/exercise-session.e2e.test.ts",
+      "sha256": "9650b9ce8179db491ac134c0eb20c27166c7704baa86cb880ad0303ffcb0a7db"
+    },
+    {
+      "path": "backend/test/e2e/export-audit-governance.e2e.test.ts",
+      "sha256": "31e7b08b2d1902387e69c965528cfcd6de3ade33e66cb55a18454efd6e46d0b1"
+    },
+    {
+      "path": "backend/test/e2e/media-evidence.e2e.test.ts",
+      "sha256": "a0a83cfda2687505479e7851aacc156c46267e3659652bda7da98b4fdcb26cea"
+    },
+    {
+      "path": "backend/test/e2e/public-system-errors.e2e.test.ts",
+      "sha256": "41abde7dbd2e9d9b04c92ebbe4b3f0f83907affac06ff229206678c6bde8d1c2"
+    },
+    {
+      "path": "backend/test/e2e/teaching-structure.e2e.test.ts",
+      "sha256": "42b5c4f294da373e1dcdb6675d03cfb5df87f313b77a8bb2b49da118147e0477"
+    },
+    {
+      "path": "backend/test/e2e/v81-credit-projection-minutes.e2e.test.ts",
+      "sha256": "53a66648e955f6b8019e346fc9194da8cf1ecce816452af1e165d07599ca3c8a"
+    },
+    {
+      "path": "backend/test/e2e/v81-makeup.e2e.test.ts",
+      "sha256": "be5b12527c3a9033b5dda023b1de9287dd11c8a9e5fb294d77646b06d3f04cd5"
+    },
+    {
+      "path": "backend/test/e2e/v81-ocr-governance.e2e.test.ts",
+      "sha256": "8b1fbf2299e0383bb323aa2588487f38aefcf136a275f2ea43aeb608e170ceac"
+    },
+    {
+      "path": "backend/test/e2e/v81-settlement.e2e.test.ts",
+      "sha256": "023ae05e898fd38a3481efc84f1e40833c67db6a7216003569a913f0cc6240a4"
+    },
+    {
+      "path": "backend/test/helpers/exercise-review.ts",
+      "sha256": "be849fbaac86b92e62abc238a86b882671b2fe866907d5c6124d02c9003c8fb2"
+    },
+    {
+      "path": "backend/test/helpers/exercise-session.ts",
+      "sha256": "a33baa6c6424fb7dcc10e8192e031dc21c6667707e7a7c52e3342d582bff14b0"
+    },
+    {
+      "path": "backend/test/helpers/profile-policy.ts",
+      "sha256": "13d2cc6055d2591887b23a2f125dd08d3092c1ce810909d55adf75a8181294f7"
+    },
+    {
+      "path": "backend/test/integration/server-video-normalization.test.ts",
+      "sha256": "74f6c277d19eb8bb8411a11a65a624274c86b49c260d9d10a7a5ab64f09faecf"
+    },
+    {
+      "path": "backend/test/security/exercise-record-security.test.ts",
+      "sha256": "b8bfe1ce49ead57ca8ad41587d920b03e8166589c220f83ff3719fec95beab5c"
+    },
+    {
+      "path": "backend/test/security/exercise-session-security.test.ts",
+      "sha256": "888b5e5fd96e802597406967ce413fb3f171175c2d4cd5a959521e11e31e3ff6"
+    },
+    {
+      "path": "backend/test/unit/enrollment-qr-join.test.ts",
+      "sha256": "9db415cfb3c9154bb30a6d24e86af90cdb8393afbe6cd26814dea72ed557f9c8"
+    },
+    {
+      "path": "backend/test/unit/error-diagnostics.test.ts",
+      "sha256": "c14588f39a461a4cbe84c7777d4494cd557b3e2da0bc5e2d719de106d420ef19"
+    },
+    {
+      "path": "backend/test/unit/health.test.ts",
+      "sha256": "90bd4d5d2d7261aac0b8ffbad53e11a54534bf6508d0a4851715dc10424ccd0e"
+    },
+    {
+      "path": "backend/test/unit/makeup-window.test.ts",
+      "sha256": "47bce293265140e4ee63aa2ac9c8e41bb5acb4c22c1afd5ac8d93ba9b68b0368"
+    },
+    {
+      "path": "backend/test/unit/media-service-expiry.test.ts",
+      "sha256": "21fa9dd572e4d11184e31fbbeb4f94727fac68a42bb3e882beff218d76714bf9"
+    },
+    {
+      "path": "backend/test/unit/media.test.ts",
+      "sha256": "3fe263dba06f97fe174e01c1da395fe2ddfbff125e596e32934cfc11a7bc00bf"
+    },
+    {
+      "path": "backend/test/unit/student-mail-delivery-gate.test.ts",
+      "sha256": "f5a46da2eec79a3ecec717efa8fd6424292e6dde61ab9e29472828d220d9e3ac"
+    },
+    {
+      "path": "backend/test/unit/student-major-confirmation.test.ts",
+      "sha256": "dcaa66212e79064cd32e54d983d4e35934f580529af0fa45983f89ffafee6a3a"
+    },
+    {
+      "path": "backend/test/unit/student-school-email.test.ts",
+      "sha256": "de7a870e1ad454c9be19fa6d0ecfbc680b13e066d920e2bcda68a3d27d4d3c86"
+    },
+    {
+      "path": "backend/test/unit/v81-course-plan.test.ts",
+      "sha256": "20a1d267067907e28cb0a40ee7c82498d67b7bd4b3be2bcd310cf6a5812c0627"
+    },
+    {
+      "path": "demand.md",
+      "sha256": "16f0911e2f8bb85d9fa18b2420f1d1496f96b6b4a26ef2d5cdfa16c7750faf97"
+    },
+    {
+      "path": "docs/backend-contracts/05-permission-matrix.md",
+      "sha256": "364bb9da4c4fbce9f50f264b569962440260d2f57aa85460f7d483719f11b45b"
+    },
+    {
+      "path": "docs/backend-contracts/backend-implementation-roadmap.md",
+      "sha256": "2ba28abf246d0c46813d9e1b701eca3fd348aaca3d415d9d5cb45bdfd3b069cc"
+    },
+    {
+      "path": "docs/backend-contracts/openapi.yaml",
+      "sha256": "ce053926043bc5fad861748d6285351b8945bdc13831e25b8ac840725c08b294"
+    },
+    {
+      "path": "docs/business/10-student-flow.md",
+      "sha256": "3c2c74fedf81875c3e89ac6e4feab22e800bda251156e7bcdfe349d839ba05b8"
+    },
+    {
+      "path": "docs/implementation/demand-20260916-acceptance.md",
+      "sha256": "9ab810307058a216c5b0f9e0b7463e0cf9c4322e11bb3f858cda5589964003cc"
+    },
+    {
+      "path": "docs/implementation/demand-20260916-progress.md",
+      "sha256": "ab02ca672d22ce5f245fafe3e36b0fa4f99124361d974cc74ae3e12a8fd53776"
+    },
+    {
+      "path": "evidence/demand-20260916/backend-build-final.log",
+      "sha256": "2f122d481cd0686e0564ab5c9180fb076cd06390a0f44afd4462685b08aea896"
+    },
+    {
+      "path": "evidence/demand-20260916/backend-contract.log",
+      "sha256": "7bbaab4b26b4633b3756c9a56a9c28290181a38306a53dc3f6010052a496fa14"
+    },
+    {
+      "path": "evidence/demand-20260916/backend-lint-final.log",
+      "sha256": "c1655ae734877735b3c9d9aeb62138b92fa3e659391242e12807ab0648e8811e"
+    },
+    {
+      "path": "evidence/demand-20260916/backend-security.log",
+      "sha256": "8f1db01e541f51881fdb6540646ea98199531695cb2423a6e97ef9fdd305ac4e"
+    },
+    {
+      "path": "evidence/demand-20260916/backend-typecheck.log",
+      "sha256": "8a66bf22e3891a74450d046b2e50c7e81e609ddf691a52f0ff256140b1c946f6"
+    },
+    {
+      "path": "evidence/demand-20260916/backend-unit.log",
+      "sha256": "c4d70c72cb630660164ba54dc91ba45e88b4d12e5d030fd525a89394aeb00648"
+    },
+    {
+      "path": "evidence/demand-20260916/browser/admin-outbox-result.json",
+      "sha256": "271772f38d4a55008ef4acedd96d9a8f0a666376895881302164fcc33e412c89"
+    },
+    {
+      "path": "evidence/demand-20260916/browser/admin-overview.png",
+      "sha256": "7e966b9614d8d2d462d54c92a52f6e6841b34e684cd07a4452917bdb5ce8197b"
+    },
+    {
+      "path": "evidence/demand-20260916/browser/course-settings-before.png",
+      "sha256": "925133c18098da2ba85dad45e1334917a9278cd14cf1bc00d009aed54051007f"
+    },
+    {
+      "path": "evidence/demand-20260916/browser/course-settings-chinese.png",
+      "sha256": "1f80eef2f8ecd5f8552a6d61e084adfafa334ad18dcba94be423870c4b248527"
+    },
+    {
+      "path": "evidence/demand-20260916/browser/course-settings-english.png",
+      "sha256": "39765f2db99deb9f8e7a0055ac0ad1547b4b254481e752e5ba6371889c262598"
+    },
+    {
+      "path": "evidence/demand-20260916/browser/desktop-blocked.png",
+      "sha256": "9e676003159a3e86a855fb79fcb25c3020d4bf71b7d8e2c2b6dc55e85659346f"
+    },
+    {
+      "path": "evidence/demand-20260916/browser/maintenance-upload-before.png",
+      "sha256": "8c142188b5d3da17fce38bb8441891a46a6b2b907bf70eb79ff83da4414743cd"
+    },
+    {
+      "path": "evidence/demand-20260916/browser/maintenance-upload-blocked.png",
+      "sha256": "438a8b69280fc5cad7b27e828207038ca938c10ce1b782275e801f34f04c3ce4"
+    },
+    {
+      "path": "evidence/demand-20260916/browser/maintenance-upload-progress.png",
+      "sha256": "98dd44e7a257df7312e0e45a2ebe66776207e3d26cef683f9b4a31522d33328e"
+    },
+    {
+      "path": "evidence/demand-20260916/browser/maintenance-upload-result.json",
+      "sha256": "71251bc4f2972fecb5baa41b54fe136253c7452d99728a75a957fdd130b7845a"
+    },
+    {
+      "path": "evidence/demand-20260916/browser/maintenance-upload-submitted.png",
+      "sha256": "a84e8077f7fa7c65b8f58e048bd2cd456e1a48403e551c6a1481b5d01d4bfe32"
+    },
+    {
+      "path": "evidence/demand-20260916/browser/major-confirmed.png",
+      "sha256": "897b3e499a245c2bf381163a8bab4cc6f8c667f4cf28588fac8feeb9f6b64fbc"
+    },
+    {
+      "path": "evidence/demand-20260916/browser/phone-login.png",
+      "sha256": "b0d865304e832eaa549c1cbe8fd659a88093a48e3cd3e1d1f4680ecc4354a6b5"
+    },
+    {
+      "path": "evidence/demand-20260916/browser/result.json",
+      "sha256": "78401f4b46705376a666be515632edbada87db7b73402f050337781888bbbb79"
+    },
+    {
+      "path": "evidence/demand-20260916/browser/state.json",
+      "sha256": "9c66979514a4cfd1e4cf85dcf19a7be29c08ca5c74579c403097ccdd7cbb7a7e"
+    },
+    {
+      "path": "evidence/demand-20260916/browser/tablet-login.png",
+      "sha256": "26a3ff2285af127d455b20097e333026f3b1b96d29ba7c9cbec22c28fef17d92"
+    },
+    {
+      "path": "evidence/demand-20260916/browser/upload-before.png",
+      "sha256": "8c142188b5d3da17fce38bb8441891a46a6b2b907bf70eb79ff83da4414743cd"
+    },
+    {
+      "path": "evidence/demand-20260916/browser/upload-progress.png",
+      "sha256": "78f623191ebcbf32248ed87ef5c55fd5f272a8c0f419064926859b432608036c"
+    },
+    {
+      "path": "evidence/demand-20260916/browser/upload-result.json",
+      "sha256": "be9026cf6e1ddeedbd40c9c4338f6ae83e8438e18512d74d186cdfc4abd7b04e"
+    },
+    {
+      "path": "evidence/demand-20260916/browser/upload-submitted.png",
+      "sha256": "c5510c8d433a6ee76c204ea118c0fc56d561cc6af99e526e28d2a093ae6ee624"
+    },
+    {
+      "path": "evidence/demand-20260916/browser/video-captured.png",
+      "sha256": "86db46cd59361c04562ac012e6f874192c4823181a3b204309d007ff56202cfd"
+    },
+    {
+      "path": "evidence/demand-20260916/browser/video-result.json",
+      "sha256": "679d92af14d80ac00b8d4b2063de9e4f50527f0d71f1eac0cf31efaaf09dec0d"
+    },
+    {
+      "path": "evidence/demand-20260916/browser/video-submitted.png",
+      "sha256": "5fdeaef4e51094d443cb0a7193120d68114a6316e8c2cfb4d60161a5c8381a11"
+    },
+    {
+      "path": "evidence/demand-20260916/contract-check.log",
+      "sha256": "3f210d3600f81a52d92dfabaaa853998a194a13c98a021863e933cb1162b939a"
+    },
+    {
+      "path": "evidence/demand-20260916/contract-parity.log",
+      "sha256": "85a551cad1fd3c614a1b66571f1510edef97c3ee25eba7ce7998c59d5c18427f"
+    },
+    {
+      "path": "evidence/demand-20260916/docker-e2e-final-targeted.log",
+      "sha256": "f79bdb3e05226dae5f75797dca4be5e31ddab8b39d06cb7508ea1fd361ec39ba"
+    },
+    {
+      "path": "evidence/demand-20260916/docker-e2e-final.log",
+      "sha256": "33f9526a3bd270a4dc10c0c6a69f296478ef5edcb313b869e021d68fb16e8e6a"
+    },
+    {
+      "path": "evidence/demand-20260916/docker-e2e-recheck.log",
+      "sha256": "1d6b4d3c6a82c4736612e8f5a6227e03959a0e7e42da2b0e95cc70b366e562df"
+    },
+    {
+      "path": "evidence/demand-20260916/docker-e2e.log",
+      "sha256": "54140e51c4c80c3fb5e6a7ff507a36f061533c839381dbbab427e98c972ffe58"
+    },
+    {
+      "path": "evidence/demand-20260916/docker-integration.log",
+      "sha256": "c6ec635ce133bf316ee84b07bbf0b98d305c317b7fbf683b422032b7be52b660"
+    },
+    {
+      "path": "evidence/demand-20260916/docker-runtime-conformance.log",
+      "sha256": "7d4bf35e026072ad9b4cb838f0682de1a20b6824632a9422cb75053dfef5d8cd"
+    },
+    {
+      "path": "evidence/demand-20260916/docker-runtime-conformance.ndjson",
+      "sha256": "2dea470be31c356d8a0a12b4889f31c985743fc6a6c4e7c7f2845e3d1dd601cf"
+    },
+    {
+      "path": "evidence/demand-20260916/docker-security.log",
+      "sha256": "7fe27df0cb30d8622c5f3d61bfa181c94a4c9c7053e6e2e80ada1c70c388ba7c"
+    },
+    {
+      "path": "evidence/demand-20260916/final-static.json",
+      "sha256": "72f2c2ac4166f0060a5b35902426ee9ca2b53f642755c3205c46b26d242c3171"
+    },
+    {
+      "path": "evidence/demand-20260916/local-media-maintenance-settlement.log",
+      "sha256": "d9036222b1ef22a35d7e4426491f244169ae837b41d2d767b99bb67a3dbd83d8"
+    },
+    {
+      "path": "evidence/demand-20260916/local-milestone.json",
+      "sha256": "63dc60dfd9747b8c5255782bd58be0ee2f66fc74b1fb3953e8b4d73bc563c91c"
+    },
+    {
+      "path": "evidence/demand-20260916/migration-safety-final.log",
+      "sha256": "a62cbac929a47c26c2160eec6b377891665f9a8d4032ecb064cb0891e3e747cf"
+    },
+    {
+      "path": "evidence/demand-20260916/online/admin-outbox-result.json",
+      "sha256": "415bb5008e0f3c9c7b7e9e817eb1220dbdab4ef68054a13c4a77e000195af9cc"
+    },
+    {
+      "path": "evidence/demand-20260916/online/admin-overview.png",
+      "sha256": "0542e2d4da831e40ceb7f2caaf871bd7d2a2dccab237b442def2308136882938"
+    },
+    {
+      "path": "evidence/demand-20260916/online/browser-result.json",
+      "sha256": "f64b256086b22dfe3bb6f45df7f06a6a26c94297c0c049503ba87c24f76d273c"
+    },
+    {
+      "path": "evidence/demand-20260916/online/cleanup-audit.json",
+      "sha256": "7c88e1eeae557656c8e1a86b2fba38e650bd0ed4186f262c05bb8e18dd136ed0"
+    },
+    {
+      "path": "evidence/demand-20260916/online/course-settings-chinese.png",
+      "sha256": "03907bcff59ac5b1835c02ff7432bf0e58b0214ba5ae04dc1534007fffa9d9fe"
+    },
+    {
+      "path": "evidence/demand-20260916/online/course-settings-english.png",
+      "sha256": "721fdbfec381c63a03164c2a4edd91fc4c040bd77cecae52530004d34fcdcd1c"
+    },
+    {
+      "path": "evidence/demand-20260916/online/database-audit.json",
+      "sha256": "9e9cac32a2b73cc8b74af53fff96b3405fccf010463e53c6749b9a85bd1e0edd"
+    },
+    {
+      "path": "evidence/demand-20260916/online/desktop-blocked.png",
+      "sha256": "9e676003159a3e86a855fb79fcb25c3020d4bf71b7d8e2c2b6dc55e85659346f"
+    },
+    {
+      "path": "evidence/demand-20260916/online/final-health.txt",
+      "sha256": "83b5f6f81f4af97bc2fa92376706c4e91c81c3fbcabf74941c911c8c63ca7133"
+    },
+    {
+      "path": "evidence/demand-20260916/online/http-result.json",
+      "sha256": "c21b9837d4fa3739d10201cc4119bbb5e29db5c2ed080a0e895c30e5b6077d81"
+    },
+    {
+      "path": "evidence/demand-20260916/online/log-correlation.json",
+      "sha256": "8f11cee04c5bf6612a71daf987fe468dd1911c6d8e23b1700b1a3cf8786dd517"
+    },
+    {
+      "path": "evidence/demand-20260916/online/recovery-result.json",
+      "sha256": "1e25385b976bc9758d5b5ee006505eae24584fc64f0d28425b255a6fb8f6c17c"
+    },
+    {
+      "path": "evidence/demand-20260916/online/upload-before.png",
+      "sha256": "8c142188b5d3da17fce38bb8441891a46a6b2b907bf70eb79ff83da4414743cd"
+    },
+    {
+      "path": "evidence/demand-20260916/online/upload-progress.png",
+      "sha256": "a4668ee2263c6f6a4165d8f0dad2f9a0f28919f0af09f89477fe2af88afb15d2"
+    },
+    {
+      "path": "evidence/demand-20260916/online/upload-result.json",
+      "sha256": "043087fd97366f84c56750a6db4c353c0302d822579ce98969f4932588fa7cbe"
+    },
+    {
+      "path": "evidence/demand-20260916/online/upload-submitted.png",
+      "sha256": "b94d3fe5b48b0ac88886b8d1fd82c7a15e0e29394563d77b35c70fc905848df1"
+    },
+    {
+      "path": "evidence/demand-20260916/online/video-provider.log",
+      "sha256": "36e338139ea6a687e5c6ad8a04eb81d5a31122ee8a4a2ea3adeb465241efac0e"
+    },
+    {
+      "path": "evidence/demand-20260916/openapi-generate.log",
+      "sha256": "3e37b0964394090661f7def6888a5e5b59355e127833a070de5767d57f3f9d05"
+    },
+    {
+      "path": "evidence/demand-20260916/portal-build-final.log",
+      "sha256": "6653ac621fdea7af525e72fafc486e3716aa284698934f0eb8f3fd39b560c1fb"
+    },
+    {
+      "path": "evidence/demand-20260916/portal-tests.log",
+      "sha256": "f9be889a476cd47f744b0f7965a6081db197c689acd5691dbf30a643d9982b1d"
+    },
+    {
+      "path": "evidence/demand-20260916/portal-typecheck.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/demand-20260916/production-deploy.log",
+      "sha256": "f902bfe4e562335319f8d6eaa66ebe03f7eafc4af991787c6f9aeaf5efe0e727"
+    },
+    {
+      "path": "evidence/demand-20260916/production-deployment.json",
+      "sha256": "5ce59326a06c34545d8aed2cc42e74bfab6fbfcc5997a9ac08bcfa1bb492b142"
+    },
+    {
+      "path": "evidence/demand-20260916/production-diff.json",
+      "sha256": "2b3596809afe382e2015395f6cca06115af49c3fdbf5331482bd7056eb3d70ee"
+    },
+    {
+      "path": "evidence/demand-20260916/production-final-deployment.json",
+      "sha256": "8f720c0d9d03ea1de135e271f9e428c738d937212f2898bfc7e5a8598d59d94f"
+    },
+    {
+      "path": "evidence/demand-20260916/production-fixture.log",
+      "sha256": "4b42db41e785962dd9547cd80472bd62bd7585632c260f68690e5cebbe39afe1"
+    },
+    {
+      "path": "evidence/demand-20260916/release-bundle.tar.gz",
+      "sha256": "191563c175e744da257b9a107a84cb59be8f8ffbc1fb653cf9327bfd8f1f3ae8"
+    },
+    {
+      "path": "evidence/demand-20260916/release-bundle/validation.json",
+      "sha256": "b7980ea28ee9e337c6122f6f488442a52f9347a75134991eab6440fdd555cf60"
+    },
+    {
+      "path": "evidence/demand-20260916/runtime-coverage-final.log",
+      "sha256": "308154df34ee1b0a423a9d14b9838b2ff1fe25ecc13acacb71a378d0eae82415"
+    },
+    {
+      "path": "evidence/demand-20260916/runtime-coverage.log",
+      "sha256": "308154df34ee1b0a423a9d14b9838b2ff1fe25ecc13acacb71a378d0eae82415"
+    },
+    {
+      "path": "evidence/demand-20260916/student-tests.log",
+      "sha256": "23ae03794aee8d47bac198747fa3330d0052a32f0328673d61ffb90e0af14235"
+    },
+    {
+      "path": "evidence/demand-20260916/time-errors-milestone.json",
+      "sha256": "cab7a15449559821c96e100bfd3ecd927a90b178c501b0318dadfb8b6aa695c9"
+    },
+    {
+      "path": "evidence/demand-20260916/upload-final-tests.log",
+      "sha256": "6cf1fc6beb31d513313c7b3b7e4980463c166263a2cc0257ba1773b1f500c3ec"
+    },
+    {
+      "path": "tools/local-integration/archive-demand-20260916.py",
+      "sha256": "0e43de22fbc6d0dd8317a57354af9f189cafb987e99fa25e28e09ad8272d963c"
+    },
+    {
+      "path": "tools/local-integration/compose.demand-20260916.yml",
+      "sha256": "81f80c383624aaa83fe8ba9741d39d31b2018be95af4dea8cb9fb960c23c4346"
+    },
+    {
+      "path": "tools/local-integration/demand-admin-browser.mjs",
+      "sha256": "cd680bba5d497ac566dd1456977a502de76f74472419b1645534beb25b8710c7"
+    },
+    {
+      "path": "tools/local-integration/demand-browser-acceptance.mjs",
+      "sha256": "79cb77ea959cdc306390e351ee574c2106c4f34980a537fc7975b96c4bc3997f"
+    },
+    {
+      "path": "tools/local-integration/demand-browser-server.mjs",
+      "sha256": "903105bfdde65abf9942de87af717720a90773ab5bdb38702bd2d7cbdbd0ffad"
+    },
+    {
+      "path": "tools/local-integration/demand-upload-browser.mjs",
+      "sha256": "b8452eb5394ad235703cc58e36c35e6ae34cd88b3b9e2947c8200bb4cc73cbf1"
+    },
+    {
+      "path": "tools/local-integration/demand-video-browser.mjs",
+      "sha256": "c60dfde7f78292b6ad805e17fcf8cbe1009ff1b3e83fe97ac00b6554922524a3"
+    },
+    {
+      "path": "tools/local-integration/v81-makeup-http-probe.mjs",
+      "sha256": "26b5703bcb95622eb83dec6dbb6183a97ac00b1c4358e4756e6d7ad06689e01c"
+    },
+    {
+      "path": "tools/local-integration/v81-makeup-session-probe.d.mts",
+      "sha256": "7e6834a8a469f624106b7e43c8ccc537adbb91a6af1b614ff771a196fbfab223"
+    },
+    {
+      "path": "tools/local-integration/v81-makeup-session-probe.mjs",
+      "sha256": "0f3222f1b44868b5f4df0800235492e6aa7813494a5f48c1dea0a3c563d070fc"
+    },
+    {
+      "path": "tools/local-integration/v81-settlement-http-probe.mjs",
+      "sha256": "9e57468706b4564f04bfd4d6768a7bbaacb986827aedfd63e8da6cc66b5569ab"
+    },
+    {
+      "path": "tools/production/audit-demand-20260916.mjs",
+      "sha256": "bff7778eed4f241bd7729518fa2660d84a90c74847a4973e81f9664ab890f299"
+    },
+    {
+      "path": "tools/production/compare-demand-20260916.py",
+      "sha256": "85a6983811e21b3472462e46489ffe172f19d274c20387a61af391cbf03c868a"
+    },
+    {
+      "path": "tools/production/deploy-demand-20260916-final.py",
+      "sha256": "a7ebf446a279313ee27bb274dba63d5540292da7ded46b28c4539d9cb3dfcfcc"
+    },
+    {
+      "path": "tools/production/deploy-demand-20260916.py",
+      "sha256": "227756b167ea8dee5a5cab80a0e0e22c368d46bf6a24932dc2c993c38da58567"
+    },
+    {
+      "path": "tools/production/package-demand-20260916.py",
+      "sha256": "2ab69da68d293f43372d8bd68c919a2ce310b83d651ab2f5b119065b1d67376e"
+    },
+    {
+      "path": "tools/production/prepare-demand-20260916.mjs",
+      "sha256": "2199ecf0307004fff0bc1e9f7bd79a4baab4a541cf027a2875dd6869aaf10a29"
+    },
+    {
+      "path": "tools/production/trace-demand-20260916.py",
+      "sha256": "e7b8fb7ebfa2bdf39c946ccc3f4221016912c211f95cfe37f8d2a3d85801d2bb"
+    },
+    {
+      "path": "tools/production/verify-demand-20260916-admin.mjs",
+      "sha256": "9d391d98af011135189bf68eb1b070a34c4e9c9bea867c0fc08fb7ad93a8a6df"
+    },
+    {
+      "path": "tools/production/verify-demand-20260916-browser.mjs",
+      "sha256": "a3b8e41c57fe8e22715fe7a99f67211244f7b73297a14facf2ca8e0492dd636a"
+    },
+    {
+      "path": "tools/production/verify-demand-20260916-http.mjs",
+      "sha256": "ea8d92906a1f1c47439c0ec738accb34e859ec808e631bf5f76203fdb3d2181c"
+    },
+    {
+      "path": "tools/production/verify-demand-20260916-recovery.mjs",
+      "sha256": "432d37b4a0460158a94c3bf30ff2f89ad88f0ef971dcada9181d6992f5891966"
+    },
+    {
+      "path": "tools/production/verify-demand-20260916-upload.mjs",
+      "sha256": "179e766e6ca388499e76b6fb470cef8b5c5488071180bc33b9d0d6116e188ac6"
+    }
+  ]
+}

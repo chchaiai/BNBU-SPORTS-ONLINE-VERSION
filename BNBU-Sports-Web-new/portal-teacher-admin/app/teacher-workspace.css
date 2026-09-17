@@ -7905,3 +7905,10 @@ button:disabled {
   margin: 4px 0 0;
   overflow-wrap: anywhere;
 }
+
+.ai-review-panel { padding:12px; margin:10px 0; border:1px solid var(--color-outline-variant); border-radius:8px; background:var(--color-surface-low); color:var(--color-on-surface); font-size:13px; }
+.ai-review-panel strong,.ai-review-panel small { display:block; }
+.ai-review-panel p { margin:8px 0; }
+.ai-review-panel[data-ai-recommendation='SUGGEST_PASS'] { border-left:4px solid #168653; }
+.ai-review-panel[data-ai-recommendation='SUSPECTED_RISK'] { border-left:4px solid #be3535; }
+.ai-review-panel[data-ai-recommendation='TEACHER_REVIEW'] { border-left:4px solid #b57b09; }

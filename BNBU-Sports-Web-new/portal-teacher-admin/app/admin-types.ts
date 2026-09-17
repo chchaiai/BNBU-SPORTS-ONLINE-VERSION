@@ -258,6 +258,9 @@ export type AdminCourse = {
 };
 
 export type StudentProfileProjection = {
+  profileQualityStatus?: 'NORMAL' | 'REQUIRES_PROFILE_UPDATE' | 'PENDING_REVIEW';
+  profileQualityReasons?: string[];
+  profileConfirmedAt?: string | null;
   dateOfBirth?: string | null;
   regionCode?: string | null;
   otherRegionName?: string | null;

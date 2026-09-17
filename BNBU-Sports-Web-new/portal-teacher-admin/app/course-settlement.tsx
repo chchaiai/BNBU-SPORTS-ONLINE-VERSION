@@ -2,7 +2,7 @@
 import "./course-operations.css";
 
 import { useEffect, useRef, useState } from "react";
-import { apiSessionUserId, currentApiSessionEpoch, request, toUserFacingError, ApiError } from "./api-client";
+import { apiSessionUserId, currentApiSessionEpoch, request, toUserFacingError, formatUserFacingError, ApiError } from "./api-client";
 
 type Check = { code: string; status: string; count: number | null };
 type RosterRow = { id: string; studentNumber: string | null; fullName: string | null; status: string; pendingCount: number | null };
@@ -50,7 +50,7 @@ export function CourseSettlement({ classSectionId }: { classSectionId: string })
   const storageKey = `bnbu:settlement:${apiSessionUserId()}:${classSectionId}`;
   const epoch = currentApiSessionEpoch();
   const valid = () => live.current && currentApiSessionEpoch() === epoch;
-  const showError = (failure: unknown) => { if (valid()) setError(toUserFacingError(failure,"zh").message); };
+  const showError = (failure: unknown) => { if (valid()) setError(formatUserFacingError(failure)); };
   const load = async () => {
     const results = await Promise.allSettled([
       request<Preview>(`${scope}/settlement-preview`),

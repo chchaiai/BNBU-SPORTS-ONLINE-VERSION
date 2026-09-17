@@ -1,0 +1,672 @@
+--- a/backend/src/modules/users/profiles.controller.ts
++++ b/backend/src/modules/users/profiles.controller.ts
+@@ -1,7 +1,8 @@
+-import { Body, Controller, Get, Headers, Param, Patch, Query } from '@nestjs/common';
++import { StudentProfileCompletionService } from './student-profile-completion.service.js';
++import { Body, Controller, Get, Headers, Param, Patch, Query, Req } from '@nestjs/common';
+ 
+ import type { PagedResult } from '../../common/http/envelope.interceptor.js';
+-import type { AuthenticatedPrincipal } from '../../common/http/request-context.js';
++import type { AuthenticatedPrincipal, FoundationRequest } from '../../common/http/request-context.js';
+ import { OperationPolicy } from '../../common/policy/operation-policy.decorator.js';
+ import { CurrentPrincipal } from '../../common/policy/principal.decorator.js';
+ import type { StudentProfileProjection, TeacherProfileProjection } from './users.service.js';
+@@ -15,7 +16,7 @@
+ 
+ @Controller()
+ export class ProfilesController {
+-  constructor(private readonly users: UsersService) {}
++  constructor(private readonly users: UsersService, private readonly completion: StudentProfileCompletionService) {}
+ 
+   @Get('students')
+   @OperationPolicy('listStudents')
+@@ -37,15 +38,15 @@
+ 
+   @Patch('students/:studentId')
+   @OperationPolicy('updateStudent')
+-  updateStudent(
++  async updateStudent(
+     @CurrentPrincipal() principal: AuthenticatedPrincipal,
+     @Param() path: ProfilePathDto,
+     @Body() body: UpdateStudentRequestDto,
+     @Headers('idempotency-key') idempotencyKey: string | undefined,
+-  ): Promise<never> {
+-    void body;
+-    void idempotencyKey;
+-    return this.users.denyStudentUpdate(principal, path.studentId);
++    @Req() request: FoundationRequest,
++  ): Promise<StudentProfileProjection> {
++    await this.completion.requireUpdate(principal,path.studentId,body,{idempotencyKey,requestId:request.requestId});
++    return this.users.getStudent(principal,path.studentId);
+   }
+ 
+   @Get('teachers/:teacherId')
+--- a/backend/src/modules/users/student-profile-completion.service.ts
++++ b/backend/src/modules/users/student-profile-completion.service.ts
+@@ -1,3 +1,6 @@
++import { inspectProfile, readProfileQualities } from './application/student-profile-quality.js';
++import { requireAdminAccess } from '../v8/v81-admin-access.js';
++import type { UpdateStudentRequestDto } from './users.dto.js';
+ import { Injectable } from '@nestjs/common';
+ import { ApplicationError } from '../../common/errors/application-error.js';
+ import type { AuthenticatedPrincipal } from '../../common/http/request-context.js';
+@@ -25,18 +28,47 @@
+         organizationId:principal.organizationId,deletedAt:null}});
+       if (!profile) throw new ApplicationError('USER_NOT_FOUND',404);
+       if (profile.version !== input.expectedVersion) throw new ApplicationError('CONFLICT_VERSION_MISMATCH',409);
+-      const details = this.normalizer.normalize({...input,studentNumber:profile.studentNumber,
+-        fullName:profile.fullName,gender:profile.gender,gradeYear:profile.gradeYear}, {preserveStoredStudentNumber:true});
++      const details = this.normalizer.normalize({...input,studentNumber:input.studentNumber ?? profile.studentNumber,
++        fullName:input.fullName ?? profile.fullName,gender:input.gender ?? profile.gender,gradeYear:input.gradeYear ?? profile.gradeYear});
++      const quality=inspectProfile({...profile,...details},true);
++      if(quality.profileQualityStatus==='REQUIRES_PROFILE_UPDATE') throw new ApplicationError('USER_PROFILE_INVALID',422, {fieldErrors:quality.profileQualityReasons.map(field=>({field,code:'INVALID',i18nKey:'error.user.profileInvalid',params:{}}))});
++      const duplicate=await tx.studentProfile.findFirst({where:{organizationId:principal.organizationId,studentNumber:details.studentNumber,id:{not:profile.id}}});
++      if(duplicate) throw new ApplicationError('USER_IDENTITY_CONFLICT',409);
++      const beforeQuality=(await readProfileQualities(tx,[profile])).get(profile.id)!;
+       const now=this.clock.now();
+       const changed = await tx.studentProfile.updateMany({where:{id:profile.id,version:input.expectedVersion},data:{
++        studentNumber:details.studentNumber,fullName:details.fullName,gender:details.gender,gradeYear:details.gradeYear,
+         collegeName:details.collegeName!,majorName:details.majorName!,dateOfBirth:new Date(`${details.dateOfBirth}T00:00:00Z`),
+         regionCode:details.regionCode!,otherRegionName:details.otherRegionName ?? null,updatedAt:now,version:{increment:1}}});
+       if (changed.count !== 1) throw new ApplicationError('CONFLICT_VERSION_MISMATCH',409);
+       await tx.$executeRaw`INSERT INTO v81_events(id,organization_id,resource_type,resource_id,event_type,actor_id,request_id,version,facts,occurred_at,event_outcome)
+         VALUES(${this.ids.next()}::uuid,${principal.organizationId}::uuid,'STUDENT_PROFILE',${profile.id}::uuid,
+-          'PROFILE_COMPLETED',${principal.userId}::uuid,${facts.requestId},${input.expectedVersion+1},
+-          ${JSON.stringify({changedFields:['collegeName','majorName','dateOfBirth','regionCode','otherRegionName']})}::jsonb,${now},'SUCCEEDED')`;
++          'PROFILE_QUALITY_CONFIRMED',${principal.userId}::uuid,${facts.requestId},${input.expectedVersion+1},
++          ${JSON.stringify({before:Object.fromEntries(Object.keys(details).map(key=>[key,profile[key as keyof typeof profile]])),after:details,reasons:beforeQuality.profileQualityReasons})}::jsonb,${now},'SUCCEEDED')`;
+       return this.idempotency.success({version:input.expectedVersion+1});
+     });
+   }
++  async requireUpdate(principal: AuthenticatedPrincipal, studentId: string, input: UpdateStudentRequestDto,
++    facts: {requestId:string;idempotencyKey:string|undefined}) {
++    if(principal.role!=='ADMIN') throw new ApplicationError('PERMISSION_RESOURCE_SCOPE_DENIED',403);
++    if(!input.profileUpdateReason || Object.entries(input).some(([key,value])=>value!==undefined && !['profileUpdateReason','expectedVersion'].includes(key))) throw new ApplicationError('VALIDATION_FAILED',422);
++    return this.idempotency.execute({organizationId:principal.organizationId,principalId:principal.userId,authSessionId:principal.sessionId,
++      operationId:'updateStudent',scope:studentId,key:facts.idempotencyKey,request:input,requestId:facts.requestId},async tx=>{
++      await tx.$queryRaw`SELECT id FROM organizations WHERE id=${principal.organizationId}::uuid FOR NO KEY UPDATE`;
++      await requireAdminAccess(tx,principal,'USER_ACCOUNTS');
++      const policy=await tx.systemPolicy.findUnique({where:{organizationId:principal.organizationId}});
++      if(policy?.systemMode!=='NORMAL') throw new ApplicationError('SYSTEM_MAINTENANCE',503);
++      const profile=await tx.studentProfile.findFirst({where:{id:studentId,organizationId:principal.organizationId,deletedAt:null}});
++      if(!profile) throw new ApplicationError('USER_NOT_FOUND',404);
++      if(profile.version!==input.expectedVersion) throw new ApplicationError('CONFLICT_VERSION_MISMATCH',409);
++      const now=this.clock.now();
++      const result=await tx.studentProfile.updateMany({where:{id:studentId,version:input.expectedVersion},data:{version:{increment:1},updatedAt:now}});
++      if(result.count!==1) throw new ApplicationError('CONFLICT_VERSION_MISMATCH',409);
++      await tx.$executeRaw`INSERT INTO v81_events(id,organization_id,resource_type,resource_id,event_type,actor_id,request_id,version,facts,occurred_at,event_outcome)
++        VALUES(${this.ids.next()}::uuid,${principal.organizationId}::uuid,'STUDENT_PROFILE',${studentId}::uuid,'PROFILE_UPDATE_REQUIRED',
++          ${principal.userId}::uuid,${facts.requestId},${input.expectedVersion+1},${JSON.stringify({reason:input.profileUpdateReason})}::jsonb,${now},'SUCCEEDED')`;
++      return this.idempotency.success({version:input.expectedVersion+1});
++    });
++  }
++
+ }
+--- a/backend/src/modules/users/users.dto.ts
++++ b/backend/src/modules/users/users.dto.ts
+@@ -15,6 +15,10 @@
+ } from 'class-validator';
+ 
+ export class CompleteStudentProfileDto {
++  @ValidateIf((_o,v:unknown)=>v!==undefined) @IsString() @Length(1,32) studentNumber?: string;
++  @ValidateIf((_o,v:unknown)=>v!==undefined) @IsString() @Length(1,100) fullName?: string;
++  @ValidateIf((_o,v:unknown)=>v!==undefined) @IsIn(['MALE','FEMALE','OTHER']) gender?: string;
++  @ValidateIf((_o,v:unknown)=>v!==undefined) @IsInt() @Min(1900) @Max(9999) gradeYear?: number;
+   @Transform(({value}: {value: unknown}) => typeof value === 'string' ? value.trim() : value) @IsIn(['FBM','FHSS','FST','SCC','SAI','SGE','GS']) collegeName!: string;
+   @Transform(({value}: {value: unknown}) => typeof value === 'string' ? value.trim() : value) @IsString() @Length(1,200) majorName!: string;
+   @IsString() @Length(10,10) dateOfBirth!: string;
+@@ -111,6 +115,7 @@
+ }
+ 
+ export class UpdateStudentRequestDto {
++  @ValidateIf((_o,v:unknown)=>v!==undefined) @Transform(trim) @IsString() @Length(1,200) profileUpdateReason?: string;
+   @ValidateIf((_object, value: unknown) => value !== undefined)
+   @Transform(trim)
+   @IsString()
+--- a/backend/src/modules/users/users.service.ts
++++ b/backend/src/modules/users/users.service.ts
+@@ -1,3 +1,4 @@
++import { readProfileQualities, type ProfileQuality } from './application/student-profile-quality.js';
+ import { Injectable } from '@nestjs/common';
+ 
+ import { PrismaService } from '../../common/database/prisma.service.js';
+@@ -10,7 +11,7 @@
+ import type { StudentListQueryDto } from './users.dto.js';
+ import { requireAdminAccess } from '../v8/v81-admin-access.js';
+ 
+-export interface StudentProfileProjection {
++export interface StudentProfileProjection extends Partial<ProfileQuality> {
+   email?: string | null;
+   emailVerified?: boolean;
+   courseAssociations?: { classSectionId: string; classCode: string; className: string; courseName: string; semesterName: string; status: string }[];
+@@ -106,7 +107,7 @@
+       studentProfile:
+         user.studentProfile === null
+           ? null
+-          : this.projectStudent(user.studentProfile),
++          : {...this.projectStudent(user.studentProfile),...(await readProfileQualities(this.prisma,[user.studentProfile])).get(user.studentProfile.id)},
+       teacherProfile:
+         user.teacherProfile === null
+           ? null
+@@ -211,12 +212,14 @@
+       orderBy,
+       take: input.limit + 1,
+     });
++    const qualities=await readProfileQualities(this.prisma,rows);
+     const hasMore = rows.length > input.limit;
+     const page = hasMore ? rows.slice(0, input.limit) : rows;
+     const last = page.at(-1);
+     return pagedResult(
+       page.map(({ user, enrollments, ...row }) => ({
+         ...this.projectStudent(row),
++        ...qualities.get(row.id),
+         status: enrollments.some(enrollment => enrollment.status === 'ACTIVE') ? 'ACTIVE' : 'PENDING',
+         ...(principal.role === 'ADMIN' ? { email: user.primaryEmail, emailVerified: user.emailVerifiedAt !== null } : {}),
+         courseAssociations: enrollments.map(enrollment => ({
+@@ -245,12 +248,13 @@
+   ): Promise<StudentProfileProjection> {
+     const student = await this.findAuthorizedStudent(principal, studentId);
+     if (student === null) throw new ApplicationError('USER_NOT_FOUND', 404);
+-    if (principal.role !== 'ADMIN') return this.projectStudent(student);
++    const quality=(await readProfileQualities(this.prisma,[student])).get(student.id);
++    if (principal.role !== 'ADMIN') return {...this.projectStudent(student),...quality};
+     await requireAdminAccess(this.prisma, principal, 'USER_ACCOUNTS');
+     const user = await this.prisma.user.findUniqueOrThrow({ where: { id: student.userId }, select: { primaryEmail: true, emailVerifiedAt: true } });
+     const enrollments = await this.prisma.enrollment.findMany({ where: { studentId, organizationId: principal.organizationId },
+       include: { classSection: { include: { course: true } }, semester: true }, orderBy: [{ joinedAt: 'desc' }, { id: 'asc' }] });
+-    return { ...this.projectStudent(student), status: enrollments.some(enrollment => enrollment.status === 'ACTIVE') ? 'ACTIVE' : 'PENDING', email: user.primaryEmail, emailVerified: user.emailVerifiedAt !== null,
++    return { ...this.projectStudent(student), ...quality, status: enrollments.some(enrollment => enrollment.status === 'ACTIVE') ? 'ACTIVE' : 'PENDING', email: user.primaryEmail, emailVerified: user.emailVerifiedAt !== null,
+       courseAssociations: enrollments.map(enrollment => ({ classSectionId: enrollment.classSectionId,
+         classCode: enrollment.classSection.classCode, className: enrollment.classSection.displayName,
+         courseName: enrollment.classSection.course.courseName, semesterName: enrollment.semester.displayName, status: enrollment.status })) };
+--- a/backend/src/modules/v8/v81-history-backfill.ts
++++ b/backend/src/modules/v8/v81-history-backfill.ts
+@@ -1,3 +1,4 @@
++import { assertProfileReady } from '../users/application/student-profile-quality.js';
+ import { Body, Controller, Get, Headers, Injectable, Param, ParseUUIDPipe, Post, Req } from '@nestjs/common';
+ import { IsBoolean, IsInt, IsISO8601, Matches, Max, Min } from 'class-validator';
+ import { PrismaService } from '../../common/database/prisma.service.js';
+@@ -91,6 +92,8 @@
+     if(p.role!=='STUDENT') throw new ApplicationError('PERMISSION_RESOURCE_SCOPE_DENIED',403);
+     return this.idempotency.execute({organizationId:p.organizationId,principalId:p.userId,authSessionId:p.sessionId,
+       operationId:'createV81HistoricalSession',scope:`${p.organizationId}:${enrollmentId}`,request:input,requestId,key},async tx=>{
++      await tx.$queryRaw`SELECT id FROM organizations WHERE id=${p.organizationId}::uuid FOR NO KEY UPDATE`;
++      await assertProfileReady(tx,p.organizationId,p.userId);
+       const member=await tx.enrollment.findFirst({where:{id:enrollmentId,organizationId:p.organizationId,student:{userId:p.userId}},include:{student:{include:{user:true}}}});
+       if(!member) throw new ApplicationError('PERMISSION_RESOURCE_NOT_FOUND',404);
+       const course=await this.writable(tx,p,member.classSectionId);
+--- a/backend/src/modules/users/application/student-identity-normalizer.ts
++++ b/backend/src/modules/users/application/student-identity-normalizer.ts
+@@ -21,12 +21,12 @@
+     const studentNumber = options.preserveStoredStudentNumber ? input.studentNumber : input.studentNumber.trim();
+     const fullName = input.fullName.trim().normalize('NFC');
+     if (!options.preserveStoredStudentNumber && !STUDENT_NUMBER_PATTERN.test(studentNumber)) this.invalid('studentNumber');
+-    if (fullName.length < 1 || fullName.length > 100) this.invalid('fullName');
++    if (fullName.length < 1 || fullName.length > 100 || (!/^[\p{L}\p{M} .·'’-]+$/u.test(fullName) || !/\p{L}/u.test(fullName))) this.invalid('fullName');
+     if (!STUDENT_GENDERS.includes(input.gender as StudentGender)) this.invalid('gender');
+     if (
+       !Number.isSafeInteger(input.gradeYear) ||
+-      input.gradeYear < 1000 ||
+-      input.gradeYear > 9999
++      input.gradeYear < 1900 ||
++      input.gradeYear > new Date().getUTCFullYear() + 1
+     ) {
+       this.invalid('gradeYear');
+     }
+--- a/backend/src/modules/exercise-sessions/application/exercise-sessions.service.ts
++++ b/backend/src/modules/exercise-sessions/application/exercise-sessions.service.ts
+@@ -1,3 +1,4 @@
++import { assertProfileReady } from '../../users/application/student-profile-quality.js';
+ import { requireUnsettledCourse } from '../../v8/v81-settlement-write-guard.js';
+ import { appendV81SystemEvent } from '../../v8/v81-system-event.js';
+ import { Injectable } from '@nestjs/common';
+@@ -89,6 +90,7 @@
+       async (transaction) => {
+         try {
+           await transaction.$queryRaw`SELECT id FROM organizations WHERE id=${principal.organizationId}::uuid FOR NO KEY UPDATE`;
++          await assertProfileReady(transaction,principal.organizationId,principal.userId);
+           if ((await transaction.systemPolicy.findUnique({ where: { organizationId: principal.organizationId } }))?.systemMode !== 'NORMAL')
+             throw new ApplicationError('SYSTEM_MAINTENANCE', 503);
+           await transaction.$queryRaw`SELECT c.id FROM class_sections c JOIN enrollments e ON e.class_section_id=c.id
+--- a/backend/src/modules/exercise-records/application/exercise-records.service.ts
++++ b/backend/src/modules/exercise-records/application/exercise-records.service.ts
+@@ -1,3 +1,4 @@
++import { assertProfileReady } from '../../users/application/student-profile-quality.js';
+ import {isHistoricalSession,requireHistoricalSubmissionWindow} from '../../v8/v81-history-backfill.js';
+ import { permitsExistingCourseSession } from '../../enrollments/application/course-closure-memberships.js';
+ import { Injectable } from '@nestjs/common';
+@@ -426,6 +427,8 @@
+       async (transaction) => {
+         // Keep a replayable failure while rolling back any submission writes.
+         await transaction.$executeRaw`SAVEPOINT exercise_record_submit`;
++        await transaction.$queryRaw`SELECT id FROM organizations WHERE id=${principal.organizationId}::uuid FOR NO KEY UPDATE`;
++        await assertProfileReady(transaction,principal.organizationId,principal.userId);
+         try {
+           await this.lock(transaction, 'enrollments', context.enrollmentId);
+           await this.lock(transaction, 'exercise_records', context.recordId);
+--- a/backend/src/modules/enrollments/application/qr-join.service.ts
++++ b/backend/src/modules/enrollments/application/qr-join.service.ts
+@@ -1,3 +1,4 @@
++import { assertProfileReady } from '../../users/application/student-profile-quality.js';
+ import { isStudentSchoolEmail } from '../../../common/security/student-school-email.js';
+ import { Inject, Injectable } from '@nestjs/common';
+ import { requireUnsettledCourse } from '../../v8/v81-settlement-write-guard.js';
+@@ -189,6 +190,7 @@
+         const existingIdentity = await this.identities.validateExisting(capability.organizationId, identity, transaction);
+         if (existingIdentity && existingIdentity.user.id !== identity.authenticatedUserId)
+           throw new ApplicationError('AUTH_REQUIRED', 401);
++        if(existingIdentity) await assertProfileReady(transaction,capability.organizationId,existingIdentity.user.id);
+         let resolved = await this.identities.resolveOrCreate(
+           capability.organizationId,
+           identity,
+--- a/backend/src/common/policy/access-policy.guard.ts
++++ b/backend/src/common/policy/access-policy.guard.ts
+@@ -1,3 +1,5 @@
++import { PrismaService } from '../database/prisma.service.js';
++import { assertProfileReady } from '../../modules/users/application/student-profile-quality.js';
+ import { CanActivate, ExecutionContext, Injectable, Optional } from '@nestjs/common';
+ import { Reflector } from '@nestjs/core';
+ 
+@@ -77,6 +79,7 @@
+     @Optional() private readonly exerciseSessionPolicy?: ExerciseSessionPolicyResolver,
+     @Optional() private readonly mediaPolicy?: MediaPolicyResolver,
+     @Optional() private readonly exerciseRecordPolicy?: ExerciseRecordPolicyResolver,
++    @Optional() private readonly prisma?: PrismaService,
+   ) {}
+ 
+   async canActivate(context: ExecutionContext): Promise<boolean> {
+@@ -184,6 +187,11 @@
+       });
+     }
+ 
++    if(principal.role==='STUDENT' && ['startExerciseSession','createV81HistoricalSession','createExerciseRecordDraft','submitExerciseRecord','issueMemberJoinCapability'].includes(operationId)) {
++      if(!this.prisma) throw new ApplicationError('SYSTEM_DATA_INTEGRITY_ERROR',500);
++      await assertProfileReady(this.prisma,principal.organizationId,principal.userId);
++    }
++
+     if (policy.resourceResolver === 'ENROLLMENT_LIST_SCOPE') {
+       if (this.enrollmentPolicy === undefined) this.resolverRequired('ENROLLMENT');
+       request.enrollmentCollectionScope = await this.enrollmentPolicy.resolveCollection(principal);
+--- a/backend/src/common/policy/v81-admin-permission.guard.ts
++++ b/backend/src/common/policy/v81-admin-permission.guard.ts
+@@ -65,6 +65,7 @@
+   deleteV81StudentAccount: 'USER_ACCOUNTS',
+   listStudents: 'USER_ACCOUNTS',
+   getStudent: 'USER_ACCOUNTS',
++  updateStudent: 'USER_ACCOUNTS',
+   getTeacher: 'USER_ACCOUNTS',
+   listTeacherClassSections: 'COURSE_VIEW',
+   listCourses: 'COURSE_VIEW',
+--- a/BNBU-Sports-Web-new/frontend/student/js/api.js
++++ b/BNBU-Sports-Web-new/frontend/student/js/api.js
+@@ -29,6 +29,8 @@
+ // an arbitrary origin.
+ const DEFAULT_BASE = "/api/v1";
+ 
++const profileCorrectionListeners = new Set();
++export function subscribeProfileCorrection(listener) {profileCorrectionListeners.add(listener);return ()=>profileCorrectionListeners.delete(listener);}
+ const systemMaintenanceListeners = new Set();
+ 
+ function publishSystemMaintenance() {
+@@ -727,6 +729,7 @@
+   if (!response.ok) {
+     const error = new ApiError(response.status, parsed, { method, route: path });
+     if (error.code === "SYSTEM_MAINTENANCE") publishSystemMaintenance();
++    if(error.code === "USER_PROFILE_INVALID" && path!=="/me/student-profile") for(const listener of profileCorrectionListeners) listener();
+     throw error;
+   }
+   return includeMeta ? parsed : parsed?.data;
+@@ -755,6 +758,7 @@
+   if (!response.ok) {
+     const error = new ApiError(response.status, parsed, { method, route: path });
+     if (error.code === "SYSTEM_MAINTENANCE") publishSystemMaintenance();
++    if(error.code === "USER_PROFILE_INVALID" && path!=="/me/student-profile") for(const listener of profileCorrectionListeners) listener();
+     throw error;
+   }
+   return parsed;
+@@ -1757,6 +1761,9 @@
+     regionCode: profile.regionCode || "",
+     otherRegionName: profile.otherRegionName || "",
+     profileVersion: profile.version,
++    profileQualityStatus:profile.profileQualityStatus,
++    profileQualityReasons:profile.profileQualityReasons || [],
++    profileConfirmedAt:profile.profileConfirmedAt,
+     className: profile.administrativeClassName || "",
+     status: studentStatus === "ACTIVE" ? "ACTIVE" : "PENDING",
+     gender: String(profile.gender || "").toLowerCase(),
+--- a/BNBU-Sports-Web-new/frontend/student/js/app.js
++++ b/BNBU-Sports-Web-new/frontend/student/js/app.js
+@@ -31,6 +31,7 @@
+   markNotificationRead,
+   getSystemModeStatus,
+   subscribeSystemMaintenance,
++  subscribeProfileCorrection,
+ } from "./api.js";
+ import { icon } from "./icons.js";
+ import { renderStartupSplash, renderMaintenancePage, renderPlannedMaintenanceBanner, renderSyncStatusBanner, renderLocalPreviewBanner } from "./screens/startup.js";
+@@ -46,7 +47,7 @@
+ import { renderCourses, coursesActions, coursesBackInterceptor } from "./screens/courses.js";
+ import { attachDraftVideoPreview, renderCheckIn, checkinActions, checkinTick, checkinBackInterceptor, restoreCheckinContinuity, resumeCheckinContinuity } from "./screens/checkin.js";
+ import { renderGrades } from "./screens/grades.js";
+-import { renderProfile, renderAccountDetails, renderSettings, renderAccountDeletion, profileActions } from "./screens/profile.js";
++import { renderRequiredProfile, renderProfile, renderAccountDetails, renderSettings, renderAccountDeletion, profileActions } from "./screens/profile.js";
+ import { renderHelpCenter, renderFeedback, renderAbout, renderChangelog, supportActions } from "./screens/support.js";
+ import { renderEnduranceScoring, renderExemption, servicesActions, servicesBackInterceptor } from "./screens/services.js";
+ 
+@@ -576,6 +577,7 @@
+         if (s.activationSupportScreen === "help") return renderActivationHelp(this);
+         return renderContactBinding(this, { mode: "requiredActivation" });
+       }
++      if(this.isApiMode() && s.workspace?.student?.profileQualityStatus==='REQUIRES_PROFILE_UPDATE') return renderRequiredProfile(this);
+       if (this.hasActiveEnrollment() && !s.postEnrollmentGuideCompleted) return renderPostEnrollmentGuide(this);
+       return this.renderAuthenticatedShell();
+     }
+@@ -818,6 +820,7 @@
+     // Session restore (StartupSplashScreen while isRestoringSession).
+     this.render();
+     if (remoteSystemModeEnabled) void this.refreshSystemMode();
++    subscribeProfileCorrection(() => {if(this.state.authenticated && !this.state.isLoading) void this.reloadApiWorkspace();});
+     subscribeSystemMaintenance(() => {
+       this.applySystemModeStatus({ ...this.state.systemModeStatus, mode: "MAINTENANCE" });
+       void this.refreshSystemMode();
+--- a/BNBU-Sports-Web-new/frontend/student/js/screens/profile.js
++++ b/BNBU-Sports-Web-new/frontend/student/js/screens/profile.js
+@@ -16,6 +16,10 @@
+ } from "../api.js";
+ 
+ const profileFields = [
++  ['fullName','name',()=>tx('真实姓名','Full name')],
++  ['studentNumber','id',()=>tx('学号','Student number')],
++  ['gender','gender',()=>tx('性别','Gender')],
++  ['gradeYear','admissionYear',()=>tx('入学年份','Admission year')],
+   ['collegeName', 'college', () => tx('学院','College')],
+   ['majorName', 'major', () => tx('专业','Major')],
+   ['dateOfBirth', 'dateOfBirth', () => tx('出生年月日','Date of birth')],
+@@ -29,12 +33,18 @@
+   const missing = missingProfileFields(app.state.workspace.student);
+   return app.isApiMode() && missing.length ? `<div class="swiss-panel" role="status"><p>${esc(tx('请完善账户资料：','Complete your profile: ')+missing.join('、'))}</p><button class="primary-btn pressable" data-action="profile.editDetails">${tx('去完善','Complete profile')}</button></div>` : '';
+ }
+-function profileCompletionForm(app) {
++export function profileCompletionForm(app) {
+   const state = app.ui.profileDetails;
+   if (!state) return '';
+   const field = (id,label,type='text',max=200) => `<label class="col" style="gap:6px">${esc(label)}<input class="text-field" placeholder="${esc(label)}" data-input="profile.detailsField" data-field="${id}" type="${type}" maxlength="${max}" required value="${esc(state[id] || '')}" ${state.busy ? 'disabled' : ''}></label>`;
+   return `<form class="swiss-panel col" style="gap:16px" data-profile-details-form data-submit="profile.saveDetails">
+-    <h3>${tx('完善个人资料','Complete personal details')}</h3>
++    <h3>${tx('请完善个人信息','Complete your personal information')}</h3>
++    <p>${tx('请确认并修正以下资料，保存成功后才能正常打卡。已验证邮箱无需重新填写。','Confirm and correct your details before checking in. Your verified email is retained.')}</p>
++    <p role="status">${esc((app.state.workspace.student.profileQualityReasons || []).map(profileReasonLabel).join('；'))}</p>
++    ${field('fullName',tx('真实姓名','Full name'),'text',100)}
++    ${field('studentNumber',tx('学号（2 开头的 10 位数字）','Student number (10 digits, starting with 2)'),'text',10)}
++    <label class="col">${tx('性别','Gender')}<select class="text-field" required data-input="profile.detailsField" data-field="gender"><option value="">${tx('请选择','Select')}</option>${[['MALE','男','Male'],['FEMALE','女','Female'],['OTHER','其他','Other']].map(([code,zh,en])=>`<option value="${code}" ${state.gender===code?'selected':''}>${tx(zh,en)}</option>`).join('')}</select></label>
++    ${field('gradeYear',tx('入学年份','Admission year'),'number',4)}
+     <label class="col">${tx('学院','College')}<select class="text-field" required data-input="profile.detailsField" data-field="collegeName" ${state.busy?'disabled':''}><option value="">${tx('请选择','Select')}</option>${STUDENT_COLLEGES.map(item=>`<option value="${item.code}" ${state.collegeName===item.code?'selected':''}>${esc(item.code+' '+item.name)}</option>`).join('')}</select></label>
+     ${allowsCustomMajor(state.collegeName) ? field('majorName',tx('其他专业（仅大写英文字母）','Other major (uppercase letters only)')) : `<label class="col">${tx('专业','Major')}<select class="text-field" required data-input="profile.detailsField" data-field="majorName" ${state.busy?'disabled':''}><option value="">${tx('请选择','Select')}</option>${academicMajorOptions(state.collegeName).map(value=>`<option value="${value}" ${state.majorName===value?'selected':''}>${value}</option>`).join('')}</select></label>`}
+     ${field('dateOfBirth',tx('出生年月日','Date of birth'),'date')}
+@@ -42,7 +52,7 @@
+     ${state.regionCode==='OTHER'?field('otherRegionName',tx('国家或地区名称','Country or region name'),'text',100):''}
+     ${state.error?`<p role="alert" class="text-error">${esc(state.error)}</p>`:''}
+     <button type="button" class="primary-btn pressable" data-action="profile.saveDetails" ${state.busy?'disabled':''}>${tx('保存资料','Save details')}</button>
+-    <button type="button" class="text-btn pressable" data-action="profile.cancelDetails" ${state.busy?'disabled':''}>${tx('取消','Cancel')}</button>
++    ${app.state.workspace.student.profileQualityStatus==='REQUIRES_PROFILE_UPDATE'?'':`<button type="button" class="text-btn pressable" data-action="profile.cancelDetails" ${state.busy?'disabled':''}>${tx('取消','Cancel')}</button>`}
+   </form>`;
+ }
+ 
+@@ -381,7 +391,7 @@
+ export const profileActions = {
+   "profile.editDetails": (app) => {
+     const student=app.state.workspace.student;
+-    app.ui.profileDetails={...Object.fromEntries(profileFields.map(([id,key])=>[id,student[key] || ''])), otherRegionName:student.otherRegionName || '', expectedVersion:student.profileVersion, busy:false, error:null};
++    app.ui.profileDetails={...Object.fromEntries(profileFields.map(([id,key])=>[id,student[key] || ''])), otherRegionName:student.otherRegionName || '', gender:String(student.gender || '').toUpperCase(), expectedVersion:student.profileVersion, busy:false, error:null};
+     app.openSub('account'); app.render();
+   },
+   "profile.detailsField": (app,el) => {
+@@ -396,14 +406,18 @@
+     const state=app.ui.profileDetails, form=app._viewport?.querySelector('[data-profile-details-form]');
+     if (!state || state.busy || !form?.reportValidity()) return;
+     if (!validAcademicDetails(state.collegeName,state.majorName.trim())) { state.error=tx('专业须符合学院选项，且仅包含大写英文字母。','Choose a valid major containing uppercase letters only.'); app.render(); return; }
++    if(!/^2[0-9]{9}$/.test(state.studentNumber.trim())) {state.error=tx('学号格式不正确，请填写 2 开头的 10 位正式学号。','Enter a 10-digit student number starting with 2.');app.render();return;}
++    if(!state.fullName.trim() || (!/^[\p{L}\p{M} .·'’-]+$/u.test(state.fullName.trim()) || !/\p{L}/u.test(state.fullName.trim()))) {state.error=tx('请填写真实姓名，不可包含数字或特殊符号。','Enter your full name without numbers or symbols.');app.render();return;}
+     state.busy=true;state.error=null;app.render();
+     try {
+       await request('/me/student-profile',{method:'POST',idempotent:true,body:{
++        studentNumber:state.studentNumber.trim(),fullName:state.fullName.trim(),gender:state.gender,gradeYear:Number(state.gradeYear),
+         collegeName:state.collegeName.trim(),majorName:state.majorName.trim(),dateOfBirth:state.dateOfBirth,
+         regionCode:state.regionCode,...(state.regionCode==='OTHER'?{otherRegionName:state.otherRegionName.trim()}:{}),expectedVersion:state.expectedVersion}});
+       app.ui.profileDetails=null;
+       await app.reloadApiWorkspace();
+-    } catch(error) {state.error=toUserFacingError(error).message;}
++      app.ui.profileDetails=null;
++    } catch(error) {state.error=toUserFacingError(error).message; if(error.status===409) {await app.reloadApiWorkspace(); state.expectedVersion=app.state.workspace.student.profileVersion;} app.ui.profileDetails=state;}
+     finally {state.busy=false;app.render();}
+   },
+   "profile.openSettings": (app) => app.openSub("settings"),
+@@ -545,3 +559,16 @@
+     app.logout();
+   },
+ };
++
++function profileReasonLabel(reason) {
++  if(reason.startsWith('manual:')) return reason.slice(7);
++  const labels={fullName:['姓名格式异常','Invalid name'],studentNumber:['学号格式异常','Invalid student number'],gender:['请选择性别','Select gender'],gradeYear:['入学年份异常','Invalid admission year'],collegeName:['请重新选择学院','Select college'],majorName:['请重新选择专业','Select major'],dateOfBirth:['请填写有效出生日期','Enter a valid birth date'],regionCode:['请重新选择地域','Select region'],'fullName.review':['请确认真实姓名','Confirm your full name']};
++  return labels[reason]?tx(...labels[reason]):reason;
++}
++export function renderRequiredProfile(app) {
++  if(!app.ui.profileDetails) {
++    const student=app.state.workspace.student;
++    app.ui.profileDetails={...Object.fromEntries(profileFields.map(([id,key])=>[id,student[key] || ''])),gender:String(student.gender || '').toUpperCase(),otherRegionName:student.otherRegionName || '',expectedVersion:student.profileVersion,busy:false,error:null};
++  }
++  return `<div class="screen screen-scroll" style="padding:24px" role="main">${profileCompletionForm(app)}</div>`;
++}
+--- a/BNBU-Sports-Web-new/portal-teacher-admin/app/admin-users.tsx
++++ b/BNBU-Sports-Web-new/portal-teacher-admin/app/admin-users.tsx
+@@ -75,6 +75,10 @@
+   const [error, setError] = useState<UserFacingError | null>(null);
+   const [view, setView] = useState<"students" | "teacher">("students");
+   const [query, setQuery] = useState("");
++  const [qualityFilter, setQualityFilter] = useState("all");
++  const [markingProfile, setMarkingProfile] = useState(false);
++  const [markTarget,setMarkTarget] = useState<StudentProfileProjection|null>(null);
++  const [markReason,setMarkReason] = useState("");
+   const [status, setStatus] = useState("all");
+   const [college, setCollege] = useState("all");
+   const [page, setPage] = useState(1);
+@@ -144,6 +148,7 @@
+   const filtered = useMemo(() => {
+     const normalized = query.trim().toLocaleLowerCase();
+     return students.filter((student) => {
++      if(qualityFilter!=="all" && student.profileQualityStatus!==qualityFilter) return false;
+       if (emailVerification !== "all" && student.emailVerified !== (emailVerification === "verified")) return false;
+       if (course !== "all" && !(student.courseAssociations ?? []).some(item => item.classSectionId === course)) return false;
+       const registeredDate = new Date(student.createdAt);
+@@ -157,13 +162,13 @@
+       return !normalized || [student.studentNumber, student.fullName, student.collegeName, student.majorName, student.email, student.dateOfBirth, student.regionCode, student.otherRegionName, adminStudentRegion(student, locale), ...(student.courseAssociations ?? []).flatMap(item => [item.classCode, item.className, item.courseName, item.semesterName])]
+         .filter(Boolean).join(" ").toLocaleLowerCase().includes(normalized);
+     });
+-  }, [college, query, status, students, grade, gender, course, registeredFrom, registeredTo, emailVerification, locale]);
++  }, [qualityFilter, college, query, status, students, grade, gender, course, registeredFrom, registeredTo, emailVerification, locale]);
+   const filteredTeachers = teachers.filter(teacher =>
+     (status === 'all' || teacher.status === status) && (college === 'all' || teacher.collegeName === college) &&
+     (department === 'all' || teacher.departmentName === department) &&
+     (!query.trim() || [teacher.employeeNumber, teacher.fullName, teacher.collegeName, teacher.departmentName, teacher.title].filter(Boolean).join(' ').toLowerCase().includes(query.trim().toLowerCase())));
+   const teacherPaged = pageItems(filteredTeachers, page, 10);
+-  const resetFilters = () => { setQuery(''); setStatus('all'); setCollege('all'); setGrade('all'); setGender('all'); setDepartment('all'); setCourse('all'); setEmailVerification('all'); setRegisteredFrom(''); setRegisteredTo(''); setPage(1); setSelectedStudentIds([]); };
++  const resetFilters = () => { setQualityFilter("all"); setQuery(''); setStatus('all'); setCollege('all'); setGrade('all'); setGender('all'); setDepartment('all'); setCourse('all'); setEmailVerification('all'); setRegisteredFrom(''); setRegisteredTo(''); setPage(1); setSelectedStudentIds([]); };
+   const paged = pageItems(filtered, page, 10);
+   const selected = selectedStudents(selectedStudentIds, filtered);
+   const selectedSet = new Set(selected.map(student => student.id));
+@@ -328,6 +333,7 @@
+   return (
+     <div className="admin-page-stack admin-users-page">
+       <ErrorPanel error={error} locale={locale} />
++      {markTarget && <div className="admin-surface" role="dialog" aria-label={locale==='zh'?'要求重新完善':'Require correction'}><h3>{markTarget.fullName} · {markTarget.studentNumber}</h3><p>{locale==='zh'?'保存后，该学生必须完善资料才能打卡。原因将向学生展示。':'The student must correct their profile before checking in. The reason is visible to the student.'}</p><input aria-label={locale==='zh'?'原因':'Reason'} maxLength={200} value={markReason} onChange={event=>setMarkReason(event.target.value)} disabled={markingProfile}/><button className="primary-button" disabled={markingProfile || !markReason.trim()} onClick={async()=>{setMarkingProfile(true);try{await request(`/students/${markTarget.id}`,{method:'PATCH',body:{expectedVersion:markTarget.version,profileUpdateReason:markReason.trim()}});setMarkTarget(null);await load();}catch(failure){setError(toUserFacingError(failure,locale));}finally{setMarkingProfile(false);}}}>{locale==='zh'?'保存':'Save'}</button><button disabled={markingProfile} onClick={()=>setMarkTarget(null)}>{locale==='zh'?'取消':'Cancel'}</button></div>}
+       <nav className="admin-profile-switcher" aria-label={locale === "zh" ? "账户类型" : "Account type"}>
+         <button type="button" className={view === "students" ? "is-active" : ""} aria-pressed={view === "students"} onClick={() => { setView("students"); resetFilters(); }}>
+           <span>{studentTitle}</span><small>{students.length}</small>
+@@ -342,6 +348,7 @@
+             <AppSelect label={adminCopy(locale, "status_filter")} value={status} options={[{ value: "all", label: adminCopy(locale, "all") }, ...statuses.map((value) => ({ value, label: view === "students" ? (value === "ACTIVE" ? (locale === "zh" ? "已进班" : "Enrolled") : (locale === "zh" ? "已退班" : "Withdrawn")) : value }))]} onChange={(value) => { if (value) { setStatus(String(value)); setPage(1); setSelectedStudentIds([]); } }} />
+             <AppSelect label={adminCopy(locale, "college")} value={college} searchable options={[{ value: "all", label: adminCopy(locale, "all") }, ...colleges.map((value) => ({ value, label: value }))]} onChange={(value) => { if (value) { setCollege(String(value)); setPage(1); setSelectedStudentIds([]); } }} />
+             {view === 'students' ? <>
++              <AppSelect label={locale==='zh'?'个人信息状态':'Profile status'} value={qualityFilter} options={['all','NORMAL','REQUIRES_PROFILE_UPDATE','PENDING_REVIEW'].map(value=>({value,label:qualityLabel(value,locale)}))} onChange={value=>{setQualityFilter(String(value));setPage(1);}} />
+               <AppSelect label={locale === 'zh' ? '邮箱验证' : 'Email verification'} value={emailVerification} options={[{value:'all',label:adminCopy(locale,'all')},{value:'verified',label:locale==='zh'?'已验证':'Verified'},{value:'unverified',label:locale==='zh'?'未验证':'Unverified'}]} onChange={value=>{setEmailVerification(String(value));setPage(1); setSelectedStudentIds([]);}} />
+               <AppSelect label={locale === 'zh' ? '课程/教学班（含历史）' : 'Course/class (including history)'} value={course} searchable options={[{value:'all',label:adminCopy(locale,'all')}, ...Array.from(new Map(students.flatMap(s => (s.courseAssociations ?? []).map(item => [item.classSectionId, {value:item.classSectionId,label:`${item.semesterName} · ${item.courseName} · ${item.className}`}] as const))).values())]} onChange={value=>{setCourse(String(value));setPage(1); setSelectedStudentIds([]);}} />
+               <AdminField locale={locale} label={locale === 'zh' ? '注册日期起' : 'Registered from'}><input type="date" value={registeredFrom} onChange={event=>{setRegisteredFrom(event.target.value);setPage(1); setSelectedStudentIds([]);}} /></AdminField>
+@@ -364,7 +371,7 @@
+           </div>}
+           {paged.items.length === 0 ? <AdminEmpty locale={locale} filtered={Boolean(query || status !== "all" || college !== "all" || grade !== "all" || gender !== "all" || course !== "all" || emailVerification !== "all" || registeredFrom || registeredTo)} /> : <div className="table-wrap"><table className="admin-table admin-student-accounts-table"><thead><tr>
+             {canEraseStudent && <th><input type="checkbox" aria-label={locale === 'zh' ? '选择或取消当前页' : 'Select or clear this page'} checked={allPageSelected} ref={node => { if (node) node.indeterminate = !allPageSelected && paged.items.some(student => selectedSet.has(student.id)); }} onChange={event => selectPage(event.target.checked)} /></th>}
+-            {(locale === "zh" ? ["学号", "姓名", "邮箱", "性别", "入学年份", "学院", "专业", "课程/教学班（含历史）", "出生日期", "地域", "注册时间", "账号状态", "详情"] : ["Student number", "Name", "Email", "Gender", "Admission year", "College", "Major", "Courses/classes (including history)", "Date of birth", "Region", "Registered", "Status", "Details"]).map(label=><th key={label}>{label}</th>)}
++            {(locale === "zh" ? ["学号", "姓名", "邮箱", "性别", "入学年份", "学院", "专业", "课程/教学班（含历史）", "出生日期", "地域", "注册时间", "账号状态", "个人信息状态", "详情"] : ["Student number", "Name", "Email", "Gender", "Admission year", "College", "Major", "Courses/classes (including history)", "Date of birth", "Region", "Registered", "Status", "Profile status", "Details"]).map(label=><th key={label}>{label}</th>)}
+           </tr></thead><tbody>{paged.items.map(student=><tr key={student.id}>
+             {canEraseStudent && <td><input type="checkbox" aria-label={`${locale === 'zh' ? '选择' : 'Select'} ${student.studentNumber} ${student.fullName}`} checked={selectedSet.has(student.id)} onChange={event => setSelectedStudentIds(ids => event.target.checked ? [...new Set([...ids, student.id])] : ids.filter(id => id !== student.id))} /></td>}
+             <td><code>{student.studentNumber}</code></td><td><b>{student.fullName}</b></td>
+@@ -373,6 +380,7 @@
+             <td>{student.gradeYear || "—"}</td><td>{student.collegeName ?? "—"}</td><td>{student.majorName ?? "—"}</td>
+             <td>{courseAssociationText(student, locale)}</td><td>{student.dateOfBirth ?? "—"}</td><td>{adminStudentRegion(student, locale)}</td>
+             <td>{formatAdminDate(locale, student.createdAt, true)}</td><td><AdminBadge tone={student.status === "ACTIVE" ? "green" : "gray"}>{student.status === "ACTIVE" ? (locale === "zh" ? "已进班" : "Enrolled") : (locale === "zh" ? "已退班" : "Withdrawn")}</AdminBadge></td>
++            <td><b>{qualityLabel(student.profileQualityStatus ?? 'NORMAL',locale)}</b><small className="table-sub">{(student.profileQualityReasons ?? []).map(reason=>qualityReason(reason,locale)).join('；')}</small><small className="table-sub">{student.profileConfirmedAt?(locale==='zh'?'已重新填写：':'Confirmed: ')+formatAdminDate(locale,student.profileConfirmedAt):(locale==='zh'?'尚未重新填写':'Not reconfirmed')}</small><small className="table-sub">{formatAdminDate(locale,student.updatedAt)}</small>{mode!=='demo' && <button className="text-button" type="button" disabled={markingProfile} onClick={()=>{setMarkTarget(student);setMarkReason('');}}>{locale==='zh'?'要求重新完善':'Require correction'}</button>}</td>
+             <td><button className="text-button" type="button" onClick={()=>void openStudent(student.id)}>{adminCopy(locale,"details")} →</button></td>
+           </tr>)}</tbody></table></div>}
+           <AdminPagination locale={locale} page={paged.page} totalPages={paged.totalPages} total={paged.total} onPage={setPage} />
+@@ -500,3 +508,13 @@
+ function Detail({ label, value }: { label: string; value: string | number | null | undefined }) {
+   return <span><small>{label}</small><b>{value ?? "—"}</b></span>;
+ }
++
++function qualityLabel(value:string,locale:AdminLocale) {
++  const labels:Record<string,[string,string]>={all:['全部','All'],NORMAL:['正常','Normal'],REQUIRES_PROFILE_UPDATE:['必须完善','Correction required'],PENDING_REVIEW:['待核查','Review needed']};
++  return labels[value]?.[locale==='zh'?0:1] ?? value;
++}
++function qualityReason(value:string,locale:AdminLocale) {
++  if(value.startsWith('manual:')) return value.slice(7);
++  const labels:Record<string,[string,string]>={studentNumber:['学号格式','Student number'],fullName:['姓名格式','Name'],gender:['性别','Gender'],gradeYear:['入学年份','Admission year'],collegeName:['学院','College'],majorName:['专业','Major'],dateOfBirth:['出生日期','Birth date'],regionCode:['地域','Region'],'fullName.review':['姓名需确认','Confirm name']};
++  return labels[value]?.[locale==='zh'?0:1] ?? value;
++}
+--- a/BNBU-Sports-Web-new/portal-teacher-admin/app/admin-types.ts
++++ b/BNBU-Sports-Web-new/portal-teacher-admin/app/admin-types.ts
+@@ -258,6 +258,9 @@
+ };
+ 
+ export type StudentProfileProjection = {
++  profileQualityStatus?: 'NORMAL' | 'REQUIRES_PROFILE_UPDATE' | 'PENDING_REVIEW';
++  profileQualityReasons?: string[];
++  profileConfirmedAt?: string | null;
+   dateOfBirth?: string | null;
+   regionCode?: string | null;
+   otherRegionName?: string | null;
+--- a/docs/business/00-overview.md
++++ b/docs/business/00-overview.md
+@@ -631,3 +631,12 @@
+ - 学院固定为 FBM 工商管理学院、FHSS 人文社科学院、FST 理工科技学院、SCC 文化与创意学院、SAI 博雅智能学院、SGE 通识教育学院、GS 研究生院，不提供其他学院。
+ - FBM 专业：ACCT、FIN、AE、BUSA、MHR、MKT、EBIS、EPIN、DMM；FHSS：CCGC、MCOM、PRA、ATS、ELLS、DIS、TDH、DGS、GAD；FST：AM、FM、STAT、DS、AI、CST、ENVS、FS、APSY；SCC：CCM、MAD、THEM、AIM、CTV、GD、MUS。选择学院后仅显示对应专业；SAI 可选以上全部专业；SGE、GS 自行填写其他专业，仅允许大写英文字母。
+ - 邀请码支持组合整数天、小时、分钟，总时长最低 1 分钟，默认 30 分钟，截止不得超过学期结束。原有登记、固定 10 分钟宽限、撤销立即失效规则继续适用。
++
++
++## 2026-09-15 历史学生资料规范与强制补录
++
++按 demand.md 及用户追加确认，历史学生资料格式不合格时必须先由本人重新选择、填写并保存正确资料，才允许开始运动、历史补卡或首次提交打卡。学生登录后显示预填的强制补录页；后端独立执行相同规则。学院与专业使用现有目录，学号为 2 开头的 10 位数字，姓名支持中文及国际姓名的常见连接符；缺失或无效的性别、入学年份、出生日期、地域须修正。
++
++明确格式异常为 REQUIRES_PROFILE_UPDATE；短姓名或疑似昵称为 PENDING_REVIEW，不自动猜测真实姓名。已有有效资料为 NORMAL。具有用户与账号权限的管理员可查看状态、原因、补录时间，并填写向学生公开的原因将其标记为必须补录；教师不获得修改或标记权限。补录通过后恢复正常，保留原始资料、提交资料、操作者、触发原因与时间。普通审计页面继续脱敏。
++
++已验证邮箱及平台账号、在课关系、运动与成绩历史保留。学号冲突拒绝保存，不自动合并身份。补录使用版本检查与幂等控制。实时评估历史档案并复用现有事件表，无需批量改写学生资料或新增数据库迁移。
+--- a/docs/business/10-student-flow.md
++++ b/docs/business/10-student-flow.md
+@@ -461,3 +461,12 @@
+ - 学院固定为 FBM 工商管理学院、FHSS 人文社科学院、FST 理工科技学院、SCC 文化与创意学院、SAI 博雅智能学院、SGE 通识教育学院、GS 研究生院，不提供其他学院。
+ - FBM 专业：ACCT、FIN、AE、BUSA、MHR、MKT、EBIS、EPIN、DMM；FHSS：CCGC、MCOM、PRA、ATS、ELLS、DIS、TDH、DGS、GAD；FST：AM、FM、STAT、DS、AI、CST、ENVS、FS、APSY；SCC：CCM、MAD、THEM、AIM、CTV、GD、MUS。选择学院后仅显示对应专业；SAI 可选以上全部专业；SGE、GS 自行填写其他专业，仅允许大写英文字母。
+ - 邀请码支持组合整数天、小时、分钟，总时长最低 1 分钟，默认 30 分钟，截止不得超过学期结束。原有登记、固定 10 分钟宽限、撤销立即失效规则继续适用。
++
++
++## 2026-09-15 历史学生资料规范与强制补录
++
++按 demand.md 及用户追加确认，历史学生资料格式不合格时必须先由本人重新选择、填写并保存正确资料，才允许开始运动、历史补卡或首次提交打卡。学生登录后显示预填的强制补录页；后端独立执行相同规则。学院与专业使用现有目录，学号为 2 开头的 10 位数字，姓名支持中文及国际姓名的常见连接符；缺失或无效的性别、入学年份、出生日期、地域须修正。
++
++明确格式异常为 REQUIRES_PROFILE_UPDATE；短姓名或疑似昵称为 PENDING_REVIEW，不自动猜测真实姓名。已有有效资料为 NORMAL。具有用户与账号权限的管理员可查看状态、原因、补录时间，并填写向学生公开的原因将其标记为必须补录；教师不获得修改或标记权限。补录通过后恢复正常，保留原始资料、提交资料、操作者、触发原因与时间。普通审计页面继续脱敏。
++
++已验证邮箱及平台账号、在课关系、运动与成绩历史保留。学号冲突拒绝保存，不自动合并身份。补录使用版本检查与幂等控制。实时评估历史档案并复用现有事件表，无需批量改写学生资料或新增数据库迁移。
+--- a/docs/business/20-teacher-flow.md
++++ b/docs/business/20-teacher-flow.md
+@@ -451,3 +451,12 @@
+ - 学院固定为 FBM 工商管理学院、FHSS 人文社科学院、FST 理工科技学院、SCC 文化与创意学院、SAI 博雅智能学院、SGE 通识教育学院、GS 研究生院，不提供其他学院。
+ - FBM 专业：ACCT、FIN、AE、BUSA、MHR、MKT、EBIS、EPIN、DMM；FHSS：CCGC、MCOM、PRA、ATS、ELLS、DIS、TDH、DGS、GAD；FST：AM、FM、STAT、DS、AI、CST、ENVS、FS、APSY；SCC：CCM、MAD、THEM、AIM、CTV、GD、MUS。选择学院后仅显示对应专业；SAI 可选以上全部专业；SGE、GS 自行填写其他专业，仅允许大写英文字母。
+ - 邀请码支持组合整数天、小时、分钟，总时长最低 1 分钟，默认 30 分钟，截止不得超过学期结束。原有登记、固定 10 分钟宽限、撤销立即失效规则继续适用。
++
++
++## 2026-09-15 历史学生资料规范与强制补录
++
++按 demand.md 及用户追加确认，历史学生资料格式不合格时必须先由本人重新选择、填写并保存正确资料，才允许开始运动、历史补卡或首次提交打卡。学生登录后显示预填的强制补录页；后端独立执行相同规则。学院与专业使用现有目录，学号为 2 开头的 10 位数字，姓名支持中文及国际姓名的常见连接符；缺失或无效的性别、入学年份、出生日期、地域须修正。
++
++明确格式异常为 REQUIRES_PROFILE_UPDATE；短姓名或疑似昵称为 PENDING_REVIEW，不自动猜测真实姓名。已有有效资料为 NORMAL。具有用户与账号权限的管理员可查看状态、原因、补录时间，并填写向学生公开的原因将其标记为必须补录；教师不获得修改或标记权限。补录通过后恢复正常，保留原始资料、提交资料、操作者、触发原因与时间。普通审计页面继续脱敏。
++
++已验证邮箱及平台账号、在课关系、运动与成绩历史保留。学号冲突拒绝保存，不自动合并身份。补录使用版本检查与幂等控制。实时评估历史档案并复用现有事件表，无需批量改写学生资料或新增数据库迁移。
+--- a/docs/business/30-admin-flow.md
++++ b/docs/business/30-admin-flow.md
+@@ -752,3 +752,12 @@
+ - 学生 Web 现场拍摄请求系统原生相机；新拍视频界面显示最长 10 秒，返回网页后校验并拒绝超长视频。部分浏览器可能提供相册选项，网页不宣称能强制相机停录或证明来源。既有最长 15 秒媒体继续兼容读取，历史补录沿用已有媒体规则。
+ - 学生打卡详情移除整个固定原因展示区，保留审核状态与教师公开说明；公开说明标题去掉“保留原文”。教师审核原因及审计事实继续保存。
+ - 移除首页“以服务器判定为准”及提交后今日记录/businessDate 技术说明文案。
++
++
++## 2026-09-15 历史学生资料规范与强制补录
++
++按 demand.md 及用户追加确认，历史学生资料格式不合格时必须先由本人重新选择、填写并保存正确资料，才允许开始运动、历史补卡或首次提交打卡。学生登录后显示预填的强制补录页；后端独立执行相同规则。学院与专业使用现有目录，学号为 2 开头的 10 位数字，姓名支持中文及国际姓名的常见连接符；缺失或无效的性别、入学年份、出生日期、地域须修正。
++
++明确格式异常为 REQUIRES_PROFILE_UPDATE；短姓名或疑似昵称为 PENDING_REVIEW，不自动猜测真实姓名。已有有效资料为 NORMAL。具有用户与账号权限的管理员可查看状态、原因、补录时间，并填写向学生公开的原因将其标记为必须补录；教师不获得修改或标记权限。补录通过后恢复正常，保留原始资料、提交资料、操作者、触发原因与时间。普通审计页面继续脱敏。
++
++已验证邮箱及平台账号、在课关系、运动与成绩历史保留。学号冲突拒绝保存，不自动合并身份。补录使用版本检查与幂等控制。实时评估历史档案并复用现有事件表，无需批量改写学生资料或新增数据库迁移。
+--- a/docs/backend-contracts/openapi.yaml
++++ b/docs/backend-contracts/openapi.yaml
+@@ -458,8 +458,7 @@
+         resourceResolver: PRINCIPAL_USER
+         defaultDeny: true
+       summary: Complete the current student's personal profile
+-      description: Updates college, major, date of birth and region only; identity and student number
+-        remain fixed. OTHER requires a specific country or region name.
++      description: The authenticated student confirms or corrects their own name, student number, gender, admission year, college, major, birth date and region. Duplicate student numbers are rejected. Verified email and account identity are retained. Successful validation clears the correction requirement and records before and after values. OTHER requires a specific country or region name.
+       parameters:
+         - $ref: "#/components/parameters/RequestIdHeader"
+         - $ref: "#/components/parameters/IdempotencyKeyHeader"
+@@ -687,12 +686,8 @@
+         resourceResolver: STUDENT_FROM_PATH
+         defaultDeny: true
+       summary: Update authorized student profile fields
+-      description: Transport placeholder only; returns SYSTEM_MODE_UNSUPPORTED until field-level ownership
+-        for student self-service and organization governance is approved. Teachers never gain
+-        StudentProfile write authority from this route.
+-      x-enabled-by-default: false
+-      x-business-blocker: STUDENT_PROFILE_FIELD_GOVERNANCE
+-      x-default-deny-error: SYSTEM_MODE_UNSUPPORTED
++      description: Administrators with USER_ACCOUNTS permission may require profile correction using profileUpdateReason and expectedVersion. Direct edits of student data are rejected.
++      x-enabled-by-default: true
+       parameters:
+         - $ref: "#/components/parameters/RequestIdHeader"
+         - $ref: "#/components/parameters/IdempotencyKeyHeader"
+@@ -19090,6 +19085,9 @@
+       type: object
+       additionalProperties: false
+       properties:
++        profileQualityStatus: { type: string, enum: [NORMAL, REQUIRES_PROFILE_UPDATE, PENDING_REVIEW] }
++        profileQualityReasons: { type: array, items: { type: string } }
++        profileConfirmedAt: { type: [string, 'null'], format: date-time }
+         email:
+           type: [ string, "null" ]
+           format: email
+@@ -21021,6 +21019,10 @@
+       additionalProperties: false
+       required: [ collegeName, majorName, dateOfBirth, regionCode, expectedVersion ]
+       properties:
++        fullName: { type: string, minLength: 1, maxLength: 100 }
++        studentNumber: { type: string, pattern: '^2[0-9]{9}$' }
++        gender: { type: string, enum: [MALE, FEMALE, OTHER] }
++        gradeYear: { type: integer, minimum: 1900, maximum: 9999 }
+         collegeName: { type: string, enum: [FBM, FHSS, FST, SCC, SAI, SGE, GS] }
+         majorName: { type: string, minLength: 1, maxLength: 200, pattern: '^[A-Z]+$' }
+         dateOfBirth: { type: string, format: date }
+@@ -21072,6 +21074,7 @@
+       required:
+         - expectedVersion
+       properties:
++        profileUpdateReason: { type: string, minLength: 1, maxLength: 200 }
+         fullName:
+           type: string
+           minLength: 1

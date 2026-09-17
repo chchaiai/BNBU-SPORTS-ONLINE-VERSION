@@ -2,7 +2,7 @@
 import {OcrImportPanel} from "./ocr-import-panel";
 import {PhysicalImportPanel} from "./physical-import-panel";
 import {useEffect,useRef,useState} from "react";
-import {ApiError,apiSessionUserId,currentApiSessionEpoch,request,toUserFacingError} from "./api-client";
+import {ApiError,apiSessionUserId,currentApiSessionEpoch,request,toUserFacingError, formatUserFacingError} from "./api-client";
 class PhysicalValidationError extends Error {}
 type Result={version:number;runType:"800m"|"1000m";elapsedSeconds:number;testedOn:string};
 type Intent={key:string;path:string;body:{expectedVersion:number;runType:string;elapsedSeconds:number;testedOn:string;correctionReason?:string}};
@@ -15,7 +15,7 @@ export function PhysicalResultForm({enrollmentId,courseId,gender,exempt,onSaved}
  const path=`/enrollments/${enrollmentId}/physical-results`,storageKey=`bnbu:physical:${apiSessionUserId()}:${enrollmentId}`;
  const runType=gender==="男"?"1000m":gender==="女"?"800m":null;
  const run=async(action:()=>Promise<void>)=>{if(locked.current)return;locked.current=true;setBusy(true);setError("");setMessage("");
-  try{await action();}catch(failure){if(valid())setError(failure instanceof PhysicalValidationError?failure.message:toUserFacingError(failure,"zh").message);}finally{locked.current=false;if(valid())setBusy(false);}};
+  try{await action();}catch(failure){if(valid())setError(failure instanceof PhysicalValidationError?failure.message:formatUserFacingError(failure));}finally{locked.current=false;if(valid())setBusy(false);}};
  const load=async()=>{
   const [history,reports]=await Promise.all([
    request<{items:Result[];nextBeforeVersion:number|null}>(`${path}?limit=20`),

@@ -1,0 +1,7 @@
+{
+  "result": "PASS",
+  "productionPortalMatchesPreviousValidatedBundle": true,
+  "baselineBusinessCodeMatchesHEAD": true,
+  "differences": "Build directory changes generated RSC export IDs and asset names; normalized worker business body identical.",
+  "productionBackendDiff": "Only three removed published-window lock fields; terminal newline differs."
+}

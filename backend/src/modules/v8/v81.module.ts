@@ -1,4 +1,7 @@
 import {V81HistoryBackfillController,V81HistoryBackfillService} from './v81-history-backfill.js';
+import { AI_REVIEW_PROVIDER } from './ai-review-provider.js';
+import { TencentAiReviewProvider } from './tencent-ai-review-provider.js';
+import { V81AiReviewWorker } from './v81-ai-review.worker.js';
 import {V81CourseDeletionController,V81CourseDeletionService} from './v81-course-deletion.js';
 import { V81StudentMediaErasureWorker } from './v81-student-media-erasure.js';
 import { V81StudentDeletionController, V81StudentDeletionService } from './v81-student-deletion.js';
@@ -101,6 +104,8 @@ import { V81SettlementCheckController, V81SettlementCheckService } from './v81-s
     V81SettlementCheckController,
   ],
   providers: [V81HistoryBackfillService,V81CourseDeletionService,V81StudentMediaErasureWorker,V81StudentDeletionService,
+    V81AiReviewWorker,
+    { provide: AI_REVIEW_PROVIDER, inject: [RUNTIME_CONFIG], useFactory: (config: RuntimeConfig): TencentAiReviewProvider => new TencentAiReviewProvider(config.aiReview ?? { enabled: false, budgetFen: 500000 }) },
     V81TeacherDeletionService,
     V81OcrGovernanceService,
     V81AccountDeletionService,

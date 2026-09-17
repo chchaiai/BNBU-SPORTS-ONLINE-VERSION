@@ -1,7 +1,7 @@
 "use client";
 import "./physical-import-panel.css";
 import {useEffect,useRef,useState} from "react";
-import {ApiError,apiSessionUserId,currentApiSessionEpoch,request,toUserFacingError} from "./api-client";
+import {ApiError,apiSessionUserId,currentApiSessionEpoch,request,toUserFacingError, formatUserFacingError} from "./api-client";
 
 type Source={studentNumber:string;name:string;runType:string;elapsed:string;testedOn:string};
 type Row={rowNumber:number;version:number;source:Source;original:Source;confirmed:boolean;enrollmentId:string|null;issues:string[]};
@@ -19,7 +19,7 @@ export function PhysicalImportPanel({courseId,onSaved}:{courseId:string;onSaved:
  const mounted=useRef(false),lock=useRef(false),epoch=useRef(currentApiSessionEpoch());
  const storageKey=`bnbu:physical-import:${apiSessionUserId()}:${courseId}`,base=`/class-sections/${courseId}/physical-imports`;
  const valid=()=>mounted.current&&epoch.current===currentApiSessionEpoch();
- async function run(action:()=>Promise<void>){if(lock.current)return;lock.current=true;setBusy(true);setError("");setMessage("");try{await action();}catch(e){if(valid())setError(e instanceof ApiError?toUserFacingError(e,"zh").message:e instanceof Error?e.message:"操作失败，请重试。");}finally{lock.current=false;if(valid())setBusy(false);}}
+ async function run(action:()=>Promise<void>){if(lock.current)return;lock.current=true;setBusy(true);setError("");setMessage("");try{await action();}catch(e){if(valid())setError(formatUserFacingError(e));}finally{lock.current=false;if(valid())setBusy(false);}}
  async function loadList(cursor?:string){const page=await request<{items:Summary[];nextBeforeId:string|null}>(base+`?limit=20${cursor?`&beforeId=${cursor}`:""}`);if(valid()){setList(old=>cursor?[...old,...page.items]:page.items);setBefore(page.nextBeforeId);}}
  function display(value:Batch){setBatch(value);setEditing(null);setShowUpload(false);setSelected([]);setEdits({});setHistory(null);}
  async function load(id:string){const value=await request<Batch>(`/physical-imports/${id}`);if(valid())display(value);}

@@ -1,0 +1,21 @@
+{
+  "result": "PASS",
+  "release": "/opt/bnbu-sports-production/releases/student-network-20260916",
+  "previous": "/opt/bnbu-sports-production/releases/photo-capture-20260916",
+  "files": {
+    "js/api.js": {
+      "before": "c045c2c5216da30f0e059d929f4a36535913fe1d71df0d26731e3f7ec50bb885",
+      "after": "a23564e2eac98ae8d5e52c85f89efb7d6018dfa59cd252cc3bbe5292e66be2f3"
+    },
+    "js/app.js": {
+      "before": "da675121323520c40d106dfa2aa0d910afdca319a5ab0ba83e5ee7b5c156d1fd",
+      "after": "7df414f58c5b1dbf6c6efe2957d3d79946d933b8de6e64b32945e3b2c6d78da4"
+    },
+    "js/screens/startup.js": {
+      "before": "96f2eb1fba3ff86da0c5dbb50b104d6f924f4a9aee01f1d1eb9fea3a33d016fe",
+      "after": "a0751af9d28f2e37e2a2df7edf28aadd411bd38beb12f6b39aa3d9429adddf16"
+    }
+  },
+  "containersUnchanged": true,
+  "health": "PASS"
+}

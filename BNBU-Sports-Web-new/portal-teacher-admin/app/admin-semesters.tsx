@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState, type FormEvent } from "react";
 import { AppSelect } from "./app-select";
 import { adminCopy } from "./admin-i18n";
-import { ApiError, apiSessionUserId, toUserFacingError, type UserFacingError } from "./api-client";
+import { ApiError, apiSessionUserId, toUserFacingError, formatUserFacingError, type UserFacingError } from "./api-client";
 import {
   createSemester,
   setCurrentSemester,
@@ -145,7 +145,7 @@ export function AdminSemesters({ locale, onSemestersLoaded }: {
       setUnresolved(uncertain);
       if (!uncertain) clearPending();
       setWriteError(uncertain ? (locale === 'zh' ? '提交结果尚未确认，请保持原内容并重试。' : 'The submission result is unconfirmed. Retry with the original details.')
-        : toUserFacingError(failure, locale).message);
+        : formatUserFacingError(failure, locale));
       return false;
     }
     finally { inFlight.current = false; setRealBusy(false); }
@@ -162,7 +162,7 @@ export function AdminSemesters({ locale, onSemestersLoaded }: {
       setSwitchCheck(check);
       switchIntent.current = createSemesterSwitchIntent(check);
       setSwitchTarget({ ...semester, name: check.target.displayName });
-    } catch (failure) { setWriteError(toUserFacingError(failure, locale).message); }
+    } catch (failure) { setWriteError(formatUserFacingError(failure, locale)); }
     finally { setRealBusy(false); }
   }
 

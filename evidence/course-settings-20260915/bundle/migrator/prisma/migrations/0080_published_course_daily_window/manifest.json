@@ -1,0 +1,5 @@
+{
+  "migrationId": "0080_published_course_daily_window",
+  "sha256": "cb288f9c55a85345028cdc78828b9cde3c453e24675051ef0afe6a6f509bfd2c",
+  "destructive": false
+}

@@ -1,6 +1,17 @@
 {
-  "expectedOperationCount": 263,
+  "expectedOperationCount": 264,
   "implemented": {
+    "listAdminOutboxEvents": {
+      "module": "Health",
+      "stage": "Demand 21",
+      "controller": "src/modules/health/health.controller.ts",
+      "useCase": "OutboxDiagnosticsService.list",
+      "repository": "PrismaService.outboxEvent organization-scoped read",
+      "migration": "0001 (existing Outbox)",
+      "contractTest": "test/contract/openapi-contract.test.ts",
+      "e2eTest": "test/e2e/teaching-structure.e2e.test.ts",
+      "dockerSmoke": "docs/implementation/demand-20260916-progress.md"
+    },
     "getHealthLive": {
       "module": "Health",
       "stage": "Foundation",
@@ -159,8 +170,8 @@
       "module": "Users",
       "stage": "Stage 19",
       "controller": "src/modules/users/profiles.controller.ts",
-      "useCase": "UsersService.denyStudentUpdate",
-      "repository": "PrismaService.studentProfile scoped read; no mutation",
+      "useCase": "StudentProfileCompletionService.requireUpdate",
+      "repository": "PrismaService.studentProfile with USER_ACCOUNTS permission and immutable major confirmation event",
       "migration": "0001+0003",
       "contractTest": "test/contract/export-audit-governance-contract.test.ts",
       "e2eTest": "test/e2e/export-audit-governance.e2e.test.ts",
@@ -3025,7 +3036,6 @@
     "ignoreRosterAlignmentResult",
     "withdrawExerciseRecord",
     "openStudentScoreCorrection",
-    "updateStudent",
     "listExports",
     "createExport",
     "getExport",
@@ -3056,5 +3066,5 @@
     "updateCourse",
     "requestCurrentUserAccountDeletionChallenge"
   ],
-  "expectedDisabledOperationCount": 34
+  "expectedDisabledOperationCount": 33
 }

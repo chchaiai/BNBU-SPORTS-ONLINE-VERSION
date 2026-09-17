@@ -1,0 +1,13 @@
+{
+  "date": "2026-09-16",
+  "scope": "Partial implementation; not release acceptance",
+  "database": "Dedicated ephemeral Docker PostgreSQL, loopback 55432, synthetic data only",
+  "migrationsApplied": 80,
+  "checks": [
+    {"command": "node --import tsx --test test/e2e/teaching-structure.e2e.test.ts", "cwd": "backend", "passed": 10, "failed": 0, "covers": ["teacher rename persistence and replay", "major confirmation and administrator correction", "outbox role and organization isolation", "outbox pagination and filtering", "payload suppression", "health backlog parity"]},
+    {"command": "node --import tsx --test test/unit/health.test.ts test/unit/student-major-confirmation.test.ts test/unit/student-school-email.test.ts", "cwd": "backend", "passed": 12, "failed": 0},
+    {"command": "npm run build", "cwd": "backend", "result": "passed"},
+    {"command": "npx tsc --noEmit -p tsconfig.json", "cwd": "BNBU-Sports-Web-new/portal-teacher-admin", "result": "passed"}
+  ],
+  "pending": ["remaining requirements", "full regression", "browser acceptance", "application container acceptance", "server deployment", "production acceptance"]
+}

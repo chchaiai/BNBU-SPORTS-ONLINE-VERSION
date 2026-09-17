@@ -1,0 +1,221 @@
+{
+  "backend": [
+    {
+      "path": "generated/migration-manifest.generated.js",
+      "before": "558682cba68e0a741e9d8586962826f6bcac4622ebda8ef9e024c005163cf7fe",
+      "after": "3d0168a3e09d5001b9b921a8a0a6ffe385516b822ccf5110c7f07ac3a8765ae2"
+    },
+    {
+      "path": "generated/openapi.document.generated.json",
+      "before": "d82aaa63b85d910792b24f1961b70241a045c78fe9f390bbf0c54c58f0461776",
+      "after": "1c539d4ed8ccdaf83894481e568ae8b57a9a63f50160e57a1b3425c76b7fa688"
+    },
+    {
+      "path": "generated/operation-policies.generated.js",
+      "before": "9c8d157e2529516dcc5c62cd4764142df9f53669820c5ce41255448e72fbe624",
+      "after": "6349508101247e07420830cdd5dee8551e036f2ec7e60d8a7e2fe5f3769fc8e5"
+    },
+    {
+      "path": "modules/client-capabilities/client-authentication.service.js",
+      "before": "f13e5fb4ac8fd0e79f8bbf051fb7a88cb5df30d79284fd427e830533a837b669",
+      "after": "2e9df981c0b5e8c08c2e9a58b00577431357d6b9077c353a557d5070e4424cd1"
+    },
+    {
+      "path": "modules/health/health.controller.js",
+      "before": "bdce8ebc49e8c4e19c4eca4abec820e5f2883598048609539114e276f69f4f31",
+      "after": "79248e0a27bdd44d2316054f14ed5136619018a78b25c0370eb3d7742b7c22a9"
+    },
+    {
+      "path": "modules/health/health.module.js",
+      "before": "334f192bc4d1cb4d142e44166e91c77e04e489c222001ae4a5071cb01b651716",
+      "after": "d19329ca0038304bea6a935d95562164347b856b89580d42ce4034b80a1feb32"
+    },
+    {
+      "path": "modules/health/health.service.js",
+      "before": "02d4a241c208fa45523db71ec0f5996239b17f869ae672ba2726bc77eee67d96",
+      "after": "49a96961d7600ddff87fdcfee30d276abd009a5b8e2378d7028051ae4ab2a211"
+    },
+    {
+      "path": "modules/health/outbox-diagnostics.service.js",
+      "before": null,
+      "after": "9a4a2af89b9447d4ca31fd1868c116676d27f7c2a1797a1a57b55a50957ca650"
+    },
+    {
+      "path": "modules/users/email-verification.service.js",
+      "before": "4ad365a430e51a9ee5cd8ed54d3b0914edab26ec26d794a08816b198319a3088",
+      "after": "4b109da6329bf57ddb64a66c295f7fdb805a78a6b629c69e41324a114de18cfd"
+    },
+    {
+      "path": "modules/users/student-profile-completion.service.js",
+      "before": "cb9886d7972759b70a007cd8460e68adf322cd2f8a477659b8afa445438a266b",
+      "after": "0e9556d3b093bd23e262795ddc21e93624659162ce6eb7036e2d84ea00a3ca8d"
+    },
+    {
+      "path": "modules/users/users.dto.js",
+      "before": "d006d54d4e962df2d9d2bf22084a9f42d96801463441ae110e9ac683cc3e0bd6",
+      "after": "5312f34a867720d6cc26f9b06c5840cb9c2852ee21e672eff9d9501a8ab4c31f"
+    },
+    {
+      "path": "modules/users/users.service.js",
+      "before": "aa9f2a34186c789b8db8521f6bba2192ac4053781f1114f9b4ccde276c34dfa7",
+      "after": "8c1809a7202fe4e8844be8351e590f088dcd32a37c45ab5eb1cd90ea553dfd38"
+    },
+    {
+      "path": "modules/v8/v81-course-reminders.js",
+      "before": "533939dc4c6cacc85fb0ee745ff93b02b1853528e4382a4ddfa98b7825ef6f5e",
+      "after": "83a29533fd24688e268d0e8c8faa79cc2dfc3e7d651bec2ae4fa8a33c12bf067"
+    },
+    {
+      "path": "modules/v8/v81-history-backfill.js",
+      "before": "cb3085592dbb755090b4aa5a2cb4f69c5aaabe72d960ab770263343257b6c29a",
+      "after": "fed0c5b2b025425e674b6d8c5ba63368a5806d2747ea61b1f7907b20aa380a7c"
+    },
+    {
+      "path": "modules/v8/v81-makeup-windows.js",
+      "before": "e712a4f664c2ece14a52b1574ebdf84aec7b031afe5dbbc4e05e1f8162cb13a2",
+      "after": "9fd3629635afe276bb0f154dc2f55519f032dd5f77e55e1f585763bf0d4f138a"
+    },
+    {
+      "path": "modules/v8/v81-settlement-check.js",
+      "before": "c1dd2569377d5539ad79c14b88341f404fc2f391171732602faf1b779ab1ce04",
+      "after": "4ba6f6c12b00f08796c0116cbbdf227fadfaf4e87701c6552902762d598065d3"
+    },
+    {
+      "path": "modules/v8/v81.dto.js",
+      "before": "37bf09fbada2fd682092b5dff72744c245532152cea525b5f867983e4f4a08f2",
+      "after": "0ac7a11e4b99eb0c4dae9c89f44baaca1981d2ea0327dca7360655c6cc14de8b"
+    },
+    {
+      "path": "modules/v8/v81.service.js",
+      "before": "0297ca7587a29e81ea11c6a9b52e345a24d4c679528d6019debc0e9c4e7ad9d6",
+      "after": "ab4f56ab1af50c74e748160ae078b351d97c83b6fd38188499a36ee0f90c13bb"
+    },
+    {
+      "path": "modules/v8/domain/course-plan.js",
+      "before": "694907c5eab2db2548d4aa1aae71b4a5701503c4b858767cd01fe7e47623e1dc",
+      "after": "443655284ee15725864f0d770ed777230248d1c396a4f0bebb42923602a1b801"
+    },
+    {
+      "path": "modules/v8/domain/makeup-window.js",
+      "before": "4affecb0ebd765c539212bb03c6f8681418928e1ab3f71f9042b027b6b08398e",
+      "after": "f4c4fe2032a762d01d3048012da6e105b6b978c4b787092b191bc32160495bfd"
+    },
+    {
+      "path": "modules/users/application/student-academics.js",
+      "before": "b99028355f76345a7d9e224fb9bc88277c6f7b9c0d40d0065d90c86028cb8536",
+      "after": "4004969fc19a0822c18c49246d583dca91950a13cf2a821e293798ad4105e1af"
+    },
+    {
+      "path": "modules/users/application/student-profile-quality.js",
+      "before": "879ded37061a5a50c34b2970641d48628957821614706c8e8d7d662cb4fe60e1",
+      "after": "0ea0b6292ce2b55eaff52ac07f62dc3156e4577daf39a3f91688c67380ee8143"
+    },
+    {
+      "path": "modules/media/application/media.service.js",
+      "before": "7283dcd2142c40d1772076840b341e83548d7be1b49398f3fb436642324eb45b",
+      "after": "e856fffe0ceda2f0a4fcdb08e614244ee01c28fbfdee4ddeecea596ea869c9e1"
+    },
+    {
+      "path": "modules/join-capabilities/application/join-capabilities.service.js",
+      "before": "dba90f7ec5cc11d12c534e617ff6ee46cc0d0e60c776cd2cefdafdbce01ecab1",
+      "after": "378dfcd730902daa79d2d83a9726b25334f66f807909438924a82c8e81850689"
+    },
+    {
+      "path": "modules/exercise-sessions/application/exercise-sessions.service.js",
+      "before": "7a0362524e86788309e04fb2120ddbf1d4487fd2c45d2b1ceef79809e309a387",
+      "after": "724ff8fb2713ab11dd0e670cc1bcc14f95f891cb7e75ee4b09d8e863c62789a4"
+    },
+    {
+      "path": "modules/exercise-records/application/exercise-records.service.js",
+      "before": "3dbc598b8e25ffca7a94cf9e4a101301c15a97b68c81e919c92269ab3e50abd5",
+      "after": "9d838a9fde18cc06d94bb35908a5eccbe4a4360971de49c44898cfff2766e94c"
+    },
+    {
+      "path": "modules/enrollments/application/qr-join.service.js",
+      "before": "af030ecb6cc3621c3a1cff1db22f765f8fe5d0f91fe87b3dd065b5b197b9da52",
+      "after": "f805031ef426007f7501615d684f0732dbf4420dc30ed691c02f052eb639bc6f"
+    },
+    {
+      "path": "common/policy/v81-admin-permission.guard.js",
+      "before": "b085f05f9535dd24f1875ca0936c7f81f9bb1178fb19c3f8d9b5f1038d8a8b22",
+      "after": "368cfb8897e188321e7a3bca8d86b0cfad1abf9b65077f2995f87dea46d7276f"
+    },
+    {
+      "path": "common/security/student-school-email.js",
+      "before": "a2f12aa94c9f1a919b8c226737c6cb30246960f90d44353522ecd3364401cf03",
+      "after": "e6f7c62408b8f466f886ace3633ab2b27a6a2a9b15cdbf06a3e81bccb03bbf18"
+    }
+  ],
+  "student": [
+    {
+      "path": "index.html",
+      "before": "e221759d7c6f6a8798e42479c18abf9978141966d0a875abb5339b76a2d05148",
+      "after": "b054ca9ec0106ca6d3caf39b99507622c6702a2a136419107b3ab5893a8705d2"
+    },
+    {
+      "path": "js/api.js",
+      "before": "cb6db59512c96aa49f09ddc145f953329acc6804b7f97b729d059efb18d3fc38",
+      "after": "c045c2c5216da30f0e059d929f4a36535913fe1d71df0d26731e3f7ec50bb885"
+    },
+    {
+      "path": "js/app.js",
+      "before": "8e7d3f6771437d7277508f3f032e563686f38f7ad2af77ae363e51afc53c1b21",
+      "after": "da675121323520c40d106dfa2aa0d910afdca319a5ab0ba83e5ee7b5c156d1fd"
+    },
+    {
+      "path": "js/session.js",
+      "before": "c61e52a509ee6a93cf4f7a459b4e376c19344982dcdc767e15bc235d9205cc13",
+      "after": "04a53580e0bb9a038f56c717b0d826e5d10f6cda50dfc4769a77251f464789b0"
+    },
+    {
+      "path": "js/student-academics.js",
+      "before": "7ff5262187ec405b02402702a5c43b8c9a2ef91cb1ee5ecbe49f3f3bd0dc8ac2",
+      "after": "6c87ab8ae4f8f66143796445a902f81e8f4981afe547e5b5f2eb0011c2453b9e"
+    },
+    {
+      "path": "js/student-device.js",
+      "before": null,
+      "after": "415424117e6cdc1ead100804364934b8b07a2cb7a60618ca23dc3cd784e8015f"
+    },
+    {
+      "path": "js/student-school-email.js",
+      "before": "f8803c2e5d5d4935b2b29c82b1d5a82b83d1ab34a2cc3fffa670a97147d4476f",
+      "after": "bb6e41018901774d10bd9fe9d77f69afc80cad0ba1eadee564b62883ffa085e4"
+    },
+    {
+      "path": "js/ui.js",
+      "before": "1cb0313de19b4cb19ccf190c29f846ee5bdbdbb84c7a6b4235c6f42613103154",
+      "after": "864d8d842b64cb4281a47f1e9f7b05e7afd24625f75fc3a8e13142463f9014dd"
+    },
+    {
+      "path": "js/upload-progress.js",
+      "before": null,
+      "after": "b900fdfb04338664cbc2c0cdd34bcdf030e68355c4a96ea5a7eab876e3f0f310"
+    },
+    {
+      "path": "js/screens/binding.js",
+      "before": "c5734f58299d5a1c75ff453ee019400aceaf78e0506d17fe930cd322da0a3d5c",
+      "after": "d21a41570c29069e807e03cce1fc1129848db27e65a7fbe8718ee983375fdeb8"
+    },
+    {
+      "path": "js/screens/checkin.js",
+      "before": "a058dab0a22e4d53e2dc2f7c54406ae182da5fdde6b0397ea5f023acc109f6f7",
+      "after": "75b30c22bae685311a6f642bf3f1b30d5728014f138148ca3b32e9f9f01246a7"
+    },
+    {
+      "path": "js/screens/join.js",
+      "before": "96870446d0260f4184e338060d63297c85bf3143f028f444d436afa490ef7545",
+      "after": "cdefb86bf15f5f128fc53c1decef43b3e3ddf46ce1bd49d80967d46359cf135f"
+    },
+    {
+      "path": "js/screens/profile.js",
+      "before": "0d4fba05023536f32c343dfe7ed45ec54ceb8b582bee20f9b659000ab23645f9",
+      "after": "11ccd0023c5971c8c0a87fa2f91834426bdacbca5d80621489a5448c57353672"
+    },
+    {
+      "path": "js/screens/services.js",
+      "before": "f16a81eb704ba412b87ff0e1b84c884bc91c40c0c9bc57020d656d9eda5c6120",
+      "after": "78c75606f281d9968f1e4b4a2b98df1cd4e71a62802c42fa324c1ad3ac33d96e"
+    }
+  ]
+}

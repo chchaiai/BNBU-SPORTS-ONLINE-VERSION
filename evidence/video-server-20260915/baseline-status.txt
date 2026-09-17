@@ -1,0 +1,70 @@
+ M .gitattributes
+ M BNBU-Sports-Web-new/frontend/student/client-error-projection.test.mjs
+ M BNBU-Sports-Web-new/frontend/student/js/api.js
+ M BNBU-Sports-Web-new/frontend/student/js/checkin-drafts.js
+ M BNBU-Sports-Web-new/frontend/student/js/i18n.js
+ M BNBU-Sports-Web-new/frontend/student/js/recorded-video.js
+ M BNBU-Sports-Web-new/frontend/student/js/screens/binding.js
+ M BNBU-Sports-Web-new/frontend/student/js/screens/checkin.js
+ M BNBU-Sports-Web-new/frontend/student/js/screens/join.js
+ M BNBU-Sports-Web-new/frontend/student/js/screens/verification.js
+ M BNBU-Sports-Web-new/frontend/student/vendor/ffmpeg/api/classes.js
+ M backend/scripts/migration-registry.mjs
+ M backend/scripts/v81-migration-scan.mjs
+ M backend/src/generated/migration-manifest.generated.ts
+ M backend/src/generated/openapi.document.generated.json
+ M backend/src/generated/openapi.manifest.generated.json
+ M backend/src/modules/client-capabilities/client-authentication.service.ts
+ M backend/src/modules/client-capabilities/client-capabilities.dto.ts
+ M backend/src/modules/enrollments/application/qr-join.service.ts
+ M backend/src/modules/join-capabilities/application/join-capabilities.service.ts
+ M backend/src/modules/media/application/media.service.ts
+ M backend/src/modules/users/email-verification.service.ts
+ M backend/test/e2e/client-capabilities.e2e.test.ts
+ M backend/test/e2e/media-evidence.e2e.test.ts
+ M backend/test/e2e/v81-subadmin-identity.e2e.test.ts
+ M backend/test/helpers/exercise-review.ts
+ M bug.md
+ M demand.md
+ M docs/backend-contracts/openapi.yaml
+ M docs/business/10-student-flow.md
+?? BNBU-Sports-Web-new/frontend/student/js/student-school-email.js
+?? BNBU-Sports-Web-new/frontend/student/media-upload-recovery.test.mjs
+?? BNBU-Sports-Web-new/frontend/student/student-school-email.test.mjs
+?? BNBU-Sports-Web-new/frontend/student/video-worker-errors.test.mjs
+?? backend/prisma/migrations/0077_credit_projection_minutes/
+?? backend/src/common/security/student-school-email.ts
+?? backend/test/e2e/v81-credit-projection-minutes.e2e.test.ts
+?? backend/test/unit/student-mail-delivery-gate.test.ts
+?? backend/test/unit/student-school-email.test.ts
+?? docs/infrastructure/iphone-video-20260915.md
+?? docs/infrastructure/media-upload-recovery-20260915.md
+?? docs/infrastructure/student-email-domain-20260915.md
+?? docs/infrastructure/student-mail-guard-20260915.md
+?? docs/infrastructure/teacher-review-credit-projection-20260914.md
+?? evidence/iphone-video-20260915/
+?? evidence/media-upload-recovery-20260915/
+?? evidence/profile-quality-20260915/backend-files.json
+?? evidence/profile-quality-20260915/baseline/
+?? evidence/profile-quality-20260915/bundle.tar.gz
+?? evidence/profile-quality-20260915/bundle/
+?? evidence/profile-quality-20260915/initial-status.txt
+?? evidence/profile-quality-20260915/portal-baseline.json
+?? evidence/profile-quality-20260915/task-source.diff
+?? evidence/student-email-domain-20260915/
+?? evidence/student-mail-guard-20260915/
+?? evidence/teacher-review-credit-20260914/
+?? evidence/video-server-20260915/
+?? tools/local-integration/iphone-video-20260915.mjs
+?? tools/local-integration/iphone-video-browser-20260915.mjs
+?? tools/production/__pycache__/
+?? tools/production/deploy-credit-projection-minutes.py
+?? tools/production/deploy-iphone-video-20260915.py
+?? tools/production/deploy-media-upload-recovery.py
+?? tools/production/deploy-student-email-domain.py
+?? tools/production/deploy-student-mail-guard.py
+?? tools/production/inspect-credit-projection.py
+?? tools/production/package-iphone-video-20260915.py
+?? tools/production/package-media-upload-recovery.py
+?? tools/production/verify-credit-projection.mjs
+?? tools/production/verify-iphone-video-20260915.mjs

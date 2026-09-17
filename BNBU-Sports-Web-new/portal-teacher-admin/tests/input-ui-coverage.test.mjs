@@ -157,7 +157,7 @@ test("administrator dashboards keep supported metrics, student identity, and cle
   assert.match(subadmins, /创建确认/);
   assert.match(subadmins, /只要求非空且两次输入一致/);
   assert.match(subadmins, /首次登录后必须先修改本人临时密码/);
-  assert.match(subadmins, /mustChangePassword 初始为 true/);
+  assert.match(subadmins, /分配的是临时密码，新管理员首次登录后必须修改本人密码。/);
   assert.match(subadmins, /mode: "create"/);
   assert.match(subadmins, /mode: "update"/);
   assert.doesNotMatch(subadmins, /isPasswordComplexEnough|自动生成安全密码|密码强度|New password|新密码|留空表示不修改当前密码/);
@@ -186,12 +186,13 @@ test("login and recovery map safe fieldErrors to their concrete controls", async
   assert.doesNotMatch(app, /controlId="recovery-organization"/);
   assert.doesNotMatch(app, /onOrganizationCodeChange/);
   assert.match(app, /controlId="recovery-email"[\s\S]*userFacingFieldError\(error, "account", "email"\)/);
-  assert.match(app, /controlId="recovery-code"[\s\S]*userFacingFieldError\(error, "verificationCode", "code"\)/);
+  assert.match(app, /controlId="recovery-code"[\s\S]*userFacingFieldError\(error, firstPassword \? "currentPassword" : "verificationCode", "code"\)/);
   assert.match(app, /controlId="recovery-password-confirmation"[\s\S]*userFacingFieldError\(error, "passwordConfirmation"\)/);
   assert.doesNotMatch(app, /controlId="password-settings-organization"/);
-  assert.match(app, /controlId="password-settings-email"[\s\S]*userFacingFieldError\(error, "account", "email"\)/);
-  assert.match(app, /controlId="password-settings-code"[\s\S]*userFacingFieldError\(error, "verificationCode", "code"\)/);
-  assert.match(app, /controlId="password-settings-confirmation"[\s\S]*userFacingFieldError\(error, "passwordConfirmation"\)/);
+  const ownPassword = await source("own-password-panel.tsx");
+  assert.match(ownPassword, /currentPassword[\s\S]*newPassword[\s\S]*confirmPassword/);
+  assert.match(ownPassword, /controlId=\{`own-\$\{name\}`\}[\s\S]*userFacingFieldError\(error, name\)/);
+  assert.match(ownPassword, /aria-describedby=\{userFacingFieldError\(error, name\)/);
 });
 
 test("authentication boundaries clear both module-level account caches", async () => {

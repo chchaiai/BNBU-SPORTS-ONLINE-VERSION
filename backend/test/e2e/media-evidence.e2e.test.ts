@@ -1,3 +1,6 @@
+import {execFileSync} from 'node:child_process';
+import {createServer as createHttpServer} from 'node:http';
+import {readFileSync} from 'node:fs';
 import assert from 'node:assert/strict';
 import { createHash } from 'node:crypto';
 import { createServer } from 'node:net';
@@ -14,7 +17,7 @@ import { v7 as uuidv7 } from 'uuid';
 import sharp from 'sharp';
 
 import type { RuntimeConfig } from '../../src/common/config/environment.js';
-import { ApplicationError } from '../../src/common/errors/application-error.js';
+import type { ApplicationError as ApplicationErrorType } from '../../src/common/errors/application-error.js';
 import type { BodyParserErrorMiddleware as BodyParserErrorMiddlewareType } from '../../src/common/http/body-parser-error.middleware.js';
 import type { RequestIdMiddleware as RequestIdMiddlewareType } from '../../src/common/http/request-id.js';
 import type { validationException as ValidationExceptionFactory } from '../../src/common/http/validation.js';
@@ -46,11 +49,14 @@ interface HttpResult {
   headers: Headers;
 }
 
+let ApplicationError: typeof ApplicationErrorType;
+
 class MemoryMediaStorage implements MediaStoragePort {
   checkHealth(): Promise<void> {
     return Promise.resolve();
   }
 
+  normalizedUploadUrl: string | null = null;
   readonly objects = new Map<string, { body: Buffer; contentType: string; entityTag: string }>();
   readonly uploads = new Map<string, string>();
 
@@ -60,6 +66,7 @@ class MemoryMediaStorage implements MediaStoragePort {
     contentLength: number;
     expiresInSeconds: number;
   }): Promise<{ url: string; method: 'PUT'; requiredHeaders: Record<string, string> }> {
+    if (input.storageKey.endsWith('/normalized.mp4') && this.normalizedUploadUrl) return Promise.resolve({url:this.normalizedUploadUrl,method:'PUT',requiredHeaders:{'content-type':input.contentType}});
     const url = `https://upload.synthetic.invalid/${encodeURIComponent(input.storageKey)}?signature=redacted`;
     this.uploads.set(url, input.storageKey);
     return Promise.resolve({
@@ -111,28 +118,6 @@ class MemoryMediaStorage implements MediaStoragePort {
 
 async function png(): Promise<Buffer> {
   return sharp({ create: { width: 2, height: 3, channels: 3, background: '#237fa8' } }).png().toBuffer();
-}
-
-function webm(durationSeconds: number): Buffer {
-  const elementId = (hex: string): Buffer => Buffer.from(hex, 'hex');
-  const size = (value: number): Buffer => {
-    if (value <= 0x7e) return Buffer.from([0x80 | value]);
-    if (value <= 0x3ffe) return Buffer.from([0x40 | (value >> 8), value & 0xff]);
-    throw new Error('Synthetic WebM element is too large');
-  };
-  const element = (id: string, payload: Buffer): Buffer =>
-    Buffer.concat([elementId(id), size(payload.length), payload]);
-  const duration = Buffer.alloc(8);
-  duration.writeDoubleBE(durationSeconds * 1000, 0);
-  const info = element(
-    '1549a966',
-    Buffer.concat([element('2ad7b1', Buffer.from([0x0f, 0x42, 0x40])), element('4489', duration)]),
-  );
-  const track = (type: number): Buffer => element('ae', element('83', Buffer.from([type])));
-  const tracks = element('1654ae6b', Buffer.concat([track(1), track(2)]));
-  const cluster = element('1f43b675', Buffer.alloc(16));
-  const header = element('1a45dfa3', element('4282', Buffer.from('webm', 'ascii')));
-  return Buffer.concat([header, element('18538067', Buffer.concat([info, tracks, cluster]))]);
 }
 
 function object(value: unknown): Record<string, unknown> {
@@ -196,7 +181,9 @@ describe('MediaEvidence HTTP E2E', () => {
     ...(body === undefined ? {} : { body: JSON.stringify(body) }),
   });
 
+  let clockOffsetMs = 0;
   before(async () => {
+    ({ ApplicationError } = await import(compiledModule('common/errors/application-error.js')));
     const databaseUrl = requireTestDatabaseUrl();
     prisma = createTestPrisma(databaseUrl);
     const port = await availablePort();
@@ -223,7 +210,11 @@ describe('MediaEvidence HTTP E2E', () => {
     const { validationException } = (await import(compiledModule('common/http/validation.js'))) as {
       validationException: typeof ValidationExceptionFactory;
     };
+    const { Clock } = await import(compiledModule('common/time/clock.js')) as {
+      Clock: Type<{ now(): Date }>;
+    };
     const module = await Test.createTestingModule({ imports: [AppModule] })
+      .overrideProvider(Clock).useValue({ now: () => new Date(Date.now() + clockOffsetMs) })
       .overrideProvider(MEDIA_STORAGE_PORT)
       .useValue(storage)
       .compile();
@@ -253,6 +244,7 @@ describe('MediaEvidence HTTP E2E', () => {
   });
 
   beforeEach(async () => {
+    clockOffsetMs = 0;
     await resetFoundationDatabase(prisma);
     fixture = await seedFoundationFixture(prisma);
     await prisma.v81AccountSecurity.create({ data: {
@@ -346,7 +338,10 @@ describe('MediaEvidence HTTP E2E', () => {
     assert.deepEqual(replay.body.data, initiated.body.data);
     assert.equal(initiated.headers.get('cache-control'), 'no-store');
     assert.equal(initiated.headers.get('referrer-policy'), 'no-referrer');
-    const capability = object(initiated.body.data);
+    const resumed = await request('/api/v1/media-uploads', authenticated(token, 'POST', initiateBody, uuidv7()));
+    assert.equal(resumed.status, 201);
+    assert.equal(object(resumed.body.data).mediaId, object(initiated.body.data).mediaId);
+    const capability = object(resumed.body.data);
     const mediaId = String(capability.mediaId);
     const uploadSessionId = String(capability.uploadSessionId);
     const etag = storage.upload(String(capability.uploadUrl), body, 'image/png');
@@ -404,40 +399,155 @@ describe('MediaEvidence HTTP E2E', () => {
     assert.equal(await prisma.outboxEvent.count({ where: { aggregateId: mediaId } }), 5);
   });
 
-  it('accepts a byte-verified 15-second audible WebM upload', async () => {
+  const videoDeclaration = (digest = 'a'.repeat(64)) => ({
+    sessionId, businessPurpose: 'EXERCISE_RECORD', mediaType: 'VIDEO', mimeType: 'video/mp4',
+    fileSizeBytes: 1024, captureSource: 'IN_APP_CAMERA', declaredContentSha256: digest, durationSeconds: 5,
+  });
+
+  it('recovers a pending video under fresh concurrent keys without consuming another slot', async () => {
+    const token = await studentToken(), declaration = videoDeclaration();
+    const first = await request('/api/v1/media-uploads', authenticated(token, 'POST', declaration, uuidv7()));
+    assert.equal(first.status, 201);
+    const recovered = await Promise.all([1, 2, 3].map(() =>
+      request('/api/v1/media-uploads', authenticated(token, 'POST', declaration, uuidv7()))));
+    for (const result of recovered) {
+      assert.equal(result.status, 201, JSON.stringify(result.body));
+      assert.equal(object(result.body.data).mediaId, object(first.body.data).mediaId);
+      assert.equal(object(result.body.data).expiresAt, object(first.body.data).expiresAt);
+    }
+    assert.equal(await prisma.mediaEvidence.count({ where: { sessionId } }), 1);
+    assert.equal(await prisma.mediaUploadSession.count({ where: { media: { sessionId } } }), 1);
+    const different = await request('/api/v1/media-uploads', authenticated(token, 'POST', videoDeclaration('b'.repeat(64)), uuidv7()));
+    assert.equal(different.body.code, 'MEDIA_COUNT_LIMIT_EXCEEDED');
+    const changedFacts = await request('/api/v1/media-uploads', authenticated(token, 'POST', {...declaration, fileSizeBytes: 2048}, uuidv7()));
+    assert.equal(changedFacts.body.code, 'MEDIA_COUNT_LIMIT_EXCEEDED');
+  });
+
+  it('renews expired credentials for the same pending file without replacing its media identity',async()=>{
+    const token=await studentToken(),body=videoDeclaration();
+    const first=await request('/api/v1/media-uploads',authenticated(token,'POST',body,uuidv7()));
+    assert.equal(first.status,201);
+    clockOffsetMs=301_000;
+    const resumed=await request('/api/v1/media-uploads',authenticated(token,'POST',body,uuidv7()));
+    assert.equal(resumed.status,201,JSON.stringify(resumed.body));
+    assert.equal(object(resumed.body.data).mediaId,object(first.body.data).mediaId);
+    assert.equal(object(resumed.body.data).uploadSessionId,object(first.body.data).uploadSessionId);
+    assert.ok(String(object(resumed.body.data).expiresAt)>String(object(first.body.data).expiresAt));
+  });
+
+  it('preserves stored evidence through maintenance beyond PUT expiry and confirms the original upload',async()=>{
+    const token=await studentToken(),bytes=await png();
+    const body={sessionId,businessPurpose:'EXERCISE_RECORD',mediaType:'IMAGE',mimeType:'image/png',fileSizeBytes:bytes.length,captureSource:'IN_APP_CAMERA',declaredContentSha256:createHash('sha256').update(bytes).digest('hex'),durationSeconds:null};
+    const initiated=await request('/api/v1/media-uploads',authenticated(token,'POST',body,uuidv7()));
+    assert.equal(initiated.status,201);
+    const upload=object(initiated.body.data),etag=storage.upload(String(upload.uploadUrl),bytes,'image/png');
+    await prisma.systemPolicy.update({where:{organizationId:fixture.organizationId},data:{systemMode:'MAINTENANCE',version:{increment:1}}});
+    const path=`/api/v1/media-uploads/${String(upload.uploadSessionId)}/confirm`;
+    assert.equal((await request(path,authenticated(token,'POST',{etag},uuidv7()))).status,503);
+    clockOffsetMs=301_000;
+    await prisma.systemPolicy.update({where:{organizationId:fixture.organizationId},data:{systemMode:'NORMAL',version:{increment:1}}});
+    const another=await request('/api/v1/media-uploads',authenticated(token,'POST',{...body,declaredContentSha256:'b'.repeat(64)},uuidv7()));
+    assert.equal(another.status,201,JSON.stringify(another.body));
+    const confirmed=await request(path,authenticated(token,'POST',{etag},uuidv7()));
+    assert.equal(confirmed.status,200,JSON.stringify(confirmed.body));
+    assert.equal(object(confirmed.body.data).id,upload.mediaId);
+    const bound=await request(`/api/v1/media/${String(upload.mediaId)}/bind`,authenticated(token,'POST',{sessionId,expectedVersion:object(confirmed.body.data).version},uuidv7()));
+    assert.equal(bound.status,200,JSON.stringify(bound.body));
+  });
+
+  it('releases an expired video reservation and recovers after a stored quota failure using a fresh key', async () => {
     const token = await studentToken();
-    const body = webm(15);
-    const digest = createHash('sha256').update(body).digest('hex');
-    const initiated = await request(
-      '/api/v1/media-uploads',
-      authenticated(
-        token,
-        'POST',
-        {
-          sessionId,
-          businessPurpose: 'EXERCISE_RECORD',
-          mediaType: 'VIDEO',
-          mimeType: 'video/webm',
-          fileSizeBytes: body.length,
-          captureSource: 'IN_APP_CAMERA',
-          declaredContentSha256: digest,
-          durationSeconds: 15,
-        },
-        uuidv7(),
-      ),
-    );
-    assert.equal(initiated.status, 201);
-    const capability = object(initiated.body.data);
-    const entityTag = storage.upload(String(capability.uploadUrl), body, 'video/webm');
-    const confirmed = await request(
-      `/api/v1/media-uploads/${String(capability.uploadSessionId)}/confirm`,
-      authenticated(token, 'POST', { etag: entityTag }, uuidv7()),
-    );
-    assert.equal(confirmed.status, 200);
-    const uploaded = object(confirmed.body.data);
-    assert.equal(uploaded.verifiedMimeType, 'video/webm');
-    assert.equal(uploaded.verifiedDurationSeconds, 15);
-    assert.equal(uploaded.verifiedContentSha256, digest);
+    const first = await request('/api/v1/media-uploads', authenticated(token, 'POST', videoDeclaration(), uuidv7()));
+    assert.equal(first.status, 201);
+    const failedKey = uuidv7(), changed = videoDeclaration('b'.repeat(64));
+    assert.equal((await request('/api/v1/media-uploads', authenticated(token, 'POST', changed, failedKey))).status, 422);
+    clockOffsetMs = 301_000;
+    assert.equal((await request('/api/v1/media-uploads', authenticated(token, 'POST', changed, failedKey))).status, 422);
+    const recovered = await request('/api/v1/media-uploads', authenticated(token, 'POST', changed, uuidv7()));
+    assert.equal(recovered.status, 201, JSON.stringify(recovered.body));
+    assert.notEqual(object(recovered.body.data).mediaId, object(first.body.data).mediaId);
+    const old = await prisma.mediaEvidence.findUniqueOrThrow({ where: { id: String(object(first.body.data).mediaId) } });
+    assert.equal(old.uploadStatus, 'FAILED');
+    assert.equal(old.failureCode, 'MEDIA_UPLOAD_SESSION_EXPIRED');
+    assert.equal(await prisma.mediaEvidence.count({ where: { sessionId, uploadStatus: 'PENDING_UPLOAD' } }), 1);
+  });
+
+  it('server video confirms raw bytes, normalizes asynchronously and preserves original identity', async () => {
+    const token=await studentToken();
+    await prisma.studentProfile.update({where:{id:student.studentId},data:{studentNumber:'2000000123',fullName:'Synthetic Video Student',collegeName:'FST',majorName:'CST',dateOfBirth:new Date('2005-01-01'),regionCode:'CN-44',version:{increment:1}}});
+    assert.equal((await prisma.exerciseSession.findUniqueOrThrow({where:{id:sessionId}})).status,'COMPLETED');
+    const templateId=uuidv7();
+    await prisma.$executeRaw`INSERT INTO v81_admin_access(user_id,organization_id,kind,must_change_password) VALUES(${fixture.adminUserId}::uuid,${fixture.organizationId}::uuid,'SUPER',false)`;
+    await prisma.$executeRaw`INSERT INTO v81_rule_templates(id,organization_id,version,display_name,rules,actor_id,request_id,published_at) VALUES(${templateId}::uuid,${fixture.organizationId}::uuid,1,'Synthetic video rules','{"ruleSet":"V8_1","totalTargetMinutes":1200,"minimumMinutesOptions":[30,45,60],"defaultMinimumMinutes":30,"weeklyLimitOptions":[2,3,4],"defaultWeeklyLimit":3,"maximumCreditedMinutes":60,"dailyLimit":1,"creditedUnit":"WHOLE_MINUTE","supplementHours":24,"specialSupplementHours":72,"closingDays":7}'::jsonb,${fixture.adminUserId}::uuid,${uuidv7()},now())`;
+    await prisma.$executeRaw`INSERT INTO v81_course_rules(class_section_id,organization_id,minimum_minutes,weekly_limit,course_target,general_target,regular_deadline,closing_deadline,settlement_planned_at,published_at,template_id) VALUES(${fixture.teacherAActiveSectionId}::uuid,${fixture.organizationId}::uuid,30,4,600,600,'2027-01-23','2027-01-30','2027-02-01',now(),${templateId}::uuid)`;
+    const recordResult=await request('/api/v1/exercise-records',authenticated(token,'POST',{sessionId,clientRequestId:uuidv7(),creditType:'GENERAL',sportType:'SWIMMING',description:'Synthetic swimming uses shared evidence rules'},uuidv7()));
+    assert.equal(recordResult.status,201,JSON.stringify(recordResult.body));
+    const record=object(recordResult.body.data);
+    const body=readFileSync(resolve('test/fixtures/v81-media/media-recorder-fragmented.mp4'));
+    const declaration={...videoDeclaration(createHash('sha256').update(body).digest('hex')),fileSizeBytes:body.length,durationSeconds:null};
+    const initiated=await request('/api/v1/media-uploads',authenticated(token,'POST',declaration,uuidv7()));
+    assert.equal(initiated.status,201,JSON.stringify(initiated.body));
+    const capability=object(initiated.body.data),mediaId=String(capability.mediaId);
+    const rawKey=`media/${fixture.organizationId}/${mediaId}/video`;
+    const etag=storage.upload(String(capability.uploadUrl),body,'video/mp4');
+    const confirmed=await request(`/api/v1/media-uploads/${String(capability.uploadSessionId)}/confirm`,authenticated(token,'POST',{etag},uuidv7()));
+    assert.equal(confirmed.status,200,JSON.stringify(confirmed.body));
+    assert.equal(object(confirmed.body.data).verifiedDurationSeconds,null);
+    const bound=await request(`/api/v1/media/${mediaId}/bind`,authenticated(token,'POST',{sessionId,expectedVersion:object(confirmed.body.data).version},uuidv7()));
+    assert.equal(bound.status,200,JSON.stringify(bound.body));
+    const premature=await request(`/api/v1/exercise-records/${String(record.id)}/submit`,authenticated(token,'POST',{mediaIds:[mediaId],expectedVersion:record.version},uuidv7()));
+    assert.ok(premature.status>=400,JSON.stringify(premature.body));
+    assert.equal((await prisma.exerciseRecord.findUniqueOrThrow({where:{id:String(record.id)}})).status,'DRAFT');
+    const sink=createHttpServer(async(req,res)=>{
+      const chunks:Buffer[]=[];for await(const chunk of req)chunks.push(Buffer.from(chunk as Uint8Array));
+      const bytes=Buffer.concat(chunks);
+      storage.objects.set(rawKey+'/normalized.mp4',{body:bytes,contentType:'video/mp4',entityTag:'synthetic'});
+      res.writeHead(200);res.end();
+    });
+    await new Promise<void>(resolve=>sink.listen(0,'127.0.0.1',resolve));
+    storage.normalizedUploadUrl=`http://127.0.0.1:${(sink.address() as {port:number}).port}/processed`;
+    try {assert.equal(await worker.processOne(),true);} finally {await new Promise<void>(resolve=>sink.close(()=>resolve()));storage.normalizedUploadUrl=null;}
+    const media=await prisma.mediaEvidence.findUniqueOrThrow({where:{id:mediaId}});
+    assert.equal(media.uploadStatus,'AVAILABLE',JSON.stringify({failureCode:media.failureCode}));
+    assert.equal(media.storageKey,rawKey);assert.equal(media.declaredContentSha256,declaration.declaredContentSha256);
+    assert.equal((media.safeMetadata as Record<string,unknown>).normalized,1);
+    assert.ok(media.verifiedDurationSeconds!<=10);
+    assert.deepEqual(storage.objects.get(rawKey)?.body,body);
+    assert.ok(storage.objects.has(rawKey+'/normalized.mp4'));
+    const submitted=await request(`/api/v1/exercise-records/${String(record.id)}/submit`,authenticated(token,'POST',{mediaIds:[mediaId],expectedVersion:record.version},uuidv7()));
+    assert.equal(submitted.status,200,JSON.stringify(submitted.body));
+    assert.equal(object(submitted.body.data).status,'SUBMITTED');
+    assert.equal(await prisma.$queryRaw`SELECT 1 FROM v81_swim_intakes WHERE record_id=${String(record.id)}::uuid`.then(rows=>(rows as unknown[]).length),0);
+
+    await assert.rejects(prisma.mediaEvidence.update({where:{id:mediaId},data:{verifiedContentSha256:'0'.repeat(64),version:{increment:1}}}));
+  });
+
+  it('server video processing failure releases its quota for replacement',async()=>{
+    const token=await studentToken();
+    const body=execFileSync('ffmpeg',['-v','error','-f','lavfi','-i','color=size=64x64:rate=30','-t','2','-an','-c:v','libx264','-threads','1','-f','mp4','-movflags','frag_keyframe+empty_moov','pipe:1'],{timeout:30000});
+    const declaration={...videoDeclaration(createHash('sha256').update(body).digest('hex')),fileSizeBytes:body.length,durationSeconds:null};
+    const result=await request('/api/v1/media-uploads',authenticated(token,'POST',declaration,uuidv7()));
+    assert.equal(result.status,201,JSON.stringify(result.body));
+    const capability=object(result.body.data),mediaId=String(capability.mediaId);
+    const etag=storage.upload(String(capability.uploadUrl),body,'video/mp4');
+    const confirmation=await request(`/api/v1/media-uploads/${String(capability.uploadSessionId)}/confirm`,authenticated(token,'POST',{etag},uuidv7()));
+    assert.equal(confirmation.status,200,JSON.stringify(confirmation.body));
+    const bound=await request(`/api/v1/media/${mediaId}/bind`,authenticated(token,'POST',{sessionId,expectedVersion:object(confirmation.body.data).version},uuidv7()));
+    assert.equal(bound.status,200,JSON.stringify(bound.body));
+    await worker.processOne();
+    const failed=await prisma.mediaEvidence.findUniqueOrThrow({where:{id:mediaId}});
+    assert.equal(failed.uploadStatus,'FAILED');assert.equal(failed.failureCode,'MEDIA_AUDIO_TRACK_REQUIRED');
+    const replacement=await request('/api/v1/media-uploads',authenticated(token,'POST',videoDeclaration('b'.repeat(64)),uuidv7()));
+    assert.equal(replacement.status,201,JSON.stringify(replacement.body));
+  });
+
+  it('server video enforces new declaration limits before reserving a slot',async()=>{
+    const token=await studentToken();
+    for(const fields of [{durationSeconds:11},{fileSizeBytes:200*1024*1024+1}]) {
+      const result=await request('/api/v1/media-uploads',authenticated(token,'POST',{...videoDeclaration(),...fields},uuidv7()));
+      assert.ok([413,422].includes(result.status),JSON.stringify(result.body));
+    }
+    assert.equal(await prisma.mediaEvidence.count({where:{sessionId}}),0);
   });
 
   it('fails spoofed MIME without partial verified facts and rejects cross-Session binding', async () => {

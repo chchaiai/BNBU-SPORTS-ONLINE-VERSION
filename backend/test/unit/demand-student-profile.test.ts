@@ -3,6 +3,12 @@ import { test } from 'node:test';
 import { StudentIdentityNormalizer, STUDENT_REGION_CODES } from '../../src/modules/users/application/student-identity-normalizer.js';
 const normalizer = new StudentIdentityNormalizer();
 const identity = { fullName: ' Student ', studentNumber: ' 2300000001 ', gender: 'FEMALE', gradeYear: 2026 };
+test('JC enrollment and profile updates follow the SCC and SAI catalogs', () => {
+  for (const collegeName of ['SCC', 'SAI']) {
+    assert.equal(normalizer.normalize({ ...identity, collegeName, majorName: 'JC' }).majorName, 'JC');
+  }
+  assert.throws(() => normalizer.normalize({ ...identity, collegeName: 'FST', majorName: 'JC' }));
+});
 test('long-term personal details normalize without changing stable identity', () => {
   assert.deepEqual(normalizer.normalize({ ...identity, collegeName: '  FST ', majorName: '  CST ', dateOfBirth: '2004-02-29', regionCode: 'HK' }), {
     fullName: 'Student', studentNumber: '2300000001', gender: 'FEMALE', gradeYear: 2026,

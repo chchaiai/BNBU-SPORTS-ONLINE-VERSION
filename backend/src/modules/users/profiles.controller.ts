@@ -1,7 +1,8 @@
-import { Body, Controller, Get, Headers, Param, Patch, Query } from '@nestjs/common';
+import { StudentProfileCompletionService } from './student-profile-completion.service.js';
+import { Body, Controller, Get, Headers, Param, Patch, Query, Req } from '@nestjs/common';
 
 import type { PagedResult } from '../../common/http/envelope.interceptor.js';
-import type { AuthenticatedPrincipal } from '../../common/http/request-context.js';
+import type { AuthenticatedPrincipal, FoundationRequest } from '../../common/http/request-context.js';
 import { OperationPolicy } from '../../common/policy/operation-policy.decorator.js';
 import { CurrentPrincipal } from '../../common/policy/principal.decorator.js';
 import type { StudentProfileProjection, TeacherProfileProjection } from './users.service.js';
@@ -15,7 +16,7 @@ import {
 
 @Controller()
 export class ProfilesController {
-  constructor(private readonly users: UsersService) {}
+  constructor(private readonly users: UsersService, private readonly completion: StudentProfileCompletionService) {}
 
   @Get('students')
   @OperationPolicy('listStudents')
@@ -37,15 +38,15 @@ export class ProfilesController {
 
   @Patch('students/:studentId')
   @OperationPolicy('updateStudent')
-  updateStudent(
+  async updateStudent(
     @CurrentPrincipal() principal: AuthenticatedPrincipal,
     @Param() path: ProfilePathDto,
     @Body() body: UpdateStudentRequestDto,
     @Headers('idempotency-key') idempotencyKey: string | undefined,
-  ): Promise<never> {
-    void body;
-    void idempotencyKey;
-    return this.users.denyStudentUpdate(principal, path.studentId);
+    @Req() request: FoundationRequest,
+  ): Promise<StudentProfileProjection> {
+    await this.completion.requireUpdate(principal,path.studentId,body,{idempotencyKey,requestId:request.requestId});
+    return this.users.getStudent(principal,path.studentId);
   }
 
   @Get('teachers/:teacherId')

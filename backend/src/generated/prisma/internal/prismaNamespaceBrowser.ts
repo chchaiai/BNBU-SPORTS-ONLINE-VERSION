@@ -132,6 +132,8 @@ export const ModelName = {
   V81RecordWorkflow: 'V81RecordWorkflow',
   V81Event: 'V81Event',
   V81MaterialVersion: 'V81MaterialVersion',
+  V81AiReviewJob: 'V81AiReviewJob',
+  V81AiReviewBudget: 'V81AiReviewBudget',
   V81MaterialItem: 'V81MaterialItem',
   V81Interruption: 'V81Interruption',
   V81AdminAccess: 'V81AdminAccess',
@@ -1713,6 +1715,40 @@ export const V81MaterialVersionScalarFieldEnum = {
 } as const
 
 export type V81MaterialVersionScalarFieldEnum = (typeof V81MaterialVersionScalarFieldEnum)[keyof typeof V81MaterialVersionScalarFieldEnum]
+
+
+export const V81AiReviewJobScalarFieldEnum = {
+  id: 'id',
+  organizationId: 'organizationId',
+  recordId: 'recordId',
+  materialVersion: 'materialVersion',
+  status: 'status',
+  attempts: 'attempts',
+  leaseOwner: 'leaseOwner',
+  leaseUntil: 'leaseUntil',
+  nextAttemptAt: 'nextAttemptAt',
+  recommendation: 'recommendation',
+  flags: 'flags',
+  assessment: 'assessment',
+  provider: 'provider',
+  model: 'model',
+  policyVersion: 'policyVersion',
+  errorCode: 'errorCode',
+  createdAt: 'createdAt',
+  completedAt: 'completedAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type V81AiReviewJobScalarFieldEnum = (typeof V81AiReviewJobScalarFieldEnum)[keyof typeof V81AiReviewJobScalarFieldEnum]
+
+
+export const V81AiReviewBudgetScalarFieldEnum = {
+  id: 'id',
+  reservedFen: 'reservedFen',
+  updatedAt: 'updatedAt'
+} as const
+
+export type V81AiReviewBudgetScalarFieldEnum = (typeof V81AiReviewBudgetScalarFieldEnum)[keyof typeof V81AiReviewBudgetScalarFieldEnum]
 
 
 export const V81MaterialItemScalarFieldEnum = {

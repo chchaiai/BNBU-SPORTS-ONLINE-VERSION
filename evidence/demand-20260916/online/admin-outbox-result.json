@@ -1,0 +1,7 @@
+{
+  "requirement": 21,
+  "realOverviewEntry": true,
+  "backlog": 6,
+  "eventTypeFilter": "AUTH_SESSION_CREATED",
+  "apiStatus": 200
+}

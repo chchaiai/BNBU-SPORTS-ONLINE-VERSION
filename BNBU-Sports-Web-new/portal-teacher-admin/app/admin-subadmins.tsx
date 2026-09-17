@@ -4,7 +4,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import type { AdminLocale, AdminRoute } from "./admin-types";
 import type { WorkspaceMode } from "./portal-app";
 import { deleteSubadminAccount, updateSubadminAccount, createSubadminAccount, requestSubadminIdentity, verifySubadminIdentity, type IdentityChallenge, listSubadminAccounts, setSubadminStatus, toSubadminRoutes } from './subadmin-api';
-import { ApiError, toUserFacingError } from './api-client';
+import { ApiError, toUserFacingError, formatUserFacingError } from './api-client';
 import {
   AdminBadge,
   AdminConfirm,
@@ -427,7 +427,7 @@ export function AdminSubadmins({ locale, mode }: { locale: AdminLocale; mode: Wo
       setNotice(locale === "en" ? (isCreate ? "Created" : "Updated") : (isCreate ? "创建成功" : "更新成功"));
     } catch (failure) {
       setError(mode === 'real'
-        ? toUserFacingError(failure, locale).message
+        ? formatUserFacingError(failure, locale)
         : locale === 'en' ? 'This browser could not securely save the preview configuration.' : '当前浏览器无法安全保存此预览配置。');
     } finally {
       setBusy(false);
@@ -477,7 +477,7 @@ export function AdminSubadmins({ locale, mode }: { locale: AdminLocale; mode: Wo
         setIdentity(current => current ? { ...current, version: cause.details.actualVersion as number } : current);
         verifyRequest.current = null;
       }
-      setError(toUserFacingError(cause, locale).message);
+      setError(formatUserFacingError(cause, locale));
     } finally { setBusy(false); }
   };
 

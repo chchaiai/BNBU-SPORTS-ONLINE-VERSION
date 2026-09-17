@@ -1,3 +1,4 @@
+import { assertProfileReady } from '../users/application/student-profile-quality.js';
 import { Body, Controller, Get, Headers, Injectable, Param, ParseUUIDPipe, Post, Req } from '@nestjs/common';
 import { IsBoolean, IsInt, IsISO8601, Matches, Max, Min } from 'class-validator';
 import { PrismaService } from '../../common/database/prisma.service.js';
@@ -27,16 +28,15 @@ const day = (value: Date) => value.toISOString().slice(0, 10);
 export async function isHistoricalSession(tx: Pick<Prisma.TransactionClient, '$queryRaw'>, sessionId: string) {
   return (await tx.$queryRaw<{ session_id: string }[]>`SELECT session_id FROM v81_history_session_sources WHERE session_id=${sessionId}::uuid`).length > 0;
 }
-export async function requireHistoricalSubmissionWindow(tx: Prisma.TransactionClient, sessionId: string, now: Date) {
-  const rows = await tx.$queryRaw<{ regular_deadline: Date; status: string; semester_status: string; enrollment_status: string }[]>`
-    SELECT r.regular_deadline,c.status,s.status AS semester_status,e.status AS enrollment_status
+export async function requireHistoricalSubmissionWindow(tx: Prisma.TransactionClient, sessionId: string, _now: Date) {
+  const rows = await tx.$queryRaw<{ semester_status: string }[]>`
+    SELECT s.status AS semester_status
     FROM v81_history_session_sources h JOIN exercise_sessions x ON x.id=h.session_id
-    JOIN class_sections c ON c.id=x.class_section_id JOIN semesters s ON s.id=x.semester_id
-    JOIN enrollments e ON e.id=x.enrollment_id JOIN v81_course_rules r ON r.class_section_id=c.id
+    JOIN semesters s ON s.id=x.semester_id
     WHERE h.session_id=${sessionId}::uuid`;
-  if (rows[0] && (rows[0].status !== 'ACTIVE' || rows[0].semester_status !== 'CURRENT' ||
-    rows[0].enrollment_status !== 'ACTIVE' || now >= rows[0].regular_deadline))
-    throw new ApplicationError('COURSE_DEADLINE_PASSED', 409);
+  // Enrollment and course closure are checked by the shared existing-session guard.
+  if (rows[0]?.semester_status === 'ARCHIVED')
+    throw new ApplicationError('COURSE_SEMESTER_ARCHIVED', 409);
 }
 @Injectable()
 export class V81HistoryBackfillService {
@@ -91,6 +91,8 @@ export class V81HistoryBackfillService {
     if(p.role!=='STUDENT') throw new ApplicationError('PERMISSION_RESOURCE_SCOPE_DENIED',403);
     return this.idempotency.execute({organizationId:p.organizationId,principalId:p.userId,authSessionId:p.sessionId,
       operationId:'createV81HistoricalSession',scope:`${p.organizationId}:${enrollmentId}`,request:input,requestId,key},async tx=>{
+      await tx.$queryRaw`SELECT id FROM organizations WHERE id=${p.organizationId}::uuid FOR NO KEY UPDATE`;
+      await assertProfileReady(tx,p.organizationId,p.userId);
       const member=await tx.enrollment.findFirst({where:{id:enrollmentId,organizationId:p.organizationId,student:{userId:p.userId}},include:{student:{include:{user:true}}}});
       if(!member) throw new ApplicationError('PERMISSION_RESOURCE_NOT_FOUND',404);
       const course=await this.writable(tx,p,member.classSectionId);
@@ -101,7 +103,9 @@ export class V81HistoryBackfillService {
       const settings=await this.settings(tx,course.id),now=this.clock.now();
       const rule=(await tx.$queryRaw<{regular_deadline:Date;published_at:Date|null;minimum_minutes:number}[]>`SELECT regular_deadline,published_at,minimum_minutes FROM v81_course_rules WHERE class_section_id=${course.id}::uuid`)[0];
       if(!settings?.enabled||!rule?.published_at) throw new ApplicationError('CONFLICT_STATE_TRANSITION',409,{reason:'HISTORY_NOT_ENABLED'});
-      if(now>=rule.regular_deadline) throw new ApplicationError('COURSE_DEADLINE_PASSED',409);
+      const currentDate=this.time.businessDate(now,course.organization.timezone);
+      if(!course.checkInEndDate || currentDate>day(course.checkInEndDate) || currentDate>day(course.semester.endDate))
+        throw new ApplicationError('COURSE_DEADLINE_PASSED',409);
       const startedAt=new Date(input.startedAt),completedAt=new Date(startedAt.getTime()+input.durationSeconds*1000);
       const businessDate=this.time.businessDate(startedAt,course.organization.timezone),today=this.time.businessDate(now,course.organization.timezone);
       if(businessDate>=today||businessDate<day(settings.earliest_date)||businessDate>day(settings.latest_date)||

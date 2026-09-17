@@ -25,24 +25,23 @@ export function coursePlanCapacity(input: {
   startDate: string; endDate: string;
   dailyStart: string; dailyEnd: string;
   excludedDates: readonly string[];
-  now: Date; regularDeadline: Date; timezone: string;
+  now: Date; regularDeadline?: Date; timezone: string;
 }) {
   validateCreditRules(input.rules);
   for (const time of [input.dailyStart, input.dailyEnd])
     if (!/^([01]\d|2[0-3]):[0-5]\d:[0-5]\d$/.test(time)) throw new Error('INVALID_PLAN_TIME');
   if (input.dailyStart > input.dailyEnd) throw new Error('INVALID_PLAN_TIME');
   const now = localParts(input.now, input.timezone);
-  const deadline = localParts(input.regularDeadline, input.timezone);
   const first = Math.max(dateValue(input.startDate), dateValue(input.semesterStart), dateValue(now.date));
-  const last = Math.min(dateValue(input.endDate), dateValue(input.semesterEnd), dateValue(deadline.date));
+  const last = Math.min(dateValue(input.endDate), dateValue(input.semesterEnd));
   const excluded = new Set(input.excludedDates);
   const weeks = new Map<string, number>();
-  if (input.regularDeadline >= input.now) {
+  if (first <= last) {
     for (let at = first; at <= last; at += dayMs) {
       const date = new Date(at).toISOString().slice(0, 10);
       if (excluded.has(date)) continue;
       const start = date === now.date && now.time > input.dailyStart ? now.time : input.dailyStart;
-      const end = date === deadline.date && deadline.time < input.dailyEnd ? deadline.time : input.dailyEnd;
+      const end = input.dailyEnd;
       if (start > end) continue;
       const week = mondayOf(date);
       weeks.set(week, (weeks.get(week) ?? 0) + 1);

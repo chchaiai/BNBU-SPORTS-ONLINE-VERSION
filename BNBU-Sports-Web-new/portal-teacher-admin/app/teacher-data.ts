@@ -611,6 +611,7 @@ export type TeacherStudentView = {
 };
 
 export type TeacherCheckinView = {
+  aiReview?: ExerciseRecord['aiReview'];
   workflowStage?: ExerciseRecord['workflowStage'];
   recordOrigin?: string;
   id: string;
@@ -718,7 +719,7 @@ export function mapClassSectionToCourse(
     id: section.id,
     code: course?.courseCode ?? section.classCode,
     section: section.classCode,
-    name: course?.courseName ?? section.displayName,
+    name: section.displayName || course?.courseName || '',
     semester: semesterLabel,
     semesterId: section.semesterId,
     courseId: section.courseId,
@@ -742,7 +743,6 @@ export function mapClassSectionToCourse(
         reason: "—",
       })),
       semesterDeadline:
-        section.submissionDeadlineAt?.slice(0, 10) ??
         section.checkInEndDate ??
         "",
     },
@@ -957,6 +957,7 @@ export function mapExerciseRecordToCheckin(
   const auditStatus = reviewToAuditStatus(record);
   return {
     workflowStage: record.workflowStage,
+    aiReview: record.aiReview,
     recordOrigin: record.recordOrigin,
     id: record.id,
     studentId: record.studentId,

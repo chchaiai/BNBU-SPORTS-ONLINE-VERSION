@@ -1,0 +1,27 @@
+{
+  "result": "PASS",
+  "backendTests": 36,
+  "frontendTests": 19,
+  "additionalHttpGate": "Processing video cannot submit; DRAFT preserved; normalized swimming single-video submission succeeds",
+  "realBrowser": "browser.json",
+  "checks": [
+    "TypeScript",
+    "scoped ESLint",
+    "Nest build",
+    "79 migration safety checks",
+    "79 migrations applied to isolated PostgreSQL"
+  ],
+  "physicalPhoneAcceptance": "PENDING",
+  "production": "See deployment.json and postdeploy.json",
+  "synthetic4kHdr": {
+    "result": "PASS",
+    "dimensions": "3840x2160",
+    "fps": 60,
+    "seconds": 10,
+    "containerMemoryLimitMiB": 1200,
+    "swapDisabled": true,
+    "cpuLimit": 1,
+    "observedMemoryMiB": 449.9,
+    "suiteElapsedSeconds": 36.71
+  }
+}

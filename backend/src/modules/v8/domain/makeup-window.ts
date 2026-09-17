@@ -2,13 +2,11 @@ export type MakeupWindow = { startsAt: Date; endsAt: Date; acceptedAt: Date; rev
 const instant = (value: Date) => value.getTime();
 
 /** Window dates constrain future server starts; they never assign an exercise to an earlier day or week. */
-export function validateMakeupWindow(input: { startsAt: Date; endsAt: Date; now: Date; regularDeadline: Date; closingDeadline: Date }) {
+export function validateMakeupWindow(input: { startsAt: Date; endsAt: Date; now: Date; startBoundary: Date; endBoundary: Date }) {
   const values = Object.values(input).map(instant);
   if (values.some(value => !Number.isFinite(value))) throw new Error('MAKEUP_TIME_INVALID');
-  if (input.closingDeadline.getTime() - input.regularDeadline.getTime() !== 7 * 24 * 60 * 60 * 1000)
-    throw new Error('MAKEUP_CLOSING_PERIOD_INVALID');
-  if (input.startsAt < input.regularDeadline || input.endsAt > input.closingDeadline || input.startsAt >= input.endsAt)
-    throw new Error('MAKEUP_OUTSIDE_CLOSING_PERIOD');
+  if (input.startsAt < input.startBoundary || input.endsAt > input.endBoundary || input.startsAt >= input.endsAt)
+    throw new Error('MAKEUP_OUTSIDE_EXERCISE_DATES');
   if (input.endsAt <= input.now) throw new Error('MAKEUP_WINDOW_ALREADY_ENDED');
 }
 

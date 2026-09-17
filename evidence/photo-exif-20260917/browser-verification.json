@@ -1,0 +1,11 @@
+{
+  "result": "PASS",
+  "checkedAt": "2026-09-16T17:50:57.396Z",
+  "scope": "Public production page and deployed capture handler, emulated Android Edge user agent; no authenticated upload and no physical phone test",
+  "moduleStatus": {
+    "native": true,
+    "metadataReader": "function"
+  },
+  "deviceCameraRequested": true,
+  "pageErrors": []
+}

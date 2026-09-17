@@ -5,14 +5,14 @@ import { setTimeout as delay } from 'node:timers/promises';
 import { seedExerciseSessionStudent } from '../../backend/test/helpers/exercise-session.ts';
 const sharp = createRequire(new URL('../../backend/package.json', import.meta.url))('sharp');
 
-export async function probeMakeupSession({ prisma, fixture, request, baseUrl, teacherToken, adminToken, processMedia, otherTeacherTokens = [], readMailboxJson = async url => (await fetch(url)).json() }) {
+export async function probeMakeupSession({ prisma, fixture, request, baseUrl, teacherToken, adminToken, processMedia, afterUploaded, otherTeacherTokens = [], readMailboxJson = async url => (await fetch(url)).json() }) {
   const student = await seedExerciseSessionStudent(prisma, fixture, randomUUID().slice(0, 8).toUpperCase());
   const template = await request('/rule-templates', adminToken, { displayName: 'Synthetic expired regular period template', expectedVersion: 0 });
   await request('/admin/review-services/manual-mode', adminToken, {classSectionId:fixture.teacherAActiveSectionId,
     enabled:true,reason:'Synthetic manual makeup verification',expectedVersion:0});
   const now = new Date(), regular = new Date(now.getTime() - 3600000), closing = new Date(regular.getTime() + 7 * 86400000);
-  // A real Web publication stores this same regular deadline in the legacy projection.
-  await prisma.classSection.update({where:{id:fixture.teacherAActiveSectionId},data:{submissionDeadlineAt:regular}});
+  // An expired legacy deadline must not govern new starts. A paused daily window still requires a grant.
+  await prisma.classSection.update({where:{id:fixture.teacherAActiveSectionId},data:{submissionDeadlineAt:regular,checkInWindowMode:'UNAVAILABLE'}});
   // The schedule is a synthetic server fixture; authorization, sign-in, start and revocation use HTTP.
   await prisma.$executeRaw`INSERT INTO v81_course_rules(class_section_id,organization_id,minimum_minutes,weekly_limit,course_target,general_target,
     regular_deadline,closing_deadline,settlement_planned_at,published_at,version,template_id)
@@ -85,6 +85,7 @@ export async function probeMakeupSession({ prisma, fixture, request, baseUrl, te
   assert.ok(put.ok);const etag=put.headers.get('etag')?.replaceAll('"','');assert.ok(etag);
   const privateUrl=new URL(upload.uploadUrl);privateUrl.search='';
   assert.equal((await fetch(privateUrl)).status,403);
+  if(afterUploaded)await afterUploaded({upload,etag,studentToken:login.accessToken,recordId:draft.id});
   const confirmed=await request(`/media-uploads/${upload.uploadSessionId}/confirm`,login.accessToken,{etag});
   await request(`/media/${upload.mediaId}/bind`,login.accessToken,{sessionId:session.id,expectedVersion:confirmed.version});
   assert.equal(await processMedia(),true);
@@ -102,5 +103,5 @@ export async function probeMakeupSession({ prisma, fixture, request, baseUrl, te
   assert.equal(own.workflowStage,'VALID');assert.equal(own.creditedDurationSeconds,60);
   const after = await start(); assert.equal(after.status, 409); assert.equal((await after.json()).code, 'SESSION_OUTSIDE_TIME_WINDOW');
   assert.equal((await prisma.$queryRaw`SELECT session_id FROM v81_makeup_session_sources WHERE window_id=${grant.id}::uuid`).length, 1);
-  console.log(JSON.stringify({ check: 'MAKEUP_REVOKED_SESSION_MINIO_UPLOAD_SUBMIT_MANUAL_REVIEW_REPLAY', result: 'PASS', scheduleSeeded: true, syntheticImage: true, realElapsedMinute: true }));
+  console.log(JSON.stringify({ check: 'MAKEUP_REVOKED_SESSION_MINIO_UPLOAD_SUBMIT_MANUAL_REVIEW_REPLAY', result: 'PASS', scheduleSeeded: true, syntheticImage: true, realElapsedMinute: true, maintenanceBeyondUploadExpiry:!!afterUploaded }));
 }

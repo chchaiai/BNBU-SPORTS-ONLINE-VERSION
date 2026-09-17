@@ -1,0 +1,34 @@
+{
+  "result": "PASS",
+  "date": "2026-09-17",
+  "backendUnit": 325,
+  "httpPostgres": 20,
+  "workerPostgres": 1,
+  "portalDirected": 18,
+  "typecheck": "PASS",
+  "builds": [
+    "Backend",
+    "Portal"
+  ],
+  "migration": "0083 applied in production",
+  "provider": "Tencent IMS + TokenHub hy-vision-2.0-instruct",
+  "browser": {
+    "production": "Read-only AI filter and final deployed CSS hash verified; existing teacher session preserved",
+    "synthetic": "Local Portal development server calling production HTTP API; red filter 3 to 1, yellow video limitation, teacher final decision separate, dark/light, English checked"
+  },
+  "productionSyntheticJobs": 3,
+  "firstAttemptSuccesses": 3,
+  "budgetReservedFen": 300,
+  "billingAmount": "Not reconciled; reservation is not invoice",
+  "limitations": [
+    "Video sampled frames only; no audio or intervening frame assessment",
+    "Duplicates use exact hash in the same organization",
+    "No large concurrent workload or model quality benchmark",
+    "No real student final decisions were changed by acceptance"
+  ],
+  "contract": {
+    "structure": "PASS",
+    "openapiLint": "PASS with existing warnings",
+    "formalRelease": "PENDING: existing draft version 3.0.0-v81-local-draft versus required 2.0.12-contract"
+  }
+}

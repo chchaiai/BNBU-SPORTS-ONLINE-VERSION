@@ -106,7 +106,7 @@ export async function probeSettlementHttp({prisma,fixture,request,baseUrl,teache
     const before=await request(`/admin/semesters/${arrived.id}/switch-check`,adminToken);
     assert.equal(before.ready,true);assert.equal(before.courses[0].ready,true);
     const members=await prisma.enrollment.findMany({where:{classSectionId:fixture.teacherAActiveSectionId},orderBy:{id:'asc'}});
-    const key=randomUUID(),body={expectedVersion:before.target.version,currentSemesterId:before.current.id,currentSemesterVersion:before.current.version};
+    let key=randomUUID();const body={expectedVersion:before.target.version,currentSemesterId:before.current.id,currentSemesterVersion:before.current.version};
     if(process.env.V81_SEMESTER_MAINTENANCE==='1') {
       const snapshot=await prisma.semester.findMany({where:{organizationId:fixture.organizationId},orderBy:{id:'asc'}});
       const policy=await prisma.systemPolicy.findUniqueOrThrow({where:{organizationId:fixture.organizationId}});
@@ -116,13 +116,15 @@ export async function probeSettlementHttp({prisma,fixture,request,baseUrl,teache
       try {
         const blocked=await fetch(baseUrl+`/admin/semesters/${arrived.id}/switch`,{method:'POST',headers:{
           authorization:`Bearer ${adminToken}`,'content-type':'application/json','idempotency-key':key},body:JSON.stringify(body)});
-        assert.equal(blocked.status,503);
+        assert.equal(blocked.status,409);
+        assert.equal((await blocked.json()).code,'CONFLICT_STATE_TRANSITION');
         assert.deepEqual(await prisma.semester.findMany({where:{organizationId:fixture.organizationId},orderBy:{id:'asc'}}),snapshot);
       } finally {
         await request('/system-mode/changes',adminToken,{mode:'NORMAL',expectedVersion:maintenance.policyVersion,
           reason:'Synthetic semester maintenance finished'});
       }
       console.log(JSON.stringify({check:'SETTLED_SEMESTER_SWITCH_MAINTENANCE_DENIED_NO_STATUS_CHANGE_RECOVERY',result:'PASS'}));
+      key=randomUUID(); // A definitive business rejection is replayable; recovery is a new attempt.
     }
     const switched=process.env.V81_SEMESTER_CLIENT==='1'
       ? await (await import('./v81-semester-client-probe.mjs')).switchThroughPortal({baseUrl,adminToken,targetId:arrived.id,key})

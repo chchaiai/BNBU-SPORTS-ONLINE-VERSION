@@ -1,0 +1,43 @@
+ M .gitattributes
+ M BNBU-Sports-Web-new/frontend/student/js/api.js
+ M BNBU-Sports-Web-new/frontend/student/js/i18n.js
+ M BNBU-Sports-Web-new/frontend/student/js/screens/binding.js
+ M BNBU-Sports-Web-new/frontend/student/js/screens/join.js
+ M BNBU-Sports-Web-new/frontend/student/js/screens/verification.js
+ M backend/scripts/migration-registry.mjs
+ M backend/scripts/v81-migration-scan.mjs
+ M backend/src/generated/migration-manifest.generated.ts
+ M backend/src/generated/openapi.document.generated.json
+ M backend/src/generated/openapi.manifest.generated.json
+ M backend/src/modules/client-capabilities/client-authentication.service.ts
+ M backend/src/modules/client-capabilities/client-capabilities.dto.ts
+ M backend/src/modules/enrollments/application/qr-join.service.ts
+ M backend/src/modules/join-capabilities/application/join-capabilities.service.ts
+ M backend/src/modules/users/email-verification.service.ts
+ M backend/test/e2e/client-capabilities.e2e.test.ts
+ M backend/test/e2e/v81-subadmin-identity.e2e.test.ts
+ M backend/test/helpers/exercise-review.ts
+ M bug.md
+ M demand.md
+ M docs/backend-contracts/openapi.yaml
+ M docs/business/10-student-flow.md
+?? BNBU-Sports-Web-new/frontend/student/js/student-school-email.js
+?? BNBU-Sports-Web-new/frontend/student/student-school-email.test.mjs
+?? backend/prisma/migrations/0077_credit_projection_minutes/
+?? backend/src/common/security/student-school-email.ts
+?? backend/test/e2e/v81-credit-projection-minutes.e2e.test.ts
+?? backend/test/unit/student-mail-delivery-gate.test.ts
+?? backend/test/unit/student-school-email.test.ts
+?? docs/infrastructure/student-email-domain-20260915.md
+?? docs/infrastructure/student-mail-guard-20260915.md
+?? docs/infrastructure/teacher-review-credit-projection-20260914.md
+?? evidence/profile-quality-20260915/
+?? evidence/student-email-domain-20260915/
+?? evidence/student-mail-guard-20260915/
+?? evidence/teacher-review-credit-20260914/
+?? tools/production/__pycache__/
+?? tools/production/deploy-credit-projection-minutes.py
+?? tools/production/deploy-student-email-domain.py
+?? tools/production/deploy-student-mail-guard.py
+?? tools/production/inspect-credit-projection.py
+?? tools/production/verify-credit-projection.mjs

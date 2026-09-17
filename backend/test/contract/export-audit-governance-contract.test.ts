@@ -62,11 +62,10 @@ describe('Stage 19 Export, Audit Read, and governance contract', () => {
     }
   });
 
-  it('freezes the five exact default-deny operations without fake Export persistence', () => {
+  it('retains default-deny Export operations while permitting scoped student corrections', () => {
     const paths = object(contract.paths, 'paths');
     for (const [path, method, operationId] of operations.filter(([, , operationId]) =>
       [
-        'updateStudent',
         'listExports',
         'createExport',
         'getExport',
@@ -76,6 +75,8 @@ describe('Stage 19 Export, Audit Read, and governance contract', () => {
       const operation = object(object(paths[path], path)[method], operationId);
       assert.equal(operation['x-default-deny-error'], 'SYSTEM_MODE_UNSUPPORTED');
     }
+    const update = object(object(paths['/students/{studentId}'], 'student path').patch, 'updateStudent');
+    assert.equal(update['x-default-deny-error'], undefined);
     const schema = readFileSync(new URL('../../prisma/schema.prisma', import.meta.url), 'utf8');
     assert.equal(/model\s+Export(?:Job)?\b/u.test(schema), false);
   });

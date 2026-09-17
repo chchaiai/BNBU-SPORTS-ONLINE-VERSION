@@ -12,6 +12,7 @@ export const RUNTIME_SECRET_KEYS = [
   'QR_JOIN_SECRET_ENCRYPTION_KEY',
   'PUSH_TOKEN_ENCRYPTION_KEY',
   'AOKSEND_APP_KEY',
+  'TOKENHUB_API_KEY',
 ] as const;
 
 export type RuntimeSecretKey = (typeof RUNTIME_SECRET_KEYS)[number];
@@ -86,7 +87,8 @@ export async function loadRuntimeSecrets(
   }
 
   const requiredKeys = RUNTIME_SECRET_KEYS.filter(
-    (key) => key !== 'AOKSEND_APP_KEY' || environment.EMAIL_DELIVERY_PROVIDER === 'AOKSEND',
+    (key) => (key !== 'AOKSEND_APP_KEY' || environment.EMAIL_DELIVERY_PROVIDER === 'AOKSEND') &&
+      (key !== 'TOKENHUB_API_KEY' || environment.AI_REVIEW_ENABLED === 'true'),
   );
   const missingKeys = requiredKeys.filter((key) => optionalText(secret[key]) === null);
   if (missingKeys.length > 0) {

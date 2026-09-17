@@ -1,3 +1,4 @@
+import {normalizeServerVideo, VideoNormalizationError} from './video-normalizer.js';
 import {
   Inject,
   Injectable,
@@ -62,6 +63,14 @@ export class MediaProcessingWorker implements OnApplicationBootstrap, OnModuleDe
     if (claimed === null) return false;
     let verified: VerifiedMediaFacts;
     try {
+      if (claimed.media.mediaType === 'VIDEO' && (claimed.media.safeMetadata as Record<string, unknown>)?.videoPipeline === 1) {
+        verified = await normalizeServerVideo(this.storage, claimed.media.storageKey, {
+          businessPurpose:claimed.media.businessPurpose,mediaType:'VIDEO',mimeType:claimed.media.declaredMimeType,
+          fileSizeBytes:Number(claimed.media.declaredFileSizeBytes),contentSha256:claimed.media.verifiedContentSha256,
+          durationSeconds:claimed.media.declaredDurationSeconds,
+        }, config, this.validator);
+        verified.safeMetadata.sourceSha256 = claimed.media.verifiedContentSha256!;
+      } else {
       verified = await this.validator.readAndVerify(
         await this.storage.getPrivateObject(claimed.media.storageKey),
         {
@@ -82,18 +91,20 @@ export class MediaProcessingWorker implements OnApplicationBootstrap, OnModuleDe
       ) {
         throw new ApplicationError('MEDIA_INTEGRITY_MISMATCH', 422);
       }
+      }
+
     } catch (error: unknown) {
       const code =
         error instanceof ApplicationError
           ? error.code === 'SYSTEM_SERVICE_UNAVAILABLE'
             ? 'MEDIA_DEPENDENCY_UNAVAILABLE'
             : error.code
-          : 'MEDIA_PROCESSING_FAILED';
-      const terminal =
+          : error instanceof VideoNormalizationError ? error.message : 'MEDIA_PROCESSING_FAILED';
+      const terminal = error instanceof VideoNormalizationError ? error.terminal :
         error instanceof ApplicationError &&
         error.code !== 'SYSTEM_SERVICE_UNAVAILABLE' &&
         error.code !== 'MEDIA_OBJECT_NOT_FOUND';
-      await this.failAttempt(claimed, code, terminal);
+      await this.failAttempt(claimed, code, terminal || claimed.attemptNumber >= 3);
       return true;
     }
     await this.completeAttempt(claimed, verified);
@@ -118,6 +129,12 @@ export class MediaProcessingWorker implements OnApplicationBootstrap, OnModuleDe
         SELECT id
           FROM media_evidence
          WHERE upload_status IN ('BOUND', 'PROCESSING')
+           AND NOT EXISTS (SELECT 1 FROM media_processing_attempts a WHERE a.media_id=media_evidence.id
+             AND a.phase='STARTED' AND a.occurred_at > now() - interval '10 minutes'
+             AND NOT EXISTS (SELECT 1 FROM media_processing_attempts done WHERE done.media_id=a.media_id
+               AND done.attempt_number=a.attempt_number AND done.phase IN ('SUCCEEDED','FAILED')))
+           AND NOT EXISTS (SELECT 1 FROM media_processing_attempts recent WHERE recent.media_id=media_evidence.id
+             AND recent.phase='FAILED' AND recent.occurred_at > now() - interval '30 seconds')
          ORDER BY CASE upload_status WHEN 'BOUND' THEN 0 ELSE 1 END, updated_at ASC, id ASC
          FOR UPDATE SKIP LOCKED
          LIMIT 1
@@ -208,6 +225,11 @@ export class MediaProcessingWorker implements OnApplicationBootstrap, OnModuleDe
       const updated = await transaction.mediaEvidence.update({
         where: { id: current.id, version: current.version, uploadStatus: 'PROCESSING' },
         data: {
+          verifiedMimeType: verified.mimeType,
+          verifiedFileSizeBytes: BigInt(verified.fileSizeBytes),
+          verifiedContentSha256: verified.contentSha256,
+          verifiedDurationSeconds: verified.durationSeconds,
+          safeMetadata: verified.safeMetadata,
           uploadStatus: 'AVAILABLE',
           availableAt: now,
           updatedAt: now,

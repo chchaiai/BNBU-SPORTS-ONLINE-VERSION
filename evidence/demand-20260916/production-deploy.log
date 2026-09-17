@@ -1,0 +1,30 @@
+ Container bnbu-sports-production-migrator-run-d0d96b22d02e Creating 
+ Container bnbu-sports-production-migrator-run-d0d96b22d02e Created 
+Loaded Prisma config from prisma.config.ts.
+
+Prisma schema loaded from prisma/schema.prisma.
+Datasource "db": PostgreSQL database "bnbusports", schema "public" at "172.19.0.16:5432"
+
+82 migrations found in prisma/migrations
+
+Applying migration `0081_media_capability_renewal`
+Applying migration `0082_exercise_date_boundaries`
+
+The following migration(s) have been applied:
+
+migrations/
+  └─ 0081_media_capability_renewal/
+    └─ migration.sql
+  └─ 0082_exercise_date_boundaries/
+    └─ migration.sql
+
+All migrations have been successfully applied.
+ Container bnbu-sports-production-backend-1 Recreate 
+ Container bnbu-sports-production-portal-1 Recreate 
+ Container bnbu-sports-production-backend-1 Recreated 
+ Container bnbu-sports-production-portal-1 Recreated 
+ Container bnbu-sports-production-portal-1 Starting 
+ Container bnbu-sports-production-backend-1 Starting 
+ Container bnbu-sports-production-portal-1 Started 
+ Container bnbu-sports-production-backend-1 Started 
+{"result": "PASS", "previous": "/opt/bnbu-sports-production/releases/student-origin-20260916", "release": "/opt/bnbu-sports-production/releases/demand-20260916", "images": {"backend": "sha256:d5bb9e0579d5d653946d3a878bf405829c6d4029c9b55d88b1ab5078bc730f5f", "portal": "sha256:36b3f004052f1f9be163707435d2c81e37a207c410d4f41d6aa74df6e97a1ef8", "migrator": "sha256:194fe593dccd12b826a9c6ea007812f6e86f6e917a8484145e28bbbe26fa9cf3"}, "backup": {"check": "PRE_RELEASE_DATABASE_BACKUP", "result": "PASS", "path": "/opt/bnbu-sports-production/backups/before-bugfix-20260916T080549Z.dump", "bytes": 25341494}, "migrations": ["0081", "0082"], "hashes": "PASS", "health": "PASS"}

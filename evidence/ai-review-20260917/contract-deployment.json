@@ -1,0 +1,8 @@
+{
+  "result": "PASS",
+  "release": "/opt/bnbu-sports-production/releases/ai-review-contract-20260917",
+  "previous": "/opt/bnbu-sports-production/releases/ai-review-ui-20260917",
+  "backendImage": "sha256:3da4a167b9bd11b959120a5dbdd4ea64444384c48ea50e3fb4eb9d94a7d4e15b",
+  "portalUnchanged": true,
+  "runtimeOpenApiHash": "5512dd01f54015a7a1b74d1e9b0a7a4a3f1fd9c7352adbf2d2fb3eb144018d4b"
+}

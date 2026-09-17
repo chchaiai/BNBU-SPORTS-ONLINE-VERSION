@@ -1,0 +1,358 @@
+{
+  "previous": "student-origin-20260916",
+  "release": "demand-20260916",
+  "baseImages": {
+    "backend": "sha256:127aa91c5e5a8f9a7124b946920eb6fb696238774c15cf28f376f673a7aa5fa8",
+    "portal": "sha256:7d8b2c294ee13f0fabfbded319df9daf5063a0ba181dad2750b0c4462ba5c51f",
+    "migrator": "sha256:95d8b5d2277da3eb46633a27480dcbe4a16ce6b4412862c11bc64d469025c824"
+  },
+  "delta": {
+    "backend": [
+      {
+        "path": "generated/migration-manifest.generated.js",
+        "before": "558682cba68e0a741e9d8586962826f6bcac4622ebda8ef9e024c005163cf7fe",
+        "after": "3d0168a3e09d5001b9b921a8a0a6ffe385516b822ccf5110c7f07ac3a8765ae2"
+      },
+      {
+        "path": "generated/openapi.document.generated.json",
+        "before": "d82aaa63b85d910792b24f1961b70241a045c78fe9f390bbf0c54c58f0461776",
+        "after": "1c539d4ed8ccdaf83894481e568ae8b57a9a63f50160e57a1b3425c76b7fa688"
+      },
+      {
+        "path": "generated/operation-policies.generated.js",
+        "before": "9c8d157e2529516dcc5c62cd4764142df9f53669820c5ce41255448e72fbe624",
+        "after": "6349508101247e07420830cdd5dee8551e036f2ec7e60d8a7e2fe5f3769fc8e5"
+      },
+      {
+        "path": "modules/client-capabilities/client-authentication.service.js",
+        "before": "f13e5fb4ac8fd0e79f8bbf051fb7a88cb5df30d79284fd427e830533a837b669",
+        "after": "2e9df981c0b5e8c08c2e9a58b00577431357d6b9077c353a557d5070e4424cd1"
+      },
+      {
+        "path": "modules/health/health.controller.js",
+        "before": "bdce8ebc49e8c4e19c4eca4abec820e5f2883598048609539114e276f69f4f31",
+        "after": "79248e0a27bdd44d2316054f14ed5136619018a78b25c0370eb3d7742b7c22a9"
+      },
+      {
+        "path": "modules/health/health.module.js",
+        "before": "334f192bc4d1cb4d142e44166e91c77e04e489c222001ae4a5071cb01b651716",
+        "after": "d19329ca0038304bea6a935d95562164347b856b89580d42ce4034b80a1feb32"
+      },
+      {
+        "path": "modules/health/health.service.js",
+        "before": "02d4a241c208fa45523db71ec0f5996239b17f869ae672ba2726bc77eee67d96",
+        "after": "49a96961d7600ddff87fdcfee30d276abd009a5b8e2378d7028051ae4ab2a211"
+      },
+      {
+        "path": "modules/health/outbox-diagnostics.service.js",
+        "before": null,
+        "after": "9a4a2af89b9447d4ca31fd1868c116676d27f7c2a1797a1a57b55a50957ca650"
+      },
+      {
+        "path": "modules/users/email-verification.service.js",
+        "before": "4ad365a430e51a9ee5cd8ed54d3b0914edab26ec26d794a08816b198319a3088",
+        "after": "4b109da6329bf57ddb64a66c295f7fdb805a78a6b629c69e41324a114de18cfd"
+      },
+      {
+        "path": "modules/users/student-profile-completion.service.js",
+        "before": "cb9886d7972759b70a007cd8460e68adf322cd2f8a477659b8afa445438a266b",
+        "after": "0e9556d3b093bd23e262795ddc21e93624659162ce6eb7036e2d84ea00a3ca8d"
+      },
+      {
+        "path": "modules/users/users.dto.js",
+        "before": "d006d54d4e962df2d9d2bf22084a9f42d96801463441ae110e9ac683cc3e0bd6",
+        "after": "5312f34a867720d6cc26f9b06c5840cb9c2852ee21e672eff9d9501a8ab4c31f"
+      },
+      {
+        "path": "modules/users/users.service.js",
+        "before": "aa9f2a34186c789b8db8521f6bba2192ac4053781f1114f9b4ccde276c34dfa7",
+        "after": "8c1809a7202fe4e8844be8351e590f088dcd32a37c45ab5eb1cd90ea553dfd38"
+      },
+      {
+        "path": "modules/v8/v81-course-reminders.js",
+        "before": "533939dc4c6cacc85fb0ee745ff93b02b1853528e4382a4ddfa98b7825ef6f5e",
+        "after": "83a29533fd24688e268d0e8c8faa79cc2dfc3e7d651bec2ae4fa8a33c12bf067"
+      },
+      {
+        "path": "modules/v8/v81-history-backfill.js",
+        "before": "cb3085592dbb755090b4aa5a2cb4f69c5aaabe72d960ab770263343257b6c29a",
+        "after": "fed0c5b2b025425e674b6d8c5ba63368a5806d2747ea61b1f7907b20aa380a7c"
+      },
+      {
+        "path": "modules/v8/v81-makeup-windows.js",
+        "before": "e712a4f664c2ece14a52b1574ebdf84aec7b031afe5dbbc4e05e1f8162cb13a2",
+        "after": "9fd3629635afe276bb0f154dc2f55519f032dd5f77e55e1f585763bf0d4f138a"
+      },
+      {
+        "path": "modules/v8/v81-settlement-check.js",
+        "before": "c1dd2569377d5539ad79c14b88341f404fc2f391171732602faf1b779ab1ce04",
+        "after": "4ba6f6c12b00f08796c0116cbbdf227fadfaf4e87701c6552902762d598065d3"
+      },
+      {
+        "path": "modules/v8/v81.dto.js",
+        "before": "37bf09fbada2fd682092b5dff72744c245532152cea525b5f867983e4f4a08f2",
+        "after": "0ac7a11e4b99eb0c4dae9c89f44baaca1981d2ea0327dca7360655c6cc14de8b"
+      },
+      {
+        "path": "modules/v8/v81.service.js",
+        "before": "0297ca7587a29e81ea11c6a9b52e345a24d4c679528d6019debc0e9c4e7ad9d6",
+        "after": "ab4f56ab1af50c74e748160ae078b351d97c83b6fd38188499a36ee0f90c13bb"
+      },
+      {
+        "path": "modules/v8/domain/course-plan.js",
+        "before": "694907c5eab2db2548d4aa1aae71b4a5701503c4b858767cd01fe7e47623e1dc",
+        "after": "443655284ee15725864f0d770ed777230248d1c396a4f0bebb42923602a1b801"
+      },
+      {
+        "path": "modules/v8/domain/makeup-window.js",
+        "before": "4affecb0ebd765c539212bb03c6f8681418928e1ab3f71f9042b027b6b08398e",
+        "after": "f4c4fe2032a762d01d3048012da6e105b6b978c4b787092b191bc32160495bfd"
+      },
+      {
+        "path": "modules/users/application/student-academics.js",
+        "before": "b99028355f76345a7d9e224fb9bc88277c6f7b9c0d40d0065d90c86028cb8536",
+        "after": "4004969fc19a0822c18c49246d583dca91950a13cf2a821e293798ad4105e1af"
+      },
+      {
+        "path": "modules/users/application/student-profile-quality.js",
+        "before": "879ded37061a5a50c34b2970641d48628957821614706c8e8d7d662cb4fe60e1",
+        "after": "0ea0b6292ce2b55eaff52ac07f62dc3156e4577daf39a3f91688c67380ee8143"
+      },
+      {
+        "path": "modules/media/application/media.service.js",
+        "before": "7283dcd2142c40d1772076840b341e83548d7be1b49398f3fb436642324eb45b",
+        "after": "e856fffe0ceda2f0a4fcdb08e614244ee01c28fbfdee4ddeecea596ea869c9e1"
+      },
+      {
+        "path": "modules/join-capabilities/application/join-capabilities.service.js",
+        "before": "dba90f7ec5cc11d12c534e617ff6ee46cc0d0e60c776cd2cefdafdbce01ecab1",
+        "after": "378dfcd730902daa79d2d83a9726b25334f66f807909438924a82c8e81850689"
+      },
+      {
+        "path": "modules/exercise-sessions/application/exercise-sessions.service.js",
+        "before": "7a0362524e86788309e04fb2120ddbf1d4487fd2c45d2b1ceef79809e309a387",
+        "after": "724ff8fb2713ab11dd0e670cc1bcc14f95f891cb7e75ee4b09d8e863c62789a4"
+      },
+      {
+        "path": "modules/exercise-records/application/exercise-records.service.js",
+        "before": "3dbc598b8e25ffca7a94cf9e4a101301c15a97b68c81e919c92269ab3e50abd5",
+        "after": "9d838a9fde18cc06d94bb35908a5eccbe4a4360971de49c44898cfff2766e94c"
+      },
+      {
+        "path": "modules/enrollments/application/qr-join.service.js",
+        "before": "af030ecb6cc3621c3a1cff1db22f765f8fe5d0f91fe87b3dd065b5b197b9da52",
+        "after": "f805031ef426007f7501615d684f0732dbf4420dc30ed691c02f052eb639bc6f"
+      },
+      {
+        "path": "common/policy/v81-admin-permission.guard.js",
+        "before": "b085f05f9535dd24f1875ca0936c7f81f9bb1178fb19c3f8d9b5f1038d8a8b22",
+        "after": "368cfb8897e188321e7a3bca8d86b0cfad1abf9b65077f2995f87dea46d7276f"
+      },
+      {
+        "path": "common/security/student-school-email.js",
+        "before": "a2f12aa94c9f1a919b8c226737c6cb30246960f90d44353522ecd3364401cf03",
+        "after": "e6f7c62408b8f466f886ace3633ab2b27a6a2a9b15cdbf06a3e81bccb03bbf18"
+      }
+    ],
+    "student": [
+      {
+        "path": "index.html",
+        "before": "e221759d7c6f6a8798e42479c18abf9978141966d0a875abb5339b76a2d05148",
+        "after": "b054ca9ec0106ca6d3caf39b99507622c6702a2a136419107b3ab5893a8705d2"
+      },
+      {
+        "path": "js/api.js",
+        "before": "cb6db59512c96aa49f09ddc145f953329acc6804b7f97b729d059efb18d3fc38",
+        "after": "c045c2c5216da30f0e059d929f4a36535913fe1d71df0d26731e3f7ec50bb885"
+      },
+      {
+        "path": "js/app.js",
+        "before": "8e7d3f6771437d7277508f3f032e563686f38f7ad2af77ae363e51afc53c1b21",
+        "after": "da675121323520c40d106dfa2aa0d910afdca319a5ab0ba83e5ee7b5c156d1fd"
+      },
+      {
+        "path": "js/session.js",
+        "before": "c61e52a509ee6a93cf4f7a459b4e376c19344982dcdc767e15bc235d9205cc13",
+        "after": "04a53580e0bb9a038f56c717b0d826e5d10f6cda50dfc4769a77251f464789b0"
+      },
+      {
+        "path": "js/student-academics.js",
+        "before": "7ff5262187ec405b02402702a5c43b8c9a2ef91cb1ee5ecbe49f3f3bd0dc8ac2",
+        "after": "6c87ab8ae4f8f66143796445a902f81e8f4981afe547e5b5f2eb0011c2453b9e"
+      },
+      {
+        "path": "js/student-device.js",
+        "before": null,
+        "after": "415424117e6cdc1ead100804364934b8b07a2cb7a60618ca23dc3cd784e8015f"
+      },
+      {
+        "path": "js/student-school-email.js",
+        "before": "f8803c2e5d5d4935b2b29c82b1d5a82b83d1ab34a2cc3fffa670a97147d4476f",
+        "after": "bb6e41018901774d10bd9fe9d77f69afc80cad0ba1eadee564b62883ffa085e4"
+      },
+      {
+        "path": "js/ui.js",
+        "before": "1cb0313de19b4cb19ccf190c29f846ee5bdbdbb84c7a6b4235c6f42613103154",
+        "after": "864d8d842b64cb4281a47f1e9f7b05e7afd24625f75fc3a8e13142463f9014dd"
+      },
+      {
+        "path": "js/upload-progress.js",
+        "before": null,
+        "after": "b900fdfb04338664cbc2c0cdd34bcdf030e68355c4a96ea5a7eab876e3f0f310"
+      },
+      {
+        "path": "js/screens/binding.js",
+        "before": "c5734f58299d5a1c75ff453ee019400aceaf78e0506d17fe930cd322da0a3d5c",
+        "after": "d21a41570c29069e807e03cce1fc1129848db27e65a7fbe8718ee983375fdeb8"
+      },
+      {
+        "path": "js/screens/checkin.js",
+        "before": "a058dab0a22e4d53e2dc2f7c54406ae182da5fdde6b0397ea5f023acc109f6f7",
+        "after": "75b30c22bae685311a6f642bf3f1b30d5728014f138148ca3b32e9f9f01246a7"
+      },
+      {
+        "path": "js/screens/join.js",
+        "before": "96870446d0260f4184e338060d63297c85bf3143f028f444d436afa490ef7545",
+        "after": "cdefb86bf15f5f128fc53c1decef43b3e3ddf46ce1bd49d80967d46359cf135f"
+      },
+      {
+        "path": "js/screens/profile.js",
+        "before": "0d4fba05023536f32c343dfe7ed45ec54ceb8b582bee20f9b659000ab23645f9",
+        "after": "11ccd0023c5971c8c0a87fa2f91834426bdacbca5d80621489a5448c57353672"
+      },
+      {
+        "path": "js/screens/services.js",
+        "before": "f16a81eb704ba412b87ff0e1b84c884bc91c40c0c9bc57020d656d9eda5c6120",
+        "after": "78c75606f281d9968f1e4b4a2b98df1cd4e71a62802c42fa324c1ad3ac33d96e"
+      }
+    ]
+  },
+  "checks": {
+    "unit": 322,
+    "contract": 35,
+    "integration": 60,
+    "security": 53,
+    "e2e": 144,
+    "student": 69,
+    "portal": 140,
+    "localMedia": 13,
+    "browser": "PASS"
+  },
+  "files": {
+    "backup.py": "9cecd40cebed88097f86e7597ef66cc9a9bec686a8eb784f909be06bb80da4f9",
+    "deploy.py": "227756b167ea8dee5a5cab80a0e0e22c368d46bf6a24932dc2c993c38da58567",
+    "backend/Dockerfile": "3a3ebb74e5fd03a9b42ce1328c098519e7ffea0920ef7a442e2a79069b9453b3",
+    "migrator/Dockerfile": "d0dc7e0f77c9a9fb630b9acca29382b558c90eae6fa533e9414680bf218d42da",
+    "portal/Dockerfile": "85afe1785862e830c110e9d5ea20d65046b147d5772ef5b0ebec0ef547ef0266",
+    "web/student/index.html": "b054ca9ec0106ca6d3caf39b99507622c6702a2a136419107b3ab5893a8705d2",
+    "web/student/js/api.js": "c045c2c5216da30f0e059d929f4a36535913fe1d71df0d26731e3f7ec50bb885",
+    "web/student/js/app.js": "da675121323520c40d106dfa2aa0d910afdca319a5ab0ba83e5ee7b5c156d1fd",
+    "web/student/js/session.js": "04a53580e0bb9a038f56c717b0d826e5d10f6cda50dfc4769a77251f464789b0",
+    "web/student/js/student-academics.js": "6c87ab8ae4f8f66143796445a902f81e8f4981afe547e5b5f2eb0011c2453b9e",
+    "web/student/js/student-device.js": "415424117e6cdc1ead100804364934b8b07a2cb7a60618ca23dc3cd784e8015f",
+    "web/student/js/student-school-email.js": "bb6e41018901774d10bd9fe9d77f69afc80cad0ba1eadee564b62883ffa085e4",
+    "web/student/js/ui.js": "864d8d842b64cb4281a47f1e9f7b05e7afd24625f75fc3a8e13142463f9014dd",
+    "web/student/js/upload-progress.js": "b900fdfb04338664cbc2c0cdd34bcdf030e68355c4a96ea5a7eab876e3f0f310",
+    "web/student/js/screens/binding.js": "d21a41570c29069e807e03cce1fc1129848db27e65a7fbe8718ee983375fdeb8",
+    "web/student/js/screens/checkin.js": "75b30c22bae685311a6f642bf3f1b30d5728014f138148ca3b32e9f9f01246a7",
+    "web/student/js/screens/join.js": "cdefb86bf15f5f128fc53c1decef43b3e3ddf46ce1bd49d80967d46359cf135f",
+    "web/student/js/screens/profile.js": "11ccd0023c5971c8c0a87fa2f91834426bdacbca5d80621489a5448c57353672",
+    "web/student/js/screens/services.js": "78c75606f281d9968f1e4b4a2b98df1cd4e71a62802c42fa324c1ad3ac33d96e",
+    "portal/dist/.openai/hosting.json": "64861cc7aa4efc47960347ef1bbd2813fbd6412bebb14edd717b31d3ac55100b",
+    "portal/dist/client/.assetsignore": "4f83140d5f4293ab55bd1207327e995c83258f1e7d3145b1b5d7a3d17fdfe0a7",
+    "portal/dist/client/bnbu-emblem.svg": "de978cb12b86a80a17499703a1cbd0fd3cd2694fdc3964bdec066edebcae31ed",
+    "portal/dist/client/bnbu-sports-icon.svg": "49a400d7c5bec25e697347923377578da8fc8d3991c25d146a50f05b2768f6b2",
+    "portal/dist/client/checkin-evidence-preview.svg": "58596b837e2ea01eb5aa410abc5c988b94c5c4292c701bdcfa25680c08f17178",
+    "portal/dist/client/og.png": "d7ec95b61de99a4ec66568e91750d044d7eb533a1a876a25411d2eb5ce6cf0c4",
+    "portal/dist/client/_headers": "9e55124bccd40b43dbc6e002daa777fa8f32a230420152910784ca65501d9e0f",
+    "portal/dist/server/image-config.json": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+    "portal/dist/server/index.js": "65744395745640f5701ae75e1f1352c7a889de5dcb35def66c94880c78fe38a5",
+    "portal/dist/server/vinext-externals.json": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+    "portal/dist/server/vinext-server.json": "5db3b7430d785ab76236c94d12908867726e0ea5bca4fa9cccc50978b0f2a159",
+    "portal/dist/server/wrangler.json": "eaf4062368300b5dc8fdb355e39c10c391f1c7a0d74ee96cd6c10ebbd833bc75",
+    "portal/dist/server/__vite_rsc_assets_manifest.js": "b165d9629c8914e8c9c387c7adcff4c55a0a7d9e66145a4e9fead6d6ab646daa",
+    "portal/dist/server/.vite/manifest.json": "a3ae090962308f59cc42e8dcd74b051029f9b1a0bd4aaba8dd51a64aa482a629",
+    "portal/dist/server/assets/index-CkMSg7CH.css": "252ae5ea325a0828026ff626df5d0ad2eda539a58a12cfa2f542ef7dc87cbab4",
+    "portal/dist/server/ssr/index.js": "d3349f200af428afd391a59bfef4cbb74aaa6aecb5096ec1871b51585a8d66f9",
+    "portal/dist/server/ssr/vinext-server.json": "5db3b7430d785ab76236c94d12908867726e0ea5bca4fa9cccc50978b0f2a159",
+    "portal/dist/server/ssr/__vite_rsc_assets_manifest.js": "b165d9629c8914e8c9c387c7adcff4c55a0a7d9e66145a4e9fead6d6ab646daa",
+    "portal/dist/server/ssr/assets/cpexcel.full-DCOxMb2E.js": "8d87acc51c1c86ffe5b9742eb286edb3f129881d45e3037ea419f0c5ae5d74fc",
+    "portal/dist/server/ssr/assets/endurance-api-BV2Kg8Yh.js": "247b3376e5d4f18e2549bf01f4d840cbfc07a13d9c69d9d7531e7fa51f2fcd74",
+    "portal/dist/server/ssr/assets/worker-entry-BxBIAvuD.js": "2ead98a61e61992eea5c67b3ea73afff3e8facc114f81bedb4dce9335b8c007f",
+    "portal/dist/server/ssr/assets/worker-entry-KuIQxfqK.css": "b1efde2a66ce300629bce5fb279fb8837e3ba0b3bc561a22e12ae7f25d2da4a0",
+    "portal/dist/server/ssr/assets/xlsx-CFbTV10H.js": "650b3923a1fff46a62acf65005c4613a1c7ace0a72392543af700a99028bee04",
+    "portal/dist/client/.vite/manifest.json": "a0f87efffd7ce8679bc33bc45734b278b9554361052037dc979f7b0c7a7c07ea",
+    "portal/dist/client/assets/cpexcel.full-CAlsa5X_.js": "e3a61ce01017d596b5d6a513ee4162bf69f91eb0c84e01175e58501c74edb141",
+    "portal/dist/client/assets/endurance-api-lTJ66jUf.js": "ec348f68c560f4aa52a57bca214f3e0443a3b2d75e4bf0eeedcfc48421092616",
+    "portal/dist/client/assets/framework-bym5aI3S.js": "a9b4ce28eb1fd24f44bd6afc700324f83feec30c0419725ce29a8c61bfa8996a",
+    "portal/dist/client/assets/index-Cbxsm2bQ.js": "37c8ea2037fca9477157d5ada9b75c3b9e48d66e19787a1843dd2a52c2c0a4eb",
+    "portal/dist/client/assets/index-CkMSg7CH.css": "252ae5ea325a0828026ff626df5d0ad2eda539a58a12cfa2f542ef7dc87cbab4",
+    "portal/dist/client/assets/rolldown-runtime-hePW80VL.js": "580ad8c58061a4dde99bde0a56905e382f0568516ee2f5b84dbfb52085709021",
+    "portal/dist/client/assets/worker-entry-D9Bah1Ei.js": "283b0fcd32bb135f74e91006ff902d9777ca7846480852d00896a96ef433ade0",
+    "portal/dist/client/assets/worker-entry-KuIQxfqK.css": "b1efde2a66ce300629bce5fb279fb8837e3ba0b3bc561a22e12ae7f25d2da4a0",
+    "portal/dist/client/assets/xlsx-DwRHmDrW.js": "7af040a5ba632e8b806def4e97a07b2fa28cfe7af2f5fa952759d47af9ab5105",
+    "portal/dist/client/brand/verity-ai-logo.svg": "fcdb41bdfe71352863e6e55577726adf281a32dbdfe6da320499e3af5e668e16",
+    "portal/dist/client/branding/sports-logo.png": "377ba9c5e34ff40835b821e65729c16ad5f621848bcd46a6f56c3ead546fb17e",
+    "migrator/prisma/migrations/0081_media_capability_renewal/manifest.json": "7501899dd46974a106d5f52a9ab3c63eedc67ca221f717a5fa949b8146cb622a",
+    "migrator/prisma/migrations/0081_media_capability_renewal/migration.sql": "c5cb00540d5de2cc3cbbe43d69cbb15649903082c684fac585f3e1b56a54fbf4",
+    "migrator/prisma/migrations/0082_exercise_date_boundaries/manifest.json": "f18f38595f050e4f735318cf2b0c10681c499aec964103d84c33289856d85247",
+    "migrator/prisma/migrations/0082_exercise_date_boundaries/migration.sql": "df9b3aee491ee7da0b58600d830331bd66d0a742e37011ade1ce211720a9069c",
+    "backend/dist/generated/migration-manifest.generated.js": "3d0168a3e09d5001b9b921a8a0a6ffe385516b822ccf5110c7f07ac3a8765ae2",
+    "backend/dist/generated/migration-manifest.generated.js.map": "82b5188e09f17b7708f5379509939a1ddd6e941b6866605a16641aebaa1750e5",
+    "backend/dist/generated/openapi.document.generated.json": "1c539d4ed8ccdaf83894481e568ae8b57a9a63f50160e57a1b3425c76b7fa688",
+    "backend/dist/generated/operation-policies.generated.js": "6349508101247e07420830cdd5dee8551e036f2ec7e60d8a7e2fe5f3769fc8e5",
+    "backend/dist/generated/operation-policies.generated.js.map": "8565a3042c3ba5a7fe776647772fb638b7365017b153d17de87e375a9c86a834",
+    "backend/dist/modules/client-capabilities/client-authentication.service.js": "2e9df981c0b5e8c08c2e9a58b00577431357d6b9077c353a557d5070e4424cd1",
+    "backend/dist/modules/client-capabilities/client-authentication.service.js.map": "4389fa9bdc59b734ad6b6821db8bffaf9cb2feba243ee49e7d9f494cc8c32f64",
+    "backend/dist/modules/health/health.controller.js": "79248e0a27bdd44d2316054f14ed5136619018a78b25c0370eb3d7742b7c22a9",
+    "backend/dist/modules/health/health.controller.js.map": "8d1613357175232f4ee1c6d3f4033b9d79190598113550a645ee50a2f6f47465",
+    "backend/dist/modules/health/health.module.js": "d19329ca0038304bea6a935d95562164347b856b89580d42ce4034b80a1feb32",
+    "backend/dist/modules/health/health.module.js.map": "75d4b1205589cb8ecade877b23acfc6712d31911780c37321dfad911dc57ec08",
+    "backend/dist/modules/health/health.service.js": "49a96961d7600ddff87fdcfee30d276abd009a5b8e2378d7028051ae4ab2a211",
+    "backend/dist/modules/health/health.service.js.map": "57ce894c8e9615548e6339258e32687ab62a4b99bd81b2edf49cb6e3b65d7cfe",
+    "backend/dist/modules/health/outbox-diagnostics.service.js": "9a4a2af89b9447d4ca31fd1868c116676d27f7c2a1797a1a57b55a50957ca650",
+    "backend/dist/modules/health/outbox-diagnostics.service.js.map": "4de44c8188b1ef829ccf00a006d28894fa86d86d2a33ccf0bc272e751e0cd590",
+    "backend/dist/modules/users/email-verification.service.js": "4b109da6329bf57ddb64a66c295f7fdb805a78a6b629c69e41324a114de18cfd",
+    "backend/dist/modules/users/email-verification.service.js.map": "ceef60150f48e13dfb5840fa5f4358a8b012f65f220af8fb7c2eb50bb313be4e",
+    "backend/dist/modules/users/student-profile-completion.service.js": "0e9556d3b093bd23e262795ddc21e93624659162ce6eb7036e2d84ea00a3ca8d",
+    "backend/dist/modules/users/student-profile-completion.service.js.map": "fd43ca6e87661d0bce2ace4bc2b82aa67562515731f3f6781a03b79e08754fe5",
+    "backend/dist/modules/users/users.dto.js": "5312f34a867720d6cc26f9b06c5840cb9c2852ee21e672eff9d9501a8ab4c31f",
+    "backend/dist/modules/users/users.dto.js.map": "8f52734387f4289411dabad02f7b780d7de068872389425729dde552bbdf268b",
+    "backend/dist/modules/users/users.service.js": "8c1809a7202fe4e8844be8351e590f088dcd32a37c45ab5eb1cd90ea553dfd38",
+    "backend/dist/modules/users/users.service.js.map": "1a14ba115f850267851955d7a3aa2f5ea83468697e85df075d4c691f81ffa5c1",
+    "backend/dist/modules/v8/v81-course-reminders.js": "83a29533fd24688e268d0e8c8faa79cc2dfc3e7d651bec2ae4fa8a33c12bf067",
+    "backend/dist/modules/v8/v81-course-reminders.js.map": "14349d98e2255bd5a518d0b7289dc0c95a8c0447f84d28ccdcf2b97c0f9e8501",
+    "backend/dist/modules/v8/v81-history-backfill.js": "fed0c5b2b025425e674b6d8c5ba63368a5806d2747ea61b1f7907b20aa380a7c",
+    "backend/dist/modules/v8/v81-history-backfill.js.map": "6258cce6326207fb555a9f6922b9fc7ba1de968b5768fc27711380577a0e6fe5",
+    "backend/dist/modules/v8/v81-makeup-windows.js": "9fd3629635afe276bb0f154dc2f55519f032dd5f77e55e1f585763bf0d4f138a",
+    "backend/dist/modules/v8/v81-makeup-windows.js.map": "ee6686831552102d5a1a601ecb9ca1b207245c6ae0fbf9b15d6aacb497374758",
+    "backend/dist/modules/v8/v81-settlement-check.js": "4ba6f6c12b00f08796c0116cbbdf227fadfaf4e87701c6552902762d598065d3",
+    "backend/dist/modules/v8/v81-settlement-check.js.map": "aa59fed3a253e3575113ac7ee7630cb0d0035f3295d310ddeba90421ca8a49d9",
+    "backend/dist/modules/v8/v81.dto.js": "0ac7a11e4b99eb0c4dae9c89f44baaca1981d2ea0327dca7360655c6cc14de8b",
+    "backend/dist/modules/v8/v81.dto.js.map": "0ddbeed41147835ed5a9ce68716a3d3872921d5a58d86ed3314ee1bc2f21ee90",
+    "backend/dist/modules/v8/v81.service.js": "ab4f56ab1af50c74e748160ae078b351d97c83b6fd38188499a36ee0f90c13bb",
+    "backend/dist/modules/v8/v81.service.js.map": "953d2ad0bf0dba97c7343615c23808b1f901d811e86a9bbffaa8909823a44d5e",
+    "backend/dist/modules/v8/domain/course-plan.js": "443655284ee15725864f0d770ed777230248d1c396a4f0bebb42923602a1b801",
+    "backend/dist/modules/v8/domain/course-plan.js.map": "4532fbc8ca926b7dbd1576de522e3083c98161d88111fb8a5b0cfe00e473f897",
+    "backend/dist/modules/v8/domain/makeup-window.js": "f4c4fe2032a762d01d3048012da6e105b6b978c4b787092b191bc32160495bfd",
+    "backend/dist/modules/v8/domain/makeup-window.js.map": "22dc79c5bd5ab8a2c4f06af4bbadd11a4c12d89deba4737579f786b13ff3243b",
+    "backend/dist/modules/users/application/student-academics.js": "4004969fc19a0822c18c49246d583dca91950a13cf2a821e293798ad4105e1af",
+    "backend/dist/modules/users/application/student-academics.js.map": "8719cc7eb567ddbee0f36a31f220cd36da9314f91c882b0a539166e73d7ae574",
+    "backend/dist/modules/users/application/student-profile-quality.js": "0ea0b6292ce2b55eaff52ac07f62dc3156e4577daf39a3f91688c67380ee8143",
+    "backend/dist/modules/users/application/student-profile-quality.js.map": "e5a4331c58c2ba720e8bb94baee73756bff53893ed040a2335ee080e90400437",
+    "backend/dist/modules/media/application/media.service.js": "e856fffe0ceda2f0a4fcdb08e614244ee01c28fbfdee4ddeecea596ea869c9e1",
+    "backend/dist/modules/media/application/media.service.js.map": "17d6e75b6c1d4c8e8d79b4acaa91220ee3f01f06b772772f550a919ff804b372",
+    "backend/dist/modules/join-capabilities/application/join-capabilities.service.js": "378dfcd730902daa79d2d83a9726b25334f66f807909438924a82c8e81850689",
+    "backend/dist/modules/join-capabilities/application/join-capabilities.service.js.map": "5c6b0ea89a57266c79950c74860fa9bb21eac5567544e682511805f355e780dc",
+    "backend/dist/modules/exercise-sessions/application/exercise-sessions.service.js": "724ff8fb2713ab11dd0e670cc1bcc14f95f891cb7e75ee4b09d8e863c62789a4",
+    "backend/dist/modules/exercise-sessions/application/exercise-sessions.service.js.map": "be2ae776c7099d34d57cccffb005624980c7e1806bccb78a9bbd6b45f8a6d168",
+    "backend/dist/modules/exercise-records/application/exercise-records.service.js": "9d838a9fde18cc06d94bb35908a5eccbe4a4360971de49c44898cfff2766e94c",
+    "backend/dist/modules/exercise-records/application/exercise-records.service.js.map": "fcd8e557697a364382b68a1a4f20c0e19fa25a30683ca4d83bcdfd82b03199df",
+    "backend/dist/modules/enrollments/application/qr-join.service.js": "f805031ef426007f7501615d684f0732dbf4420dc30ed691c02f052eb639bc6f",
+    "backend/dist/modules/enrollments/application/qr-join.service.js.map": "7bbdf0265a8e3b247d56afc36c7585470a16ae3c5916557b6f5d812d60729477",
+    "backend/dist/common/policy/v81-admin-permission.guard.js": "368cfb8897e188321e7a3bca8d86b0cfad1abf9b65077f2995f87dea46d7276f",
+    "backend/dist/common/policy/v81-admin-permission.guard.js.map": "1bcd5d861147f6e0add58cd9657e2225a4c5b3edc2bcd91993a34abb9cc834b0",
+    "backend/dist/common/security/student-school-email.js": "e6f7c62408b8f466f886ace3633ab2b27a6a2a9b15cdbf06a3e81bccb03bbf18",
+    "backend/dist/common/security/student-school-email.js.map": "d24d3e98a03bd1a668c4e382536fd57a0a407b487ca4583902b1d905722a94d0"
+  }
+}

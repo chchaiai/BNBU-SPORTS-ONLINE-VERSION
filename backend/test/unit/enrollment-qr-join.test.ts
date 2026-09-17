@@ -31,13 +31,13 @@ describe('Stage 12 student identity and QR security', () => {
         fullName: ' Jose\u0301 Synthetic ',
         studentNumber: ' 2300000001 ',
         gender: 'OTHER',
-        gradeYear: 9999,
+        gradeYear: 2026,
       }),
       {
         fullName: 'José Synthetic',
         studentNumber: '2300000001',
         gender: 'OTHER',
-        gradeYear: 9999,
+        gradeYear: 2026,
       },
     );
   });
@@ -74,27 +74,29 @@ describe('Stage 12 student identity and QR security', () => {
     }
   });
 
-  it('accepts any four-digit cohort year and rejects malformed identity fields', () => {
+  it('accepts supported cohort years and rejects malformed identity fields', () => {
     const normalizer = new StudentIdentityNormalizer();
     assert.equal(
       normalizer.normalize({
         fullName: 'Synthetic',
         studentNumber: '2300000001',
         gender: 'MALE',
-        gradeYear: 1000,
+        gradeYear: 1900,
       }).gradeYear,
-      1000,
+      1900,
     );
     assert.equal(
       normalizer.normalize({
         fullName: 'Synthetic',
         studentNumber: '2300000001',
         gender: 'FEMALE',
-        gradeYear: 2028,
+        gradeYear: new Date().getUTCFullYear() + 1,
       }).gradeYear,
-      2028,
+      new Date().getUTCFullYear() + 1,
     );
     for (const input of [
+      { fullName: 'Synthetic', studentNumber: '2300000001', gender: 'MALE', gradeYear: 1899 },
+      { fullName: 'Synthetic', studentNumber: '2300000001', gender: 'MALE', gradeYear: new Date().getUTCFullYear() + 2 },
       { fullName: 'Synthetic', studentNumber: '2300000001', gender: 'UNKNOWN', gradeYear: 2026 },
       { fullName: 'Synthetic', studentNumber: '2300000001', gender: 'MALE', gradeYear: 999 },
       { fullName: 'Synthetic', studentNumber: '2300000001', gender: 'MALE', gradeYear: 10_000 },

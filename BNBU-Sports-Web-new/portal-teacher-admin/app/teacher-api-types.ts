@@ -130,6 +130,7 @@ export type StudentCurrentReview = {
 };
 
 export type ExerciseRecord = {
+  aiReview?: import('./ai-review').AiReview | null;
   recordOrigin?: string;
   workflowStage?: "PENDING_AI" | "PENDING_TEACHER" | "AWAITING_SUPPLEMENT" | "TECHNICAL" | "VALID" | "INVALID";
   workflowVersion?: number;

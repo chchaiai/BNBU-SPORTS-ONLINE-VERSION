@@ -1,0 +1,19 @@
+{
+  "result": "PASS",
+  "checkedAt": "2026-09-16T17:48:25.861Z",
+  "scope": "Synthetic JPEG through current frontend EXIF sanitization and deployed backend validator; no student data, no database writes, not a phone or HTTP upload test",
+  "safeMetadata": {
+    "width": 640,
+    "height": 480,
+    "DateTimeOriginal": "2026:09:17 10:11:12",
+    "Make": "Synthetic Camera",
+    "Model": "EXIF regression",
+    "FocalLength": 6.9,
+    "FNumber": 1.8,
+    "ISO": 200,
+    "ExposureTime": 0.008,
+    "Orientation": 1
+  },
+  "gpsRemoved": true,
+  "pixelsPreserved": true
+}

@@ -1,6 +1,6 @@
 "use client";
 import {useEffect,useRef,useState} from "react";
-import {ApiError,apiSessionUserId,currentApiSessionEpoch,request,toUserFacingError} from "./api-client";
+import {ApiError,apiSessionUserId,currentApiSessionEpoch,request,toUserFacingError, formatUserFacingError} from "./api-client";
 type Grant={id:string;enrollmentId:string;version:number;startsAt:string;endsAt:string;windowState:string;revocation:{reason:string}|null};
 type Rules={version:number;published_at:string|null;regular_deadline:string;closing_deadline:string};
 type Intent={key:string;path:string;body:Record<string,unknown>};
@@ -15,7 +15,7 @@ export function MakeupWindowForm({courseId,enrollmentId,onBusyChange}:{courseId:
  useEffect(()=>{onBusyChange(busy);},[busy,onBusyChange]);
  const run=async(action:()=>Promise<void>)=>{
   if(locked.current)return;locked.current=true;setBusy(true);setError("");setMessage("");
-  try{await action();}catch(failure){if(valid())setError(toUserFacingError(failure,"zh").message);}
+  try{await action();}catch(failure){if(valid())setError(formatUserFacingError(failure));}
   finally{locked.current=false;if(valid())setBusy(false);}
  };
  const load=async()=>{
@@ -52,7 +52,7 @@ export function MakeupWindowForm({courseId,enrollmentId,onBusyChange}:{courseId:
    if(!starts||!ends)throw new Error("请填写补练开始和结束时间。");
    await send({path:`/class-sections/${courseId}/makeup-windows`,body:{enrollmentId,expectedRuleVersion:rules.version,startsAt:new Date(`${starts}:00+08:00`).toISOString(),endsAt:new Date(`${ends}:00+08:00`).toISOString()}});
   });}}>
-   {rules&&<p>课程补练期：{new Date(rules.regular_deadline).toLocaleString("zh-CN",{timeZone:"Asia/Shanghai"})} 至 {new Date(rules.closing_deadline).toLocaleString("zh-CN",{timeZone:"Asia/Shanghai"})}（北京时间）</p>}
+   <p>补练授权须位于课程打卡起止日期内，不能延长打卡结束日期；已开始的运动可以继续提交材料。</p>
    <div className="form-grid two-columns">
     <label htmlFor="makeup-starts">开始时间（北京时间）<input id="makeup-starts" type="datetime-local" disabled={busy||pending} value={starts} onChange={event=>setStarts(event.target.value)}/></label>
     <label htmlFor="makeup-ends">结束时间（北京时间）<input id="makeup-ends" type="datetime-local" disabled={busy||pending} value={ends} onChange={event=>setEnds(event.target.value)}/></label>

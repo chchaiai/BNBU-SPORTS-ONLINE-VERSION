@@ -97,7 +97,7 @@ function TicketDialog({
       }
       submitting.current = true; setSaving(true); setSaveError("");
       try { await onSave(status, reply.trim()); close(); }
-      catch (failure) { setSaveError(failure instanceof Error && !(failure instanceof ApiError) ? failure.message : adminApiErrorText(failure, locale)); }
+      catch (failure) { setSaveError(adminApiErrorText(failure, locale)); }
       finally { submitting.current = false; setSaving(false); }
       return;
     }

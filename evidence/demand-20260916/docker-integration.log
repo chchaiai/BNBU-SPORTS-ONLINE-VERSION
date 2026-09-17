@@ -1,0 +1,94 @@
+▶ PostgreSQL identity, Enrollment, and QR Join integration
+  ✔ installs exactly the four Stage 12 tables with append-only event protection (585.471625ms)
+  ✔ preserves leading zeros and enforces one identity per organization (333.386818ms)
+  ✔ enforces a permanent class relation and one ACTIVE Enrollment per semester (434.902857ms)
+  ✔ rejects invalid Enrollment status shapes and cross-organization references (423.637335ms)
+  ✔ permits one ACTIVE invite per section while retaining revoked history (422.789159ms)
+  ✔ enforces consumed capability shape and keeps EnrollmentStatusEvent append-only (430.585614ms)
+✔ PostgreSQL identity, Enrollment, and QR Join integration (2694.140424ms)
+▶ ExerciseRecord PostgreSQL integration
+  ✔ installs only the five Stage 16 tables and the one-record-per-session key (587.724633ms)
+  ✔ enforces the conditional description rule in PostgreSQL (463.136239ms)
+  ✔ enforces media ownership, availability, global uniqueness, and daily uniqueness (484.151961ms)
+  ✔ keeps association, daily slot, event, and review histories append-only (507.803109ms)
+✔ ExerciseRecord PostgreSQL integration (2088.27759ms)
+▶ ExerciseReview PostgreSQL integration
+  ✔ accepts only an immediate append-only review chain including reopen PENDING reason (624.212799ms)
+  ✔ accepts a system VALID first review and a reviewed-to-reviewed invalidation (455.002926ms)
+  ✔ enforces INVALID reason shape and permanently denies credited override (392.055906ms)
+  ✔ permits only the Stage 17 review and reopen record transitions (460.970566ms)
+  ✔ keeps Stage 17 review facts intact after forward-only Score migration (401.084009ms)
+✔ ExerciseReview PostgreSQL integration (2377.901544ms)
+▶ ExerciseSession PostgreSQL integration
+  ✔ enforces one active Session per student under concurrent writes (693.010151ms)
+  ✔ enforces terminal timestamps, duration bounds, version, and scoped foreign keys (434.612666ms)
+  ✔ allows a segment to close exactly once and keeps event history append-only (525.376839ms)
+  ✔ rolls back Session, segment, event, audit, and outbox together on transaction failure (457.19633ms)
+✔ ExerciseSession PostgreSQL integration (2111.129801ms)
+▶ Stage 19 Export and audit governance PostgreSQL integration
+  ✔ adds AUDIT_LOG_READ without creating Export persistence (539.356907ms)
+{"tool":"STAGING_HEALTH_OPERATOR","command":"bootstrap","status":"PASS","fixtureState":"CREATED","createdComponents":["organization","adminUser","adminProfile","systemPolicy"],"secretOutput":"REDACTED"}
+{"tool":"STAGING_HEALTH_OPERATOR","command":"bootstrap","status":"PASS","fixtureState":"VERIFIED","createdComponents":[],"secretOutput":"REDACTED"}
+  ✔ accepts the isolated staging fixture bootstrap audit action (562.919669ms)
+  ✔ keeps the audit action constraint closed and the append-only trigger effective (339.636163ms)
+✔ Stage 19 Export and audit governance PostgreSQL integration (1472.912515ms)
+▶ MediaEvidence PostgreSQL integration
+  ✔ installs four scoped tables, immutable facts, and append-only histories (627.624777ms)
+  ✔ enforces active 6-image and 1-video quotas under database serialization (534.216157ms)
+  ✔ persists the monotonic confirmed, bound, processing, and available lifecycle (465.048574ms)
+✔ MediaEvidence PostgreSQL integration (1673.486804ms)
+▶ Official Roster Import and Alignment PostgreSQL integration
+  ✔ installs six scoped roster tables and append-only history guards (520.103268ms)
+  ✔ persists private versions, a frozen deterministic alignment, resolution history, and rollback (684.709729ms)
+  ✔ binds roster-version evidence to a different version of the same subject and keeps newer-result evidence fail-closed (581.814737ms)
+✔ Official Roster Import and Alignment PostgreSQL integration (1824.93776ms)
+▶ PostgreSQL 18 Foundation integration
+  ✔ records every exact finished Greenfield migration and checksum (554.044037ms)
+  ✔ enforces foreign keys and one CURRENT semester per organization (363.347238ms)
+  ✔ preserves student-number leading zeros and enforces exactly one role Profile (419.062942ms)
+  ✔ enforces mutually exclusive StudentScore status predicates in PostgreSQL (526.349342ms)
+  ✔ keeps AuditLog append-only at the database boundary (331.80462ms)
+  ✔ claims Outbox rows concurrently without duplicate ownership (402.536317ms)
+  ✔ enforces shared rate-limit windows atomically across concurrent consumers (423.827858ms)
+  ✔ persists SystemMode, rejects unknown values, and rolls transactions back (400.180872ms)
+✔ PostgreSQL 18 Foundation integration (3461.222947ms)
+▶ Stage 18 Score PostgreSQL integration
+  ✔ creates exactly the nine 0009 tables while leaving Export absent (564.34857ms)
+  ✔ enforces one ACTIVE rule and protects the frozen rule definition (489.241805ms)
+  ✔ keeps approvals and score revisions append-only and source-idempotent (664.496162ms)
+✔ Stage 18 Score PostgreSQL integration (1766.677065ms)
+✔ real FFmpeg normalizes H264, HEVC HDR and WebM; rejects missing audio and excessive duration (3764.961247ms)
+▶ staging business fixture PostgreSQL integration
+  ✔ creates the complete fixture once and verifies it without adding rows (765.47955ms)
+  ✔ reports a deterministic conflict without changing the conflicting database state (483.963299ms)
+  ✔ creates one completed one-hour session and verifies the same closure on replay (538.86604ms)
+✔ staging business fixture PostgreSQL integration (1834.948745ms)
+▶ staging R01 fixture PostgreSQL integration
+  ✔ creates only the isolated staff topology once and verifies it without Student side effects (741.372242ms)
+  ✔ fails atomically when an existing BNBU organization has conflicting metadata (243.648223ms)
+  ✔ fails closed and rolls back when reserved Student STUDENT-ANDROID-01 already exists (273.028611ms)
+  ✔ fails closed and rolls back when reserved Student STUDENT-IOS-01 already exists (272.855455ms)
+  ✔ fails closed and rolls back when reserved Student STUDENT-WEB-01 already exists (268.86498ms)
+  ✔ rejects an extra identity and rolls back all attempted fixture writes (387.348141ms)
+  ✔ rejects any existing AuthSession with a dedicated conflict (523.185231ms)
+  ✔ rejects any existing Enrollment with a dedicated conflict before identity counts (485.969152ms)
+  ✔ rejects a cross-role Profile and rolls back earlier fixture writes (393.028648ms)
+  ✔ rejects a changed password without rotating or overwriting the existing account (427.653773ms)
+✔ staging R01 fixture PostgreSQL integration (4061.611591ms)
+▶ PostgreSQL teaching structure integration
+  ✔ persists the teaching fixture across forward-only Score while keeping Export absent (516.133917ms)
+  ✔ enforces organization Course codes and semester/course/class codes as unique (337.321054ms)
+  ✔ rejects every cross-organization Course, Semester, Teacher, and actor reference (443.986333ms)
+  ✔ enforces version, date, daily-time, and excluded-date database checks (448.649374ms)
+  ✔ prevents deleting referenced Course and preserves sections across deactivate and close (419.940353ms)
+  ✔ rolls back parent and excluded-date changes when the calendar invariant fails (441.138176ms)
+  ✔ accepts the Stage 11 Course audit actions while preserving append-only behavior (353.543848ms)
+✔ PostgreSQL teaching structure integration (3010.441427ms)
+ℹ tests 60
+ℹ suites 12
+ℹ pass 60
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 56496.043842

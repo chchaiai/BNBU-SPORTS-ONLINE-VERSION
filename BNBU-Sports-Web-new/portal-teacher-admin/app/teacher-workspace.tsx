@@ -1,4 +1,6 @@
 "use client";
+import { AiReviewPanel, aiReviewLabels, type AiReview } from './ai-review';
+import { CourseNameSettings } from './course-name-settings';
 
 import {
   ChevronLeft,
@@ -30,7 +32,7 @@ import { businessDateTime } from "./business-time";
 import { FormField } from "./form-field";
 import { loadFinalGradeIntents } from "./final-grade-intents";
 import {
-  toUserFacingError,
+  toUserFacingError, formatUserFacingError,
   type UserFacingError,
   ApiError,
   apiSessionUserId,
@@ -253,6 +255,7 @@ type CheckinRecord = {
   version?: number;
   reviewVersion?: number;
   workflowStage?: string;
+  aiReview?: AiReview | null;
   recordOrigin?: string;
 };
 
@@ -827,6 +830,7 @@ function AuditStatusSelector({
         {record.recordOrigin === 'HISTORICAL' && <b>历史补录 · 必须人工审核</b>}
         <b>{record.workflowStage === 'PENDING_AI' ? '等待审核服务' : auditStatusLabels[record.auditStatus]}</b>
       </div>
+      <AiReviewPanel review={record.aiReview} />
       <div
         className="audit-status-selector"
         role="radiogroup"
@@ -1472,6 +1476,8 @@ export function TeacherWorkspace({
   const [makeupBusy, setMakeupBusy] = useState(true);
   const [courseRuleSettings,setCourseRuleSettings]=useState<{templates:CourseTemplate[];rules:CourseRules|null;goal:{totalTargetMinutes:number;version:number}}|null>(null);
   const coursePublicationRef=useRef<ReturnType<typeof createCoursePublicationIntent>|null>(null);
+  const courseSettingsLock = useRef(false);
+  const [courseSettingsBusy, setCourseSettingsBusy] = useState(false);
   const courseCreationRef=useRef<{name:string;key:string}|null>(null);
   const inviteRevocationRef=useRef<{token:string;key:string}|null>(null);
   useEffect(()=>{
@@ -1509,6 +1515,7 @@ export function TeacherWorkspace({
     useState<CheckinReviewFilter>("history");
   const [checkinAuditFilter, setCheckinAuditFilter] =
     useState<CheckinAuditFilter>("all");
+  const [aiReviewFilter, setAiReviewFilter] = useState('all');
   const [pendingRecordFocusId, setPendingRecordFocusId] = useState<
     string | null
   >(null);
@@ -1896,10 +1903,12 @@ export function TeacherWorkspace({
     () =>
       selectedStudentCheckins.filter(
         (record) =>
-          checkinAuditFilter === "all" ||
-          record.auditStatus === checkinAuditFilter,
+          (checkinAuditFilter === "all" || record.auditStatus === checkinAuditFilter) &&
+          (aiReviewFilter === 'all' || (aiReviewFilter === 'UNAVAILABLE'
+            ? !record.aiReview || record.aiReview.status !== 'SUCCEEDED'
+            : record.aiReview?.recommendation === aiReviewFilter)),
       ),
-    [checkinAuditFilter, selectedStudentCheckins],
+    [checkinAuditFilter, aiReviewFilter, selectedStudentCheckins],
   );
   const selectedCheckinAlbums = useMemo(
     () =>
@@ -2284,6 +2293,15 @@ export function TeacherWorkspace({
   };
 
   const saveCourseSettings = async (courseId: string) => {
+    if (courseSettingsLock.current) return;
+    courseSettingsLock.current = true;
+    setCourseSettingsBusy(true);
+    setFormError('');
+    try { await persistCourseSettings(courseId); }
+    catch (error) { setFormError(toUserFacingError(error)); }
+    finally { courseSettingsLock.current = false; setCourseSettingsBusy(false); }
+  };
+  const persistCourseSettings = async (courseId: string) => {
     if(mode === "real" && !courseRuleSettings){setFormError("课程目标尚未加载，请稍后重试。");return;}
     const selectedTemplate=courseRuleSettings?.templates.find(item=>item.id===form.templateId);
     if(mode==='real'&&!selectedTemplate){setFormError('请选择已发布的规则模板。');return;}
@@ -2298,15 +2316,42 @@ export function TeacherWorkspace({
       const courseTarget=Number(form.courseTarget)*60;
       const generalTarget=Number(form.otherTarget)*60;
       if(!Number.isSafeInteger(courseTarget)||!Number.isSafeInteger(generalTarget)||courseTarget<0||generalTarget<0||courseTarget+generalTarget!==targetMinutes){setFormError(`两类目标需合计 ${targetMinutes} 分钟。`);return;}
+      const target = courses.find(course => course.id === courseId);
+      if (!target || typeof target.version !== 'number' || ['CLOSED','ARCHIVED'].includes(target.status)) { setFormError('当前课程不可修改，请刷新后重试。'); return; }
+      const dailyStartTime = form.dailyStartTime?.trim() ?? target.checkinWindow.dailyStartTime;
+      const dailyEndTime = form.dailyEndTime?.trim() ?? target.checkinWindow.dailyEndTime;
+      if (!/^\d{2}:\d{2}$/.test(dailyStartTime) || !/^\d{2}:\d{2}$/.test(dailyEndTime) || dailyEndTime <= dailyStartTime) { setFormError('每日结束时间必须晚于开始时间。'); return; }
+      const checkInWindowMode = (form.windowMode ?? target.checkinWindow.windowMode) === 'unavailable' ? 'UNAVAILABLE' : 'AVAILABLE';
+      const windowChanged = dailyStartTime !== target.checkinWindow.dailyStartTime || dailyEndTime !== target.checkinWindow.dailyEndTime ||
+        checkInWindowMode !== (target.checkinWindow.windowMode === 'unavailable' ? 'UNAVAILABLE' : 'AVAILABLE');
+      const rulesInput = { templateId: previous.template_id!, minimumMinutes, maximumMinutes,globalTargetVersion,weeklyLimit,dailyLimit,courseTarget,generalTarget,
+        regularDeadline:previous.regular_deadline,closingDeadline:previous.closing_deadline,settlementPlannedAt:previous.settlement_planned_at,expectedVersion:previous.version };
+      const fingerprint = JSON.stringify({courseId,dailyStartTime,dailyEndTime,checkInWindowMode,rulesInput});
+      if (coursePublicationRef.current && coursePublicationRef.current.fingerprint !== fingerprint) { setFormError('上次保存结果尚未确认，请先按原内容重试并核对结果。'); return; }
       try {
-        await publishCourseRules(courseId, { templateId: previous.template_id!, minimumMinutes, maximumMinutes,globalTargetVersion,weeklyLimit, dailyLimit,
-          courseTarget, generalTarget,
-          regularDeadline: previous.regular_deadline, closingDeadline: previous.closing_deadline,
-          settlementPlannedAt: previous.settlement_planned_at, expectedVersion: previous.version }, crypto.randomUUID());
+        coursePublicationRef.current ??= createCoursePublicationIntent(fingerprint,
+          key => windowChanged ? updateClassSectionWindow(courseId,{dailyStartTime,dailyEndTime,checkInWindowMode,expectedVersion:target.version!},key) : Promise.resolve(null),
+          key => publishCourseRules(courseId,rulesInput,key));
+        await coursePublicationRef.current.run();
+        const [savedSection,savedRules] = await Promise.all([
+          request<{dailyStartTime:string;dailyEndTime:string;checkInWindowMode:string}>(`/class-sections/${encodeURIComponent(courseId)}`),
+          loadCourseRuleSettings(courseId),
+        ]);
+        if (savedSection.dailyStartTime.slice(0,5)!==dailyStartTime || savedSection.dailyEndTime.slice(0,5)!==dailyEndTime || savedSection.checkInWindowMode!==checkInWindowMode ||
+          !savedRules.rules || savedRules.rules.minimum_minutes!==minimumMinutes || savedRules.rules.maximum_minutes!==maximumMinutes || savedRules.rules.daily_limit!==dailyLimit ||
+          savedRules.rules.weekly_limit!==weeklyLimit || savedRules.rules.course_target!==courseTarget || savedRules.rules.general_target!==generalTarget) throw new Error('保存后的课程设置与提交内容不一致，请重试并核对结果。');
+        coursePublicationRef.current = null;
         await refreshTeacherData();
-        showToast('规则已保存，分类目标已应用于本课程学生；已有运动记录保留原计时规则。');
+        showToast('每日时间、打卡状态和课程规则已保存，已有运动记录保留原计时规则。');
         closeDialog();
-      } catch (error) { setFormError(toUserFacingError(error)); }
+      } catch (error) {
+        if (error instanceof ApiError && [409,422].includes(error.status)) {
+          coursePublicationRef.current = null;
+          setCourseRuleSettings(await loadCourseRuleSettings(courseId));
+          await refreshTeacherData();
+        }
+        setFormError({ ...toUserFacingError(error), message: '课程设置未全部确认保存。每日时间可能已保存，请核对后重试。' });
+      }
       return;
     }
     const courseTarget = Number(form.courseTarget);
@@ -2340,7 +2385,7 @@ export function TeacherWorkspace({
     const dateRangeEnd = form.dateRangeEnd?.trim();
     const dailyStartTime = form.dailyStartTime?.trim();
     const dailyEndTime = form.dailyEndTime?.trim();
-    const semesterDeadline = form.semesterDeadline?.trim();
+    const semesterDeadline = dateRangeEnd;
     if (
       !dateRangeStart ||
       !dateRangeEnd ||
@@ -2357,10 +2402,6 @@ export function TeacherWorkspace({
     }
     if (dailyEndTime <= dailyStartTime) {
       setFormError("每日结束时间必须晚于开始时间。");
-      return;
-    }
-    if (semesterDeadline < dateRangeEnd) {
-      setFormError("常规提交截止日期不能早于打卡结束日期。");
       return;
     }
     const excludedDates = (form.excludedDates ?? "")
@@ -2416,10 +2457,6 @@ export function TeacherWorkspace({
       const endsOn = currentSemester.endsOn?.slice(0,10);
       if ((startsOn && dateRangeStart < startsOn) || (endsOn && dateRangeEnd > endsOn)) {
         setFormError('打卡日期必须位于当前学期内，请修改起止日期。');
-        return;
-      }
-      if (endsOn && Date.parse(`${semesterDeadline}T00:00:00Z`) + 7*86400000 > Date.parse(`${endsOn}T00:00:00Z`)) {
-        setFormError('常规提交截止后须在本学期内保留完整 7 天收尾期，请提前常规截止日期。');
         return;
       }
     }
@@ -2940,7 +2977,7 @@ export function TeacherWorkspace({
   useEffect(()=>{
     let live=true;const epoch=currentApiSessionEpoch();setRecognitionHistory([]);setRecognitionHistoryError('');
     const item=exemptions.find(item=>item.id===exemptionDialogId);
-    if(mode!=='demo'&&item&&['校队认证','社团认证'].includes(item.kind))void fetchRecognitionRevisions(String(item.id)).then(rows=>{if(live&&epoch===currentApiSessionEpoch())setRecognitionHistory(rows);}).catch(error=>{if(live&&epoch===currentApiSessionEpoch())setRecognitionHistoryError(toUserFacingError(error).message);});
+    if(mode!=='demo'&&item&&['校队认证','社团认证'].includes(item.kind))void fetchRecognitionRevisions(String(item.id)).then(rows=>{if(live&&epoch===currentApiSessionEpoch())setRecognitionHistory(rows);}).catch(error=>{if(live&&epoch===currentApiSessionEpoch())setRecognitionHistoryError(formatUserFacingError(error));});
     return()=>{live=false;};
   },[exemptionDialogId,mode,exemptions]);
   useEffect(()=>{
@@ -3103,13 +3140,11 @@ export function TeacherWorkspace({
     dialog && "courseId" in dialog
       ? courses.find((course) => course.id === dialog.courseId)
       : undefined;
+  const courseSettingsReadOnly = courseSettingsBusy || (mode === "real" && (!courseRuleSettings || !selectedCourse || ["CLOSED","ARCHIVED"].includes(selectedCourse.status)));
+  const courseDatesLocked = courseSettingsReadOnly || (mode === "real" && !!courseRuleSettings?.rules?.published_at);
   const selectedCourseSummary = selectedCourse
     ? getCourseManagementSummary(selectedCourse)
     : undefined;
-  const regularDeadlineMinimum = form.dateRangeEnd || selectedCourse?.checkinWindow.dateRangeEnd || form.dateRangeStart || selectedCourse?.checkinWindow.dateRangeStart;
-  const regularDeadlineMaximum = currentSemester?.id === selectedCourse?.semesterId && currentSemester?.endsOn
-    ? new Date(Date.parse(`${currentSemester.endsOn.slice(0,10)}T00:00:00Z`) - 7 * 86400000).toISOString().slice(0,10) : undefined;
-  const regularDeadlineRangeEmpty = Boolean(regularDeadlineMinimum && regularDeadlineMaximum && regularDeadlineMinimum > regularDeadlineMaximum);
   const selectedStudent =
     dialog && "studentId" in dialog
       ? students.find((student) => student.id === dialog.studentId)
@@ -3304,7 +3339,7 @@ export function TeacherWorkspace({
                           return;
                         }
                         openDialog({ type: "invite", courseId: course.id });
-                      } catch (error) { showToast(toUserFacingError(error).message); }
+                      } catch (error) { showToast(formatUserFacingError(error)); }
                     }}
                   >
                     <QrCode size={15} aria-hidden="true" />
@@ -3697,9 +3732,11 @@ export function TeacherWorkspace({
         (record) => record.auditStatus === "invalid",
       );
       const showingHistory = checkinReviewFilter === "history";
-      const visibleRecords = showingHistory
+      const reviewScopeRecords = showingHistory
         ? records
         : invalidQueueRecords;
+      const visibleRecords = reviewScopeRecords.filter(record => aiReviewFilter === 'all' ||
+        (aiReviewFilter === 'UNAVAILABLE' ? !record.aiReview?.recommendation : record.aiReview?.recommendation === aiReviewFilter));
       const involvedStudentIds = new Set(
         records.map((record) => record.studentId),
       );
@@ -3770,9 +3807,17 @@ export function TeacherWorkspace({
           }
           toolbar={
             <div className="compact-guidance">
+              <label>AI 初审筛选 <select aria-label="AI 初审筛选" value={aiReviewFilter} onChange={event => setAiReviewFilter(event.target.value)}>
+                <option value="all">全部 AI 结果</option>
+                <option value="SUGGEST_PASS">建议通过</option>
+                <option value="TEACHER_REVIEW">需要教师复核</option>
+                <option value="SUSPECTED_RISK">疑似异常/违规</option>
+                <option value="UNAVAILABLE">等待或暂不可用</option>
+              </select></label>
+              <button type="button" onClick={() => void refreshTeacherData()}>刷新 AI 结果</button>
               <span aria-hidden="true">i</span>
               <p>
-                待审核记录按服务端处理状态展示。人工审核模式下由责任教师核对材料；退回补证和判无效需选择公开原因。
+                AI 初审仅提供建议与风险标记，由责任教师作出最终决定；退回补证和判无效需选择公开原因。
               </p>
             </div>
           }
@@ -3941,6 +3986,11 @@ export function TeacherWorkspace({
               </p>
             </div>
             <div className="checkin-detail-toolbar">
+              <label>AI 初审筛选 <select aria-label="AI 初审筛选" value={aiReviewFilter} onChange={event => setAiReviewFilter(event.target.value)}>
+                <option value="all">全部 AI 结果</option>
+                {Object.entries(aiReviewLabels).map(([value,label]) => <option key={value} value={value}>{label}</option>)}
+                <option value="UNAVAILABLE">等待初审 / 暂不可用</option>
+              </select></label>
               <div
                 className="segmented checkin-audit-filter"
                 role="tablist"
@@ -4899,16 +4949,17 @@ export function TeacherWorkspace({
           }
           description={
             <>
-              <span>调整当前课程的学时目标和打卡时间窗。</span>
+              <span>调整课程目标、运动规则、每日时间和打卡状态。</span>
               <span>保存后仅影响本课程，不影响其他课程。</span>
             </>
           }
-          close={closeDialog}
+          close={()=>{if(!courseSettingsLock.current)closeDialog();}}
           footer={
             <>
               <button
                 className="secondary-button course-target-cancel"
                 type="button"
+                disabled={courseSettingsBusy}
                 onClick={closeDialog}
               >
                 取消
@@ -4916,10 +4967,10 @@ export function TeacherWorkspace({
               <button
                 className="primary-button course-target-save"
                 type="button"
-                disabled={mode==='real'&&['CLOSED','ARCHIVED'].includes(selectedCourse.status)}
+                disabled={courseSettingsReadOnly}
                 onClick={() => void saveCourseSettings(selectedCourse.id)}
               >
-                保存设置
+                {courseSettingsBusy ? "正在保存…" : "保存设置"}
               </button>
             </>
           }
@@ -4964,9 +5015,10 @@ export function TeacherWorkspace({
 
           <div className="course-target-divider" role="separator" />
 
+          {mode === "real" && <CourseNameSettings key={`name-${selectedCourse.id}`} classSectionId={selectedCourse.id} onSaved={() => { void refreshTeacherData(); }} />}
           {mode === "real" && <CourseHistorySettings key={`history-${selectedCourse.id}`} classSectionId={selectedCourse.id} />}
-          {mode !== "demo" && <CourseSettlement key={selectedCourse.id} classSectionId={selectedCourse.id} />}
-          {mode === "real" && <CourseClosure key={selectedCourse.id} classSectionId={selectedCourse.id} archived={selectedCourse.status==='ARCHIVED'} onClosed={()=>{setDialog(null);void refreshTeacherData();}} />}
+          {mode !== "demo" && <CourseSettlement key={`settlement-${selectedCourse.id}`} classSectionId={selectedCourse.id} />}
+          {mode === "real" && <CourseClosure key={`closure-${selectedCourse.id}`} classSectionId={selectedCourse.id} archived={selectedCourse.status==='ARCHIVED'} onClosed={()=>{setDialog(null);void refreshTeacherData();}} />}
 
           <section
             className="course-target-section course-target-config"
@@ -4989,7 +5041,7 @@ export function TeacherWorkspace({
             <div className="course-target-setting-list">
               <div className="course-target-setting">
                 <label htmlFor="course-published-template">选择已发布模板</label>
-                <select id="course-published-template" disabled={mode==='demo'||!courseRuleSettings||!!courseRuleSettings.rules?.published_at} value={form.templateId??''} onChange={event=>{const template=courseRuleSettings?.templates.find(item=>item.id===event.target.value);setForm(current=>({...current,templateId:event.target.value,minimumMinutes:String(template?.rules.defaultMinimumMinutes??30),weeklyLimit:String(template?.rules.defaultWeeklyLimit??3)}));}} aria-describedby="course-published-template-help">
+                <select id="course-published-template" disabled={courseSettingsReadOnly||mode==='demo'||!!courseRuleSettings?.rules?.published_at} value={form.templateId??''} onChange={event=>{const template=courseRuleSettings?.templates.find(item=>item.id===event.target.value);setForm(current=>({...current,templateId:event.target.value,minimumMinutes:String(template?.rules.defaultMinimumMinutes??30),weeklyLimit:String(template?.rules.defaultWeeklyLimit??3)}));}} aria-describedby="course-published-template-help">
                   <option value="">请选择已发布模板</option>
                   {courseRuleSettings?.templates.map(template=><option key={template.id} value={template.id}>{template.displayName} · v{template.version}</option>)}
                 </select>
@@ -5013,7 +5065,7 @@ export function TeacherWorkspace({
                 <div className="course-target-unit-input">
                   <input
                     id="course-target-course-hours"
-                    disabled={mode==='real'&&(!courseRuleSettings||['CLOSED','ARCHIVED'].includes(selectedCourse.status))}
+                    disabled={courseSettingsReadOnly}
                     type="number"
                     min="0"
                     value={form.courseTarget ?? selectedCourse.courseTarget}
@@ -5033,7 +5085,7 @@ export function TeacherWorkspace({
                 <div className="course-target-unit-input">
                   <input
                     id="course-target-other-hours"
-                    disabled={mode==='real'&&(!courseRuleSettings||['CLOSED','ARCHIVED'].includes(selectedCourse.status))}
+                    disabled={courseSettingsReadOnly}
                     type="number"
                     min="0"
                     value={form.otherTarget ?? selectedCourse.otherTarget}
@@ -5051,20 +5103,20 @@ export function TeacherWorkspace({
             {mode==='real'&&<div className="course-target-setting-list">
               <div className="course-target-setting">
                 <label htmlFor="course-maximum-minutes">单次最多运动时间（分钟）</label>
-                <input id="course-maximum-minutes" type="number" min={form.minimumMinutes??'1'} max="1440" step="1" value={form.maximumMinutes??'60'} disabled={!courseRuleSettings||!form.templateId} onChange={event=>updateForm('maximumMinutes',event.target.value)}/>
+                <input id="course-maximum-minutes" type="number" min={form.minimumMinutes??'1'} max="1440" step="1" value={form.maximumMinutes??'60'} disabled={courseSettingsReadOnly||!form.templateId} onChange={event=>updateForm('maximumMinutes',event.target.value)}/>
                 <p>达到上限自动结束，单次最多计入相同分钟数；修改仅影响新开始的打卡。</p>
               </div>
               <div className="course-target-setting">
                 <label htmlFor="course-minimum-minutes">最低运动时长（分钟）</label><p>保存后仅对新增记录生效，已有记录继续采用原规则。</p>
-                <input id="course-minimum-minutes" type="number" min="1" max="1440" step="1" value={form.minimumMinutes??'30'} disabled={!courseRuleSettings||!form.templateId} onChange={event=>updateForm('minimumMinutes',event.target.value)}/>
+                <input id="course-minimum-minutes" type="number" min="1" max="1440" step="1" value={form.minimumMinutes??'30'} disabled={courseSettingsReadOnly||!form.templateId} onChange={event=>updateForm('minimumMinutes',event.target.value)}/>
               </div>
               <div className="course-target-setting">
                 <label htmlFor="course-weekly-limit">每周最多次数</label>
-                <input id="course-weekly-limit" type="number" min="1" max="2147483647" step="1" value={form.weeklyLimit??'3'} disabled={!courseRuleSettings||!form.templateId} onChange={event=>updateForm('weeklyLimit',event.target.value)}/>
+                <input id="course-weekly-limit" type="number" min="1" max="2147483647" step="1" value={form.weeklyLimit??'3'} disabled={courseSettingsReadOnly||!form.templateId} onChange={event=>updateForm('weeklyLimit',event.target.value)}/>
               </div>
               <div className="course-target-setting">
                 <label htmlFor="course-daily-limit">每天最多计入次数</label>
-                <input id="course-daily-limit" type="number" min="1" step="1" value={form.dailyLimit??'1'} disabled={!courseRuleSettings||!form.templateId} onChange={event=>updateForm('dailyLimit',event.target.value)}/>
+                <input id="course-daily-limit" type="number" min="1" step="1" value={form.dailyLimit??'1'} disabled={courseSettingsReadOnly||!form.templateId} onChange={event=>updateForm('dailyLimit',event.target.value)}/>
               </div>
             </div>}
             <FormError message={formError} />
@@ -5081,12 +5133,14 @@ export function TeacherWorkspace({
                 <h3 id="course-window-config-title">打卡时间窗</h3>
                 <p>
                   由本课程责任教师设置；学生仅能在本课程规定的时间窗内提交打卡。
+                  {mode === "real" && !!courseRuleSettings?.rules?.published_at && "课程已发布，可修改每日时间和打卡状态；打卡日期及截止日期已锁定。"}
                 </p>
               </div>
             </div>
             <div className="form-grid two-columns">
               <AppSelect
                 label="打卡状态"
+                disabled={courseSettingsReadOnly}
                 value={
                   form.windowMode ?? selectedCourse.checkinWindow.windowMode
                 }
@@ -5098,28 +5152,10 @@ export function TeacherWorkspace({
                   updateForm("windowMode", String(value ?? "available"))
                 }
               />
-              <Field
-                label="常规提交截止日期"
-                required
-                hint={`常规截止日期是学生正常打卡首次提交的最后日期；其后 7 天用于审核、补证和获准补练。${regularDeadlineRangeEmpty ? `当前打卡结束日期晚于允许的最晚截止日期 ${regularDeadlineMaximum}，请先将打卡结束日期调整到该日期或之前。` : `可设置范围：${regularDeadlineMinimum || '请先设置课程日期'} ～ ${regularDeadlineMaximum || '请先获取学期日期'}。不得早于打卡结束日期；学期结束前须保留完整 7 天收尾期。`}`}
-              >
-                <input
-                  type="date"
-                  disabled={regularDeadlineRangeEmpty}
-                  min={regularDeadlineRangeEmpty ? undefined : regularDeadlineMinimum}
-                  max={regularDeadlineMaximum}
-                  value={
-                    form.semesterDeadline ??
-                    selectedCourse.checkinWindow.semesterDeadline
-                  }
-                  onChange={(event) =>
-                    updateForm("semesterDeadline", event.target.value)
-                  }
-                />
-              </Field>
               <Field label="打卡开始日期" required>
                 <input
                   type="date"
+                  disabled={courseDatesLocked}
                   value={
                     form.dateRangeStart ??
                     selectedCourse.checkinWindow.dateRangeStart
@@ -5132,6 +5168,7 @@ export function TeacherWorkspace({
               <Field label="打卡结束日期" required>
                 <input
                   type="date"
+                  disabled={courseDatesLocked}
                   value={
                     form.dateRangeEnd ??
                     selectedCourse.checkinWindow.dateRangeEnd
@@ -5144,6 +5181,7 @@ export function TeacherWorkspace({
               <Field label="每日开始时间" required>
                 <input
                   type="time"
+                  disabled={courseSettingsReadOnly}
                   value={
                     form.dailyStartTime ??
                     selectedCourse.checkinWindow.dailyStartTime
@@ -5156,6 +5194,7 @@ export function TeacherWorkspace({
               <Field label="每日结束时间" required>
                 <input
                   type="time"
+                  disabled={courseSettingsReadOnly}
                   value={
                     form.dailyEndTime ??
                     selectedCourse.checkinWindow.dailyEndTime

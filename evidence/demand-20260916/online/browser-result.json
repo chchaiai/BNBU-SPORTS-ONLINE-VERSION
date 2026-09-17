@@ -1,0 +1,23 @@
+{
+  "status": "PASS",
+  "checks": [
+    {
+      "requirement": 19,
+      "device": "desktop",
+      "blockedBeforeOtp": true
+    },
+    {
+      "requirement": 24,
+      "englishDialogNoChinese": true,
+      "languageRoundtrip": true
+    },
+    {
+      "requirement": 23,
+      "renamePersistedAfterReload": true
+    },
+    {
+      "requirement": 16,
+      "independentDeadlineRemoved": true
+    }
+  ]
+}

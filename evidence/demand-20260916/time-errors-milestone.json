@@ -1,0 +1,16 @@
+{
+  "date": "2026-09-16",
+  "status": "PARTIAL_NOT_RELEASE_ACCEPTANCE",
+  "database": "isolated bnbu_sports_test on Docker loopback port 55432",
+  "checks": [
+    {"suite": "exercise-session.e2e.test.ts", "environment": "Windows app and Docker PostgreSQL", "passed": 4},
+    {"suite": "exercise-record.e2e.test.ts", "environment": "Windows app and Docker PostgreSQL", "passed": 14, "includes": ["local-date midnight boundary", "existing draft submission after semester end"]},
+    {"suite": "v81-makeup.e2e.test.ts", "environment": "Docker app, PostgreSQL, MinIO and Mailpit", "passed": 2, "includes": ["real OTP receipt", "real elapsed exercise minute", "object PUT and confirmation", "submission and manual review", "revocation preserves admitted session"]},
+    {"suite": "client-error-projection.test.mjs", "passed": 4},
+    {"suite": "portal api-client and i18n-resources", "passed": 26},
+    {"suite": "error-diagnostics.test.ts", "passed": 1},
+    {"suite": "public-system-errors.e2e.test.ts", "passed": 1},
+    {"suite": "migration safety and local migration application", "migrations": 82, "result": "PASS"}
+  ],
+  "pending": ["full browser acceptance", "full regression", "maintenance with real object storage", "settlement and historical backfill", "production deployment", "online acceptance", "final scoped local Git archive"]
+}

@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import {randomUUID} from 'node:crypto';
 import { createServer } from 'node:net';
 import { resolve } from 'node:path';
 import { after, before, describe, it } from 'node:test';
@@ -96,12 +97,14 @@ describe('Public system endpoint error conformance', () => {
       { path: '/api/v1/system-mode', status: 503, code: 'SYSTEM_SERVICE_UNAVAILABLE' },
     ];
     for (const expected of cases) {
-      const response = await fetch(`${baseUrl}${expected.path}`);
+      const diagnosticId=randomUUID();
+      const response = await fetch(`${baseUrl}${expected.path}`,{headers:{'X-Request-ID':diagnosticId}});
       const body = (await response.json()) as ErrorBody;
       assert.equal(response.status, expected.status);
       assert.equal(response.headers.get('content-type')?.startsWith('application/json'), true);
       assert.equal(body.code, expected.code);
-      assert.equal(typeof body.requestId, 'string');
+      assert.equal(body.requestId,diagnosticId);
+      assert.equal(response.headers.get('X-Request-ID'),diagnosticId);
       assert.equal(typeof body.timestamp, 'string');
     }
   });

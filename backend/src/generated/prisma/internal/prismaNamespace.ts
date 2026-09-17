@@ -478,6 +478,8 @@ export const ModelName = {
   V81RecordWorkflow: 'V81RecordWorkflow',
   V81Event: 'V81Event',
   V81MaterialVersion: 'V81MaterialVersion',
+  V81AiReviewJob: 'V81AiReviewJob',
+  V81AiReviewBudget: 'V81AiReviewBudget',
   V81MaterialItem: 'V81MaterialItem',
   V81Interruption: 'V81Interruption',
   V81AdminAccess: 'V81AdminAccess',
@@ -502,7 +504,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "organization" | "systemPolicy" | "user" | "studentProfile" | "teacherProfile" | "adminProfile" | "authSession" | "refreshToken" | "semester" | "course" | "classSection" | "classSectionExcludedDate" | "courseInvite" | "enrollment" | "enrollmentStatusEvent" | "exerciseSession" | "exerciseSessionSegment" | "exerciseSessionEvent" | "mediaEvidence" | "exerciseRecord" | "exerciseRecordMedia" | "exerciseRecordDailySlot" | "exerciseRecordEvent" | "reviewRecord" | "mediaUploadSession" | "mediaStatusEvent" | "mediaProcessingAttempt" | "joinCapability" | "officialRosterImport" | "officialRosterEntry" | "rosterAlignmentRun" | "rosterAlignmentPlatformEntry" | "rosterAlignmentResult" | "rosterResolutionEvent" | "idempotencyRecord" | "scoreRule" | "scoreRuleApprovalEvent" | "studentScore" | "studentScoreRevision" | "scoreContribution" | "scoreAdjustment" | "scoreAdjustmentApprovalEvent" | "scorePublicationEvent" | "scoreRecalculationAttempt" | "studentSignInChallenge" | "accountRecoveryChallenge" | "emailVerificationChallenge" | "authRateLimitFact" | "rateLimitWindow" | "appReleasePolicy" | "notification" | "notificationEvent" | "pushDevice" | "pushDeviceEvent" | "userPreference" | "userPreferenceEvent" | "helpArticle" | "feedback" | "feedbackEvent" | "exemptionApplication" | "exemptionApplicationEvent" | "exemptionReviewRecord" | "exemptionApplicationMedia" | "sportCatalogItem" | "locationPrivacyPolicy" | "locationConsent" | "locationConsentEvent" | "locationTrack" | "locationTrackEvent" | "locationSample" | "locationSampleSecret" | "locationSummary" | "locationRetentionEvent" | "auditLog" | "outboxEvent" | "v81ApplicationMaterial" | "v81AccountSecurity" | "v81CourseRule" | "v81RecordWorkflow" | "v81Event" | "v81MaterialVersion" | "v81MaterialItem" | "v81Interruption" | "v81AdminAccess" | "v81ManualMode" | "v81CreditProjection" | "v81CertificationCredit" | "v81SwimIntake" | "v81SwimIntakeItem" | "v81FinalGradeRevision"
+    modelProps: "organization" | "systemPolicy" | "user" | "studentProfile" | "teacherProfile" | "adminProfile" | "authSession" | "refreshToken" | "semester" | "course" | "classSection" | "classSectionExcludedDate" | "courseInvite" | "enrollment" | "enrollmentStatusEvent" | "exerciseSession" | "exerciseSessionSegment" | "exerciseSessionEvent" | "mediaEvidence" | "exerciseRecord" | "exerciseRecordMedia" | "exerciseRecordDailySlot" | "exerciseRecordEvent" | "reviewRecord" | "mediaUploadSession" | "mediaStatusEvent" | "mediaProcessingAttempt" | "joinCapability" | "officialRosterImport" | "officialRosterEntry" | "rosterAlignmentRun" | "rosterAlignmentPlatformEntry" | "rosterAlignmentResult" | "rosterResolutionEvent" | "idempotencyRecord" | "scoreRule" | "scoreRuleApprovalEvent" | "studentScore" | "studentScoreRevision" | "scoreContribution" | "scoreAdjustment" | "scoreAdjustmentApprovalEvent" | "scorePublicationEvent" | "scoreRecalculationAttempt" | "studentSignInChallenge" | "accountRecoveryChallenge" | "emailVerificationChallenge" | "authRateLimitFact" | "rateLimitWindow" | "appReleasePolicy" | "notification" | "notificationEvent" | "pushDevice" | "pushDeviceEvent" | "userPreference" | "userPreferenceEvent" | "helpArticle" | "feedback" | "feedbackEvent" | "exemptionApplication" | "exemptionApplicationEvent" | "exemptionReviewRecord" | "exemptionApplicationMedia" | "sportCatalogItem" | "locationPrivacyPolicy" | "locationConsent" | "locationConsentEvent" | "locationTrack" | "locationTrackEvent" | "locationSample" | "locationSampleSecret" | "locationSummary" | "locationRetentionEvent" | "auditLog" | "outboxEvent" | "v81ApplicationMaterial" | "v81AccountSecurity" | "v81CourseRule" | "v81RecordWorkflow" | "v81Event" | "v81MaterialVersion" | "v81AiReviewJob" | "v81AiReviewBudget" | "v81MaterialItem" | "v81Interruption" | "v81AdminAccess" | "v81ManualMode" | "v81CreditProjection" | "v81CertificationCredit" | "v81SwimIntake" | "v81SwimIntakeItem" | "v81FinalGradeRevision"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -6500,6 +6502,154 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    V81AiReviewJob: {
+      payload: Prisma.$V81AiReviewJobPayload<ExtArgs>
+      fields: Prisma.V81AiReviewJobFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.V81AiReviewJobFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$V81AiReviewJobPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.V81AiReviewJobFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$V81AiReviewJobPayload>
+        }
+        findFirst: {
+          args: Prisma.V81AiReviewJobFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$V81AiReviewJobPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.V81AiReviewJobFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$V81AiReviewJobPayload>
+        }
+        findMany: {
+          args: Prisma.V81AiReviewJobFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$V81AiReviewJobPayload>[]
+        }
+        create: {
+          args: Prisma.V81AiReviewJobCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$V81AiReviewJobPayload>
+        }
+        createMany: {
+          args: Prisma.V81AiReviewJobCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.V81AiReviewJobCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$V81AiReviewJobPayload>[]
+        }
+        delete: {
+          args: Prisma.V81AiReviewJobDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$V81AiReviewJobPayload>
+        }
+        update: {
+          args: Prisma.V81AiReviewJobUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$V81AiReviewJobPayload>
+        }
+        deleteMany: {
+          args: Prisma.V81AiReviewJobDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.V81AiReviewJobUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.V81AiReviewJobUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$V81AiReviewJobPayload>[]
+        }
+        upsert: {
+          args: Prisma.V81AiReviewJobUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$V81AiReviewJobPayload>
+        }
+        aggregate: {
+          args: Prisma.V81AiReviewJobAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateV81AiReviewJob>
+        }
+        groupBy: {
+          args: Prisma.V81AiReviewJobGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.V81AiReviewJobGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.V81AiReviewJobCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.V81AiReviewJobCountAggregateOutputType> | number
+        }
+      }
+    }
+    V81AiReviewBudget: {
+      payload: Prisma.$V81AiReviewBudgetPayload<ExtArgs>
+      fields: Prisma.V81AiReviewBudgetFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.V81AiReviewBudgetFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$V81AiReviewBudgetPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.V81AiReviewBudgetFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$V81AiReviewBudgetPayload>
+        }
+        findFirst: {
+          args: Prisma.V81AiReviewBudgetFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$V81AiReviewBudgetPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.V81AiReviewBudgetFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$V81AiReviewBudgetPayload>
+        }
+        findMany: {
+          args: Prisma.V81AiReviewBudgetFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$V81AiReviewBudgetPayload>[]
+        }
+        create: {
+          args: Prisma.V81AiReviewBudgetCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$V81AiReviewBudgetPayload>
+        }
+        createMany: {
+          args: Prisma.V81AiReviewBudgetCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.V81AiReviewBudgetCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$V81AiReviewBudgetPayload>[]
+        }
+        delete: {
+          args: Prisma.V81AiReviewBudgetDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$V81AiReviewBudgetPayload>
+        }
+        update: {
+          args: Prisma.V81AiReviewBudgetUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$V81AiReviewBudgetPayload>
+        }
+        deleteMany: {
+          args: Prisma.V81AiReviewBudgetDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.V81AiReviewBudgetUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.V81AiReviewBudgetUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$V81AiReviewBudgetPayload>[]
+        }
+        upsert: {
+          args: Prisma.V81AiReviewBudgetUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$V81AiReviewBudgetPayload>
+        }
+        aggregate: {
+          args: Prisma.V81AiReviewBudgetAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateV81AiReviewBudget>
+        }
+        groupBy: {
+          args: Prisma.V81AiReviewBudgetGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.V81AiReviewBudgetGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.V81AiReviewBudgetCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.V81AiReviewBudgetCountAggregateOutputType> | number
+        }
+      }
+    }
     V81MaterialItem: {
       payload: Prisma.$V81MaterialItemPayload<ExtArgs>
       fields: Prisma.V81MaterialItemFieldRefs
@@ -8761,6 +8911,40 @@ export const V81MaterialVersionScalarFieldEnum = {
 export type V81MaterialVersionScalarFieldEnum = (typeof V81MaterialVersionScalarFieldEnum)[keyof typeof V81MaterialVersionScalarFieldEnum]
 
 
+export const V81AiReviewJobScalarFieldEnum = {
+  id: 'id',
+  organizationId: 'organizationId',
+  recordId: 'recordId',
+  materialVersion: 'materialVersion',
+  status: 'status',
+  attempts: 'attempts',
+  leaseOwner: 'leaseOwner',
+  leaseUntil: 'leaseUntil',
+  nextAttemptAt: 'nextAttemptAt',
+  recommendation: 'recommendation',
+  flags: 'flags',
+  assessment: 'assessment',
+  provider: 'provider',
+  model: 'model',
+  policyVersion: 'policyVersion',
+  errorCode: 'errorCode',
+  createdAt: 'createdAt',
+  completedAt: 'completedAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type V81AiReviewJobScalarFieldEnum = (typeof V81AiReviewJobScalarFieldEnum)[keyof typeof V81AiReviewJobScalarFieldEnum]
+
+
+export const V81AiReviewBudgetScalarFieldEnum = {
+  id: 'id',
+  reservedFen: 'reservedFen',
+  updatedAt: 'updatedAt'
+} as const
+
+export type V81AiReviewBudgetScalarFieldEnum = (typeof V81AiReviewBudgetScalarFieldEnum)[keyof typeof V81AiReviewBudgetScalarFieldEnum]
+
+
 export const V81MaterialItemScalarFieldEnum = {
   recordId: 'recordId',
   materialVersion: 'materialVersion',
@@ -9264,6 +9448,8 @@ export type GlobalOmitConfig = {
   v81RecordWorkflow?: Prisma.V81RecordWorkflowOmit
   v81Event?: Prisma.V81EventOmit
   v81MaterialVersion?: Prisma.V81MaterialVersionOmit
+  v81AiReviewJob?: Prisma.V81AiReviewJobOmit
+  v81AiReviewBudget?: Prisma.V81AiReviewBudgetOmit
   v81MaterialItem?: Prisma.V81MaterialItemOmit
   v81Interruption?: Prisma.V81InterruptionOmit
   v81AdminAccess?: Prisma.V81AdminAccessOmit

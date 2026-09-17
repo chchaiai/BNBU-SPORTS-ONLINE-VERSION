@@ -1,6 +1,6 @@
 import { QrJoinCryptoService } from '../../src/common/security/qr-join-crypto.service.js';
 import type { RuntimeConfig } from '../../src/common/config/environment.js';
-import { createHmac } from 'node:crypto';
+import { createHash, createHmac } from 'node:crypto';
 import { AuthCodeCrypto } from '../../src/modules/client-capabilities/auth-code.crypto.js';
 import assert from 'node:assert/strict';
 import { spawn, type ChildProcessWithoutNullStreams } from 'node:child_process';
@@ -130,7 +130,8 @@ describe('Student identity, Enrollment, and QR Join HTTP E2E', () => {
 
   const emailProofs = new Map<string,string>();
   const issueCapability = async (inviteToken: string, identity: SyntheticIdentity = IDENTITY, idempotencyKey = uuidv7(), registrationAgeMs = 0): Promise<HttpResult> => {
-    const email = `${identity.studentNumber.toLowerCase()}@mail.bnbu.edu.cn`;
+    const emailSuffix = String(Number.parseInt(createHash('sha256').update(identity.studentNumber).digest('hex').slice(0,12),16) % 1_000_000_000).padStart(9,'0');
+    const email = `a${emailSuffix}@mail.bnbu.edu.cn`;
     const owner = await prisma.user.findFirst({where:{organizationId:fixture.organizationId,primaryEmailNormalized:email,emailVerifiedAt:{not:null},role:'STUDENT'}});
     const cacheKey = `${inviteToken}:${identity.studentNumber}:${owner?.id ?? 'new'}`;
     let proof = emailProofs.get(cacheKey);
@@ -473,7 +474,7 @@ describe('Student identity, Enrollment, and QR Join HTTP E2E', () => {
       ...IDENTITY,
       studentNumber: '2300009999',
       gender: 'FEMALE',
-      gradeYear: 9999,
+      gradeYear: new Date().getUTCFullYear() + 1,
     });
     assert.equal(accepted.status, 201);
   });

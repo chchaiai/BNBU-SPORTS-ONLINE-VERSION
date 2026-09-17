@@ -1,3 +1,4 @@
+import { assertProfileReady } from '../../users/application/student-profile-quality.js';
 import {isHistoricalSession,requireHistoricalSubmissionWindow} from '../../v8/v81-history-backfill.js';
 import { permitsExistingCourseSession } from '../../enrollments/application/course-closure-memberships.js';
 import { Injectable } from '@nestjs/common';
@@ -86,12 +87,14 @@ export class ExerciseRecordsService {
       this.scopeDenied();
     }
     const direction = input.sort === 'businessDate' ? 'asc' : 'desc';
+    if (input.aiReview && principal.role !== 'TEACHER') this.scopeDenied();
     const filters = {
       search: input.q === undefined || input.q.trim() === '' ? null : input.q.trim(),
       classSectionId: input.classSectionId ?? null,
       enrollmentId: input.enrollmentId ?? null,
       status: input.status ?? null,
       reviewResult: input.reviewResult ?? null,
+      aiReview: input.aiReview ?? null,
       businessDateFrom: input.businessDateFrom ?? null,
       businessDateTo: input.businessDateTo ?? null,
     };
@@ -134,6 +137,12 @@ export class ExerciseRecordsService {
               },
             }),
         AND: [
+          ...(input.aiReview === undefined ? [] : [{ OR: [1, 2].map(materialVersion => ({
+            v81RecordWorkflow_record: { materialVersion },
+            aiReviewJobs: { some: { materialVersion,
+              ...(['QUEUED', 'RUNNING', 'FAILED'].includes(input.aiReview!)
+                ? { status: input.aiReview! } : { status: 'SUCCEEDED', recommendation: input.aiReview! }) } },
+          })) }]),
           ...(filters.search === null
             ? []
             : [
@@ -172,7 +181,7 @@ export class ExerciseRecordsService {
     const items = records.slice(0, input.limit);
     const last = items.at(-1);
     return pagedResult(
-      await projectV81Records(this.prisma,items),
+      await projectV81Records(this.prisma,items, principal.role === 'TEACHER'),
       {
         nextCursor:
           hasMore && last !== undefined
@@ -192,7 +201,7 @@ export class ExerciseRecordsService {
     context: ExerciseRecordPolicyContext,
   ): Promise<ExerciseRecordProjection> {
     this.assertContext(principal, context);
-    return (await projectV81Records(this.prisma,[await this.requiredRecord(context.recordId)]))[0]!;
+    return (await projectV81Records(this.prisma,[await this.requiredRecord(context.recordId)], principal.role === 'TEACHER'))[0]!;
   }
 
   async getEvidenceContext(
@@ -426,6 +435,8 @@ export class ExerciseRecordsService {
       async (transaction) => {
         // Keep a replayable failure while rolling back any submission writes.
         await transaction.$executeRaw`SAVEPOINT exercise_record_submit`;
+        await transaction.$queryRaw`SELECT id FROM organizations WHERE id=${principal.organizationId}::uuid FOR NO KEY UPDATE`;
+        await assertProfileReady(transaction,principal.organizationId,principal.userId);
         try {
           await this.lock(transaction, 'enrollments', context.enrollmentId);
           await this.lock(transaction, 'exercise_records', context.recordId);
@@ -748,13 +759,12 @@ export class ExerciseRecordsService {
       record.classSection.course.deletedAt !== null ||
       record.classSection.teacher.status !== 'ACTIVE' ||
       record.classSection.teacher.deletedAt !== null ||
-      record.classSection.semester.status !== 'CURRENT' ||
-      now >= new Date(record.classSection.semester.endDate.getTime() + 86_400_000)
+      record.classSection.semester.status === 'ARCHIVED'
     ) {
       throw new ApplicationError('ENROLLMENT_NOT_ACTIVE', 409);
     }
     // A makeup admission is frozen when the server starts the session. Revoking
-    // the grant later stops new starts, while this record retains its closing deadline.
+    // the grant later stops new starts; submission of an admitted session remains available.
     const makeup = await transaction.$queryRaw<{
       closing_deadline: Date; admitted: boolean;
     }[]>`SELECT rules.closing_deadline,
@@ -769,15 +779,9 @@ export class ExerciseRecordsService {
       WHERE source.session_id=${record.sessionId}::uuid AND makeup_window.organization_id=${record.organizationId}::uuid
         AND makeup_window.class_section_id=${record.classSectionId}::uuid AND makeup_window.enrollment_id=${record.enrollmentId}::uuid`;
     if (makeup[0]) {
-      if (!makeup[0].admitted || now > makeup[0].closing_deadline)
+      if (!makeup[0].admitted)
         throw new ApplicationError('COURSE_DEADLINE_PASSED', 409);
       return;
-    }
-    if (
-      record.classSection.submissionDeadlineAt !== null &&
-      now > record.classSection.submissionDeadlineAt
-    ) {
-      throw new ApplicationError('COURSE_DEADLINE_PASSED', 409);
     }
   }
 

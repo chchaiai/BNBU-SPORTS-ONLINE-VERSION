@@ -8,6 +8,7 @@ import { Clock } from '../../common/time/clock.js';
 import { projectRosterRegistration } from './domain/roster-registration.js';
 import type { Prisma } from '../../generated/prisma/client.js';
 import { isCourseClosureHistoricalMember } from '../enrollments/application/course-closure-memberships.js';
+import { OrganizationTimeService } from '../../common/time/organization-time.service.js';
 
 @Injectable()
 export class V81SettlementCheckService {
@@ -113,7 +114,11 @@ export class V81SettlementCheckService {
         SELECT closing_deadline,settlement_planned_at FROM v81_course_rules
         WHERE class_section_id=${classSectionId}::uuid AND organization_id=${organizationId}::uuid AND published_at IS NOT NULL`)[0];
       checks.push({ code: 'PUBLISHED_COURSE_RULE', status: rule ? 'CLEAR' : 'BLOCKED', count: rule ? 0 : 1 });
-      const due = rule && checkedAt >= rule.closing_deadline && checkedAt >= rule.settlement_planned_at;
+      const calendar = await tx.classSection.findUniqueOrThrow({where:{id:classSectionId},include:{organization:true,semester:true}});
+      const businessDate = new OrganizationTimeService().businessDate(checkedAt,calendar.organization.timezone);
+      const exerciseEnd = calendar.checkInEndDate?.toISOString().slice(0,10);
+      const startsEnded = Boolean(calendar.closedAt && calendar.closedAt<=checkedAt) || Boolean(exerciseEnd && businessDate>exerciseEnd);
+      const due = rule && startsEnded;
       checks.push({ code: 'SETTLEMENT_SCHEDULE', status: due ? 'CLEAR' : 'BLOCKED', count: due ? 0 : 1 });
       const reports = await tx.$queryRaw<{ id: string }[]>`SELECT id FROM v81_settlement_report_revisions
         WHERE class_section_id=${classSectionId}::uuid AND organization_id=${organizationId}::uuid LIMIT 1`;

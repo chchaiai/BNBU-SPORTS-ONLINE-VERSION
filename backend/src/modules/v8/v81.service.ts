@@ -205,10 +205,7 @@ export class V81Service {
       if (maximumMinutes < input.minimumMinutes) throw new ApplicationError('VALIDATION_FAILED',422,{reason:'MAXIMUM_BELOW_MINIMUM'});
       if (old[0]?.published_at) {
         const previous = old[0];
-        if (!input.publish || input.templateId !== previous.template_id ||
-          Date.parse(input.regularDeadline) !== previous.regular_deadline.getTime() ||
-          Date.parse(input.closingDeadline) !== previous.closing_deadline.getTime() ||
-          Date.parse(input.settlementPlannedAt) !== previous.settlement_planned_at.getTime())
+        if (!input.publish || input.templateId !== previous.template_id)
           throw new ApplicationError('CONFLICT_STATE_TRANSITION', 409);
         await tx.$executeRaw`UPDATE v81_course_rules SET minimum_minutes=${input.minimumMinutes},
           maximum_minutes=${maximumMinutes},course_target=${input.courseTarget},general_target=${input.generalTarget},target_global_version=${goal.version},
@@ -231,16 +228,13 @@ export class V81Service {
           WHERE id=${input.templateId}::uuid AND organization_id=${principal.organizationId}::uuid AND published_at<=${this.clock.now()}`;
         if (!templates[0]) throw new ApplicationError('PERMISSION_RESOURCE_NOT_FOUND', 404);
       }
-      const regular = new Date(input.regularDeadline),
-        closing = new Date(input.closingDeadline),
-        planned = new Date(input.settlementPlannedAt);
-      if (
-        closing.getTime() - regular.getTime() !== 7 * 86_400_000 ||
-        regular.getTime() < (section.checkInEndDate ?? section.checkInStartDate ?? section.semester.startDate).getTime() - 8 * 3_600_000 ||
-        planned < closing ||
-        closing.getTime() > section.semester.endDate.getTime() + 86_400_000 - 8 * 3_600_000
-      )
-        throw new ApplicationError('VALIDATION_FAILED', 422, { reason: 'COURSE_DEADLINES_INVALID', fieldErrors: [{field:'regularDeadline',code:'COURSE_DEADLINES_INVALID',i18nKey:'error.validation.failed',params:{}}] });
+      // Preserve legacy storage columns for old readers; they no longer authorize or stop operations.
+      const boundary = (await tx.$queryRaw<{ends_at: Date}[]>`SELECT
+        (COALESCE(c.check_in_end_date,s.end_date) + interval '1 day') AT TIME ZONE o.timezone AS ends_at
+        FROM class_sections c JOIN semesters s ON s.id=c.semester_id JOIN organizations o ON o.id=c.organization_id
+        WHERE c.id=${id}::uuid`)[0]!;
+      const regular = new Date(boundary.ends_at.getTime()-1),
+        closing = new Date(regular.getTime()+7*86_400_000), planned = closing;
       if (input.publish) {
         if (
           !section.checkInStartDate ||
@@ -392,7 +386,7 @@ export class V81Service {
             throw new ApplicationError('MEDIA_TYPE_NOT_ALLOWED', 415);
         } else if (evidence.mediaType === 'VIDEO' && item.phase === 'OTHER') {
           videoCount++;
-          if (evidence.declaredMimeType !== 'video/mp4' || evidence.declaredFileSizeBytes > 104857600n)
+          if (!['video/mp4','video/quicktime','video/webm','video/3gpp'].includes(evidence.declaredMimeType) || evidence.declaredFileSizeBytes > 209715200n)
             throw new ApplicationError('MEDIA_TYPE_NOT_ALLOWED', 415);
         } else throw new ApplicationError('MEDIA_TYPE_NOT_ALLOWED', 415);
       }

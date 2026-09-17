@@ -65,7 +65,7 @@ export class HealthService {
     return { kind: 'READY', status: 'UP', checkedAt: this.clock.now().toISOString() };
   }
 
-  async admin(): Promise<AdminHealthStatus> {
+  async admin(organizationId: string): Promise<AdminHealthStatus> {
     const [database, notificationQueue, objectStorage, mediaStorage] = await Promise.all([
       this.measure('DATABASE', async () => {
         const compatibility = await this.migrations.check();
@@ -74,7 +74,7 @@ export class HealthService {
       // Legacy response key: this probes outbox query availability only.
       // The count includes all business events and is not notification delivery health.
       this.measure('NOTIFICATION_QUEUE', async () =>
-        this.prisma.outboxEvent.count({ where: { status: { in: ['PENDING', 'FAILED'] } } }),
+        this.prisma.outboxEvent.count({ where: { organizationId, status: { in: ['PENDING', 'FAILED'] } } }),
       ),
       this.runtimeConfig.objectStorage === null
         ? this.notConfigured()

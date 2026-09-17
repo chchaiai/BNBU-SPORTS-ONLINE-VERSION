@@ -1,0 +1,750 @@
+▶ Foundation HTTP E2E with real PostgreSQL
+  ✔ serves public probes and restricts dependency health to administrators (895.215951ms)
+  ✔ logs in only with the seeded password and returns a safe /me projection (571.071184ms)
+  ✔ denies missing or pending password security and unassigned administrator access (628.3642ms)
+  ✖ validates unauthenticated access responses for every secured operation (328.33531ms)
+  ✔ validates error responses for public operations with request input (337.313451ms)
+  ✔ returns stable generic errors for wrong passwords and a specific disabled-account result (430.079352ms)
+  ✔ rejects expired, tampered, and cross-organization access tokens (390.697746ms)
+  ✔ rotates refresh tokens atomically and revokes the family on reuse (445.400145ms)
+  ✔ revokes logout sessions and makes the operation safely replayable (430.240415ms)
+  ✔ reserves concurrent idempotency keys without creating duplicate sessions (573.502304ms)
+  ✔ enforces mode allowlists, strict validation, request IDs, CORS, and body limits (492.731991ms)
+✖ Foundation HTTP E2E with real PostgreSQL (7377.698042ms)
+▶ Stage 21 client capabilities with real PostgreSQL
+  ✖ verifies email before creating a student or enrollment and reuses verified member identity (688.951375ms)
+  ✔ mail abuse: concurrent requests reserve only one code and replay does not consume quota (609.715193ms)
+  ✔ mail abuse: half-hour, daily and global caps reject before creating a challenge (424.801763ms)
+  ✔ student school suffix: invalid domains create no challenge or quota, valid domain retains replay (369.381082ms)
+  ✖ mail abuse: unknown accounts reserve no mail quota and forged invitations are rejected (348.122977ms)
+  ✔ distinguishes verified codes without an account, preserves replay and rejects invalid proofs (496.311535ms)
+  ✔ logs in verified enrolled and withdrawn students and rejects expired or changed-email challenges (517.79995ms)
+  ✖ updates academic details over HTTP while preserving a legacy student number and rejecting invalid majors (425.018676ms)
+  ✖ returns registered student data and scopes email access, filters and cursors (516.236578ms)
+  ✔ keeps student account deletion deferred with no challenge or account mutation (482.637699ms)
+  ✖ accepts an organization-scoped student challenge without exposing its code and keeps an empty release policy fail-closed (313.715747ms)
+  ✖ rejects PHONE without creating a challenge and activates a pending student through first email binding (390.988245ms)
+  ✖ requires both current and new mailbox codes for email rebinding (382.358928ms)
+  ✔ uses the numeric iOS build number for enforcement and keeps marketing version display-only (324.831286ms)
+  ✔ establishes a student OTP session and completes the private exemption-media review flow (677.984829ms)
+  ✔ completes TEACHER recovery and revokes every prior session (615.95882ms)
+  ✔ completes ADMIN recovery and revokes every prior session (602.971913ms)
+  ✔ lists and marks only the authenticated user notification with durable evidence (434.172766ms)
+  ✔ accepts only authenticated bounded client diagnostics with durable replay and no free-form metadata (818.659923ms)
+  ✔ marks 24 distinct notifications concurrently with one durable event per notification (952.742308ms)
+  ✔ registers and revokes an IOS push token without exposing plaintext or ciphertext (517.361502ms)
+  ✔ persists preferences and feedback while exposing only published help content (491.269879ms)
+  ✔ keeps all location and conversion capabilities explicitly fail-closed (648.149796ms)
+✖ Stage 21 client capabilities with real PostgreSQL (13609.136287ms)
+▶ Student identity, Enrollment, and QR Join HTTP E2E
+  ✖ rejects invalid enrollment academics without creating profiles and accepts SAI and custom graduate majors (655.502906ms)
+  ✖ enforces server-relative invite validity and rejects ambiguous or out-of-range input (592.580112ms)
+  ✖ rejects an identity created by another flow after capability issuance without binding its email (416.887217ms)
+  ✖ finishes a registered flow during natural-expiry grace without renewing or opening a new flow (424.057834ms)
+  ✖ rejects registered invitation grace when GRACE_EXPIRED (413.358354ms)
+  ✖ rejects registered invitation grace when REVOKED (420.446018ms)
+  ✖ rejects registered invitation grace when ENROLLMENT_CLOSED (426.092596ms)
+  ✖ rejects registered invitation grace when COURSE_CLOSED (415.575667ms)
+  ✖ rejects registered invitation grace when SEMESTER_ARCHIVED (412.345181ms)
+  ✖ rotates digest-only invites and issues one replayable capability without creating identity (515.350324ms)
+  ✖ rejects non-binary QR join genders and malformed cohort years before issuing a capability (452.54534ms)
+  ✖ joins atomically, replays the exact encrypted result, and grants only Enrollment projections (429.169804ms)
+  ✔ manually enrolls an existing student and enforces remove, restore, read, and withdraw scopes (712.911806ms)
+  ✖ rolls back a second same-semester join and refuses self rejoin after teacher removal (507.767545ms)
+✖ Student identity, Enrollment, and QR Join HTTP E2E (8343.689969ms)
+▶ ExerciseRecord HTTP E2E
+  ✔ uses the local exercise end date and lets an admitted session finish after midnight (1127.688743ms)
+  ✔ stops new exercise after semester end while allowing an existing draft to submit (724.283417ms)
+  ✔ creates, edits, lists, submits, and replays one immutable evidence chain (742.292736ms)
+  ✔ requires the exact complete set of available session media (702.986461ms)
+  ✔ does not let an unselected processing upload block valid evidence submission (665.770497ms)
+  ✔ returns a stable conflict when a second draft is created for one session (621.684789ms)
+  ✔ discards a draft atomically with append-only evidence (634.072117ms)
+  ✔ routes withdrawal to stable default deny with zero domain side effects (601.707634ms)
+  ✔ rejects below-threshold records before creation and teacher review (614.637254ms)
+  ✔ accepts same-day submissions for review without reserving legacy daily slots (758.233849ms)
+  ✔ returns for one supplement then credits a replayable teacher decision in student progress (1776.941931ms)
+  ✔ approves, adjusts and revokes activity recognition with matching student progress and history (1320.269246ms)
+  ✔ rolls back incomplete swimming evidence and accepts the complete set without a legacy intake (777.822906ms)
+  ✔ locks swimming before and after evidence once and exposes the transfer clock (921.428143ms)
+✔ ExerciseRecord HTTP E2E (13049.775043ms)
+▶ ExerciseReview HTTP E2E
+  ✔ lets the responsible teacher append INVALID to a system-valid submission (839.968578ms)
+  ✔ appends VALID, lists history, reopens, and appends INVALID without changing duration facts (768.626989ms)
+  ✔ replays one decision and permits only one concurrent stale decision (667.783018ms)
+  ✔ returns ordered partial batch outcomes and exact replay (644.793692ms)
+  ✔ denies STUDENT and ADMIN review operations before business mutation (625.859569ms)
+✔ ExerciseReview HTTP E2E (4477.702749ms)
+▶ ExerciseSession HTTP E2E
+  ✔ runs start, active recovery, pause, resume, conservative reconcile, and finish atomically (1408.364228ms)
+  ✔ cancels without deleting history and rejects stale, duplicate-active, foreign-role, removed, and unknown input (870.631246ms)
+  ✔ fails closed outside the configured window and rejects unverified offline intervals (651.830123ms)
+  ✔ allows further exercise with 20 hours of historical VALID records (600.684713ms)
+✔ ExerciseSession HTTP E2E (4529.174796ms)
+▶ Stage 19 Export, Audit Read, and governance HTTP E2E
+  ✔ enforces role and organization scope for Student and Teacher projections (1043.161416ms)
+  ✖ denies administrator student-profile mutation without side effects (477.328627ms)
+  ✔ denies unassigned legacy Export operations without persistence (457.567509ms)
+  ✔ allows only organization ADMIN audit read, redacts recursively, and audits each read (536.557407ms)
+✖ Stage 19 Export, Audit Read, and governance HTTP E2E (3395.688693ms)
+▶ MediaEvidence HTTP E2E
+  ✔ runs idempotent initiate, verified confirm, same-Session bind, worker, and private access (1120.942445ms)
+  ✔ recovers a pending video under fresh concurrent keys without consuming another slot (624.226215ms)
+  ✔ renews expired credentials for the same pending file without replacing its media identity (444.584159ms)
+  ✔ preserves stored evidence through maintenance beyond PUT expiry and confirms the original upload (535.034943ms)
+  ✔ releases an expired video reservation and recovers after a stored quota failure using a fresh key (487.716812ms)
+  ✔ server video confirms raw bytes, normalizes asynchronously and preserves original identity (1438.155781ms)
+  ✔ server video processing failure releases its quota for replacement (729.827605ms)
+  ✖ server video enforces new declaration limits before reserving a slot (381.086444ms)
+  ✔ fails spoofed MIME without partial verified facts and rejects cross-Session binding (437.330914ms)
+  ✔ rejects new or newly bound evidence after the session record is submitted (417.036776ms)
+✖ MediaEvidence HTTP E2E (7467.036667ms)
+▶ Official Roster Import and Alignment HTTP E2E
+  ✔ continues an accepted electronic roster after closing while rejecting new imports without side effects (1162.485198ms)
+  ✔ uploads private immutable versions and enforces Teacher/Admin/Student projections and scope (774.917076ms)
+  ✔ aligns a frozen current snapshot and appends confirm/resolve/reopen while ignore is side-effect free (748.87802ms)
+✔ Official Roster Import and Alignment HTTP E2E (3588.369165ms)
+[31m[Nest] 24722  - [39m09/16/2026, 7:21:00 AM [31m  ERROR[39m [38;5;3m[HttpExceptionFilter] [39mObject(7) {
+  event: [32m'UNHANDLED_HTTP_ERROR'[39m,
+  requestId: [32m'd2c4da02-867e-4698-a4c8-65226676518a'[39m,
+  errorType: [32m'UNEXPECTED_ERROR'[39m,
+  databaseCode: [1mnull[22m,
+  sqlState: [1mnull[22m,
+  serializationFailure: [33mfalse[39m,
+  deadlock: [33mfalse[39m
+}
+▶ Public system endpoint error conformance
+  ✔ validates documented liveness, readiness, and system-mode failures over HTTP (55.117099ms)
+✔ Public system endpoint error conformance (1018.278217ms)
+▶ Current internal final grade HTTP E2E
+  ✔ preserves teacher draft and publication history with replay and student privacy (885.757274ms)
+  ✔ serializes competing revisions and rejects stale writes, notes and unauthorized actors (723.247841ms)
+  ✔ denies obsolete administrator score governance without creating score rules (476.55422ms)
+  ✔ denies every retired score endpoint for authenticated teachers and administrators (573.38473ms)
+✔ Current internal final grade HTTP E2E (3536.108608ms)
+▶ Course and ClassSection HTTP E2E
+  ✔ applies role-scoped Course reads and stable bound cursor pagination (756.078175ms)
+  ✔ exposes organization-scoped outbox diagnostics with filtering, pagination and no sensitive payload (1328.122037ms)
+  ✔ keeps formal major confirmation locked across administrator correction and repeated requests (629.238301ms)
+  ✔ creates and updates the teacher course with replay while administrators remain read-only (621.197591ms)
+  ✔ derives the responsible teacher and replaces excluded dates atomically (491.424721ms)
+  ✔ closes a ClassSection idempotently and preserves the historical projection (436.051945ms)
+  ✔ enforces teacher ownership, administrator read-only governance, and organization isolation (646.03016ms)
+  ✔ keeps archived Semester and inactive Course creation failures free of side effects (434.874957ms)
+  ✔ returns an empty student projection without ACTIVE Enrollment and rejects writes (428.27676ms)
+  ✔ rejects unsupported mode values and maintenance mutations without side effects (431.656454ms)
+✔ Course and ClassSection HTTP E2E (7700.156427ms)
+▶ V81 teacher review above 60 minutes HTTP E2E
+  ✔ 65 minutes VALID snapshot 120 (1044.643368ms)
+  ✔ 76 minutes VALID snapshot 120 (732.812455ms)
+  ✔ 65 minutes RETURN_FOR_SUPPLEMENT snapshot 120 (767.259242ms)
+  ✔ 76 minutes RETURN_FOR_SUPPLEMENT snapshot 120 (754.222655ms)
+  ✔ 76 minutes VALID snapshot null (722.861037ms)
+  ✔ 1440 minutes VALID snapshot 1440 (708.322412ms)
+✔ V81 teacher review above 60 minutes HTTP E2E (5650.990959ms)
+{"check":"ENDURANCE_CONCURRENT_VERSION_AND_SUBADMIN_PERMISSION_REVOCATION","result":"PASS"}
+▶ V81 endurance rule administration HTTP E2E
+  ✔ preserves rule revisions, rejects invalid bands and enforces concurrent versions and revoked permissions (1972.906244ms)
+✔ V81 endurance rule administration HTTP E2E (2859.044572ms)
+▶ V81 help and feedback HTTP E2E
+  ✔ publishes bilingual help, replays writes and removes archived content from student reads (1119.955757ms)
+  ✔ paginates help without omissions, serializes edits and applies revoked admin permissions immediately (583.915893ms)
+  ✔ delivers feedback handling history and notifications once, with owner isolation and version conflicts (905.743813ms)
+✔ V81 help and feedback HTTP E2E (3500.679109ms)
+{"check":"MAKEUP_HTTP_GRANT_SCOPE_RULE_BOUNDS_REPLAY_PAGINATION_CONCURRENT_REVOCATION_AUDIT","result":"PASS","membersSeeded":true}
+{"check":"STUDENT_OWN_MAKEUP_OTP_SCOPE_PAGINATION_REVOCATION_NOTIFICATION_EXACTLY_ONCE","result":"PASS","syntheticStudents":true}
+▶ V81 makeup window HTTP E2E
+  ✔ creates and revokes makeup windows with student OTP readback and notifications (1810.212379ms)
+{"check":"MAKEUP_REVOKED_SESSION_MINIO_UPLOAD_SUBMIT_MANUAL_REVIEW_REPLAY","result":"PASS","scheduleSeeded":true,"syntheticImage":true,"realElapsedMinute":true,"maintenanceBeyondUploadExpiry":true}
+  ✔ authorizes exercise within course dates during a paused daily window and preserves the active session after revocation (62553.383609ms)
+✔ V81 makeup window HTTP E2E (65207.464418ms)
+▶ V81 OCR governance HTTP E2E
+  ✔ governs OCR configuration with super-admin scope, immutable history and versioned replay (1046.569301ms)
+  ✖ executes current profile, membership, history, goal and deletion contracts over HTTP (607.256523ms)
+✖ V81 OCR governance HTTP E2E (2548.680453ms)
+{"check":"OCR_DRAFT_HTTP_MAPPING_SCOPE_VALIDATION_REPLAY_CONCURRENT_REVISION_HISTORY_SOURCE_RETAINED","result":"PASS","providerSimulated":true,"formalConfirmation":false}
+{"check":"OCR_SETTLEMENT_PENDING_BATCHES_UNIFIED_SOURCE_UNRESOLVED_REGISTRATION_STILL_BLOCKED","result":"PASS"}
+{"check":"OCR_CONFIRMED_ROSTER_ADMIN_SUMMARIES_USE_UNIFIED_BASIS_NO_PERSONAL_SOURCE_DATA","result":"PASS"}
+{"check":"OCR_ROSTER_HTTP_CONFIRM_CONCURRENT_SINGLE_SNAPSHOT_BASIS_REPLAY_SCOPE_HISTORY_NO_ENROLLMENT","result":"PASS","providerSimulated":true}
+{"check":"CONFIRMED_ROSTER_SNAPSHOT_LIST_CURSOR_CURRENT_SELECTION_METADATA_ONLY","result":"PASS"}
+{"check":"UNIFIED_ROSTER_BASIS_RESTORE_OCR_ELECTRONIC_CONCURRENT_VERSION_REASON_REPLAY_HISTORY","result":"PASS"}
+{"check":"OCR_TO_REAL_CSV_CONFIRM_REPLACE_ROLLBACK_SHARED_VERSION_SOURCE_BYTES_HISTORY_NO_MEMBERSHIP","result":"PASS","providerSimulated":true}
+▶ V81 OCR intake and job HTTP E2E
+  ✔ uploads private OCR pages and completes recognition and confirmation with course open (image/png) (3140.802875ms)
+{"check":"OCR_DRAFT_HTTP_MAPPING_SCOPE_VALIDATION_REPLAY_CONCURRENT_REVISION_HISTORY_SOURCE_RETAINED","result":"PASS","providerSimulated":true,"formalConfirmation":false}
+{"check":"OCR_SETTLEMENT_PENDING_BATCHES_UNIFIED_SOURCE_UNRESOLVED_REGISTRATION_STILL_BLOCKED","result":"PASS"}
+{"check":"OCR_CONFIRMED_ROSTER_ADMIN_SUMMARIES_USE_UNIFIED_BASIS_NO_PERSONAL_SOURCE_DATA","result":"PASS"}
+{"check":"OCR_ROSTER_HTTP_CONFIRM_CONCURRENT_SINGLE_SNAPSHOT_BASIS_REPLAY_SCOPE_HISTORY_NO_ENROLLMENT","result":"PASS","providerSimulated":true}
+  ✔ uploads private OCR pages and completes recognition and confirmation with course closed after acceptance (image/png) (1983.206258ms)
+{"check":"OCR_DRAFT_HTTP_MAPPING_SCOPE_VALIDATION_REPLAY_CONCURRENT_REVISION_HISTORY_SOURCE_RETAINED","result":"PASS","providerSimulated":true,"formalConfirmation":false}
+{"check":"OCR_SETTLEMENT_PENDING_BATCHES_UNIFIED_SOURCE_UNRESOLVED_REGISTRATION_STILL_BLOCKED","result":"PASS"}
+{"check":"OCR_CONFIRMED_ROSTER_ADMIN_SUMMARIES_USE_UNIFIED_BASIS_NO_PERSONAL_SOURCE_DATA","result":"PASS"}
+{"check":"OCR_ROSTER_HTTP_CONFIRM_CONCURRENT_SINGLE_SNAPSHOT_BASIS_REPLAY_SCOPE_HISTORY_NO_ENROLLMENT","result":"PASS","providerSimulated":true}
+  ✔ uploads private OCR pages and completes recognition and confirmation with course closed after acceptance (image/webp) (1903.334914ms)
+✔ V81 OCR intake and job HTTP E2E (7881.08232ms)
+▶ V81 physical import HTTP E2E
+  ✔ keeps CSV drafts separate then confirms reviewed rows atomically with replay (1174.233597ms)
+  ✔ imports the selected XLSX sheet, retains exact source bytes and confirms the student result (779.671411ms)
+✔ V81 physical import HTTP E2E (3018.636049ms)
+▶ V81 physical result HTTP E2E
+  ✔ records 1000m raw facts with immutable history, concurrency and student privacy (1332.881565ms)
+  ✔ records 800m raw facts with immutable history, concurrency and student privacy (909.503995ms)
+✔ V81 physical result HTTP E2E (3141.752383ms)
+{"check":"RUNTIME_ARCHIVE_CURRENT_PERMISSION_REVOKE_RESTORE_SYNTHETIC_EXPIRY_REISSUE","result":"PASS"}
+{"check":"RUNTIME_ARCHIVE_LIVE_WORKER_PRIVATE_ZIP_DOWNLOAD_CANCEL","result":"PASS","recordCount":13}
+▶ V81 runtime archives HTTP E2E
+  ✔ generates a scoped private ZIP with the live worker, downloads it and revokes access on cancellation (5690.981867ms)
+✔ V81 runtime archives HTTP E2E (6574.316659ms)
+{"check":"SEMESTER_SWITCH_PREFLIGHT_SCOPE_DATE_PAGINATION_SHARED_COURSE_BLOCKERS_NO_MUTATION","result":"PASS","settlementSource":"saved reports"}
+{"check":"SEMESTER_SWITCH_DATE_UNSETTLED_SCOPE_REQUIRED_VERSION_DENIED","result":"PASS"}
+[31m[Nest] 32388  - [39m09/16/2026, 7:23:01 AM [31m  ERROR[39m [38;5;3m[HttpExceptionFilter] [39mObject(7) {
+  event: [32m'UNHANDLED_HTTP_ERROR'[39m,
+  requestId: [32m'01a0a918-f86b-726f-8d05-657a86025980'[39m,
+  errorType: [32m'PrismaClientKnownRequestError'[39m,
+  databaseCode: [32m'P2010'[39m,
+  sqlState: [1mnull[22m,
+  serializationFailure: [33mfalse[39m,
+  deadlock: [33mfalse[39m
+}
+{"check":"SEMESTER_SWITCH_SUBADMIN_PERMISSION_AND_AUDIT_FAILURE_ROLLS_BACK_BOTH_SEMESTERS","result":"PASS","failure":"injected only in isolated test database; trigger removed"}
+{"check":"COURSE_CREATION_UPCOMING_DENIED_SWITCH_THEN_ACTIVE_REPLAY_ARCHIVED_DENIED","result":"PASS"}
+{"check":"SEMESTER_EMPTY_OLD_ATOMIC_SWITCH_CONCURRENT_REPLAY_UNIQUE_CURRENT_AUDIT_HISTORY","result":"PASS","fixture":"empty current semester prepared in isolated database; not settled-course acceptance"}
+▶ V81 semester administration HTTP E2E
+  ✔ creates and edits an upcoming semester, checks blockers and atomically switches an empty current semester (1697.290818ms)
+✔ V81 semester administration HTTP E2E (2597.359779ms)
+{"check":"ADMIN_COURSE_SETTLEMENT_AGGREGATE_REAL_REPORT_SCHEMA_PRIVACY_SCOPE_GRANT_REVOCATION","result":"PASS"}
+{"check":"SEMESTER_PREFLIGHT_COUNTS_FORMAL_REPORT_AND_OFF_PAGE_UNFINISHED_COURSES","result":"PASS"}
+{"check":"SETTLED_SEMESTER_SWITCH_MAINTENANCE_DENIED_NO_STATUS_CHANGE_RECOVERY","result":"PASS"}
+{"check":"ONE_COURSE_FORMAL_HTTP_SETTLEMENT_SWITCH_ARCHIVE_REPLAY_REPORT_EXPORT_HISTORY_PRESERVED","result":"PASS","fixture":"one-course semester prepared before business facts; historical published rules; report and switch use real HTTP"}
+{"check":"SETTLEMENT_REAL_HTTP_MISSING_FACTS_STALE_PREVIEW_SCOPE_CONCURRENT_SINGLE_REPORT_REPLAY_READ_EXPORT","result":"PASS","clock":"real server clock","fixture":"historical rules seeded only in isolated test database"}
+[31m[Nest] 32600  - [39m09/16/2026, 7:23:05 AM [31m  ERROR[39m [38;5;3m[HttpExceptionFilter] [39mObject(7) {
+  event: [32m'UNHANDLED_HTTP_ERROR'[39m,
+  requestId: [32m'01a0a919-08d3-7590-988e-6b0c52703504'[39m,
+  errorType: [32m'PrismaClientKnownRequestError'[39m,
+  databaseCode: [32m'P2010'[39m,
+  sqlState: [1mnull[22m,
+  serializationFailure: [33mfalse[39m,
+  deadlock: [33mfalse[39m
+}
+{"check":"PHYSICAL_CORRECTION_NO_REPORT_ROLLBACK_STUDENT_LATEST_SCOPE_PRIVACY","result":"PASS"}
+{"check":"PHYSICAL_CORRECTION_MISSING_ORIGINAL_NO_SIDE_EFFECT_CONCURRENT_SINGLE_WINNER_HISTORY","result":"PASS"}
+{"check":"PHYSICAL_REPORT_FAILURE_ROLLS_BACK_RESULT_NOTIFICATION_AUDIT_SAME_KEY_RECOVERY","result":"PASS"}
+{"check":"FORMAL_SETTLEMENT_ARCHIVE_PHYSICAL_CORRECTION_REPORT_HISTORY_NOTIFICATION_REPLAY_SCOPE_SCHEMA","result":"PASS"}
+[31m[Nest] 32600  - [39m09/16/2026, 7:23:06 AM [31m  ERROR[39m [38;5;3m[HttpExceptionFilter] [39mObject(7) {
+  event: [32m'UNHANDLED_HTTP_ERROR'[39m,
+  requestId: [32m'01a0a919-0bf0-7367-82cb-e4427038acff'[39m,
+  errorType: [32m'PrismaClientKnownRequestError'[39m,
+  databaseCode: [32m'P2010'[39m,
+  sqlState: [1mnull[22m,
+  serializationFailure: [33mfalse[39m,
+  deadlock: [33mfalse[39m
+}
+{"check":"GRADE_REPORT_FAILURE_ROLLS_BACK_GRADE_AUDIT_SAME_KEY_RETRY_REPORT_SCHEMA","result":"PASS"}
+{"check":"GRADE_CORRECTION_OTHER_TEACHER_NO_ORIGINAL_GRADE_NO_REPORT_ROLLBACK_CONCURRENT_SINGLE_WINNER","result":"PASS","archived":true}
+{"check":"FINAL_GRADE_CORRECTION_ATOMIC_VERSION_REPORT_REPLAY_HISTORY_PRIVATE_GRADE","result":"PASS","archived":true,"fixture":"initial report and optional archived state prepared in isolated database"}
+[31m[Nest] 32600  - [39m09/16/2026, 7:23:06 AM [31m  ERROR[39m [38;5;3m[HttpExceptionFilter] [39mObject(7) {
+  event: [32m'UNHANDLED_HTTP_ERROR'[39m,
+  requestId: [32m'01a0a919-0dbc-704d-b205-c6dcc5cb6653'[39m,
+  errorType: [32m'PrismaClientKnownRequestError'[39m,
+  databaseCode: [32m'P2010'[39m,
+  sqlState: [1mnull[22m,
+  serializationFailure: [33mfalse[39m,
+  deadlock: [33mfalse[39m
+}
+[31m[Nest] 32600  - [39m09/16/2026, 7:23:07 AM [31m  ERROR[39m [38;5;3m[HttpExceptionFilter] [39mObject(7) {
+  event: [32m'UNHANDLED_HTTP_ERROR'[39m,
+  requestId: [32m'01a0a919-0f1c-70a5-8f3d-d0aa0aa9b133'[39m,
+  errorType: [32m'PrismaClientKnownRequestError'[39m,
+  databaseCode: [32m'P2010'[39m,
+  sqlState: [1mnull[22m,
+  serializationFailure: [33mfalse[39m,
+  deadlock: [33mfalse[39m
+}
+▶ V81 formal settlement and semester archival HTTP E2E
+  ✔ confirms one course settlement and preserves its report when switching semesters (4397.080038ms)
+✔ V81 formal settlement and semester archival HTTP E2E (5303.029407ms)
+▶ V81 subadministrator SMTP identity HTTP E2E
+  ✔ creates an administrator-attested subadministrator sharing a student email without an OTP or identity crossover (1373.582079ms)
+  ✔ deletes a confirmed teacher account and preserves historical subjects with replay (623.733187ms)
+{"check":"SUBADMIN_EMAIL_CHANGE_MATCHING_OTP_CONSUMPTION_LOGIN_PRESERVED","result":"PASS"}
+{"check":"SUBADMIN_PREFERENCE_CLEANUP_RETAINS_HISTORY_OTHER_ROLE_DELETE_DENIED","result":"PASS"}
+{"check":"SUBADMIN_PII_RECEIPTS_LINKED_TO_ACCOUNT_OR_IDENTITY_RESOURCE","result":"PASS"}
+{"check":"SUBADMIN_DELETE_CONCURRENT_REPLAY_PUSH_CLEANUP_FEEDBACK_HISTORY","result":"PASS"}
+{"check":"SUBADMIN_DELETE_CURRENT_ACCOUNT_LEGACY_RECEIPTS_REPLAY_HISTORY","result":"PASS"}
+{"check":"SUBADMIN_PROFILE_ATOMIC_UPDATE_REPLAY_VERSION_PERMISSION_REVOKE","result":"PASS"}
+{"check":"SUBADMIN_STATUS_HANDOVER_REPLAY_SESSION_REVOCATION_REENABLE","result":"PASS"}
+{"check":"SUBADMIN_SMTP_OTP_VERIFY_CONSUME_CREATE_FIRST_PASSWORD_CHANGE_PERMISSION","result":"PASS","syntheticIdentity":true}
+  ✔ verifies email OTP before creating and managing a subadministrator (1853.382192ms)
+{"check":"SUBADMIN_EIGHT_SINGLE_PERMISSION_MATRIX_AND_SYSTEM_MODE_WRITE","result":"PASS","readChecks":64,"revokedReadChecks":8,"syntheticIdentity":true}
+{"check":"SUBADMIN_PERMISSION_UPDATE_REPLAY_CONCURRENT_REVOKE_CURRENT_SESSION_NO_ESCALATION","result":"PASS","syntheticIdentity":true}
+  ✔ enforces permission changes and revocation against an already authenticated subadministrator session (1771.813902ms)
+✔ V81 subadministrator SMTP identity HTTP E2E (6529.926782ms)
+▶ V81 system management HTTP E2E
+  ✔ enforces all eight subadministrator permissions during maintenance (1197.955893ms)
+  ✔ allows SUPER authorized reads and writes during maintenance without expanding permissions (821.199678ms)
+  ✔ allows SUB authorized reads and writes during maintenance without expanding permissions (542.789621ms)
+  ✔ changes maintenance mode with replay, durable history, public announcement and recovery (658.08466ms)
+  ✔ scopes public mode and announcement to the configured school while another school stays normal (605.710761ms)
+  ✔ reads all mode history across stable version pages without exposing another school (497.834119ms)
+  ✔ changes teacher and administrator passwords while retaining only the current session (1421.939689ms)
+  ✔ allows administrator security access in maintenance and rejects teacher and student password operations (679.8621ms)
+{"check":"APPROVED_TEMPLATE_SUPER_ONLY_IMMUTABLE_VERSIONS_COURSE_SELECTION_NO_RETROACTIVE_CHANGE","result":"PASS","syntheticFixture":true}
+  ✔ publishes immutable approved templates and freezes the teacher course selection (848.647221ms)
+{"check":"UNIFIED_AUDIT_DATE_RANGE_FILTERS_PAGINATION_SOURCE_ROLE_UNKNOWN_METADATA_PRIVACY_PERMISSION","result":"PASS","syntheticEvents":true}
+  ✔ queries immutable audit events with date boundaries, pagination, redaction and tenant isolation (660.876186ms)
+✔ V81 system management HTTP E2E (8851.018926ms)
+▶ V81 target reallocation HTTP E2E
+  ✔ updates published daily times and pause state while preserving locked dates and historical facts (1257.980498ms)
+  ✔ reallocates repeatedly and preserves record facts while recomputing credit (839.508839ms)
+✔ V81 target reallocation HTTP E2E (3019.107893ms)
+▶ V81 teacher account import HTTP E2E
+  ✔ previews custom-email accounts, confirms once and requires personal passwords before business access (1803.696488ms)
+✔ V81 teacher account import HTTP E2E (2712.766095ms)
+ℹ tests 144
+ℹ suites 27
+ℹ pass 120
+ℹ fail 24
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 222715.139928
+
+✖ failing tests:
+
+test at test/e2e/auth.e2e.test.ts:1:9673
+✖ validates unauthenticated access responses for every secured operation (328.33531ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  249 !== 248
+  
+      at TestContext.<anonymous> (/workspace/backend/test/e2e/auth.e2e.test.ts:334:12)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1325:25)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async Suite.processPendingSubtests (node:internal/test_runner/test:911:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 249,
+    expected: 248,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at test/e2e/client-capabilities.e2e.test.ts:1:4622
+✖ verifies email before creating a student or enrollment and reuses verified member identity (688.951375ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  422 !== 202
+  
+      at TestContext.<anonymous> (/workspace/backend/test/e2e/client-capabilities.e2e.test.ts:197:12)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async Test.run (node:internal/test_runner/test:1332:7)
+      at async Promise.all (index 0)
+      at async Suite.run (node:internal/test_runner/test:1794:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:385:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 422,
+    expected: 202,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at test/e2e/client-capabilities.e2e.test.ts:1:11727
+✖ mail abuse: unknown accounts reserve no mail quota and forged invitations are rejected (348.122977ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  422 !== 401
+  
+      at TestContext.<anonymous> (/workspace/backend/test/e2e/client-capabilities.e2e.test.ts:295:12)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async Test.run (node:internal/test_runner/test:1332:7)
+      at async Suite.processPendingSubtests (node:internal/test_runner/test:911:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 422,
+    expected: 401,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at test/e2e/client-capabilities.e2e.test.ts:1:16286
+✖ updates academic details over HTTP while preserving a legacy student number and rejecting invalid majors (425.018676ms)
+  AssertionError [ERR_ASSERTION]: {"code":"USER_PROFILE_INVALID","message":"The student profile data is invalid.","details":{"fieldErrors":[{"field":"majorName","code":"MAJOR_CONFIRMATION_LOCKED","i18nKey":"error.user.profileInvalid","params":{}}]},"requestId":"01a0a916-3b80-70ad-8ef0-b763b1bee510","timestamp":"2026-09-16T07:20:01.679Z"}
+  
+  422 !== 200
+  
+      at TestContext.<anonymous> (/workspace/backend/test/e2e/client-capabilities.e2e.test.ts:371:65)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async Test.run (node:internal/test_runner/test:1332:7)
+      at async Suite.processPendingSubtests (node:internal/test_runner/test:911:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 422,
+    expected: 200,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at test/e2e/client-capabilities.e2e.test.ts:1:17561
+✖ returns registered student data and scopes email access, filters and cursors (516.236578ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  0 !== 1
+  
+      at TestContext.<anonymous> (/workspace/backend/test/e2e/client-capabilities.e2e.test.ts:391:52)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async Test.run (node:internal/test_runner/test:1332:7)
+      at async Suite.processPendingSubtests (node:internal/test_runner/test:911:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 0,
+    expected: 1,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at test/e2e/client-capabilities.e2e.test.ts:2:201
+✖ accepts an organization-scoped student challenge without exposing its code and keeps an empty release policy fail-closed (313.715747ms)
+  AssertionError [ERR_ASSERTION]: {"code":"VALIDATION_FAILED","message":"One or more request fields are invalid.","details":{"fieldErrors":[{"field":"account","code":"BNBU_EMAIL_REQUIRED","i18nKey":"error.validation.failed","params":{"suffix":"@mail.bnbu.edu.cn"}}]},"requestId":"01a0a916-40ae-753e-961e-ed2ba610fdbf","timestamp":"2026-09-16T07:20:02.992Z"}
+  
+  
+  422 !== 202
+  
+      at TestContext.<anonymous> (/workspace/backend/test/e2e/client-capabilities.e2e.test.ts:454:12)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async Test.run (node:internal/test_runner/test:1332:7)
+      at async Suite.processPendingSubtests (node:internal/test_runner/test:911:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 422,
+    expected: 202,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at test/e2e/client-capabilities.e2e.test.ts:3:440
+✖ rejects PHONE without creating a challenge and activates a pending student through first email binding (390.988245ms)
+  AssertionError [ERR_ASSERTION]: {"code":"VALIDATION_FAILED","message":"One or more request fields are invalid.","details":{"fieldErrors":[{"field":"email","code":"STUDENT_EMAIL_PREFIX_INVALID","i18nKey":"error.validation.failed","params":{}}]},"requestId":"01a0a916-4233-724b-92b4-af4152b029a5","timestamp":"2026-09-16T07:20:03.383Z"}
+  
+  422 !== 202
+  
+      at TestContext.<anonymous> (/workspace/backend/test/e2e/client-capabilities.e2e.test.ts:524:12)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async Test.run (node:internal/test_runner/test:1332:7)
+      at async Suite.processPendingSubtests (node:internal/test_runner/test:911:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 422,
+    expected: 202,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at test/e2e/client-capabilities.e2e.test.ts:3:3717
+✖ requires both current and new mailbox codes for email rebinding (382.358928ms)
+  AssertionError [ERR_ASSERTION]: {"code":"VALIDATION_FAILED","message":"One or more request fields are invalid.","details":{"fieldErrors":[{"field":"email","code":"STUDENT_EMAIL_PREFIX_INVALID","i18nKey":"error.validation.failed","params":{}}]},"requestId":"01a0a916-43b1-70fb-87a3-5dc497d21261","timestamp":"2026-09-16T07:20:03.766Z"}
+  
+  422 !== 202
+  
+      at TestContext.<anonymous> (/workspace/backend/test/e2e/client-capabilities.e2e.test.ts:600:12)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async Test.run (node:internal/test_runner/test:1332:7)
+      at async Suite.processPendingSubtests (node:internal/test_runner/test:911:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 422,
+    expected: 202,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at test/e2e/enrollment-qr-join.e2e.test.ts:1:8559
+✖ rejects invalid enrollment academics without creating profiles and accepts SAI and custom graduate majors (655.502906ms)
+  AssertionError [ERR_ASSERTION]: {"code":"AUTH_JOIN_CAPABILITY_INVALID","message":"The Join Capability is invalid.","details":{},"requestId":"01a0a916-6616-7359-93fa-f361f73efdef","timestamp":"2026-09-16T07:20:12.582Z"}
+  
+  401 !== 200
+  
+      at issueCapability (/workspace/backend/test/e2e/enrollment-qr-join.e2e.test.ts:147:14)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async TestContext.<anonymous> (/workspace/backend/test/e2e/enrollment-qr-join.e2e.test.ts:305:22)
+      at async Test.run (node:internal/test_runner/test:1332:7)
+      at async Promise.all (index 0)
+      at async Suite.run (node:internal/test_runner/test:1794:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:385:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 401,
+    expected: 200,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at test/e2e/enrollment-qr-join.e2e.test.ts:1:9545
+✖ enforces server-relative invite validity and rejects ambiguous or out-of-range input (592.580112ms)
+  Error: response status 422 is not documented
+      at validateResponse (file:///workspace/backend/scripts/runtime-conformance-hook.mjs:225:11)
+      at conformanceFetch (file:///workspace/backend/scripts/runtime-conformance-hook.mjs:286:11)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async request (/workspace/backend/test/e2e/enrollment-qr-join.e2e.test.ts:85:22)
+      at async TestContext.<anonymous> (/workspace/backend/test/e2e/enrollment-qr-join.e2e.test.ts:327:21)
+      at async Test.run (node:internal/test_runner/test:1332:7)
+      at async Suite.processPendingSubtests (node:internal/test_runner/test:911:7)
+
+test at test/e2e/enrollment-qr-join.e2e.test.ts:1:10761
+✖ rejects an identity created by another flow after capability issuance without binding its email (416.887217ms)
+  AssertionError [ERR_ASSERTION]: {"code":"AUTH_JOIN_CAPABILITY_INVALID","message":"The Join Capability is invalid.","details":{},"requestId":"01a0a916-6a20-72d4-984f-04b28f3d7700","timestamp":"2026-09-16T07:20:13.609Z"}
+  
+  401 !== 200
+  
+      at issueCapability (/workspace/backend/test/e2e/enrollment-qr-join.e2e.test.ts:147:14)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async TestContext.<anonymous> (/workspace/backend/test/e2e/enrollment-qr-join.e2e.test.ts:335:39)
+      at async Test.run (node:internal/test_runner/test:1332:7)
+      at async Suite.processPendingSubtests (node:internal/test_runner/test:911:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 401,
+    expected: 200,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at test/e2e/enrollment-qr-join.e2e.test.ts:1:12273
+✖ finishes a registered flow during natural-expiry grace without renewing or opening a new flow (424.057834ms)
+  AssertionError [ERR_ASSERTION]: {"code":"AUTH_JOIN_CAPABILITY_INVALID","message":"The Join Capability is invalid.","details":{},"requestId":"01a0a916-6bc9-711f-933c-0d97dab1b43e","timestamp":"2026-09-16T07:20:14.033Z"}
+  
+  401 !== 200
+  
+      at issueCapability (/workspace/backend/test/e2e/enrollment-qr-join.e2e.test.ts:147:14)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async TestContext.<anonymous> (/workspace/backend/test/e2e/enrollment-qr-join.e2e.test.ts:357:18)
+      at async Test.run (node:internal/test_runner/test:1332:7)
+      at async Suite.processPendingSubtests (node:internal/test_runner/test:911:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 401,
+    expected: 200,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at test/e2e/enrollment-qr-join.e2e.test.ts:1:14020
+✖ rejects registered invitation grace when GRACE_EXPIRED (413.358354ms)
+  AssertionError [ERR_ASSERTION]: {"code":"AUTH_JOIN_CAPABILITY_INVALID","message":"The Join Capability is invalid.","details":{},"requestId":"01a0a916-6d67-7618-a49e-8dc5783bcdcd","timestamp":"2026-09-16T07:20:14.447Z"}
+  
+  401 !== 200
+  
+      at issueCapability (/workspace/backend/test/e2e/enrollment-qr-join.e2e.test.ts:147:14)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async TestContext.<anonymous> (/workspace/backend/test/e2e/enrollment-qr-join.e2e.test.ts:379:39)
+      at async Test.run (node:internal/test_runner/test:1332:7)
+      at async Suite.processPendingSubtests (node:internal/test_runner/test:911:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 401,
+    expected: 200,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at test/e2e/enrollment-qr-join.e2e.test.ts:1:14020
+✖ rejects registered invitation grace when REVOKED (420.446018ms)
+  AssertionError [ERR_ASSERTION]: {"code":"AUTH_JOIN_CAPABILITY_INVALID","message":"The Join Capability is invalid.","details":{},"requestId":"01a0a916-6f0b-761b-b631-6dd0521b102e","timestamp":"2026-09-16T07:20:14.867Z"}
+  
+  401 !== 200
+  
+      at issueCapability (/workspace/backend/test/e2e/enrollment-qr-join.e2e.test.ts:147:14)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async TestContext.<anonymous> (/workspace/backend/test/e2e/enrollment-qr-join.e2e.test.ts:379:39)
+      at async Test.run (node:internal/test_runner/test:1332:7)
+      at async Suite.processPendingSubtests (node:internal/test_runner/test:911:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 401,
+    expected: 200,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at test/e2e/enrollment-qr-join.e2e.test.ts:1:14020
+✖ rejects registered invitation grace when ENROLLMENT_CLOSED (426.092596ms)
+  AssertionError [ERR_ASSERTION]: {"code":"AUTH_JOIN_CAPABILITY_INVALID","message":"The Join Capability is invalid.","details":{},"requestId":"01a0a916-70b5-7374-9fc4-80911d97bd84","timestamp":"2026-09-16T07:20:15.293Z"}
+  
+  401 !== 200
+  
+      at issueCapability (/workspace/backend/test/e2e/enrollment-qr-join.e2e.test.ts:147:14)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async TestContext.<anonymous> (/workspace/backend/test/e2e/enrollment-qr-join.e2e.test.ts:379:39)
+      at async Test.run (node:internal/test_runner/test:1332:7)
+      at async Suite.processPendingSubtests (node:internal/test_runner/test:911:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 401,
+    expected: 200,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at test/e2e/enrollment-qr-join.e2e.test.ts:1:14020
+✖ rejects registered invitation grace when COURSE_CLOSED (415.575667ms)
+  AssertionError [ERR_ASSERTION]: {"code":"AUTH_JOIN_CAPABILITY_INVALID","message":"The Join Capability is invalid.","details":{},"requestId":"01a0a916-7255-763e-80f2-a8a93b295e46","timestamp":"2026-09-16T07:20:15.709Z"}
+  
+  401 !== 200
+  
+      at issueCapability (/workspace/backend/test/e2e/enrollment-qr-join.e2e.test.ts:147:14)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async TestContext.<anonymous> (/workspace/backend/test/e2e/enrollment-qr-join.e2e.test.ts:379:39)
+      at async Test.run (node:internal/test_runner/test:1332:7)
+      at async Suite.processPendingSubtests (node:internal/test_runner/test:911:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 401,
+    expected: 200,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at test/e2e/enrollment-qr-join.e2e.test.ts:1:14020
+✖ rejects registered invitation grace when SEMESTER_ARCHIVED (412.345181ms)
+  AssertionError [ERR_ASSERTION]: {"code":"AUTH_JOIN_CAPABILITY_INVALID","message":"The Join Capability is invalid.","details":{},"requestId":"01a0a916-73f1-73fa-8dbf-753a6dfcd094","timestamp":"2026-09-16T07:20:16.121Z"}
+  
+  401 !== 200
+  
+      at issueCapability (/workspace/backend/test/e2e/enrollment-qr-join.e2e.test.ts:147:14)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async TestContext.<anonymous> (/workspace/backend/test/e2e/enrollment-qr-join.e2e.test.ts:379:39)
+      at async Test.run (node:internal/test_runner/test:1332:7)
+      at async Suite.processPendingSubtests (node:internal/test_runner/test:911:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 401,
+    expected: 200,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at test/e2e/enrollment-qr-join.e2e.test.ts:1:15442
+✖ rotates digest-only invites and issues one replayable capability without creating identity (515.350324ms)
+  AssertionError [ERR_ASSERTION]: {"code":"AUTH_JOIN_CAPABILITY_INVALID","message":"The Join Capability is invalid.","details":{},"requestId":"01a0a916-75e8-742c-927a-56151851667a","timestamp":"2026-09-16T07:20:16.635Z"}
+  
+  401 !== 200
+  
+      at issueCapability (/workspace/backend/test/e2e/enrollment-qr-join.e2e.test.ts:147:14)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async TestContext.<anonymous> (/workspace/backend/test/e2e/enrollment-qr-join.e2e.test.ts:433:20)
+      at async Test.run (node:internal/test_runner/test:1332:7)
+      at async Suite.processPendingSubtests (node:internal/test_runner/test:911:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 401,
+    expected: 200,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at test/e2e/enrollment-qr-join.e2e.test.ts:1:18104
+✖ rejects non-binary QR join genders and malformed cohort years before issuing a capability (452.54534ms)
+  AssertionError [ERR_ASSERTION]: {"code":"AUTH_JOIN_CAPABILITY_INVALID","message":"The Join Capability is invalid.","details":{},"requestId":"01a0a916-77b8-72ee-9bc0-b55112aaf0d6","timestamp":"2026-09-16T07:20:17.089Z"}
+  
+  401 !== 200
+  
+      at issueCapability (/workspace/backend/test/e2e/enrollment-qr-join.e2e.test.ts:147:14)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async TestContext.<anonymous> (/workspace/backend/test/e2e/enrollment-qr-join.e2e.test.ts:467:24)
+      at async Test.run (node:internal/test_runner/test:1332:7)
+      at async Suite.processPendingSubtests (node:internal/test_runner/test:911:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 401,
+    expected: 200,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at test/e2e/enrollment-qr-join.e2e.test.ts:1:18835
+✖ joins atomically, replays the exact encrypted result, and grants only Enrollment projections (429.169804ms)
+  AssertionError [ERR_ASSERTION]: {"code":"AUTH_JOIN_CAPABILITY_INVALID","message":"The Join Capability is invalid.","details":{},"requestId":"01a0a916-7966-73a8-9db3-ca4d78760af5","timestamp":"2026-09-16T07:20:17.518Z"}
+  
+  401 !== 200
+  
+      at issueCapability (/workspace/backend/test/e2e/enrollment-qr-join.e2e.test.ts:147:14)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async TestContext.<anonymous> (/workspace/backend/test/e2e/enrollment-qr-join.e2e.test.ts:485:20)
+      at async Test.run (node:internal/test_runner/test:1332:7)
+      at async Suite.processPendingSubtests (node:internal/test_runner/test:911:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 401,
+    expected: 200,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at test/e2e/enrollment-qr-join.e2e.test.ts:1:25927
+✖ rolls back a second same-semester join and refuses self rejoin after teacher removal (507.767545ms)
+  AssertionError [ERR_ASSERTION]: {"code":"AUTH_JOIN_CAPABILITY_INVALID","message":"The Join Capability is invalid.","details":{},"requestId":"01a0a916-7e29-74af-add7-2ae8fce1973d","timestamp":"2026-09-16T07:20:18.739Z"}
+  
+  401 !== 200
+  
+      at issueCapability (/workspace/backend/test/e2e/enrollment-qr-join.e2e.test.ts:147:14)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async TestContext.<anonymous> (/workspace/backend/test/e2e/enrollment-qr-join.e2e.test.ts:653:40)
+      at async Test.run (node:internal/test_runner/test:1332:7)
+      at async Suite.processPendingSubtests (node:internal/test_runner/test:911:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 401,
+    expected: 200,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at test/e2e/export-audit-governance.e2e.test.ts:1:6848
+✖ denies administrator student-profile mutation without side effects (477.328627ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  422 !== 403
+  
+      at TestContext.<anonymous> (/workspace/backend/test/e2e/export-audit-governance.e2e.test.ts:245:12)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async Test.run (node:internal/test_runner/test:1332:7)
+      at async Suite.processPendingSubtests (node:internal/test_runner/test:911:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 422,
+    expected: 403,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at test/e2e/media-evidence.e2e.test.ts:1:23868
+✖ server video enforces new declaration limits before reserving a slot (381.086444ms)
+  Error: response body violates schema: data/code must be equal to one of the allowed values
+      at validateResponse (file:///workspace/backend/scripts/runtime-conformance-hook.mjs:247:11)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async conformanceFetch (file:///workspace/backend/scripts/runtime-conformance-hook.mjs:286:5)
+      at async request (/workspace/backend/test/e2e/media-evidence.e2e.test.ts:160:22)
+      at async TestContext.<anonymous> (/workspace/backend/test/e2e/media-evidence.e2e.test.ts:547:20)
+      at async Test.run (node:internal/test_runner/test:1332:7)
+      at async Suite.processPendingSubtests (node:internal/test_runner/test:911:7)
+
+test at test/e2e/v81-ocr-governance.e2e.test.ts:1:9053
+✖ executes current profile, membership, history, goal and deletion contracts over HTTP (607.256523ms)
+  AssertionError [ERR_ASSERTION]: {"code":"VALIDATION_FAILED","message":"One or more request fields are invalid.","details":{"fieldErrors":[{"field":"collegeName","code":"INVALID","i18nKey":"error.validation.failed","params":{}}]},"requestId":"01a0a918-92b0-737f-a61b-a6d7da382d8a","timestamp":"2026-09-16T07:22:35.060Z"}
+  
+  422 !== 200
+  
+      at data (/workspace/backend/test/e2e/v81-ocr-governance.e2e.test.ts:188:12)
+      at post (/workspace/backend/test/e2e/v81-ocr-governance.e2e.test.ts:249:7)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async TestContext.<anonymous> (/workspace/backend/test/e2e/v81-ocr-governance.e2e.test.ts:254:23)
+      at async Test.run (node:internal/test_runner/test:1332:7)
+      at async Suite.processPendingSubtests (node:internal/test_runner/test:911:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 422,
+    expected: 200,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

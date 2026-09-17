@@ -1,0 +1,46 @@
+{
+  "status": "PARTIAL",
+  "evidence": [
+    {
+      "requirement": 19,
+      "device": "desktop",
+      "blockedBeforeOtp": true
+    },
+    {
+      "requirement": 24,
+      "englishDialogNoChinese": true,
+      "languageRoundtrip": true
+    },
+    {
+      "requirement": 23,
+      "renamePersistedAfterReload": true
+    },
+    {
+      "requirement": 16,
+      "independentDeadlineRemoved": true
+    },
+    {
+      "requirement": 19,
+      "device": "phone",
+      "loginAvailable": true
+    },
+    {
+      "requirement": 18,
+      "undeclaredToFormalViaBrowser": true,
+      "studentEditRemovedAfterConfirmation": true
+    },
+    {
+      "requirement": 22,
+      "jcSelectableInScc": true
+    },
+    {
+      "requirement": 14,
+      "realMailpitSignIn": true
+    },
+    {
+      "requirement": 19,
+      "device": "tablet",
+      "loginAvailable": true
+    }
+  ]
+}

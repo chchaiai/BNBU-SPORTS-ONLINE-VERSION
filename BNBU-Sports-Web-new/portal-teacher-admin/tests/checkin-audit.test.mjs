@@ -247,7 +247,7 @@ test("teacher workspace exposes invalid records and direct correction wording", 
     "utf8",
   );
   assert.match(workspace, /label: "待处理与无效"/);
-  assert.match(workspace, /人工审核模式下由责任教师核对材料/);
+  assert.match(workspace, /AI 初审仅提供建议与风险标记，由责任教师作出最终决定/);
   assert.match(workspace, /退回补证/);
   assert.match(workspace, /await decideRecord\(recordId,/);
   assert.match(workspace, /action: "RETURN_FOR_SUPPLEMENT"/);
@@ -261,10 +261,10 @@ test("teacher workspace exposes invalid records and direct correction wording", 
   assert.match(workspace, /确认纠正为有效/);
   assert.match(workspace, /选择已发布模板/);
   assert.match(workspace, /整分钟计入/);
-  assert.match(workspace, /当前接口不能把换算分发给学生，发布仍只形成内部成绩版本。/);
+  assert.match(workspace, /内部成绩仅供教师管理，不向学生展示或推送。/);
   assert.match(workspace, /不向学生披露或推送内部成绩/);
   assert.doesNotMatch(workspace, /<input type="checkbox" disabled \/>/);
-  assert.match(workspace, /向学生披露内部自定义分/);
+  assert.match(workspace, /该成绩已发布，修改后会保留历史版本/);
   assert.doesNotMatch(workspace, /重开原因|确认重开并标记有效/);
   assert.match(workspace, /await correctRecord\(recordId, operation.v81Input, operation.operationId\)/);
 });

@@ -1,0 +1,1 @@
+piexif.js: piexifjs 1.0.6, MIT, https://github.com/hMatoba/piexifjs. npm integrity sha512-0wVyH0cKohzBQ5Gi2V1BuxYpxWfxF3cSqfFXfPIpl5tl9XLS5z4ogqhUCD20AbHi0h9aJkqXNJnkVev6gwh2ag==. Original MIT notice retained; only ESM adapter and line endings changed.

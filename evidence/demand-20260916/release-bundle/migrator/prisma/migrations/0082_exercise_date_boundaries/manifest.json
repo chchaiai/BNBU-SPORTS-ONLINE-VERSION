@@ -1,0 +1,5 @@
+{
+  "migrationId": "0082_exercise_date_boundaries",
+  "destructive": false,
+  "sha256": "df9b3aee491ee7da0b58600d830331bd66d0a742e37011ade1ce211720a9069c"
+}

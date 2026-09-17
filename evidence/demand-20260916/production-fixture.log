@@ -1,0 +1,3 @@
+ Container bnbu-sports-production-backend-run-c8bab55c23e8 Creating 
+ Container bnbu-sports-production-backend-run-c8bab55c23e8 Created 
+{"check":"DEMAND_CLOUD_FIXTURE_READY","result":"PASS","organizationId":"01a0a941-ae34-74d0-abf8-c53fc3a0ecee","classSectionId":"01a0a941-ae35-7753-bbdf-bf545ccb5aaf","studentId":"01a0a941-afb3-775f-a0cd-6616181f342b","teacherId":"01a0a941-ae35-7753-bbdf-8b71be368196","sessionSetup":"isolated synthetic fixture; SMTP not tested"}

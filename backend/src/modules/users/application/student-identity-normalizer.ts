@@ -21,12 +21,12 @@ export class StudentIdentityNormalizer {
     const studentNumber = options.preserveStoredStudentNumber ? input.studentNumber : input.studentNumber.trim();
     const fullName = input.fullName.trim().normalize('NFC');
     if (!options.preserveStoredStudentNumber && !STUDENT_NUMBER_PATTERN.test(studentNumber)) this.invalid('studentNumber');
-    if (fullName.length < 1 || fullName.length > 100) this.invalid('fullName');
+    if (fullName.length < 1 || fullName.length > 100 || (!/^[\p{L}\p{M} .·'’-]+$/u.test(fullName) || !/\p{L}/u.test(fullName))) this.invalid('fullName');
     if (!STUDENT_GENDERS.includes(input.gender as StudentGender)) this.invalid('gender');
     if (
       !Number.isSafeInteger(input.gradeYear) ||
-      input.gradeYear < 1000 ||
-      input.gradeYear > 9999
+      input.gradeYear < 1900 ||
+      input.gradeYear > new Date().getUTCFullYear() + 1
     ) {
       this.invalid('gradeYear');
     }

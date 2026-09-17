@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import {test} from 'node:test';
 import {createRequire} from 'node:module';
-import {prepareJpegEvidence} from './js/photo-originals.js';
+import {prepareJpegEvidence,photoCameraFields} from './js/photo-originals.js';
 const require=createRequire(new URL('../../../backend/package.json',import.meta.url));
 const sharp=require('sharp'),exifr=require('exifr');
 test('upload copy preserves pixels and camera time while the original retains all EXIF',async()=>{
@@ -21,4 +21,5 @@ test('a camera image without EXIF remains a valid JPEG',async()=>{
  const image=await sharp({create:{width:8,height:8,channels:3,background:'#ffffff'}}).jpeg().toBuffer();
  const copy=await prepareJpegEvidence(new File([image],'plain.jpg',{type:'image/jpeg'}));
  assert.equal((await sharp(Buffer.from(await copy.arrayBuffer())).metadata()).width,8);
+ assert.deepEqual(await photoCameraFields(copy),[]);
 });

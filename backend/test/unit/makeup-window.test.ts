@@ -3,17 +3,17 @@ import test from 'node:test';
 import { makeupWindowAllowsStart, validateMakeupWindow } from '../../src/modules/v8/domain/makeup-window.js';
 
 const at = (text: string) => new Date(text);
-const regularDeadline = at('2026-09-01T00:00:00Z'), closingDeadline = at('2026-09-08T00:00:00Z');
-const valid = () => ({ regularDeadline, closingDeadline, now: at('2026-09-02T00:00:00Z'),
+const startBoundary = at('2026-09-01T00:00:00Z'), endBoundary = at('2026-09-08T00:00:00Z');
+const valid = () => ({ startBoundary, endBoundary, now: at('2026-09-02T00:00:00Z'),
   startsAt: at('2026-09-03T00:00:00Z'), endsAt: at('2026-09-04T00:00:00Z') });
-test('makeup grants stay within the published seven-day closing period', () => {
+test('makeup grants stay within the teacher exercise dates', () => {
   assert.doesNotThrow(() => validateMakeupWindow(valid()));
-  assert.doesNotThrow(() => validateMakeupWindow({ ...valid(), startsAt: regularDeadline, endsAt: closingDeadline }));
-  assert.throws(() => validateMakeupWindow({ ...valid(), startsAt: at('2026-08-31T23:59:59Z') }), /MAKEUP_OUTSIDE_CLOSING_PERIOD/);
-  assert.throws(() => validateMakeupWindow({ ...valid(), endsAt: at('2026-09-08T00:00:00.001Z') }), /MAKEUP_OUTSIDE_CLOSING_PERIOD/);
-  assert.throws(() => validateMakeupWindow({ ...valid(), endsAt: valid().startsAt }), /MAKEUP_OUTSIDE_CLOSING_PERIOD/);
+  assert.doesNotThrow(() => validateMakeupWindow({ ...valid(), startsAt: startBoundary, endsAt: endBoundary }));
+  assert.throws(() => validateMakeupWindow({ ...valid(), startsAt: at('2026-08-31T23:59:59Z') }), /MAKEUP_OUTSIDE_EXERCISE_DATES/);
+  assert.throws(() => validateMakeupWindow({ ...valid(), endsAt: at('2026-09-08T00:00:00.001Z') }), /MAKEUP_OUTSIDE_EXERCISE_DATES/);
+  assert.throws(() => validateMakeupWindow({ ...valid(), endsAt: valid().startsAt }), /MAKEUP_OUTSIDE_EXERCISE_DATES/);
   assert.throws(() => validateMakeupWindow({ ...valid(), now: valid().endsAt }), /MAKEUP_WINDOW_ALREADY_ENDED/);
-  assert.throws(() => validateMakeupWindow({ ...valid(), closingDeadline: at('2026-09-09T00:00:00Z') }), /MAKEUP_CLOSING_PERIOD_INVALID/);
+  assert.doesNotThrow(() => validateMakeupWindow({ ...valid(), endBoundary: at('2026-09-09T00:00:00Z') }));
   assert.throws(() => validateMakeupWindow({ ...valid(), startsAt: new Date('invalid') }), /MAKEUP_TIME_INVALID/);
 });
 test('makeup starts use server time and never become retroactively authorized', () => {

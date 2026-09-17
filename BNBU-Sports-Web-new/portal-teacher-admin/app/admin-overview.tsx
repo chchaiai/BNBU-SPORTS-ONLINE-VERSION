@@ -1,4 +1,6 @@
 "use client";
+import { useState } from 'react';
+import { AdminOutbox } from './admin-outbox';
 
 import { adminCopy, adminLabel } from "./admin-i18n";
 import { useAdminStore } from "./admin-store";
@@ -20,6 +22,7 @@ export function AdminOverview({
   onNavigate: (route: AdminRoute) => void;
 }) {
   const { state, loading, refresh } = useAdminStore();
+  const [showOutbox,setShowOutbox]=useState(false);
   if (!state) return null;
   const current = state.semesters.find(
     (semester) => semester.status === "current",
@@ -116,7 +119,7 @@ export function AdminOverview({
             {healthRows.map((row) => (
               <div key={row.label}>
                 <span className="status-dot" />
-                <b>{row.label}</b>
+                <b>{row.queryOnly?<button type="button" className="text-button" onClick={()=>setShowOutbox(value=>!value)}>{row.label} · {locale==='zh'?'查看详情':'View details'}</button>:row.label}</b>
                 <small>{row.value}</small>
                 <AdminBadge tone={row.queryOnly && row.status === "UP" ? "gray" : healthTone(row.status)}>
                   {row.queryOnly && row.status === "UP" ? adminCopy(locale, "event_query_available") : healthLabel(row.status)}
@@ -125,6 +128,7 @@ export function AdminOverview({
             ))}
           </div>
         </section>
+        {showOutbox&&<AdminOutbox locale={locale}/>}
         <section className="admin-surface">
           <p className="admin-quiet-empty">
             {locale === "zh"
@@ -172,7 +176,6 @@ export function AdminOverview({
             <article><span>{locale === "zh" ? "教师总数" : "Teachers"}</span><b>{teachers.length}</b><small>{locale === "zh" ? "当前教师账号" : "Current teacher accounts"}</small></article>
           </div>
         </section>
-
         <section className="admin-surface admin-overview-health">
           <AdminSectionHeading
             title={adminCopy(locale, "health")}

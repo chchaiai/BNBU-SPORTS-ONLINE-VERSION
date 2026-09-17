@@ -19,6 +19,24 @@ globalThis.window = {
 const api = await import("../app/api-client.ts");
 const adminService = await import("../app/admin-service.ts");
 
+test('request diagnostics survive a network failure and legacy text retains code and recovery action',async()=>{
+  let sent;
+  await withFetch(async(_url,options)=>{sent=options.headers['X-Request-ID'];throw new TypeError('secret connection string');},async()=>{
+    await assert.rejects(api.request('/health/live',{auth:false}),error=>{
+      const model=api.toUserFacingError(error,'en',{log:false});
+      assert.ok(sent);assert.equal(model.requestId,sent);
+      assert.equal(api.toUserFacingError(error,'en',{log:false}).requestId,sent);
+      assert.doesNotMatch(JSON.stringify(model),/secret connection/);
+      return true;
+    });
+  });
+  const original=console.error;console.error=()=>{};
+  try{
+    const text=api.formatUserFacingError(new api.ApiError(409,{code:'CONFLICT_VERSION_MISMATCH',requestId:'diagnostic-123'}),'en');
+    assert.match(text,/CONFLICT_VERSION_MISMATCH/);assert.match(text,/diagnostic-123/);assert.match(text,/refresh|reload/i);
+  }finally{console.error=original;}
+});
+
 const authSession = (suffix, role = "TEACHER") => ({
   sessionId: `session-${suffix}`,
   accessToken: `access-${suffix}`,

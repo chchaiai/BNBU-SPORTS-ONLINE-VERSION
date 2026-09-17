@@ -1,3 +1,4 @@
+import { readProfileQualities, type ProfileQuality } from './application/student-profile-quality.js';
 import { Injectable } from '@nestjs/common';
 
 import { PrismaService } from '../../common/database/prisma.service.js';
@@ -10,7 +11,7 @@ import { projectUser, type UserProjection } from './user-projection.js';
 import type { StudentListQueryDto } from './users.dto.js';
 import { requireAdminAccess } from '../v8/v81-admin-access.js';
 
-export interface StudentProfileProjection {
+export interface StudentProfileProjection extends Partial<ProfileQuality> {
   email?: string | null;
   emailVerified?: boolean;
   courseAssociations?: { classSectionId: string; classCode: string; className: string; courseName: string; semesterName: string; status: string }[];
@@ -106,7 +107,7 @@ export class UsersService {
       studentProfile:
         user.studentProfile === null
           ? null
-          : this.projectStudent(user.studentProfile),
+          : {...this.projectStudent(user.studentProfile),...(await readProfileQualities(this.prisma,[user.studentProfile])).get(user.studentProfile.id)},
       teacherProfile:
         user.teacherProfile === null
           ? null
@@ -211,17 +212,19 @@ export class UsersService {
       orderBy,
       take: input.limit + 1,
     });
+    const qualities=await readProfileQualities(this.prisma,rows);
     const hasMore = rows.length > input.limit;
     const page = hasMore ? rows.slice(0, input.limit) : rows;
     const last = page.at(-1);
     return pagedResult(
       page.map(({ user, enrollments, ...row }) => ({
         ...this.projectStudent(row),
+        ...qualities.get(row.id),
         status: enrollments.some(enrollment => enrollment.status === 'ACTIVE') ? 'ACTIVE' : 'PENDING',
         ...(principal.role === 'ADMIN' ? { email: user.primaryEmail, emailVerified: user.emailVerifiedAt !== null } : {}),
         courseAssociations: enrollments.map(enrollment => ({
           classSectionId: enrollment.classSectionId, classCode: enrollment.classSection.classCode,
-          className: enrollment.classSection.displayName, courseName: enrollment.classSection.course.courseName,
+          className: enrollment.classSection.displayName, courseName: enrollment.classSection.displayName,
           semesterName: enrollment.semester.displayName, status: enrollment.status,
         })),
       })),
@@ -245,15 +248,16 @@ export class UsersService {
   ): Promise<StudentProfileProjection> {
     const student = await this.findAuthorizedStudent(principal, studentId);
     if (student === null) throw new ApplicationError('USER_NOT_FOUND', 404);
-    if (principal.role !== 'ADMIN') return this.projectStudent(student);
+    const quality=(await readProfileQualities(this.prisma,[student])).get(student.id);
+    if (principal.role !== 'ADMIN') return {...this.projectStudent(student),...quality};
     await requireAdminAccess(this.prisma, principal, 'USER_ACCOUNTS');
     const user = await this.prisma.user.findUniqueOrThrow({ where: { id: student.userId }, select: { primaryEmail: true, emailVerifiedAt: true } });
     const enrollments = await this.prisma.enrollment.findMany({ where: { studentId, organizationId: principal.organizationId },
       include: { classSection: { include: { course: true } }, semester: true }, orderBy: [{ joinedAt: 'desc' }, { id: 'asc' }] });
-    return { ...this.projectStudent(student), status: enrollments.some(enrollment => enrollment.status === 'ACTIVE') ? 'ACTIVE' : 'PENDING', email: user.primaryEmail, emailVerified: user.emailVerifiedAt !== null,
+    return { ...this.projectStudent(student), ...quality, status: enrollments.some(enrollment => enrollment.status === 'ACTIVE') ? 'ACTIVE' : 'PENDING', email: user.primaryEmail, emailVerified: user.emailVerifiedAt !== null,
       courseAssociations: enrollments.map(enrollment => ({ classSectionId: enrollment.classSectionId,
         classCode: enrollment.classSection.classCode, className: enrollment.classSection.displayName,
-        courseName: enrollment.classSection.course.courseName, semesterName: enrollment.semester.displayName, status: enrollment.status })) };
+        courseName: enrollment.classSection.displayName, semesterName: enrollment.semester.displayName, status: enrollment.status })) };
   }
 
   async denyStudentUpdate(principal: AuthenticatedPrincipal, studentId: string): Promise<never> {

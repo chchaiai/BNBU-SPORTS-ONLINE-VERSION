@@ -391,6 +391,36 @@ export const foundationMigrations = [
     sha256: '92a9a0eb41c61814facb64ac295cdf3a380e4d486f8a71a363a5b2808c88b2af',
     destructive: false,
   },
+  {
+    migrationId: '0079_server_video_normalization',
+    sha256: '39baf6c1bfb0fcf48ec5552ea042f35aa08e1387d285dbac4483ae7e641ed7cb',
+    destructive: false,
+  },
+  {
+    migrationId: '0080_published_course_daily_window',
+    sha256: 'cb288f9c55a85345028cdc78828b9cde3c453e24675051ef0afe6a6f509bfd2c',
+    destructive: false,
+  },
+  {
+    migrationId: '0081_media_capability_renewal',
+    sha256: 'c5cb00540d5de2cc3cbbe43d69cbb15649903082c684fac585f3e1b56a54fbf4',
+    destructive: false,
+  },
+  {
+    migrationId: '0082_exercise_date_boundaries',
+    sha256: 'df9b3aee491ee7da0b58600d830331bd66d0a742e37011ade1ce211720a9069c',
+    destructive: false,
+  },
+  {
+    migrationId: '0083_ai_review_advisory',
+    sha256: '88bea478e427bf5e74c1b745abfe84dc3ed313ebe1f8941c6f05ec9c8a762776',
+    destructive: false,
+  },
+  {
+    migrationId: '0084_ai_review_decisions',
+    sha256: 'aefc64733dbeda2303b07cf7b0420f5556301216003d6715354a0e21a22fa83b',
+    destructive: false,
+  },
 ] as const;
 
 export const foundationMigration = foundationMigrations[0];

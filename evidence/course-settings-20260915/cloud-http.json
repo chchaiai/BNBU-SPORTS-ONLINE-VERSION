@@ -1,0 +1,11 @@
+{
+  "result": "PASS",
+  "sectionId": "01a0a5bd-cfb6-7629-9046-3c508c785a1a",
+  "checks": [
+    "published daily times and pause readback",
+    "rule save while paused",
+    "published dates locked",
+    "resume readback"
+  ],
+  "scope": "New synthetic course with zero students; real user course not modified"
+}

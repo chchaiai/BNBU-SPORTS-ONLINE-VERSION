@@ -2,9 +2,10 @@ import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
 import { MediaService } from '../../src/modules/media/application/media.service.js';
+import { ApplicationError } from '../../src/common/errors/application-error.js';
 
 describe('MediaService expired pending upload cleanup', () => {
-  it('fails an expired upload session and releases it from the active quota set', async () => {
+  for (const objectState of ['absent', 'uploaded', 'unavailable'] as const) it(`expired upload cleanup preserves data when storage is ${objectState}`, async () => {
     const now = new Date('2026-08-11T01:00:00.000Z');
     const media = {
       id: '10000000-0000-4000-8000-000000000001',
@@ -15,6 +16,7 @@ describe('MediaService expired pending upload cleanup', () => {
       mediaType: 'VIDEO',
       uploadStatus: 'PENDING_UPLOAD',
       version: 1,
+      storageKey: 'synthetic/private-object',
     };
     const writes: { operation: string; value: unknown }[] = [];
     const transaction = {
@@ -58,7 +60,12 @@ describe('MediaService expired pending upload cleanup', () => {
       { now: () => now },
       { next: () => '10000000-0000-4000-8000-000000000004' },
       null as never,
-      null as never,
+      { headPrivateObject: async (key: string) => {
+        assert.equal(key, media.storageKey);
+        if (objectState === 'absent') throw new ApplicationError('MEDIA_OBJECT_NOT_FOUND', 404);
+        if (objectState === 'unavailable') throw new Error('Synthetic storage unavailable');
+        return { byteSize: 1024 };
+      } } as never,
       null as never,
     );
     interface ExpiredUploadCleaner {
@@ -77,7 +84,7 @@ describe('MediaService expired pending upload cleanup', () => {
       ): Promise<void>;
     }
 
-    await (service as unknown as ExpiredUploadCleaner).expirePendingUploads(
+    const cleanup = (service as unknown as ExpiredUploadCleaner).expirePendingUploads(
       transaction,
       {
         kind: 'TARGET',
@@ -90,6 +97,13 @@ describe('MediaService expired pending upload cleanup', () => {
       'request-expired-upload',
       now,
     );
+
+    if (objectState === 'unavailable') await assert.rejects(cleanup, /Synthetic storage unavailable/);
+    else await cleanup;
+    if (objectState !== 'absent') {
+      assert.deepEqual(writes.map(entry => entry.operation), ['findMany']);
+      return;
+    }
 
     assert.equal(writes.filter((entry) => entry.operation === 'mediaUpdate').length, 1);
     assert.equal(writes.filter((entry) => entry.operation === 'sessionUpdate').length, 1);
