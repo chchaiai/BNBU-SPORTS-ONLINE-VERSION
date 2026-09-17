@@ -12,7 +12,7 @@ export async function probeMakeupHttp({ prisma, fixture, request, baseUrl, teach
   const template = await request('/rule-templates', adminToken, { displayName: 'Synthetic makeup template', expectedVersion: 0 });
   await request(`/class-sections/${classId}/v81-rules`, teacherToken, { templateId: template.id, minimumMinutes: 30, weeklyLimit: 3, courseTarget: 600, generalTarget: 600,
     regularDeadline: '2027-01-23T00:00:00Z', closingDeadline: '2027-01-30T00:00:00Z', settlementPlannedAt: '2027-01-30T01:00:00Z', publish: true, expectedVersion: 0 });
-  const body = { enrollmentId: member.enrollmentId, expectedRuleVersion: 1, startsAt: '2027-01-24T00:00:00Z', endsAt: '2027-01-26T00:00:00Z' };
+  const body = { enrollmentId: member.enrollmentId, expectedRuleVersion: 1, startsAt: '2027-01-20T00:00:00Z', endsAt: '2027-01-21T00:00:00Z' };
   const post = (route, data, key = randomUUID(), token = teacherToken) => fetch(baseUrl + route, { method: 'POST',
     headers: { authorization: `Bearer ${token}`, 'content-type': 'application/json', 'idempotency-key': key }, body: JSON.stringify(data) });
   assert.deepEqual((await request(path, teacherToken)).items, []);
@@ -21,12 +21,12 @@ export async function probeMakeupHttp({ prisma, fixture, request, baseUrl, teach
     assert.equal((await fetch(baseUrl + path, { headers: { authorization: `Bearer ${token}` } })).status, status);
   }
   for (const [data, status] of [[{ ...body, enrollmentId: removed.enrollmentId }, 409], [{ ...body, expectedRuleVersion: 2 }, 409],
-    [{ ...body, startsAt: '2027-01-22T00:00:00Z' }, 422], [{ ...body, endsAt: '2027-01-31T00:00:00Z' }, 422],
+    [{ ...body, startsAt: '2026-07-31T00:00:00Z' }, 422], [{ ...body, endsAt: '2027-01-31T00:00:00Z' }, 422],
     [{ ...body, startsAt: '2027-01-24' }, 422]]) assert.equal((await post(path, data)).status, status);
   const key = randomUUID(), first = await request(path, teacherToken, body, key);
   assert.equal(first.windowState, 'SCHEDULED'); assert.equal(first.version, 1); assert.equal(first.revocation, null);
   assert.deepEqual(await request(path, teacherToken, body, key), first);
-  const second = await request(path, teacherToken, { ...body, startsAt: '2027-01-27T00:00:00Z', endsAt: '2027-01-28T00:00:00Z' });
+  const second = await request(path, teacherToken, { ...body, startsAt: '2027-01-22T00:00:00Z', endsAt: '2027-01-23T00:00:00Z' });
   const page = await request(path + '?limit=1', teacherToken);
   assert.equal(page.items[0].id, second.id); assert.equal(page.nextBeforeId, second.id);
   const next = await request(path + '?limit=1&beforeId=' + page.nextBeforeId, teacherToken);

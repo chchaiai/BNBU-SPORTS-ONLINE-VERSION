@@ -380,6 +380,7 @@ export type ExerciseRecordWhereInput = {
   createdAt?: Prisma.DateTimeFilter<"ExerciseRecord"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"ExerciseRecord"> | Date | string
   version?: Prisma.IntFilter<"ExerciseRecord"> | number
+  aiReviewJobs?: Prisma.V81AiReviewJobListRelationFilter
   v81SwimIntake?: Prisma.XOR<Prisma.V81SwimIntakeNullableScalarRelationFilter, Prisma.V81SwimIntakeWhereInput> | null
   v81RecordWorkflow_record?: Prisma.XOR<Prisma.V81RecordWorkflowNullableScalarRelationFilter, Prisma.V81RecordWorkflowWhereInput> | null
   v81RecordWorkflow_scopedRecord?: Prisma.V81RecordWorkflowListRelationFilter
@@ -427,6 +428,7 @@ export type ExerciseRecordOrderByWithRelationInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   version?: Prisma.SortOrder
+  aiReviewJobs?: Prisma.V81AiReviewJobOrderByRelationAggregateInput
   v81SwimIntake?: Prisma.V81SwimIntakeOrderByWithRelationInput
   v81RecordWorkflow_record?: Prisma.V81RecordWorkflowOrderByWithRelationInput
   v81RecordWorkflow_scopedRecord?: Prisma.V81RecordWorkflowOrderByRelationAggregateInput
@@ -481,6 +483,7 @@ export type ExerciseRecordWhereUniqueInput = Prisma.AtLeast<{
   createdAt?: Prisma.DateTimeFilter<"ExerciseRecord"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"ExerciseRecord"> | Date | string
   version?: Prisma.IntFilter<"ExerciseRecord"> | number
+  aiReviewJobs?: Prisma.V81AiReviewJobListRelationFilter
   v81SwimIntake?: Prisma.XOR<Prisma.V81SwimIntakeNullableScalarRelationFilter, Prisma.V81SwimIntakeWhereInput> | null
   v81RecordWorkflow_record?: Prisma.XOR<Prisma.V81RecordWorkflowNullableScalarRelationFilter, Prisma.V81RecordWorkflowWhereInput> | null
   v81RecordWorkflow_scopedRecord?: Prisma.V81RecordWorkflowListRelationFilter
@@ -582,6 +585,7 @@ export type ExerciseRecordCreateInput = {
   createdAt: Date | string
   updatedAt: Date | string
   version?: number
+  aiReviewJobs?: Prisma.V81AiReviewJobCreateNestedManyWithoutRecordInput
   v81SwimIntake?: Prisma.V81SwimIntakeCreateNestedOneWithoutRecordInput
   v81RecordWorkflow_record?: Prisma.V81RecordWorkflowCreateNestedOneWithoutRecordInput
   v81RecordWorkflow_scopedRecord?: Prisma.V81RecordWorkflowCreateNestedManyWithoutScopedRecordInput
@@ -629,6 +633,7 @@ export type ExerciseRecordUncheckedCreateInput = {
   createdAt: Date | string
   updatedAt: Date | string
   version?: number
+  aiReviewJobs?: Prisma.V81AiReviewJobUncheckedCreateNestedManyWithoutRecordInput
   v81SwimIntake?: Prisma.V81SwimIntakeUncheckedCreateNestedOneWithoutRecordInput
   v81RecordWorkflow_record?: Prisma.V81RecordWorkflowUncheckedCreateNestedOneWithoutRecordInput
   v81RecordWorkflow_scopedRecord?: Prisma.V81RecordWorkflowUncheckedCreateNestedManyWithoutScopedRecordInput
@@ -660,6 +665,7 @@ export type ExerciseRecordUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   version?: Prisma.IntFieldUpdateOperationsInput | number
+  aiReviewJobs?: Prisma.V81AiReviewJobUpdateManyWithoutRecordNestedInput
   v81SwimIntake?: Prisma.V81SwimIntakeUpdateOneWithoutRecordNestedInput
   v81RecordWorkflow_record?: Prisma.V81RecordWorkflowUpdateOneWithoutRecordNestedInput
   v81RecordWorkflow_scopedRecord?: Prisma.V81RecordWorkflowUpdateManyWithoutScopedRecordNestedInput
@@ -707,6 +713,7 @@ export type ExerciseRecordUncheckedUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   version?: Prisma.IntFieldUpdateOperationsInput | number
+  aiReviewJobs?: Prisma.V81AiReviewJobUncheckedUpdateManyWithoutRecordNestedInput
   v81SwimIntake?: Prisma.V81SwimIntakeUncheckedUpdateOneWithoutRecordNestedInput
   v81RecordWorkflow_record?: Prisma.V81RecordWorkflowUncheckedUpdateOneWithoutRecordNestedInput
   v81RecordWorkflow_scopedRecord?: Prisma.V81RecordWorkflowUncheckedUpdateManyWithoutScopedRecordNestedInput
@@ -1405,6 +1412,20 @@ export type ExerciseRecordUpdateOneRequiredWithoutV81MaterialVersion_scopedRecor
   update?: Prisma.XOR<Prisma.XOR<Prisma.ExerciseRecordUpdateToOneWithWhereWithoutV81MaterialVersion_scopedRecordInput, Prisma.ExerciseRecordUpdateWithoutV81MaterialVersion_scopedRecordInput>, Prisma.ExerciseRecordUncheckedUpdateWithoutV81MaterialVersion_scopedRecordInput>
 }
 
+export type ExerciseRecordCreateNestedOneWithoutAiReviewJobsInput = {
+  create?: Prisma.XOR<Prisma.ExerciseRecordCreateWithoutAiReviewJobsInput, Prisma.ExerciseRecordUncheckedCreateWithoutAiReviewJobsInput>
+  connectOrCreate?: Prisma.ExerciseRecordCreateOrConnectWithoutAiReviewJobsInput
+  connect?: Prisma.ExerciseRecordWhereUniqueInput
+}
+
+export type ExerciseRecordUpdateOneRequiredWithoutAiReviewJobsNestedInput = {
+  create?: Prisma.XOR<Prisma.ExerciseRecordCreateWithoutAiReviewJobsInput, Prisma.ExerciseRecordUncheckedCreateWithoutAiReviewJobsInput>
+  connectOrCreate?: Prisma.ExerciseRecordCreateOrConnectWithoutAiReviewJobsInput
+  upsert?: Prisma.ExerciseRecordUpsertWithoutAiReviewJobsInput
+  connect?: Prisma.ExerciseRecordWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.ExerciseRecordUpdateToOneWithWhereWithoutAiReviewJobsInput, Prisma.ExerciseRecordUpdateWithoutAiReviewJobsInput>, Prisma.ExerciseRecordUncheckedUpdateWithoutAiReviewJobsInput>
+}
+
 export type ExerciseRecordCreateNestedOneWithoutV81CreditProjection_recordInput = {
   create?: Prisma.XOR<Prisma.ExerciseRecordCreateWithoutV81CreditProjection_recordInput, Prisma.ExerciseRecordUncheckedCreateWithoutV81CreditProjection_recordInput>
   connectOrCreate?: Prisma.ExerciseRecordCreateOrConnectWithoutV81CreditProjection_recordInput
@@ -1450,6 +1471,7 @@ export type ExerciseRecordCreateWithoutOrganizationInput = {
   createdAt: Date | string
   updatedAt: Date | string
   version?: number
+  aiReviewJobs?: Prisma.V81AiReviewJobCreateNestedManyWithoutRecordInput
   v81SwimIntake?: Prisma.V81SwimIntakeCreateNestedOneWithoutRecordInput
   v81RecordWorkflow_record?: Prisma.V81RecordWorkflowCreateNestedOneWithoutRecordInput
   v81RecordWorkflow_scopedRecord?: Prisma.V81RecordWorkflowCreateNestedManyWithoutScopedRecordInput
@@ -1495,6 +1517,7 @@ export type ExerciseRecordUncheckedCreateWithoutOrganizationInput = {
   createdAt: Date | string
   updatedAt: Date | string
   version?: number
+  aiReviewJobs?: Prisma.V81AiReviewJobUncheckedCreateNestedManyWithoutRecordInput
   v81SwimIntake?: Prisma.V81SwimIntakeUncheckedCreateNestedOneWithoutRecordInput
   v81RecordWorkflow_record?: Prisma.V81RecordWorkflowUncheckedCreateNestedOneWithoutRecordInput
   v81RecordWorkflow_scopedRecord?: Prisma.V81RecordWorkflowUncheckedCreateNestedManyWithoutScopedRecordInput
@@ -1582,6 +1605,7 @@ export type ExerciseRecordCreateWithoutStudentInput = {
   createdAt: Date | string
   updatedAt: Date | string
   version?: number
+  aiReviewJobs?: Prisma.V81AiReviewJobCreateNestedManyWithoutRecordInput
   v81SwimIntake?: Prisma.V81SwimIntakeCreateNestedOneWithoutRecordInput
   v81RecordWorkflow_record?: Prisma.V81RecordWorkflowCreateNestedOneWithoutRecordInput
   v81RecordWorkflow_scopedRecord?: Prisma.V81RecordWorkflowCreateNestedManyWithoutScopedRecordInput
@@ -1626,6 +1650,7 @@ export type ExerciseRecordUncheckedCreateWithoutStudentInput = {
   createdAt: Date | string
   updatedAt: Date | string
   version?: number
+  aiReviewJobs?: Prisma.V81AiReviewJobUncheckedCreateNestedManyWithoutRecordInput
   v81SwimIntake?: Prisma.V81SwimIntakeUncheckedCreateNestedOneWithoutRecordInput
   v81RecordWorkflow_record?: Prisma.V81RecordWorkflowUncheckedCreateNestedOneWithoutRecordInput
   v81RecordWorkflow_scopedRecord?: Prisma.V81RecordWorkflowUncheckedCreateNestedManyWithoutScopedRecordInput
@@ -1683,6 +1708,7 @@ export type ExerciseRecordCreateWithoutTeacherInput = {
   createdAt: Date | string
   updatedAt: Date | string
   version?: number
+  aiReviewJobs?: Prisma.V81AiReviewJobCreateNestedManyWithoutRecordInput
   v81SwimIntake?: Prisma.V81SwimIntakeCreateNestedOneWithoutRecordInput
   v81RecordWorkflow_record?: Prisma.V81RecordWorkflowCreateNestedOneWithoutRecordInput
   v81RecordWorkflow_scopedRecord?: Prisma.V81RecordWorkflowCreateNestedManyWithoutScopedRecordInput
@@ -1727,6 +1753,7 @@ export type ExerciseRecordUncheckedCreateWithoutTeacherInput = {
   createdAt: Date | string
   updatedAt: Date | string
   version?: number
+  aiReviewJobs?: Prisma.V81AiReviewJobUncheckedCreateNestedManyWithoutRecordInput
   v81SwimIntake?: Prisma.V81SwimIntakeUncheckedCreateNestedOneWithoutRecordInput
   v81RecordWorkflow_record?: Prisma.V81RecordWorkflowUncheckedCreateNestedOneWithoutRecordInput
   v81RecordWorkflow_scopedRecord?: Prisma.V81RecordWorkflowUncheckedCreateNestedManyWithoutScopedRecordInput
@@ -1784,6 +1811,7 @@ export type ExerciseRecordCreateWithoutSemesterInput = {
   createdAt: Date | string
   updatedAt: Date | string
   version?: number
+  aiReviewJobs?: Prisma.V81AiReviewJobCreateNestedManyWithoutRecordInput
   v81SwimIntake?: Prisma.V81SwimIntakeCreateNestedOneWithoutRecordInput
   v81RecordWorkflow_record?: Prisma.V81RecordWorkflowCreateNestedOneWithoutRecordInput
   v81RecordWorkflow_scopedRecord?: Prisma.V81RecordWorkflowCreateNestedManyWithoutScopedRecordInput
@@ -1828,6 +1856,7 @@ export type ExerciseRecordUncheckedCreateWithoutSemesterInput = {
   createdAt: Date | string
   updatedAt: Date | string
   version?: number
+  aiReviewJobs?: Prisma.V81AiReviewJobUncheckedCreateNestedManyWithoutRecordInput
   v81SwimIntake?: Prisma.V81SwimIntakeUncheckedCreateNestedOneWithoutRecordInput
   v81RecordWorkflow_record?: Prisma.V81RecordWorkflowUncheckedCreateNestedOneWithoutRecordInput
   v81RecordWorkflow_scopedRecord?: Prisma.V81RecordWorkflowUncheckedCreateNestedManyWithoutScopedRecordInput
@@ -1885,6 +1914,7 @@ export type ExerciseRecordCreateWithoutCourseInput = {
   createdAt: Date | string
   updatedAt: Date | string
   version?: number
+  aiReviewJobs?: Prisma.V81AiReviewJobCreateNestedManyWithoutRecordInput
   v81SwimIntake?: Prisma.V81SwimIntakeCreateNestedOneWithoutRecordInput
   v81RecordWorkflow_record?: Prisma.V81RecordWorkflowCreateNestedOneWithoutRecordInput
   v81RecordWorkflow_scopedRecord?: Prisma.V81RecordWorkflowCreateNestedManyWithoutScopedRecordInput
@@ -1929,6 +1959,7 @@ export type ExerciseRecordUncheckedCreateWithoutCourseInput = {
   createdAt: Date | string
   updatedAt: Date | string
   version?: number
+  aiReviewJobs?: Prisma.V81AiReviewJobUncheckedCreateNestedManyWithoutRecordInput
   v81SwimIntake?: Prisma.V81SwimIntakeUncheckedCreateNestedOneWithoutRecordInput
   v81RecordWorkflow_record?: Prisma.V81RecordWorkflowUncheckedCreateNestedOneWithoutRecordInput
   v81RecordWorkflow_scopedRecord?: Prisma.V81RecordWorkflowUncheckedCreateNestedManyWithoutScopedRecordInput
@@ -1986,6 +2017,7 @@ export type ExerciseRecordCreateWithoutClassSectionInput = {
   createdAt: Date | string
   updatedAt: Date | string
   version?: number
+  aiReviewJobs?: Prisma.V81AiReviewJobCreateNestedManyWithoutRecordInput
   v81SwimIntake?: Prisma.V81SwimIntakeCreateNestedOneWithoutRecordInput
   v81RecordWorkflow_record?: Prisma.V81RecordWorkflowCreateNestedOneWithoutRecordInput
   v81RecordWorkflow_scopedRecord?: Prisma.V81RecordWorkflowCreateNestedManyWithoutScopedRecordInput
@@ -2027,6 +2059,7 @@ export type ExerciseRecordUncheckedCreateWithoutClassSectionInput = {
   createdAt: Date | string
   updatedAt: Date | string
   version?: number
+  aiReviewJobs?: Prisma.V81AiReviewJobUncheckedCreateNestedManyWithoutRecordInput
   v81SwimIntake?: Prisma.V81SwimIntakeUncheckedCreateNestedOneWithoutRecordInput
   v81RecordWorkflow_record?: Prisma.V81RecordWorkflowUncheckedCreateNestedOneWithoutRecordInput
   v81RecordWorkflow_scopedRecord?: Prisma.V81RecordWorkflowUncheckedCreateNestedManyWithoutScopedRecordInput
@@ -2084,6 +2117,7 @@ export type ExerciseRecordCreateWithoutEnrollmentInput = {
   createdAt: Date | string
   updatedAt: Date | string
   version?: number
+  aiReviewJobs?: Prisma.V81AiReviewJobCreateNestedManyWithoutRecordInput
   v81SwimIntake?: Prisma.V81SwimIntakeCreateNestedOneWithoutRecordInput
   v81RecordWorkflow_record?: Prisma.V81RecordWorkflowCreateNestedOneWithoutRecordInput
   v81RecordWorkflow_scopedRecord?: Prisma.V81RecordWorkflowCreateNestedManyWithoutScopedRecordInput
@@ -2125,6 +2159,7 @@ export type ExerciseRecordUncheckedCreateWithoutEnrollmentInput = {
   createdAt: Date | string
   updatedAt: Date | string
   version?: number
+  aiReviewJobs?: Prisma.V81AiReviewJobUncheckedCreateNestedManyWithoutRecordInput
   v81SwimIntake?: Prisma.V81SwimIntakeUncheckedCreateNestedOneWithoutRecordInput
   v81RecordWorkflow_record?: Prisma.V81RecordWorkflowUncheckedCreateNestedOneWithoutRecordInput
   v81RecordWorkflow_scopedRecord?: Prisma.V81RecordWorkflowUncheckedCreateNestedManyWithoutScopedRecordInput
@@ -2182,6 +2217,7 @@ export type ExerciseRecordCreateWithoutSessionInput = {
   createdAt: Date | string
   updatedAt: Date | string
   version?: number
+  aiReviewJobs?: Prisma.V81AiReviewJobCreateNestedManyWithoutRecordInput
   v81SwimIntake?: Prisma.V81SwimIntakeCreateNestedOneWithoutRecordInput
   v81RecordWorkflow_record?: Prisma.V81RecordWorkflowCreateNestedOneWithoutRecordInput
   v81RecordWorkflow_scopedRecord?: Prisma.V81RecordWorkflowCreateNestedManyWithoutScopedRecordInput
@@ -2222,6 +2258,7 @@ export type ExerciseRecordUncheckedCreateWithoutSessionInput = {
   createdAt: Date | string
   updatedAt: Date | string
   version?: number
+  aiReviewJobs?: Prisma.V81AiReviewJobUncheckedCreateNestedManyWithoutRecordInput
   v81SwimIntake?: Prisma.V81SwimIntakeUncheckedCreateNestedOneWithoutRecordInput
   v81RecordWorkflow_record?: Prisma.V81RecordWorkflowUncheckedCreateNestedOneWithoutRecordInput
   v81RecordWorkflow_scopedRecord?: Prisma.V81RecordWorkflowUncheckedCreateNestedManyWithoutScopedRecordInput
@@ -2269,6 +2306,7 @@ export type ExerciseRecordUpdateWithoutSessionInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   version?: Prisma.IntFieldUpdateOperationsInput | number
+  aiReviewJobs?: Prisma.V81AiReviewJobUpdateManyWithoutRecordNestedInput
   v81SwimIntake?: Prisma.V81SwimIntakeUpdateOneWithoutRecordNestedInput
   v81RecordWorkflow_record?: Prisma.V81RecordWorkflowUpdateOneWithoutRecordNestedInput
   v81RecordWorkflow_scopedRecord?: Prisma.V81RecordWorkflowUpdateManyWithoutScopedRecordNestedInput
@@ -2309,6 +2347,7 @@ export type ExerciseRecordUncheckedUpdateWithoutSessionInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   version?: Prisma.IntFieldUpdateOperationsInput | number
+  aiReviewJobs?: Prisma.V81AiReviewJobUncheckedUpdateManyWithoutRecordNestedInput
   v81SwimIntake?: Prisma.V81SwimIntakeUncheckedUpdateOneWithoutRecordNestedInput
   v81RecordWorkflow_record?: Prisma.V81RecordWorkflowUncheckedUpdateOneWithoutRecordNestedInput
   v81RecordWorkflow_scopedRecord?: Prisma.V81RecordWorkflowUncheckedUpdateManyWithoutScopedRecordNestedInput
@@ -2340,6 +2379,7 @@ export type ExerciseRecordCreateWithoutMediaInput = {
   createdAt: Date | string
   updatedAt: Date | string
   version?: number
+  aiReviewJobs?: Prisma.V81AiReviewJobCreateNestedManyWithoutRecordInput
   v81SwimIntake?: Prisma.V81SwimIntakeCreateNestedOneWithoutRecordInput
   v81RecordWorkflow_record?: Prisma.V81RecordWorkflowCreateNestedOneWithoutRecordInput
   v81RecordWorkflow_scopedRecord?: Prisma.V81RecordWorkflowCreateNestedManyWithoutScopedRecordInput
@@ -2386,6 +2426,7 @@ export type ExerciseRecordUncheckedCreateWithoutMediaInput = {
   createdAt: Date | string
   updatedAt: Date | string
   version?: number
+  aiReviewJobs?: Prisma.V81AiReviewJobUncheckedCreateNestedManyWithoutRecordInput
   v81SwimIntake?: Prisma.V81SwimIntakeUncheckedCreateNestedOneWithoutRecordInput
   v81RecordWorkflow_record?: Prisma.V81RecordWorkflowUncheckedCreateNestedOneWithoutRecordInput
   v81RecordWorkflow_scopedRecord?: Prisma.V81RecordWorkflowUncheckedCreateNestedManyWithoutScopedRecordInput
@@ -2432,6 +2473,7 @@ export type ExerciseRecordUpdateWithoutMediaInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   version?: Prisma.IntFieldUpdateOperationsInput | number
+  aiReviewJobs?: Prisma.V81AiReviewJobUpdateManyWithoutRecordNestedInput
   v81SwimIntake?: Prisma.V81SwimIntakeUpdateOneWithoutRecordNestedInput
   v81RecordWorkflow_record?: Prisma.V81RecordWorkflowUpdateOneWithoutRecordNestedInput
   v81RecordWorkflow_scopedRecord?: Prisma.V81RecordWorkflowUpdateManyWithoutScopedRecordNestedInput
@@ -2478,6 +2520,7 @@ export type ExerciseRecordUncheckedUpdateWithoutMediaInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   version?: Prisma.IntFieldUpdateOperationsInput | number
+  aiReviewJobs?: Prisma.V81AiReviewJobUncheckedUpdateManyWithoutRecordNestedInput
   v81SwimIntake?: Prisma.V81SwimIntakeUncheckedUpdateOneWithoutRecordNestedInput
   v81RecordWorkflow_record?: Prisma.V81RecordWorkflowUncheckedUpdateOneWithoutRecordNestedInput
   v81RecordWorkflow_scopedRecord?: Prisma.V81RecordWorkflowUncheckedUpdateManyWithoutScopedRecordNestedInput
@@ -2508,6 +2551,7 @@ export type ExerciseRecordCreateWithoutDailySlotInput = {
   createdAt: Date | string
   updatedAt: Date | string
   version?: number
+  aiReviewJobs?: Prisma.V81AiReviewJobCreateNestedManyWithoutRecordInput
   v81SwimIntake?: Prisma.V81SwimIntakeCreateNestedOneWithoutRecordInput
   v81RecordWorkflow_record?: Prisma.V81RecordWorkflowCreateNestedOneWithoutRecordInput
   v81RecordWorkflow_scopedRecord?: Prisma.V81RecordWorkflowCreateNestedManyWithoutScopedRecordInput
@@ -2554,6 +2598,7 @@ export type ExerciseRecordUncheckedCreateWithoutDailySlotInput = {
   createdAt: Date | string
   updatedAt: Date | string
   version?: number
+  aiReviewJobs?: Prisma.V81AiReviewJobUncheckedCreateNestedManyWithoutRecordInput
   v81SwimIntake?: Prisma.V81SwimIntakeUncheckedCreateNestedOneWithoutRecordInput
   v81RecordWorkflow_record?: Prisma.V81RecordWorkflowUncheckedCreateNestedOneWithoutRecordInput
   v81RecordWorkflow_scopedRecord?: Prisma.V81RecordWorkflowUncheckedCreateNestedManyWithoutScopedRecordInput
@@ -2600,6 +2645,7 @@ export type ExerciseRecordUpdateWithoutDailySlotInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   version?: Prisma.IntFieldUpdateOperationsInput | number
+  aiReviewJobs?: Prisma.V81AiReviewJobUpdateManyWithoutRecordNestedInput
   v81SwimIntake?: Prisma.V81SwimIntakeUpdateOneWithoutRecordNestedInput
   v81RecordWorkflow_record?: Prisma.V81RecordWorkflowUpdateOneWithoutRecordNestedInput
   v81RecordWorkflow_scopedRecord?: Prisma.V81RecordWorkflowUpdateManyWithoutScopedRecordNestedInput
@@ -2646,6 +2692,7 @@ export type ExerciseRecordUncheckedUpdateWithoutDailySlotInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   version?: Prisma.IntFieldUpdateOperationsInput | number
+  aiReviewJobs?: Prisma.V81AiReviewJobUncheckedUpdateManyWithoutRecordNestedInput
   v81SwimIntake?: Prisma.V81SwimIntakeUncheckedUpdateOneWithoutRecordNestedInput
   v81RecordWorkflow_record?: Prisma.V81RecordWorkflowUncheckedUpdateOneWithoutRecordNestedInput
   v81RecordWorkflow_scopedRecord?: Prisma.V81RecordWorkflowUncheckedUpdateManyWithoutScopedRecordNestedInput
@@ -2676,6 +2723,7 @@ export type ExerciseRecordCreateWithoutEventsInput = {
   createdAt: Date | string
   updatedAt: Date | string
   version?: number
+  aiReviewJobs?: Prisma.V81AiReviewJobCreateNestedManyWithoutRecordInput
   v81SwimIntake?: Prisma.V81SwimIntakeCreateNestedOneWithoutRecordInput
   v81RecordWorkflow_record?: Prisma.V81RecordWorkflowCreateNestedOneWithoutRecordInput
   v81RecordWorkflow_scopedRecord?: Prisma.V81RecordWorkflowCreateNestedManyWithoutScopedRecordInput
@@ -2722,6 +2770,7 @@ export type ExerciseRecordUncheckedCreateWithoutEventsInput = {
   createdAt: Date | string
   updatedAt: Date | string
   version?: number
+  aiReviewJobs?: Prisma.V81AiReviewJobUncheckedCreateNestedManyWithoutRecordInput
   v81SwimIntake?: Prisma.V81SwimIntakeUncheckedCreateNestedOneWithoutRecordInput
   v81RecordWorkflow_record?: Prisma.V81RecordWorkflowUncheckedCreateNestedOneWithoutRecordInput
   v81RecordWorkflow_scopedRecord?: Prisma.V81RecordWorkflowUncheckedCreateNestedManyWithoutScopedRecordInput
@@ -2768,6 +2817,7 @@ export type ExerciseRecordUpdateWithoutEventsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   version?: Prisma.IntFieldUpdateOperationsInput | number
+  aiReviewJobs?: Prisma.V81AiReviewJobUpdateManyWithoutRecordNestedInput
   v81SwimIntake?: Prisma.V81SwimIntakeUpdateOneWithoutRecordNestedInput
   v81RecordWorkflow_record?: Prisma.V81RecordWorkflowUpdateOneWithoutRecordNestedInput
   v81RecordWorkflow_scopedRecord?: Prisma.V81RecordWorkflowUpdateManyWithoutScopedRecordNestedInput
@@ -2814,6 +2864,7 @@ export type ExerciseRecordUncheckedUpdateWithoutEventsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   version?: Prisma.IntFieldUpdateOperationsInput | number
+  aiReviewJobs?: Prisma.V81AiReviewJobUncheckedUpdateManyWithoutRecordNestedInput
   v81SwimIntake?: Prisma.V81SwimIntakeUncheckedUpdateOneWithoutRecordNestedInput
   v81RecordWorkflow_record?: Prisma.V81RecordWorkflowUncheckedUpdateOneWithoutRecordNestedInput
   v81RecordWorkflow_scopedRecord?: Prisma.V81RecordWorkflowUncheckedUpdateManyWithoutScopedRecordNestedInput
@@ -2844,6 +2895,7 @@ export type ExerciseRecordCreateWithoutReviewsInput = {
   createdAt: Date | string
   updatedAt: Date | string
   version?: number
+  aiReviewJobs?: Prisma.V81AiReviewJobCreateNestedManyWithoutRecordInput
   v81SwimIntake?: Prisma.V81SwimIntakeCreateNestedOneWithoutRecordInput
   v81RecordWorkflow_record?: Prisma.V81RecordWorkflowCreateNestedOneWithoutRecordInput
   v81RecordWorkflow_scopedRecord?: Prisma.V81RecordWorkflowCreateNestedManyWithoutScopedRecordInput
@@ -2890,6 +2942,7 @@ export type ExerciseRecordUncheckedCreateWithoutReviewsInput = {
   createdAt: Date | string
   updatedAt: Date | string
   version?: number
+  aiReviewJobs?: Prisma.V81AiReviewJobUncheckedCreateNestedManyWithoutRecordInput
   v81SwimIntake?: Prisma.V81SwimIntakeUncheckedCreateNestedOneWithoutRecordInput
   v81RecordWorkflow_record?: Prisma.V81RecordWorkflowUncheckedCreateNestedOneWithoutRecordInput
   v81RecordWorkflow_scopedRecord?: Prisma.V81RecordWorkflowUncheckedCreateNestedManyWithoutScopedRecordInput
@@ -2936,6 +2989,7 @@ export type ExerciseRecordUpdateWithoutReviewsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   version?: Prisma.IntFieldUpdateOperationsInput | number
+  aiReviewJobs?: Prisma.V81AiReviewJobUpdateManyWithoutRecordNestedInput
   v81SwimIntake?: Prisma.V81SwimIntakeUpdateOneWithoutRecordNestedInput
   v81RecordWorkflow_record?: Prisma.V81RecordWorkflowUpdateOneWithoutRecordNestedInput
   v81RecordWorkflow_scopedRecord?: Prisma.V81RecordWorkflowUpdateManyWithoutScopedRecordNestedInput
@@ -2982,6 +3036,7 @@ export type ExerciseRecordUncheckedUpdateWithoutReviewsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   version?: Prisma.IntFieldUpdateOperationsInput | number
+  aiReviewJobs?: Prisma.V81AiReviewJobUncheckedUpdateManyWithoutRecordNestedInput
   v81SwimIntake?: Prisma.V81SwimIntakeUncheckedUpdateOneWithoutRecordNestedInput
   v81RecordWorkflow_record?: Prisma.V81RecordWorkflowUncheckedUpdateOneWithoutRecordNestedInput
   v81RecordWorkflow_scopedRecord?: Prisma.V81RecordWorkflowUncheckedUpdateManyWithoutScopedRecordNestedInput
@@ -3012,6 +3067,7 @@ export type ExerciseRecordCreateWithoutScoreContributionsInput = {
   createdAt: Date | string
   updatedAt: Date | string
   version?: number
+  aiReviewJobs?: Prisma.V81AiReviewJobCreateNestedManyWithoutRecordInput
   v81SwimIntake?: Prisma.V81SwimIntakeCreateNestedOneWithoutRecordInput
   v81RecordWorkflow_record?: Prisma.V81RecordWorkflowCreateNestedOneWithoutRecordInput
   v81RecordWorkflow_scopedRecord?: Prisma.V81RecordWorkflowCreateNestedManyWithoutScopedRecordInput
@@ -3058,6 +3114,7 @@ export type ExerciseRecordUncheckedCreateWithoutScoreContributionsInput = {
   createdAt: Date | string
   updatedAt: Date | string
   version?: number
+  aiReviewJobs?: Prisma.V81AiReviewJobUncheckedCreateNestedManyWithoutRecordInput
   v81SwimIntake?: Prisma.V81SwimIntakeUncheckedCreateNestedOneWithoutRecordInput
   v81RecordWorkflow_record?: Prisma.V81RecordWorkflowUncheckedCreateNestedOneWithoutRecordInput
   v81RecordWorkflow_scopedRecord?: Prisma.V81RecordWorkflowUncheckedCreateNestedManyWithoutScopedRecordInput
@@ -3104,6 +3161,7 @@ export type ExerciseRecordUpdateWithoutScoreContributionsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   version?: Prisma.IntFieldUpdateOperationsInput | number
+  aiReviewJobs?: Prisma.V81AiReviewJobUpdateManyWithoutRecordNestedInput
   v81SwimIntake?: Prisma.V81SwimIntakeUpdateOneWithoutRecordNestedInput
   v81RecordWorkflow_record?: Prisma.V81RecordWorkflowUpdateOneWithoutRecordNestedInput
   v81RecordWorkflow_scopedRecord?: Prisma.V81RecordWorkflowUpdateManyWithoutScopedRecordNestedInput
@@ -3150,6 +3208,7 @@ export type ExerciseRecordUncheckedUpdateWithoutScoreContributionsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   version?: Prisma.IntFieldUpdateOperationsInput | number
+  aiReviewJobs?: Prisma.V81AiReviewJobUncheckedUpdateManyWithoutRecordNestedInput
   v81SwimIntake?: Prisma.V81SwimIntakeUncheckedUpdateOneWithoutRecordNestedInput
   v81RecordWorkflow_record?: Prisma.V81RecordWorkflowUncheckedUpdateOneWithoutRecordNestedInput
   v81RecordWorkflow_scopedRecord?: Prisma.V81RecordWorkflowUncheckedUpdateManyWithoutScopedRecordNestedInput
@@ -3180,6 +3239,7 @@ export type ExerciseRecordCreateWithoutLocationSummaryInput = {
   createdAt: Date | string
   updatedAt: Date | string
   version?: number
+  aiReviewJobs?: Prisma.V81AiReviewJobCreateNestedManyWithoutRecordInput
   v81SwimIntake?: Prisma.V81SwimIntakeCreateNestedOneWithoutRecordInput
   v81RecordWorkflow_record?: Prisma.V81RecordWorkflowCreateNestedOneWithoutRecordInput
   v81RecordWorkflow_scopedRecord?: Prisma.V81RecordWorkflowCreateNestedManyWithoutScopedRecordInput
@@ -3226,6 +3286,7 @@ export type ExerciseRecordUncheckedCreateWithoutLocationSummaryInput = {
   createdAt: Date | string
   updatedAt: Date | string
   version?: number
+  aiReviewJobs?: Prisma.V81AiReviewJobUncheckedCreateNestedManyWithoutRecordInput
   v81SwimIntake?: Prisma.V81SwimIntakeUncheckedCreateNestedOneWithoutRecordInput
   v81RecordWorkflow_record?: Prisma.V81RecordWorkflowUncheckedCreateNestedOneWithoutRecordInput
   v81RecordWorkflow_scopedRecord?: Prisma.V81RecordWorkflowUncheckedCreateNestedManyWithoutScopedRecordInput
@@ -3272,6 +3333,7 @@ export type ExerciseRecordUpdateWithoutLocationSummaryInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   version?: Prisma.IntFieldUpdateOperationsInput | number
+  aiReviewJobs?: Prisma.V81AiReviewJobUpdateManyWithoutRecordNestedInput
   v81SwimIntake?: Prisma.V81SwimIntakeUpdateOneWithoutRecordNestedInput
   v81RecordWorkflow_record?: Prisma.V81RecordWorkflowUpdateOneWithoutRecordNestedInput
   v81RecordWorkflow_scopedRecord?: Prisma.V81RecordWorkflowUpdateManyWithoutScopedRecordNestedInput
@@ -3318,6 +3380,7 @@ export type ExerciseRecordUncheckedUpdateWithoutLocationSummaryInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   version?: Prisma.IntFieldUpdateOperationsInput | number
+  aiReviewJobs?: Prisma.V81AiReviewJobUncheckedUpdateManyWithoutRecordNestedInput
   v81SwimIntake?: Prisma.V81SwimIntakeUncheckedUpdateOneWithoutRecordNestedInput
   v81RecordWorkflow_record?: Prisma.V81RecordWorkflowUncheckedUpdateOneWithoutRecordNestedInput
   v81RecordWorkflow_scopedRecord?: Prisma.V81RecordWorkflowUncheckedUpdateManyWithoutScopedRecordNestedInput
@@ -3348,6 +3411,7 @@ export type ExerciseRecordCreateWithoutV81RecordWorkflow_recordInput = {
   createdAt: Date | string
   updatedAt: Date | string
   version?: number
+  aiReviewJobs?: Prisma.V81AiReviewJobCreateNestedManyWithoutRecordInput
   v81SwimIntake?: Prisma.V81SwimIntakeCreateNestedOneWithoutRecordInput
   v81RecordWorkflow_scopedRecord?: Prisma.V81RecordWorkflowCreateNestedManyWithoutScopedRecordInput
   v81MaterialVersion_record?: Prisma.V81MaterialVersionCreateNestedManyWithoutRecordInput
@@ -3394,6 +3458,7 @@ export type ExerciseRecordUncheckedCreateWithoutV81RecordWorkflow_recordInput = 
   createdAt: Date | string
   updatedAt: Date | string
   version?: number
+  aiReviewJobs?: Prisma.V81AiReviewJobUncheckedCreateNestedManyWithoutRecordInput
   v81SwimIntake?: Prisma.V81SwimIntakeUncheckedCreateNestedOneWithoutRecordInput
   v81RecordWorkflow_scopedRecord?: Prisma.V81RecordWorkflowUncheckedCreateNestedManyWithoutScopedRecordInput
   v81MaterialVersion_record?: Prisma.V81MaterialVersionUncheckedCreateNestedManyWithoutRecordInput
@@ -3429,6 +3494,7 @@ export type ExerciseRecordCreateWithoutV81RecordWorkflow_scopedRecordInput = {
   createdAt: Date | string
   updatedAt: Date | string
   version?: number
+  aiReviewJobs?: Prisma.V81AiReviewJobCreateNestedManyWithoutRecordInput
   v81SwimIntake?: Prisma.V81SwimIntakeCreateNestedOneWithoutRecordInput
   v81RecordWorkflow_record?: Prisma.V81RecordWorkflowCreateNestedOneWithoutRecordInput
   v81MaterialVersion_record?: Prisma.V81MaterialVersionCreateNestedManyWithoutRecordInput
@@ -3475,6 +3541,7 @@ export type ExerciseRecordUncheckedCreateWithoutV81RecordWorkflow_scopedRecordIn
   createdAt: Date | string
   updatedAt: Date | string
   version?: number
+  aiReviewJobs?: Prisma.V81AiReviewJobUncheckedCreateNestedManyWithoutRecordInput
   v81SwimIntake?: Prisma.V81SwimIntakeUncheckedCreateNestedOneWithoutRecordInput
   v81RecordWorkflow_record?: Prisma.V81RecordWorkflowUncheckedCreateNestedOneWithoutRecordInput
   v81MaterialVersion_record?: Prisma.V81MaterialVersionUncheckedCreateNestedManyWithoutRecordInput
@@ -3521,6 +3588,7 @@ export type ExerciseRecordUpdateWithoutV81RecordWorkflow_recordInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   version?: Prisma.IntFieldUpdateOperationsInput | number
+  aiReviewJobs?: Prisma.V81AiReviewJobUpdateManyWithoutRecordNestedInput
   v81SwimIntake?: Prisma.V81SwimIntakeUpdateOneWithoutRecordNestedInput
   v81RecordWorkflow_scopedRecord?: Prisma.V81RecordWorkflowUpdateManyWithoutScopedRecordNestedInput
   v81MaterialVersion_record?: Prisma.V81MaterialVersionUpdateManyWithoutRecordNestedInput
@@ -3567,6 +3635,7 @@ export type ExerciseRecordUncheckedUpdateWithoutV81RecordWorkflow_recordInput = 
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   version?: Prisma.IntFieldUpdateOperationsInput | number
+  aiReviewJobs?: Prisma.V81AiReviewJobUncheckedUpdateManyWithoutRecordNestedInput
   v81SwimIntake?: Prisma.V81SwimIntakeUncheckedUpdateOneWithoutRecordNestedInput
   v81RecordWorkflow_scopedRecord?: Prisma.V81RecordWorkflowUncheckedUpdateManyWithoutScopedRecordNestedInput
   v81MaterialVersion_record?: Prisma.V81MaterialVersionUncheckedUpdateManyWithoutRecordNestedInput
@@ -3608,6 +3677,7 @@ export type ExerciseRecordUpdateWithoutV81RecordWorkflow_scopedRecordInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   version?: Prisma.IntFieldUpdateOperationsInput | number
+  aiReviewJobs?: Prisma.V81AiReviewJobUpdateManyWithoutRecordNestedInput
   v81SwimIntake?: Prisma.V81SwimIntakeUpdateOneWithoutRecordNestedInput
   v81RecordWorkflow_record?: Prisma.V81RecordWorkflowUpdateOneWithoutRecordNestedInput
   v81MaterialVersion_record?: Prisma.V81MaterialVersionUpdateManyWithoutRecordNestedInput
@@ -3654,6 +3724,7 @@ export type ExerciseRecordUncheckedUpdateWithoutV81RecordWorkflow_scopedRecordIn
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   version?: Prisma.IntFieldUpdateOperationsInput | number
+  aiReviewJobs?: Prisma.V81AiReviewJobUncheckedUpdateManyWithoutRecordNestedInput
   v81SwimIntake?: Prisma.V81SwimIntakeUncheckedUpdateOneWithoutRecordNestedInput
   v81RecordWorkflow_record?: Prisma.V81RecordWorkflowUncheckedUpdateOneWithoutRecordNestedInput
   v81MaterialVersion_record?: Prisma.V81MaterialVersionUncheckedUpdateManyWithoutRecordNestedInput
@@ -3684,6 +3755,7 @@ export type ExerciseRecordCreateWithoutV81MaterialVersion_recordInput = {
   createdAt: Date | string
   updatedAt: Date | string
   version?: number
+  aiReviewJobs?: Prisma.V81AiReviewJobCreateNestedManyWithoutRecordInput
   v81SwimIntake?: Prisma.V81SwimIntakeCreateNestedOneWithoutRecordInput
   v81RecordWorkflow_record?: Prisma.V81RecordWorkflowCreateNestedOneWithoutRecordInput
   v81RecordWorkflow_scopedRecord?: Prisma.V81RecordWorkflowCreateNestedManyWithoutScopedRecordInput
@@ -3730,6 +3802,7 @@ export type ExerciseRecordUncheckedCreateWithoutV81MaterialVersion_recordInput =
   createdAt: Date | string
   updatedAt: Date | string
   version?: number
+  aiReviewJobs?: Prisma.V81AiReviewJobUncheckedCreateNestedManyWithoutRecordInput
   v81SwimIntake?: Prisma.V81SwimIntakeUncheckedCreateNestedOneWithoutRecordInput
   v81RecordWorkflow_record?: Prisma.V81RecordWorkflowUncheckedCreateNestedOneWithoutRecordInput
   v81RecordWorkflow_scopedRecord?: Prisma.V81RecordWorkflowUncheckedCreateNestedManyWithoutScopedRecordInput
@@ -3765,6 +3838,7 @@ export type ExerciseRecordCreateWithoutV81MaterialVersion_scopedRecordInput = {
   createdAt: Date | string
   updatedAt: Date | string
   version?: number
+  aiReviewJobs?: Prisma.V81AiReviewJobCreateNestedManyWithoutRecordInput
   v81SwimIntake?: Prisma.V81SwimIntakeCreateNestedOneWithoutRecordInput
   v81RecordWorkflow_record?: Prisma.V81RecordWorkflowCreateNestedOneWithoutRecordInput
   v81RecordWorkflow_scopedRecord?: Prisma.V81RecordWorkflowCreateNestedManyWithoutScopedRecordInput
@@ -3811,6 +3885,7 @@ export type ExerciseRecordUncheckedCreateWithoutV81MaterialVersion_scopedRecordI
   createdAt: Date | string
   updatedAt: Date | string
   version?: number
+  aiReviewJobs?: Prisma.V81AiReviewJobUncheckedCreateNestedManyWithoutRecordInput
   v81SwimIntake?: Prisma.V81SwimIntakeUncheckedCreateNestedOneWithoutRecordInput
   v81RecordWorkflow_record?: Prisma.V81RecordWorkflowUncheckedCreateNestedOneWithoutRecordInput
   v81RecordWorkflow_scopedRecord?: Prisma.V81RecordWorkflowUncheckedCreateNestedManyWithoutScopedRecordInput
@@ -3857,6 +3932,7 @@ export type ExerciseRecordUpdateWithoutV81MaterialVersion_recordInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   version?: Prisma.IntFieldUpdateOperationsInput | number
+  aiReviewJobs?: Prisma.V81AiReviewJobUpdateManyWithoutRecordNestedInput
   v81SwimIntake?: Prisma.V81SwimIntakeUpdateOneWithoutRecordNestedInput
   v81RecordWorkflow_record?: Prisma.V81RecordWorkflowUpdateOneWithoutRecordNestedInput
   v81RecordWorkflow_scopedRecord?: Prisma.V81RecordWorkflowUpdateManyWithoutScopedRecordNestedInput
@@ -3903,6 +3979,7 @@ export type ExerciseRecordUncheckedUpdateWithoutV81MaterialVersion_recordInput =
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   version?: Prisma.IntFieldUpdateOperationsInput | number
+  aiReviewJobs?: Prisma.V81AiReviewJobUncheckedUpdateManyWithoutRecordNestedInput
   v81SwimIntake?: Prisma.V81SwimIntakeUncheckedUpdateOneWithoutRecordNestedInput
   v81RecordWorkflow_record?: Prisma.V81RecordWorkflowUncheckedUpdateOneWithoutRecordNestedInput
   v81RecordWorkflow_scopedRecord?: Prisma.V81RecordWorkflowUncheckedUpdateManyWithoutScopedRecordNestedInput
@@ -3944,6 +4021,7 @@ export type ExerciseRecordUpdateWithoutV81MaterialVersion_scopedRecordInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   version?: Prisma.IntFieldUpdateOperationsInput | number
+  aiReviewJobs?: Prisma.V81AiReviewJobUpdateManyWithoutRecordNestedInput
   v81SwimIntake?: Prisma.V81SwimIntakeUpdateOneWithoutRecordNestedInput
   v81RecordWorkflow_record?: Prisma.V81RecordWorkflowUpdateOneWithoutRecordNestedInput
   v81RecordWorkflow_scopedRecord?: Prisma.V81RecordWorkflowUpdateManyWithoutScopedRecordNestedInput
@@ -3990,10 +4068,183 @@ export type ExerciseRecordUncheckedUpdateWithoutV81MaterialVersion_scopedRecordI
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   version?: Prisma.IntFieldUpdateOperationsInput | number
+  aiReviewJobs?: Prisma.V81AiReviewJobUncheckedUpdateManyWithoutRecordNestedInput
   v81SwimIntake?: Prisma.V81SwimIntakeUncheckedUpdateOneWithoutRecordNestedInput
   v81RecordWorkflow_record?: Prisma.V81RecordWorkflowUncheckedUpdateOneWithoutRecordNestedInput
   v81RecordWorkflow_scopedRecord?: Prisma.V81RecordWorkflowUncheckedUpdateManyWithoutScopedRecordNestedInput
   v81MaterialVersion_record?: Prisma.V81MaterialVersionUncheckedUpdateManyWithoutRecordNestedInput
+  v81CreditProjection_record?: Prisma.V81CreditProjectionUncheckedUpdateOneWithoutRecordNestedInput
+  media?: Prisma.ExerciseRecordMediaUncheckedUpdateManyWithoutRecordNestedInput
+  events?: Prisma.ExerciseRecordEventUncheckedUpdateManyWithoutRecordNestedInput
+  reviews?: Prisma.ReviewRecordUncheckedUpdateManyWithoutRecordNestedInput
+  scoreContributions?: Prisma.ScoreContributionUncheckedUpdateManyWithoutRecordNestedInput
+  dailySlot?: Prisma.ExerciseRecordDailySlotUncheckedUpdateOneWithoutRecordNestedInput
+  locationSummary?: Prisma.LocationSummaryUncheckedUpdateOneWithoutRecordNestedInput
+}
+
+export type ExerciseRecordCreateWithoutAiReviewJobsInput = {
+  id: string
+  businessDate: Date | string
+  creditType: string
+  sportType: string
+  sportName?: string | null
+  description?: string | null
+  actualDurationSeconds: bigint | number
+  pausedDurationSeconds: bigint | number
+  creditedDurationSeconds: bigint | number
+  status: string
+  submittedAt?: Date | string | null
+  cancelledAt?: Date | string | null
+  clientRequestId: string
+  createdAt: Date | string
+  updatedAt: Date | string
+  version?: number
+  v81SwimIntake?: Prisma.V81SwimIntakeCreateNestedOneWithoutRecordInput
+  v81RecordWorkflow_record?: Prisma.V81RecordWorkflowCreateNestedOneWithoutRecordInput
+  v81RecordWorkflow_scopedRecord?: Prisma.V81RecordWorkflowCreateNestedManyWithoutScopedRecordInput
+  v81MaterialVersion_record?: Prisma.V81MaterialVersionCreateNestedManyWithoutRecordInput
+  v81MaterialVersion_scopedRecord?: Prisma.V81MaterialVersionCreateNestedManyWithoutScopedRecordInput
+  v81CreditProjection_record?: Prisma.V81CreditProjectionCreateNestedOneWithoutRecordInput
+  organization: Prisma.OrganizationCreateNestedOneWithoutExerciseRecordsInput
+  semester: Prisma.SemesterCreateNestedOneWithoutExerciseRecordsInput
+  student: Prisma.StudentProfileCreateNestedOneWithoutExerciseRecordsInput
+  enrollment: Prisma.EnrollmentCreateNestedOneWithoutExerciseRecordsInput
+  classSection: Prisma.ClassSectionCreateNestedOneWithoutExerciseRecordsInput
+  course: Prisma.CourseCreateNestedOneWithoutExerciseRecordsInput
+  teacher: Prisma.TeacherProfileCreateNestedOneWithoutExerciseRecordsInput
+  session: Prisma.ExerciseSessionCreateNestedOneWithoutExerciseRecordInput
+  media?: Prisma.ExerciseRecordMediaCreateNestedManyWithoutRecordInput
+  events?: Prisma.ExerciseRecordEventCreateNestedManyWithoutRecordInput
+  reviews?: Prisma.ReviewRecordCreateNestedManyWithoutRecordInput
+  scoreContributions?: Prisma.ScoreContributionCreateNestedManyWithoutRecordInput
+  dailySlot?: Prisma.ExerciseRecordDailySlotCreateNestedOneWithoutRecordInput
+  locationSummary?: Prisma.LocationSummaryCreateNestedOneWithoutRecordInput
+}
+
+export type ExerciseRecordUncheckedCreateWithoutAiReviewJobsInput = {
+  id: string
+  organizationId: string
+  semesterId: string
+  studentId: string
+  enrollmentId: string
+  classSectionId: string
+  courseId: string
+  teacherId: string
+  sessionId: string
+  businessDate: Date | string
+  creditType: string
+  sportType: string
+  sportName?: string | null
+  description?: string | null
+  actualDurationSeconds: bigint | number
+  pausedDurationSeconds: bigint | number
+  creditedDurationSeconds: bigint | number
+  status: string
+  submittedAt?: Date | string | null
+  cancelledAt?: Date | string | null
+  clientRequestId: string
+  createdAt: Date | string
+  updatedAt: Date | string
+  version?: number
+  v81SwimIntake?: Prisma.V81SwimIntakeUncheckedCreateNestedOneWithoutRecordInput
+  v81RecordWorkflow_record?: Prisma.V81RecordWorkflowUncheckedCreateNestedOneWithoutRecordInput
+  v81RecordWorkflow_scopedRecord?: Prisma.V81RecordWorkflowUncheckedCreateNestedManyWithoutScopedRecordInput
+  v81MaterialVersion_record?: Prisma.V81MaterialVersionUncheckedCreateNestedManyWithoutRecordInput
+  v81MaterialVersion_scopedRecord?: Prisma.V81MaterialVersionUncheckedCreateNestedManyWithoutScopedRecordInput
+  v81CreditProjection_record?: Prisma.V81CreditProjectionUncheckedCreateNestedOneWithoutRecordInput
+  media?: Prisma.ExerciseRecordMediaUncheckedCreateNestedManyWithoutRecordInput
+  events?: Prisma.ExerciseRecordEventUncheckedCreateNestedManyWithoutRecordInput
+  reviews?: Prisma.ReviewRecordUncheckedCreateNestedManyWithoutRecordInput
+  scoreContributions?: Prisma.ScoreContributionUncheckedCreateNestedManyWithoutRecordInput
+  dailySlot?: Prisma.ExerciseRecordDailySlotUncheckedCreateNestedOneWithoutRecordInput
+  locationSummary?: Prisma.LocationSummaryUncheckedCreateNestedOneWithoutRecordInput
+}
+
+export type ExerciseRecordCreateOrConnectWithoutAiReviewJobsInput = {
+  where: Prisma.ExerciseRecordWhereUniqueInput
+  create: Prisma.XOR<Prisma.ExerciseRecordCreateWithoutAiReviewJobsInput, Prisma.ExerciseRecordUncheckedCreateWithoutAiReviewJobsInput>
+}
+
+export type ExerciseRecordUpsertWithoutAiReviewJobsInput = {
+  update: Prisma.XOR<Prisma.ExerciseRecordUpdateWithoutAiReviewJobsInput, Prisma.ExerciseRecordUncheckedUpdateWithoutAiReviewJobsInput>
+  create: Prisma.XOR<Prisma.ExerciseRecordCreateWithoutAiReviewJobsInput, Prisma.ExerciseRecordUncheckedCreateWithoutAiReviewJobsInput>
+  where?: Prisma.ExerciseRecordWhereInput
+}
+
+export type ExerciseRecordUpdateToOneWithWhereWithoutAiReviewJobsInput = {
+  where?: Prisma.ExerciseRecordWhereInput
+  data: Prisma.XOR<Prisma.ExerciseRecordUpdateWithoutAiReviewJobsInput, Prisma.ExerciseRecordUncheckedUpdateWithoutAiReviewJobsInput>
+}
+
+export type ExerciseRecordUpdateWithoutAiReviewJobsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  businessDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  creditType?: Prisma.StringFieldUpdateOperationsInput | string
+  sportType?: Prisma.StringFieldUpdateOperationsInput | string
+  sportName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  actualDurationSeconds?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  pausedDurationSeconds?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  creditedDurationSeconds?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  submittedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  cancelledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  clientRequestId?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  version?: Prisma.IntFieldUpdateOperationsInput | number
+  v81SwimIntake?: Prisma.V81SwimIntakeUpdateOneWithoutRecordNestedInput
+  v81RecordWorkflow_record?: Prisma.V81RecordWorkflowUpdateOneWithoutRecordNestedInput
+  v81RecordWorkflow_scopedRecord?: Prisma.V81RecordWorkflowUpdateManyWithoutScopedRecordNestedInput
+  v81MaterialVersion_record?: Prisma.V81MaterialVersionUpdateManyWithoutRecordNestedInput
+  v81MaterialVersion_scopedRecord?: Prisma.V81MaterialVersionUpdateManyWithoutScopedRecordNestedInput
+  v81CreditProjection_record?: Prisma.V81CreditProjectionUpdateOneWithoutRecordNestedInput
+  organization?: Prisma.OrganizationUpdateOneRequiredWithoutExerciseRecordsNestedInput
+  semester?: Prisma.SemesterUpdateOneRequiredWithoutExerciseRecordsNestedInput
+  student?: Prisma.StudentProfileUpdateOneRequiredWithoutExerciseRecordsNestedInput
+  enrollment?: Prisma.EnrollmentUpdateOneRequiredWithoutExerciseRecordsNestedInput
+  classSection?: Prisma.ClassSectionUpdateOneRequiredWithoutExerciseRecordsNestedInput
+  course?: Prisma.CourseUpdateOneRequiredWithoutExerciseRecordsNestedInput
+  teacher?: Prisma.TeacherProfileUpdateOneRequiredWithoutExerciseRecordsNestedInput
+  session?: Prisma.ExerciseSessionUpdateOneRequiredWithoutExerciseRecordNestedInput
+  media?: Prisma.ExerciseRecordMediaUpdateManyWithoutRecordNestedInput
+  events?: Prisma.ExerciseRecordEventUpdateManyWithoutRecordNestedInput
+  reviews?: Prisma.ReviewRecordUpdateManyWithoutRecordNestedInput
+  scoreContributions?: Prisma.ScoreContributionUpdateManyWithoutRecordNestedInput
+  dailySlot?: Prisma.ExerciseRecordDailySlotUpdateOneWithoutRecordNestedInput
+  locationSummary?: Prisma.LocationSummaryUpdateOneWithoutRecordNestedInput
+}
+
+export type ExerciseRecordUncheckedUpdateWithoutAiReviewJobsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  organizationId?: Prisma.StringFieldUpdateOperationsInput | string
+  semesterId?: Prisma.StringFieldUpdateOperationsInput | string
+  studentId?: Prisma.StringFieldUpdateOperationsInput | string
+  enrollmentId?: Prisma.StringFieldUpdateOperationsInput | string
+  classSectionId?: Prisma.StringFieldUpdateOperationsInput | string
+  courseId?: Prisma.StringFieldUpdateOperationsInput | string
+  teacherId?: Prisma.StringFieldUpdateOperationsInput | string
+  sessionId?: Prisma.StringFieldUpdateOperationsInput | string
+  businessDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  creditType?: Prisma.StringFieldUpdateOperationsInput | string
+  sportType?: Prisma.StringFieldUpdateOperationsInput | string
+  sportName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  actualDurationSeconds?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  pausedDurationSeconds?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  creditedDurationSeconds?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  submittedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  cancelledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  clientRequestId?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  version?: Prisma.IntFieldUpdateOperationsInput | number
+  v81SwimIntake?: Prisma.V81SwimIntakeUncheckedUpdateOneWithoutRecordNestedInput
+  v81RecordWorkflow_record?: Prisma.V81RecordWorkflowUncheckedUpdateOneWithoutRecordNestedInput
+  v81RecordWorkflow_scopedRecord?: Prisma.V81RecordWorkflowUncheckedUpdateManyWithoutScopedRecordNestedInput
+  v81MaterialVersion_record?: Prisma.V81MaterialVersionUncheckedUpdateManyWithoutRecordNestedInput
+  v81MaterialVersion_scopedRecord?: Prisma.V81MaterialVersionUncheckedUpdateManyWithoutScopedRecordNestedInput
   v81CreditProjection_record?: Prisma.V81CreditProjectionUncheckedUpdateOneWithoutRecordNestedInput
   media?: Prisma.ExerciseRecordMediaUncheckedUpdateManyWithoutRecordNestedInput
   events?: Prisma.ExerciseRecordEventUncheckedUpdateManyWithoutRecordNestedInput
@@ -4020,6 +4271,7 @@ export type ExerciseRecordCreateWithoutV81CreditProjection_recordInput = {
   createdAt: Date | string
   updatedAt: Date | string
   version?: number
+  aiReviewJobs?: Prisma.V81AiReviewJobCreateNestedManyWithoutRecordInput
   v81SwimIntake?: Prisma.V81SwimIntakeCreateNestedOneWithoutRecordInput
   v81RecordWorkflow_record?: Prisma.V81RecordWorkflowCreateNestedOneWithoutRecordInput
   v81RecordWorkflow_scopedRecord?: Prisma.V81RecordWorkflowCreateNestedManyWithoutScopedRecordInput
@@ -4066,6 +4318,7 @@ export type ExerciseRecordUncheckedCreateWithoutV81CreditProjection_recordInput 
   createdAt: Date | string
   updatedAt: Date | string
   version?: number
+  aiReviewJobs?: Prisma.V81AiReviewJobUncheckedCreateNestedManyWithoutRecordInput
   v81SwimIntake?: Prisma.V81SwimIntakeUncheckedCreateNestedOneWithoutRecordInput
   v81RecordWorkflow_record?: Prisma.V81RecordWorkflowUncheckedCreateNestedOneWithoutRecordInput
   v81RecordWorkflow_scopedRecord?: Prisma.V81RecordWorkflowUncheckedCreateNestedManyWithoutScopedRecordInput
@@ -4112,6 +4365,7 @@ export type ExerciseRecordUpdateWithoutV81CreditProjection_recordInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   version?: Prisma.IntFieldUpdateOperationsInput | number
+  aiReviewJobs?: Prisma.V81AiReviewJobUpdateManyWithoutRecordNestedInput
   v81SwimIntake?: Prisma.V81SwimIntakeUpdateOneWithoutRecordNestedInput
   v81RecordWorkflow_record?: Prisma.V81RecordWorkflowUpdateOneWithoutRecordNestedInput
   v81RecordWorkflow_scopedRecord?: Prisma.V81RecordWorkflowUpdateManyWithoutScopedRecordNestedInput
@@ -4158,6 +4412,7 @@ export type ExerciseRecordUncheckedUpdateWithoutV81CreditProjection_recordInput 
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   version?: Prisma.IntFieldUpdateOperationsInput | number
+  aiReviewJobs?: Prisma.V81AiReviewJobUncheckedUpdateManyWithoutRecordNestedInput
   v81SwimIntake?: Prisma.V81SwimIntakeUncheckedUpdateOneWithoutRecordNestedInput
   v81RecordWorkflow_record?: Prisma.V81RecordWorkflowUncheckedUpdateOneWithoutRecordNestedInput
   v81RecordWorkflow_scopedRecord?: Prisma.V81RecordWorkflowUncheckedUpdateManyWithoutScopedRecordNestedInput
@@ -4188,6 +4443,7 @@ export type ExerciseRecordCreateWithoutV81SwimIntakeInput = {
   createdAt: Date | string
   updatedAt: Date | string
   version?: number
+  aiReviewJobs?: Prisma.V81AiReviewJobCreateNestedManyWithoutRecordInput
   v81RecordWorkflow_record?: Prisma.V81RecordWorkflowCreateNestedOneWithoutRecordInput
   v81RecordWorkflow_scopedRecord?: Prisma.V81RecordWorkflowCreateNestedManyWithoutScopedRecordInput
   v81MaterialVersion_record?: Prisma.V81MaterialVersionCreateNestedManyWithoutRecordInput
@@ -4234,6 +4490,7 @@ export type ExerciseRecordUncheckedCreateWithoutV81SwimIntakeInput = {
   createdAt: Date | string
   updatedAt: Date | string
   version?: number
+  aiReviewJobs?: Prisma.V81AiReviewJobUncheckedCreateNestedManyWithoutRecordInput
   v81RecordWorkflow_record?: Prisma.V81RecordWorkflowUncheckedCreateNestedOneWithoutRecordInput
   v81RecordWorkflow_scopedRecord?: Prisma.V81RecordWorkflowUncheckedCreateNestedManyWithoutScopedRecordInput
   v81MaterialVersion_record?: Prisma.V81MaterialVersionUncheckedCreateNestedManyWithoutRecordInput
@@ -4280,6 +4537,7 @@ export type ExerciseRecordUpdateWithoutV81SwimIntakeInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   version?: Prisma.IntFieldUpdateOperationsInput | number
+  aiReviewJobs?: Prisma.V81AiReviewJobUpdateManyWithoutRecordNestedInput
   v81RecordWorkflow_record?: Prisma.V81RecordWorkflowUpdateOneWithoutRecordNestedInput
   v81RecordWorkflow_scopedRecord?: Prisma.V81RecordWorkflowUpdateManyWithoutScopedRecordNestedInput
   v81MaterialVersion_record?: Prisma.V81MaterialVersionUpdateManyWithoutRecordNestedInput
@@ -4326,6 +4584,7 @@ export type ExerciseRecordUncheckedUpdateWithoutV81SwimIntakeInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   version?: Prisma.IntFieldUpdateOperationsInput | number
+  aiReviewJobs?: Prisma.V81AiReviewJobUncheckedUpdateManyWithoutRecordNestedInput
   v81RecordWorkflow_record?: Prisma.V81RecordWorkflowUncheckedUpdateOneWithoutRecordNestedInput
   v81RecordWorkflow_scopedRecord?: Prisma.V81RecordWorkflowUncheckedUpdateManyWithoutScopedRecordNestedInput
   v81MaterialVersion_record?: Prisma.V81MaterialVersionUncheckedUpdateManyWithoutRecordNestedInput
@@ -4382,6 +4641,7 @@ export type ExerciseRecordUpdateWithoutOrganizationInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   version?: Prisma.IntFieldUpdateOperationsInput | number
+  aiReviewJobs?: Prisma.V81AiReviewJobUpdateManyWithoutRecordNestedInput
   v81SwimIntake?: Prisma.V81SwimIntakeUpdateOneWithoutRecordNestedInput
   v81RecordWorkflow_record?: Prisma.V81RecordWorkflowUpdateOneWithoutRecordNestedInput
   v81RecordWorkflow_scopedRecord?: Prisma.V81RecordWorkflowUpdateManyWithoutScopedRecordNestedInput
@@ -4427,6 +4687,7 @@ export type ExerciseRecordUncheckedUpdateWithoutOrganizationInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   version?: Prisma.IntFieldUpdateOperationsInput | number
+  aiReviewJobs?: Prisma.V81AiReviewJobUncheckedUpdateManyWithoutRecordNestedInput
   v81SwimIntake?: Prisma.V81SwimIntakeUncheckedUpdateOneWithoutRecordNestedInput
   v81RecordWorkflow_record?: Prisma.V81RecordWorkflowUncheckedUpdateOneWithoutRecordNestedInput
   v81RecordWorkflow_scopedRecord?: Prisma.V81RecordWorkflowUncheckedUpdateManyWithoutScopedRecordNestedInput
@@ -4509,6 +4770,7 @@ export type ExerciseRecordUpdateWithoutStudentInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   version?: Prisma.IntFieldUpdateOperationsInput | number
+  aiReviewJobs?: Prisma.V81AiReviewJobUpdateManyWithoutRecordNestedInput
   v81SwimIntake?: Prisma.V81SwimIntakeUpdateOneWithoutRecordNestedInput
   v81RecordWorkflow_record?: Prisma.V81RecordWorkflowUpdateOneWithoutRecordNestedInput
   v81RecordWorkflow_scopedRecord?: Prisma.V81RecordWorkflowUpdateManyWithoutScopedRecordNestedInput
@@ -4553,6 +4815,7 @@ export type ExerciseRecordUncheckedUpdateWithoutStudentInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   version?: Prisma.IntFieldUpdateOperationsInput | number
+  aiReviewJobs?: Prisma.V81AiReviewJobUncheckedUpdateManyWithoutRecordNestedInput
   v81SwimIntake?: Prisma.V81SwimIntakeUncheckedUpdateOneWithoutRecordNestedInput
   v81RecordWorkflow_record?: Prisma.V81RecordWorkflowUncheckedUpdateOneWithoutRecordNestedInput
   v81RecordWorkflow_scopedRecord?: Prisma.V81RecordWorkflowUncheckedUpdateManyWithoutScopedRecordNestedInput
@@ -4634,6 +4897,7 @@ export type ExerciseRecordUpdateWithoutTeacherInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   version?: Prisma.IntFieldUpdateOperationsInput | number
+  aiReviewJobs?: Prisma.V81AiReviewJobUpdateManyWithoutRecordNestedInput
   v81SwimIntake?: Prisma.V81SwimIntakeUpdateOneWithoutRecordNestedInput
   v81RecordWorkflow_record?: Prisma.V81RecordWorkflowUpdateOneWithoutRecordNestedInput
   v81RecordWorkflow_scopedRecord?: Prisma.V81RecordWorkflowUpdateManyWithoutScopedRecordNestedInput
@@ -4678,6 +4942,7 @@ export type ExerciseRecordUncheckedUpdateWithoutTeacherInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   version?: Prisma.IntFieldUpdateOperationsInput | number
+  aiReviewJobs?: Prisma.V81AiReviewJobUncheckedUpdateManyWithoutRecordNestedInput
   v81SwimIntake?: Prisma.V81SwimIntakeUncheckedUpdateOneWithoutRecordNestedInput
   v81RecordWorkflow_record?: Prisma.V81RecordWorkflowUncheckedUpdateOneWithoutRecordNestedInput
   v81RecordWorkflow_scopedRecord?: Prisma.V81RecordWorkflowUncheckedUpdateManyWithoutScopedRecordNestedInput
@@ -4759,6 +5024,7 @@ export type ExerciseRecordUpdateWithoutSemesterInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   version?: Prisma.IntFieldUpdateOperationsInput | number
+  aiReviewJobs?: Prisma.V81AiReviewJobUpdateManyWithoutRecordNestedInput
   v81SwimIntake?: Prisma.V81SwimIntakeUpdateOneWithoutRecordNestedInput
   v81RecordWorkflow_record?: Prisma.V81RecordWorkflowUpdateOneWithoutRecordNestedInput
   v81RecordWorkflow_scopedRecord?: Prisma.V81RecordWorkflowUpdateManyWithoutScopedRecordNestedInput
@@ -4803,6 +5069,7 @@ export type ExerciseRecordUncheckedUpdateWithoutSemesterInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   version?: Prisma.IntFieldUpdateOperationsInput | number
+  aiReviewJobs?: Prisma.V81AiReviewJobUncheckedUpdateManyWithoutRecordNestedInput
   v81SwimIntake?: Prisma.V81SwimIntakeUncheckedUpdateOneWithoutRecordNestedInput
   v81RecordWorkflow_record?: Prisma.V81RecordWorkflowUncheckedUpdateOneWithoutRecordNestedInput
   v81RecordWorkflow_scopedRecord?: Prisma.V81RecordWorkflowUncheckedUpdateManyWithoutScopedRecordNestedInput
@@ -4884,6 +5151,7 @@ export type ExerciseRecordUpdateWithoutCourseInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   version?: Prisma.IntFieldUpdateOperationsInput | number
+  aiReviewJobs?: Prisma.V81AiReviewJobUpdateManyWithoutRecordNestedInput
   v81SwimIntake?: Prisma.V81SwimIntakeUpdateOneWithoutRecordNestedInput
   v81RecordWorkflow_record?: Prisma.V81RecordWorkflowUpdateOneWithoutRecordNestedInput
   v81RecordWorkflow_scopedRecord?: Prisma.V81RecordWorkflowUpdateManyWithoutScopedRecordNestedInput
@@ -4928,6 +5196,7 @@ export type ExerciseRecordUncheckedUpdateWithoutCourseInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   version?: Prisma.IntFieldUpdateOperationsInput | number
+  aiReviewJobs?: Prisma.V81AiReviewJobUncheckedUpdateManyWithoutRecordNestedInput
   v81SwimIntake?: Prisma.V81SwimIntakeUncheckedUpdateOneWithoutRecordNestedInput
   v81RecordWorkflow_record?: Prisma.V81RecordWorkflowUncheckedUpdateOneWithoutRecordNestedInput
   v81RecordWorkflow_scopedRecord?: Prisma.V81RecordWorkflowUncheckedUpdateManyWithoutScopedRecordNestedInput
@@ -5006,6 +5275,7 @@ export type ExerciseRecordUpdateWithoutClassSectionInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   version?: Prisma.IntFieldUpdateOperationsInput | number
+  aiReviewJobs?: Prisma.V81AiReviewJobUpdateManyWithoutRecordNestedInput
   v81SwimIntake?: Prisma.V81SwimIntakeUpdateOneWithoutRecordNestedInput
   v81RecordWorkflow_record?: Prisma.V81RecordWorkflowUpdateOneWithoutRecordNestedInput
   v81RecordWorkflow_scopedRecord?: Prisma.V81RecordWorkflowUpdateManyWithoutScopedRecordNestedInput
@@ -5047,6 +5317,7 @@ export type ExerciseRecordUncheckedUpdateWithoutClassSectionInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   version?: Prisma.IntFieldUpdateOperationsInput | number
+  aiReviewJobs?: Prisma.V81AiReviewJobUncheckedUpdateManyWithoutRecordNestedInput
   v81SwimIntake?: Prisma.V81SwimIntakeUncheckedUpdateOneWithoutRecordNestedInput
   v81RecordWorkflow_record?: Prisma.V81RecordWorkflowUncheckedUpdateOneWithoutRecordNestedInput
   v81RecordWorkflow_scopedRecord?: Prisma.V81RecordWorkflowUncheckedUpdateManyWithoutScopedRecordNestedInput
@@ -5122,6 +5393,7 @@ export type ExerciseRecordUpdateWithoutEnrollmentInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   version?: Prisma.IntFieldUpdateOperationsInput | number
+  aiReviewJobs?: Prisma.V81AiReviewJobUpdateManyWithoutRecordNestedInput
   v81SwimIntake?: Prisma.V81SwimIntakeUpdateOneWithoutRecordNestedInput
   v81RecordWorkflow_record?: Prisma.V81RecordWorkflowUpdateOneWithoutRecordNestedInput
   v81RecordWorkflow_scopedRecord?: Prisma.V81RecordWorkflowUpdateManyWithoutScopedRecordNestedInput
@@ -5163,6 +5435,7 @@ export type ExerciseRecordUncheckedUpdateWithoutEnrollmentInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   version?: Prisma.IntFieldUpdateOperationsInput | number
+  aiReviewJobs?: Prisma.V81AiReviewJobUncheckedUpdateManyWithoutRecordNestedInput
   v81SwimIntake?: Prisma.V81SwimIntakeUncheckedUpdateOneWithoutRecordNestedInput
   v81RecordWorkflow_record?: Prisma.V81RecordWorkflowUncheckedUpdateOneWithoutRecordNestedInput
   v81RecordWorkflow_scopedRecord?: Prisma.V81RecordWorkflowUncheckedUpdateManyWithoutScopedRecordNestedInput
@@ -5205,6 +5478,7 @@ export type ExerciseRecordUncheckedUpdateManyWithoutEnrollmentInput = {
  */
 
 export type ExerciseRecordCountOutputType = {
+  aiReviewJobs: number
   v81RecordWorkflow_scopedRecord: number
   v81MaterialVersion_record: number
   v81MaterialVersion_scopedRecord: number
@@ -5215,6 +5489,7 @@ export type ExerciseRecordCountOutputType = {
 }
 
 export type ExerciseRecordCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  aiReviewJobs?: boolean | ExerciseRecordCountOutputTypeCountAiReviewJobsArgs
   v81RecordWorkflow_scopedRecord?: boolean | ExerciseRecordCountOutputTypeCountV81RecordWorkflow_scopedRecordArgs
   v81MaterialVersion_record?: boolean | ExerciseRecordCountOutputTypeCountV81MaterialVersion_recordArgs
   v81MaterialVersion_scopedRecord?: boolean | ExerciseRecordCountOutputTypeCountV81MaterialVersion_scopedRecordArgs
@@ -5232,6 +5507,13 @@ export type ExerciseRecordCountOutputTypeDefaultArgs<ExtArgs extends runtime.Typ
    * Select specific fields to fetch from the ExerciseRecordCountOutputType
    */
   select?: Prisma.ExerciseRecordCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * ExerciseRecordCountOutputType without action
+ */
+export type ExerciseRecordCountOutputTypeCountAiReviewJobsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.V81AiReviewJobWhereInput
 }
 
 /**
@@ -5309,6 +5591,7 @@ export type ExerciseRecordSelect<ExtArgs extends runtime.Types.Extensions.Intern
   createdAt?: boolean
   updatedAt?: boolean
   version?: boolean
+  aiReviewJobs?: boolean | Prisma.ExerciseRecord$aiReviewJobsArgs<ExtArgs>
   v81SwimIntake?: boolean | Prisma.ExerciseRecord$v81SwimIntakeArgs<ExtArgs>
   v81RecordWorkflow_record?: boolean | Prisma.ExerciseRecord$v81RecordWorkflow_recordArgs<ExtArgs>
   v81RecordWorkflow_scopedRecord?: boolean | Prisma.ExerciseRecord$v81RecordWorkflow_scopedRecordArgs<ExtArgs>
@@ -5431,6 +5714,7 @@ export type ExerciseRecordSelectScalar = {
 
 export type ExerciseRecordOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "organizationId" | "semesterId" | "studentId" | "enrollmentId" | "classSectionId" | "courseId" | "teacherId" | "sessionId" | "businessDate" | "creditType" | "sportType" | "sportName" | "description" | "actualDurationSeconds" | "pausedDurationSeconds" | "creditedDurationSeconds" | "status" | "submittedAt" | "cancelledAt" | "clientRequestId" | "createdAt" | "updatedAt" | "version", ExtArgs["result"]["exerciseRecord"]>
 export type ExerciseRecordInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  aiReviewJobs?: boolean | Prisma.ExerciseRecord$aiReviewJobsArgs<ExtArgs>
   v81SwimIntake?: boolean | Prisma.ExerciseRecord$v81SwimIntakeArgs<ExtArgs>
   v81RecordWorkflow_record?: boolean | Prisma.ExerciseRecord$v81RecordWorkflow_recordArgs<ExtArgs>
   v81RecordWorkflow_scopedRecord?: boolean | Prisma.ExerciseRecord$v81RecordWorkflow_scopedRecordArgs<ExtArgs>
@@ -5477,6 +5761,7 @@ export type ExerciseRecordIncludeUpdateManyAndReturn<ExtArgs extends runtime.Typ
 export type $ExerciseRecordPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "ExerciseRecord"
   objects: {
+    aiReviewJobs: Prisma.$V81AiReviewJobPayload<ExtArgs>[]
     v81SwimIntake: Prisma.$V81SwimIntakePayload<ExtArgs> | null
     v81RecordWorkflow_record: Prisma.$V81RecordWorkflowPayload<ExtArgs> | null
     v81RecordWorkflow_scopedRecord: Prisma.$V81RecordWorkflowPayload<ExtArgs>[]
@@ -5917,6 +6202,7 @@ readonly fields: ExerciseRecordFieldRefs;
  */
 export interface Prisma__ExerciseRecordClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  aiReviewJobs<T extends Prisma.ExerciseRecord$aiReviewJobsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ExerciseRecord$aiReviewJobsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$V81AiReviewJobPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   v81SwimIntake<T extends Prisma.ExerciseRecord$v81SwimIntakeArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ExerciseRecord$v81SwimIntakeArgs<ExtArgs>>): Prisma.Prisma__V81SwimIntakeClient<runtime.Types.Result.GetResult<Prisma.$V81SwimIntakePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   v81RecordWorkflow_record<T extends Prisma.ExerciseRecord$v81RecordWorkflow_recordArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ExerciseRecord$v81RecordWorkflow_recordArgs<ExtArgs>>): Prisma.Prisma__V81RecordWorkflowClient<runtime.Types.Result.GetResult<Prisma.$V81RecordWorkflowPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   v81RecordWorkflow_scopedRecord<T extends Prisma.ExerciseRecord$v81RecordWorkflow_scopedRecordArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ExerciseRecord$v81RecordWorkflow_scopedRecordArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$V81RecordWorkflowPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -6388,6 +6674,30 @@ export type ExerciseRecordDeleteManyArgs<ExtArgs extends runtime.Types.Extension
    * Limit how many ExerciseRecords to delete.
    */
   limit?: number
+}
+
+/**
+ * ExerciseRecord.aiReviewJobs
+ */
+export type ExerciseRecord$aiReviewJobsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the V81AiReviewJob
+   */
+  select?: Prisma.V81AiReviewJobSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the V81AiReviewJob
+   */
+  omit?: Prisma.V81AiReviewJobOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.V81AiReviewJobInclude<ExtArgs> | null
+  where?: Prisma.V81AiReviewJobWhereInput
+  orderBy?: Prisma.V81AiReviewJobOrderByWithRelationInput | Prisma.V81AiReviewJobOrderByWithRelationInput[]
+  cursor?: Prisma.V81AiReviewJobWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.V81AiReviewJobScalarFieldEnum | Prisma.V81AiReviewJobScalarFieldEnum[]
 }
 
 /**

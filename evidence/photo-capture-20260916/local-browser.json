@@ -1,0 +1,23 @@
+{
+  "result": "PASS",
+  "base": "http://127.0.0.1:53000",
+  "checks": [
+    {
+      "engine": "chromium",
+      "bytes": 12998,
+      "originalExact": true,
+      "durableDraft": true,
+      "storageFailureDistinct": true,
+      "legacyBlobReadable": true,
+      "reloadRestores": true
+    },
+    {
+      "engine": "webkit",
+      "bytes": 12998,
+      "originalExact": true,
+      "durableDraft": true,
+      "storageFailureDistinct": true,
+      "reloadRestores": true
+    }
+  ]
+}

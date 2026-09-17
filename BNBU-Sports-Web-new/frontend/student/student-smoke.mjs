@@ -526,8 +526,8 @@ check("system mode opens only for an explicit NORMAL projection", async () => {
     updatedAt: "2026-08-31T00:00:00Z",
   });
   assert.equal(normalizeSystemModeProjection({ mode: "MAINTENANCE" }).mode, "MAINTENANCE");
-  assert.equal(normalizeSystemModeProjection({ mode: "READ_ONLY" }).mode, "MAINTENANCE");
-  assert.equal(normalizeSystemModeProjection(null).mode, "MAINTENANCE");
+  assert.throws(() => normalizeSystemModeProjection({ mode: "READ_ONLY" }));
+  assert.throws(() => normalizeSystemModeProjection(null));
 
   const { qaSystemModeOverride, shouldQuerySystemMode } = await import("./js/app.js");
   assert.equal(shouldQuerySystemMode({ hostname: "sports.example", appEnv: "production" }), true);

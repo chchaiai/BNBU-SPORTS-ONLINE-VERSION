@@ -1,0 +1,20 @@
+{
+  "status": "PASS",
+  "completionStatusCleared": true,
+  "syntheticCamera": true,
+  "realElapsedSeconds": 62,
+  "realMinioPuts": [
+    200
+  ],
+  "submitStatus": 200,
+  "labels": [
+    "已添加现场照片。",
+    "正在读取文件…",
+    "正在上传 0%",
+    "正在上传 100%",
+    "正在确认上传…",
+    "正在处理文件…",
+    "上传成功",
+    "全部凭证已验证，正在提交打卡…"
+  ]
+}

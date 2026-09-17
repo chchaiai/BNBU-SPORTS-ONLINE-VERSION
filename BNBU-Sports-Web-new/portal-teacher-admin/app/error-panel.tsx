@@ -38,6 +38,7 @@ export function ErrorPanel({
       <h2>{error.title}</h2>
       <p>{error.message}</p>
       <p className="user-facing-error-action">{error.action}</p>
+      <p>{locale === 'en' ? 'Error code: ' : '错误码：'}<code>{error.code}</code></p>
       {error.fieldErrors.length > 0 && (
         <ul>
           {error.fieldErrors.map((fieldError, index) => (

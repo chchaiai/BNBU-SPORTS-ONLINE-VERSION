@@ -1,0 +1,63 @@
+
+> @bnbu/sports-backend@0.1.0 prebuild
+> npm run db:generate && npm run generate
+
+
+> @bnbu/sports-backend@0.1.0 db:generate
+> prisma generate
+
+Loaded Prisma config from prisma.config.ts.
+
+Prisma schema loaded from prisma/schema.prisma.
+
+✔ Generated Prisma Client (7.9.1) to ./src/generated/prisma in 872ms
+
+
+> @bnbu/sports-backend@0.1.0 generate
+> npm run openapi:generate && npm run db:manifest:generate
+
+
+> @bnbu/sports-backend@0.1.0 openapi:generate
+> node ./scripts/generate-openapi.mjs
+
+Generated 3 OpenAPI artifacts from 263 operations.
+
+> @bnbu/sports-backend@0.1.0 db:manifest:generate
+> node ./scripts/generate-migration-manifest.mjs
+
+Generated migration manifest updated.
+
+> @bnbu/sports-backend@0.1.0 build
+> nest build
+
+Loaded Prisma config from prisma.config.ts.
+
+Prisma schema loaded from prisma/schema.prisma.
+Datasource "db": PostgreSQL database "bnbu_sports_test", schema "public" at "127.0.0.1:5432"
+
+76 migrations found in prisma/migrations
+
+
+No pending migrations to apply.
+▶ ExerciseRecord HTTP E2E
+  ✔ creates, edits, lists, submits, and replays one immutable evidence chain (1234.674124ms)
+  ✔ requires the exact complete set of available session media (747.81203ms)
+  ✔ does not let an unselected processing upload block valid evidence submission (701.498146ms)
+  ✔ returns a stable conflict when a second draft is created for one session (638.932004ms)
+  ✔ discards a draft atomically with append-only evidence (672.87688ms)
+  ✔ routes withdrawal to stable default deny with zero domain side effects (627.884134ms)
+  ✔ rejects below-threshold records before creation and teacher review (636.669507ms)
+  ✔ accepts same-day submissions for review without reserving legacy daily slots (732.885885ms)
+  ✔ returns for one supplement then credits a replayable teacher decision in student progress (1787.309401ms)
+  ✔ approves, adjusts and revokes activity recognition with matching student progress and history (1245.3089ms)
+  ✔ rolls back submission writes when swimming material validation fails and replays the failure (853.43086ms)
+  ✔ locks swimming before and after evidence once and exposes the transfer clock (912.791375ms)
+✔ ExerciseRecord HTTP E2E (11910.079798ms)
+ℹ tests 12
+ℹ suites 1
+ℹ pass 12
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 12503.826483

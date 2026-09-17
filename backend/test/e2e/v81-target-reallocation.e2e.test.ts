@@ -121,7 +121,7 @@ describe('V81 target reallocation HTTP E2E', () => {
   before(async () => {
     const databaseUrl = requireTestDatabaseUrl();
     prisma = createTestPrisma(databaseUrl);
-    const port = await availablePort();
+    const port = process.env.COURSE_SETTINGS_HTTP_PORT ? Number(process.env.COURSE_SETTINGS_HTTP_PORT) : await availablePort();
     Object.assign(process.env, foundationEnvironment(databaseUrl, port), { REQUEST_BODY_LIMIT_BYTES: '2097152', OCR_PROVIDER: 'TENCENT_TABLE_V3', OCR_TENCENT_REGION: 'ap-guangzhou', OCR_WORKER_ENABLED: 'false' });
     const { AppModule } = (await import(compiledModule('app.module.js'))) as {
       AppModule: Type<unknown>;
@@ -198,6 +198,47 @@ describe('V81 target reallocation HTTP E2E', () => {
     assert.equal(result.status, status, JSON.stringify(result.body));
     return object(result.body.data);
   };
+
+  it('updates published daily times and pause state while preserving locked dates and historical facts', async () => {
+    const teacher = await login(fixture.teacherEmail), other = await login(fixture.teacherBEmail), admin = await login(fixture.adminEmail);
+    const record = await seedSubmittedExerciseRecord(prisma, fixture, 'WINDOW', 'VALID');
+    await prisma.classSection.update({where:{id:fixture.teacherAActiveSectionId},data:{dailyStartTime:new Date('1970-01-01T00:00:00Z'),dailyEndTime:new Date('1970-01-01T23:59:59Z')}});
+    const path = `/api/v1/class-sections/${fixture.teacherAActiveSectionId}`;
+    const template = data(await request('/api/v1/rule-templates', authenticated(admin,'POST',{displayName:'Synthetic window rules',expectedVersion:0},uuidv7())),201);
+    const published = await request(path+'/v81-rules',authenticated(teacher,'POST',{
+      templateId:template.id,minimumMinutes:30,maximumMinutes:60,weeklyLimit:3,dailyLimit:1,courseTarget:600,generalTarget:600,globalTargetVersion:0,
+      regularDeadline:'2027-01-23T15:59:59Z',closingDeadline:'2027-01-30T15:59:59Z',settlementPlannedAt:'2027-01-30T16:00:00Z',publish:true,expectedVersion:0,
+    },uuidv7()));
+    assert.ok(published.status<300,JSON.stringify(published.body));
+    const original = await prisma.exerciseRecord.findUniqueOrThrow({where:{id:record.recordId}});
+    const before = data(await request(path,authenticated(teacher)));
+    const patch = (body:Record<string,unknown>,token=teacher,key=uuidv7()) => request(path,authenticated(token,'PATCH',body,key));
+    const edit = {expectedVersion:before.version,dailyStartTime:'07:15',dailyEndTime:'21:45',checkInWindowMode:'UNAVAILABLE'};
+    const key=uuidv7(), saved=data(await patch(edit,teacher,key));
+    assert.deepEqual(data(await patch(edit,teacher,key)),saved);
+    const loaded=data(await request(path,authenticated(teacher)));
+    assert.equal(String(loaded.dailyStartTime).slice(0,5),'07:15');assert.equal(String(loaded.dailyEndTime).slice(0,5),'21:45');assert.equal(loaded.checkInWindowMode,'UNAVAILABLE');
+    for(const field of ['checkInStartDate','checkInEndDate','submissionDeadlineAt','excludedDates'])assert.deepEqual(loaded[field],before[field]);
+    assert.equal((await patch({...edit,expectedVersion:before.version})).status,409);
+    assert.ok([403,404].includes((await patch({...edit,expectedVersion:loaded.version},other)).status));
+    assert.equal((await patch({...edit,expectedVersion:loaded.version},admin)).status,403);
+    assert.equal((await patch({expectedVersion:loaded.version,dailyStartTime:'22:00',dailyEndTime:'07:00'})).status,422);
+    for(const [field,value] of Object.entries({checkInStartDate:'2026-09-02',checkInEndDate:'2027-01-22',submissionDeadlineAt:'2027-01-22T15:59:59Z',excludedDates:[]})) {
+      assert.equal((await patch({expectedVersion:loaded.version,[field]:value})).status,409,field);
+    }
+    const resumed=data(await patch({expectedVersion:loaded.version,checkInWindowMode:'AVAILABLE'}));
+    assert.equal(resumed.checkInWindowMode,'AVAILABLE');
+    assert.deepEqual(await prisma.exerciseRecord.findUniqueOrThrow({where:{id:record.recordId}}),original);
+    assert.equal(data(await request(path+'/v81-rules',authenticated(teacher))).version,1);
+    if (process.env.COURSE_SETTINGS_BROWSER === '1') {
+      const {spawn} = await import('node:child_process');
+      const child = spawn(process.execPath,['../tools/local-integration/course-settings-browser-20260915.mjs'],{stdio:'inherit',env:{...process.env,COURSE_SETTINGS_FIXTURE:JSON.stringify({email:fixture.teacherEmail,password:TEST_PASSWORD,sectionId:fixture.teacherAActiveSectionId})}});
+      await new Promise<void>((resolve,reject)=>{child.on('error',reject);child.on('exit',code=>code===0?resolve():reject(new Error(`Browser check failed: ${code}`)));});
+    }
+    const closingSection=data(await request(path,authenticated(teacher)));
+    data(await request(path+'/close',authenticated(teacher,'POST',{expectedVersion:closingSection.version,reason:'Synthetic daily window closure'},uuidv7())));
+    assert.equal((await patch({expectedVersion:resumed.version,checkInWindowMode:'UNAVAILABLE'})).status,409);
+  });
 
   it('reallocates repeatedly and preserves record facts while recomputing credit', async () => {
     const teacher = await login(fixture.teacherEmail), other = await login(fixture.teacherBEmail), admin = await login(fixture.adminEmail);

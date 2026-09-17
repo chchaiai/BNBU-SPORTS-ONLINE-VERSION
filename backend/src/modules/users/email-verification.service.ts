@@ -1,4 +1,4 @@
-import { isStudentSchoolEmail } from '../../common/security/student-school-email.js';
+import { isNewStudentSchoolEmail } from '../../common/security/student-school-email.js';
 import { Injectable } from '@nestjs/common';
 
 import { AuditService } from '../../common/audit/audit.service.js';
@@ -94,9 +94,9 @@ export class EmailVerificationService {
 
     const targetEmail = input.email.trim();
     const targetEmailNormalized = targetEmail.toLowerCase();
-    if (principal.role === 'STUDENT' && !isStudentSchoolEmail(targetEmailNormalized)) {
+    if (principal.role === 'STUDENT' && !isNewStudentSchoolEmail(targetEmail)) {
       throw new ApplicationError('VALIDATION_FAILED', 422, {
-        fieldErrors: [{ field: 'email', code: 'BNBU_EMAIL_REQUIRED', i18nKey: 'error.validation.failed', params: {} }],
+        fieldErrors: [{ field: 'email', code: 'STUDENT_EMAIL_PREFIX_INVALID', i18nKey: 'error.validation.failed', params: {} }],
       });
     }
     const mode = user.emailVerifiedAt === null ? 'FIRST_BIND' : 'REBIND';
@@ -169,7 +169,7 @@ export class EmailVerificationService {
           },
           include: { user: true },
         });
-        if (challenge === null || (principal.role === 'STUDENT' && !isStudentSchoolEmail(challenge.targetEmailNormalized))) {
+        if (challenge === null || (principal.role === 'STUDENT' && !isNewStudentSchoolEmail(challenge.targetEmailNormalized))) {
           return this.idempotency.failure(this.invalidCode());
         }
 

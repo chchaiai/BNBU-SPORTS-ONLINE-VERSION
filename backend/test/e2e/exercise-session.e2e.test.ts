@@ -388,10 +388,15 @@ describe('ExerciseSession HTTP E2E', () => {
 
   it('fails closed outside the configured window and rejects unverified offline intervals', async () => {
     const token = await studentToken(student);
-    await assert.rejects(prisma.classSection.update({
+    await prisma.classSection.update({
       where: { id: foundation.teacherAActiveSectionId },
       data: { checkInWindowMode: 'UNAVAILABLE' },
-    }));
+    });
+    const pausedWindow = await request('/api/v1/exercise-sessions',authenticated(token,'POST',
+      {enrollmentId:student.enrollmentId,clientObservedAt:new Date().toISOString()},uuidv7()));
+    assert.equal(pausedWindow.status,409);
+    assert.equal(pausedWindow.body.code,'SESSION_OUTSIDE_TIME_WINDOW');
+    await prisma.classSection.update({where:{id:foundation.teacherAActiveSectionId},data:{checkInWindowMode:'AVAILABLE'}});
     await prisma.classSection.update({
       where: { id: foundation.teacherAActiveSectionId },
       data: { status: 'CLOSED', isEnrollmentOpen: false, closedAt: new Date(), closedBy: foundation.teacherUserId, closeReason: 'Synthetic closed fixture' },

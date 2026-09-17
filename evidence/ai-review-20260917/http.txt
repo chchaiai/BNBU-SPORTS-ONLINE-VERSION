@@ -1,0 +1,36 @@
+(node:2248) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+▶ ExerciseRecord HTTP E2E
+  ✔ uses the local exercise end date and lets an admitted session finish after midnight (1228.7235ms)
+  ✔ stops new exercise after semester end while allowing an existing draft to submit (889.0716ms)
+  ✔ creates, edits, lists, submits, and replays one immutable evidence chain (863.8131ms)
+  ✔ requires the exact complete set of available session media (840.3936ms)
+  ✔ does not let an unselected processing upload block valid evidence submission (767.0088ms)
+  ✔ returns a stable conflict when a second draft is created for one session (715.6041ms)
+  ✔ discards a draft atomically with append-only evidence (704.5323ms)
+  ✔ routes withdrawal to stable default deny with zero domain side effects (697.0147ms)
+  ✔ rejects below-threshold records before creation and teacher review (633.4914ms)
+  ✔ accepts same-day submissions for review without reserving legacy daily slots (939.9049ms)
+  ✔ returns for one supplement then credits a replayable teacher decision in student progress (2444.7728ms)
+  ✔ approves, adjusts and revokes activity recognition with matching student progress and history (2115.8926ms)
+  ✔ rolls back incomplete swimming evidence and accepts the complete set without a legacy intake (1222.3369ms)
+  ✔ locks swimming before and after evidence once and exposes the transfer clock (1321.003ms)
+✔ ExerciseRecord HTTP E2E (16728.2589ms)
+(node:41476) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+▶ ExerciseReview HTTP E2E
+  ✔ lets the responsible teacher append INVALID to a system-valid submission (938.9819ms)
+  ✔ exposes only current AI advice to the responsible teacher, filters it, and never decides the review (730.6096ms)
+  ✔ appends VALID, lists history, reopens, and appends INVALID without changing duration facts (871.7781ms)
+  ✔ replays one decision and permits only one concurrent stale decision (685.3456ms)
+  ✔ returns ordered partial batch outcomes and exact replay (701.9839ms)
+  ✔ denies STUDENT and ADMIN review operations before business mutation (692.1986ms)
+✔ ExerciseReview HTTP E2E (6086.2072ms)
+ℹ tests 20
+ℹ suites 2
+ℹ pass 20
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 24416.0312

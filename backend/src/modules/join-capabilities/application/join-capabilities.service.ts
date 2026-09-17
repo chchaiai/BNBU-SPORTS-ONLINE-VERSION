@@ -1,4 +1,4 @@
-import { isStudentSchoolEmail } from '../../../common/security/student-school-email.js';
+import { isStudentSchoolEmail, isNewStudentSchoolEmail } from '../../../common/security/student-school-email.js';
 import { PrismaService } from '../../../common/database/prisma.service.js';
 import { Injectable } from '@nestjs/common';
 
@@ -49,7 +49,7 @@ export class JoinCapabilitiesService {
     if (input.joinEmailProof) {
       try { proof = this.crypto.decrypt('join-email-proof', invite.inviteId, input.joinEmailProof); }
       catch { throw new ApplicationError('AUTH_JOIN_CAPABILITY_INVALID', 401); }
-      if (!proof || !isStudentSchoolEmail(proof.email) || proof.organizationId !== invite.organizationId || Date.parse(proof.expiresAt) <= this.clock.now().getTime() ||
+      if (!proof || !isNewStudentSchoolEmail(proof.email) || proof.organizationId !== invite.organizationId || Date.parse(proof.expiresAt) <= this.clock.now().getTime() ||
           !Number.isFinite(Date.parse(proof.verifiedAt)) || Date.parse(proof.verifiedAt) >= invite.expiresAt.getTime())
         throw new ApplicationError('AUTH_JOIN_CAPABILITY_INVALID', 401);
       const challenge = await this.prisma.studentSignInChallenge.findUnique({ where: { id: proof.challengeId } });

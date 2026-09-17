@@ -4,6 +4,10 @@ import test from "node:test";
 import ts from "typescript";
 
 const sourceFiles = [
+  "app/course-name-settings.tsx",
+  "app/course-history-settings.tsx",
+  "app/course-closure.tsx",
+  "app/course-settlement.tsx",
   "app/app-select.tsx",
   "app/checkin-audit.ts",
   "app/layout.tsx",

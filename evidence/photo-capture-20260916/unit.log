@@ -1,0 +1,19 @@
+✔ transport diagnostics match the sent request and stay stable across repeated rendering (2.9742ms)
+✔ local proof storage errors do not tell the student to check the network (0.1724ms)
+✔ object-storage rejection explains retained evidence without claiming the student has no business permission (0.1814ms)
+✔ network failure remains renderable and does not log the private transport cause (1.3142ms)
+✔ upload copy preserves pixels and camera time while the original retains all EXIF (9.7932ms)
+✔ a camera image without EXIF remains a valid JPEG (1.5069ms)
+✔ check-in retries an expired object URL with fresh authorization and the same evidence bytes (18.9248ms)
+✔ exemption retries an expired object URL with fresh authorization and the same evidence bytes (2.3448ms)
+✔ proof todos read every backend page through the normal API envelope (0.6061ms)
+✔ proof todo pagination rejects a repeated cursor instead of looping (0.2603ms)
+✔ a supplement retry preserves its original media, workflow version and idempotency key (0.4194ms)
+ℹ tests 11
+ℹ suites 0
+ℹ pass 11
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 132.3066

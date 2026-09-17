@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
-import { ApiError, apiSessionUserId, currentApiSessionEpoch, request, requestFormData, toUserFacingError } from "./api-client";
+import { ApiError, apiSessionUserId, currentApiSessionEpoch, request, requestFormData, toUserFacingError, formatUserFacingError } from "./api-client";
 
 type Purpose = "ROSTER" | "PHYSICAL";
 type Field = "studentNumber" | "name" | "runType" | "elapsed" | "testedOn";
@@ -26,7 +26,7 @@ export function OcrImportPanel({courseId, purpose, onSaved}: {courseId: string; 
  const [files,setFiles]=useState<File[]>([]),[source,setSource]=useState<{pageId:string;url:string}|null>(null),[busy,setBusy]=useState(false),[error,setError]=useState(""),[message,setMessage]=useState(""),[pending,setPending]=useState(false),[uploadPending,setUploadPending]=useState(false);
  const mounted=useRef(false),locked=useRef(false),epoch=currentApiSessionEpoch();
  const storageKey=`bnbu:ocr:${apiSessionUserId()}:${courseId}:${purpose}`,valid=()=>mounted.current&&epoch===currentApiSessionEpoch();
- const run=async(action:()=>Promise<void>)=>{if(locked.current)return;locked.current=true;setBusy(true);setError("");setMessage("");try{await action();}catch(e){if(valid())setError(e instanceof ApiError?toUserFacingError(e,"zh").message:e instanceof Error?e.message:"操作失败，请重试。");}finally{locked.current=false;if(valid())setBusy(false);}};
+ const run=async(action:()=>Promise<void>)=>{if(locked.current)return;locked.current=true;setBusy(true);setError("");setMessage("");try{await action();}catch(e){if(valid())setError(formatUserFacingError(e));}finally{locked.current=false;if(valid())setBusy(false);}};
  const list=async(more=false)=>{const data=await request<{items:typeof batches;nextBeforeId:string|null}>(`/class-sections/${courseId}/ocr-batches?limit=100${more&&cursor?`&beforeId=${cursor}`:""}`);if(valid()){setBatches(old=>more?[...old,...data.items]:data.items);setCursor(data.nextBeforeId);}};
  const load=async(id:string)=>{
   const next=await request<Batch>(`/ocr-batches/${id}`);if(next.purpose!==purpose)throw new Error("请选择对应用途的识别批次。");

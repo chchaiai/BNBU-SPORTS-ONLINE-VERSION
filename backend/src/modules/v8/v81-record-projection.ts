@@ -1,4 +1,5 @@
 import { Prisma } from '../../generated/prisma/client.js';
+import { readAiReviews, type AiReviewProjection } from './v81-ai-review-store.js';
 import {
   projectExerciseRecord,
   type ExerciseRecordWithReview,
@@ -7,8 +8,10 @@ import {
 export async function projectV81Records(
   tx: Pick<Prisma.TransactionClient, '$queryRaw'>,
   records: readonly ExerciseRecordWithReview[],
+  includeAi = false,
 ) {
   if (!records.length) return [];
+  const ai = includeAi ? await readAiReviews(tx, records.map(record => record.id)) : new Map<string,AiReviewProjection>();
   const rows = await tx.$queryRaw<
     {
       record_id: string;
@@ -38,6 +41,7 @@ export async function projectV81Records(
       : original;
     return {
       ...original,
+      ...(includeAi ? { aiReview: ai.get(record.id) ?? null } : {}),
       creditedDurationSeconds: state.stage === 'VALID' ? state.credited_minutes * 60 : 0,
       eligibleMinutes: state.eligible_minutes,
       creditReason: state.reason,

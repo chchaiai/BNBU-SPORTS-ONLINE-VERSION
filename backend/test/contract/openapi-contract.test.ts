@@ -116,6 +116,7 @@ describe('authoritative OpenAPI contract', () => {
       [HealthController.prototype, 'live', 'getHealthLive'],
       [HealthController.prototype, 'ready', 'getHealthReady'],
       [HealthController.prototype, 'admin', 'getAdminHealth'],
+      [HealthController.prototype, 'listOutbox', 'listAdminOutboxEvents'],
       [SystemModeController.prototype, 'getSystemMode', 'getSystemMode'],
       [OrganizationsController.prototype, 'current', 'getCurrentOrganization'],
       [SemestersController.prototype, 'current', 'getCurrentSemester'],

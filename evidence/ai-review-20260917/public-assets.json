@@ -1,0 +1,9 @@
+{
+  "result": "PASS",
+  "checks": [
+    {
+      "asset": "index-DXFAJzG1.css",
+      "sha256": "ae9f9c027e4d713e0d199f1d0e511192a1e6e2d6c609a38191902a351c31a154"
+    }
+  ]
+}

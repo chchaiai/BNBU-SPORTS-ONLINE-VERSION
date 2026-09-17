@@ -1,0 +1,29 @@
+{
+  "checks": [
+    {
+      "stage": "UPLOADED_THEN_MAINTENANCE",
+      "status": "PASS",
+      "mediaId": "01a0a94a-6544-7698-9d25-2a41ab5ffd66",
+      "sessionId": "01a0a94a-647e-740a-a0ee-9a2b2a9d3aef"
+    },
+    {
+      "requirement": [
+        17,
+        20,
+        16
+      ],
+      "result": "PASS",
+      "elapsedSeconds": 309,
+      "realCosPuts": 1,
+      "mediaId": "01a0a94a-6544-7698-9d25-2a41ab5ffd66",
+      "recordId": "01a0a951-988d-75cb-91bc-a99c1bcf8d13",
+      "submissionStatus": "SUBMITTED"
+    },
+    {
+      "stage": "TEACHER_REVIEW_AFTER_RECOVERY",
+      "result": "PASS",
+      "creditedMinutes": 7
+    }
+  ],
+  "completed": true
+}

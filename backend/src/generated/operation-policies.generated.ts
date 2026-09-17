@@ -24,6 +24,19 @@ export const operationPolicies = {
     "resourceResolver": "NONE",
     "defaultDeny": true
   },
+  "listAdminOutboxEvents": {
+    "method": "GET",
+    "route": "/health/admin/outbox",
+    "policyId": "ADMIN-OUTBOX-READ",
+    "authentication": "ACCESS_TOKEN",
+    "allowedRoles": [
+      "ADMIN"
+    ],
+    "organizationScope": "PRINCIPAL_ORGANIZATION",
+    "resourceScope": "ORGANIZATION",
+    "resourceResolver": "PRINCIPAL_ORGANIZATION",
+    "defaultDeny": true
+  },
   "getAdminHealth": {
     "method": "GET",
     "route": "/health/admin",

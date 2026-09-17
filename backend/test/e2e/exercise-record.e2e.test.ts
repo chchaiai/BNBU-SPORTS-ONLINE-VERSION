@@ -72,6 +72,7 @@ describe('ExerciseRecord HTTP E2E', () => {
   let sessionId: string;
   let mediaId: string;
   let baseUrl: string;
+  let clockOffsetMs=0;
 
   const request = async (path: string, init: RequestInit = {}): Promise<HttpResult> => {
     const response = await fetch(`${baseUrl}${path}`, init);
@@ -118,7 +119,9 @@ describe('ExerciseRecord HTTP E2E', () => {
     const { validationException } = (await import(compiledModule('common/http/validation.js'))) as {
       validationException: typeof ValidationExceptionFactory;
     };
-    const module = await Test.createTestingModule({ imports: [AppModule] }).compile();
+    const {Clock}=await import(compiledModule('common/time/clock.js'));
+    const module = await Test.createTestingModule({ imports: [AppModule] })
+      .overrideProvider(Clock).useValue({now:()=>new Date(Date.now()+clockOffsetMs)}).compile();
     app = module.createNestApplication({ bodyParser: false });
     const config = app.get<RuntimeConfig>(RUNTIME_CONFIG);
     const requestIds = app.get(RequestIdMiddleware);
@@ -144,6 +147,7 @@ describe('ExerciseRecord HTTP E2E', () => {
   });
 
   beforeEach(async () => {
+    clockOffsetMs=0;
     await resetFoundationDatabase(prisma);
     fixture = await seedFoundationFixture(prisma);
     student = await seedExerciseSessionStudent(prisma, fixture, 'RECORD-E2E');
@@ -243,7 +247,7 @@ describe('ExerciseRecord HTTP E2E', () => {
     await prisma.$disconnect();
   });
 
-  const studentToken = async (): Promise<string> => {
+  const studentToken = async (ttl=600): Promise<string> => {
     const seconds = Math.floor(Date.now() / 1000);
     return new SignJWT({
       organizationId: fixture.organizationId,
@@ -257,7 +261,7 @@ describe('ExerciseRecord HTTP E2E', () => {
       .setIssuer('bnbu-sports-test')
       .setAudience('bnbu-sports-test-clients')
       .setIssuedAt(seconds)
-      .setExpirationTime(seconds + 600)
+      .setExpirationTime(seconds + ttl)
       .sign(await importPKCS8(TEST_PRIVATE_KEY, 'EdDSA'));
   };
 
@@ -314,6 +318,42 @@ describe('ExerciseRecord HTTP E2E', () => {
     });
     return { sessionId: seededSessionId, mediaId: seededMediaId };
   };
+
+  it('uses the local exercise end date and lets an admitted session finish after midnight',async()=>{
+    const token=await studentToken(365*86400);
+    await prisma.authSession.update({where:{id:student.authSessionId},data:{absoluteExpiresAt:new Date('2027-08-01'),idleExpiresAt:new Date('2027-08-01')}});
+    clockOffsetMs=Date.parse('2027-01-23T15:59:58Z')-Date.now();
+    const started=await request('/api/v1/exercise-sessions',authenticated(token,'POST',
+      {enrollmentId:student.enrollmentId,clientObservedAt:new Date(Date.now()+clockOffsetMs).toISOString()},uuidv7()));
+    assert.equal(started.status,201,JSON.stringify(started.body));
+    const session=object(started.body.data);
+    clockOffsetMs=Date.parse('2027-01-23T16:00:02Z')-Date.now();
+    const finished=await request(`/api/v1/exercise-sessions/${session.id}/finish`,authenticated(token,'POST',
+      {expectedVersion:session.version,clientObservedAt:new Date(Date.now()+clockOffsetMs).toISOString()},uuidv7()));
+    assert.equal(finished.status,200,JSON.stringify(finished.body));
+    const denied=await request('/api/v1/exercise-sessions',authenticated(token,'POST',
+      {enrollmentId:student.enrollmentId,clientObservedAt:new Date(Date.now()+clockOffsetMs).toISOString()},uuidv7()));
+    assert.equal(denied.status,409,JSON.stringify(denied.body));
+    assert.equal(denied.body.code,'SESSION_OUTSIDE_TIME_WINDOW');
+  });
+
+  it('stops new exercise after semester end while allowing an existing draft to submit',async()=>{
+    const token=await studentToken(365*86400);
+    await prisma.authSession.update({where:{id:student.authSessionId},data:{absoluteExpiresAt:new Date('2027-08-01'),idleExpiresAt:new Date('2027-08-01')}});
+    const created=await request('/api/v1/exercise-records',authenticated(token,'POST',
+      {sessionId,creditType:'GENERAL',sportType:'RUNNING',description:'Existing draft across course boundary',clientRequestId:uuidv7()},uuidv7()));
+    assert.equal(created.status,201,JSON.stringify(created.body));
+    const record=object(created.body.data);
+    clockOffsetMs=Date.parse('2027-02-02T00:00:00Z')-Date.now();
+    const denied=await request('/api/v1/exercise-sessions',authenticated(token,'POST',
+      {enrollmentId:student.enrollmentId,clientObservedAt:new Date(Date.now()+clockOffsetMs).toISOString()},uuidv7()));
+    assert.equal(denied.status,409,JSON.stringify(denied.body));
+    assert.equal(denied.body.code,'SESSION_OUTSIDE_TIME_WINDOW');
+    const submitted=await request(`/api/v1/exercise-records/${record.id}/submit`,authenticated(token,'POST',
+      {mediaIds:[mediaId],expectedVersion:record.version},uuidv7()));
+    assert.equal(submitted.status,200,JSON.stringify(submitted.body));
+    assert.equal(object(submitted.body.data).status,'SUBMITTED');
+  });
 
   it('creates, edits, lists, submits, and replays one immutable evidence chain', async () => {
     const token = await studentToken();
@@ -1004,7 +1044,7 @@ describe('ExerciseRecord HTTP E2E', () => {
       ...adjustment, expectedVersion: object(revoked.body.data).version }, uuidv7()))).status, 404);
     assert.ok(await prisma.exemptionApplication.findUnique({where:{id:String(draft.id)}}));
   });
-  it('rolls back submission writes when swimming material validation fails and replays the failure', async () => {
+  it('rolls back incomplete swimming evidence and accepts the complete set without a legacy intake', async () => {
     const token = await studentToken();
     const original = await prisma.mediaEvidence.findUniqueOrThrow({ where: { id: mediaId } });
     const afterId = uuidv7();
@@ -1018,13 +1058,12 @@ describe('ExerciseRecord HTTP E2E', () => {
     const record = object(created.body.data);
     const id = String(record.id);
     const beforeRecord = await prisma.exerciseRecord.findUniqueOrThrow({ where: { id } });
-    const body = { mediaIds: [mediaId, afterId], expectedVersion: record.version };
+    const body = { mediaIds: [mediaId], expectedVersion: record.version };
     const key = uuidv7();
     for (let attempt = 0; attempt < 2; attempt++) {
       const rejected = await request(`/api/v1/exercise-records/${id}/submit`, authenticated(token, 'POST', body, key));
       assert.equal(rejected.status, 422, JSON.stringify(rejected.body));
-      assert.equal(rejected.body.code, 'VALIDATION_FAILED');
-      assert.equal(object(rejected.body.details).reason, 'SWIM_INTAKE_REQUIRED');
+      assert.equal(rejected.body.code, 'EXERCISE_RECORD_MEDIA_INCOMPLETE');
       assert.deepEqual(await prisma.exerciseRecord.findUniqueOrThrow({ where: { id } }), beforeRecord);
       assert.equal(await prisma.exerciseRecordMedia.count({ where: { recordId: id } }), 0);
       assert.equal(await prisma.reviewRecord.count({ where: { recordId: id } }), 0);
@@ -1033,11 +1072,8 @@ describe('ExerciseRecord HTTP E2E', () => {
         SELECT count(*) AS total FROM v81_record_workflows WHERE record_id=${id}::uuid`;
       assert.equal(Number(required(state[0]).total), 0);
     }
-    const changed = await request(`/api/v1/exercise-records/${id}`, authenticated(token, 'PATCH',
-      { sportType: 'RUNNING', expectedVersion: record.version }, uuidv7()));
-    assert.equal(changed.status, 200, JSON.stringify(changed.body));
     const submitted = await request(`/api/v1/exercise-records/${id}/submit`, authenticated(token, 'POST',
-      { ...body, expectedVersion: object(changed.body.data).version }, uuidv7()));
+      { ...body, mediaIds:[mediaId,afterId] }, uuidv7()));
     assert.equal(submitted.status, 200, JSON.stringify(submitted.body));
     assert.equal(await prisma.reviewRecord.count({ where: { recordId: id } }), 1);
   });

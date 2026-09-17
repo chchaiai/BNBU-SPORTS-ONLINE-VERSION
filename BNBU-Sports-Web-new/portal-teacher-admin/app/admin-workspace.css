@@ -1271,3 +1271,13 @@
 .admin-student-accounts-table th { white-space: nowrap; }
 .admin-student-accounts-table td { min-width: 72px; }
 .admin-student-accounts-table td:nth-child(9) { min-width: 240px; max-width: 320px; overflow-wrap: anywhere; }
+
+.admin-outbox { padding: 20px; }
+.admin-outbox > p { margin: 12px 0; line-height: 1.6; }
+.admin-outbox-filters { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; align-items: end; margin: 20px 0; }
+.admin-outbox-filters label { display: grid; gap: 8px; }
+.admin-outbox .table-scroll { width: 100%; overflow-x: auto; }
+.admin-outbox table { min-width: 1200px; }
+.admin-outbox th, .admin-outbox td { white-space: nowrap; }
+.admin-outbox .table-sub { display: block; margin-top: 6px; }
+.admin-outbox > button { margin: 16px 12px 0 0; padding: 8px 16px; }

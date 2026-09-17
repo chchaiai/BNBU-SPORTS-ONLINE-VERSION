@@ -1,0 +1,208 @@
+{
+  "previous": "student-network-20260916",
+  "baseImages": {
+    "backend": "sha256:d5bb9e0579d5d653946d3a878bf405829c6d4029c9b55d88b1ab5078bc730f5f",
+    "portal": "sha256:36b3f004052f1f9be163707435d2c81e37a207c410d4f41d6aa74df6e97a1ef8",
+    "migrator": "sha256:194fe593dccd12b826a9c6ea007812f6e86f6e917a8484145e28bbbe26fa9cf3"
+  },
+  "delta": [
+    {
+      "path": "generated/migration-manifest.generated.js",
+      "before": "3d0168a3e09d5001b9b921a8a0a6ffe385516b822ccf5110c7f07ac3a8765ae2",
+      "after": "bcae309a49cdb3ec7c7f21a686d6b28112b6c1e1c852baf590e8815bd1c354cc"
+    },
+    {
+      "path": "generated/openapi.document.generated.json",
+      "before": "1c539d4ed8ccdaf83894481e568ae8b57a9a63f50160e57a1b3425c76b7fa688",
+      "after": "f7bff5de184debc7588743ac89ed6429622d7baa7f26dbecfb40a9ef0a2586ef"
+    },
+    {
+      "path": "modules/v8/ai-review-media.js",
+      "before": null,
+      "after": "fe0fd5e5a6846d0812b46cd107760558f48c8f400e5b2a992eda2786a4c519e5"
+    },
+    {
+      "path": "modules/v8/ai-review-provider.js",
+      "before": null,
+      "after": "a406afe5e41393626436d4d8970070fdae5ca8004b7009f1717392958e1621e1"
+    },
+    {
+      "path": "modules/v8/tencent-ai-review-provider.js",
+      "before": null,
+      "after": "f0d7ac56051a5a580c3c34de10daf8c4a3e476eddfcc3b00100f0d38a55dbae7"
+    },
+    {
+      "path": "modules/v8/v81-ai-review-store.js",
+      "before": null,
+      "after": "fd603183b2ff957c4b0f035ea7a667f7a16fbb7412105b476eef24d28d3ef455"
+    },
+    {
+      "path": "modules/v8/v81-ai-review.worker.js",
+      "before": null,
+      "after": "b28ac4ac7d06772cce0f238c575ece5ecede15dacbafcbe422de151f44dc0a1b"
+    },
+    {
+      "path": "modules/v8/v81-materials.js",
+      "before": "d09721096a6f9060a3015e953e6075d4dbb7740499ccbbe9d0219641d42f9429",
+      "after": "9a465ebd772925f454a200b08958d2da28a954e1d934e06a80a4d55ce98c4009"
+    },
+    {
+      "path": "modules/v8/v81-record-projection.js",
+      "before": "55fcf79d514d11e3f4123186cbc6efc230071fba121826f8e7ddf20275f30836",
+      "after": "52b81a89e5d4f195ebb5277ff4001447903e2a5a3fa515eb80d304cc40c0e5eb"
+    },
+    {
+      "path": "modules/v8/v81-record-state.js",
+      "before": "3c5a0d4bcf22bcd05d9b7149a62e80663dec9928aee2355b2ed57d43c161af48",
+      "after": "0f435e65b56eecc2b86a9e60148ffaa9ad2c3d77a426c80c2980d94c7ddb1c27"
+    },
+    {
+      "path": "modules/v8/v81.module.js",
+      "before": "7b048313070d74388c39e5778c29329b3148e456c8cf089a18dc7d946978e58f",
+      "after": "4cf0d89c9e6ca857b36ba148a0f133be396d66c7b336608f22fd3c44cf9326ea"
+    },
+    {
+      "path": "modules/v8/domain/ai-review.js",
+      "before": null,
+      "after": "ea02db4819aa48dd830c5857429987910ae3d330c2b78864c77d214b936dd860"
+    },
+    {
+      "path": "modules/exercise-records/application/exercise-records.service.js",
+      "before": "9d838a9fde18cc06d94bb35908a5eccbe4a4360971de49c44898cfff2766e94c",
+      "after": "bf11768eb74e485729907f5e14826a7dd8f2103a284cba3f4fd94562fd0496e4"
+    },
+    {
+      "path": "modules/exercise-records/interface/http/exercise-records.dto.js",
+      "before": "9803474390eeecb442a7e3b0a6e6ebb5b40f14c15f4aa0d9e3244803a1079f4a",
+      "after": "175924949ae7f585b8315cf04dbdcf3f86499a93ccb581c32bf6f15886bfbc3b"
+    },
+    {
+      "path": "generated/prisma/internal/class.js",
+      "before": "369c6653604e9464ef42bfea078b9f7be37dd34feed34ec9cde4a96ebd16d8fc",
+      "after": "891e5a24bc3a65c92c0a464b663b066f7e8af49667c9363bad3abed56b380acd"
+    },
+    {
+      "path": "generated/prisma/internal/prismaNamespace.js",
+      "before": "69179b04aa019a2493047bb221a3e0b3a1db8e42b03f7fa3626094c5df7a0644",
+      "after": "6018e80359f82729075b7ffa875194283f26dad3190670edee5cf6bec1babefe"
+    },
+    {
+      "path": "generated/prisma/internal/prismaNamespaceBrowser.js",
+      "before": "7e4ab938ed096e00d7f5df382d415eb5a92220cc753f8e89562a8b516cb5884b",
+      "after": "e311400e3ed35912355bfb0e8e98b404d6a84f0d8d5de524df16d83009887dec"
+    },
+    {
+      "path": "generated/prisma/models/V81AiReviewBudget.js",
+      "before": null,
+      "after": "e784bc11767f43cbf4e3c415d5cc869977ab9e7653b8789823ec9cc7bdc07ae4"
+    },
+    {
+      "path": "generated/prisma/models/V81AiReviewJob.js",
+      "before": null,
+      "after": "437edcc68c0d266155502901a5faf0245afd1151e53827dfb368faf7f0958177"
+    },
+    {
+      "path": "common/config/environment.js",
+      "before": "fd1691afd81570d9d4b1212f549ce2e45bdd93620dfb709655177380b814f6a4",
+      "after": "139990b1d74b0e8a894ef0a0536c8c3fe307e04856ba471a5b797b0826a19b58"
+    },
+    {
+      "path": "common/config/file-json-secret-loader.js",
+      "before": "11f4947e10fbc82c87553290e88fcabcfa0c9c46109da4585e63979285eb73ac",
+      "after": "1a31994da1b693ab0bde4aae8011668019f94438d7ab70d49a7b0e6d98ad17e0"
+    }
+  ],
+  "checks": {
+    "unit": 325,
+    "http": 20,
+    "databaseWorker": 1,
+    "portal": 18
+  },
+  "files": {
+    "backup.py": "9cecd40cebed88097f86e7597ef66cc9a9bec686a8eb784f909be06bb80da4f9",
+    "deploy.py": "a709bcf80b2810976a3789688290e7b87fa6249bd910a634adf2b371a53d4751",
+    "backend/Dockerfile": "767bafc87cf91e860de10ab313612b01c13e7024e9200d45def392bbaa438cd8",
+    "migrator/Dockerfile": "1963224b611964063ee358e4784f76f2e55da2b79561c7ae64ae1344d98bd0fb",
+    "portal/Dockerfile": "ffbaa3f4770a3ff6fbce47c51784a9288dffb55fbeeb19859b00aa6fc1632946",
+    "portal/dist/.openai/hosting.json": "64861cc7aa4efc47960347ef1bbd2813fbd6412bebb14edd717b31d3ac55100b",
+    "portal/dist/client/.assetsignore": "4f83140d5f4293ab55bd1207327e995c83258f1e7d3145b1b5d7a3d17fdfe0a7",
+    "portal/dist/client/bnbu-emblem.svg": "de978cb12b86a80a17499703a1cbd0fd3cd2694fdc3964bdec066edebcae31ed",
+    "portal/dist/client/bnbu-sports-icon.svg": "49a400d7c5bec25e697347923377578da8fc8d3991c25d146a50f05b2768f6b2",
+    "portal/dist/client/checkin-evidence-preview.svg": "58596b837e2ea01eb5aa410abc5c988b94c5c4292c701bdcfa25680c08f17178",
+    "portal/dist/client/og.png": "d7ec95b61de99a4ec66568e91750d044d7eb533a1a876a25411d2eb5ce6cf0c4",
+    "portal/dist/client/_headers": "9e55124bccd40b43dbc6e002daa777fa8f32a230420152910784ca65501d9e0f",
+    "portal/dist/server/image-config.json": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+    "portal/dist/server/index.js": "54c28c260b4427e204cbcb87aa400b9772150ad704c6449764e2a7377af09613",
+    "portal/dist/server/vinext-externals.json": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+    "portal/dist/server/vinext-server.json": "dd9b209884e98db8c8bd1378f57d16c78919a0d303f7105fb66424db07bca5c8",
+    "portal/dist/server/wrangler.json": "eaf4062368300b5dc8fdb355e39c10c391f1c7a0d74ee96cd6c10ebbd833bc75",
+    "portal/dist/server/__vite_rsc_assets_manifest.js": "076619254c3dfb5da5967e9f48d2b3dd713e1026d5bd32fa39bcd5460704ce8b",
+    "portal/dist/server/.vite/manifest.json": "41a82d5dd5bdbe731ff97e3dfce4ad6ef0f16d8118a60190241957ed4752b123",
+    "portal/dist/server/assets/index-BYhcM2CD.css": "e52f6a55001444168f05887cd08c2fdd884b081c56964094e49e4b6683b6ad64",
+    "portal/dist/server/ssr/index.js": "89131a474c31507f74d18a9ae1d324b2e134d8392bfd90072774cfa9e8d2f1bd",
+    "portal/dist/server/ssr/vinext-server.json": "dd9b209884e98db8c8bd1378f57d16c78919a0d303f7105fb66424db07bca5c8",
+    "portal/dist/server/ssr/__vite_rsc_assets_manifest.js": "076619254c3dfb5da5967e9f48d2b3dd713e1026d5bd32fa39bcd5460704ce8b",
+    "portal/dist/server/ssr/assets/cpexcel.full-DCOxMb2E.js": "8d87acc51c1c86ffe5b9742eb286edb3f129881d45e3037ea419f0c5ae5d74fc",
+    "portal/dist/server/ssr/assets/endurance-api-CW5L66zp.js": "43176bf0777749131c61a472f175b6a42229ec630b86a978cc6d273e332df5b2",
+    "portal/dist/server/ssr/assets/worker-entry-CpDe6NLM.js": "98d3be248b075b3b02a45d36333d9686dd3bb1f93d81f247788cba2d52e603d6",
+    "portal/dist/server/ssr/assets/worker-entry-KuIQxfqK.css": "b1efde2a66ce300629bce5fb279fb8837e3ba0b3bc561a22e12ae7f25d2da4a0",
+    "portal/dist/server/ssr/assets/xlsx-CFbTV10H.js": "650b3923a1fff46a62acf65005c4613a1c7ace0a72392543af700a99028bee04",
+    "portal/dist/client/.vite/manifest.json": "5e7de819f0f7c703815042ad88303072ff6d6b3be1528d6d8b3ba882835a084b",
+    "portal/dist/client/assets/cpexcel.full-CAlsa5X_.js": "e3a61ce01017d596b5d6a513ee4162bf69f91eb0c84e01175e58501c74edb141",
+    "portal/dist/client/assets/endurance-api-ksFN22TV.js": "fa5cb5e3c88473627383d508c66519c3a34add9681e384b4840622b6e58de76b",
+    "portal/dist/client/assets/framework-bym5aI3S.js": "a9b4ce28eb1fd24f44bd6afc700324f83feec30c0419725ce29a8c61bfa8996a",
+    "portal/dist/client/assets/index-BYhcM2CD.css": "e52f6a55001444168f05887cd08c2fdd884b081c56964094e49e4b6683b6ad64",
+    "portal/dist/client/assets/index-DXEmNh1A.js": "2d4d8f6a4621ff5d5ba10f10064b598a30d17c30e76c87691156adac0e18bb00",
+    "portal/dist/client/assets/rolldown-runtime-hePW80VL.js": "580ad8c58061a4dde99bde0a56905e382f0568516ee2f5b84dbfb52085709021",
+    "portal/dist/client/assets/worker-entry-DnFddJEq.js": "61071ef2897d8156f29829678ef9e7d1aa5f24a7bacec8e63c28e3bab41df5da",
+    "portal/dist/client/assets/worker-entry-KuIQxfqK.css": "b1efde2a66ce300629bce5fb279fb8837e3ba0b3bc561a22e12ae7f25d2da4a0",
+    "portal/dist/client/assets/xlsx-DwRHmDrW.js": "7af040a5ba632e8b806def4e97a07b2fa28cfe7af2f5fa952759d47af9ab5105",
+    "portal/dist/client/brand/verity-ai-logo.svg": "fcdb41bdfe71352863e6e55577726adf281a32dbdfe6da320499e3af5e668e16",
+    "portal/dist/client/branding/sports-logo.png": "377ba9c5e34ff40835b821e65729c16ad5f621848bcd46a6f56c3ead546fb17e",
+    "migrator/prisma/schema.prisma": "320965dfdc05abc5b9a340438c965f7ed6ac9920de3c6e0f2c6344fb6be5e0eb",
+    "migrator/scripts/migration-registry.mjs": "40584b68fcad0c02c5ba5b1d09af2fd16b993048729a454ba0613860fcfe3362",
+    "migrator/prisma/migrations/0083_ai_review_advisory/manifest.json": "f63ec9ff99a4b6daa94fd0e4c0b65724af49d3fcebc6bffaf27c2bc7eace63b0",
+    "migrator/prisma/migrations/0083_ai_review_advisory/migration.sql": "88bea478e427bf5e74c1b745abfe84dc3ed313ebe1f8941c6f05ec9c8a762776",
+    "backend/dist/generated/migration-manifest.generated.js": "bcae309a49cdb3ec7c7f21a686d6b28112b6c1e1c852baf590e8815bd1c354cc",
+    "backend/dist/generated/migration-manifest.generated.js.map": "7c7a6f1b678fbb909a00778498b1ca617d59191f2ca203c32b3bc33937601470",
+    "backend/dist/generated/openapi.document.generated.json": "f7bff5de184debc7588743ac89ed6429622d7baa7f26dbecfb40a9ef0a2586ef",
+    "backend/dist/modules/v8/ai-review-media.js": "fe0fd5e5a6846d0812b46cd107760558f48c8f400e5b2a992eda2786a4c519e5",
+    "backend/dist/modules/v8/ai-review-media.js.map": "0127a59003325a6571b8a0b28cf7ac9a4c24d296fecae77093c557fd22450ac3",
+    "backend/dist/modules/v8/ai-review-provider.js": "a406afe5e41393626436d4d8970070fdae5ca8004b7009f1717392958e1621e1",
+    "backend/dist/modules/v8/ai-review-provider.js.map": "5599d7d1cb12db6809c4f0274637836470216ab5ee652abaffb328f68457fd53",
+    "backend/dist/modules/v8/tencent-ai-review-provider.js": "f0d7ac56051a5a580c3c34de10daf8c4a3e476eddfcc3b00100f0d38a55dbae7",
+    "backend/dist/modules/v8/tencent-ai-review-provider.js.map": "90ec648c96122e3023d2a600dd3acfaa3f1ee0bedfc900b36044f367f4826217",
+    "backend/dist/modules/v8/v81-ai-review-store.js": "fd603183b2ff957c4b0f035ea7a667f7a16fbb7412105b476eef24d28d3ef455",
+    "backend/dist/modules/v8/v81-ai-review-store.js.map": "02af792ce5b5705dbe42d95af6d06be730ead22413a46d27219ff2c53d4e2c9d",
+    "backend/dist/modules/v8/v81-ai-review.worker.js": "b28ac4ac7d06772cce0f238c575ece5ecede15dacbafcbe422de151f44dc0a1b",
+    "backend/dist/modules/v8/v81-ai-review.worker.js.map": "0d106702a962ae25a2a6ae3e3885d332f776d0d84295acc10e7226d2e853c694",
+    "backend/dist/modules/v8/v81-materials.js": "9a465ebd772925f454a200b08958d2da28a954e1d934e06a80a4d55ce98c4009",
+    "backend/dist/modules/v8/v81-materials.js.map": "39f82adfb2e85f7ee4bbc37600cdb5de96bbbd6850c52d6e8f322483c2b87602",
+    "backend/dist/modules/v8/v81-record-projection.js": "52b81a89e5d4f195ebb5277ff4001447903e2a5a3fa515eb80d304cc40c0e5eb",
+    "backend/dist/modules/v8/v81-record-projection.js.map": "b2ce1f538b82517d3d82554d0e06911bb8a3409727c8cf93390cc5762c978e72",
+    "backend/dist/modules/v8/v81-record-state.js": "0f435e65b56eecc2b86a9e60148ffaa9ad2c3d77a426c80c2980d94c7ddb1c27",
+    "backend/dist/modules/v8/v81-record-state.js.map": "c1a1274a541f9d1bba121fced32cd53344ede86cb75042ab358dedfd63242f8a",
+    "backend/dist/modules/v8/v81.module.js": "4cf0d89c9e6ca857b36ba148a0f133be396d66c7b336608f22fd3c44cf9326ea",
+    "backend/dist/modules/v8/v81.module.js.map": "929e5676d0859aa70c1488dfa4f5a1ff54a7af7805e14cd49c19f72023295f67",
+    "backend/dist/modules/v8/domain/ai-review.js": "ea02db4819aa48dd830c5857429987910ae3d330c2b78864c77d214b936dd860",
+    "backend/dist/modules/v8/domain/ai-review.js.map": "40443d27b4ad22eef2695bf92d88ff9fa11db3fd047035922b743666a8538562",
+    "backend/dist/modules/exercise-records/application/exercise-records.service.js": "bf11768eb74e485729907f5e14826a7dd8f2103a284cba3f4fd94562fd0496e4",
+    "backend/dist/modules/exercise-records/application/exercise-records.service.js.map": "51a78164c63eca2e643a7bbb4eab26641381db0a81f63ca9d56cce8732e1d8a7",
+    "backend/dist/modules/exercise-records/interface/http/exercise-records.dto.js": "175924949ae7f585b8315cf04dbdcf3f86499a93ccb581c32bf6f15886bfbc3b",
+    "backend/dist/modules/exercise-records/interface/http/exercise-records.dto.js.map": "291329d3ea6dda3ef2031003424aed16adc7a65eaea22c42fee4d93886cdab37",
+    "backend/dist/generated/prisma/internal/class.js": "891e5a24bc3a65c92c0a464b663b066f7e8af49667c9363bad3abed56b380acd",
+    "backend/dist/generated/prisma/internal/class.js.map": "2a40859e81b93481862a1f11301e8064d6d28a3d2c84468a8493e31065b72a6a",
+    "backend/dist/generated/prisma/internal/prismaNamespace.js": "6018e80359f82729075b7ffa875194283f26dad3190670edee5cf6bec1babefe",
+    "backend/dist/generated/prisma/internal/prismaNamespace.js.map": "c64994dc94cbd9c808dc4a0cbb6da7ef18773b88db7dd3df2a6a3abd1088f6cc",
+    "backend/dist/generated/prisma/internal/prismaNamespaceBrowser.js": "e311400e3ed35912355bfb0e8e98b404d6a84f0d8d5de524df16d83009887dec",
+    "backend/dist/generated/prisma/internal/prismaNamespaceBrowser.js.map": "774a3d7d641e041124464974d3ef35609883ea9037faf5fdc245fba7bffa53d8",
+    "backend/dist/generated/prisma/models/V81AiReviewBudget.js": "e784bc11767f43cbf4e3c415d5cc869977ab9e7653b8789823ec9cc7bdc07ae4",
+    "backend/dist/generated/prisma/models/V81AiReviewBudget.js.map": "06b7e202787650dcdf2927c7b2c54549657fe295a10c192d9e7665573459a66f",
+    "backend/dist/generated/prisma/models/V81AiReviewJob.js": "437edcc68c0d266155502901a5faf0245afd1151e53827dfb368faf7f0958177",
+    "backend/dist/generated/prisma/models/V81AiReviewJob.js.map": "be748d9a29b2cbae99bbd1a71bee490ada585b6629a71112e03e3cbd534749a8",
+    "backend/dist/common/config/environment.js": "139990b1d74b0e8a894ef0a0536c8c3fe307e04856ba471a5b797b0826a19b58",
+    "backend/dist/common/config/environment.js.map": "0aac5bc7f110e2de31287cae1fd12a2d6372b362561d06ba3c6514d0bed2df80",
+    "backend/dist/common/config/file-json-secret-loader.js": "1a31994da1b693ab0bde4aae8011668019f94438d7ab70d49a7b0e6d98ad17e0",
+    "backend/dist/common/config/file-json-secret-loader.js.map": "ecf90c559c1256a668e149666c4d7993ebea5d0b7a47dc3cc0524163492b0ef8"
+  }
+}

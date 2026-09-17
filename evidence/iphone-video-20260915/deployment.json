@@ -1,0 +1,18 @@
+{
+  "result": "PASS",
+  "release": "/opt/bnbu-sports-production/releases/iphone-video-20260915-r2",
+  "previous": "/opt/bnbu-sports-production/releases/profile-quality-20260915",
+  "files": {
+    "js/recorded-video.js": "167dc9bdbd07a18870a78cad3d697b3f7c0ec643f5391543c39a83c899b84134",
+    "js/checkin-drafts.js": "d85e51455669726d4184a8c7dd19fe6dc616f1f3ce100d6ab37a90756c99b38f",
+    "js/screens/checkin.js": "cdcf9cc0d19c3f128990615d4088063a1c50d5efa6056d8626dc9ae75b7a2684",
+    "js/api.js": "6639af9bc4be0df8ece83f800cc23a56ec70729925dc0b73e967f18b52041b06",
+    "vendor/ffmpeg/api/classes.js": "59a565e4c5fb64bfc1c90c746e7f2cfd9dd770bbea70b3dc67419398e17af25c"
+  },
+  "wasmContentType": "application/wasm",
+  "observedContentTypes": [
+    "application/octet-stream",
+    "application/wasm"
+  ],
+  "backend": "sha256:e0867da64f1eaa036a4843575cd9100ea290fae0a15006d81aa80e9c3e20e3ba healthy"
+}

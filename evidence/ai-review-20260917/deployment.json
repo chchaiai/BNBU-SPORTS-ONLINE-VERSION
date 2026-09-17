@@ -1,0 +1,20 @@
+{
+  "result": "PASS",
+  "previous": "/opt/bnbu-sports-production/releases/student-network-20260916",
+  "release": "/opt/bnbu-sports-production/releases/ai-review-20260917",
+  "images": {
+    "backend": "sha256:5a35dbc9291d954b70a699ce8dbd4eee2b17f9c14ec12bed9efdecfd691762cc",
+    "portal": "sha256:cf4259e630d59a6b0fc395add2cec8e56733272dae706acf51a07dd388643774",
+    "migrator": "sha256:29007e3e5025f4da024ae4abb39369ad4dcfc13f45307c12267e8c9bdcceef2a"
+  },
+  "backup": {
+    "check": "PRE_RELEASE_DATABASE_BACKUP",
+    "result": "PASS",
+    "path": "/opt/bnbu-sports-production/backups/before-bugfix-20260916T163731Z.dump",
+    "bytes": 29920084
+  },
+  "migration": "0083_ai_review_advisory",
+  "hashes": "PASS",
+  "health": "PASS",
+  "budgetReservationLimitFen": 490000
+}

@@ -1,0 +1,6 @@
+
+> @bnbu/sports-backend@0.1.0 runtime-coverage:generate
+> node ./scripts/check-runtime-coverage.mjs --write
+
+Runtime coverage roadmap updated (264 operations).
+Static evidence registration: PASS (operations=264, foundation=9, teachingStructure=10, registered=231, defaultDeny=33, notRegistered=0, blockedByAdr=0)

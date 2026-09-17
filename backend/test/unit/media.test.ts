@@ -386,7 +386,7 @@ describe('MediaEvidence validation core', () => {
     }
   });
 
-  it('keeps image limits while replacing exercise-video size rules with a fixed 15-second cap', () => {
+  it('keeps image limits while replacing exercise-video size rules with a 10-second and 200 MiB caps', () => {
     const validator = new MediaValidator();
     assert.throws(
       () =>
@@ -404,7 +404,7 @@ describe('MediaEvidence validation core', () => {
       (error: unknown) =>
         error instanceof ApplicationError && error.code === 'MEDIA_TYPE_NOT_ALLOWED',
     );
-    assert.throws(() =>
+    assert.doesNotThrow(() =>
       validator.validateDeclaration(
         {
           businessPurpose: 'EXERCISE_RECORD',
@@ -423,9 +423,9 @@ describe('MediaEvidence validation core', () => {
           businessPurpose: 'EXERCISE_RECORD',
           mediaType: 'VIDEO',
           mimeType: 'video/quicktime',
-          fileSizeBytes: 250_000_000,
+          fileSizeBytes: 200 * 1024 * 1024,
           contentSha256: null,
-          durationSeconds: 15,
+          durationSeconds: 10,
         },
         config,
       ),
@@ -439,7 +439,7 @@ describe('MediaEvidence validation core', () => {
             mimeType: 'video/mp4',
             fileSizeBytes: config.maxVideoTransportBytes + 1,
             contentSha256: null,
-            durationSeconds: 15,
+            durationSeconds: 10,
           },
           config,
         ),
@@ -453,7 +453,7 @@ describe('MediaEvidence validation core', () => {
           mimeType: 'video/webm',
           fileSizeBytes: 100,
           contentSha256: null,
-          durationSeconds: 15,
+          durationSeconds: 10,
         },
         config,
       ),
@@ -467,7 +467,7 @@ describe('MediaEvidence validation core', () => {
             mimeType: 'video/mp4',
             fileSizeBytes: 1,
             contentSha256: null,
-            durationSeconds: 16,
+            durationSeconds: 11,
           },
           config,
         ),

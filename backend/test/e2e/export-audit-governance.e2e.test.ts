@@ -198,7 +198,7 @@ describe('Stage 19 Export, Audit Read, and governance HTTP E2E', () => {
       assert.equal((listed.body.data as unknown[]).length, 1);
       assert.equal(
         object((listed.body.data as Record<string, unknown>[])[0]).studentNumber,
-        'SYNTH-SESSION-GOVERNANCE',
+        (await prisma.studentProfile.findUniqueOrThrow({where:{id:student.studentId}})).studentNumber,
       );
     }
     const unrelated = await request('/api/v1/students?limit=20', authenticated(teacherB));
@@ -225,8 +225,9 @@ describe('Stage 19 Export, Audit Read, and governance HTTP E2E', () => {
     );
   });
 
-  it('denies administrator student-profile mutation without side effects', async () => {
+  it('denies major correction without USER_ACCOUNTS permission and preserves all facts', async () => {
     const admin = await login(fixture.adminEmail);
+    await prisma.v81AdminAccess.update({where:{userId:fixture.adminUserId},data:{permissions:['AUDIT_QUERY']}});
     const before = {
       audit: await prisma.auditLog.count(),
       outbox: await prisma.outboxEvent.count(),
@@ -238,7 +239,7 @@ describe('Stage 19 Export, Audit Read, and governance HTTP E2E', () => {
       authenticated(
         admin,
         'PATCH',
-        { fullName: 'Changed Synthetic', expectedVersion: 1 },
+        { collegeName: 'SCC', majorName: 'MUS', majorCorrectionReason: 'Synthetic permission denial', expectedVersion: 1 },
         uuidv7(),
       ),
     );

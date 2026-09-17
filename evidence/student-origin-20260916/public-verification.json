@@ -1,0 +1,20 @@
+[
+  {
+    "url": "https://www.student.bnbusports.cn/student/js/screens/join.js",
+    "status": 200,
+    "newLabelCount": 2,
+    "sha256": "96870446d0260f4184e338060d63297c85bf3143f028f444d436afa490ef7545"
+  },
+  {
+    "url": "https://www.student.bnbusports.cn/student/js/screens/profile.js",
+    "status": 200,
+    "newLabelCount": 4,
+    "sha256": "0d4fba05023536f32c343dfe7ed45ec54ceb8b582bee20f9b659000ab23645f9"
+  },
+  {
+    "url": "https://www.teacher.bnbusports.cn/assets/worker-entry-mnF0eJnD.js",
+    "status": 200,
+    "newLabelCount": 4,
+    "sha256": "6a696cd13684e6f460467df812c5f08cc15523380cc7f841e05040a83eb0eae1"
+  }
+]

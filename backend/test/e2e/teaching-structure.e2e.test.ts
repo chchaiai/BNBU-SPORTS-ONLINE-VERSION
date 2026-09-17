@@ -245,6 +245,62 @@ describe('Course and ClassSection HTTP E2E', () => {
     );
   });
 
+  it('exposes organization-scoped outbox diagnostics with filtering, pagination and no sensitive payload', async()=>{
+    const admin=await login(fixture.adminEmail),teacher=await login(fixture.teacherEmail);
+    const path='/api/v1/health/admin/outbox';
+    assert.equal((await request(path,authenticated(admin))).status,403);
+    assert.equal((await request(path,authenticated(teacher))).status,403);
+    await prisma.v81AdminAccess.update({where:{userId:fixture.adminUserId},data:{permissions:['AUDIT_QUERY']}});
+    const now=new Date(),diagnostic=uuidv7();
+    for(const [organizationId,status] of [[fixture.organizationId,'PENDING'],[fixture.organizationId,'FAILED'],[fixture.isolationOrganizationId,'PENDING']] as const){
+      await prisma.$executeRaw`INSERT INTO outbox_events(id,organization_id,status,aggregate_type,aggregate_id,event_type,event_version,payload,created_at,available_at,attempts,last_error_code)
+        VALUES(${uuidv7()}::uuid,${organizationId}::uuid,${status},'SYNTHETIC',${uuidv7()}::uuid,'DEMAND_DIAGNOSTIC',1,
+          ${JSON.stringify({requestId:diagnostic,token:'DO_NOT_EXPOSE_TOKEN',email:'private@example.invalid'})}::jsonb,
+          ${now}::timestamptz + interval '500 microseconds',${now}::timestamptz + interval '500 microseconds',${status==='FAILED'?2:0},${status==='FAILED'?'DELIVERY_FAILED':null})`;
+    }
+    const first=await request(path+'?eventType=DEMAND_DIAGNOSTIC&limit=1',authenticated(admin));
+    assert.equal(first.status,200,JSON.stringify(first.body));
+    const firstPage=object(first.body.data);assert.equal(firstPage.total,2);
+    assert.equal(array(firstPage.items).length,1);assert.equal(array(firstPage.items)[0]?.requestId,diagnostic);
+    assert.doesNotMatch(JSON.stringify(first.body),/DO_NOT_EXPOSE_TOKEN|private@example|payload|lockedBy/);
+    const second=await request(path+'?eventType=DEMAND_DIAGNOSTIC&limit=1&cursor='+encodeURIComponent(String(firstPage.nextCursor)),authenticated(admin));
+    assert.equal(second.status,200);assert.equal(array(object(second.body.data).items).length,1);
+    assert.notEqual(array(object(second.body.data).items)[0]?.id,array(firstPage.items)[0]?.id);
+    const failed=await request(path+'?status=FAILED&eventType=DEMAND_DIAGNOSTIC',authenticated(admin));
+    assert.equal(object(failed.body.data).total,1);
+    assert.equal(array(object(failed.body.data).items)[0]?.lifecycle,'RETRY_PENDING');
+    const health=await request('/api/v1/health/admin',authenticated(admin));
+    assert.equal(object(object(object(health.body.data).dependencies).notificationQueue).backlog,firstPage.backlog);
+    const invalid=await request(path+'?from=2026-09-17T00:00:00Z&to=2026-09-16T00:00:00Z',authenticated(admin));assert.equal(invalid.status,422);
+  });
+
+  it('keeps formal major confirmation locked across administrator correction and repeated requests', async () => {
+    const studentToken=await createStudentToken();
+    const profile=await prisma.studentProfile.findFirstOrThrow({where:{studentNumber:'00999999'}});
+    await prisma.studentProfile.update({where:{id:profile.id},data:{fullName:'Synthetic Student',studentNumber:'2300000001',collegeName:'SCC',majorName:'未分流',dateOfBirth:new Date('2004-01-01'),regionCode:'HK'}});
+    const body={collegeName:'SCC',majorName:'JC',dateOfBirth:'2004-01-01',regionCode:'HK',expectedVersion:1};
+    const key=uuidv7();
+    const confirmed=await request('/api/v1/me/student-profile',authenticated(studentToken,'POST',body,key));
+    assert.equal(confirmed.status,200,JSON.stringify(confirmed.body));
+    const replay=await request('/api/v1/me/student-profile',authenticated(studentToken,'POST',body,key));
+    assert.deepEqual(replay.body.data,confirmed.body.data);
+    const denied=await request('/api/v1/me/student-profile',authenticated(studentToken,'POST',{...body,majorName:'MUS',expectedVersion:2},uuidv7()));
+    assert.equal(denied.status,422,JSON.stringify(denied.body));
+    const admin=await login(fixture.adminEmail),teacher=await login(fixture.teacherEmail);
+    const correction={collegeName:'SCC',majorName:'未分流',majorCorrectionReason:'Synthetic correction verification',expectedVersion:2};
+    const path=`/api/v1/students/${profile.id}`;
+    assert.equal((await request(path,authenticated(teacher,'PATCH',correction,uuidv7()))).status,403);
+    assert.equal((await request(path,authenticated(admin,'PATCH',correction,uuidv7()))).status,403);
+    await prisma.v81AdminAccess.update({where:{userId:fixture.adminUserId},data:{permissions:['USER_ACCOUNTS']}});
+    const corrected=await request(path,authenticated(admin,'PATCH',correction,uuidv7()));
+    assert.equal(corrected.status,200,JSON.stringify(corrected.body));
+    assert.equal(object(corrected.body.data).majorConfirmationLocked,true);
+    const reused=await request('/api/v1/me/student-profile',authenticated(studentToken,'POST',{...body,expectedVersion:3},uuidv7()));
+    assert.equal(reused.status,422,JSON.stringify(reused.body));
+    const saved=await prisma.studentProfile.findUniqueOrThrow({where:{id:profile.id}});
+    assert.equal(saved.majorName,'未分流');assert.equal(saved.userId,profile.userId);assert.equal(saved.version,3);
+  });
+
   it('creates and updates the teacher course with replay while administrators remain read-only', async () => {
     const teacher = await login(fixture.teacherEmail);
     const admin = await login(fixture.adminEmail);
@@ -283,10 +339,21 @@ describe('Course and ClassSection HTTP E2E', () => {
     assert.equal(conflict.status, 409);
     assert.equal(conflict.body.code, 'CONFLICT_IDEMPOTENCY_KEY_REUSED');
     const path = '/api/v1/class-sections/' + section.id;
+    const renameKey = uuidv7();
+    const renameBody = { displayName: 'Synthetic Updated Course', expectedVersion: section.version };
     const updated = await request(path, authenticated(teacher, 'PATCH',
-      { displayName: 'Synthetic Updated Course', expectedVersion: section.version }, uuidv7()));
+      renameBody, renameKey));
     assert.equal(updated.status, 200, JSON.stringify(updated.body));
     assert.equal(object(updated.body.data).version, 2);
+    assert.equal(object(updated.body.data).displayName, renameBody.displayName);
+    const renamedReplay = await request(path, authenticated(teacher, 'PATCH', renameBody, renameKey));
+    assert.deepEqual(renamedReplay.body.data, updated.body.data);
+    const persisted = await prisma.classSection.findUniqueOrThrow({where:{id:String(section.id)}});
+    assert.equal(persisted.displayName, renameBody.displayName);
+    assert.equal(persisted.courseId, section.courseId);
+    assert.equal(persisted.teacherId, section.teacherId);
+    assert.equal(persisted.semesterId, section.semesterId);
+    assert.equal((await prisma.course.findUniqueOrThrow({where:{id:String(section.courseId)}})).courseName, body.displayName);
     const stale = await request(path, authenticated(teacher, 'PATCH',
       { displayName: 'Stale name', expectedVersion: 1 }, uuidv7()));
     assert.equal(stale.status, 409);

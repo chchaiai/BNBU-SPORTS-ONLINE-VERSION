@@ -95,8 +95,8 @@ describe('V81 formal settlement and semester archival HTTP E2E', () => {
     prisma = createTestPrisma(databaseUrl);
     const port = await availablePort();
     Object.assign(process.env, foundationEnvironment(databaseUrl, port), {
-      EMAIL_DELIVERY_PROVIDER: 'SMTP', EMAIL_DELIVERY_REQUIRED: 'true', SMTP_HOST: 'mailpit',
-      SMTP_PORT: '1025', SMTP_FROM_ADDRESS: 'test@bnbu.invalid', SMTP_SECURE: 'false',
+      EMAIL_DELIVERY_PROVIDER: 'SMTP', EMAIL_DELIVERY_REQUIRED: 'true', SMTP_HOST: process.env.TEST_SMTP_HOST ?? 'mailpit',
+      SMTP_PORT: process.env.TEST_SMTP_PORT ?? '1025', SMTP_FROM_ADDRESS: 'test@bnbu.invalid', SMTP_SECURE: 'false',
     });
     const { AppModule } = (await import(compiledModule('app.module.js'))) as {
       AppModule: Type<unknown>;
@@ -274,7 +274,9 @@ describe('V81 formal settlement and semester archival HTTP E2E', () => {
     const otherStudentToken = await tokenFor(outside.userId, 'STUDENT');
     assert.equal((await request(studentPath, authenticated(otherStudentToken))).status, 404);
     const readMailboxJson = (url: string) => new Promise((resolve, reject) => {
-      const incoming = get(url, response => {
+      const mailboxUrl = new URL(url);
+      const localUrl = process.env.TEST_MAILPIT_HTTP_ORIGIN ? new URL(mailboxUrl.pathname + mailboxUrl.search, process.env.TEST_MAILPIT_HTTP_ORIGIN).href : url;
+      const incoming = get(localUrl, response => {
         if (response.statusCode !== 200) { response.resume(); reject(new Error(`Mailbox HTTP ${response.statusCode}`)); return; }
         let text = ''; response.setEncoding('utf8');
         response.on('data', chunk => { text += chunk; });

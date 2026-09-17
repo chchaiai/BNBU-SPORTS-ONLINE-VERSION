@@ -1,0 +1,13 @@
+[
+  "backend/src/modules/users/profiles.controller.ts",
+  "backend/src/modules/users/student-profile-completion.service.ts",
+  "backend/src/modules/users/users.dto.ts",
+  "backend/src/modules/users/users.service.ts",
+  "backend/src/modules/v8/v81-history-backfill.ts",
+  "backend/src/modules/users/application/student-identity-normalizer.ts",
+  "backend/src/modules/exercise-sessions/application/exercise-sessions.service.ts",
+  "backend/src/modules/exercise-records/application/exercise-records.service.ts",
+  "backend/src/modules/enrollments/application/qr-join.service.ts",
+  "backend/src/common/policy/access-policy.guard.ts",
+  "backend/src/common/policy/v81-admin-permission.guard.ts"
+]

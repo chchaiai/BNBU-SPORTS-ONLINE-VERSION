@@ -1,0 +1,17 @@
+{
+  "result": "PASS",
+  "syntheticUsersDisabled": 5,
+  "syntheticOrganizations": [
+    "01a0ab15-3985-727c-aa3d-13f474e604a4",
+    "01a0ab15-3986-76f5-8115-d9826e5d5b62"
+  ],
+  "queue": [
+    {
+      "status": "SUCCEEDED",
+      "count": 3
+    }
+  ],
+  "budgetReservedFen": 300,
+  "applicationReservationLimitFen": 490000,
+  "recordsRetainedForAudit": true
+}

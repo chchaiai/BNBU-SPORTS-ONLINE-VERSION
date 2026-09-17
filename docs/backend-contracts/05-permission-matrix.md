@@ -283,6 +283,7 @@ V8.1 本地草稿的 113 个早期 camelCase 权限编号已规范为大写连�
 |---|---|---|---|---|---|---|---|---|---|
 | `GET` | `/health/live` | `getHealthLive` | `PUBLIC-HEALTH-LIVE` | `PUBLIC` | `-` | `NONE` | `NONE` | `NONE` | `true` |
 | `GET` | `/health/ready` | `getHealthReady` | `PUBLIC-HEALTH-READY` | `PUBLIC` | `-` | `NONE` | `NONE` | `NONE` | `true` |
+| `GET` | `/health/admin/outbox` | `listAdminOutboxEvents` | `ADMIN-OUTBOX-READ` | `ACCESS_TOKEN` | `ADMIN` | `PRINCIPAL_ORGANIZATION` | `ORGANIZATION` | `PRINCIPAL_ORGANIZATION` | `true` |
 | `GET` | `/health/admin` | `getAdminHealth` | `ADMIN-HEALTH-READ` | `ACCESS_TOKEN` | `ADMIN` | `PRINCIPAL_ORGANIZATION` | `ORGANIZATION` | `PRINCIPAL_ORGANIZATION` | `true` |
 | `GET` | `/system-mode` | `getSystemMode` | `PUBLIC-SYSTEM-MODE-READ` | `PUBLIC` | `-` | `NONE` | `NONE` | `NONE` | `true` |
 | `GET` | `/organizations/current` | `getCurrentOrganization` | `ORGANIZATION-CURRENT-READ` | `ACCESS_TOKEN` | `STUDENT,TEACHER,ADMIN` | `PRINCIPAL_ORGANIZATION` | `ORGANIZATION` | `PRINCIPAL_ORGANIZATION` | `true` |
@@ -542,4 +543,6 @@ V8.1 本地草稿的 113 个早期 camelCase 权限编号已规范为大写连�
 | `GET` | `/class-sections/{classSectionId}/history-settings` | `getV81HistorySettings` | `GET-V81HISTORY-SETTINGS` | `ACCESS_TOKEN` | `TEACHER,STUDENT` | `PRINCIPAL_ORGANIZATION` | `SELF` | `PRINCIPAL_USER` | `true` |
 | `POST` | `/class-sections/{classSectionId}/history-settings` | `saveV81HistorySettings` | `SAVE-V81HISTORY-SETTINGS` | `ACCESS_TOKEN` | `TEACHER` | `PRINCIPAL_ORGANIZATION` | `SELF` | `PRINCIPAL_USER` | `true` |
 | `POST` | `/enrollments/{enrollmentId}/historical-sessions` | `createV81HistoricalSession` | `CREATE-V81-HISTORICAL-SESSION` | `ACCESS_TOKEN` | `STUDENT` | `PRINCIPAL_ORGANIZATION` | `SELF` | `PRINCIPAL_USER` | `true` |
+| `GET` | `/admin/exercise-goal` | `getV81ExerciseGoal` | `GET-V81-EXERCISE-GOAL` | `ACCESS_TOKEN` | `ADMIN,TEACHER` | `PRINCIPAL_ORGANIZATION` | `SELF` | `PRINCIPAL_USER` | `true` |
+| `POST` | `/admin/exercise-goal` | `saveV81ExerciseGoal` | `SAVE-V81-EXERCISE-GOAL` | `ACCESS_TOKEN` | `ADMIN` | `PRINCIPAL_ORGANIZATION` | `SELF` | `PRINCIPAL_USER` | `true` |
 <!-- ACCESS_POLICY_REGISTRY:END -->

@@ -38,6 +38,7 @@ COPY backend/package.json backend/package-lock.json ./
 RUN npm ci --omit=dev
 
 FROM node-base AS runtime
+RUN apt-get update && apt-get install --yes --no-install-recommends ffmpeg && rm -rf /var/lib/apt/lists/*
 ENV NODE_ENV=production
 WORKDIR /app
 RUN groupadd --system --gid 10001 bnbu && useradd --system --uid 10001 --gid bnbu --home-dir /nonexistent --shell /usr/sbin/nologin bnbu

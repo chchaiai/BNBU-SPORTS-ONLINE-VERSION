@@ -447,6 +447,16 @@ export type V81Event = Prisma.V81EventModel
  */
 export type V81MaterialVersion = Prisma.V81MaterialVersionModel
 /**
+ * Model V81AiReviewJob
+ *
+ */
+export type V81AiReviewJob = Prisma.V81AiReviewJobModel
+/**
+ * Model V81AiReviewBudget
+ *
+ */
+export type V81AiReviewBudget = Prisma.V81AiReviewBudgetModel
+/**
  * Model V81MaterialItem
  * 
  */

@@ -1,0 +1,41 @@
+{
+  "result": "PASS",
+  "scope": "Actual shipped WASM; synthetic sources, not physical iPhone acceptance",
+  "results": [
+    {
+      "label": "tagged-mp4",
+      "seconds": 2.973,
+      "bytes": 143985,
+      "method": "remux",
+      "elapsedMs": 62
+    },
+    {
+      "label": "hevc",
+      "seconds": 1.034,
+      "bytes": 32892,
+      "method": "encode",
+      "elapsedMs": 148
+    },
+    {
+      "label": "webm",
+      "seconds": 10.05,
+      "bytes": 566419,
+      "method": "encode",
+      "elapsedMs": 1050
+    },
+    {
+      "label": "fragmented-mp4",
+      "seconds": 10.041,
+      "bytes": 720039,
+      "method": "remux",
+      "elapsedMs": 23
+    },
+    {
+      "label": "native-mp4",
+      "seconds": 2.973,
+      "bytes": 143985,
+      "method": "remux",
+      "elapsedMs": 19
+    }
+  ]
+}

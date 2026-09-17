@@ -29,7 +29,10 @@ export class V81CourseRemindersService {
       include: { teacher: { include: { user: true } }, organization: true } });
     if (!section) return null;
     const rule = (await tx.$queryRaw<{ course_target: number; general_target: number; version: number; published_at: Date | null; regular_deadline: Date }[]>`
-      SELECT course_target,general_target,version,published_at,regular_deadline FROM v81_course_rules WHERE class_section_id=${classId}::uuid AND organization_id=${organizationId}::uuid`)[0];
+      SELECT r.course_target,r.general_target,r.version,r.published_at,
+        ((c.check_in_end_date + interval '1 day') AT TIME ZONE o.timezone)-interval '1 millisecond' AS regular_deadline
+        FROM v81_course_rules r JOIN class_sections c ON c.id=r.class_section_id JOIN organizations o ON o.id=c.organization_id
+        WHERE r.class_section_id=${classId}::uuid AND r.organization_id=${organizationId}::uuid AND c.check_in_end_date IS NOT NULL`)[0];
     if (!rule?.published_at || !courseReminderDue(rule.published_at, rule.regular_deadline, now)) return null;
     const deadline = new Intl.DateTimeFormat('en-GB', { timeZone: section.organization.timezone, year: 'numeric', month: '2-digit', day: '2-digit',
       hour: '2-digit', minute: '2-digit', hourCycle: 'h23' }).format(rule.regular_deadline) + ` (${section.organization.timezone})`;
@@ -37,9 +40,9 @@ export class V81CourseRemindersService {
       const english = (await tx.userPreference.findUnique({ where: { userId } }))?.locale === 'en';
       const id = this.ids.next();
       const body = remaining === null
-        ? (english ? `Regular deadline: ${deadline}. ${pendingKinds} categories of teaching work need attention.` : `常规截止：${deadline}。有 ${pendingKinds} 类教学待办需要处理。`)
-        : (english ? `Regular deadline: ${deadline}. Remaining target: ${remaining} minutes. Pending records/applications: ${pendingKinds}.`
-          : `常规截止：${deadline}。剩余目标 ${remaining} 分钟，待处理记录及申请 ${pendingKinds} 项。`);
+        ? (english ? `Exercise ends: ${deadline}. ${pendingKinds} categories of teaching work need attention.` : `打卡结束：${deadline}。有 ${pendingKinds} 类教学待办需要处理。`)
+        : (english ? `Exercise ends: ${deadline}. Remaining target: ${remaining} minutes. Pending records/applications: ${pendingKinds}.`
+          : `打卡结束：${deadline}。剩余目标 ${remaining} 分钟，待处理记录及申请 ${pendingKinds} 项。`);
       const inserted = await tx.$queryRaw<{ id: string }[]>`INSERT INTO notifications(id,organization_id,recipient_user_id,notification_type,title,body,target_type,target_id,created_at,version)
         VALUES(${id}::uuid,${organizationId}::uuid,${userId}::uuid,'COURSE_DEADLINE_REMINDER',${english ? 'Course deadline reminder' : '课程截止提醒'},${body},${targetType},${targetId}::uuid,${now},1)
         ON CONFLICT DO NOTHING RETURNING id`;
@@ -91,8 +94,10 @@ export class V81CourseReminderWorker implements OnApplicationBootstrap, OnModule
       const now = this.clock.now();
       const item = this.pending ?? (await this.prisma.$queryRaw<{ id: string; organization_id: string }[]>`
         SELECT c.id,c.organization_id FROM class_sections c JOIN v81_course_rules r ON r.class_section_id=c.id JOIN semesters s ON s.id=c.semester_id
-        WHERE s.status='CURRENT' AND r.published_at IS NOT NULL AND r.published_at<=${now} AND r.regular_deadline>${now}
-          AND r.regular_deadline<=${new Date(now.getTime() + leadMs)} AND (${this.cursor}::uuid IS NULL OR c.id>${this.cursor}::uuid)
+        JOIN organizations o ON o.id=c.organization_id
+        WHERE s.status='CURRENT' AND r.published_at IS NOT NULL AND r.published_at<=${now}
+          AND ((c.check_in_end_date + interval '1 day') AT TIME ZONE o.timezone)>${now}
+          AND ((c.check_in_end_date + interval '1 day') AT TIME ZONE o.timezone)<=${new Date(now.getTime() + leadMs)} AND (${this.cursor}::uuid IS NULL OR c.id>${this.cursor}::uuid)
         ORDER BY c.id LIMIT 1`)[0];
       if (!item) { this.cursor = null; return; }
       processingId = item.id;

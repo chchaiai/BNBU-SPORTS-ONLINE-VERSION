@@ -1,0 +1,38 @@
+{
+  "fixture": {
+    "organizationId": "01a0a902-615b-7308-ad44-da42e49f63dd",
+    "isolationOrganizationId": "01a0a902-615b-7308-ad44-dcc72617ff05",
+    "adminUserId": "01a0a902-615b-7308-ad44-e353efcb95f3",
+    "teacherUserId": "01a0a902-615b-7308-ad44-e7b68cf19a6e",
+    "teacherProfileId": "01a0a902-615b-7308-ad44-ebe7f36a38cf",
+    "teacherEmail": "teacher.a.e2e.synthetic@bnbu.invalid",
+    "teacherBUserId": "01a0a902-615b-7308-ad44-edb01de08fc5",
+    "teacherBProfileId": "01a0a902-615b-7308-ad44-f03b5ad77027",
+    "teacherBEmail": "teacher.b.e2e.synthetic@bnbu.invalid",
+    "teacherCUserId": "01a0a902-615b-7308-ad44-f44f3c33bbc3",
+    "teacherCProfileId": "01a0a902-615b-7308-ad44-fb9d9376502a",
+    "teacherCEmail": "teacher.c.e2e.synthetic@isolation.invalid",
+    "adminEmail": "admin.e2e.synthetic@bnbu.invalid",
+    "semesterId": "01a0a902-615b-7308-ad44-fe8bf8bdfcaf",
+    "archivedSemesterId": "01a0a902-615b-7308-ad45-005963bd4151",
+    "isolationSemesterId": "01a0a902-615b-7308-ad45-0453d9db263b",
+    "activeCourseId": "01a0a902-615b-7308-ad45-0a382076ccdf",
+    "secondActiveCourseId": "01a0a902-615b-7308-ad45-0d1f678c0911",
+    "inactiveCourseId": "01a0a902-615b-7308-ad45-12d9a1d861a1",
+    "isolationCourseId": "01a0a902-615b-7308-ad45-1602c0cf4ed8",
+    "teacherAActiveSectionId": "01a0a902-615b-7308-ad45-1990c730f7a7",
+    "teacherAClosedSectionId": "01a0a902-615b-7308-ad45-1cfc499f41a5",
+    "teacherBActiveSectionId": "01a0a902-615b-7308-ad45-2251b7700b91",
+    "teacherBArchivedSectionId": "01a0a902-615b-7308-ad45-276a82bb3359",
+    "teacherCSectionId": "01a0a902-615b-7308-ad45-292cb0bf3cbf"
+  },
+  "student": {
+    "userId": "01a0a902-6197-7458-a63a-3ce604827301",
+    "studentId": "01a0a902-6197-7458-a63a-4356c577a7fc",
+    "enrollmentId": "01a0a902-6197-7458-a63a-46d616bb3a07",
+    "authSessionId": "01a0a902-6197-7458-a63a-4a519e4bbd63",
+    "email": "a106301639@mail.bnbu.edu.cn"
+  },
+  "organizationCode": "BNBU-TEST",
+  "baseUrl": "http://127.0.0.1:53000"
+}

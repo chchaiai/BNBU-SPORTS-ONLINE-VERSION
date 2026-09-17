@@ -220,6 +220,7 @@ export type V81MaterialVersionWhereInput = {
   materialVersion?: Prisma.IntFilter<"V81MaterialVersion"> | number
   acceptedAt?: Prisma.DateTimeFilter<"V81MaterialVersion"> | Date | string
   acceptedTransaction?: Prisma.BigIntFilter<"V81MaterialVersion"> | bigint | number
+  aiReviewJobs?: Prisma.V81AiReviewJobListRelationFilter
   v81MaterialItem_packet?: Prisma.V81MaterialItemListRelationFilter
   organization?: Prisma.XOR<Prisma.OrganizationScalarRelationFilter, Prisma.OrganizationWhereInput>
   record?: Prisma.XOR<Prisma.ExerciseRecordScalarRelationFilter, Prisma.ExerciseRecordWhereInput>
@@ -232,6 +233,7 @@ export type V81MaterialVersionOrderByWithRelationInput = {
   materialVersion?: Prisma.SortOrder
   acceptedAt?: Prisma.SortOrder
   acceptedTransaction?: Prisma.SortOrder
+  aiReviewJobs?: Prisma.V81AiReviewJobOrderByRelationAggregateInput
   v81MaterialItem_packet?: Prisma.V81MaterialItemOrderByRelationAggregateInput
   organization?: Prisma.OrganizationOrderByWithRelationInput
   record?: Prisma.ExerciseRecordOrderByWithRelationInput
@@ -248,6 +250,7 @@ export type V81MaterialVersionWhereUniqueInput = Prisma.AtLeast<{
   materialVersion?: Prisma.IntFilter<"V81MaterialVersion"> | number
   acceptedAt?: Prisma.DateTimeFilter<"V81MaterialVersion"> | Date | string
   acceptedTransaction?: Prisma.BigIntFilter<"V81MaterialVersion"> | bigint | number
+  aiReviewJobs?: Prisma.V81AiReviewJobListRelationFilter
   v81MaterialItem_packet?: Prisma.V81MaterialItemListRelationFilter
   organization?: Prisma.XOR<Prisma.OrganizationScalarRelationFilter, Prisma.OrganizationWhereInput>
   record?: Prisma.XOR<Prisma.ExerciseRecordScalarRelationFilter, Prisma.ExerciseRecordWhereInput>
@@ -282,6 +285,7 @@ export type V81MaterialVersionCreateInput = {
   materialVersion: number
   acceptedAt: Date | string
   acceptedTransaction?: bigint | number
+  aiReviewJobs?: Prisma.V81AiReviewJobCreateNestedManyWithoutMaterialInput
   v81MaterialItem_packet?: Prisma.V81MaterialItemCreateNestedManyWithoutPacketInput
   organization: Prisma.OrganizationCreateNestedOneWithoutV81MaterialVersion_organizationInput
   record: Prisma.ExerciseRecordCreateNestedOneWithoutV81MaterialVersion_recordInput
@@ -294,6 +298,7 @@ export type V81MaterialVersionUncheckedCreateInput = {
   materialVersion: number
   acceptedAt: Date | string
   acceptedTransaction?: bigint | number
+  aiReviewJobs?: Prisma.V81AiReviewJobUncheckedCreateNestedManyWithoutMaterialInput
   v81MaterialItem_packet?: Prisma.V81MaterialItemUncheckedCreateNestedManyWithoutPacketInput
 }
 
@@ -301,6 +306,7 @@ export type V81MaterialVersionUpdateInput = {
   materialVersion?: Prisma.IntFieldUpdateOperationsInput | number
   acceptedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   acceptedTransaction?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  aiReviewJobs?: Prisma.V81AiReviewJobUpdateManyWithoutMaterialNestedInput
   v81MaterialItem_packet?: Prisma.V81MaterialItemUpdateManyWithoutPacketNestedInput
   organization?: Prisma.OrganizationUpdateOneRequiredWithoutV81MaterialVersion_organizationNestedInput
   record?: Prisma.ExerciseRecordUpdateOneRequiredWithoutV81MaterialVersion_recordNestedInput
@@ -313,6 +319,7 @@ export type V81MaterialVersionUncheckedUpdateInput = {
   materialVersion?: Prisma.IntFieldUpdateOperationsInput | number
   acceptedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   acceptedTransaction?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  aiReviewJobs?: Prisma.V81AiReviewJobUncheckedUpdateManyWithoutMaterialNestedInput
   v81MaterialItem_packet?: Prisma.V81MaterialItemUncheckedUpdateManyWithoutPacketNestedInput
 }
 
@@ -518,6 +525,20 @@ export type V81MaterialVersionUncheckedUpdateManyWithoutScopedRecordNestedInput 
   deleteMany?: Prisma.V81MaterialVersionScalarWhereInput | Prisma.V81MaterialVersionScalarWhereInput[]
 }
 
+export type V81MaterialVersionCreateNestedOneWithoutAiReviewJobsInput = {
+  create?: Prisma.XOR<Prisma.V81MaterialVersionCreateWithoutAiReviewJobsInput, Prisma.V81MaterialVersionUncheckedCreateWithoutAiReviewJobsInput>
+  connectOrCreate?: Prisma.V81MaterialVersionCreateOrConnectWithoutAiReviewJobsInput
+  connect?: Prisma.V81MaterialVersionWhereUniqueInput
+}
+
+export type V81MaterialVersionUpdateOneRequiredWithoutAiReviewJobsNestedInput = {
+  create?: Prisma.XOR<Prisma.V81MaterialVersionCreateWithoutAiReviewJobsInput, Prisma.V81MaterialVersionUncheckedCreateWithoutAiReviewJobsInput>
+  connectOrCreate?: Prisma.V81MaterialVersionCreateOrConnectWithoutAiReviewJobsInput
+  upsert?: Prisma.V81MaterialVersionUpsertWithoutAiReviewJobsInput
+  connect?: Prisma.V81MaterialVersionWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.V81MaterialVersionUpdateToOneWithWhereWithoutAiReviewJobsInput, Prisma.V81MaterialVersionUpdateWithoutAiReviewJobsInput>, Prisma.V81MaterialVersionUncheckedUpdateWithoutAiReviewJobsInput>
+}
+
 export type V81MaterialVersionCreateNestedOneWithoutV81MaterialItem_packetInput = {
   create?: Prisma.XOR<Prisma.V81MaterialVersionCreateWithoutV81MaterialItem_packetInput, Prisma.V81MaterialVersionUncheckedCreateWithoutV81MaterialItem_packetInput>
   connectOrCreate?: Prisma.V81MaterialVersionCreateOrConnectWithoutV81MaterialItem_packetInput
@@ -536,6 +557,7 @@ export type V81MaterialVersionCreateWithoutOrganizationInput = {
   materialVersion: number
   acceptedAt: Date | string
   acceptedTransaction?: bigint | number
+  aiReviewJobs?: Prisma.V81AiReviewJobCreateNestedManyWithoutMaterialInput
   v81MaterialItem_packet?: Prisma.V81MaterialItemCreateNestedManyWithoutPacketInput
   record: Prisma.ExerciseRecordCreateNestedOneWithoutV81MaterialVersion_recordInput
   scopedRecord: Prisma.ExerciseRecordCreateNestedOneWithoutV81MaterialVersion_scopedRecordInput
@@ -546,6 +568,7 @@ export type V81MaterialVersionUncheckedCreateWithoutOrganizationInput = {
   materialVersion: number
   acceptedAt: Date | string
   acceptedTransaction?: bigint | number
+  aiReviewJobs?: Prisma.V81AiReviewJobUncheckedCreateNestedManyWithoutMaterialInput
   v81MaterialItem_packet?: Prisma.V81MaterialItemUncheckedCreateNestedManyWithoutPacketInput
 }
 
@@ -590,6 +613,7 @@ export type V81MaterialVersionCreateWithoutRecordInput = {
   materialVersion: number
   acceptedAt: Date | string
   acceptedTransaction?: bigint | number
+  aiReviewJobs?: Prisma.V81AiReviewJobCreateNestedManyWithoutMaterialInput
   v81MaterialItem_packet?: Prisma.V81MaterialItemCreateNestedManyWithoutPacketInput
   organization: Prisma.OrganizationCreateNestedOneWithoutV81MaterialVersion_organizationInput
   scopedRecord: Prisma.ExerciseRecordCreateNestedOneWithoutV81MaterialVersion_scopedRecordInput
@@ -600,6 +624,7 @@ export type V81MaterialVersionUncheckedCreateWithoutRecordInput = {
   materialVersion: number
   acceptedAt: Date | string
   acceptedTransaction?: bigint | number
+  aiReviewJobs?: Prisma.V81AiReviewJobUncheckedCreateNestedManyWithoutMaterialInput
   v81MaterialItem_packet?: Prisma.V81MaterialItemUncheckedCreateNestedManyWithoutPacketInput
 }
 
@@ -617,6 +642,7 @@ export type V81MaterialVersionCreateWithoutScopedRecordInput = {
   materialVersion: number
   acceptedAt: Date | string
   acceptedTransaction?: bigint | number
+  aiReviewJobs?: Prisma.V81AiReviewJobCreateNestedManyWithoutMaterialInput
   v81MaterialItem_packet?: Prisma.V81MaterialItemCreateNestedManyWithoutPacketInput
   organization: Prisma.OrganizationCreateNestedOneWithoutV81MaterialVersion_organizationInput
   record: Prisma.ExerciseRecordCreateNestedOneWithoutV81MaterialVersion_recordInput
@@ -626,6 +652,7 @@ export type V81MaterialVersionUncheckedCreateWithoutScopedRecordInput = {
   materialVersion: number
   acceptedAt: Date | string
   acceptedTransaction?: bigint | number
+  aiReviewJobs?: Prisma.V81AiReviewJobUncheckedCreateNestedManyWithoutMaterialInput
   v81MaterialItem_packet?: Prisma.V81MaterialItemUncheckedCreateNestedManyWithoutPacketInput
 }
 
@@ -671,10 +698,65 @@ export type V81MaterialVersionUpdateManyWithWhereWithoutScopedRecordInput = {
   data: Prisma.XOR<Prisma.V81MaterialVersionUpdateManyMutationInput, Prisma.V81MaterialVersionUncheckedUpdateManyWithoutScopedRecordInput>
 }
 
+export type V81MaterialVersionCreateWithoutAiReviewJobsInput = {
+  materialVersion: number
+  acceptedAt: Date | string
+  acceptedTransaction?: bigint | number
+  v81MaterialItem_packet?: Prisma.V81MaterialItemCreateNestedManyWithoutPacketInput
+  organization: Prisma.OrganizationCreateNestedOneWithoutV81MaterialVersion_organizationInput
+  record: Prisma.ExerciseRecordCreateNestedOneWithoutV81MaterialVersion_recordInput
+  scopedRecord: Prisma.ExerciseRecordCreateNestedOneWithoutV81MaterialVersion_scopedRecordInput
+}
+
+export type V81MaterialVersionUncheckedCreateWithoutAiReviewJobsInput = {
+  recordId: string
+  organizationId: string
+  materialVersion: number
+  acceptedAt: Date | string
+  acceptedTransaction?: bigint | number
+  v81MaterialItem_packet?: Prisma.V81MaterialItemUncheckedCreateNestedManyWithoutPacketInput
+}
+
+export type V81MaterialVersionCreateOrConnectWithoutAiReviewJobsInput = {
+  where: Prisma.V81MaterialVersionWhereUniqueInput
+  create: Prisma.XOR<Prisma.V81MaterialVersionCreateWithoutAiReviewJobsInput, Prisma.V81MaterialVersionUncheckedCreateWithoutAiReviewJobsInput>
+}
+
+export type V81MaterialVersionUpsertWithoutAiReviewJobsInput = {
+  update: Prisma.XOR<Prisma.V81MaterialVersionUpdateWithoutAiReviewJobsInput, Prisma.V81MaterialVersionUncheckedUpdateWithoutAiReviewJobsInput>
+  create: Prisma.XOR<Prisma.V81MaterialVersionCreateWithoutAiReviewJobsInput, Prisma.V81MaterialVersionUncheckedCreateWithoutAiReviewJobsInput>
+  where?: Prisma.V81MaterialVersionWhereInput
+}
+
+export type V81MaterialVersionUpdateToOneWithWhereWithoutAiReviewJobsInput = {
+  where?: Prisma.V81MaterialVersionWhereInput
+  data: Prisma.XOR<Prisma.V81MaterialVersionUpdateWithoutAiReviewJobsInput, Prisma.V81MaterialVersionUncheckedUpdateWithoutAiReviewJobsInput>
+}
+
+export type V81MaterialVersionUpdateWithoutAiReviewJobsInput = {
+  materialVersion?: Prisma.IntFieldUpdateOperationsInput | number
+  acceptedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  acceptedTransaction?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  v81MaterialItem_packet?: Prisma.V81MaterialItemUpdateManyWithoutPacketNestedInput
+  organization?: Prisma.OrganizationUpdateOneRequiredWithoutV81MaterialVersion_organizationNestedInput
+  record?: Prisma.ExerciseRecordUpdateOneRequiredWithoutV81MaterialVersion_recordNestedInput
+  scopedRecord?: Prisma.ExerciseRecordUpdateOneRequiredWithoutV81MaterialVersion_scopedRecordNestedInput
+}
+
+export type V81MaterialVersionUncheckedUpdateWithoutAiReviewJobsInput = {
+  recordId?: Prisma.StringFieldUpdateOperationsInput | string
+  organizationId?: Prisma.StringFieldUpdateOperationsInput | string
+  materialVersion?: Prisma.IntFieldUpdateOperationsInput | number
+  acceptedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  acceptedTransaction?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  v81MaterialItem_packet?: Prisma.V81MaterialItemUncheckedUpdateManyWithoutPacketNestedInput
+}
+
 export type V81MaterialVersionCreateWithoutV81MaterialItem_packetInput = {
   materialVersion: number
   acceptedAt: Date | string
   acceptedTransaction?: bigint | number
+  aiReviewJobs?: Prisma.V81AiReviewJobCreateNestedManyWithoutMaterialInput
   organization: Prisma.OrganizationCreateNestedOneWithoutV81MaterialVersion_organizationInput
   record: Prisma.ExerciseRecordCreateNestedOneWithoutV81MaterialVersion_recordInput
   scopedRecord: Prisma.ExerciseRecordCreateNestedOneWithoutV81MaterialVersion_scopedRecordInput
@@ -686,6 +768,7 @@ export type V81MaterialVersionUncheckedCreateWithoutV81MaterialItem_packetInput 
   materialVersion: number
   acceptedAt: Date | string
   acceptedTransaction?: bigint | number
+  aiReviewJobs?: Prisma.V81AiReviewJobUncheckedCreateNestedManyWithoutMaterialInput
 }
 
 export type V81MaterialVersionCreateOrConnectWithoutV81MaterialItem_packetInput = {
@@ -708,6 +791,7 @@ export type V81MaterialVersionUpdateWithoutV81MaterialItem_packetInput = {
   materialVersion?: Prisma.IntFieldUpdateOperationsInput | number
   acceptedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   acceptedTransaction?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  aiReviewJobs?: Prisma.V81AiReviewJobUpdateManyWithoutMaterialNestedInput
   organization?: Prisma.OrganizationUpdateOneRequiredWithoutV81MaterialVersion_organizationNestedInput
   record?: Prisma.ExerciseRecordUpdateOneRequiredWithoutV81MaterialVersion_recordNestedInput
   scopedRecord?: Prisma.ExerciseRecordUpdateOneRequiredWithoutV81MaterialVersion_scopedRecordNestedInput
@@ -719,6 +803,7 @@ export type V81MaterialVersionUncheckedUpdateWithoutV81MaterialItem_packetInput 
   materialVersion?: Prisma.IntFieldUpdateOperationsInput | number
   acceptedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   acceptedTransaction?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  aiReviewJobs?: Prisma.V81AiReviewJobUncheckedUpdateManyWithoutMaterialNestedInput
 }
 
 export type V81MaterialVersionCreateManyOrganizationInput = {
@@ -732,6 +817,7 @@ export type V81MaterialVersionUpdateWithoutOrganizationInput = {
   materialVersion?: Prisma.IntFieldUpdateOperationsInput | number
   acceptedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   acceptedTransaction?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  aiReviewJobs?: Prisma.V81AiReviewJobUpdateManyWithoutMaterialNestedInput
   v81MaterialItem_packet?: Prisma.V81MaterialItemUpdateManyWithoutPacketNestedInput
   record?: Prisma.ExerciseRecordUpdateOneRequiredWithoutV81MaterialVersion_recordNestedInput
   scopedRecord?: Prisma.ExerciseRecordUpdateOneRequiredWithoutV81MaterialVersion_scopedRecordNestedInput
@@ -742,6 +828,7 @@ export type V81MaterialVersionUncheckedUpdateWithoutOrganizationInput = {
   materialVersion?: Prisma.IntFieldUpdateOperationsInput | number
   acceptedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   acceptedTransaction?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  aiReviewJobs?: Prisma.V81AiReviewJobUncheckedUpdateManyWithoutMaterialNestedInput
   v81MaterialItem_packet?: Prisma.V81MaterialItemUncheckedUpdateManyWithoutPacketNestedInput
 }
 
@@ -769,6 +856,7 @@ export type V81MaterialVersionUpdateWithoutRecordInput = {
   materialVersion?: Prisma.IntFieldUpdateOperationsInput | number
   acceptedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   acceptedTransaction?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  aiReviewJobs?: Prisma.V81AiReviewJobUpdateManyWithoutMaterialNestedInput
   v81MaterialItem_packet?: Prisma.V81MaterialItemUpdateManyWithoutPacketNestedInput
   organization?: Prisma.OrganizationUpdateOneRequiredWithoutV81MaterialVersion_organizationNestedInput
   scopedRecord?: Prisma.ExerciseRecordUpdateOneRequiredWithoutV81MaterialVersion_scopedRecordNestedInput
@@ -779,6 +867,7 @@ export type V81MaterialVersionUncheckedUpdateWithoutRecordInput = {
   materialVersion?: Prisma.IntFieldUpdateOperationsInput | number
   acceptedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   acceptedTransaction?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  aiReviewJobs?: Prisma.V81AiReviewJobUncheckedUpdateManyWithoutMaterialNestedInput
   v81MaterialItem_packet?: Prisma.V81MaterialItemUncheckedUpdateManyWithoutPacketNestedInput
 }
 
@@ -793,6 +882,7 @@ export type V81MaterialVersionUpdateWithoutScopedRecordInput = {
   materialVersion?: Prisma.IntFieldUpdateOperationsInput | number
   acceptedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   acceptedTransaction?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  aiReviewJobs?: Prisma.V81AiReviewJobUpdateManyWithoutMaterialNestedInput
   v81MaterialItem_packet?: Prisma.V81MaterialItemUpdateManyWithoutPacketNestedInput
   organization?: Prisma.OrganizationUpdateOneRequiredWithoutV81MaterialVersion_organizationNestedInput
   record?: Prisma.ExerciseRecordUpdateOneRequiredWithoutV81MaterialVersion_recordNestedInput
@@ -802,6 +892,7 @@ export type V81MaterialVersionUncheckedUpdateWithoutScopedRecordInput = {
   materialVersion?: Prisma.IntFieldUpdateOperationsInput | number
   acceptedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   acceptedTransaction?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  aiReviewJobs?: Prisma.V81AiReviewJobUncheckedUpdateManyWithoutMaterialNestedInput
   v81MaterialItem_packet?: Prisma.V81MaterialItemUncheckedUpdateManyWithoutPacketNestedInput
 }
 
@@ -817,10 +908,12 @@ export type V81MaterialVersionUncheckedUpdateManyWithoutScopedRecordInput = {
  */
 
 export type V81MaterialVersionCountOutputType = {
+  aiReviewJobs: number
   v81MaterialItem_packet: number
 }
 
 export type V81MaterialVersionCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  aiReviewJobs?: boolean | V81MaterialVersionCountOutputTypeCountAiReviewJobsArgs
   v81MaterialItem_packet?: boolean | V81MaterialVersionCountOutputTypeCountV81MaterialItem_packetArgs
 }
 
@@ -837,6 +930,13 @@ export type V81MaterialVersionCountOutputTypeDefaultArgs<ExtArgs extends runtime
 /**
  * V81MaterialVersionCountOutputType without action
  */
+export type V81MaterialVersionCountOutputTypeCountAiReviewJobsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.V81AiReviewJobWhereInput
+}
+
+/**
+ * V81MaterialVersionCountOutputType without action
+ */
 export type V81MaterialVersionCountOutputTypeCountV81MaterialItem_packetArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.V81MaterialItemWhereInput
 }
@@ -848,6 +948,7 @@ export type V81MaterialVersionSelect<ExtArgs extends runtime.Types.Extensions.In
   materialVersion?: boolean
   acceptedAt?: boolean
   acceptedTransaction?: boolean
+  aiReviewJobs?: boolean | Prisma.V81MaterialVersion$aiReviewJobsArgs<ExtArgs>
   v81MaterialItem_packet?: boolean | Prisma.V81MaterialVersion$v81MaterialItem_packetArgs<ExtArgs>
   organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
   record?: boolean | Prisma.ExerciseRecordDefaultArgs<ExtArgs>
@@ -887,6 +988,7 @@ export type V81MaterialVersionSelectScalar = {
 
 export type V81MaterialVersionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"recordId" | "organizationId" | "materialVersion" | "acceptedAt" | "acceptedTransaction", ExtArgs["result"]["v81MaterialVersion"]>
 export type V81MaterialVersionInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  aiReviewJobs?: boolean | Prisma.V81MaterialVersion$aiReviewJobsArgs<ExtArgs>
   v81MaterialItem_packet?: boolean | Prisma.V81MaterialVersion$v81MaterialItem_packetArgs<ExtArgs>
   organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
   record?: boolean | Prisma.ExerciseRecordDefaultArgs<ExtArgs>
@@ -907,6 +1009,7 @@ export type V81MaterialVersionIncludeUpdateManyAndReturn<ExtArgs extends runtime
 export type $V81MaterialVersionPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "V81MaterialVersion"
   objects: {
+    aiReviewJobs: Prisma.$V81AiReviewJobPayload<ExtArgs>[]
     v81MaterialItem_packet: Prisma.$V81MaterialItemPayload<ExtArgs>[]
     organization: Prisma.$OrganizationPayload<ExtArgs>
     record: Prisma.$ExerciseRecordPayload<ExtArgs>
@@ -1312,6 +1415,7 @@ readonly fields: V81MaterialVersionFieldRefs;
  */
 export interface Prisma__V81MaterialVersionClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  aiReviewJobs<T extends Prisma.V81MaterialVersion$aiReviewJobsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.V81MaterialVersion$aiReviewJobsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$V81AiReviewJobPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   v81MaterialItem_packet<T extends Prisma.V81MaterialVersion$v81MaterialItem_packetArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.V81MaterialVersion$v81MaterialItem_packetArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$V81MaterialItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   organization<T extends Prisma.OrganizationDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.OrganizationDefaultArgs<ExtArgs>>): Prisma.Prisma__OrganizationClient<runtime.Types.Result.GetResult<Prisma.$OrganizationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   record<T extends Prisma.ExerciseRecordDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ExerciseRecordDefaultArgs<ExtArgs>>): Prisma.Prisma__ExerciseRecordClient<runtime.Types.Result.GetResult<Prisma.$ExerciseRecordPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
@@ -1748,6 +1852,30 @@ export type V81MaterialVersionDeleteManyArgs<ExtArgs extends runtime.Types.Exten
    * Limit how many V81MaterialVersions to delete.
    */
   limit?: number
+}
+
+/**
+ * V81MaterialVersion.aiReviewJobs
+ */
+export type V81MaterialVersion$aiReviewJobsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the V81AiReviewJob
+   */
+  select?: Prisma.V81AiReviewJobSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the V81AiReviewJob
+   */
+  omit?: Prisma.V81AiReviewJobOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.V81AiReviewJobInclude<ExtArgs> | null
+  where?: Prisma.V81AiReviewJobWhereInput
+  orderBy?: Prisma.V81AiReviewJobOrderByWithRelationInput | Prisma.V81AiReviewJobOrderByWithRelationInput[]
+  cursor?: Prisma.V81AiReviewJobWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.V81AiReviewJobScalarFieldEnum | Prisma.V81AiReviewJobScalarFieldEnum[]
 }
 
 /**

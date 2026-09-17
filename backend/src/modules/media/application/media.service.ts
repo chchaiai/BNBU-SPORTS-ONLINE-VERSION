@@ -1,3 +1,4 @@
+import {processedVideoKey} from './video-normalizer.js';
 import {isHistoricalSession} from '../../v8/v81-history-backfill.js';
 import { Inject, Injectable } from '@nestjs/common';
 import { exerciseUploadWindow } from '../../v8/v81-upload-window.js';
@@ -180,7 +181,8 @@ export class MediaService {
       storageKey: reservation.value.storageKey,
       contentType: reservation.value.declaredMimeType,
       contentLength: reservation.value.declaredFileSizeBytes,
-      expiresInSeconds: config.uploadUrlTtlSeconds,
+      expiresInSeconds: Math.max(1, Math.min(config.uploadUrlTtlSeconds,
+        Math.floor((reservation.value.capabilityExpiresAt.getTime() - this.clock.now().getTime()) / 1000))),
     });
     const response: MediaUploadSessionProjection = {
       uploadSessionId: reservation.value.uploadSessionId,
@@ -251,15 +253,7 @@ export class MediaService {
     const media = await this.prisma.mediaEvidence.findUniqueOrThrow({
       where: { id: reservation.value.mediaId },
     });
-    if (reservation.value.capabilityExpiresAt <= this.clock.now()) {
-      return this.completeFailedConfirmation(
-        reservation,
-        principal,
-        media,
-        context.requestId,
-        new ApplicationError('MEDIA_UPLOAD_SESSION_EXPIRED', 410),
-      );
-    }
+    // Signed PUT expiry limits new object writes, not confirmation of bytes already stored.
     let verified: VerifiedMediaFacts;
     let observedEntityTag: string | null = null;
     try {
@@ -274,12 +268,17 @@ export class MediaService {
       ) {
         throw new ApplicationError('MEDIA_INTEGRITY_MISMATCH', 422);
       }
-      verified = await this.validator.readAndVerify(
+      verified = await (media.mediaType === 'VIDEO' ? this.validator.readRawVideo.bind(this.validator) : this.validator.readAndVerify.bind(this.validator))(
         await this.storage.getPrivateObject(media.storageKey),
         this.declaredFactsFromMedia(media),
         config,
       );
     } catch (error: unknown) {
+      if (error instanceof ApplicationError && error.code === 'MEDIA_OBJECT_NOT_FOUND' &&
+          reservation.value.capabilityExpiresAt <= this.clock.now()) {
+        return this.completeFailedConfirmation(reservation,principal,media,context.requestId,
+          new ApplicationError('MEDIA_UPLOAD_SESSION_EXPIRED',410));
+      }
       if (error instanceof ApplicationError && this.isDeterministicIntegrityFailure(error)) {
         return this.completeFailedConfirmation(
           reservation,
@@ -518,7 +517,7 @@ export class MediaService {
     }
     const expiresAt = new Date(this.clock.now().getTime() + config.accessUrlTtlSeconds * 1000);
     const accessUrl = await this.storage.createAccessUrl({
-      storageKey: media.storageKey,
+      storageKey: media.mediaType === 'VIDEO' && (media.safeMetadata as Record<string, unknown>)?.normalized === 1 ? processedVideoKey(media.storageKey) : media.storageKey,
       contentType: media.verifiedMimeType,
       expiresInSeconds: config.accessUrlTtlSeconds,
     });
@@ -575,15 +574,46 @@ export class MediaService {
     const target = await this.resolveInitiationTarget(transaction, principal, input);
     if (target.kind === 'FAILURE') return target.failure;
     const now = this.clock.now();
-    await this.expirePendingUploads(
-      transaction,
-      target,
-      input.mediaType,
-      principal.userId,
-      requestId,
-      now,
-    );
     const window = target.sessionId === null ? null : await exerciseUploadWindow(transaction, target.sessionId, now);
+    // A lost/denied object PUT must not reserve a second slot for the same bytes.
+    // Only renew an unconfirmed, unfrozen upload owned by this student/session.
+    if (input.declaredContentSha256) {
+      const pending = await transaction.mediaEvidence.findFirst({
+        where: {
+          organizationId: principal.organizationId,
+          initiatedByUserId: principal.userId,
+          ownerStudentId: target.studentId,
+          sessionId: target.sessionId,
+          enrollmentId: target.enrollmentId,
+          businessPurpose: input.businessPurpose,
+          mediaType: input.mediaType,
+          captureSource: input.captureSource,
+          declaredMimeType: input.mimeType,
+          declaredFileSizeBytes: BigInt(input.fileSizeBytes),
+          declaredContentSha256: input.declaredContentSha256,
+          declaredDurationSeconds: input.durationSeconds ?? null,
+          uploadStatus: 'PENDING_UPLOAD',
+          ...(window?.frozenMediaIds.length ? { id: { notIn: window.frozenMediaIds } } : {}),
+          uploadSession: { is: { status: 'ACTIVE' } },
+        },
+        include: { uploadSession: true },
+        orderBy: { createdAt: 'asc' },
+      });
+      if (pending?.uploadSession) {
+        const capabilityExpiresAt = pending.uploadSession.capabilityExpiresAt > now ? pending.uploadSession.capabilityExpiresAt : new Date(now.getTime() + config.uploadUrlTtlSeconds * 1000);
+        if (capabilityExpiresAt > pending.uploadSession.capabilityExpiresAt)
+          await transaction.mediaUploadSession.update({where:{id:pending.uploadSession.id},data:{capabilityExpiresAt,updatedAt:now,version:{increment:1}}});
+        return this.idempotency.stage({
+          mediaId: pending.id,
+          uploadSessionId: pending.uploadSession.id,
+          storageKey: pending.storageKey,
+          declaredMimeType: pending.declaredMimeType,
+          declaredFileSizeBytes: Number(pending.declaredFileSizeBytes),
+          capabilityExpiresAt,
+        }, { resourceType: 'MEDIA_EVIDENCE', resourceId: pending.id });
+      }
+    }
+    await this.expirePendingUploads(transaction,target,input.mediaType,principal.userId,requestId,now);
     const activeCount = await transaction.mediaEvidence.count({
       where: {
         ...(window?.frozenMediaIds.length ? { id: { notIn: window.frozenMediaIds } } : {}),
@@ -706,6 +736,12 @@ export class MediaService {
       },
     });
     for (const media of expired) {
+      // Never expire an uploaded object merely because its temporary PUT capability ended.
+      // An unavailable storage provider cannot prove absence and must not discard the reservation.
+      try { await this.storage.headPrivateObject(media.storageKey); continue; }
+      catch (error) {
+        if (!(error instanceof ApplicationError) || error.code !== 'MEDIA_OBJECT_NOT_FOUND') throw error;
+      }
       const updated = await transaction.mediaEvidence.update({
         where: { id: media.id, version: media.version, uploadStatus: 'PENDING_UPLOAD' },
         data: {

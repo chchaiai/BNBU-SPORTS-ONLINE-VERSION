@@ -1,0 +1,12 @@
+{
+  "result": "PASS",
+  "release": "/opt/bnbu-sports-production/releases/student-origin-20260916",
+  "previous": "/opt/bnbu-sports-production/releases/course-settings-final-20260915",
+  "imageId": "sha256:7d8b2c294ee13f0fabfbded319df9daf5063a0ba181dad2750b0c4462ba5c51f",
+  "sourceCommit": "e6c2032f141135361b6cc1c57ad2336fbdf90ba2",
+  "backendUnchanged": true,
+  "verifiedPublicAssets": 9,
+  "studentModuleHashes": "PASS",
+  "candidateHealthy": true,
+  "migrationExecuted": false
+}

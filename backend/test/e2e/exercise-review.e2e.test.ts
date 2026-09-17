@@ -226,6 +226,35 @@ describe('ExerciseReview HTTP E2E', () => {
     );
   });
 
+  it('exposes only current AI advice to the responsible teacher, filters it, and never decides the review', async () => {
+    const seeded = await seedSubmittedExerciseRecord(prisma, fixture, 'AI-HTTP');
+    const recordId=seeded.recordId, organizationId=fixture.organizationId;
+    await prisma.v81RecordWorkflow.create({data:{recordId,organizationId,stage:'PENDING_TEACHER'}});
+    await prisma.v81MaterialVersion.create({data:{recordId,organizationId,materialVersion:1,acceptedAt:new Date()}});
+    await prisma.v81AiReviewJob.create({data:{id:uuidv7(),recordId,organizationId,materialVersion:1,status:'SUCCEEDED',
+      recommendation:'SUSPECTED_RISK',flags:['EXACT_DUPLICATE'],completedAt:new Date()}});
+    const teacher=await login(fixture.teacherEmail), other=await login(fixture.teacherBEmail), student=await studentToken(seeded.studentUserId);
+    const path=`/api/v1/exercise-records/${recordId}`;
+    const detail=await request(path,authenticated(teacher));
+    assert.equal(detail.status,200,JSON.stringify(detail.body));
+    assert.equal(object(object(detail.body.data).aiReview).recommendation,'SUSPECTED_RISK');
+    assert.equal((await request(path,authenticated(other))).status,404);
+    const own=await request(path,authenticated(student));
+    assert.equal(own.status,200); assert.equal(object(own.body.data).aiReview,undefined);
+    assert.equal((await request('/api/v1/exercise-records?aiReview=SUSPECTED_RISK',authenticated(student))).status,403);
+    const filtered=await request('/api/v1/exercise-records?aiReview=SUSPECTED_RISK',authenticated(teacher));
+    assert.equal(filtered.status,200,JSON.stringify(filtered.body));
+    assert.deepEqual((filtered.body.data as {id:string}[]).map(item=>item.id),[recordId]);
+    const empty=await request('/api/v1/exercise-records?aiReview=SUGGEST_PASS',authenticated(teacher));
+    assert.deepEqual(empty.body.data,[]);
+    assert.deepEqual((await prisma.reviewRecord.findMany({where:{recordId}})).map(row=>row.result),['PENDING']);
+    // A new material version must immediately hide the older risk recommendation.
+    await prisma.v81MaterialVersion.create({data:{recordId,organizationId,materialVersion:2,acceptedAt:new Date()}});
+    await prisma.v81RecordWorkflow.update({where:{recordId},data:{materialVersion:2}});
+    assert.equal(object((await request(path,authenticated(teacher))).body.data).aiReview,null);
+    assert.deepEqual((await request('/api/v1/exercise-records?aiReview=SUSPECTED_RISK',authenticated(teacher))).body.data,[]);
+  });
+
   it('appends VALID, lists history, reopens, and appends INVALID without changing duration facts', async () => {
     const seeded = await seedSubmittedExerciseRecord(prisma, fixture, 'FLOW');
     const teacher = await login(fixture.teacherEmail);

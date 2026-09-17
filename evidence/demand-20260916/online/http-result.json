@@ -1,0 +1,67 @@
+{
+  "checks": [
+    {
+      "requirement": 12,
+      "path": "/me/student-profile",
+      "status": 422,
+      "code": "USER_PROFILE_INVALID",
+      "requestId": "013dce56-3ce0-4fc5-a77b-7e3d94bc45d9"
+    },
+    {
+      "requirement": 12,
+      "path": "/me/student-profile",
+      "status": 422,
+      "code": "USER_PROFILE_INVALID",
+      "requestId": "e8751fe0-32ac-4090-b30f-f4b01c4d41e4"
+    },
+    {
+      "requirement": [
+        18,
+        22
+      ],
+      "result": "PASS",
+      "confirmedOnce": true,
+      "adminCorrectionPreservesLock": true
+    },
+    {
+      "requirement": 12,
+      "path": "/me/email-verification-challenges",
+      "status": 422,
+      "code": "VALIDATION_FAILED",
+      "requestId": "6e498e4e-468c-4a1d-ac99-45abaa7a36c2"
+    },
+    {
+      "requirement": 14,
+      "result": "PASS",
+      "invalidNewBindingRejectedBeforeMail": true
+    },
+    {
+      "requirement": 12,
+      "path": "/class-sections/01a0a941-ae35-7753-bbdf-bf545ccb5aaf",
+      "status": 409,
+      "code": "CONFLICT_STATE_TRANSITION",
+      "requestId": "7d16968a-1daf-4da9-b115-6b6058f07de7"
+    },
+    {
+      "requirement": 16,
+      "result": "PASS",
+      "publishedScheduleMutationRejected": true
+    },
+    {
+      "requirement": 12,
+      "path": "/health/admin/outbox",
+      "status": 403,
+      "code": "PERMISSION_RESOURCE_SCOPE_DENIED",
+      "requestId": "115ad80d-98d1-4cdb-bac7-d0badacf253a"
+    },
+    {
+      "requirement": 21,
+      "result": "PASS",
+      "pagination": true,
+      "filter": true,
+      "countMatchesHealth": true,
+      "teacherDenied": true
+    }
+  ],
+  "completed": true
+}

@@ -15,6 +15,10 @@ import {
 } from 'class-validator';
 
 export class CompleteStudentProfileDto {
+  @ValidateIf((_o,v:unknown)=>v!==undefined) @IsString() @Length(1,32) studentNumber?: string;
+  @ValidateIf((_o,v:unknown)=>v!==undefined) @IsString() @Length(1,100) fullName?: string;
+  @ValidateIf((_o,v:unknown)=>v!==undefined) @IsIn(['MALE','FEMALE','OTHER']) gender?: string;
+  @ValidateIf((_o,v:unknown)=>v!==undefined) @IsInt() @Min(1900) @Max(9999) gradeYear?: number;
   @Transform(({value}: {value: unknown}) => typeof value === 'string' ? value.trim() : value) @IsIn(['FBM','FHSS','FST','SCC','SAI','SGE','GS']) collegeName!: string;
   @Transform(({value}: {value: unknown}) => typeof value === 'string' ? value.trim() : value) @IsString() @Length(1,200) majorName!: string;
   @IsString() @Length(10,10) dateOfBirth!: string;
@@ -111,6 +115,8 @@ export class VerifyEmailChallengeRequestDto {
 }
 
 export class UpdateStudentRequestDto {
+  @ValidateIf((_o,v:unknown)=>v!==undefined) @Transform(trim) @IsString() @Length(1,200) majorCorrectionReason?: string;
+  @ValidateIf((_o,v:unknown)=>v!==undefined) @Transform(trim) @IsString() @Length(1,200) profileUpdateReason?: string;
   @ValidateIf((_object, value: unknown) => value !== undefined)
   @Transform(trim)
   @IsString()

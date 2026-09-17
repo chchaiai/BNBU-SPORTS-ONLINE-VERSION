@@ -48,9 +48,9 @@ export class V81RulesInput {
   @Type(() => Number) @IsInt() @Min(1) @Max(2147483647) dailyLimit = 1;
   @Type(() => Number) @IsInt() @Min(0) courseTarget!: number;
   @Type(() => Number) @IsInt() @Min(0) generalTarget!: number;
-  @IsISO8601({ strict: true }) regularDeadline!: string;
-  @IsISO8601({ strict: true }) closingDeadline!: string;
-  @IsISO8601({ strict: true }) settlementPlannedAt!: string;
+  @ValidateIf((_object, value: unknown) => value !== undefined) @IsISO8601({ strict: true }) regularDeadline?: string;
+  @ValidateIf((_object, value: unknown) => value !== undefined) @IsISO8601({ strict: true }) closingDeadline?: string;
+  @ValidateIf((_object, value: unknown) => value !== undefined) @IsISO8601({ strict: true }) settlementPlannedAt?: string;
   @IsBoolean() publish!: boolean;
   @Type(() => Number) @IsInt() @Min(0) expectedVersion!: number;
 }

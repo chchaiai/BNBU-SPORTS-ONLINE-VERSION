@@ -464,6 +464,28 @@ ADR-058 已确认：ExerciseRecord 提交前，所有必需媒体必须为 `AVAI
 | `V81SemesterTerm` | `SECOND` | 学期学段：`SECOND` | 见所属业务状态机 | `enum.v81SemesterTerm.SECOND` | 否 |
 | `V81SemesterTerm` | `SUMMER` | 学期学段：`SUMMER` | 见所属业务状态机 | `enum.v81SemesterTerm.SUMMER` | 否 |
 
+### AI 第一期建议枚举（2026-09-17）
+
+依据 demand.md：只提供建议，不改变教师最终审核事实。
+
+| 枚举类型 | 枚举值 | 业务含义 | 是否终态 | 客户端国际化 Key | 是否已废弃 |
+|---|---|---|---|---|---|
+| `AiReviewJobStatus` | `QUEUED` | 等待初审 | 不适用 | `enum.aiReviewJobStatus.queued` | 否 |
+| `AiReviewJobStatus` | `RUNNING` | 正在初审 | 不适用 | `enum.aiReviewJobStatus.running` | 否 |
+| `AiReviewJobStatus` | `SUCCEEDED` | 已生成建议 | 是 | `enum.aiReviewJobStatus.succeeded` | 否 |
+| `AiReviewJobStatus` | `FAILED` | 暂不可用，教师可继续审核 | 是 | `enum.aiReviewJobStatus.failed` | 否 |
+| `AiReviewJobStatus` | `SUPERSEDED` | 已被新材料版本替代 | 是 | `enum.aiReviewJobStatus.superseded` | 否 |
+| `AiRecommendation` | `SUGGEST_PASS` | 建议通过 | 不适用 | `enum.aiRecommendation.suggestPass` | 否 |
+| `AiRecommendation` | `TEACHER_REVIEW` | 需要教师复核 | 不适用 | `enum.aiRecommendation.teacherReview` | 否 |
+| `AiRecommendation` | `SUSPECTED_RISK` | 疑似异常或违规 | 不适用 | `enum.aiRecommendation.suspectedRisk` | 否 |
+| `AiRiskFlag` | `UNSAFE_CONTENT` | 内容安全风险 | 不适用 | `enum.aiRiskFlag.unsafeContent` | 否 |
+| `AiRiskFlag` | `NO_EXERCISE` | 未发现明确运动 | 不适用 | `enum.aiRiskFlag.noExercise` | 否 |
+| `AiRiskFlag` | `SPORT_MISMATCH` | 项目可能不符 | 不适用 | `enum.aiRiskFlag.sportMismatch` | 否 |
+| `AiRiskFlag` | `EXACT_DUPLICATE` | 相同材料需核实 | 不适用 | `enum.aiRiskFlag.exactDuplicate` | 否 |
+| `AiRiskFlag` | `POSSIBLE_DUPLICATE` | 疑似相似，预留值 | 不适用 | `enum.aiRiskFlag.possibleDuplicate` | 否 |
+| `AiRiskFlag` | `INSUFFICIENT_EVIDENCE` | 证据不足或无法判断 | 不适用 | `enum.aiRiskFlag.insufficientEvidence` | 否 |
+| `AiRiskFlag` | `VIDEO_SAMPLED` | 视频抽帧，未检查音频或间隔画面 | 不适用 | `enum.aiRiskFlag.videoSampled` | 否 |
+
 ## 5. 废弃枚举与迁移别名
 
 下表值**不是当前枚举成员**，新 OpenAPI 不得接受。兼容 adapter 在 F1–F5 可读取并映射，F6 移除；无法无歧义映射的值必须进入迁移异常报告。

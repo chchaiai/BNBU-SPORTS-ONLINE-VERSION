@@ -78,4 +78,10 @@ export const migrationIds = [
   '0076_notification_review_content',
   '0077_credit_projection_minutes',
   '0078_admin_maintenance_access',
+  '0079_server_video_normalization',
+  '0080_published_course_daily_window',
+  '0081_media_capability_renewal',
+  '0082_exercise_date_boundaries',
+  '0083_ai_review_advisory',
+  '0084_ai_review_decisions',
 ];

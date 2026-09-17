@@ -1,3 +1,5 @@
+import { PrismaService } from '../database/prisma.service.js';
+import { assertProfileReady } from '../../modules/users/application/student-profile-quality.js';
 import { CanActivate, ExecutionContext, Injectable, Optional } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 
@@ -77,6 +79,7 @@ export class AccessPolicyGuard implements CanActivate {
     @Optional() private readonly exerciseSessionPolicy?: ExerciseSessionPolicyResolver,
     @Optional() private readonly mediaPolicy?: MediaPolicyResolver,
     @Optional() private readonly exerciseRecordPolicy?: ExerciseRecordPolicyResolver,
+    @Optional() private readonly prisma?: PrismaService,
   ) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
@@ -182,6 +185,11 @@ export class AccessPolicyGuard implements CanActivate {
         invariant: 'PROTECTED_ORGANIZATION_SCOPE_INVALID',
         operationId,
       });
+    }
+
+    if(principal.role==='STUDENT' && ['startExerciseSession','createV81HistoricalSession','createExerciseRecordDraft','submitExerciseRecord','issueMemberJoinCapability'].includes(operationId)) {
+      if(!this.prisma) throw new ApplicationError('SYSTEM_DATA_INTEGRITY_ERROR',500);
+      await assertProfileReady(this.prisma,principal.organizationId,principal.userId);
     }
 
     if (policy.resourceResolver === 'ENROLLMENT_LIST_SCOPE') {

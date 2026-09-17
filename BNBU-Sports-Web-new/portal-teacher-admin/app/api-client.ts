@@ -149,7 +149,7 @@ export class ApiError extends Error {
       details?: Record<string, unknown>;
       requestId?: string;
     } | null,
-    context: { method?: string; route?: string } = {},
+    context: { method?: string; route?: string; requestId?: string } = {},
   ) {
     // Never retain a server-provided message on the public Error object. UI
     // must render the allowlisted UserFacingError projection below.
@@ -158,20 +158,21 @@ export class ApiError extends Error {
     this.status = status;
     this.code = body?.code || "UNKNOWN";
     this.details = body?.details || {};
-    this.requestId = body?.requestId || null;
+    this.requestId = body?.requestId || context.requestId || uuid();
     this.method = context.method ?? null;
     this.route = context.route ?? null;
   }
 }
 
 export class ClientTransportError extends Error {
+  requestId: string;
   method: string | null;
   route: string | null;
   cause: unknown;
 
   constructor(
     cause: unknown,
-    context: { method?: string; route?: string } = {},
+    context: { method?: string; route?: string; requestId?: string } = {},
   ) {
     // Browser/network implementations may include URLs or internal details in
     // their message. Preserve only the timeout kind for safe categorisation.
@@ -182,6 +183,7 @@ export class ClientTransportError extends Error {
     this.method = context.method ?? null;
     this.route = context.route ?? null;
     this.cause = cause;
+    this.requestId = context.requestId || uuid();
   }
 }
 
@@ -520,6 +522,17 @@ export function logSafeClientError(error: unknown, model: UserFacingError): void
   }
 }
 
+const clientDiagnosticIds = new WeakMap<object,string>();
+function clientDiagnosticId(error:unknown):string {
+  if (!error || typeof error !== 'object') return uuid();
+  if (!clientDiagnosticIds.has(error)) clientDiagnosticIds.set(error,uuid());
+  return clientDiagnosticIds.get(error)!;
+}
+
+export function formatUserFacingError(error:unknown,locale:'zh'|'en'=typeof document!=='undefined'&&document.documentElement.lang.startsWith('en')?'en':'zh'):string {
+  return apiErrorText(error,locale);
+}
+
 export function toUserFacingError(
   error: unknown,
   locale: "zh" | "en" = "zh",
@@ -563,10 +576,10 @@ export function toUserFacingError(
   const code = error instanceof ApiError && /^[A-Z][A-Z0-9_]{0,79}$/.test(error.code)
     ? error.code
     : category === "NETWORK" ? "NETWORK_UNAVAILABLE" : category === "TIMEOUT" ? "NETWORK_TIMEOUT" : "UNKNOWN";
-  const requestId = error instanceof ApiError &&
+  const requestId = (error instanceof ApiError || error instanceof ClientTransportError) &&
     typeof error.requestId === "string" && /^[A-Za-z0-9_.:-]{1,64}$/.test(error.requestId)
     ? error.requestId
-    : null;
+    : clientDiagnosticId(error);
   const retryable = ["NETWORK", "TIMEOUT", "CONFLICT", "RATE_LIMIT", "SERVER"].includes(category);
   const zh = locale !== "en";
   const categoryTitle = {
@@ -614,6 +627,7 @@ export function apiErrorText(error: unknown, locale: "zh" | "en" = "zh"): string
   return [
     model.message,
     model.action,
+    `${locale === 'en' ? 'Error code' : '错误码'}: ${model.code}`,
     model.requestId
       ? locale === "en" ? `Diagnostic reference: ${model.requestId}` : `诊断编号：${model.requestId}`
       : null,
@@ -844,7 +858,8 @@ async function rawEnvelopeRequest<T>(
   if (apiRequestMode === "demo") {
     throw new LocalReviewApiBlockedError(method.toUpperCase(), path);
   }
-  const requestHeaders: Record<string, string> = { ...headers };
+  const requestId = uuid();
+  const requestHeaders: Record<string, string> = { ...headers, "X-Request-ID": requestId };
   const isFormDataBody =
     typeof FormData !== "undefined" && body instanceof FormData;
   if (body !== undefined && !isFormDataBody)
@@ -867,7 +882,7 @@ async function rawEnvelopeRequest<T>(
             : JSON.stringify(body),
     });
   } catch (error) {
-    throw new ClientTransportError(error, { method, route: path });
+    throw new ClientTransportError(error, { method, route: path, requestId });
   }
   let parsed: {
     data?: T;
@@ -883,7 +898,7 @@ async function rawEnvelopeRequest<T>(
     /* empty body */
   }
   if (!response.ok) {
-    const error = new ApiError(response.status, parsed, { method, route: path });
+    const error = new ApiError(response.status, parsed, { method, route: path, requestId });
     if (error.code === "SYSTEM_MAINTENANCE") publishSystemMaintenance();
     throw error;
   }

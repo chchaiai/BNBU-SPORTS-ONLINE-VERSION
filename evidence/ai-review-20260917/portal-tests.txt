@@ -1,0 +1,26 @@
+✔ teacher pending queue excludes AI, technical and student supplement stages while preserving invalid history (0.7666ms)
+✔ only VALID records contribute credited minutes and progress (0.2302ms)
+✔ valid duration is restored after a valid record is marked invalid and corrected (0.1173ms)
+✔ single-record display accepts authoritative whole minutes and historical awards (0.1167ms)
+✔ teacher review surfaces group image and video evidence without 1.5-hour credit (6.0766ms)
+✔ the teacher-configured target caps progress at 100 percent (0.1942ms)
+✔ the synchronous operation lock rejects a second same-frame click (0.1273ms)
+✔ maps backend sport and two-state review enums (0.4164ms)
+✔ REVIEWED without currentReview fails closed instead of inventing VALID (0.4796ms)
+✔ INVALID is corrected directly to VALID with no reopen or PENDING request (19.9708ms)
+✔ a VALID record is not appended again (0.5617ms)
+✔ teacher workspace exposes invalid records and direct correction wording (2.9175ms)
+✔ teacher portal omits attempt-chain UI and student resubmission mutations (4.3758ms)
+✔ keeps translation resources unique and covers all static system text (138.9718ms)
+✔ keeps portals, accessibility attributes, enum labels, and reverse switching in the i18n boundary (2.5063ms)
+✔ manual review lifecycle stays visible and only awarded valid minutes contribute (1.2218ms)
+✔ technical processing and valid but uncredited records are distinct from invalid results (0.1844ms)
+✔ public category and supplemental explanation both survive invalid projection (0.1488ms)
+ℹ tests 18
+ℹ suites 0
+ℹ pass 18
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 833.2717

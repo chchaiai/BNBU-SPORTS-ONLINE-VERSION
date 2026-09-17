@@ -1,0 +1,46 @@
+{
+  "modules/users/profiles.controller.js": {
+    "production": "d67770910a196c6a75b36b68c28c0ec9fb996117633601abdef8e9886f99b5d8",
+    "localBaseline": "d67770910a196c6a75b36b68c28c0ec9fb996117633601abdef8e9886f99b5d8"
+  },
+  "modules/users/student-profile-completion.service.js": {
+    "production": "87f4010c4e9eb2987a652378b2b000425e3e525ab17590c806aff2601b5fbf09",
+    "localBaseline": "87f4010c4e9eb2987a652378b2b000425e3e525ab17590c806aff2601b5fbf09"
+  },
+  "modules/users/users.dto.js": {
+    "production": "6fe69b78bfd6de6f43f1d0b67690fe2aadb082dc3ba0ca5a5e8afcb5d1f7b11d",
+    "localBaseline": "6fe69b78bfd6de6f43f1d0b67690fe2aadb082dc3ba0ca5a5e8afcb5d1f7b11d"
+  },
+  "modules/users/users.service.js": {
+    "production": "4d74b176013e091738ea49677c412746177eeab1966b2edfd137cffce255d509",
+    "localBaseline": "4d74b176013e091738ea49677c412746177eeab1966b2edfd137cffce255d509"
+  },
+  "modules/v8/v81-history-backfill.js": {
+    "production": "72fe5b805dcef5167490480b0920c199b9cc52892faeab499a2a8f331fbe15b6",
+    "localBaseline": "72fe5b805dcef5167490480b0920c199b9cc52892faeab499a2a8f331fbe15b6"
+  },
+  "modules/users/application/student-identity-normalizer.js": {
+    "production": "b1749fe8e5b3c5fbbf4fbe81ee0ae69b3883d07ddea253039dff0f2ac533a95e",
+    "localBaseline": "b1749fe8e5b3c5fbbf4fbe81ee0ae69b3883d07ddea253039dff0f2ac533a95e"
+  },
+  "modules/exercise-sessions/application/exercise-sessions.service.js": {
+    "production": "e74a6597ef6e67f40a8208f40221617a0133213abd9f00ac7cc32a373f8c3029",
+    "localBaseline": "e74a6597ef6e67f40a8208f40221617a0133213abd9f00ac7cc32a373f8c3029"
+  },
+  "modules/exercise-records/application/exercise-records.service.js": {
+    "production": "81010946f8b1b5b9288b901d169ba10e6c7fd82fb960e960b1ac6933d77d0583",
+    "localBaseline": "81010946f8b1b5b9288b901d169ba10e6c7fd82fb960e960b1ac6933d77d0583"
+  },
+  "modules/enrollments/application/qr-join.service.js": {
+    "production": "0f0be796e0f79e8b127b2f6e0c74058908333262c7b2e627db1d3d45b5a7df04",
+    "localBaseline": "0f0be796e0f79e8b127b2f6e0c74058908333262c7b2e627db1d3d45b5a7df04"
+  },
+  "common/policy/access-policy.guard.js": {
+    "production": "e6ebb49e4574300052a7e19b2db72d9dd58e64a0ed031c2f24c931d4dcff93aa",
+    "localBaseline": "e6ebb49e4574300052a7e19b2db72d9dd58e64a0ed031c2f24c931d4dcff93aa"
+  },
+  "common/policy/v81-admin-permission.guard.js": {
+    "production": "ce00a562dc3943f8b7699cd4f6aa1d3dbc1e698c8822fa5a0a4be815607e71e7",
+    "localBaseline": "ce00a562dc3943f8b7699cd4f6aa1d3dbc1e698c8822fa5a0a4be815607e71e7"
+  }
+}

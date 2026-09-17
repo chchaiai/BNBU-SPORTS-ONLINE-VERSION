@@ -1,0 +1,23 @@
+{
+  "baseline": {
+    "js/recorded-video.js": "338b26b6c2a4d1747d2c80d7ba512a6029d2ddcefc57b31a0a0b684d820f424c",
+    "js/checkin-drafts.js": "8456e339d594bb46dba597c1a8a0cf2618e44503593ee090b074ee00a883d865",
+    "js/screens/checkin.js": "e0ff0d9b3c1304317713c66372ed55f6d7f2527e82084b1d420e1993adf23d34",
+    "js/api.js": "d9d1d23a87519cb90cfac1c10fcd67c92f4b0b424422b922201aad7a43fc2cd7",
+    "vendor/ffmpeg/api/classes.js": "7a829c898bdbc3a8806652a5502d9101178ce4e988a2c50b3abc1306ce4fc919"
+  },
+  "files": {
+    "js/recorded-video.js": "167dc9bdbd07a18870a78cad3d697b3f7c0ec643f5391543c39a83c899b84134",
+    "js/checkin-drafts.js": "d85e51455669726d4184a8c7dd19fe6dc616f1f3ce100d6ab37a90756c99b38f",
+    "js/screens/checkin.js": "cdcf9cc0d19c3f128990615d4088063a1c50d5efa6056d8626dc9ae75b7a2684",
+    "js/api.js": "6639af9bc4be0df8ece83f800cc23a56ec70729925dc0b73e967f18b52041b06",
+    "vendor/ffmpeg/api/classes.js": "59a565e4c5fb64bfc1c90c746e7f2cfd9dd770bbea70b3dc67419398e17af25c"
+  },
+  "nginx": "693a591f0f32e87c7c423c99a9ce77b96a1f03859d21b010f2f405fbc2b85437",
+  "checks": {
+    "unit": 14,
+    "conversion": "PASS",
+    "browser": "PASS",
+    "backendValidator": 5
+  }
+}

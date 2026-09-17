@@ -15,6 +15,7 @@ export interface MediaEvidenceProjection {
   verifiedFileSizeBytes: number | null;
   captureSource: string;
   uploadStatus: string;
+  failureCode: string | null;
   uploadedAt: string | null;
   boundAt: string | null;
   declaredContentSha256: string | null;
@@ -50,6 +51,7 @@ export function mediaProjection(
     verifiedFileSizeBytes: safeNumber(media.verifiedFileSizeBytes),
     captureSource: media.captureSource,
     uploadStatus: media.uploadStatus,
+    failureCode: media.failureCode,
     uploadedAt: media.uploadedAt?.toISOString() ?? null,
     boundAt: media.boundAt?.toISOString() ?? null,
     declaredContentSha256: media.declaredContentSha256,

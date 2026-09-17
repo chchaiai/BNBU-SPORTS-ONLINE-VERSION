@@ -1,0 +1,5 @@
+{
+  "migrationId": "0079_server_video_normalization",
+  "sha256": "39baf6c1bfb0fcf48ec5552ea042f35aa08e1387d285dbac4483ae7e641ed7cb",
+  "destructive": false
+}

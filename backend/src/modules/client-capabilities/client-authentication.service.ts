@@ -1,4 +1,4 @@
-import { isStudentSchoolEmail } from '../../common/security/student-school-email.js';
+import { isStudentSchoolEmail, isNewStudentSchoolEmail } from '../../common/security/student-school-email.js';
 import { QrJoinCryptoService } from '../../common/security/qr-join-crypto.service.js';
 import { Inject, Injectable } from '@nestjs/common';
 
@@ -111,6 +111,11 @@ export class ClientAuthenticationService {
     context: PublicRequestContext,
   ): Promise<StudentSignInCodeAcceptedProjection> {
     const normalized = this.normalizeAccount(input.account);
+    if (input.joinInviteToken !== undefined && !isNewStudentSchoolEmail(input.account)) {
+      throw new ApplicationError('VALIDATION_FAILED', 422, {
+        fieldErrors: [{ field: 'account', code: 'STUDENT_EMAIL_PREFIX_INVALID', i18nKey: 'error.validation.failed', params: {} }],
+      });
+    }
     if (!isStudentSchoolEmail(normalized)) {
       throw new ApplicationError('VALIDATION_FAILED', 422, {
         fieldErrors: [{ field: 'account', code: 'BNBU_EMAIL_REQUIRED', i18nKey: 'error.validation.failed', params: { suffix: '@mail.bnbu.edu.cn' } }],
@@ -193,7 +198,7 @@ export class ClientAuthenticationService {
           const parsed = this.joinCrypto.parseToken('course-invite', input.joinInviteToken);
           const invite = parsed ? await transaction.courseInvite.findUnique({ where: { id: parsed.publicId } }) : null;
           const now = this.clock.now();
-          if (!isStudentSchoolEmail(email) || challenge.channel !== 'EMAIL' ||
+          if (!isNewStudentSchoolEmail(input.joinEmail) || challenge.channel !== 'EMAIL' ||
               this.accountDigest('EMAIL', email) !== challenge.accountDigest || !invite || !parsed ||
               invite.organizationId !== challenge.organizationId || invite.status !== 'ACTIVE' || invite.expiresAt <= now ||
               !this.joinCrypto.matches(invite.tokenHash, parsed.tokenHash)) {

@@ -2,6 +2,8 @@
 import 'reflect-metadata';
 import { readFile } from 'node:fs/promises';
 import { randomInt, randomUUID } from 'node:crypto';
+import CvmRoleCredentialModule from 'tencentcloud-sdk-nodejs-common/tencentcloud/common/cvm_role_credential.js';
+import { ses as tencentSes } from 'tencentcloud-sdk-nodejs-ses';
 import { AokSendAuthCodeDeliveryAdapter } from '/app/dist/modules/client-capabilities/aoksend-auth-code-delivery.adapter.js';
 import { TencentSesAuthCodeDeliveryAdapter } from '/app/dist/modules/client-capabilities/tencent-ses-auth-code-delivery.adapter.js';
 
@@ -36,7 +38,21 @@ const primaryFetch = mode === 'fallback'
     } catch { console.log(JSON.stringify({event:'MAIL_PROBE_PRIMARY_RESPONSE',httpStatus:response.status,invalidJson:true})); }
     return response;
   };
-const ses = new TencentSesAuthCodeDeliveryAdapter(fallback);
+const { default: CvmRoleCredential } = CvmRoleCredentialModule;
+const sdk = new tencentSes.v20201002.Client({
+  credential: new CvmRoleCredential(), region: fallback.region,
+  profile: { httpProfile: { endpoint: 'ses.tencentcloudapi.com', reqTimeout: 10 } },
+});
+const ses = new TencentSesAuthCodeDeliveryAdapter(fallback, {
+  SendEmail: async request => {
+    try { return await sdk.SendEmail(request); }
+    catch (error) {
+      const safe = value => typeof value === 'string' && /^[A-Za-z0-9_.-]{1,150}$/.test(value) ? value : null;
+      console.log(JSON.stringify({event:'MAIL_PROBE_SES_ERROR',code:safe(error?.code),requestId:safe(error?.requestId)}));
+      throw error;
+    }
+  },
+});
 const adapter = new AokSendAuthCodeDeliveryAdapter(config, {
   deliver: async message => { fallbackCalled = true; await ses.deliver(message); },
 }, primaryFetch);

@@ -1,0 +1,10 @@
+{
+  "js/photo-originals.js": {
+    "before": "d13786cbbb33c71907050560a438bce798b2a6acb7f06ca11b86de7a61fc5ea2",
+    "after": "4e601d4335e202f92e1c85cf6d0c3096d6d1c811b978d32cfe5b1715166e6242"
+  },
+  "js/screens/checkin.js": {
+    "before": "29430e6f4b24948d965cb7451ccee27fd2478fa8158f63eb5782240c07cea08a",
+    "after": "db1216d1ba355b53dec5b828d4dbb323516463842d2885eb5e275efabd3afe79"
+  }
+}

@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
+import { readyProfileDatabase } from '../helpers/profile-policy.js';
 
 import type { ExecutionContext } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
@@ -82,6 +83,9 @@ async function authorize(operationId: string, role: UserRole): Promise<boolean> 
     undefined,
     enrollmentPolicy,
     sessionPolicy,
+    undefined,
+    undefined,
+    readyProfileDatabase(),
   ).canActivate(
     context(handler, {
       headers: {},

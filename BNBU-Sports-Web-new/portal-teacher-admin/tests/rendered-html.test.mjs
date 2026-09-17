@@ -29,7 +29,7 @@ test("server-renders a fail-closed system-status gate before sign-in", async () 
   assert.match(response.headers.get("content-type") ?? "", /^text\/html\b/i);
 
   const html = await response.text();
-  assert.match(html, /<title>BNBU 体育课程管理平台<\/title>/i);
+  assert.match(html, /<title>BNBU Sports 教师与管理端｜体育课程管理<\/title>/i);
   assert.match(html, /正在确认系统状态/);
   assert.match(html, /Checking system status/);
   assert.match(html, /确认完成前所有业务入口保持关闭/);

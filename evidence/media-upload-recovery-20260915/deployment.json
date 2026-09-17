@@ -1,0 +1,18 @@
+{
+  "result": "PASS",
+  "release": "/opt/bnbu-sports-production/releases/media-upload-recovery-20260915-r2",
+  "previous": "/opt/bnbu-sports-production/releases/iphone-video-20260915-r2",
+  "image": "sha256:73de609da5e40e11a9bd808c27a84af0bf4b282b123751450ed1a78570315fa3",
+  "healthAndStaticHashes": "PASS",
+  "backendHashes": "PASS",
+  "sites": [
+    "https://www.student.bnbusports.cn/student/",
+    "https://www.student.bnbusports.cn/api/v1/health/ready",
+    "https://www.teacher.bnbusports.cn/",
+    "https://bnbusports.cn/"
+  ],
+  "migrationExecuted": false,
+  "realStudentBusinessWrites": 0,
+  "rollbackExercised": true,
+  "firstAttempt": "Automatic rollback after verification used an unconfigured hostname; previous image and health verified."
+}

@@ -1,0 +1,12 @@
+{
+  "unit": 12,
+  "postgresHttp": 8,
+  "studentSmoke": 87,
+  "mobileBrowser": "PASS",
+  "publicBrowser": 2,
+  "backendTypecheck": "PASS",
+  "portalTypecheck": "PASS",
+  "build": "PASS",
+  "repoLayout": "FAIL: pre-existing removed Android and frontend/index.html",
+  "deployment": "PASS"
+}

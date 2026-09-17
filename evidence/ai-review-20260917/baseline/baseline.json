@@ -1,0 +1,8 @@
+{
+  "release": "student-network-20260916",
+  "baseImages": {
+    "backend": "sha256:d5bb9e0579d5d653946d3a878bf405829c6d4029c9b55d88b1ab5078bc730f5f",
+    "portal": "sha256:36b3f004052f1f9be163707435d2c81e37a207c410d4f41d6aa74df6e97a1ef8",
+    "migrator": "sha256:194fe593dccd12b826a9c6ea007812f6e86f6e917a8484145e28bbbe26fa9cf3"
+  }
+}

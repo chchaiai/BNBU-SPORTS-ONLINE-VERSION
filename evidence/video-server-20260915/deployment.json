@@ -1,0 +1,16 @@
+{
+  "result": "PASS",
+  "release": "/opt/bnbu-sports-production/releases/server-video-20260915",
+  "previous": "/opt/bnbu-sports-production/releases/media-upload-recovery-20260915-r2",
+  "image": "sha256:c6bb89427b73cd4969b59f4a3431db3948236f6186f91a30c8895f3b615a05cd",
+  "backup": {
+    "check": "PRE_RELEASE_DATABASE_BACKUP",
+    "result": "PASS",
+    "path": "/opt/bnbu-sports-production/backups/before-bugfix-20260915T144859Z.dump",
+    "bytes": 20971470
+  },
+  "realCosNormalization": "PASS",
+  "health": "PASS",
+  "staticAndBackendHashes": "PASS",
+  "migration": "0079_server_video_normalization"
+}

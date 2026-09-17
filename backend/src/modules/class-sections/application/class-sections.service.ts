@@ -311,10 +311,7 @@ export class ClassSectionsService {
           [
             input.checkInStartDate,
             input.checkInEndDate,
-            input.dailyStartTime,
-            input.dailyEndTime,
             input.excludedDates,
-            input.checkInWindowMode,
             input.submissionDeadlineAt,
           ].some((value) => value !== undefined)
         ) {

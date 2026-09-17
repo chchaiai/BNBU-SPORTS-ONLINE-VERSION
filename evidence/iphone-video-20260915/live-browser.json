@@ -1,0 +1,11 @@
+{
+  "result": "PASS",
+  "scope": "Production public code and real desktop browser Worker; synthetic video, no account login or submission; physical iPhone pending",
+  "duration": 10.041,
+  "bytes": 720039,
+  "poster": true,
+  "playback": true,
+  "elapsedMs": 4421,
+  "wasmContentType": "application/wasm",
+  "pageErrors": []
+}

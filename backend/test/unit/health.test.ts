@@ -63,7 +63,7 @@ describe('HealthService', () => {
   });
 
   it('reports measured database, queue, object-storage and media-storage health to admins', async () => {
-    const result = await service().admin();
+    const result = await service().admin('synthetic-organization');
     assert.equal(result.status, 'UP');
     assert.equal(result.dependencies.notificationQueue.backlog, 3);
     assert.equal(result.dependencies.database.status, 'UP');
@@ -85,7 +85,7 @@ describe('HealthService', () => {
         mediaStorageCalls += 1;
         return Promise.resolve();
       },
-    }).admin();
+    }).admin('synthetic-organization');
     assert.equal(result.status, 'DEGRADED');
     assert.equal(result.dependencies.objectStorage.status, 'NOT_CONFIGURED');
     assert.equal(result.dependencies.mediaStorage.status, 'NOT_CONFIGURED');
@@ -95,7 +95,7 @@ describe('HealthService', () => {
 
   it('preserves the public readiness failure while attributing database failure in admin health', async () => {
     await assert.rejects(service({ compatible: false }).ready(), ApplicationError);
-    const result = await service({ compatible: false }).admin();
+    const result = await service({ compatible: false }).admin('synthetic-organization');
     assert.equal(result.status, 'DOWN');
     assert.equal(result.dependencies.database.status, 'DOWN');
   });
@@ -104,7 +104,7 @@ describe('HealthService', () => {
     const result = await service({
       objectStorageHealth: () =>
         Promise.reject(new Error('synthetic secret endpoint must not escape')),
-    }).admin();
+    }).admin('synthetic-organization');
     assert.equal(result.status, 'DEGRADED');
     assert.deepEqual(Object.keys(result.dependencies.objectStorage).sort(), [
       'latencyMs',

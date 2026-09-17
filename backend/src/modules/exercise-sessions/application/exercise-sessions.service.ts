@@ -1,3 +1,4 @@
+import { assertProfileReady } from '../../users/application/student-profile-quality.js';
 import { requireUnsettledCourse } from '../../v8/v81-settlement-write-guard.js';
 import { appendV81SystemEvent } from '../../v8/v81-system-event.js';
 import { Injectable } from '@nestjs/common';
@@ -89,6 +90,7 @@ export class ExerciseSessionsService {
       async (transaction) => {
         try {
           await transaction.$queryRaw`SELECT id FROM organizations WHERE id=${principal.organizationId}::uuid FOR NO KEY UPDATE`;
+          await assertProfileReady(transaction,principal.organizationId,principal.userId);
           if ((await transaction.systemPolicy.findUnique({ where: { organizationId: principal.organizationId } }))?.systemMode !== 'NORMAL')
             throw new ApplicationError('SYSTEM_MAINTENANCE', 503);
           await transaction.$queryRaw`SELECT c.id FROM class_sections c JOIN enrollments e ON e.class_section_id=c.id
@@ -123,14 +125,13 @@ export class ExerciseSessionsService {
             WHERE r.class_section_id=${enrollment.classSectionId}::uuid AND r.published_at IS NOT NULL FOR SHARE OF r`)[0]!;
           if (rules.allocation_pending) throw new ApplicationError('CONFLICT_STATE_TRANSITION',409,{reason:'COURSE_TARGET_ALLOCATION_REQUIRED'});
           let makeupWindowId: string | null = null;
-          if (now > rules.regular_deadline) {
+          {
             const grants = await transaction.$queryRaw<{ id: string }[]>`SELECT w.id FROM v81_makeup_windows w
               WHERE w.organization_id=${principal.organizationId}::uuid AND w.class_section_id=${enrollment.classSectionId}::uuid
                 AND w.enrollment_id=${enrollment.id}::uuid AND w.created_at<=${now} AND w.starts_at<=${now} AND w.ends_at>${now}
                 AND NOT EXISTS(SELECT 1 FROM v81_makeup_revocations r WHERE r.window_id=w.id)
               ORDER BY w.created_at,w.id LIMIT 1 FOR UPDATE OF w`;
             makeupWindowId = grants[0]?.id ?? null;
-            if (!makeupWindowId) throw new ApplicationError('SESSION_OUTSIDE_TIME_WINDOW', 409);
           }
           const active = await transaction.exerciseSession.findFirst({
             where: {
@@ -737,7 +738,11 @@ export class ExerciseSessionsService {
       classSection.status !== 'ACTIVE' ||
       semester.status !== 'CURRENT' ||
       businessDate < semesterStart ||
-      businessDate > semesterEnd
+      businessDate > semesterEnd ||
+      checkInStart === undefined ||
+      checkInEnd === undefined ||
+      businessDate < checkInStart ||
+      businessDate > checkInEnd
     ) {
       throw new ApplicationError('SESSION_OUTSIDE_TIME_WINDOW', 409);
     }
@@ -747,7 +752,6 @@ export class ExerciseSessionsService {
       checkInEnd === undefined ||
       businessDate < checkInStart ||
       businessDate > checkInEnd ||
-      (classSection.submissionDeadlineAt !== null && now > classSection.submissionDeadlineAt) ||
       classSection.excludedDates.some(
         (entry) => entry.excludedDate.toISOString().slice(0, 10) === businessDate,
       )

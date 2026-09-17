@@ -1,4 +1,5 @@
 import { ocrConfiguration, type OcrConfiguration } from '../../modules/v8/tencent-ocr-provider.js';
+import { aiReviewConfiguration, type AiReviewConfiguration } from '../../modules/v8/tencent-ai-review-provider.js';
 export const APP_ENVIRONMENTS = ['local', 'test', 'development', 'staging', 'production'] as const;
 
 export type AppEnvironment = (typeof APP_ENVIRONMENTS)[number];
@@ -74,6 +75,7 @@ export type EmailDeliveryConfig =
 export interface RuntimeConfig {
   runtimeLogDirectory?: string | null;
   ocr?: OcrConfiguration;
+  aiReview?: AiReviewConfiguration;
   appEnvironment: AppEnvironment;
   appVersion: string;
   port: number;
@@ -627,6 +629,7 @@ export function validateEnvironment(raw: Record<string, unknown>): Record<string
   const runtimeConfig: RuntimeConfig = {
     runtimeLogDirectory: typeof raw.RUNTIME_LOG_DIRECTORY === 'string' && raw.RUNTIME_LOG_DIRECTORY.trim() ? raw.RUNTIME_LOG_DIRECTORY.trim() : null,
     ocr: ocrConfiguration(raw),
+    aiReview: aiReviewConfiguration(raw),
     appEnvironment: appEnvironment as AppEnvironment,
     appVersion: required(raw, 'APP_VERSION'),
     port,

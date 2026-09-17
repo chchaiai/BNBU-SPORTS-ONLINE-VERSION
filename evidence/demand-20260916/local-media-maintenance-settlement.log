@@ -1,0 +1,84 @@
+(node:38724) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+▶ MediaEvidence HTTP E2E
+  ✔ runs idempotent initiate, verified confirm, same-Session bind, worker, and private access (1169.8712ms)
+  ✔ recovers a pending video under fresh concurrent keys without consuming another slot (682.5788ms)
+  ✔ renews expired credentials for the same pending file without replacing its media identity (491.643ms)
+  ✔ preserves stored evidence through maintenance beyond PUT expiry and confirms the original upload (580.5389ms)
+  ✔ releases an expired video reservation and recovers after a stored quota failure using a fresh key (520.7248ms)
+  ✔ server video confirms raw bytes, normalizes asynchronously and preserves original identity (1629.9451ms)
+  ✔ server video processing failure releases its quota for replacement (792.1093ms)
+  ✔ server video enforces new declaration limits before reserving a slot (386.0973ms)
+  ✔ fails spoofed MIME without partial verified facts and rejects cross-Session binding (476.3683ms)
+  ✔ rejects new or newly bound evidence after the session record is submitted (437.7373ms)
+✔ MediaEvidence HTTP E2E (8429.1157ms)
+(node:41880) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+{"check":"MAKEUP_HTTP_GRANT_SCOPE_RULE_BOUNDS_REPLAY_PAGINATION_CONCURRENT_REVOCATION_AUDIT","result":"PASS","membersSeeded":true}
+{"check":"STUDENT_OWN_MAKEUP_OTP_SCOPE_PAGINATION_REVOCATION_NOTIFICATION_EXACTLY_ONCE","result":"PASS","syntheticStudents":true}
+▶ V81 makeup window HTTP E2E
+  ✔ creates and revokes makeup windows with student OTP readback and notifications (1744.8815ms)
+{"check":"MAKEUP_REVOKED_SESSION_MINIO_UPLOAD_SUBMIT_MANUAL_REVIEW_REPLAY","result":"PASS","scheduleSeeded":true,"syntheticImage":true,"realElapsedMinute":true,"maintenanceBeyondUploadExpiry":true}
+  ✔ authorizes exercise within course dates during a paused daily window and preserves the active session after revocation (62711.2081ms)
+✔ V81 makeup window HTTP E2E (65661.0129ms)
+(node:38256) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+{"check":"ADMIN_COURSE_SETTLEMENT_AGGREGATE_REAL_REPORT_SCHEMA_PRIVACY_SCOPE_GRANT_REVOCATION","result":"PASS"}
+{"check":"SEMESTER_PREFLIGHT_COUNTS_FORMAL_REPORT_AND_OFF_PAGE_UNFINISHED_COURSES","result":"PASS"}
+{"check":"SETTLED_SEMESTER_SWITCH_MAINTENANCE_DENIED_NO_STATUS_CHANGE_RECOVERY","result":"PASS"}
+{"check":"ONE_COURSE_FORMAL_HTTP_SETTLEMENT_SWITCH_ARCHIVE_REPLAY_REPORT_EXPORT_HISTORY_PRESERVED","result":"PASS","fixture":"one-course semester prepared before business facts; historical published rules; report and switch use real HTTP"}
+{"check":"SETTLEMENT_REAL_HTTP_MISSING_FACTS_STALE_PREVIEW_SCOPE_CONCURRENT_SINGLE_REPORT_REPLAY_READ_EXPORT","result":"PASS","clock":"real server clock","fixture":"historical rules seeded only in isolated test database"}
+[Nest] 38256  - 2026/09/16 15:50:44   ERROR [HttpExceptionFilter] Object(7) {
+  event: 'UNHANDLED_HTTP_ERROR',
+  requestId: '01a0a932-5977-719f-81a2-ac83004f7c02',
+  errorType: 'PrismaClientKnownRequestError',
+  databaseCode: 'P2010',
+  sqlState: null,
+  serializationFailure: false,
+  deadlock: false
+}
+{"check":"PHYSICAL_CORRECTION_NO_REPORT_ROLLBACK_STUDENT_LATEST_SCOPE_PRIVACY","result":"PASS"}
+{"check":"PHYSICAL_CORRECTION_MISSING_ORIGINAL_NO_SIDE_EFFECT_CONCURRENT_SINGLE_WINNER_HISTORY","result":"PASS"}
+{"check":"PHYSICAL_REPORT_FAILURE_ROLLS_BACK_RESULT_NOTIFICATION_AUDIT_SAME_KEY_RECOVERY","result":"PASS"}
+{"check":"FORMAL_SETTLEMENT_ARCHIVE_PHYSICAL_CORRECTION_REPORT_HISTORY_NOTIFICATION_REPLAY_SCOPE_SCHEMA","result":"PASS"}
+[Nest] 38256  - 2026/09/16 15:50:45   ERROR [HttpExceptionFilter] Object(7) {
+  event: 'UNHANDLED_HTTP_ERROR',
+  requestId: '01a0a932-5c53-7429-afe8-9d27ae2e314c',
+  errorType: 'PrismaClientKnownRequestError',
+  databaseCode: 'P2010',
+  sqlState: null,
+  serializationFailure: false,
+  deadlock: false
+}
+{"check":"GRADE_REPORT_FAILURE_ROLLS_BACK_GRADE_AUDIT_SAME_KEY_RETRY_REPORT_SCHEMA","result":"PASS"}
+{"check":"GRADE_CORRECTION_OTHER_TEACHER_NO_ORIGINAL_GRADE_NO_REPORT_ROLLBACK_CONCURRENT_SINGLE_WINNER","result":"PASS","archived":true}
+{"check":"FINAL_GRADE_CORRECTION_ATOMIC_VERSION_REPORT_REPLAY_HISTORY_PRIVATE_GRADE","result":"PASS","archived":true,"fixture":"initial report and optional archived state prepared in isolated database"}
+[Nest] 38256  - 2026/09/16 15:50:45   ERROR [HttpExceptionFilter] Object(7) {
+  event: 'UNHANDLED_HTTP_ERROR',
+  requestId: '01a0a932-5dd4-7506-a6bf-2ed6a964963c',
+  errorType: 'PrismaClientKnownRequestError',
+  databaseCode: 'P2010',
+  sqlState: null,
+  serializationFailure: false,
+  deadlock: false
+}
+[Nest] 38256  - 2026/09/16 15:50:45   ERROR [HttpExceptionFilter] Object(7) {
+  event: 'UNHANDLED_HTTP_ERROR',
+  requestId: '01a0a932-5eb9-7173-83ba-4e0c0ba21519',
+  errorType: 'PrismaClientKnownRequestError',
+  databaseCode: 'P2010',
+  sqlState: null,
+  serializationFailure: false,
+  deadlock: false
+}
+▶ V81 formal settlement and semester archival HTTP E2E
+  ✔ confirms one course settlement and preserves its report when switching semesters (4374.9988ms)
+✔ V81 formal settlement and semester archival HTTP E2E (5627.9815ms)
+ℹ tests 13
+ℹ suites 3
+ℹ pass 13
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 82136.117

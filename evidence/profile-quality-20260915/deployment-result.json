@@ -1,0 +1,12 @@
+{
+  "result": "PASS",
+  "previous": "/opt/bnbu-sports-production/releases/student-email-domain-20260915",
+  "release": "/opt/bnbu-sports-production/releases/profile-quality-20260915",
+  "images": {
+    "backend": "sha256:e0867da64f1eaa036a4843575cd9100ea290fae0a15006d81aa80e9c3e20e3ba",
+    "portal": "sha256:ff3e42944f7fc0d43993a1a660f6cd1755f59e4801bcab4966b3548dc4ff7c23"
+  },
+  "studentHashes": "PASS",
+  "migrationExecuted": false,
+  "rollbackExercised": false
+}

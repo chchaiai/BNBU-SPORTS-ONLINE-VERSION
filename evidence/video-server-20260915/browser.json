@@ -1,0 +1,13 @@
+{
+  "result": "PASS",
+  "status": "idle",
+  "notice": "10 秒时长已达到，拍摄已自动停止。",
+  "bytes": 648027,
+  "duration": 10,
+  "type": "video/mp4",
+  "pending": false,
+  "error": null,
+  "pageErrors": [],
+  "codecDownloads": [],
+  "scope": "Real desktop browser with synthetic camera and microphone; physical phones not tested"
+}

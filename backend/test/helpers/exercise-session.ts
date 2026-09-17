@@ -1,4 +1,5 @@
 import { argon2id, hash } from 'argon2';
+import { createHash } from 'node:crypto';
 import { v7 as uuidv7 } from 'uuid';
 
 import type { PrismaClient } from '../../src/generated/prisma/client.js';
@@ -25,7 +26,8 @@ export async function seedExerciseSessionStudent(
   const studentId = uuidv7();
   const enrollmentId = uuidv7();
   const authSessionId = uuidv7();
-  const email = `session.student.${suffix.toLowerCase()}.synthetic@bnbu.invalid`;
+  const syntheticNumber=(BigInt('0x'+createHash('sha256').update(suffix).digest('hex').slice(0,12))%1_000_000_000n).toString().padStart(9,'0');
+  const email = `a${syntheticNumber}@mail.bnbu.edu.cn`;
   const passwordHash = await hash(TEST_PASSWORD, { type: argon2id });
   await prisma.$transaction(async (transaction) => {
     if (configureCourse) await transaction.classSection.update({
@@ -60,8 +62,12 @@ export async function seedExerciseSessionStudent(
         id: studentId,
         organizationId: fixture.organizationId,
         userId,
-        studentNumber: `SYNTH-SESSION-${suffix.padStart(4, '0')}`,
-        fullName: `Synthetic Session Student ${suffix}`,
+        studentNumber: `2${syntheticNumber}`,
+        fullName: 'Synthetic Session Student',
+        collegeName: 'SCC',
+        majorName: 'JC',
+        dateOfBirth: new Date('2004-01-01'),
+        regionCode: 'HK',
         gender: 'OTHER',
         gradeYear: 2026,
         status: 'ACTIVE',

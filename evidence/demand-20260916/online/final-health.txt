@@ -1,0 +1,4 @@
+/opt/bnbu-sports-production/releases/demand-20260916
+bnbu-sports-production-backend-1 Up 21 minutes (healthy)
+bnbu-sports-production-portal-1 Up 21 minutes (healthy)
+{"data":{"kind":"READY","status":"UP","checkedAt":"2026-09-16T08:27:43.151Z"},"meta":{"requestId":"01a0a954-348f-71e6-9b07-d963b37f8aec"}}

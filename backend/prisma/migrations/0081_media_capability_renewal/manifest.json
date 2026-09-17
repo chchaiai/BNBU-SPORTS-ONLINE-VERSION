@@ -1,0 +1,5 @@
+{
+  "sha256": "c5cb00540d5de2cc3cbbe43d69cbb15649903082c684fac585f3e1b56a54fbf4",
+  "migrationId": "0081_media_capability_renewal",
+  "destructive": false
+}

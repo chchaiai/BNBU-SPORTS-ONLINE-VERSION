@@ -1,0 +1,136 @@
+▶ Foundation HTTP E2E with real PostgreSQL
+  ✔ serves public probes and restricts dependency health to administrators (949.546299ms)
+  ✔ logs in only with the seeded password and returns a safe /me projection (493.160618ms)
+  ✔ denies missing or pending password security and unassigned administrator access (645.248702ms)
+  ✔ validates unauthenticated access responses for every secured operation (810.27421ms)
+  ✔ validates error responses for public operations with request input (359.381175ms)
+  ✔ returns stable generic errors for wrong passwords and a specific disabled-account result (460.255081ms)
+  ✔ rejects expired, tampered, and cross-organization access tokens (439.720522ms)
+  ✔ rotates refresh tokens atomically and revokes the family on reuse (452.308277ms)
+  ✔ revokes logout sessions and makes the operation safely replayable (429.525296ms)
+  ✔ reserves concurrent idempotency keys without creating duplicate sessions (555.610788ms)
+  ✔ enforces mode allowlists, strict validation, request IDs, CORS, and body limits (458.554511ms)
+✔ Foundation HTTP E2E with real PostgreSQL (7677.850809ms)
+▶ Stage 21 client capabilities with real PostgreSQL
+  ✔ verifies email before creating a student or enrollment and reuses verified member identity (1026.892224ms)
+  ✔ mail abuse: concurrent requests reserve only one code and replay does not consume quota (562.781558ms)
+  ✔ mail abuse: half-hour, daily and global caps reject before creating a challenge (476.765474ms)
+  ✔ student school suffix: invalid domains create no challenge or quota, valid domain retains replay (376.914483ms)
+  ✖ mail abuse: unknown accounts reserve no mail quota and forged invitations are rejected (333.786181ms)
+  ✔ distinguishes verified codes without an account, preserves replay and rejects invalid proofs (478.897739ms)
+  ✔ logs in verified enrolled and withdrawn students and rejects expired or changed-email challenges (542.81835ms)
+  ✖ updates academic details over HTTP while preserving a legacy student number and rejecting invalid majors (412.979814ms)
+  ✔ returns registered student data and scopes email access, filters and cursors (717.432931ms)
+  ✔ keeps student account deletion deferred with no challenge or account mutation (477.612524ms)
+  ✔ accepts an organization-scoped student challenge without exposing its code and keeps an empty release policy fail-closed (362.00532ms)
+  ✔ rejects PHONE without creating a challenge and activates a pending student through first email binding (456.46265ms)
+  ✔ requires both current and new mailbox codes for email rebinding (440.311573ms)
+  ✔ uses the numeric iOS build number for enforcement and keeps marketing version display-only (339.536741ms)
+  ✔ establishes a student OTP session and completes the private exemption-media review flow (676.534098ms)
+  ✔ completes TEACHER recovery and revokes every prior session (631.524762ms)
+  ✔ completes ADMIN recovery and revokes every prior session (609.53994ms)
+  ✔ lists and marks only the authenticated user notification with durable evidence (447.499219ms)
+  ✔ accepts only authenticated bounded client diagnostics with durable replay and no free-form metadata (771.643413ms)
+  ✔ marks 24 distinct notifications concurrently with one durable event per notification (1099.332494ms)
+  ✔ registers and revokes an IOS push token without exposing plaintext or ciphertext (495.645082ms)
+  ✔ persists preferences and feedback while exposing only published help content (497.287308ms)
+  ✔ keeps all location and conversion capabilities explicitly fail-closed (652.874616ms)
+✖ Stage 21 client capabilities with real PostgreSQL (14393.12346ms)
+▶ Student identity, Enrollment, and QR Join HTTP E2E
+  ✖ rejects invalid enrollment academics without creating profiles and accepts SAI and custom graduate majors (880.407201ms)
+  ✔ enforces server-relative invite validity and rejects ambiguous or out-of-range input (856.166604ms)
+  ✔ rejects an identity created by another flow after capability issuance without binding its email (588.641242ms)
+  ✔ finishes a registered flow during natural-expiry grace without renewing or opening a new flow (697.235951ms)
+  ✔ rejects registered invitation grace when GRACE_EXPIRED (491.732901ms)
+  ✔ rejects registered invitation grace when REVOKED (537.068945ms)
+  ✔ rejects registered invitation grace when ENROLLMENT_CLOSED (529.278106ms)
+  ✔ rejects registered invitation grace when COURSE_CLOSED (575.547473ms)
+  ✔ rejects registered invitation grace when SEMESTER_ARCHIVED (552.483994ms)
+  ✔ rotates digest-only invites and issues one replayable capability without creating identity (582.20088ms)
+  ✔ rejects non-binary QR join genders and malformed cohort years before issuing a capability (723.420537ms)
+  ✔ joins atomically, replays the exact encrypted result, and grants only Enrollment projections (1244.725049ms)
+  ✔ manually enrolls an existing student and enforces remove, restore, read, and withdraw scopes (761.400549ms)
+  ✔ rolls back a second same-semester join and refuses self rejoin after teacher removal (728.691078ms)
+✖ Student identity, Enrollment, and QR Join HTTP E2E (11255.539086ms)
+▶ Stage 19 Export, Audit Read, and governance HTTP E2E
+  ✔ enforces role and organization scope for Student and Teacher projections (1084.568417ms)
+  ✔ denies major correction without USER_ACCOUNTS permission and preserves all facts (461.624382ms)
+  ✔ denies unassigned legacy Export operations without persistence (473.542939ms)
+  ✔ allows only organization ADMIN audit read, redacts recursively, and audits each read (544.369703ms)
+✔ Stage 19 Export, Audit Read, and governance HTTP E2E (3478.031731ms)
+▶ MediaEvidence HTTP E2E
+  ✔ runs idempotent initiate, verified confirm, same-Session bind, worker, and private access (1179.871427ms)
+  ✔ recovers a pending video under fresh concurrent keys without consuming another slot (624.638321ms)
+  ✔ renews expired credentials for the same pending file without replacing its media identity (421.37234ms)
+  ✔ preserves stored evidence through maintenance beyond PUT expiry and confirms the original upload (513.174184ms)
+  ✔ releases an expired video reservation and recovers after a stored quota failure using a fresh key (520.509192ms)
+  ✔ server video confirms raw bytes, normalizes asynchronously and preserves original identity (1437.488245ms)
+  ✔ server video processing failure releases its quota for replacement (771.180267ms)
+  ✔ server video enforces new declaration limits before reserving a slot (399.766361ms)
+  ✔ fails spoofed MIME without partial verified facts and rejects cross-Session binding (453.422096ms)
+  ✔ rejects new or newly bound evidence after the session record is submitted (430.843315ms)
+✔ MediaEvidence HTTP E2E (7626.722817ms)
+▶ V81 OCR governance HTTP E2E
+  ✔ governs OCR configuration with super-admin scope, immutable history and versioned replay (1054.173368ms)
+  ✔ executes current profile, membership, history, goal and deletion contracts over HTTP (1200.868045ms)
+✔ V81 OCR governance HTTP E2E (3159.730308ms)
+ℹ tests 64
+ℹ suites 6
+ℹ pass 61
+ℹ fail 3
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 50731.881191
+
+✖ failing tests:
+
+test at test/e2e/client-capabilities.e2e.test.ts:1:11726
+✖ mail abuse: unknown accounts reserve no mail quota and forged invitations are rejected (333.786181ms)
+  Error: response status 401 is not documented
+      at validateResponse (file:///workspace/backend/scripts/runtime-conformance-hook.mjs:225:11)
+      at conformanceFetch (file:///workspace/backend/scripts/runtime-conformance-hook.mjs:286:11)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async request (/workspace/backend/test/e2e/client-capabilities.e2e.test.ts:71:22)
+      at async TestContext.<anonymous> (/workspace/backend/test/e2e/client-capabilities.e2e.test.ts:295:19)
+      at async Test.run (node:internal/test_runner/test:1332:7)
+      at async Suite.processPendingSubtests (node:internal/test_runner/test:911:7)
+
+test at test/e2e/client-capabilities.e2e.test.ts:1:16288
+✖ updates academic details over HTTP while preserving a legacy student number and rejecting invalid majors (412.979814ms)
+  AssertionError [ERR_ASSERTION]: {"code":"USER_PROFILE_INVALID","message":"The student profile data is invalid.","details":{"fieldErrors":[{"field":"studentNumber","code":"INVALID","i18nKey":"error.user.profileInvalid","params":{}}]},"requestId":"01a0a91b-0dd5-767c-b12b-7397e847ce92","timestamp":"2026-09-16T07:25:17.663Z"}
+  
+  422 !== 200
+  
+      at TestContext.<anonymous> (/workspace/backend/test/e2e/client-capabilities.e2e.test.ts:372:65)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async Test.run (node:internal/test_runner/test:1332:7)
+      at async Suite.processPendingSubtests (node:internal/test_runner/test:911:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 422,
+    expected: 200,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at test/e2e/enrollment-qr-join.e2e.test.ts:1:8556
+✖ rejects invalid enrollment academics without creating profiles and accepts SAI and custom graduate majors (880.407201ms)
+  AssertionError [ERR_ASSERTION]: {"code":"AUTH_JOIN_CAPABILITY_INVALID","message":"The Join Capability is invalid.","details":{},"requestId":"01a0a91b-3b41-765b-b330-c9a768ecc96a","timestamp":"2026-09-16T07:25:29.293Z"}
+  
+  401 !== 200
+  
+      at issueCapability (/workspace/backend/test/e2e/enrollment-qr-join.e2e.test.ts:147:14)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async TestContext.<anonymous> (/workspace/backend/test/e2e/enrollment-qr-join.e2e.test.ts:305:22)
+      at async Test.run (node:internal/test_runner/test:1332:7)
+      at async Promise.all (index 0)
+      at async Suite.run (node:internal/test_runner/test:1794:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:385:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 401,
+    expected: 200,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

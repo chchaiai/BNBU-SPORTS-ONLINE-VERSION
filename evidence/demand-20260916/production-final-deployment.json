@@ -1,0 +1,1 @@
+{"result": "PASS", "release": "/opt/bnbu-sports-production/releases/demand-20260916-final", "previous": "/opt/bnbu-sports-production/releases/demand-20260916", "file": "web/student/js/screens/checkin.js", "sha256": "29430e6f4b24948d965cb7451ccee27fd2478fa8158f63eb5782240c07cea08a", "containersUnchanged": true}

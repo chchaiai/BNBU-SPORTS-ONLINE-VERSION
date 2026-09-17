@@ -1,0 +1,10 @@
+{
+  "result": "PASS",
+  "sectionId": "01a0a5bd-cfb6-7629-9046-3c508c785a1a",
+  "checks": [
+    "production save button",
+    "rule-only save with unchanged window",
+    "reload persists daily start and end",
+    "published calendar controls disabled"
+  ]
+}

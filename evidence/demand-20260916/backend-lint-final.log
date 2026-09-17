@@ -1,0 +1,1014 @@
+
+> @bnbu/sports-backend@0.1.0 lint
+> eslint src test scripts prisma prisma.config.ts --max-warnings=0
+
+
+C:\Users\23328\Desktop\new_version\backend\src\common\logging\runtime-log-source.ts
+  12:8    error  Missing return type on function                                                                  @typescript-eslint/explicit-function-return-type
+  31:3    error  Missing return type on function                                                                  @typescript-eslint/explicit-function-return-type
+  59:115  error  Unsafe argument of type `Buffer<any>` assigned to a parameter of type `Buffer<ArrayBufferLike>`  @typescript-eslint/no-unsafe-argument
+  69:15   error  Prefer using an optional chain expression instead, as it's more concise and easier to read       @typescript-eslint/prefer-optional-chain
+
+C:\Users\23328\Desktop\new_version\backend\src\common\policy\v81-admin-permission.guard.ts
+  105:3  error  Missing return type on function  @typescript-eslint/explicit-function-return-type
+
+C:\Users\23328\Desktop\new_version\backend\src\common\roster-ingestion\roster-multipart-upload.service.ts
+  252:47  error  Prefer using an optional chain expression instead, as it's more concise and easier to read  @typescript-eslint/prefer-optional-chain
+
+C:\Users\23328\Desktop\new_version\backend\src\modules\auth\account-security.service.ts
+  28:3  error  Missing return type on function  @typescript-eslint/explicit-function-return-type
+  58:3  error  Missing return type on function  @typescript-eslint/explicit-function-return-type
+
+C:\Users\23328\Desktop\new_version\backend\src\modules\auth\auth.controller.ts
+  29:3  error  Missing return type on function  @typescript-eslint/explicit-function-return-type
+  36:3  error  Missing return type on function  @typescript-eslint/explicit-function-return-type
+
+C:\Users\23328\Desktop\new_version\backend\src\modules\client-capabilities\client-authentication.service.ts
+  131:30  error  Prefer using an optional chain expression instead, as it's more concise and easier to read  @typescript-eslint/prefer-optional-chain
+
+C:\Users\23328\Desktop\new_version\backend\src\modules\client-capabilities\client-messaging.service.ts
+  48:1  error  Missing return type on function  @typescript-eslint/explicit-function-return-type
+
+C:\Users\23328\Desktop\new_version\backend\src\modules\client-capabilities\exemption-applications.service.ts
+  581:3  error  Missing return type on function  @typescript-eslint/explicit-function-return-type
+
+C:\Users\23328\Desktop\new_version\backend\src\modules\client-capabilities\notification-history.projection.ts
+  18:36  error  Array type using 'Array<T>' is forbidden. Use 'T[]' instead  @typescript-eslint/array-type
+
+C:\Users\23328\Desktop\new_version\backend\src\modules\exercise-records\application\exercise-records.service.ts
+  738:5  error  'now' is defined but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\23328\Desktop\new_version\backend\src\modules\exercise-sessions\application\exercise-limit.worker.ts
+  10:3  error  Missing return type on function  @typescript-eslint/explicit-function-return-type
+  11:3  error  Missing return type on function  @typescript-eslint/explicit-function-return-type
+  12:3  error  Missing return type on function  @typescript-eslint/explicit-function-return-type
+
+C:\Users\23328\Desktop\new_version\backend\src\modules\exercise-sessions\application\exercise-sessions.service.ts
+  57:3  error  Missing return type on function  @typescript-eslint/explicit-function-return-type
+
+C:\Users\23328\Desktop\new_version\backend\src\modules\health\health.controller.ts
+  15:3  error  Missing return type on function  @typescript-eslint/explicit-function-return-type
+
+C:\Users\23328\Desktop\new_version\backend\src\modules\health\outbox-diagnostics.service.ts
+  19:6   error  Use an `interface` instead of a `type`        @typescript-eslint/consistent-type-definitions
+  25:3   error  Missing return type on function               @typescript-eslint/explicit-function-return-type
+  49:43  error  '_cursorTimestamp' is defined but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\23328\Desktop\new_version\backend\src\modules\join-capabilities\interface\http\join-capabilities.controller.ts
+  37:9  error  Prefer using an optional chain expression instead, as it's more concise and easier to read  @typescript-eslint/prefer-optional-chain
+
+C:\Users\23328\Desktop\new_version\backend\src\modules\media\application\clamav-stream.ts
+   5:24  error  Missing return type on function  @typescript-eslint/explicit-function-return-type
+   9:25  error  Missing return type on function  @typescript-eslint/explicit-function-return-type
+  13:49  error  Unexpected empty arrow function  @typescript-eslint/no-empty-function
+  15:24  error  Missing return type on function  @typescript-eslint/explicit-function-return-type
+  18:30  error  Unexpected empty arrow function  @typescript-eslint/no-empty-function
+  31:34  error  Missing return type on function  @typescript-eslint/explicit-function-return-type
+
+C:\Users\23328\Desktop\new_version\backend\src\modules\semesters\semesters.controller.ts
+  29:3  error  Missing return type on function  @typescript-eslint/explicit-function-return-type
+
+C:\Users\23328\Desktop\new_version\backend\src\modules\semesters\semesters.service.ts
+  31:3  error  Missing return type on function  @typescript-eslint/explicit-function-return-type
+
+C:\Users\23328\Desktop\new_version\backend\src\modules\system-mode\system-mode.controller.ts
+  27:3  error  Missing return type on function  @typescript-eslint/explicit-function-return-type
+  34:3  error  Missing return type on function  @typescript-eslint/explicit-function-return-type
+  41:3  error  Missing return type on function  @typescript-eslint/explicit-function-return-type
+
+C:\Users\23328\Desktop\new_version\backend\src\modules\system-mode\system-mode.service.ts
+  33:3   error  Missing return type on function                                                             @typescript-eslint/explicit-function-return-type
+  36:11  error  Prefer using an optional chain expression instead, as it's more concise and easier to read  @typescript-eslint/prefer-optional-chain
+  65:3   error  Missing return type on function                                                             @typescript-eslint/explicit-function-return-type
+  75:3   error  Missing return type on function                                                             @typescript-eslint/explicit-function-return-type
+
+C:\Users\23328\Desktop\new_version\backend\src\modules\users\application\student-profile-quality.ts
+  63:8  error  Missing return type on function  @typescript-eslint/explicit-function-return-type
+
+C:\Users\23328\Desktop\new_version\backend\src\modules\users\student-profile-completion.service.ts
+  19:3  error  Missing return type on function  @typescript-eslint/explicit-function-return-type
+  61:3  error  Missing return type on function  @typescript-eslint/explicit-function-return-type
+  85:3  error  Missing return type on function  @typescript-eslint/explicit-function-return-type
+
+C:\Users\23328\Desktop\new_version\backend\src\modules\v8\domain\course-plan.ts
+  10:1  error  Missing return type on function  @typescript-eslint/explicit-function-return-type
+  22:8  error  Missing return type on function  @typescript-eslint/explicit-function-return-type
+
+C:\Users\23328\Desktop\new_version\backend\src\modules\v8\domain\crediting.ts
+  76:8  error  Missing return type on function  @typescript-eslint/explicit-function-return-type
+
+C:\Users\23328\Desktop\new_version\backend\src\modules\v8\domain\deadlines.ts
+  24:8  error  Missing return type on function  @typescript-eslint/explicit-function-return-type
+
+C:\Users\23328\Desktop\new_version\backend\src\modules\v8\domain\endurance-table.ts
+   1:13  error  Use an `interface` instead of a `type`  @typescript-eslint/consistent-type-definitions
+   4:13  error  Use an `interface` instead of a `type`  @typescript-eslint/consistent-type-definitions
+  43:8   error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+
+C:\Users\23328\Desktop\new_version\backend\src\modules\v8\domain\help-article.ts
+  2:13  error  Use an `interface` instead of a `type`  @typescript-eslint/consistent-type-definitions
+  7:8   error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+
+C:\Users\23328\Desktop\new_version\backend\src\modules\v8\domain\makeup-window.ts
+  1:13  error  Use an `interface` instead of a `type`  @typescript-eslint/consistent-type-definitions
+  2:31  error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+  5:8   error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+
+C:\Users\23328\Desktop\new_version\backend\src\modules\v8\domain\notification-content.ts
+  18:17  error  This assertion is unnecessary since it does not change the type of the expression  @typescript-eslint/no-unnecessary-type-assertion
+  18:69  error  This assertion is unnecessary since it does not change the type of the expression  @typescript-eslint/no-unnecessary-type-assertion
+
+C:\Users\23328\Desktop\new_version\backend\src\modules\v8\domain\ocr-personnel-draft.ts
+  4:13  error  Use an `interface` instead of a `type`  @typescript-eslint/consistent-type-definitions
+  9:8   error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+
+C:\Users\23328\Desktop\new_version\backend\src\modules\v8\domain\ocr-physical-confirmation.ts
+   3:13  error  Use an `interface` instead of a `type`  @typescript-eslint/consistent-type-definitions
+   6:8   error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+  23:8   error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+
+C:\Users\23328\Desktop\new_version\backend\src\modules\v8\domain\ocr-roster-snapshot.ts
+   1:13  error  Use an `interface` instead of a `type`  @typescript-eslint/consistent-type-definitions
+  10:8   error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+
+C:\Users\23328\Desktop\new_version\backend\src\modules\v8\domain\ocr-table-source.ts
+   2:13  error  Use an `interface` instead of a `type`                                                                     @typescript-eslint/consistent-type-definitions
+   4:13  error  Use an `interface` instead of a `type`                                                                     @typescript-eslint/consistent-type-definitions
+   6:20  error  Missing return type on function                                                                            @typescript-eslint/explicit-function-return-type
+  11:32  error  Missing return type on function                                                                            @typescript-eslint/explicit-function-return-type
+  39:26  error  Prefer using nullish coalescing operator (`??`) instead of a ternary expression, as it is simpler to read  @typescript-eslint/prefer-nullish-coalescing
+
+C:\Users\23328\Desktop\new_version\backend\src\modules\v8\domain\physical-csv.ts
+  20:19  error  This assertion is unnecessary since it does not change the type of the expression  @typescript-eslint/no-unnecessary-type-assertion
+
+C:\Users\23328\Desktop\new_version\backend\src\modules\v8\domain\physical-import.ts
+   1:13  error  Use an `interface` instead of a `type`  @typescript-eslint/consistent-type-definitions
+   2:13  error  Use an `interface` instead of a `type`  @typescript-eslint/consistent-type-definitions
+  25:8   error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+
+C:\Users\23328\Desktop\new_version\backend\src\modules\v8\domain\physical-xlsx.ts
+   5:8    error  Missing return type on function                                         @typescript-eslint/explicit-function-return-type
+  16:36   error  Unsafe argument of type `any` assigned to a parameter of type `string`  @typescript-eslint/no-unsafe-argument
+  29:101  error  Unsafe call of an `any` typed value                                     @typescript-eslint/no-unsafe-call
+  29:105  error  Unsafe member access .is_date on an `any` value                         @typescript-eslint/no-unsafe-member-access
+  30:15   error  Unsafe assignment of an `any` value                                     @typescript-eslint/no-unsafe-assignment
+  30:22   error  Unsafe call of an `any` typed value                                     @typescript-eslint/no-unsafe-call
+  30:26   error  Unsafe member access .parse_date_code on an `any` value                 @typescript-eslint/no-unsafe-member-access
+  31:27   error  Unsafe member access .H on an `any` value                               @typescript-eslint/no-unsafe-member-access
+  31:37   error  Unsafe member access .M on an `any` value                               @typescript-eslint/no-unsafe-member-access
+  31:47   error  Unsafe member access .S on an `any` value                               @typescript-eslint/no-unsafe-member-access
+  31:57   error  Unsafe member access .u on an `any` value                               @typescript-eslint/no-unsafe-member-access
+  32:31   error  Unsafe member access .y on an `any` value                               @typescript-eslint/no-unsafe-member-access
+  32:66   error  Unsafe member access .m on an `any` value                               @typescript-eslint/no-unsafe-member-access
+  32:101  error  Unsafe member access .d on an `any` value                               @typescript-eslint/no-unsafe-member-access
+
+C:\Users\23328\Desktop\new_version\backend\src\modules\v8\domain\progress-accounting.ts
+  1:8  error  Missing return type on function  @typescript-eslint/explicit-function-return-type
+  9:8  error  Missing return type on function  @typescript-eslint/explicit-function-return-type
+
+C:\Users\23328\Desktop\new_version\backend\src\modules\v8\domain\review.ts
+  16:8   error  Missing return type on function                                                                            @typescript-eslint/explicit-function-return-type
+  46:48  error  Prefer using nullish coalescing operator (`??`) instead of a logical or (`||`), as it is a safer operator  @typescript-eslint/prefer-nullish-coalescing
+
+C:\Users\23328\Desktop\new_version\backend\src\modules\v8\domain\roster-registration.ts
+  1:13  error  Use an `interface` instead of a `type`  @typescript-eslint/consistent-type-definitions
+  2:13  error  Use an `interface` instead of a `type`  @typescript-eslint/consistent-type-definitions
+  5:35  error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+  6:33  error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+  9:8   error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+
+C:\Users\23328\Desktop\new_version\backend\src\modules\v8\domain\roster-xlsx.ts
+   3:13  error  Use an `interface` instead of a `type`                                  @typescript-eslint/consistent-type-definitions
+  22:36  error  Unsafe argument of type `any` assigned to a parameter of type `string`  @typescript-eslint/no-unsafe-argument
+
+C:\Users\23328\Desktop\new_version\backend\src\modules\v8\domain\runtime-log-zip.ts
+  4:8  error  Missing return type on function  @typescript-eslint/explicit-function-return-type
+
+C:\Users\23328\Desktop\new_version\backend\src\modules\v8\domain\student-settlement.ts
+  4:8   error  Missing return type on function  @typescript-eslint/explicit-function-return-type
+  6:68  error  Missing return type on function  @typescript-eslint/explicit-function-return-type
+
+C:\Users\23328\Desktop\new_version\backend\src\modules\v8\domain\swim-intake.ts
+   2:13  error  Use an `interface` instead of a `type`                                                                     @typescript-eslint/consistent-type-definitions
+   3:8   error  Missing return type on function                                                                            @typescript-eslint/explicit-function-return-type
+  16:8   error  Missing return type on function                                                                            @typescript-eslint/explicit-function-return-type
+  19:38  error  Prefer using nullish coalescing operator (`??`) instead of a logical or (`||`), as it is a safer operator  @typescript-eslint/prefer-nullish-coalescing
+
+C:\Users\23328\Desktop\new_version\backend\src\modules\v8\domain\teacher-import.ts
+   4:13  error  Use an `interface` instead of a `type`                                             @typescript-eslint/consistent-type-definitions
+  18:19  error  This assertion is unnecessary since it does not change the type of the expression  @typescript-eslint/no-unnecessary-type-assertion
+  26:32  error  Missing return type on function                                                    @typescript-eslint/explicit-function-return-type
+  31:8   error  Missing return type on function                                                    @typescript-eslint/explicit-function-return-type
+
+C:\Users\23328\Desktop\new_version\backend\src\modules\v8\domain\xlsx-archive-budget.ts
+   4:8   error  Missing return type on function  @typescript-eslint/explicit-function-return-type
+  10:32  error  Missing return type on function  @typescript-eslint/explicit-function-return-type
+  11:32  error  Missing return type on function  @typescript-eslint/explicit-function-return-type
+
+C:\Users\23328\Desktop\new_version\backend\src\modules\v8\ocr-multipart.ts
+   8:13  error  Use an `interface` instead of a `type`  @typescript-eslint/consistent-type-definitions
+  11:8   error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+  16:33  error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+  31:7   error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+  38:7   error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+  50:82  error  Unexpected empty arrow function         @typescript-eslint/no-empty-function
+  52:35  error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+  62:11  error  Expected an error object to be thrown   @typescript-eslint/only-throw-error
+
+C:\Users\23328\Desktop\new_version\backend\src\modules\v8\runtime-archive-diagnostics.ts
+   5:6   error  Use an `interface` instead of a `type`  @typescript-eslint/consistent-type-definitions
+  10:8   error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+  27:30  error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+
+C:\Users\23328\Desktop\new_version\backend\src\modules\v8\tencent-ocr-provider.ts
+  55:3  error  Missing return type on function  @typescript-eslint/explicit-function-return-type
+  56:3  error  Missing return type on function  @typescript-eslint/explicit-function-return-type
+
+C:\Users\23328\Desktop\new_version\backend\src\modules\v8\v81-account-deletion.ts
+  18:6   error  Use an `interface` instead of a `type`  @typescript-eslint/consistent-type-definitions
+  19:6   error  Use an `interface` instead of a `type`  @typescript-eslint/consistent-type-definitions
+  75:3   error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+  75:33  error  'p' is defined but never used           @typescript-eslint/no-unused-vars
+  75:68  error  'input' is defined but never used       @typescript-eslint/no-unused-vars
+  76:33  error  'key' is defined but never used         @typescript-eslint/no-unused-vars
+  76:65  error  'request' is defined but never used     @typescript-eslint/no-unused-vars
+
+C:\Users\23328\Desktop\new_version\backend\src\modules\v8\v81-admin-access.ts
+  17:8  error  Missing return type on function  @typescript-eslint/explicit-function-return-type
+
+C:\Users\23328\Desktop\new_version\backend\src\modules\v8\v81-admin-course-directory.ts
+   10:6   error  Use an `interface` instead of a `type`  @typescript-eslint/consistent-type-definitions
+   13:43  error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+   18:35  error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+   25:3   error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+  100:3   error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+
+C:\Users\23328\Desktop\new_version\backend\src\modules\v8\v81-admin-physical-summary.ts
+  15:3   error  Missing return type on function  @typescript-eslint/explicit-function-return-type
+  58:3   error  Missing return type on function  @typescript-eslint/explicit-function-return-type
+  59:50  error  Missing return type on function  @typescript-eslint/explicit-function-return-type
+
+C:\Users\23328\Desktop\new_version\backend\src\modules\v8\v81-admin-roster-summary.ts
+  15:3   error  Missing return type on function  @typescript-eslint/explicit-function-return-type
+  47:3   error  Missing return type on function  @typescript-eslint/explicit-function-return-type
+  48:50  error  Missing return type on function  @typescript-eslint/explicit-function-return-type
+
+C:\Users\23328\Desktop\new_version\backend\src\modules\v8\v81-admin-settlement-summary.ts
+  13:3   error  Missing return type on function  @typescript-eslint/explicit-function-return-type
+  31:3   error  Missing return type on function  @typescript-eslint/explicit-function-return-type
+  32:50  error  Missing return type on function  @typescript-eslint/explicit-function-return-type
+
+C:\Users\23328\Desktop\new_version\backend\src\modules\v8\v81-audit-events.ts
+  27:6   error  Use an `interface` instead of a `type`  @typescript-eslint/consistent-type-definitions
+  30:31  error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+  37:3   error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+  43:3   error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+  77:3   error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+  93:3   error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+  95:3   error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+  96:41  error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+
+C:\Users\23328\Desktop\new_version\backend\src\modules\v8\v81-certification-credit.ts
+  5:8  error  Missing return type on function  @typescript-eslint/explicit-function-return-type
+
+C:\Users\23328\Desktop\new_version\backend\src\modules\v8\v81-certifications.ts
+   54:3  error  Missing return type on function  @typescript-eslint/explicit-function-return-type
+   82:3  error  Missing return type on function  @typescript-eslint/explicit-function-return-type
+  100:3  error  Missing return type on function  @typescript-eslint/explicit-function-return-type
+  131:3  error  Missing return type on function  @typescript-eslint/explicit-function-return-type
+  165:3  error  Missing return type on function  @typescript-eslint/explicit-function-return-type
+  215:3  error  Missing return type on function  @typescript-eslint/explicit-function-return-type
+  353:3  error  Missing return type on function  @typescript-eslint/explicit-function-return-type
+  358:3  error  Missing return type on function  @typescript-eslint/explicit-function-return-type
+  367:3  error  Missing return type on function  @typescript-eslint/explicit-function-return-type
+  380:3  error  Missing return type on function  @typescript-eslint/explicit-function-return-type
+
+C:\Users\23328\Desktop\new_version\backend\src\modules\v8\v81-composite-roster.ts
+   12:6    error  Use an `interface` instead of a `type`  @typescript-eslint/consistent-type-definitions
+   13:6    error  Use an `interface` instead of a `type`  @typescript-eslint/consistent-type-definitions
+   17:3    error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+   21:3    error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+   44:46   error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+   68:3    error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+   72:3    error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+  128:103  error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+  134:36   error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+  158:3    error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+  159:50   error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+  163:3    error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+  164:50   error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+
+C:\Users\23328\Desktop\new_version\backend\src\modules\v8\v81-course-reminders.ts
+  11:8    error  Missing return type on function  @typescript-eslint/explicit-function-return-type
+  18:3    error  Missing return type on function  @typescript-eslint/explicit-function-return-type
+  25:3    error  Missing return type on function  @typescript-eslint/explicit-function-return-type
+  39:160  error  Missing return type on function  @typescript-eslint/explicit-function-return-type
+  87:3    error  Missing return type on function  @typescript-eslint/explicit-function-return-type
+  88:3    error  Missing return type on function  @typescript-eslint/explicit-function-return-type
+  89:3    error  Missing return type on function  @typescript-eslint/explicit-function-return-type
+
+C:\Users\23328\Desktop\new_version\backend\src\modules\v8\v81-credit-store.ts
+  4:8  error  Missing return type on function  @typescript-eslint/explicit-function-return-type
+
+C:\Users\23328\Desktop\new_version\backend\src\modules\v8\v81-deadline.worker.ts
+  20:3  error  Missing return type on function  @typescript-eslint/explicit-function-return-type
+  24:3  error  Missing return type on function  @typescript-eslint/explicit-function-return-type
+  28:3  error  Missing return type on function  @typescript-eslint/explicit-function-return-type
+
+C:\Users\23328\Desktop\new_version\backend\src\modules\v8\v81-endurance.ts
+   18:6   error  Use an `interface` instead of a `type`  @typescript-eslint/consistent-type-definitions
+   20:6   error  Use an `interface` instead of a `type`  @typescript-eslint/consistent-type-definitions
+   42:3   error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+   49:3   error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+   61:3   error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+   70:3   error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+  109:43  error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+  114:3   error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+  117:3   error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+  123:3   error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+  129:3   error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+
+C:\Users\23328\Desktop\new_version\backend\src\modules\v8\v81-feedback.ts
+   28:6   error  Use an `interface` instead of a `type`  @typescript-eslint/consistent-type-definitions
+   41:48  error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+   50:3   error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+   67:38  error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+   74:3   error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+   93:3   error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+  104:3   error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+  142:42  error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+  147:3   error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+  156:3   error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+  158:3   error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+  162:3   error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+
+C:\Users\23328\Desktop\new_version\backend\src\modules\v8\v81-final-grades.ts
+   28:6   error  Use an `interface` instead of a `type`  @typescript-eslint/consistent-type-definitions
+   29:58  error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+   36:3   error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+   43:3   error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+   55:3   error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+   88:34  error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+   93:3   error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+   98:3   error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+  101:3   error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+
+C:\Users\23328\Desktop\new_version\backend\src\modules\v8\v81-help.ts
+   40:6   error  Use an `interface` instead of a `type`  @typescript-eslint/consistent-type-definitions
+   42:37  error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+   51:3   error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+   65:42  error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+   71:3   error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+   87:3   error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+   95:3   error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+  128:38  error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+  133:3   error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+  137:3   error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+  141:3   error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+  146:3   error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+  156:3   error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+  160:3   error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+
+C:\Users\23328\Desktop\new_version\backend\src\modules\v8\v81-history-backfill.ts
+   26:6    error  Use an `interface` instead of a `type`  @typescript-eslint/consistent-type-definitions
+   27:27   error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+   28:8    error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+   31:8    error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+   31:106  error  '_now' is defined but never used        @typescript-eslint/no-unused-vars
+   45:3    error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+   52:3    error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+   55:3    error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+   64:3    error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+   73:3    error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+   90:3    error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+  127:31   error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+  132:3    error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+  134:3    error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+  136:3    error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+
+C:\Users\23328\Desktop\new_version\backend\src\modules\v8\v81-invite-revocation.ts
+  27:3   error  Missing return type on function  @typescript-eslint/explicit-function-return-type
+  31:27  error  Missing return type on function  @typescript-eslint/explicit-function-return-type
+
+C:\Users\23328\Desktop\new_version\backend\src\modules\v8\v81-makeup-windows.ts
+   31:6   error  Use an `interface` instead of a `type`  @typescript-eslint/consistent-type-definitions
+   33:40  error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+   41:3   error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+   48:3   error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+   53:3   error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+   57:3   error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+   69:3   error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+  110:3   error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+  136:3   error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+  146:3   error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+  162:34  error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+  167:3   error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+  169:3   error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+  171:3   error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+  174:3   error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+
+C:\Users\23328\Desktop\new_version\backend\src\modules\v8\v81-notifications.ts
+  4:8  error  Missing return type on function  @typescript-eslint/explicit-function-return-type
+
+C:\Users\23328\Desktop\new_version\backend\src\modules\v8\v81-ocr-drafts.ts
+   55:6   error  Use an `interface` instead of a `type`                                                      @typescript-eslint/consistent-type-definitions
+   56:6   error  Use an `interface` instead of a `type`                                                      @typescript-eslint/consistent-type-definitions
+   59:6   error  Use an `interface` instead of a `type`                                                      @typescript-eslint/consistent-type-definitions
+   62:52  error  Missing return type on function                                                             @typescript-eslint/explicit-function-return-type
+   70:3   error  Missing return type on function                                                             @typescript-eslint/explicit-function-return-type
+   82:3   error  Missing return type on function                                                             @typescript-eslint/explicit-function-return-type
+   91:3   error  Missing return type on function                                                             @typescript-eslint/explicit-function-return-type
+  120:15  error  Prefer using an optional chain expression instead, as it's more concise and easier to read  @typescript-eslint/prefer-optional-chain
+  161:34  error  Missing return type on function                                                             @typescript-eslint/explicit-function-return-type
+  166:3   error  Missing return type on function                                                             @typescript-eslint/explicit-function-return-type
+  168:3   error  Missing return type on function                                                             @typescript-eslint/explicit-function-return-type
+  171:3   error  Missing return type on function                                                             @typescript-eslint/explicit-function-return-type
+
+C:\Users\23328\Desktop\new_version\backend\src\modules\v8\v81-ocr-governance.ts
+  30:41  error  Missing return type on function  @typescript-eslint/explicit-function-return-type
+  36:3   error  Missing return type on function  @typescript-eslint/explicit-function-return-type
+  58:3   error  Missing return type on function  @typescript-eslint/explicit-function-return-type
+  65:3   error  Missing return type on function  @typescript-eslint/explicit-function-return-type
+  90:3   error  Missing return type on function  @typescript-eslint/explicit-function-return-type
+  92:3   error  Missing return type on function  @typescript-eslint/explicit-function-return-type
+  94:3   error  Missing return type on function  @typescript-eslint/explicit-function-return-type
+
+C:\Users\23328\Desktop\new_version\backend\src\modules\v8\v81-ocr-intake.ts
+  20:3   error  Missing return type on function   @typescript-eslint/explicit-function-return-type
+  28:3   error  Missing return type on function   @typescript-eslint/explicit-function-return-type
+  57:50  error  '_key' is defined but never used  @typescript-eslint/no-unused-vars
+  67:34  error  Missing return type on function   @typescript-eslint/explicit-function-return-type
+  72:3   error  Missing return type on function   @typescript-eslint/explicit-function-return-type
+  77:3   error  Missing return type on function   @typescript-eslint/explicit-function-return-type
+
+C:\Users\23328\Desktop\new_version\backend\src\modules\v8\v81-ocr-jobs.ts
+  18:6   error  Use an `interface` instead of a `type`                                                      @typescript-eslint/consistent-type-definitions
+  20:28  error  Missing return type on function                                                             @typescript-eslint/explicit-function-return-type
+  27:3   error  Missing return type on function                                                             @typescript-eslint/explicit-function-return-type
+  32:9   error  Prefer using an optional chain expression instead, as it's more concise and easier to read  @typescript-eslint/prefer-optional-chain
+  41:3   error  Missing return type on function                                                             @typescript-eslint/explicit-function-return-type
+  50:3   error  Missing return type on function                                                             @typescript-eslint/explicit-function-return-type
+  79:34  error  Missing return type on function                                                             @typescript-eslint/explicit-function-return-type
+  84:3   error  Missing return type on function                                                             @typescript-eslint/explicit-function-return-type
+  89:3   error  Missing return type on function                                                             @typescript-eslint/explicit-function-return-type
+
+C:\Users\23328\Desktop\new_version\backend\src\modules\v8\v81-ocr-physical-confirmation.ts
+   25:6   error  Use an `interface` instead of a `type`  @typescript-eslint/consistent-type-definitions
+   26:6   error  Use an `interface` instead of a `type`  @typescript-eslint/consistent-type-definitions
+   31:3   error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+   45:3   error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+   71:3   error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+   75:3   error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+  111:34  error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+  116:3   error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+  118:3   error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+
+C:\Users\23328\Desktop\new_version\backend\src\modules\v8\v81-ocr-read.ts
+   14:6    error  Use an `interface` instead of a `type`  @typescript-eslint/consistent-type-definitions
+   15:6    error  Use an `interface` instead of a `type`  @typescript-eslint/consistent-type-definitions
+   23:3    error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+   28:3    error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+   36:3    error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+   48:3    error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+   54:139  error  '_key' is defined but never used        @typescript-eslint/no-unused-vars
+   61:3    error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+   72:3    error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+   89:34   error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+   94:3    error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+   98:3    error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+  100:3    error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+  104:3    error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+
+C:\Users\23328\Desktop\new_version\backend\src\modules\v8\v81-ocr-roster-confirmation.ts
+  16:6   error  Use an `interface` instead of a `type`  @typescript-eslint/consistent-type-definitions
+  17:6   error  Use an `interface` instead of a `type`  @typescript-eslint/consistent-type-definitions
+  19:38  error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+  26:3   error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+  40:3   error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+  48:3   error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+  82:34  error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+  87:3   error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+  89:3   error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+
+C:\Users\23328\Desktop\new_version\backend\src\modules\v8\v81-ocr-service-config.ts
+  4:13  error  Use an `interface` instead of a `type`  @typescript-eslint/consistent-type-definitions
+  6:8   error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+
+C:\Users\23328\Desktop\new_version\backend\src\modules\v8\v81-ocr.worker.ts
+  13:6  error  Use an `interface` instead of a `type`  @typescript-eslint/consistent-type-definitions
+  27:3  error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+  31:3  error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+  32:3  error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+  38:3  error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+
+C:\Users\23328\Desktop\new_version\backend\src\modules\v8\v81-physical-imports.ts
+   23:6   error  Use an `interface` instead of a `type`  @typescript-eslint/consistent-type-definitions
+   25:6   error  Use an `interface` instead of a `type`  @typescript-eslint/consistent-type-definitions
+   66:3   error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+   70:3   error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+   99:3   error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+  107:3   error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+  123:3   error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+  143:3   error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+  160:3   error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+  171:3   error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+  209:3   error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+  241:3   error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+  249:3   error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+  259:3   error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+  287:40  error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+  292:3   error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+  297:3   error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+  300:3   error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+  304:3   error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+  307:3   error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+  312:3   error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+  317:3   error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+  322:3   error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+
+C:\Users\23328\Desktop\new_version\backend\src\modules\v8\v81-physical-results.ts
+   32:6   error  Use an `interface` instead of a `type`  @typescript-eslint/consistent-type-definitions
+   33:34  error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+   41:3   error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+   48:3   error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+   91:3   error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+  104:3   error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+  119:42  error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+  124:3   error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+  129:3   error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+  134:3   error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+  137:3   error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+
+C:\Users\23328\Desktop\new_version\backend\src\modules\v8\v81-progress.ts
+   18:6   error  Use an `interface` instead of a `type`  @typescript-eslint/consistent-type-definitions
+   33:6   error  Use an `interface` instead of a `type`  @typescript-eslint/consistent-type-definitions
+   41:3   error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+   46:3   error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+   51:3   error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+  101:11  error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+  143:3   error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+  181:3   error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+  186:3   error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+  191:3   error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+  195:27  error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+
+C:\Users\23328\Desktop\new_version\backend\src\modules\v8\v81-record-projection.ts
+  7:8  error  Missing return type on function  @typescript-eslint/explicit-function-return-type
+
+C:\Users\23328\Desktop\new_version\backend\src\modules\v8\v81-record-state.ts
+  27:8  error  Missing return type on function  @typescript-eslint/explicit-function-return-type
+
+C:\Users\23328\Desktop\new_version\backend\src\modules\v8\v81-retain-course-history.ts
+  6:8  error  Missing return type on function  @typescript-eslint/explicit-function-return-type
+
+C:\Users\23328\Desktop\new_version\backend\src\modules\v8\v81-roster-basis.ts
+   24:6   error  Use an `interface` instead of a `type`  @typescript-eslint/consistent-type-definitions
+   25:6   error  Use an `interface` instead of a `type`  @typescript-eslint/consistent-type-definitions
+   30:3   error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+   37:3   error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+   46:3   error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+   49:3   error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+   66:3   error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+  112:34  error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+  117:3   error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+  121:3   error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+  123:3   error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+
+C:\Users\23328\Desktop\new_version\backend\src\modules\v8\v81-roster-confirmation.ts
+   15:6    error  Use an `interface` instead of a `type`  @typescript-eslint/consistent-type-definitions
+   22:3    error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+   29:3    error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+   37:3    error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+   56:3    error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+   99:3    error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+  100:50   error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+  108:3    error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+  108:107  error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+  112:3    error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+  112:111  error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+
+C:\Users\23328\Desktop\new_version\backend\src\modules\v8\v81-roster-registration.ts
+  14:3   error  Missing return type on function  @typescript-eslint/explicit-function-return-type
+  34:35  error  Missing return type on function  @typescript-eslint/explicit-function-return-type
+  40:3   error  Missing return type on function  @typescript-eslint/explicit-function-return-type
+  67:3   error  Missing return type on function  @typescript-eslint/explicit-function-return-type
+  68:48  error  Missing return type on function  @typescript-eslint/explicit-function-return-type
+  76:3   error  Missing return type on function  @typescript-eslint/explicit-function-return-type
+  77:50  error  Missing return type on function  @typescript-eslint/explicit-function-return-type
+
+C:\Users\23328\Desktop\new_version\backend\src\modules\v8\v81-rule-templates.ts
+  24:6   error  Use an `interface` instead of a `type`  @typescript-eslint/consistent-type-definitions
+  25:31  error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+  30:3   error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+  34:3   error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+  42:3   error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+  48:3   error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+  73:3   error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+  75:3   error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+  76:38  error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+  78:3   error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+
+C:\Users\23328\Desktop\new_version\backend\src\modules\v8\v81-runtime-archives.ts
+   31:6    error  Use an `interface` instead of a `type`                                                           @typescript-eslint/consistent-type-definitions
+   34:34   error  Missing return type on function                                                                  @typescript-eslint/explicit-function-return-type
+   44:3    error  Missing return type on function                                                                  @typescript-eslint/explicit-function-return-type
+   50:3    error  Missing return type on function                                                                  @typescript-eslint/explicit-function-return-type
+   55:3    error  Missing return type on function                                                                  @typescript-eslint/explicit-function-return-type
+   56:3    error  Missing return type on function                                                                  @typescript-eslint/explicit-function-return-type
+   74:3    error  Missing return type on function                                                                  @typescript-eslint/explicit-function-return-type
+   85:3    error  Missing return type on function                                                                  @typescript-eslint/explicit-function-return-type
+  100:3    error  Missing return type on function                                                                  @typescript-eslint/explicit-function-return-type
+  108:3    error  Missing return type on function                                                                  @typescript-eslint/explicit-function-return-type
+  112:152  error  Unsafe argument of type `Buffer<any>` assigned to a parameter of type `Buffer<ArrayBufferLike>`  @typescript-eslint/no-unsafe-argument
+  125:1    error  Missing return type on function                                                                  @typescript-eslint/explicit-function-return-type
+  134:31   error  Missing return type on function                                                                  @typescript-eslint/explicit-function-return-type
+  139:3    error  Missing return type on function                                                                  @typescript-eslint/explicit-function-return-type
+  141:3    error  Missing return type on function                                                                  @typescript-eslint/explicit-function-return-type
+  143:3    error  Missing return type on function                                                                  @typescript-eslint/explicit-function-return-type
+  145:3    error  Missing return type on function                                                                  @typescript-eslint/explicit-function-return-type
+  147:3    error  Missing return type on function                                                                  @typescript-eslint/explicit-function-return-type
+  159:3    error  Missing return type on function                                                                  @typescript-eslint/explicit-function-return-type
+  160:3    error  Missing return type on function                                                                  @typescript-eslint/explicit-function-return-type
+  161:3    error  Missing return type on function                                                                  @typescript-eslint/explicit-function-return-type
+  162:3    error  Missing return type on function                                                                  @typescript-eslint/explicit-function-return-type
+  189:3    error  Missing return type on function                                                                  @typescript-eslint/explicit-function-return-type
+  194:3    error  Missing return type on function                                                                  @typescript-eslint/explicit-function-return-type
+
+C:\Users\23328\Desktop\new_version\backend\src\modules\v8\v81-semesters.ts
+   38:1   error  Missing return type on function  @typescript-eslint/explicit-function-return-type
+   40:37  error  Missing return type on function  @typescript-eslint/explicit-function-return-type
+   55:3   error  Missing return type on function  @typescript-eslint/explicit-function-return-type
+   59:3   error  Missing return type on function  @typescript-eslint/explicit-function-return-type
+   86:42  error  Missing return type on function  @typescript-eslint/explicit-function-return-type
+   92:3   error  Missing return type on function  @typescript-eslint/explicit-function-return-type
+  123:3   error  Missing return type on function  @typescript-eslint/explicit-function-return-type
+  142:3   error  Missing return type on function  @typescript-eslint/explicit-function-return-type
+  166:46  error  Missing return type on function  @typescript-eslint/explicit-function-return-type
+  182:3   error  Missing return type on function  @typescript-eslint/explicit-function-return-type
+  183:38  error  Missing return type on function  @typescript-eslint/explicit-function-return-type
+  189:3   error  Missing return type on function  @typescript-eslint/explicit-function-return-type
+  190:38  error  Missing return type on function  @typescript-eslint/explicit-function-return-type
+  193:3   error  Missing return type on function  @typescript-eslint/explicit-function-return-type
+  197:3   error  Missing return type on function  @typescript-eslint/explicit-function-return-type
+  202:3   error  Missing return type on function  @typescript-eslint/explicit-function-return-type
+  203:38  error  Missing return type on function  @typescript-eslint/explicit-function-return-type
+
+C:\Users\23328\Desktop\new_version\backend\src\modules\v8\v81-settlement-check.ts
+   16:3   error  Missing return type on function  @typescript-eslint/explicit-function-return-type
+   26:3   error  Missing return type on function  @typescript-eslint/explicit-function-return-type
+  130:34  error  Missing return type on function  @typescript-eslint/explicit-function-return-type
+  135:3   error  Missing return type on function  @typescript-eslint/explicit-function-return-type
+
+C:\Users\23328\Desktop\new_version\backend\src\modules\v8\v81-settlement-command.ts
+  22:3   error  Missing return type on function  @typescript-eslint/explicit-function-return-type
+  36:3   error  Missing return type on function  @typescript-eslint/explicit-function-return-type
+  46:34  error  Missing return type on function  @typescript-eslint/explicit-function-return-type
+  51:3   error  Missing return type on function  @typescript-eslint/explicit-function-return-type
+  55:3   error  Missing return type on function  @typescript-eslint/explicit-function-return-type
+
+C:\Users\23328\Desktop\new_version\backend\src\modules\v8\v81-settlement-report-read.ts
+  17:6   error  Use an `interface` instead of a `type`  @typescript-eslint/consistent-type-definitions
+  20:34  error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+  26:3   error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+  32:3   error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+  38:3   error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+  50:3   error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+  61:34  error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+  62:1   error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+  72:3   error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+  75:3   error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+  78:3   error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+
+C:\Users\23328\Desktop\new_version\backend\src\modules\v8\v81-settlement-reports.ts
+   13:8   error  Missing return type on function                    @typescript-eslint/explicit-function-return-type
+   14:24  error  '_generatedAt' is assigned a value but never used  @typescript-eslint/no-unused-vars
+   17:13  error  Use an `interface` instead of a `type`             @typescript-eslint/consistent-type-definitions
+   25:3   error  Missing return type on function                    @typescript-eslint/explicit-function-return-type
+   29:3   error  Missing return type on function                    @typescript-eslint/explicit-function-return-type
+   33:3   error  Missing return type on function                    @typescript-eslint/explicit-function-return-type
+   37:3   error  Missing return type on function                    @typescript-eslint/explicit-function-return-type
+   41:3   error  Missing return type on function                    @typescript-eslint/explicit-function-return-type
+  119:3   error  Missing return type on function                    @typescript-eslint/explicit-function-return-type
+
+C:\Users\23328\Desktop\new_version\backend\src\modules\v8\v81-settlement-write-guard.ts
+  6:8  error  Missing return type on function  @typescript-eslint/explicit-function-return-type
+
+C:\Users\23328\Desktop\new_version\backend\src\modules\v8\v81-student-settlement.ts
+  12:3   error  Missing return type on function  @typescript-eslint/explicit-function-return-type
+  34:34  error  Missing return type on function  @typescript-eslint/explicit-function-return-type
+  39:3   error  Missing return type on function  @typescript-eslint/explicit-function-return-type
+
+C:\Users\23328\Desktop\new_version\backend\src\modules\v8\v81-subadmin-identity.ts
+   19:46  error  Missing return type on function                                                             @typescript-eslint/explicit-function-return-type
+   39:6   error  Use an `interface` instead of a `type`                                                      @typescript-eslint/consistent-type-definitions
+   52:6   error  Use an `interface` instead of a `type`                                                      @typescript-eslint/consistent-type-definitions
+   59:3   error  Missing return type on function                                                             @typescript-eslint/explicit-function-return-type
+   64:3   error  Missing return type on function                                                             @typescript-eslint/explicit-function-return-type
+   68:3   error  Missing return type on function                                                             @typescript-eslint/explicit-function-return-type
+  100:3   error  Missing return type on function                                                             @typescript-eslint/explicit-function-return-type
+  118:3   error  Missing return type on function                                                             @typescript-eslint/explicit-function-return-type
+  126:30  error  'confirmPassword' is assigned a value but never used                                        @typescript-eslint/no-unused-vars
+  133:23  error  Prefer using an optional chain expression instead, as it's more concise and easier to read  @typescript-eslint/prefer-optional-chain
+  157:3   error  Missing return type on function                                                             @typescript-eslint/explicit-function-return-type
+  175:13  error  Prefer using an optional chain expression instead, as it's more concise and easier to read  @typescript-eslint/prefer-optional-chain
+  195:3   error  Missing return type on function                                                             @typescript-eslint/explicit-function-return-type
+  236:34  error  Missing return type on function                                                             @typescript-eslint/explicit-function-return-type
+  241:3   error  Missing return type on function                                                             @typescript-eslint/explicit-function-return-type
+  246:3   error  Missing return type on function                                                             @typescript-eslint/explicit-function-return-type
+  251:3   error  Missing return type on function                                                             @typescript-eslint/explicit-function-return-type
+  256:3   error  Missing return type on function                                                             @typescript-eslint/explicit-function-return-type
+  261:3   error  Missing return type on function                                                             @typescript-eslint/explicit-function-return-type
+
+C:\Users\23328\Desktop\new_version\backend\src\modules\v8\v81-subadmins.ts
+   42:6   error  Use an `interface` instead of a `type`  @typescript-eslint/consistent-type-definitions
+   63:3   error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+   79:3   error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+  166:3   error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+  200:3   error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+  201:38  error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+  207:3   error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+  212:3   error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+  216:27  error  Missing return type on function         @typescript-eslint/explicit-function-return-type
+
+C:\Users\23328\Desktop\new_version\backend\src\modules\v8\v81-swim-transfer.ts
+  4:8  error  Missing return type on function  @typescript-eslint/explicit-function-return-type
+
+C:\Users\23328\Desktop\new_version\backend\src\modules\v8\v81-system-event.ts
+  5:8  error  Missing return type on function  @typescript-eslint/explicit-function-return-type
+
+C:\Users\23328\Desktop\new_version\backend\src\modules\v8\v81-teacher-courses.ts
+  21:3  error  Missing return type on function  @typescript-eslint/explicit-function-return-type
+
+C:\Users\23328\Desktop\new_version\backend\src\modules\v8\v81-teacher-imports.ts
+   33:3  error  Missing return type on function  @typescript-eslint/explicit-function-return-type
+   42:3  error  Missing return type on function  @typescript-eslint/explicit-function-return-type
+   88:3  error  Missing return type on function  @typescript-eslint/explicit-function-return-type
+  110:3  error  Missing return type on function  @typescript-eslint/explicit-function-return-type
+  115:3  error  Missing return type on function  @typescript-eslint/explicit-function-return-type
+  124:3  error  Missing return type on function  @typescript-eslint/explicit-function-return-type
+
+C:\Users\23328\Desktop\new_version\backend\src\modules\v8\v81.controller.ts
+   23:3  error  Missing return type on function  @typescript-eslint/explicit-function-return-type
+   31:3  error  Missing return type on function  @typescript-eslint/explicit-function-return-type
+   36:3  error  Missing return type on function  @typescript-eslint/explicit-function-return-type
+   45:3  error  Missing return type on function  @typescript-eslint/explicit-function-return-type
+   50:3  error  Missing return type on function  @typescript-eslint/explicit-function-return-type
+   58:3  error  Missing return type on function  @typescript-eslint/explicit-function-return-type
+   70:3  error  Missing return type on function  @typescript-eslint/explicit-function-return-type
+   78:3  error  Missing return type on function  @typescript-eslint/explicit-function-return-type
+   97:3  error  Missing return type on function  @typescript-eslint/explicit-function-return-type
+  105:3  error  Missing return type on function  @typescript-eslint/explicit-function-return-type
+  119:3  error  Missing return type on function  @typescript-eslint/explicit-function-return-type
+  127:3  error  Missing return type on function  @typescript-eslint/explicit-function-return-type
+  142:3  error  Missing return type on function  @typescript-eslint/explicit-function-return-type
+  151:3  error  Missing return type on function  @typescript-eslint/explicit-function-return-type
+  164:3  error  Missing return type on function  @typescript-eslint/explicit-function-return-type
+
+C:\Users\23328\Desktop\new_version\backend\src\modules\v8\v81.module.ts
+  119:62  error  Missing return type on function  @typescript-eslint/explicit-function-return-type
+
+C:\Users\23328\Desktop\new_version\backend\src\modules\v8\v81.service.ts
+   39:6   error  Use an `interface` instead of a `type`                                                      @typescript-eslint/consistent-type-definitions
+   40:6   error  Use an `interface` instead of a `type`                                                      @typescript-eslint/consistent-type-definitions
+   66:3   error  Missing return type on function                                                             @typescript-eslint/explicit-function-return-type
+  123:3   error  Missing return type on function                                                             @typescript-eslint/explicit-function-return-type
+  137:3   error  Missing return type on function                                                             @typescript-eslint/explicit-function-return-type
+  150:3   error  Missing return type on function                                                             @typescript-eslint/explicit-function-return-type
+  155:3   error  Missing return type on function                                                             @typescript-eslint/explicit-function-return-type
+  159:3   error  Missing return type on function                                                             @typescript-eslint/explicit-function-return-type
+  174:3   error  Missing return type on function                                                             @typescript-eslint/explicit-function-return-type
+  304:3   error  Missing return type on function                                                             @typescript-eslint/explicit-function-return-type
+  337:3   error  Missing return type on function                                                             @typescript-eslint/explicit-function-return-type
+  345:3   error  Missing return type on function                                                             @typescript-eslint/explicit-function-return-type
+  407:3   error  Missing return type on function                                                             @typescript-eslint/explicit-function-return-type
+  425:3   error  Missing return type on function                                                             @typescript-eslint/explicit-function-return-type
+  474:3   error  Missing return type on function                                                             @typescript-eslint/explicit-function-return-type
+  611:3   error  Missing return type on function                                                             @typescript-eslint/explicit-function-return-type
+  628:3   error  Missing return type on function                                                             @typescript-eslint/explicit-function-return-type
+  648:3   error  Missing return type on function                                                             @typescript-eslint/explicit-function-return-type
+  655:3   error  Missing return type on function                                                             @typescript-eslint/explicit-function-return-type
+  703:3   error  Missing return type on function                                                             @typescript-eslint/explicit-function-return-type
+  717:11  error  Prefer using an optional chain expression instead, as it's more concise and easier to read  @typescript-eslint/prefer-optional-chain
+  794:11  error  Prefer using an optional chain expression instead, as it's more concise and easier to read  @typescript-eslint/prefer-optional-chain
+
+C:\Users\23328\Desktop\new_version\backend\test\e2e\auth.e2e.test.ts
+  295:53  error  Invalid type "unknown" of template literal expression  @typescript-eslint/restrict-template-expressions
+
+C:\Users\23328\Desktop\new_version\backend\test\e2e\exercise-record.e2e.test.ts
+  122:11  error  Unsafe assignment of an `any` value                    @typescript-eslint/no-unsafe-assignment
+  331:63  error  Invalid type "unknown" of template literal expression  @typescript-eslint/restrict-template-expressions
+  352:63  error  Invalid type "unknown" of template literal expression  @typescript-eslint/restrict-template-expressions
+
+C:\Users\23328\Desktop\new_version\backend\test\e2e\media-evidence.e2e.test.ts
+  186:6  error  Unsafe assignment of an `any` value  @typescript-eslint/no-unsafe-assignment
+
+C:\Users\23328\Desktop\new_version\backend\test\e2e\official-roster-alignment.e2e.test.ts
+  376:50  error  Invalid type "unknown" of template literal expression  @typescript-eslint/restrict-template-expressions
+  393:44  error  Invalid type "unknown" of template literal expression  @typescript-eslint/restrict-template-expressions
+
+C:\Users\23328\Desktop\new_version\backend\test\e2e\teaching-structure.e2e.test.ts
+  334:55  error  Invalid operand for a '+' operation. Operands must each be a number or string, allowing a string + any of: `any`, `boolean`, `null`, `RegExp`, `undefined`. Got `unknown`  @typescript-eslint/restrict-plus-operands
+  341:46  error  Invalid operand for a '+' operation. Operands must each be a number or string, allowing a string + any of: `any`, `boolean`, `null`, `RegExp`, `undefined`. Got `unknown`  @typescript-eslint/restrict-plus-operands
+
+C:\Users\23328\Desktop\new_version\backend\test\e2e\v81-credit-projection-minutes.e2e.test.ts
+  141:11  error  Unsafe assignment of an `any` value  @typescript-eslint/no-unsafe-assignment
+
+C:\Users\23328\Desktop\new_version\backend\test\e2e\v81-endurance.e2e.test.ts
+  188:9   error  'data' is assigned a value but never used         @typescript-eslint/no-unused-vars
+  203:11  error  Unsafe call of a type that could not be resolved  @typescript-eslint/no-unsafe-call
+
+C:\Users\23328\Desktop\new_version\backend\test\e2e\v81-help-feedback.e2e.test.ts
+  203:29  error  Invalid type "unknown" of template literal expression  @typescript-eslint/restrict-template-expressions
+  209:43  error  Invalid type "unknown" of template literal expression  @typescript-eslint/restrict-template-expressions
+  287:29  error  Invalid type "unknown" of template literal expression  @typescript-eslint/restrict-template-expressions
+  303:53  error  Invalid type "unknown" of template literal expression  @typescript-eslint/restrict-template-expressions
+
+C:\Users\23328\Desktop\new_version\backend\test\e2e\v81-makeup.e2e.test.ts
+   27:10  error  'seedExerciseSessionStudent' is defined but never used                                                                                  @typescript-eslint/no-unused-vars
+  133:11  error  Unsafe assignment of an `any` value                                                                                                     @typescript-eslint/no-unsafe-assignment
+  136:11  error  Unsafe assignment of an `any` value                                                                                                     @typescript-eslint/no-unsafe-assignment
+  137:70  error  Unsafe argument of type `any` assigned to a parameter of type `string | symbol | Function | Type<{ processOne(): Promise<boolean>; }>`  @typescript-eslint/no-unsafe-argument
+  194:9   error  'tokenFor' is assigned a value but never used                                                                                           @typescript-eslint/no-unused-vars
+  213:9   error  'data' is assigned a value but never used                                                                                               @typescript-eslint/no-unused-vars
+  234:87  error  Expected the Promise rejection reason to be an Error                                                                                    @typescript-eslint/prefer-promise-reject-errors
+  264:87  error  Expected the Promise rejection reason to be an Error                                                                                    @typescript-eslint/prefer-promise-reject-errors
+
+C:\Users\23328\Desktop\new_version\backend\test\e2e\v81-ocr-governance.e2e.test.ts
+  271:54  error  Invalid type "unknown" of template literal expression  @typescript-eslint/restrict-template-expressions
+  281:49  error  Invalid type "unknown" of template literal expression  @typescript-eslint/restrict-template-expressions
+
+C:\Users\23328\Desktop\new_version\backend\test\e2e\v81-ocr-intake.e2e.test.ts
+  145:11   error  Unsafe assignment of an `any` value                                                                          @typescript-eslint/no-unsafe-assignment
+  286:41   error  Invalid type "unknown" of template literal expression                                                        @typescript-eslint/restrict-template-expressions
+  297:42   error  Invalid type "unknown" of template literal expression                                                        @typescript-eslint/restrict-template-expressions
+  298:56   error  Invalid type "unknown" of template literal expression                                                        @typescript-eslint/restrict-template-expressions
+  304:127  error  'listed.nextBeforeId' will use Object's default stringification format ('[object Object]') when stringified  @typescript-eslint/no-base-to-string
+  304:127  error  Invalid type "{}" of template literal expression                                                             @typescript-eslint/restrict-template-expressions
+  314:11   error  Unsafe assignment of an `any` value                                                                          @typescript-eslint/no-unsafe-assignment
+  315:11   error  Unsafe assignment of an `any` value                                                                          @typescript-eslint/no-unsafe-assignment
+  318:11   error  Unsafe assignment of an `any` value                                                                          @typescript-eslint/no-unsafe-assignment
+  318:22   error  Unsafe construction of an `any` typed value                                                                  @typescript-eslint/no-unsafe-call
+  334:11   error  Unsafe assignment of an `any` value                                                                          @typescript-eslint/no-unsafe-assignment
+  334:20   error  Unsafe construction of an `any` typed value                                                                  @typescript-eslint/no-unsafe-call
+  335:25   error  Unsafe call of an `any` typed value                                                                          @typescript-eslint/no-unsafe-call
+  335:32   error  Unsafe member access .processOne on an `any` value                                                           @typescript-eslint/no-unsafe-member-access
+  335:68   error  Unsafe member access .status on an `any` value                                                               @typescript-eslint/no-unsafe-member-access
+  336:57   error  Invalid type "unknown" of template literal expression                                                        @typescript-eslint/restrict-template-expressions
+  340:25   error  Unsafe call of an `any` typed value                                                                          @typescript-eslint/no-unsafe-call
+  340:32   error  Unsafe member access .processOne on an `any` value                                                           @typescript-eslint/no-unsafe-member-access
+  340:68   error  Unsafe member access .status on an `any` value                                                               @typescript-eslint/no-unsafe-member-access
+  341:57   error  Invalid type "unknown" of template literal expression                                                        @typescript-eslint/restrict-template-expressions
+  354:61   error  Invalid type "unknown" of template literal expression                                                        @typescript-eslint/restrict-template-expressions
+  393:22   error  This assertion is unnecessary since it does not change the type of the expression                            @typescript-eslint/no-unnecessary-type-assertion
+  399:42   error  Invalid type "unknown" of template literal expression                                                        @typescript-eslint/restrict-template-expressions
+  400:52   error  Invalid type "unknown" of template literal expression                                                        @typescript-eslint/restrict-template-expressions
+  401:11   error  Unsafe assignment of an `any` value                                                                          @typescript-eslint/no-unsafe-assignment
+  401:30   error  Unsafe construction of an `any` typed value                                                                  @typescript-eslint/no-unsafe-call
+  401:70   error  Async method 'request' has no 'await' expression                                                             @typescript-eslint/require-await
+  409:11   error  Unsafe assignment of an `any` value                                                                          @typescript-eslint/no-unsafe-assignment
+  409:28   error  Unsafe construction of an `any` typed value                                                                  @typescript-eslint/no-unsafe-call
+  410:25   error  Unsafe call of an `any` typed value                                                                          @typescript-eslint/no-unsafe-call
+  410:40   error  Unsafe member access .processOne on an `any` value                                                           @typescript-eslint/no-unsafe-member-access
+  410:76   error  Unsafe member access .status on an `any` value                                                               @typescript-eslint/no-unsafe-member-access
+
+C:\Users\23328\Desktop\new_version\backend\test\e2e\v81-physical-imports.e2e.test.ts
+  144:11  error  Unsafe assignment of an `any` value                    @typescript-eslint/no-unsafe-assignment
+  241:46  error  Invalid type "unknown" of template literal expression  @typescript-eslint/restrict-template-expressions
+  297:67  error  Invalid type "unknown" of template literal expression  @typescript-eslint/restrict-template-expressions
+  299:69  error  Invalid type "unknown" of template literal expression  @typescript-eslint/restrict-template-expressions
+
+C:\Users\23328\Desktop\new_version\backend\test\e2e\v81-runtime-archives.e2e.test.ts
+    4:10  error  'createHash' is defined but never used                                                                                            @typescript-eslint/no-unused-vars
+   30:10  error  'seedExerciseSessionStudent' is defined but never used                                                                            @typescript-eslint/no-unused-vars
+  149:11  error  Unsafe assignment of an `any` value                                                                                               @typescript-eslint/no-unsafe-assignment
+  205:9   error  'tokenFor' is assigned a value but never used                                                                                     @typescript-eslint/no-unused-vars
+  224:9   error  'data' is assigned a value but never used                                                                                         @typescript-eslint/no-unused-vars
+  251:11  error  Unsafe assignment of an `any` value                                                                                               @typescript-eslint/no-unsafe-assignment
+  252:58  error  Unsafe argument of type `any` assigned to a parameter of type `string | symbol | Function | Type<{ cleanup(): Promise<void>; }>`  @typescript-eslint/no-unsafe-argument
+
+C:\Users\23328\Desktop\new_version\backend\test\e2e\v81-semesters.e2e.test.ts
+   24:10  error  'seedExerciseSessionStudent' is defined but never used  @typescript-eslint/no-unused-vars
+  167:9   error  'tokenFor' is assigned a value but never used           @typescript-eslint/no-unused-vars
+  186:9   error  'data' is assigned a value but never used               @typescript-eslint/no-unused-vars
+  205:38  error  Invalid type "unknown" of template literal expression   @typescript-eslint/restrict-template-expressions
+
+C:\Users\23328\Desktop\new_version\backend\test\e2e\v81-settlement.e2e.test.ts
+  245:58  error  Invalid type "unknown" of template literal expression  @typescript-eslint/restrict-template-expressions
+  284:87  error  Expected the Promise rejection reason to be an Error   @typescript-eslint/prefer-promise-reject-errors
+  300:75  error  Invalid type "unknown" of template literal expression  @typescript-eslint/restrict-template-expressions
+  344:71  error  Invalid type "unknown" of template literal expression  @typescript-eslint/restrict-template-expressions
+
+C:\Users\23328\Desktop\new_version\backend\test\e2e\v81-subadmin-identity.e2e.test.ts
+  172:9   error  'tokenFor' is assigned a value but never used         @typescript-eslint/no-unused-vars
+  270:87  error  Expected the Promise rejection reason to be an Error  @typescript-eslint/prefer-promise-reject-errors
+
+C:\Users\23328\Desktop\new_version\backend\test\e2e\v81-system-management.e2e.test.ts
+  358:40  error  This assertion is unnecessary since it does not change the type of the expression  @typescript-eslint/no-unnecessary-type-assertion
+  359:38  error  This assertion is unnecessary since it does not change the type of the expression  @typescript-eslint/no-unnecessary-type-assertion
+
+C:\Users\23328\Desktop\new_version\backend\test\e2e\v81-target-reallocation.e2e.test.ts
+  141:11  error  Unsafe assignment of an `any` value  @typescript-eslint/no-unsafe-assignment
+
+C:\Users\23328\Desktop\new_version\backend\test\e2e\v81-teacher-imports.e2e.test.ts
+   25:10  error  'seedExerciseSessionStudent' is defined but never used  @typescript-eslint/no-unused-vars
+  168:9   error  'tokenFor' is assigned a value but never used           @typescript-eslint/no-unused-vars
+
+C:\Users\23328\Desktop\new_version\backend\test\helpers\profile-policy.ts
+   6:23  error  Async method 'findFirst' has no 'await' expression  @typescript-eslint/require-await
+  11:5   error  Async method '$queryRaw' has no 'await' expression  @typescript-eslint/require-await
+
+C:\Users\23328\Desktop\new_version\backend\test\unit\clamav-stream.test.ts
+  44:24  error  '_' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\23328\Desktop\new_version\backend\test\unit\demand-daily-credit.test.ts
+  9:16  error  Async method '$queryRaw' has no 'await' expression  @typescript-eslint/require-await
+
+C:\Users\23328\Desktop\new_version\backend\test\unit\error-diagnostics.test.ts
+   6:1   error  All imports in the declaration are only used as types. Use `import type`                                                                                                                                                                                                                                                                    @typescript-eslint/consistent-type-imports
+  10:14  error  A method that is not declared with `this: void` may cause unintentional scoping of `this` when separated from its object.
+Consider using an arrow function or explicitly `.bind()`ing the method to avoid calling the method with an unintended `this` value. 
+If a function does not access `this`, it can be annotated with `this: void`  @typescript-eslint/unbound-method
+  10:42  error  A method that is not declared with `this: void` may cause unintentional scoping of `this` when separated from its object.
+Consider using an arrow function or explicitly `.bind()`ing the method to avoid calling the method with an unintended `this` value. 
+If a function does not access `this`, it can be annotated with `this: void`  @typescript-eslint/unbound-method
+  18:31  error  This assertion is unnecessary since it does not change the type of the expression                                                                                                                                                                                                                                                           @typescript-eslint/no-unnecessary-type-assertion
+
+C:\Users\23328\Desktop\new_version\backend\test\unit\media-service-expiry.test.ts
+  63:9  error  Async method 'headPrivateObject' has no 'await' expression  @typescript-eslint/require-await
+
+C:\Users\23328\Desktop\new_version\backend\test\unit\migration-compatibility.test.ts
+   7:6   error  Use an `interface` instead of a `type`              @typescript-eslint/consistent-type-definitions
+  10:17  error  Async method '$queryRaw' has no 'await' expression  @typescript-eslint/require-await
+
+C:\Users\23328\Desktop\new_version\backend\test\unit\ocr-table-source.test.ts
+  31:57  error  Unsafe argument of type `any[]` assigned to a parameter of type `Record<string, unknown>[]`  @typescript-eslint/no-unsafe-argument
+  32:57  error  Unsafe argument of type `any[]` assigned to a parameter of type `Record<string, unknown>[]`  @typescript-eslint/no-unsafe-argument
+
+C:\Users\23328\Desktop\new_version\backend\test\unit\roster-upload-size.test.ts
+  15:25  error  Unexpected empty async method 'checkHealth'                                                                                  @typescript-eslint/no-empty-function
+  18:72  error  Unsafe argument of type `any` assigned to a parameter of type `string | ArrayBufferLike | ArrayBufferView<ArrayBufferLike>`  @typescript-eslint/no-unsafe-argument
+  22:5   error  Async method 'getPrivateObject' has no 'await' expression                                                                    @typescript-eslint/require-await
+  23:5   error  Async method 'deletePrivateObject' has no 'await' expression                                                                 @typescript-eslint/require-await
+  28:5   error  Async generator function 'body' has no 'await' expression                                                                    @typescript-eslint/require-await
+
+C:\Users\23328\Desktop\new_version\backend\test\unit\runtime-conformance-report.test.ts
+  30:7   error  Unsafe assignment of an `any` value                 @typescript-eslint/no-unsafe-assignment
+  40:32  error  Unsafe member access .summary on an `any` value     @typescript-eslint/no-unsafe-member-access
+  41:32  error  Unsafe member access .summary on an `any` value     @typescript-eslint/no-unsafe-member-access
+  42:32  error  Unsafe member access .summary on an `any` value     @typescript-eslint/no-unsafe-member-access
+  43:13  error  Unsafe call of an `any` typed value                 @typescript-eslint/no-unsafe-call
+  43:29  error  Unsafe member access .operations on an `any` value  @typescript-eslint/no-unsafe-member-access
+  51:32  error  Unsafe member access .operations on an `any` value  @typescript-eslint/no-unsafe-member-access
+  52:32  error  Unsafe member access .summary on an `any` value     @typescript-eslint/no-unsafe-member-access
+  53:32  error  Unsafe member access .summary on an `any` value     @typescript-eslint/no-unsafe-member-access
+  54:32  error  Unsafe member access .summary on an `any` value     @typescript-eslint/no-unsafe-member-access
+  61:32  error  Unsafe member access .operations on an `any` value  @typescript-eslint/no-unsafe-member-access
+  62:36  error  Unsafe member access .operations on an `any` value  @typescript-eslint/no-unsafe-member-access
+  63:32  error  Unsafe member access .operations on an `any` value  @typescript-eslint/no-unsafe-member-access
+  64:32  error  Unsafe member access .summary on an `any` value     @typescript-eslint/no-unsafe-member-access
+  65:32  error  Unsafe member access .summary on an `any` value     @typescript-eslint/no-unsafe-member-access
+  66:29  error  Unsafe member access .failures on an `any` value    @typescript-eslint/no-unsafe-member-access
+  72:32  error  Unsafe member access .summary on an `any` value     @typescript-eslint/no-unsafe-member-access
+  73:32  error  Unsafe member access .summary on an `any` value     @typescript-eslint/no-unsafe-member-access
+  74:32  error  Unsafe member access .summary on an `any` value     @typescript-eslint/no-unsafe-member-access
+  75:32  error  Unsafe member access .summary on an `any` value     @typescript-eslint/no-unsafe-member-access
+  76:32  error  Unsafe member access .operations on an `any` value  @typescript-eslint/no-unsafe-member-access
+  88:31  error  Unsafe member access .failures on an `any` value    @typescript-eslint/no-unsafe-member-access
+
+C:\Users\23328\Desktop\new_version\backend\test\unit\semester-switch-readiness.test.ts
+  10:5   error  Async method '$queryRaw' has no 'await' expression                                            @typescript-eslint/require-await
+  11:17  error  Async method 'findFirst' has no 'await' expression                                            @typescript-eslint/require-await
+  12:21  error  Async method 'findUniqueOrThrow' has no 'await' expression                                    @typescript-eslint/require-await
+  13:21  error  Async method 'findMany' has no 'await' expression                                             @typescript-eslint/require-await
+  15:45  error  Async method '$transaction' has no 'await' expression                                         @typescript-eslint/require-await
+  16:20  error  This assertion is unnecessary since the receiver accepts the original type of the expression  @typescript-eslint/no-unnecessary-type-assertion
+  17:7   error  Async method 'checkInTransaction' has no 'await' expression                                   @typescript-eslint/require-await
+  21:24  error  This assertion is unnecessary since the receiver accepts the original type of the expression  @typescript-eslint/no-unnecessary-type-assertion
+
+C:\Users\23328\Desktop\new_version\backend\test\unit\smtp-auth-code-delivery.test.ts
+  32:25  error  Async method 'sendMail' has no 'await' expression  @typescript-eslint/require-await
+
+C:\Users\23328\Desktop\new_version\backend\test\unit\student-mail-delivery-gate.test.ts
+  9:57  error  Async method 'deliver' has no 'await' expression  @typescript-eslint/require-await
+
+C:\Users\23328\Desktop\new_version\backend\test\unit\student-school-email.test.ts
+  42:63  error  Async method 'findFirst' has no 'await' expression  @typescript-eslint/require-await
+
+C:\Users\23328\Desktop\new_version\backend\test\unit\tencent-cvm-role-credential-provider.test.ts
+  21:25  error  '_expiration' is assigned a value but never used        @typescript-eslint/no-unused-vars
+  32:7   error  Async method 'getCredential' has no 'await' expression  @typescript-eslint/require-await
+
+C:\Users\23328\Desktop\new_version\backend\test\unit\tencent-ses-auth-code-delivery.test.ts
+  35:7    error  Async method 'SendEmail' has no 'await' expression  @typescript-eslint/require-await
+  38:46   error  Unsafe return of a value of type `any`              @typescript-eslint/no-unsafe-return
+  38:118  error  Unsafe member access .purpose on an `any` value     @typescript-eslint/no-unsafe-member-access
+
+C:\Users\23328\Desktop\new_version\backend\test\unit\v81-physical-xlsx.test.ts
+  26:26  error  Unsafe member access .f on an `any` value  @typescript-eslint/no-unsafe-member-access
+
+C:\Users\23328\Desktop\new_version\backend\test\unit\v81-roster-xlsx.test.ts
+  35:26  error  Unsafe member access .f on an `any` value  @typescript-eslint/no-unsafe-member-access
+
+✖ 720 problems (720 errors, 0 warnings)
+  75 errors and 0 warnings potentially fixable with the `--fix` option.
+

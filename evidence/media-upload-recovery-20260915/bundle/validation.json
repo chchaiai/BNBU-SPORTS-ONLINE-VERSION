@@ -1,0 +1,30 @@
+{
+  "previous": "/opt/bnbu-sports-production/releases/iphone-video-20260915-r2",
+  "baseImage": "sha256:e0867da64f1eaa036a4843575cd9100ea290fae0a15006d81aa80e9c3e20e3ba",
+  "portalImage": "sha256:ff3e42944f7fc0d43993a1a660f6cd1755f59e4801bcab4966b3548dc4ff7c23",
+  "baselineFiles": {
+    "web/student/js/api.js": "6639af9bc4be0df8ece83f800cc23a56ec70729925dc0b73e967f18b52041b06",
+    "nginx.conf": "6b108ca514c32d3af9b4d63df7d237f2af549e36bd1829ccff82d0e66dbd2791",
+    "production.env": "35d9912efc1543d950577bc630325f698880f1e1ddd3757324b925c97c39b8c9",
+    "compose.yml": "6873fc3bd42b96c2aab67f3288f2772f4ea4bda2f804c65bb7261931e4c3a288"
+  },
+  "baselineBackend": {
+    "modules/media/application/media.service.js": "849bd16c33721565f6a020ad84cf3dfee59ef112ffb31c3088a51f962ce368a6",
+    "modules/media/application/media.service.js.map": "c1b1f5e7aeefbaa89e09ec6d11236f296ffed3f9db43ad3ec2a58ec3d20a89e9"
+  },
+  "checks": {
+    "frontend": 17,
+    "postgresHttp": 6,
+    "backendUnit": 27,
+    "typecheck": "PASS",
+    "lint": "PASS",
+    "build": "PASS"
+  },
+  "files": {
+    "web/student/js/api.js": "c888321d3288ea9d3f6e5a8d6c832daae5bf69344d5d4d6071bb33a78806869e",
+    "backend/dist/modules/media/application/media.service.js": "5163ef321d836ee9314b01c9c103fbf0c947cdec030dda0f9b1e7f2468eca775",
+    "backend/dist/modules/media/application/media.service.js.map": "c6e51fb9f12c0bda09e2bdca49d1c276e735e45ace72c06a9607c5b674b82c45",
+    "deploy.py": "6627f318a08da424e7badf1affe34b7e1c42be2e951f3d421c4dbd312ac76bf5",
+    "backend/Dockerfile": "5c99f7c9b9d98e3bef2907d96b1b67bea9546bbf1a8c0fa14f22abf2a6d70cb5"
+  }
+}

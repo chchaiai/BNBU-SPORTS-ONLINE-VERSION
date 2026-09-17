@@ -1,0 +1,23 @@
+{
+  "result": "PASS",
+  "base": "https://www.student.bnbusports.cn",
+  "checks": [
+    {
+      "engine": "chromium",
+      "bytes": 12998,
+      "originalExact": true,
+      "durableDraft": true,
+      "storageFailureDistinct": true,
+      "legacyBlobReadable": true,
+      "reloadRestores": true
+    },
+    {
+      "engine": "webkit",
+      "bytes": 12998,
+      "originalExact": true,
+      "durableDraft": true,
+      "storageFailureDistinct": true,
+      "reloadRestores": true
+    }
+  ]
+}

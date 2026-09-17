@@ -1,4 +1,5 @@
-import { isStudentSchoolEmail } from '../../../common/security/student-school-email.js';
+import { assertProfileReady } from '../../users/application/student-profile-quality.js';
+import { isStudentSchoolEmail, isNewStudentSchoolEmail } from '../../../common/security/student-school-email.js';
 import { Inject, Injectable } from '@nestjs/common';
 import { requireUnsettledCourse } from '../../v8/v81-settlement-write-guard.js';
 
@@ -177,7 +178,7 @@ export class QrJoinService {
         } }) : null;
         if (identity.verificationChallengeId && identity.verifiedEmail) {
           const verification = await transaction.studentSignInChallenge.findUnique({ where: { id: identity.verificationChallengeId } });
-          if (!isStudentSchoolEmail(identity.verifiedEmail) || verification?.status !== 'CONSUMED' || verification.organizationId !== capability.organizationId)
+          if (!isNewStudentSchoolEmail(identity.verifiedEmail) || verification?.status !== 'CONSUMED' || verification.organizationId !== capability.organizationId)
             throw new ApplicationError('AUTH_REQUIRED', 401);
           const emailOwner = await transaction.user.findFirst({ where: { organizationId: capability.organizationId,
             role: 'STUDENT', primaryEmailNormalized: identity.verifiedEmail, emailVerifiedAt: { not: null }, deletedAt: null } });
@@ -189,6 +190,7 @@ export class QrJoinService {
         const existingIdentity = await this.identities.validateExisting(capability.organizationId, identity, transaction);
         if (existingIdentity && existingIdentity.user.id !== identity.authenticatedUserId)
           throw new ApplicationError('AUTH_REQUIRED', 401);
+        if(existingIdentity) await assertProfileReady(transaction,capability.organizationId,existingIdentity.user.id);
         let resolved = await this.identities.resolveOrCreate(
           capability.organizationId,
           identity,

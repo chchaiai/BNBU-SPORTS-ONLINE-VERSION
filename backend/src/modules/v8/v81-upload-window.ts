@@ -3,15 +3,15 @@ import { permitsExistingCourseSession } from '../enrollments/application/course-
 import type { Prisma } from '../../generated/prisma/client.js';
 import { ApplicationError } from '../../common/errors/application-error.js';
 import { supplementClock } from './domain/deadlines.js';
-import { readSwimTransfer } from './v81-swim-transfer.js';
 
 /** Rechecked on each upload phase. A cached client permission cannot authorize a write. */
 export async function exerciseUploadWindow(
   tx: Prisma.TransactionClient,
   sessionId: string,
   now: Date,
-  mediaId?: string,
-) {
+  _mediaId?: string,
+): Promise<{supplement:boolean;frozenMediaIds:string[]}> {
+  void _mediaId; // Retained for callers from earlier releases.
   const session = await tx.exerciseSession.findUnique({
     where: { id: sessionId },
     include: { enrollment: true, exerciseRecord: true, classSection: true },
@@ -23,16 +23,6 @@ export async function exerciseUploadWindow(
     await requireHistoricalSubmissionWindow(tx,sessionId,now);
     if (!permitsExistingCourseSession(session.enrollment, session.classSection, session.startedAt))
       throw new ApplicationError('ENROLLMENT_NOT_ACTIVE', 409);
-    if (record?.sportType === 'SWIMMING') {
-      const intake = await readSwimTransfer(tx, record.id, now);
-      if (intake) {
-        if (!mediaId || !intake.items.some((item) => item.mediaId === mediaId))
-          throw new ApplicationError('MEDIA_BIND_TARGET_INVALID', 422, { reason: 'SWIM_LOCKED_BATCH_MISMATCH' });
-        if (intake.paused) throw new ApplicationError('SYSTEM_MAINTENANCE', 503);
-        if (!intake.completedAt && intake.transferLate && now.getTime() > intake.sessionEndedAt.getTime() + 86400000)
-          throw new ApplicationError('COURSE_DEADLINE_PASSED', 409);
-      }
-    }
     return { supplement: false, frozenMediaIds: [] as string[] };
   }
   const rows = await tx.$queryRaw<
@@ -46,8 +36,7 @@ export async function exerciseUploadWindow(
     SELECT stage,supplement_started_at,supplement_hours,material_version FROM v81_record_workflows WHERE record_id=${record.id}::uuid`;
   const state = rows[0];
   if (
-    !state ||
-    state.stage !== 'AWAITING_SUPPLEMENT' ||
+    state?.stage !== 'AWAITING_SUPPLEMENT' ||
     state.material_version !== 1 ||
     !state.supplement_started_at ||
     !state.supplement_hours
