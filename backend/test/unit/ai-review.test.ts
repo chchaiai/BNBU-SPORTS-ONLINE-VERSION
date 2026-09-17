@@ -3,17 +3,13 @@ import { test } from 'node:test';
 import { decideAiReview, parseAiAssessment, recommendAiReview } from '../../src/modules/v8/domain/ai-review.js';
 import { TencentAiReviewProvider, aiReviewConfiguration } from '../../src/modules/v8/tencent-ai-review-provider.js';
 const positive = { contentSafety: 'SAFE', exercise: 'YES', sportMatch: 'YES', confidence: 0.95 } as const;
-test('automatic decisions keep uncertainty, duplicate and sampled video with teachers', () => {
-  assert.equal(decideAiReview(positive,false,false),'VALID');
-  for (const field of ['contentSafety','exercise','sportMatch'] as const) {
-    assert.equal(decideAiReview({...positive,[field]:'UNCERTAIN'},false,false),null);
+test('AI only routes exceptions to teachers and never rejects students', () => {
+  assert.equal(decideAiReview(positive,false,false),null);
+  for (const assessment of [{...positive,contentSafety:'UNSAFE'}, {...positive,exercise:'NO'}, {...positive,sportMatch:'NO'}, {...positive,confidence:0.4}]) {
+    assert.equal(decideAiReview(parseAiAssessment(assessment),false,false),'PENDING_TEACHER');
   }
-  assert.equal(decideAiReview({...positive,exercise:'NO'},false,false),null);
-  assert.equal(decideAiReview({...positive,sportMatch:'NO'},false,false),null);
-  assert.equal(decideAiReview({...positive,contentSafety:'UNSAFE'},false,false),'INVALID');
-  assert.equal(decideAiReview({...positive,confidence:0.949},false,false),null);
-  assert.equal(decideAiReview(positive,true,false),null);
-  assert.equal(decideAiReview(positive,false,true),null);
+  assert.equal(decideAiReview(positive,true,false),'PENDING_TEACHER');
+  assert.equal(decideAiReview(positive,false,true),'PENDING_TEACHER');
 });
 test('AI advice is conservative with uncertain, duplicate, sampled and unsafe evidence', () => {
   assert.equal(recommendAiReview(positive,false,false).recommendation,'SUGGEST_PASS');

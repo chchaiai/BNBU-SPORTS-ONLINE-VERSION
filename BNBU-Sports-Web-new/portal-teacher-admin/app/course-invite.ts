@@ -5,9 +5,7 @@ type CourseInviteState = {
   status: "active" | "revoked";
 };
 
-// Android's scanner deliberately accepts this exact HTTPS /join/{code} payload.
-// It is a QR transport format only; this web portal has no student-facing /join page.
-const ANDROID_COURSE_JOIN_QR_ORIGIN = "https://sports.example.com";
+const COURSE_JOIN_ORIGIN = "https://www.student.bnbusports.cn";
 
 export function normalizeInviteCode(value: string) {
   // Real invite tokens are case-sensitive; do not force uppercase.
@@ -16,7 +14,7 @@ export function normalizeInviteCode(value: string) {
 
 export function createAndroidInviteQrPayload(code: string) {
   const normalizedCode = normalizeInviteCode(code);
-  return `${ANDROID_COURSE_JOIN_QR_ORIGIN}/join/${encodeURIComponent(normalizedCode)}`;
+  return `${COURSE_JOIN_ORIGIN}/student/?invite=${encodeURIComponent(normalizedCode)}`;
 }
 
 export function getInviteStatus(invite: CourseInviteState, now = Date.now()): CourseInviteStatus {

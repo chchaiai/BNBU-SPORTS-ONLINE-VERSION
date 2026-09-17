@@ -60,7 +60,7 @@ export async function appendMaterialVersion(
         bytes > 200n * 1024n * 1024n ||
         item.verifiedDurationSeconds === null ||
         item.verifiedDurationSeconds < 1 ||
-        item.verifiedDurationSeconds > 15
+        item.verifiedDurationSeconds > 10
       ) {
         throw new ApplicationError('MEDIA_TYPE_NOT_ALLOWED', 415);
       }

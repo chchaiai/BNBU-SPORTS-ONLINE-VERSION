@@ -11,7 +11,7 @@ import { seedSubmittedExerciseRecord } from '../helpers/exercise-review.js';
 import { requireTestDatabaseUrl } from '../helpers/test-environment.js';
 import { appendMaterialVersion } from '../../src/modules/v8/v81-materials.js';
 import { applyAiDecision } from '../../src/modules/v8/v81-ai-decision.js';
-import { backfillPendingAiReviews } from '../../src/modules/v8/v81-ai-backfill.js';
+import { initializeRecordWorkflow } from '../../src/modules/v8/v81-record-state.js';
 import { readAiReviews, enqueueAiReview } from '../../src/modules/v8/v81-ai-review-store.js';
 import type { PrismaService } from '../../src/common/database/prisma.service.js';
 import type { RuntimeConfig } from '../../src/common/config/environment.js';
@@ -19,7 +19,7 @@ import type { MediaStoragePort } from '../../src/common/object-storage/media-sto
 import type { V81AiReviewWorker as AiWorkerClass } from '../../src/modules/v8/v81-ai-review.worker.js';
 import type { AiReviewProvider } from '../../src/modules/v8/ai-review-provider.js';
 
-test('durable AI jobs: atomic automatic approval, legacy advice, duplicate, retry, lease and budget', async () => {
+test('default valid submission, AI exceptions, teacher precedence, retry, lease and budget', async () => {
   const prisma = createTestPrisma(requireTestDatabaseUrl());
   const { V81AiReviewWorker } = await import(pathToFileURL(resolve('dist/modules/v8/v81-ai-review.worker.js')).href) as { V81AiReviewWorker: typeof AiWorkerClass };
   try {
@@ -40,7 +40,7 @@ test('durable AI jobs: atomic automatic approval, legacy advice, duplicate, retr
     }};
     const config = {aiReview:{enabled:true,budgetFen:500000}} as RuntimeConfig;
     const worker = () => new V81AiReviewWorker(prisma as PrismaService,config,provider,storage);
-    async function seed(suffix: string, automatic = false) {
+    async function seed(suffix: string, historical = false) {
       const record = await seedSubmittedExerciseRecord(prisma, fixture, suffix, 'PENDING', {actualSeconds:3600,maximumSeconds:null,configureCourse:false});
       const mediaId = uuidv7(), now = new Date();
       await prisma.mediaEvidence.create({data:{id:mediaId,organizationId:fixture.organizationId,ownerStudentId:record.studentId,
@@ -49,22 +49,21 @@ test('durable AI jobs: atomic automatic approval, legacy advice, duplicate, retr
         verifiedFileSizeBytes:BigInt(bytes.length),declaredContentSha256:sha,verifiedContentSha256:sha,uploadStatus:'AVAILABLE',
         storageKey:`media/${fixture.organizationId}/${mediaId}/image`,uploadedAt:now,boundAt:now,processingStartedAt:now,availableAt:now,createdAt:now,updatedAt:now,version:5}});
       await prisma.$transaction(async tx => {
-        await appendMaterialVersion(tx,{recordId:record.recordId,organizationId:fixture.organizationId,mediaIds:[mediaId],materialVersion:1,now});
-        await tx.v81RecordWorkflow.create({data:{recordId:record.recordId,organizationId:fixture.organizationId,stage:'PENDING_TEACHER'}});
-        await enqueueAiReview(tx,{recordId:record.recordId,organizationId:fixture.organizationId,materialVersion:1,now});
-        if (!automatic) await tx.$executeRaw`UPDATE v81_ai_review_jobs SET policy_version='advisory-v1' WHERE record_id=${record.recordId}::uuid`;
+        if(historical) await tx.$executeRaw`INSERT INTO v81_history_session_sources(session_id,settings_version,earliest_date,latest_date,declared_at,request_id) VALUES(${record.sessionId}::uuid,1,'2026-01-01','2026-12-31',${now},${uuidv7()})`;
+        await initializeRecordWorkflow(tx,{recordId:record.recordId,organizationId:fixture.organizationId,mediaIds:[mediaId],now});
       });
       return {...record,mediaId};
     }
     const first = await seed('AI-FIRST');
-    await prisma.$executeRaw`UPDATE v81_record_workflows SET stage='PENDING_AI' WHERE record_id=${first.recordId}::uuid`;
+    assert.equal((await prisma.v81RecordWorkflow.findUniqueOrThrow({where:{recordId:first.recordId}})).stage,'VALID');
+    assert.equal((await prisma.$queryRaw<{credited_minutes:number}[]>`SELECT credited_minutes FROM v81_credit_projections WHERE record_id=${first.recordId}::uuid`)[0]?.credited_minutes,60);
     const before = await prisma.exerciseRecord.findUniqueOrThrow({where:{id:first.recordId}});
     const results = await Promise.all([worker().processOne(),worker().processOne()]);
     assert.equal(results.filter(Boolean).length,1); assert.equal(calls,1);
     assert.equal((await readAiReviews(prisma,[first.recordId])).get(first.recordId)?.recommendation,'SUGGEST_PASS');
-    assert.equal((await prisma.exerciseRecord.findUniqueOrThrow({where:{id:first.recordId}})).version,before.version+1);
+    assert.equal((await prisma.exerciseRecord.findUniqueOrThrow({where:{id:first.recordId}})).version,before.version);
     assert.equal((await prisma.v81RecordWorkflow.findUniqueOrThrow({where:{recordId:first.recordId}})).stage,'VALID');
-    assert.equal((await readAiReviews(prisma,[first.recordId])).get(first.recordId)?.policyVersion,'auto-decision-v2');
+    assert.equal((await readAiReviews(prisma,[first.recordId])).get(first.recordId)?.policyVersion,'default-valid-exceptions-v3');
     const finalReview=await prisma.reviewRecord.findFirstOrThrow({where:{recordId:first.recordId},orderBy:{reviewVersion:'desc'}});
     assert.equal(finalReview.result,'VALID'); assert.equal(finalReview.teacherId,null);
     assert.equal((await prisma.$queryRaw<{credited_minutes:number}[]>`SELECT credited_minutes FROM v81_credit_projections WHERE record_id=${first.recordId}::uuid`)[0]?.credited_minutes,60);
@@ -77,31 +76,31 @@ test('durable AI jobs: atomic automatic approval, legacy advice, duplicate, retr
     await assert.rejects(prisma.reviewRecord.create({data:{id:uuidv7(),organizationId:fixture.organizationId,recordId:second.recordId,
       reviewVersion:pendingReview.reviewVersion+1,previousReviewId:pendingReview.id,result:'INVALID',reasonCode:'SESSION_MISMATCH',reviewedAt:new Date(),createdAt:new Date()}}),
       /AI system rejection requires/);
-    const commitDecision = (recordId:string, decision:'VALID'|'INVALID') => prisma.$transaction(async tx => {
+    const commitDecision = (recordId:string) => prisma.$transaction(async tx => {
       await tx.$queryRaw`SELECT id FROM organizations WHERE id=${fixture.organizationId}::uuid FOR NO KEY UPDATE`;
       const jobs=await tx.$queryRaw<{id:string}[]>`SELECT id FROM v81_ai_review_jobs WHERE record_id=${recordId}::uuid AND material_version=1`;
-      await applyAiDecision(tx,{organizationId:fixture.organizationId,recordId,materialVersion:1,jobId:jobs[0]!.id,decision,policyVersion:'auto-decision-v2'});
+      await applyAiDecision(tx,{organizationId:fixture.organizationId,recordId,materialVersion:1,jobId:jobs[0]!.id,decision:'PENDING_TEACHER',policyVersion:'default-valid-exceptions-v3'});
     });
-    await commitDecision(second.recordId,'INVALID');
-    assert.equal((await prisma.v81RecordWorkflow.findUniqueOrThrow({where:{recordId:second.recordId}})).stage,'INVALID');
     assert.equal((await prisma.$queryRaw<{credited_minutes:number}[]>`SELECT credited_minutes FROM v81_credit_projections WHERE record_id=${second.recordId}::uuid`)[0]?.credited_minutes,0);
-    await commitDecision(second.recordId,'VALID');
-    assert.equal((await prisma.v81RecordWorkflow.findUniqueOrThrow({where:{recordId:second.recordId}})).stage,'INVALID');
-    assert.equal(await prisma.reviewRecord.count({where:{recordId:second.recordId}}),2);
+    const reviewCount=await prisma.reviewRecord.count({where:{recordId:second.recordId}});
+    await commitDecision(second.recordId);
+    assert.equal(await prisma.reviewRecord.count({where:{recordId:second.recordId}}),reviewCount);
     const third = await seed('AI-RETRY'); fail = true;
     for (let attempt=1;attempt<=3;attempt++) {
       const result = await worker().processOne(); assert.equal(result?.status,attempt===3?'FAILED':'QUEUED');
       await prisma.$executeRaw`UPDATE v81_ai_review_jobs SET next_attempt_at=now() WHERE record_id=${third.recordId}::uuid`;
     }
     assert.equal((await readAiReviews(prisma,[third.recordId])).get(third.recordId)?.recommendation,null);
+    assert.equal((await prisma.v81RecordWorkflow.findUniqueOrThrow({where:{recordId:third.recordId}})).stage,'VALID');
     fail = false;
     await prisma.$transaction(async tx => {
       await appendMaterialVersion(tx,{recordId:third.recordId,organizationId:fixture.organizationId,mediaIds:[third.mediaId],materialVersion:2,now:new Date()});
-      await tx.$executeRaw`UPDATE v81_record_workflows SET material_version=2 WHERE record_id=${third.recordId}::uuid`;
+      await tx.$executeRaw`UPDATE v81_record_workflows SET material_version=2,stage='PENDING_TEACHER' WHERE record_id=${third.recordId}::uuid`;
     });
     assert.equal((await readAiReviews(prisma,[third.recordId])).get(third.recordId)?.materialVersion,2);
     await worker().processOne();
-    const fourth=await seed('AI-LEASE', true);
+    assert.equal((await prisma.v81RecordWorkflow.findUniqueOrThrow({where:{recordId:third.recordId}})).stage,'PENDING_TEACHER');
+    const fourth=await seed('AI-LEASE');
     await prisma.$executeRaw`UPDATE v81_ai_review_jobs SET status='RUNNING',attempts=3,lease_owner=${uuidv7()}::uuid,lease_until=now()-interval '1 second' WHERE record_id=${fourth.recordId}::uuid`;
     await worker().processOne();
     assert.equal((await readAiReviews(prisma,[fourth.recordId])).get(fourth.recordId)?.status,'FAILED');
@@ -109,16 +108,17 @@ test('durable AI jobs: atomic automatic approval, legacy advice, duplicate, retr
     await prisma.$executeRaw`UPDATE v81_ai_review_budget SET reserved_fen=500000 WHERE id=1`;
     await worker().processOne(); assert.equal(calls,callsBefore);
     assert.equal((await readAiReviews(prisma,[fifth.recordId])).get(fifth.recordId)?.errorCode,'AI_BUDGET_LIMIT');
+    await prisma.$executeRaw`UPDATE v81_ai_review_budget SET reserved_fen=0 WHERE id=1`;
     const completed=await seed('AI-DONE');
-    await prisma.$executeRaw`UPDATE v81_record_workflows SET stage='VALID' WHERE record_id=${completed.recordId}::uuid`;
-    const completedBefore=await prisma.exerciseRecord.findUniqueOrThrow({where:{id:completed.recordId}});
-    await backfillPendingAiReviews(prisma);
-    assert.equal((await readAiReviews(prisma,[completed.recordId])).get(completed.recordId)?.policyVersion,'advisory-v1');
-    assert.deepEqual(await prisma.exerciseRecord.findUniqueOrThrow({where:{id:completed.recordId}}),completedBefore);
-    const missing=await seedSubmittedExerciseRecord(prisma,fixture,'AI-MISSING','PENDING',{actualSeconds:3600,maximumSeconds:null,configureCourse:false});
-    await prisma.v81RecordWorkflow.create({data:{recordId:missing.recordId,organizationId:fixture.organizationId,stage:'TECHNICAL'}});
-    await backfillPendingAiReviews(prisma);
-    assert.equal((await prisma.v81RecordWorkflow.findUniqueOrThrow({where:{recordId:missing.recordId}})).stage,'PENDING_TEACHER');
-    assert.equal(await backfillPendingAiReviews(prisma),0);
+    const previous=await prisma.reviewRecord.findFirstOrThrow({where:{recordId:completed.recordId},orderBy:{reviewVersion:'desc'}});
+    await prisma.reviewRecord.create({data:{id:uuidv7(),organizationId:fixture.organizationId,recordId:completed.recordId,
+      reviewVersion:previous.reviewVersion+1,previousReviewId:previous.id,teacherId:fixture.teacherProfileId,result:'VALID',reviewedAt:new Date(),createdAt:new Date()}});
+    await commitDecision(completed.recordId);
+    assert.equal((await prisma.v81RecordWorkflow.findUniqueOrThrow({where:{recordId:completed.recordId}})).stage,'VALID');
+    const teacherCalls=calls; await worker().processOne(); assert.equal(calls,teacherCalls);
+    const historical=await seed('HISTORY',true);
+    assert.equal((await prisma.v81RecordWorkflow.findUniqueOrThrow({where:{recordId:historical.recordId}})).stage,'PENDING_TEACHER');
+    await worker().processOne();
+    assert.equal((await prisma.v81RecordWorkflow.findUniqueOrThrow({where:{recordId:historical.recordId}})).stage,'PENDING_TEACHER');
   } finally { await prisma.$disconnect(); }
 });

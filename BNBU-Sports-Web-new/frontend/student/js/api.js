@@ -403,7 +403,7 @@ function knownApiErrorMessage(error) {
     MEDIA_UPLOAD_SESSION_EXPIRED: tx("上传已超时，请重新拍摄上传。", "The upload expired. Capture and upload again."),
     MEDIA_ETAG_MISSING: tx("对象存储未返回完整性标识，本次上传已停止，请重试。", "Object storage did not return an integrity identifier. This upload was stopped; try again."),
     // Media rules added by the backend's 15-second exercise-video update
-    MEDIA_VIDEO_DURATION_EXCEEDED: tx(`打卡视频最长 ${MAX_PROOF_VIDEO_SECONDS} 秒，请重新录制。`, `Check-in videos may be at most ${MAX_PROOF_VIDEO_SECONDS} seconds. Record again.`),
+    MEDIA_VIDEO_DURATION_EXCEEDED: tx(`素材已超过十秒，请拍摄小于10秒的素材`, `Check-in videos may be at most ${MAX_PROOF_VIDEO_SECONDS} seconds. Record again.`),
     MEDIA_AUDIO_TRACK_REQUIRED: tx("打卡视频必须包含声音，请开启麦克风后重新录制。", "Check-in videos must contain sound. Enable the microphone and record again."),
     MEDIA_LOCATION_METADATA_NOT_ALLOWED: tx("凭证包含位置元数据，请重新拍摄或使用不含位置信息的文件。", "The proof contains location metadata. Capture it again or use a file without location data."),
     MEDIA_CAPTURE_SOURCE_NOT_ALLOWED: tx("打卡凭证必须现场拍摄，不能从相册选择。", "Proof must be captured in the app, not chosen from the gallery."),

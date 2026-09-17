@@ -38,7 +38,7 @@ const JPEG_START_OF_FRAME_MARKERS = new Set([
 ]);
 const LOCATION_METADATA_TERMS = ['gpslatitude', 'gpslongitude', 'exif:gps', 'location'];
 
-export const MAX_EXERCISE_VIDEO_DURATION_SECONDS = 15;
+export const MAX_EXERCISE_VIDEO_DURATION_SECONDS = 10;
 const MAX_NON_EXERCISE_VIDEO_DURATION_SECONDS = 300;
 
 @Injectable()

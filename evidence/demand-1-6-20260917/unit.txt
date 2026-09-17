@@ -1,0 +1,42 @@
+(node:48304) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+✔ AI only routes exceptions to teachers and never rejects students (0.6745ms)
+✔ AI advice is conservative with uncertain, duplicate, sampled and unsafe evidence (0.1548ms)
+✔ untrusted model output never adds actions or arbitrary properties (1.0299ms)
+✔ moderation uncertainty overrides model pass; provider response is bounded (0.9473ms)
+✔ accepts WebP declarations for certification images but not exercise evidence (0.7761ms)
+✔ reads actual certification WebP dimensions: sample-lossy.webp (12.5101ms)
+✔ rejects truncated certification WebP even with matching transport digest: sample-lossy.webp (0.9004ms)
+✔ reads actual certification WebP dimensions: sample-lossless.webp (7.8592ms)
+✔ rejects truncated certification WebP even with matching transport digest: sample-lossless.webp (0.7192ms)
+✔ rejects over-ten-second fragmented MP4 even when declared duration is missing (47.448ms)
+✔ rejects invalid fragmented MP4 timelines: missing-fragments (0.913ms)
+✔ rejects invalid fragmented MP4 timelines: excessive-samples (1.5723ms)
+✔ rejects invalid fragmented MP4 timelines: excessive-duration (1.6653ms)
+✔ rejects invalid fragmented MP4 timelines: truncated (1.4932ms)
+✔ rejects WebP with valid container lengths and image dimensions but missing compressed pixels (2.4483ms)
+▶ MediaEvidence validation core
+  ✔ separates declarations from verified image facts and computes SHA-256 from bytes (9.1803ms)
+  ✔ accepts JPEG comment bytes that resemble a GPS tag but rejects a real GPS IFD (9.2925ms)
+  ✔ rejects MIME spoofing, byte-size mismatches, location metadata, and the test signature (2.1084ms)
+  ✔ keeps image limits while replacing exercise-video size rules with a 10-second and 200 MiB caps (0.2433ms)
+  ✔ streams video verification and enforces the trusted duration at the exact boundary (0.8662ms)
+  ✔ accepts a 10-second audible WebM and verifies its actual tracks and duration (0.7414ms)
+  ✔ rejects WebM duration overflow, missing audio, and location tags (0.7106ms)
+  ✔ rejects an exercise video without a trusted audio track (0.4617ms)
+  ✔ rejects an audio-only ISO media container even when it has a trusted audio handler (0.2997ms)
+  ✔ rejects ISO location metadata without scanning random media payload bytes (0.4906ms)
+✔ MediaEvidence validation core (24.7908ms)
+▶ Demand document and photo facts
+  ✔ verifies a real PDF and rejects disguised or truncated document bytes (9.4379ms)
+  ✔ preserves verified camera facts and accepts images with no EXIF (12.0975ms)
+  ✔ accepts a decodable phone JPEG with an OEM trailer without weakening hash or pixel validation (9.7909ms)
+✔ Demand document and photo facts (31.519ms)
+ℹ tests 28
+ℹ suites 2
+ℹ pass 28
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 941.1019

@@ -1,0 +1,9 @@
+ Container bnbu-sports-production-portal-1 Recreate
+ Container bnbu-sports-production-backend-1 Recreate
+ Container bnbu-sports-production-backend-1 Recreated
+ Container bnbu-sports-production-portal-1 Recreated
+ Container bnbu-sports-production-portal-1 Starting
+ Container bnbu-sports-production-backend-1 Starting
+ Container bnbu-sports-production-portal-1 Started
+ Container bnbu-sports-production-backend-1 Started
+{"result": "PASS", "previous": "/opt/bnbu-sports-production/releases/photo-exif-20260917", "release": "/opt/bnbu-sports-production/releases/demand-six-20260917", "images": {"backend": "sha256:4ee13be473adbda77952478fa6153beb8105a1d98b30dadbbbf67d9e4cdef559", "portal": "sha256:d10d3810b3b3c0234f2646fcd194b274a8b53005417e84e1722234ca3c3e50f1"}, "backup": {"check": "PRE_RELEASE_DATABASE_BACKUP", "result": "PASS", "path": "/opt/bnbu-sports-production/backups/before-bugfix-20260917T081941Z.dump", "bytes": 33781089}, "migration": "NONE", "configurationAndBudgetUnchanged": true, "runtimeHashes": 14, "publicStudentHashes": 7, "health": "PASS"}

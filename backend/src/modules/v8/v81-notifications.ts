@@ -28,7 +28,7 @@ export async function notifyRecord(
     VALID: ['运动记录有效', 'Exercise record accepted'],
     INVALID: ['运动记录无效', 'Exercise record invalid'],
     AWAITING_SUPPLEMENT: ['请补充本次运动材料', 'Supplementary evidence required'],
-    PENDING_TEACHER: ['补证已受理，等待教师复核', 'Supplement received, awaiting teacher review'],
+    PENDING_TEACHER: ['运动记录等待教师复核', 'Exercise record awaiting teacher review'],
   };
   const title = titles[input.stage]?.[locale === 'en' ? 1 : 0];
   if (!title) throw new Error('UNSUPPORTED_RECORD_NOTIFICATION');

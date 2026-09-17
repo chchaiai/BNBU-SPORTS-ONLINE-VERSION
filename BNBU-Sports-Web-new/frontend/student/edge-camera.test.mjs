@@ -6,7 +6,7 @@ test('Android Edge uses device capture while desktop Edge retains the live camer
   assert.equal(prefersDeviceCamera('Mozilla/5.0 (Linux; Android 14) EdgA/152.0.4191.65'),true);
   assert.equal(prefersDeviceCamera('Mozilla/5.0 (HarmonyOS; HUAWEI) Edg/152.0.4191.65'),true);
   assert.equal(prefersDeviceCamera('Mozilla/5.0 (Windows NT 10.0) Edg/152.0'),false);
-  assert.equal(prefersDeviceCamera('Mozilla/5.0 (iPhone) EdgiOS/152.0'),false);
+  assert.equal(prefersDeviceCamera('Mozilla/5.0 (iPhone) EdgiOS/152.0'),true);
 });
 test('Edge capture opens the native video input synchronously and releases it on cancellation',()=>{
   const originalDocument=globalThis.document;

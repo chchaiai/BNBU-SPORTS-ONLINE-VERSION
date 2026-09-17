@@ -1,0 +1,21 @@
+✔ Android Edge uses device capture while desktop Edge retains the live camera (0.7642ms)
+✔ Edge capture opens the native video input synchronously and releases it on cancellation (0.2645ms)
+✔ finalized MP4 duration supports both movie header versions and extended atoms (0.8177ms)
+✔ truncated MP4 headers and invalid time scales cannot produce accepted durations (0.3174ms)
+✔ upload reports measured byte progress separately from confirmation (1.3786ms)
+✔ unknown upload length shows a phase rather than an invented percentage (0.1568ms)
+✔ ten-second clips and unknown raw duration pass while known invalid durations fail (0.6222ms)
+✔ first frame with NaN waits for finite mobile duration (0.6928ms)
+✔ first frame with Infinity waits for finite mobile duration (0.1328ms)
+✔ stops on either recording limit, including the exact boundary (0.5161ms)
+✔ raw MOV and MP4 retain every byte without a decoder (1.522ms)
+✔ raw source rejects oversized data before reading and supports WebM (0.4708ms)
+✔ new video uploads use 200MB and ten seconds, unknown duration is server verified (0.1778ms)
+ℹ tests 13
+ℹ suites 0
+ℹ pass 13
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 125.9164

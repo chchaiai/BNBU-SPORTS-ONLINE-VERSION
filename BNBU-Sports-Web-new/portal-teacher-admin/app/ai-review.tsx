@@ -21,9 +21,7 @@ export function AiReviewPanel({ review }: { review?: AiReview | null }) {
     <strong>{ready ? review.recommendation === 'SUGGEST_PASS' ? '🟢 ' : review.recommendation === 'SUSPECTED_RISK' ? '🔴 ' : '🟡 ' : ''}{label}</strong>
     {review && <small>材料版本 {review.materialVersion}{review.completedAt ? ` · ${new Date(review.completedAt).toLocaleString()}` : ''}</small>}
     {ready && review.flags.length > 0 && <ul>{review.flags.map(flag => <li key={flag}>{flags[flag] ?? '需要人工核实'}</li>)}</ul>}
-    <p>{review?.policyVersion === 'auto-decision-v2'
-      ? 'AI 可自动通过或判无效，教师可复核修改。无法确认、疑似重复及抽帧视频交教师审核，请以记录审核结果为准。'
-      : 'AI 结果仅供参考，可能存在误判。最终由教师确认，疑似重复不等同于作弊。'}</p>
+    <p>普通首次打卡默认有效；AI 异常进入教师复核。历史补卡和补证仍须人工审核。AI 不直接判无效。</p>
     <small>以上内容为AI生成，不代表开发者立场，请勿删除或修改本标记</small>
   </section>;
 }

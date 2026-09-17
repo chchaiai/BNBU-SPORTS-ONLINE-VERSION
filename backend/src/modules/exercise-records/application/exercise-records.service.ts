@@ -587,8 +587,8 @@ export class ExerciseRecordsService {
           });
           return this.idempotency.success(
             (await projectV81Records(transaction, [{
-              ...updated,
-              reviews: [review],
+              ...await transaction.exerciseRecord.findUniqueOrThrow({where:{id:updated.id}}),
+              reviews: await transaction.reviewRecord.findMany({where:{recordId:updated.id},orderBy:{reviewVersion:'desc'},take:1}),
             }]))[0]!,
             {
               principalId: principal.userId,

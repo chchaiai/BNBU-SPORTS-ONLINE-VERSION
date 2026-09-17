@@ -21842,7 +21842,7 @@ components:
               durationSeconds:
                 type: integer
                 minimum: 1
-                maximum: 15
+                maximum: 10
             required:
               - durationSeconds
       description: EXERCISE_RECORD media is scoped to an owned ExerciseSession. EXEMPTION_APPLICATION

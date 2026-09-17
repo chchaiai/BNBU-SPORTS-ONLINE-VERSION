@@ -48,14 +48,14 @@ export async function normalizeServerVideo(storage: MediaStoragePort, storageKey
     const duration = Number(facts.format.duration ?? video.duration);
     // Missing WebM duration is checked against decoded output below. Decode at
     // most eleven seconds so malformed or unbounded inputs cannot occupy a worker.
-    if (Number.isFinite(duration) && (duration < 1 || duration > 10.1)) throw new ApplicationError('MEDIA_VIDEO_DURATION_EXCEEDED',422);
+    if (Number.isFinite(duration) && (duration < 1 || duration > 10)) throw new ApplicationError('MEDIA_VIDEO_DURATION_EXCEEDED',422);
     if (!Number.isFinite(duration)) {
       const decoded = await execute('ffmpeg', ['-nostdin','-v','error','-xerror','-threads','1','-protocol_whitelist','file,pipe',
         '-i',source,'-t','11','-map','0:v:0','-map','0:a:0','-progress','pipe:1','-nostats','-f','null','-'],
         {timeout:120_000,maxBuffer:1024*1024,windowsHide:true});
       const times = [...decoded.stdout.matchAll(/^out_time_us=(\d+)$/gm)].map(match=>Number(match[1])/1_000_000);
       const decodedDuration = Math.max(0,...times);
-      if (decodedDuration < 1 || decodedDuration > 10.1) throw new ApplicationError('MEDIA_VIDEO_DURATION_EXCEEDED',422);
+      if (decodedDuration < 1 || decodedDuration > 10) throw new ApplicationError('MEDIA_VIDEO_DURATION_EXCEEDED',422);
     }
     const hdr = ['smpte2084','arib-std-b67'].includes(String(video.color_transfer));
     const scale = "scale='if(gte(iw,ih),min(iw,1920),min(iw,1080))':'if(gte(iw,ih),min(ih,1080),min(ih,1920))':force_original_aspect_ratio=decrease:force_divisible_by=2";

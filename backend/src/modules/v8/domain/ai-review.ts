@@ -8,13 +8,9 @@ export interface AiAssessment {
   confidence: number;
 }
 
-export const AI_AUTO_POLICY = 'auto-decision-v2';
-export function decideAiReview(assessment: AiAssessment, duplicate: boolean, sampledVideo: boolean): 'VALID' | 'INVALID' | null {
-  if (duplicate || sampledVideo || assessment.confidence < 0.95 ||
-    [assessment.contentSafety, assessment.exercise, assessment.sportMatch].includes('UNCERTAIN')) return null;
-  if (assessment.exercise !== 'YES' || assessment.sportMatch !== 'YES') return null;
-  if (assessment.contentSafety === 'UNSAFE') return 'INVALID';
-  return 'VALID';
+export const AI_AUTO_POLICY = 'default-valid-exceptions-v3';
+export function decideAiReview(assessment: AiAssessment, duplicate: boolean, sampledVideo: boolean): 'PENDING_TEACHER' | null {
+  return recommendAiReview(assessment, duplicate, sampledVideo).recommendation === 'SUGGEST_PASS' ? null : 'PENDING_TEACHER';
 }
 
 // Provider text is untrusted. Persist only bounded, known fields, never model actions.

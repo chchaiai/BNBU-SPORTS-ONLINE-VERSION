@@ -1,0 +1,12 @@
+✔ official QR URL and existing QR tokens resolve to the same invite (0.6349ms)
+✔ progress uses real values and no fabricated percentage during processing (0.2323ms)
+✔ all video sources reject 10.001 seconds including historical files (0.1637ms)
+✔ both primary buttons synchronously request device capture (0.1866ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 4
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 80.9921

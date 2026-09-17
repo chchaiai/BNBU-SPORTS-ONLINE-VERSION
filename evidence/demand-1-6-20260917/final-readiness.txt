@@ -1,0 +1,4 @@
+/opt/bnbu-sports-production/releases/demand-six-20260917
+/bnbu-sports-production-backend-1 healthy
+/bnbu-sports-production-portal-1 healthy
+{"data":{"kind":"READY","status":"UP","checkedAt":"2026-09-17T08:33:23.390Z"},"meta":{"requestId":"01a0ae7f-c194-714f-9fb6-ffb06fd353cc"}}

@@ -1,0 +1,27 @@
+{
+  "result": "PASS",
+  "scope": "Desktop browser engines with mobile viewports and user agents; not physical devices or the WeChat engine",
+  "results": [
+    {
+      "name": "chromium-android",
+      "realInviteLookup": true,
+      "privacyAndEmailFlow": true,
+      "centeredProgress": true,
+      "pageErrors": []
+    },
+    {
+      "name": "webkit-iphone",
+      "realInviteLookup": true,
+      "privacyAndEmailFlow": true,
+      "centeredProgress": true,
+      "pageErrors": []
+    },
+    {
+      "name": "chromium-wechat-ua",
+      "realInviteLookup": true,
+      "privacyAndEmailFlow": true,
+      "centeredProgress": true,
+      "pageErrors": []
+    }
+  ]
+}
