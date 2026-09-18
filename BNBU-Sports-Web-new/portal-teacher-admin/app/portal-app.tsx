@@ -72,6 +72,7 @@ import {
   type TabTransitionDirection,
 } from "./teacher-tab-page-transition";
 import { PageHeader } from "./teacher-ui";
+import { TeacherFeedback } from './teacher-feedback';
 import { TeacherWorkspace } from "./teacher-workspace";
 import { PortalNotifications, type NotificationTarget } from "./portal-notifications";
 import { clearRosterReconciliationCache } from "./roster-reconciliation-api-service";
@@ -180,15 +181,17 @@ const teacherNav: NavItem[] = [
   { id: "checkins", label: "打卡审核", icon: ClipboardCheck },
   { id: "grades", label: "内部成绩册", icon: GraduationCap },
   { id: "exemptions", label: "免测与认证", icon: ShieldCheck },
+  { id: "support", label: "问题反馈", icon: TicketCheck },
 ];
 
 const adminNav: NavItem[] = [
+  { id: "checkins", label: "学生打卡记录", icon: ClipboardCheck },
   { id: "overview", label: "系统概览", icon: LayoutDashboard },
   { id: "courses", label: "课程目录看板", icon: BookOpen },
   { id: "semesters", label: "学期管理", icon: CalendarRange },
   { id: "accounts", label: "用户与账号", icon: UserCog },
   { id: "subadmins", label: "分管理员设置", icon: KeyRound },
-  { id: "support", label: "学生问题反馈", icon: TicketCheck },
+  { id: "support", label: "问题反馈", icon: TicketCheck },
   { id: "rules", label: "全局规则", icon: SlidersHorizontal },
   { id: "system", label: "系统模式", icon: Settings },
   { id: "help", label: "帮助中心", icon: CircleHelp },
@@ -220,6 +223,7 @@ const pageCopy: Record<
   Record<string, { title: string; eyebrow: string; description: string }>
 > = {
   teacher: {
+    support: {title:"问题反馈",eyebrow:"服务与支持",description:"向管理员反馈问题，上传附件并查看处理回复。"},
     courses: {
       title: "课程管理",
       eyebrow: "教学业务",
@@ -251,6 +255,7 @@ const pageCopy: Record<
     },
   },
   admin: {
+    checkins: {title:"学生打卡记录",eyebrow:"全组织查询",description:"查询本组织所有学生的打卡、审核结果与原始凭证。"},
     overview: {
       title: "系统概览",
       eyebrow: "管理员工作台",
@@ -279,7 +284,7 @@ const pageCopy: Record<
         "设置分管理员账号、初始密码以及可使用的侧边栏标签权限。",
     },
     support: {
-      title: "学生问题反馈",
+      title: "问题反馈",
       eyebrow: "反馈管理",
       description:
         "查看学生提交的问题类型和问题描述，并跟踪处理状态。",
@@ -310,6 +315,7 @@ const pageCopy: Record<
 
 const realPageDescription: Record<Role, Record<string, string>> = {
   teacher: {
+    support: "向管理员反馈问题，上传附件并查看处理回复。",
     courses:
       "查看服务端教学班、成员关系、时间窗与一次性课程邀请。",
     roster:
@@ -1705,7 +1711,7 @@ export function PortalApp() {
           />
           <section className="page-content">
             {role === "teacher" ? (
-              <TeacherWorkspace
+              active === "support" ? <TeacherFeedback key={`feedback-${mockDataVersion}`} mode={workspaceMode} notificationTarget={notificationTarget} /> : <TeacherWorkspace
                 key={`teacher-${mockDataVersion}`}
                 active={active}
                 direction={tabDirection}

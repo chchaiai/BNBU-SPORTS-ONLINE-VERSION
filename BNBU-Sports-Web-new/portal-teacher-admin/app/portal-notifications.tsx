@@ -4,7 +4,7 @@ import {apiSessionUserId,currentApiSessionEpoch,request,requestWithMeta,toUserFa
 import {ErrorPanel} from './error-panel';
 export type NotificationTarget={id:string;targetType:string;targetId:string};
 type Notice={id:string;recipientUserId:string;notificationType:string;title:string;body:string;targetType:string|null;targetId:string|null;createdAt:string;readAt:string|null};
-const routes:Record<string,Record<string,string>>={teacher:{EXERCISE_RECORD:"checkins",REVIEW_RECORD:"checkins",EXEMPTION_APPLICATION:"exemptions",CLASS_SECTION:"courses",COURSE:"courses",ENROLLMENT:"roster",OFFICIAL_ROSTER_IMPORT:"roster",SETTLEMENT_REPORT:"courses"},admin:{FEEDBACK:"support",CLASS_SECTION:"courses",COURSE:"courses",SYSTEM_POLICY:"system",USER:"accounts"}};
+const routes:Record<string,Record<string,string>>={teacher:{FEEDBACK:"support",EXERCISE_RECORD:"checkins",REVIEW_RECORD:"checkins",EXEMPTION_APPLICATION:"exemptions",CLASS_SECTION:"courses",COURSE:"courses",ENROLLMENT:"roster",OFFICIAL_ROSTER_IMPORT:"roster",SETTLEMENT_REPORT:"courses"},admin:{FEEDBACK:"support",CLASS_SECTION:"courses",COURSE:"courses",SYSTEM_POLICY:"system",USER:"accounts"}};
 export function PortalNotifications({role,locale,onNavigate,onChanged}:{role:"teacher"|"admin";locale:"zh"|"en";onNavigate:(route:string,target:NotificationTarget)=>void;onChanged:()=>void}){
  const [items,setItems]=useState<Notice[]>([]),[cursor,setCursor]=useState<string|null>(null),[unread,setUnread]=useState(false);
  const [busy,setBusy]=useState(true),[error,setError]=useState<UserFacingError|null>(null);

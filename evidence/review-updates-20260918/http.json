@@ -1,0 +1,14 @@
+{
+  "result": "PASS",
+  "checks": 26,
+  "historyMinutes": 120,
+  "configuredMaximum": 180,
+  "pendingBeforeTeacher": true,
+  "creditedAfterTeacher": 120,
+  "adminSearch": true,
+  "adminEvidence": true,
+  "unsubmittedEvidenceDenied": true,
+  "subadminScope": true,
+  "actorAttribution": true,
+  "teacherIsolation": true
+}

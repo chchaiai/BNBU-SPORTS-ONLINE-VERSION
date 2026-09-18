@@ -421,6 +421,16 @@ export const foundationMigrations = [
     sha256: 'aefc64733dbeda2303b07cf7b0420f5556301216003d6715354a0e21a22fa83b',
     destructive: false,
   },
+  {
+    migrationId: '0085_history_duration_limit',
+    sha256: 'c67f6aba8871e15a2fe226e93c114b5420e9bede545ef319679bb0dc4a2006a6',
+    destructive: false,
+  },
+  {
+    migrationId: '0086_feedback_attachments',
+    sha256: '2b07957d69e1b6b73f43da349c5fecc09967b7be7775774c8809e5536b0f85ae',
+    destructive: false,
+  },
 ] as const;
 
 export const foundationMigration = foundationMigrations[0];

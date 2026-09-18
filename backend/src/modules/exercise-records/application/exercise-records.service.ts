@@ -150,6 +150,7 @@ export class ExerciseRecordsService {
                   OR: [
                     { description: { contains: filters.search, mode: 'insensitive' as const } },
                     { sportName: { contains: filters.search, mode: 'insensitive' as const } },
+                    ...(principal.role==='ADMIN'?[{student:{OR:[{fullName:{contains:filters.search,mode:'insensitive' as const}},{studentNumber:{contains:filters.search,mode:'insensitive' as const}}]}}]:[]),
                   ],
                 },
               ]),
@@ -173,7 +174,7 @@ export class ExerciseRecordsService {
               ]),
         ],
       },
-      include: recordProjectionRelations,
+      include: {...recordProjectionRelations,student:{select:{fullName:true,studentNumber:true}},classSection:{select:{displayName:true}}},
       orderBy: [{ businessDate: direction }, { id: direction }],
       take: input.limit + 1,
     });
@@ -181,7 +182,7 @@ export class ExerciseRecordsService {
     const items = records.slice(0, input.limit);
     const last = items.at(-1);
     return pagedResult(
-      await projectV81Records(this.prisma,items, principal.role === 'TEACHER'),
+      (await projectV81Records(this.prisma,items, principal.role !== 'STUDENT')).map((row,index)=>({...row,...(principal.role==='ADMIN'?{studentName:items[index]!.student.fullName,studentNumber:items[index]!.student.studentNumber,className:items[index]!.classSection.displayName}:{})})),
       {
         nextCursor:
           hasMore && last !== undefined

@@ -1961,13 +1961,13 @@ export const checkinActions = {
       const yesterday=new Date(`${settings.today}T00:00:00Z`);yesterday.setUTCDate(yesterday.getUTCDate()-1);
       const latest=[settings.latestDate,yesterday.toISOString().slice(0,10)].sort()[0];
       checkinState(app).historySettings=settings;
-      app.showDialog({title:tx("补录历史运动", "Add past exercise"),body:`<p>${tx("填写实际运动日期和时长，随后上传凭证。补卡须教师审核，按所选日期计算次数。", "Enter the actual date and duration, then upload evidence. Teacher review is required.")}</p><label>${tx("日期","Date")}<input id="history-date" type="date" min="${esc(settings.earliestDate)}" max="${esc(latest)}" value="${esc(latest)}"/></label><label>${tx("开始时间（北京时间）","Start time (Beijing time)")}<input id="history-time" type="time" value="12:00"/></label><label>${tx("运动时长（分钟）","Duration (minutes)")}<input id="history-minutes" type="number" min="1" max="1440" value="60"/></label>`,buttons:[{label:tx("取消","Cancel"),action:"dialog.close"},{label:tx("添加凭证","Add evidence"),action:"checkin.historyCreate"}]});
+      app.showDialog({title:tx("补录历史运动", "Add past exercise"),body:`<div class="history-entry-form"><div class="history-entry-notice">${tx("教师审核后计入学时", "Hours count after teacher approval")} · ${tx("单次最多", "Maximum")} ${Number(settings.maximumMinutes??60)} ${tx("分钟", "minutes")}</div><p>${tx("填写实际运动日期和时长，随后上传凭证。补卡须教师审核，按所选日期计算次数。", "Enter the actual date and duration, then upload evidence. Teacher review is required.")}</p><label>${tx("日期","Date")}<input id="history-date" type="date" min="${esc(settings.earliestDate)}" max="${esc(latest)}" value="${esc(latest)}"/></label><label>${tx("开始时间（北京时间）","Start time (Beijing time)")}<input id="history-time" type="time" value="12:00"/></label><label>${tx("运动时长（分钟）","Duration (minutes)")}<input id="history-minutes" type="number" min="1" max="${Number(settings.maximumMinutes??60)}" value="${Math.min(60,Number(settings.maximumMinutes??60))}"/></label></div>`,buttons:[{label:tx("取消","Cancel"),action:"dialog.close"},{label:tx("添加凭证","Add evidence"),action:"checkin.historyCreate"}]});
     }catch(error){apiFailureDialog(app,error,tx("无法读取补卡范围","Cannot load past exercise settings"));}
   },
   "checkin.historyCreate": async (app) => {
     const ui=checkinState(app),course=findCurrentCourse(app.state.workspace);if(!course||ui.sessionTransitioning)return;
     const date=document.getElementById('history-date')?.value,time=document.getElementById('history-time')?.value,minutes=Number(document.getElementById('history-minutes')?.value);
-    if(!date||!time||!Number.isInteger(minutes)||minutes<1)return;
+    if(!date||!time||!Number.isInteger(minutes)||minutes<1||minutes>Number(document.getElementById('history-minutes')?.max)){document.getElementById('history-minutes')?.reportValidity();return;}
     ui.sessionTransitioning=true;
     try {
       const sport=courseSportSelection(course.name),details={creditType:ui.setup.creditType,sportType:ui.setup.creditType==='course'?sport.sportType:ui.setup.generalSportType,

@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useRef } from "react";
 import { ADMIN_PERMISSIONS, ADMIN_ROUTE_PERMISSION } from "./admin-domain";
 import { adminCopy } from "./admin-i18n";
+import { AdminCheckins } from "./admin-checkins";
 import { AdminAudit } from "./admin-audit";
 import { AdminCourses } from "./admin-courses";
 import { AdminHelp } from "./admin-help";
@@ -31,6 +32,7 @@ import type { NotificationTarget } from "./portal-notifications";
 import type { SemesterRow } from "./semester-api";
 
 const adminRoutes: AdminRoute[] = [
+  "checkins",
   "overview",
   "courses",
   "semesters",
@@ -86,6 +88,7 @@ function AdminPage({
       </div>
     );
   }
+  if (active === "checkins") return <AdminCheckins locale={locale} />;
   if (active === "courses") return <AdminCourses locale={locale} mode={mode} notificationTarget={notificationTarget} />;
   if (active === "semesters") return <AdminSemesters locale={locale} onSemestersLoaded={onSemestersLoaded} />;
   if (active === "accounts") return <AdminUsers locale={locale} />;

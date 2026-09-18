@@ -4,3 +4,8 @@ backend/prisma/migrations/0059_v81_recognition_adjustment/migration.sql text eol
 backend/prisma/migrations/0061_admin_student_erasure/migration.sql text eol=lf
 backend/prisma/migrations/0077_credit_projection_minutes/migration.sql text eol=lf
 docs/backend-contracts/openapi.yaml text eol=lf
+
+# Preserve the exact checksum of the already deployed migration.
+backend/prisma/migrations/0085_history_duration_limit/migration.sql -text whitespace=cr-at-eol
+
+backend/prisma/migrations/0086_feedback_attachments/migration.sql text eol=lf

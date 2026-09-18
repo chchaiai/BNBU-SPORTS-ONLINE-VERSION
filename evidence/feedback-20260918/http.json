@@ -1,0 +1,13 @@
+{
+  "result": "PASS",
+  "checks": 33,
+  "teacherSubmission": true,
+  "studentSubmission": true,
+  "sharedAdminQueue": true,
+  "privateAttachmentIsolation": true,
+  "immutableAcceptedObject": true,
+  "downloadDisposition": true,
+  "idempotency": true,
+  "teacherReplies": true,
+  "invalidMimeAndSizeDenied": true
+}

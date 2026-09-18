@@ -1,0 +1,21 @@
+{
+  "result": "PASS",
+  "previous": "/opt/bnbu-sports-production/releases/review-updates-final-20260918",
+  "release": "/opt/bnbu-sports-production/releases/feedback-final-20260918",
+  "images": {
+    "backend": "sha256:b45bfea7a7c9820234c20c4d38c9ab97db3018529eda17eebda02591b5d7b3db",
+    "portal": "sha256:e75c2d3f0cba133f1f7a0101a7753ee7bd0be7a26c7d0765ecdde59871ae18fe",
+    "migrator": "sha256:d42031d3cb9bf8858e1f2fdfc4713bd2635ec3aa912411f9e22dbe75581b7411"
+  },
+  "backup": {
+    "check": "PRE_RELEASE_DATABASE_BACKUP",
+    "result": "PASS",
+    "path": "/opt/bnbu-sports-production/backups/before-bugfix-20260918T054511Z.dump",
+    "bytes": 40902958
+  },
+  "migration": "0086_feedback_attachments",
+  "configurationAndBudgetUnchanged": true,
+  "runtimeHashes": 12,
+  "publicStudentHashes": 3,
+  "health": "PASS"
+}

@@ -1,0 +1,31 @@
+{
+  "result": "PASS",
+  "batchId": "d2c5ef40-9c70-4f24-88d4-a1c33d24a918",
+  "alreadyApplied": false,
+  "cutoff": "2026-09-18T05:45:50.000Z",
+  "changed": 234,
+  "enrollments": 271,
+  "before": {
+    "records": 372,
+    "valid": 138,
+    "not_valid": 234,
+    "missing_credit_projection": 175,
+    "credited_minutes": 5978,
+    "credited_records": 97,
+    "below_threshold": 0,
+    "credit_limit": 41
+  },
+  "after": {
+    "records": 372,
+    "valid": 372,
+    "not_valid": 0,
+    "missing_credit_projection": 0,
+    "credited_minutes": 14994,
+    "credited_records": 236,
+    "below_threshold": 1,
+    "credit_limit": 135
+  },
+  "addedCreditedMinutes": 9016,
+  "makeupRecordsAndReviewsUnchanged": true,
+  "ruleSnapshotsUnchanged": true
+}

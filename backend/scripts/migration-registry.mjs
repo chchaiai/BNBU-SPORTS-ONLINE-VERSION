@@ -84,4 +84,6 @@ export const migrationIds = [
   '0082_exercise_date_boundaries',
   '0083_ai_review_advisory',
   '0084_ai_review_decisions',
+  '0085_history_duration_limit',
+  '0086_feedback_attachments',
 ];

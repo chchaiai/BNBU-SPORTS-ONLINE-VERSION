@@ -2,7 +2,7 @@ import { request } from './api-client';
 import type { AdminLocale, AdminRoute } from './admin-types';
 
 export const subadminPermissions = {
-  courses: 'COURSE_VIEW', semesters: 'SEMESTER_MANAGE', accounts: 'USER_ACCOUNTS',
+  checkins: 'COURSE_VIEW', courses: 'COURSE_VIEW', semesters: 'SEMESTER_MANAGE', accounts: 'USER_ACCOUNTS',
   support: 'STUDENT_FEEDBACK', rules: 'GLOBAL_RULES', system: 'SYSTEM_MODE',
   help: 'HELP_CENTER', audit: 'AUDIT_QUERY',
 } as const;
@@ -31,8 +31,8 @@ export function toSubadminRoutes(permissions: readonly Permission[]): AdminRoute
     .filter(route => permissions.includes(subadminPermissions[route]));
 }
 export function toSubadminPermissions(routes: readonly AdminRoute[]): Permission[] {
-  return (Object.keys(subadminPermissions) as (keyof typeof subadminPermissions)[])
-    .filter(route => routes.includes(route)).map(route => subadminPermissions[route]);
+  return [...new Set((Object.keys(subadminPermissions) as (keyof typeof subadminPermissions)[])
+    .filter(route => routes.includes(route)).map(route => subadminPermissions[route]))];
 }
 export async function listSubadminAccounts(): Promise<SubadminAccount[]> {
   const accounts: SubadminAccount[] = [], seen = new Set<string>();

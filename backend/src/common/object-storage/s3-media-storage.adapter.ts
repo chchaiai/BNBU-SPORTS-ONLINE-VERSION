@@ -1,5 +1,6 @@
 import { Inject, Injectable, OnModuleDestroy } from '@nestjs/common';
 import {
+  CopyObjectCommand,
   GetObjectCommand,
   GetBucketLocationCommand,
   HeadObjectCommand,
@@ -61,6 +62,13 @@ export class S3MediaStorageAdapter extends MediaStoragePort implements OnModuleD
     return { url, method: 'PUT', requiredHeaders };
   }
 
+  override async copyPrivateObject(source: string, destination: string): Promise<void> {
+    this.assertStorageKey(source); this.assertStorageKey(destination);
+    const config = this.configuration();
+    await this.storageCall(() => this.s3().send(new CopyObjectCommand({
+      Bucket: config.storage.bucket, Key: destination, CopySource: `${config.storage.bucket}/${source}` })));
+  }
+
   async headPrivateObject(storageKey: string): Promise<MediaObjectMetadata> {
     this.assertStorageKey(storageKey);
     const config = this.configuration();
@@ -89,6 +97,7 @@ export class S3MediaStorageAdapter extends MediaStoragePort implements OnModuleD
   }
 
   async createAccessUrl(input: {
+    downloadName?: string;
     storageKey: string;
     contentType: string;
     expiresInSeconds: number;
@@ -102,6 +111,7 @@ export class S3MediaStorageAdapter extends MediaStoragePort implements OnModuleD
           Bucket: config.storage.bucket,
           Key: input.storageKey,
           ResponseContentType: input.contentType,
+          ...(input.downloadName ? { ResponseContentDisposition: `attachment; filename*=UTF-8''${encodeURIComponent(input.downloadName)}` } : {}),
           ResponseCacheControl: 'private, no-store',
         }),
         { expiresIn: input.expiresInSeconds },

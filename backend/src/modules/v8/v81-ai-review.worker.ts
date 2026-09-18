@@ -6,8 +6,7 @@ import type { RuntimeConfig } from '../../common/config/environment.js';
 import { MEDIA_STORAGE_PORT, type MediaStoragePort } from '../../common/object-storage/media-storage.port.js';
 import { AI_REVIEW_PROVIDER, type AiReviewProvider } from './ai-review-provider.js';
 import { prepareAiMedia } from './ai-review-media.js';
-import { AI_AUTO_POLICY, decideAiReview, parseAiAssessment, recommendAiReview } from './domain/ai-review.js';
-import { applyAiDecision } from './v81-ai-decision.js';
+import { AI_AUTO_POLICY, parseAiAssessment, recommendAiReview } from './domain/ai-review.js';
 
 interface Job { id: string; organization_id: string; record_id: string; material_version: number; attempts: number; policy_version: string }
 const safeErrors = new Set(['AI_RESPONSE_INVALID', 'AI_PROVIDER_TIMEOUT', 'AI_PROVIDER_RATE_LIMITED', 'AI_PROVIDER_PERMISSION_DENIED', 'AI_PROVIDER_QUOTA_EXCEEDED', 'AI_PROVIDER_UNAVAILABLE', 'AI_MEDIA_INTEGRITY', 'AI_VIDEO_DECODE_FAILED', 'AI_MEDIA_MISSING']);
@@ -37,6 +36,9 @@ export class V81AiReviewWorker implements OnApplicationBootstrap, OnModuleDestro
     if (!this.provider.enabled) return null;
     const owner = randomUUID();
     const job = await this.prisma.$transaction(async tx => {
+      // Retire old policy queue entries without changing their records or stored findings.
+      await tx.$executeRaw`UPDATE v81_ai_review_jobs SET status='SUPERSEDED',updated_at=now(),completed_at=now()
+        WHERE policy_version<>${AI_AUTO_POLICY} AND (status='QUEUED' OR (status='RUNNING' AND lease_until<=now()))`;
       // A process crash on the last attempt must not leave RUNNING forever.
       await tx.$executeRaw`UPDATE v81_ai_review_jobs SET status='FAILED',error_code='AI_WORKER_LEASE_EXPIRED',updated_at=now(),completed_at=now()
         WHERE status='RUNNING' AND lease_until<=now() AND attempts>=3`;
@@ -44,7 +46,7 @@ export class V81AiReviewWorker implements OnApplicationBootstrap, OnModuleDestro
         JOIN system_policies p ON p.organization_id=j.organization_id
         JOIN v81_record_workflows w ON w.record_id=j.record_id AND w.material_version=j.material_version
         WHERE ((j.status='QUEUED' AND j.next_attempt_at<=now()) OR (j.status='RUNNING' AND j.lease_until<=now()))
-        AND j.attempts<3 AND p.system_mode='NORMAL' AND w.stage IN ('VALID','PENDING_TEACHER','PENDING_AI','TECHNICAL')
+        AND j.policy_version=${AI_AUTO_POLICY} AND j.attempts<3 AND p.system_mode='NORMAL' AND w.stage IN ('VALID','PENDING_TEACHER','PENDING_AI','TECHNICAL')
         AND NOT EXISTS(SELECT 1 FROM review_records rr WHERE rr.record_id=j.record_id AND rr.teacher_id IS NOT NULL AND rr.review_version=(SELECT max(r2.review_version) FROM review_records r2 WHERE r2.record_id=j.record_id))
         ORDER BY j.created_at,j.id LIMIT 1 FOR UPDATE OF j SKIP LOCKED`;
       const next = rows[0]; if (!next) return null;
@@ -92,11 +94,6 @@ export class V81AiReviewWorker implements OnApplicationBootstrap, OnModuleDestro
         flags=${JSON.stringify(result.flags)}::jsonb,assessment=${JSON.stringify(assessment)}::jsonb,error_code=NULL,completed_at=now(),updated_at=now()
         WHERE j.id=${job.id}::uuid AND j.lease_owner=${owner}::uuid AND j.status='RUNNING' AND j.lease_until>now()
         AND EXISTS(SELECT 1 FROM v81_record_workflows w WHERE w.record_id=j.record_id AND w.material_version=j.material_version)`;
-        const decision = decideAiReview(assessment, duplicates[0]?.found ?? false, prepared.sampledVideo);
-        if (updated && decision && job.policy_version === AI_AUTO_POLICY) await applyAiDecision(tx, {
-          organizationId:job.organization_id,recordId:job.record_id,materialVersion:job.material_version,
-          jobId:job.id,decision,policyVersion:job.policy_version,
-        });
         return updated;
       });
       if (!changed) {

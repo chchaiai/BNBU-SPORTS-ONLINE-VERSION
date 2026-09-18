@@ -509,7 +509,7 @@ export class MediaService {
           application.status !== 'DRAFT',
       );
     if (
-      (!isOwner && !isResponsibleReviewTeacher && !isResponsibleExemptionTeacher) ||
+      (!isOwner && !isResponsibleReviewTeacher && !isResponsibleExemptionTeacher && principal.role!=='ADMIN') ||
       media.uploadStatus !== 'AVAILABLE' ||
       media.verifiedMimeType === null
     ) {
@@ -952,7 +952,8 @@ export class MediaService {
             application.classSection.teacher.userId === principal.userId &&
             application.status !== 'DRAFT',
         ));
-    if (!isOwner && !isTeacher) throw new ApplicationError('MEDIA_OBJECT_NOT_FOUND', 404);
+    const isAdmin=principal.role==='ADMIN' && (await this.prisma.$queryRaw<{record_id:string}[]>`SELECT m.record_id FROM v81_material_items m JOIN exercise_records r ON r.id=m.record_id WHERE m.media_id=${mediaId}::uuid AND r.organization_id=${principal.organizationId}::uuid LIMIT 1`).length>0;
+    if (!isOwner && !isTeacher && !isAdmin) throw new ApplicationError('MEDIA_OBJECT_NOT_FOUND', 404);
     return media;
   }
 

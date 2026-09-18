@@ -18,10 +18,13 @@ export abstract class MediaStoragePort {
     expiresInSeconds: number;
   }): Promise<{ url: string; method: 'PUT'; requiredHeaders: Record<string, string> }>;
 
+  async copyPrivateObject(_source: string, _destination: string): Promise<void> { throw new Error("Storage copy unavailable"); }
+
   abstract headPrivateObject(storageKey: string): Promise<MediaObjectMetadata>;
   abstract getPrivateObject(storageKey: string): Promise<Readable>;
 
   abstract createAccessUrl(input: {
+    downloadName?: string;
     storageKey: string;
     contentType: string;
     expiresInSeconds: number;

@@ -1,4 +1,4 @@
-import { randomUUID } from 'node:crypto';
+import { createHash, randomUUID } from 'node:crypto';
 import { Prisma } from '../../generated/prisma/client.js';
 import type { AiFlag, AiRecommendation } from './domain/ai-review.js';
 import { AI_AUTO_POLICY } from './domain/ai-review.js';
@@ -14,6 +14,8 @@ export interface AiReviewProjection {
 }
 
 export async function enqueueAiReview(tx: Prisma.TransactionClient, input: { recordId: string; organizationId: string; materialVersion: number; now: Date }): Promise<void> {
+  const record = await tx.exerciseRecord.findUniqueOrThrow({where:{id:input.recordId},select:{studentId:true}});
+  if (!shouldSampleAiReview(input.organizationId,record.studentId,input.recordId)) return;
   await tx.$executeRaw`INSERT INTO v81_ai_review_jobs(id,organization_id,record_id,material_version,created_at,updated_at,next_attempt_at,policy_version)
     VALUES(${randomUUID()}::uuid,${input.organizationId}::uuid,${input.recordId}::uuid,${input.materialVersion},${input.now},${input.now},${input.now},${AI_AUTO_POLICY})
     ON CONFLICT(record_id,material_version) DO NOTHING`;
@@ -28,4 +30,10 @@ export async function readAiReviews(tx: Pick<Prisma.TransactionClient, '$queryRa
   return new Map(rows.map(row => [row.record_id, { status: row.status, materialVersion: row.material_version,
     recommendation: row.recommendation, flags: row.flags, completedAt: row.completed_at?.toISOString() ?? null,
     errorCode: row.error_code, policyVersion: row.policy_version }]));
+}
+
+/** Stable random cohort and record draws avoid resampling on retries. */
+export function shouldSampleAiReview(organizationId:string,studentId:string,recordId:string):boolean {
+  const draw=(value:string)=>createHash('sha256').update(value).digest().readUInt32BE(0)/0x100000000;
+  return draw(`student:${organizationId}:${studentId}`)<0.2 && draw(`record:${recordId}`)<0.2;
 }

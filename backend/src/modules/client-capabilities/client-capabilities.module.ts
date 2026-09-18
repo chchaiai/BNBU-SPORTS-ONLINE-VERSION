@@ -1,3 +1,5 @@
+import { ObjectStorageModule } from '../../common/object-storage/object-storage.module.js';
+import { FeedbackAttachmentsController, FeedbackAttachmentsService } from './feedback-attachments.js';
 import { createHmac } from 'node:crypto';
 
 import { Module } from '@nestjs/common';
@@ -24,9 +26,10 @@ import { TencentSesAuthCodeDeliveryAdapter } from './tencent-ses-auth-code-deliv
 import { AokSendAuthCodeDeliveryAdapter } from './aoksend-auth-code-delivery.adapter.js';
 
 @Module({
-  imports: [AuthModule],
-  controllers: [ClientCapabilitiesController, ClientErrorReportsController],
+  imports: [AuthModule, ObjectStorageModule],
+  controllers: [FeedbackAttachmentsController, ClientCapabilitiesController, ClientErrorReportsController],
   providers: [
+    FeedbackAttachmentsService,
     ClientCapabilitiesService,
     ClientAuthenticationService,
     ExemptionApplicationsService,
@@ -74,6 +77,6 @@ import { AokSendAuthCodeDeliveryAdapter } from './aoksend-auth-code-delivery.ada
             ),
     },
   ],
-  exports: [AuthCodeCrypto, AuthCodeDeliveryPort],
+  exports: [FeedbackAttachmentsService, AuthCodeCrypto, AuthCodeDeliveryPort],
 })
 export class ClientCapabilitiesModule {}

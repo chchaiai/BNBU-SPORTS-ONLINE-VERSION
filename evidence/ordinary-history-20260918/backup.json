@@ -1,0 +1,6 @@
+{
+  "check": "PRE_RELEASE_DATABASE_BACKUP",
+  "result": "PASS",
+  "path": "/opt/bnbu-sports-production/backups/before-bugfix-20260918T055711Z.dump",
+  "bytes": 40934817
+}
