@@ -8,7 +8,7 @@ import { t, tx, currentLocale } from "../i18n.js";
 import { icon } from "../icons.js";
 import { esc, spinner, emptyPlaceholder, validationPanel, sectionTitle, segmented, tonalButton, fieldLabel, fieldControlAttrs, fieldSupport, userFacingErrorPanel, focusFirstInvalidField, statusMessagePanel } from "../ui.js";
 import { BUILD, localStore } from "../store.js";
-import { createFeedback, listHelpArticles, listMyFeedback, toUserFacingError, currentApiUserId, currentApiSessionEpoch, isCurrentApiSessionEpoch } from "../api.js";
+import { FeedbackAttachmentError, accessFeedbackAttachment, feedbackAttachmentAccept, uploadFeedbackAttachment, createFeedback, listHelpArticles, listMyFeedback, toUserFacingError, currentApiUserId, currentApiSessionEpoch, isCurrentApiSessionEpoch } from "../api.js";
 import { helpCategoryRank, renderHelpMarkdown, toHelpArticleView } from "../help-content.js";
 
 const MAX_FEEDBACK_DESCRIPTION = 2000;
@@ -133,8 +133,10 @@ export function renderHelpCenter(app) {
 // ── #32 Feedback ──
 
 function feedbackState(app) {
-  if (!app.ui.feedback) {
+  const owner = `${currentApiUserId()}:${currentApiSessionEpoch()}`;
+  if (!app.ui.feedback || app.ui.feedback.owner !== owner) {
     app.ui.feedback = {
+      owner, attachments: [], uploading: false, preview: null,
       tab: "new",
       selectedCategory: "BUG",
       dropdownOpen: false,
@@ -163,7 +165,7 @@ export function renderFeedback(app) {
   const ui = feedbackState(app);
   const serviceUnavailable = !app.isApiMode();
   const writeEnabled = app.isWriteAllowed() && !serviceUnavailable;
-  const formEnabled = writeEnabled && !ui.submitting && !ui.submissionIntent;
+  const formEnabled = writeEnabled && !ui.submitting && !ui.uploading && !ui.submissionIntent;
 
   let body;
   if (ui.tab === "new") {
@@ -189,9 +191,23 @@ export function renderFeedback(app) {
           <textarea ${fieldControlAttrs({ id: "feedback-description", error: ui.invalidField === "description" ? tx("请填写问题描述。", "Describe the problem.") : null, helper: tx("请包含操作步骤、期望结果和实际情况", "Include steps, expected result, and actual result"), required: true })} class="text-field" rows="5" maxlength="${MAX_FEEDBACK_DESCRIPTION}" placeholder="${tx("例如：操作步骤、预期结果和实际情况", "Include the steps, expected result, and actual result")}" data-input="feedback.description" ${formEnabled ? "" : "disabled"}>${esc(ui.description)}</textarea>
           ${fieldSupport({ id: "feedback-description", error: ui.invalidField === "description" ? tx("请填写问题描述。", "Describe the problem.") : null, helper: `${ui.description.length}/${MAX_FEEDBACK_DESCRIPTION} · ${tx("请包含操作步骤、期望结果和实际情况", "Include steps, expected result, and actual result")}` }).replace("class=\"field-supporting\"", 'class="field-supporting" data-feedback-counter')}
         </div>
+        <section class="feedback-upload-area" aria-label="${tx("添加反馈附件", "Add attachments")}">
+          <div class="feedback-upload-heading"><span class="title-small">${tx("添加附件", "Attachments")} <small>${tx("选填", "Optional")}</small></span><span>${ui.attachments.length} / 5</span></div>
+          <p class="feedback-upload-caption">${tx("上传截图或录屏，帮助我们更快了解问题", "A screenshot or recording helps us understand the problem")}</p>
+          <div class="feedback-upload-options">${[
+            ["image", "photo", tx("图片", "Image"), "10 MB"],
+            ["video", "videocam", tx("视频", "Video"), "50 MB"],
+            ["file", "upload-file", tx("文件", "File"), "20 MB"],
+          ].map(([kind, iconName, label, limit]) => `<button type="button" class="feedback-upload-option pressable" data-action="feedback.pick" data-kind="${kind}" ${formEnabled && ui.attachments.length < 5 ? "" : "disabled"}><span class="feedback-upload-option-icon ${kind}">${icon(iconName, 23)}</span><b>${label}</b><small>≤ ${limit}</small></button>`).join("")}</div>
+          <input id="feedback-files" aria-label="${tx("反馈附件", "Feedback attachments")}" type="file" accept="${feedbackAttachmentAccept}" multiple data-change="feedback.files" ${formEnabled && ui.attachments.length < 5 ? "" : "disabled"} hidden/>
+          ${ui.uploading ? `<div class="feedback-upload-working" role="status">${spinner(16)}<span>${esc(ui.uploadLabel || tx("正在上传并检查附件…", "Uploading and checking…"))}</span><i></i></div>` : ""}
+          <div class="feedback-upload-items">${ui.attachments.map(item => `<div class="feedback-upload-item"><div class="feedback-upload-thumb ${item.mimeType.startsWith("video/") ? "video" : ""}">${item.thumbnail ? `<img src="${esc(item.thumbnail)}" alt=""/>` : icon(item.mimeType.startsWith("video/") ? "videocam" : "upload-file", 23)}</div><div class="feedback-upload-file"><b>${esc(item.fileName)}</b><small>${item.size < 1048576 ? Math.max(1, Math.round(item.size/1024)) + " KB" : (item.size/1048576).toFixed(1) + " MB"}<span>${icon("check", 12)}${tx("已上传", "Uploaded")}</span></small></div><button type="button" class="feedback-upload-remove pressable" aria-label="${tx("移除", "Remove")} ${esc(item.fileName)}" data-action="feedback.removeAttachment" data-id="${esc(item.id)}" ${formEnabled ? "" : "disabled"}>${icon("close", 17)}</button></div>`).join("")}</div>
+          <p class="feedback-upload-privacy">${icon("lock", 13)}<span>${tx("附件仅你和管理员可见", "Only you and administrators can view attachments")}</span></p>
+          <details class="feedback-upload-formats"><summary>${tx("支持哪些文件？", "Supported formats")}</summary>JPG · PNG · WebP · MP4 · MOV · WebM · PDF · Word · Excel · PPT · ZIP · TXT · CSV</details>
+        </section>
       </div></div>
       ${ui.success ? statusMessagePanel(ui.success, "feedback.dismissSuccess") : ""}
-      <button class="primary-btn pressable${ui.submitting ? " is-loading" : ""}" data-action="feedback.submit" ${writeEnabled && !ui.submitting ? "" : "disabled"}>
+      <button class="primary-btn pressable${ui.submitting ? " is-loading" : ""}" data-action="feedback.submit" ${writeEnabled && !ui.submitting && !ui.uploading ? "" : "disabled"}>
         ${ui.submitting ? spinner(18, "on-primary") : icon("send", 20)}<span>${tx("提交问题", "Submit report")}</span>
       </button>`;
   } else {
@@ -203,6 +219,7 @@ export function renderFeedback(app) {
             : ui.tickets.map((ticket) => `<div class="swiss-panel col" style="gap:8px">
                 <div class="row"><span class="title-medium grow">${esc(feedbackCategoryLabel(ticket.category))}</span><span class="label-medium text-primary">${esc(feedbackStatusLabel(ticket.status))}</span></div>
                 <div class="body-medium text-on-surface">${esc(ticket.content)}</div>
+                ${(ticket.attachments || []).map(item => `<button class="text-btn compact" style="text-align:left;overflow-wrap:anywhere" data-action="feedback.openAttachment" data-id="${esc(item.id)}">${esc(item.fileName)} · ${(item.size/1024/1024).toFixed(1)} MB ↗</button>`).join("")}
                 ${(ticket.publicReplies?.length ? ticket.publicReplies : ticket.publicReply ? [{ publicReply: ticket.publicReply }] : []).map(reply => `<div class="body-small text-muted">${tx("公开回复：", "Public reply: ")}${esc(reply.publicReply)}</div>`).join("")}
                 <div class="body-small text-muted">${esc(ticket.createdAt || "")}</div>
               </div>`).join("")}
@@ -224,6 +241,7 @@ export function renderFeedback(app) {
         })}
         ${ui.error ? userFacingErrorPanel(ui.error, { compact: true }) : ""}
         ${body}
+        ${ui.preview ? `<div class="swiss-panel col" style="gap:12px">${ui.preview.mimeType.startsWith("image/") ? `<img src="${esc(ui.preview.url)}" alt="${esc(ui.preview.fileName)}" style="max-width:100%;max-height:60vh;object-fit:contain"/>` : ui.preview.mimeType.startsWith("video/") ? `<video controls playsinline src="${esc(ui.preview.url)}" style="max-width:100%;max-height:60vh"></video>` : ""}<a href="${esc(ui.preview.url)}" target="_blank" rel="noopener noreferrer">${tx("打开 / 下载附件", "Open / download attachment")}：${esc(ui.preview.fileName)}</a><button class="text-btn" data-action="feedback.closeAttachment">${tx("收起", "Close")}</button></div>` : ""}
         <div style="height:24px"></div>
       </div>
     </div>
@@ -321,6 +339,32 @@ export const supportActions = {
     app.render();
   },
   // — Feedback —
+  "feedback.pick": (app, el) => {
+    const ui = feedbackState(app); if (ui.uploading || ui.submitting || ui.submissionIntent) return;
+    const input = app._viewport?.querySelector("#feedback-files"); if (!input) return;
+    input.accept = el.dataset.kind === "image" ? ".jpg,.jpeg,.png,.webp" : el.dataset.kind === "video" ? ".mp4,.mov,.webm" : feedbackAttachmentAccept;
+    input.click();
+  },
+  "feedback.files": async (app, el) => {
+    const ui = feedbackState(app), files = Array.from(el.files || []), epoch = currentApiSessionEpoch();
+    el.value = "";
+    if (ui.uploading || ui.submitting || ui.submissionIntent || !app.isWriteAllowed() || !app.isApiMode()) return;
+    ui.uploading = true; ui.error = null; app.render();
+    try {
+      if (files.length + ui.attachments.length > 5) throw new FeedbackAttachmentError(tx("每条反馈最多上传 5 个附件。", "Up to 5 attachments per report."));
+      for (const [index, file] of files.entries()) { ui.uploadLabel = `${tx("正在上传", "Uploading")} ${index+1}/${files.length} · ${file.name}`; app.render(); const item = await uploadFeedbackAttachment(file); if (!isCurrentApiSessionEpoch(epoch)) return; ui.attachments.push(item); app.render(); }
+    } catch (error) { if(isCurrentApiSessionEpoch(epoch)) ui.error = error instanceof FeedbackAttachmentError ? {...toUserFacingError(error, {log:false}), title:tx("请检查附件", "Check the attachment"), message:error.message, action:tx("调整附件后重试。", "Adjust attachments and try again.")} : toUserFacingError(error); }
+    finally { ui.uploading = false; if(isCurrentApiSessionEpoch(epoch)) app.render(); }
+  },
+  "feedback.removeAttachment": (app, el) => { const ui = feedbackState(app); if (ui.uploading || ui.submitting || ui.submissionIntent) return; ui.attachments = ui.attachments.filter(item => item.id !== el.dataset.id); app.render(); },
+  "feedback.openAttachment": async (app, el) => {
+    const ui = feedbackState(app), epoch=currentApiSessionEpoch();
+    const item = ui.tickets.flatMap(ticket => ticket.attachments || []).find(file => file.id === el.dataset.id); if (!item) return;
+    try { const result = await accessFeedbackAttachment(item.id); if (!isCurrentApiSessionEpoch(epoch)) return; ui.preview = {...item,url:result.url}; }
+    catch(error) { if(isCurrentApiSessionEpoch(epoch)) ui.error = error instanceof FeedbackAttachmentError ? {...toUserFacingError(error, {log:false}), title:tx("请检查附件", "Check the attachment"), message:error.message, action:tx("调整附件后重试。", "Adjust attachments and try again.")} : toUserFacingError(error); }
+    if(isCurrentApiSessionEpoch(epoch)) { app.render(); app._viewport?.querySelector('video, img[alt]')?.scrollIntoView({block:'nearest'}); }
+  },
+  "feedback.closeAttachment": app => {feedbackState(app).preview=null;app.render();},
   "feedback.tab": async (app, el) => {
     const ui = feedbackState(app);
     ui.tab = el.dataset.value;
@@ -352,7 +396,7 @@ export const supportActions = {
   },
   "feedback.submit": async (app) => {
     const ui = feedbackState(app);
-    if (ui.submitting || !app.isWriteAllowed() || !app.isApiMode()) return;
+    if (ui.uploading || ui.submitting || !app.isWriteAllowed() || !app.isApiMode()) return;
     const content = ui.description.trim();
     if (!content) {
       ui.invalidField = "description";
@@ -367,13 +411,14 @@ export const supportActions = {
     app.render();
     try {
       const intent = ui.submissionIntent || {
-        input: { category: ui.selectedCategory, content }, key: crypto.randomUUID(),
+        input: { category: ui.selectedCategory, content, attachmentIds: ui.attachments.map(item => item.id) }, key: crypto.randomUUID(),
       };
       ui.submissionIntent = intent;
       const created = await createFeedback(intent.input, intent.key);
       ui.submissionIntent = null;
       ui.tickets = [created, ...ui.tickets.filter(ticket => ticket.id !== created.id)];
       ui.description = "";
+      ui.attachments = [];
       ui.success = tx("反馈已提交，可在“我的反馈”中查看后端处理状态。", "Feedback submitted. Track its backend status under My reports.");
     } catch (error) {
       if ([401, 403, 404, 422].includes(error?.status)) ui.submissionIntent = null;

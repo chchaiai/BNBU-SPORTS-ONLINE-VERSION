@@ -1,3 +1,4 @@
+import { FeedbackAttachmentsService } from './feedback-attachments.js';
 import { Inject, Injectable } from '@nestjs/common';
 
 import { AuditService, type FoundationAuditAction } from '../../common/audit/audit.service.js';
@@ -133,6 +134,7 @@ interface MessagingStore {
 @Injectable()
 export class ClientMessagingService {
   constructor(
+    private readonly attachments: FeedbackAttachmentsService,
     private readonly prisma: PrismaService,
     private readonly idempotency: IdempotencyService,
     private readonly audit: AuditService,
@@ -695,6 +697,7 @@ export class ClientMessagingService {
         request: {
           category: input.category,
           content: input.content,
+          ...(input.attachmentIds?.length ? {attachmentIds: input.attachmentIds} : {}),
           clientContext: {
             platform: clientPlatform,
             appVersion: input.clientContext?.appVersion ?? null,
@@ -722,6 +725,7 @@ export class ClientMessagingService {
             version: 1,
           },
         });
+        await this.attachments.bind(transaction, principal, feedback.id, input.attachmentIds ?? []);
         await this.store(transaction).feedbackEvent.create({
           data: this.eventData(feedback, principal, facts, 'feedbackId', 'CREATED'),
         });

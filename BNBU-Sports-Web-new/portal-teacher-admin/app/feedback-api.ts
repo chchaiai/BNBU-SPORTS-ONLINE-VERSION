@@ -5,7 +5,7 @@ export type FeedbackStatus = 'OPEN' | 'IN_PROGRESS' | 'WAITING_TECH' | 'RESOLVED
 export type FeedbackItem = {
   id: string; category: TicketCategory; content: string; status: FeedbackStatus; version: number;
   createdAt: string; updatedAt: string;
-  requester: { name: string | null; studentNumber: string | null; email: string | null };
+  requester: { role: 'STUDENT' | 'TEACHER'; name: string | null; studentNumber: string | null; email: string | null };
 };
 export type FeedbackDetail = FeedbackItem & {
   publicReply: string | null;
@@ -39,7 +39,7 @@ export function handleAdminFeedback(id: string, status: Exclude<TicketStatus, 'p
 export function feedbackToTicket(item: FeedbackItem | FeedbackDetail): SupportTicket {
   return { id: item.id, requester: item.requester.name ?? item.requester.studentNumber ?? item.id,
     account: item.requester.studentNumber ?? '', category: item.category, subject: item.content,
-    content: item.content, source: 'student', submittedAt: item.createdAt, status: feedbackTicketStatuses[item.status],
+    content: item.content, source: item.requester.role === 'TEACHER' ? 'teacher' : 'student', submittedAt: item.createdAt, status: feedbackTicketStatuses[item.status],
     replies: 'history' in item ? item.history.map(event => ({ id: event.id, author: event.actorName ?? event.actorUserId,
       message: event.publicReply, createdAt: event.occurredAt })) : [] };
 }

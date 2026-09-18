@@ -8,7 +8,7 @@ export interface AiAssessment {
   confidence: number;
 }
 
-export const AI_AUTO_POLICY = 'default-valid-exceptions-v3';
+export const AI_AUTO_POLICY = 'sample-advisory-v4';
 export function decideAiReview(assessment: AiAssessment, duplicate: boolean, sampledVideo: boolean): 'PENDING_TEACHER' | null {
   return recommendAiReview(assessment, duplicate, sampledVideo).recommendation === 'SUGGEST_PASS' ? null : 'PENDING_TEACHER';
 }

@@ -2,12 +2,12 @@
 import "./course-operations.css";
 import {useEffect,useState} from 'react';
 import {request,toUserFacingError, formatUserFacingError} from './api-client';
-type Settings={enabled:boolean;earliestDate:string;latestDate:string;version:number;semesterStartDate:string;semesterEndDate:string};
+type Settings={maximumMinutes:number;enabled:boolean;earliestDate:string;latestDate:string;version:number;semesterStartDate:string;semesterEndDate:string};
 export function CourseHistorySettings({classSectionId}:{classSectionId:string}) {
  const [value,setValue]=useState<Settings|null>(null),[busy,setBusy]=useState(false),[message,setMessage]=useState('');
  useEffect(()=>{let live=true;void request<Settings>(`/class-sections/${classSectionId}/history-settings`).then(data=>{if(live)setValue(data);}).catch(error=>{if(live)setMessage(formatUserFacingError(error));});return()=>{live=false;};},[classSectionId]);
  async function save(){if(!value||busy)return;setBusy(true);setMessage('');try{
-  const result=await request<{version:number}>(`/class-sections/${classSectionId}/history-settings`,{method:'POST',headers:{'Idempotency-Key':crypto.randomUUID()},body:{enabled:value.enabled,earliestDate:value.earliestDate,latestDate:value.latestDate,expectedVersion:value.version}});
+  const result=await request<{version:number}>(`/class-sections/${classSectionId}/history-settings`,{method:'POST',headers:{'Idempotency-Key':crypto.randomUUID()},body:{maximumMinutes:value.maximumMinutes,enabled:value.enabled,earliestDate:value.earliestDate,latestDate:value.latestDate,expectedVersion:value.version}});
   setValue({...value,version:result.version});setMessage('历史补卡范围已保存。');
  }catch(error){setMessage(formatUserFacingError(error));}finally{setBusy(false);}}
  return <section className="course-ops" aria-label="历史补卡设置">
@@ -17,7 +17,7 @@ export function CourseHistorySettings({classSectionId}:{classSectionId:string}) 
  <div className="course-ops-dates">
  <label>最早可补日期<input type="date" disabled={!value.enabled} min={value.semesterStartDate} max={value.latestDate} value={value.earliestDate} onChange={event=>setValue({...value,earliestDate:event.target.value})}/></label>
  <label>最晚可补日期<input type="date" disabled={!value.enabled} min={value.earliestDate} max={value.semesterEndDate} value={value.latestDate} onChange={event=>setValue({...value,latestDate:event.target.value})}/></label>
- </div><p className="course-ops-note">可包含入班前的运动，但不能补今天或未来日期。新增补卡须在打卡结束日期前完成，已创建记录可继续提交材料；每日、每周次数按实际运动日期计算。</p>
+ </div><label>单次补录最多时长（分钟）<input type="number" min="1" max="1440" step="1" value={value.maximumMinutes} onChange={event=>setValue({...value,maximumMinutes:Number(event.target.value)})}/><small>可设置 1–1440 分钟；不得低于课程最低运动时长。补录仍须教师审核。</small></label><p className="course-ops-note">可包含入班前的运动，但不能补今天或未来日期。新增补卡须在打卡结束日期前完成，已创建记录可继续提交材料；每日、每周次数按实际运动日期计算。</p>
  <footer className="course-ops-footer"><span>修改后请保存，学生端才会生效。</span><button type="button" className="secondary-button" onClick={()=>void save()}>{busy?'正在保存…':'保存补卡设置'}</button></footer></fieldset>}
  {message&&<p className="course-ops-note" role="status">{message}</p>}</section>;
 }

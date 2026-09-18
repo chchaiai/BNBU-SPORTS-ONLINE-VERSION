@@ -48,7 +48,7 @@ export async function initializeRecordWorkflow(
   const previous = await transaction.reviewRecord.findFirstOrThrow({where:{recordId:input.recordId},orderBy:{reviewVersion:'desc'}});
   await transaction.reviewRecord.create({data:{id:randomUUID(),organizationId:input.organizationId,recordId:input.recordId,
     reviewVersion:previous.reviewVersion+1,previousReviewId:previous.id,result:'VALID',
-    publicComment:'提交默认有效；AI 抽查异常交教师复核。 / Valid on submission; AI exceptions require teacher review.',
+    publicComment:'提交默认有效；AI 抽查仅提供审核建议。 / Valid on submission; AI sampling is advisory only.',
     reviewedAt:input.now,createdAt:input.now}});
   await transaction.exerciseRecord.update({where:{id:record.id,version:record.version},data:{status:'REVIEWED',version:{increment:1},updatedAt:input.now}});
   await appendV81SystemEvent(transaction,{organizationId:input.organizationId,resourceType:'RECORD_REVIEW',resourceId:input.recordId,

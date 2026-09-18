@@ -28,19 +28,20 @@ export class FeedbackListQuery {
 type FeedbackReadRow = {
   id: string; category: string; content: string; status: string; publicReply: string | null;
   version: number; createdAt: Date; updatedAt: Date;
-  requesterName: string | null; requesterNumber: string | null; requesterEmail: string | null;
+  requesterRole: string; requesterName: string | null; requesterNumber: string | null; requesterEmail: string | null;
 };
 const feedbackReadColumns = Prisma.sql`f.id,f.category,f.content,f.status,f.public_reply AS "publicReply",
   f.version,f.created_at AS "createdAt",f.updated_at AS "updatedAt",
-  p.full_name AS "requesterName",p.student_number AS "requesterNumber",u.primary_email AS "requesterEmail"`;
+  subject.role_at_creation AS "requesterRole",COALESCE(p.full_name,t.full_name) AS "requesterName",COALESCE(p.student_number,t.employee_number) AS "requesterNumber",u.primary_email AS "requesterEmail"`;
 const feedbackReadRelations = Prisma.sql`FROM feedback f
   JOIN v81_user_subjects subject ON subject.id=f.created_by_user_id AND subject.organization_id=f.organization_id
-    AND subject.role_at_creation='STUDENT'
+    AND subject.role_at_creation IN ('STUDENT','TEACHER')
   LEFT JOIN users u ON u.id=f.created_by_user_id AND u.organization_id=f.organization_id AND u.deleted_at IS NULL
-  LEFT JOIN student_profiles p ON p.user_id=u.id AND p.organization_id=f.organization_id`;
+  LEFT JOIN student_profiles p ON p.user_id=u.id AND p.organization_id=f.organization_id
+  LEFT JOIN teacher_profiles t ON t.user_id=u.id AND t.organization_id=f.organization_id`;
 const projectFeedback = (row: FeedbackReadRow) => ({ id: row.id, category: row.category, content: row.content,
   status: row.status, version: row.version, createdAt: row.createdAt.toISOString(), updatedAt: row.updatedAt.toISOString(),
-  requester: { name: row.requesterName, studentNumber: row.requesterNumber, email: row.requesterEmail } });
+  requester: { role: row.requesterRole, name: row.requesterName, studentNumber: row.requesterNumber, email: row.requesterEmail } });
 
 @Injectable()
 export class V81FeedbackService {
@@ -57,7 +58,7 @@ export class V81FeedbackService {
       AND (${query.status ?? null}::text IS NULL OR f.status=${query.status ?? null})
       AND (${pattern}::text IS NULL OR f.id::text=${search?.toLowerCase() ?? null}
         OR f.content ILIKE ${pattern} OR f.category ILIKE ${pattern}
-        OR u.primary_email ILIKE ${pattern} OR p.full_name ILIKE ${pattern} OR p.student_number ILIKE ${pattern})`;
+        OR u.primary_email ILIKE ${pattern} OR p.full_name ILIKE ${pattern} OR p.student_number ILIKE ${pattern} OR t.full_name ILIKE ${pattern} OR t.employee_number ILIKE ${pattern})`;
     return this.prisma.$transaction(async tx => {
       const rows = await tx.$queryRaw<FeedbackReadRow[]>`SELECT ${feedbackReadColumns} ${feedbackReadRelations}
         WHERE ${filter} ORDER BY f.created_at DESC,f.id DESC OFFSET ${(query.page - 1) * 6} LIMIT 6`;
@@ -91,7 +92,7 @@ export class V81FeedbackService {
   }
 
   async studentHistory(principal: AuthenticatedPrincipal, id: string) {
-    if (principal.role !== 'STUDENT') throw new ApplicationError('PERMISSION_RESOURCE_SCOPE_DENIED', 403);
+    if (!['STUDENT','TEACHER'].includes(principal.role)) throw new ApplicationError('PERMISSION_RESOURCE_SCOPE_DENIED', 403);
     const feedback = await this.prisma.feedback.findFirst({ where: { id, organizationId: principal.organizationId,
       createdByUserId: principal.userId }, include: { events: { where: { eventType: 'HANDLED' },
         orderBy: { eventVersion: 'asc' }, select: { id: true, publicReply: true, nextStatus: true, occurredAt: true, eventVersion: true } } } });

@@ -1,0 +1,5 @@
+{
+  "destructive": false,
+  "migrationId": "0085_history_duration_limit",
+  "sha256": "c67f6aba8871e15a2fe226e93c114b5420e9bede545ef319679bb0dc4a2006a6"
+}

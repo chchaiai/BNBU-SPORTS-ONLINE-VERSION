@@ -1158,10 +1158,11 @@ export const listMyFeedback = async () => {
   const tickets = await listAllCursorPages("/feedback");
   return Promise.all(tickets.map(async ticket => {
     const history = await request(`/student/feedback/${encodeURIComponent(ticket.id)}/history`);
-    return { ...ticket, status: history.status, version: history.version, publicReplies: history.items };
+    const attachments = await request(`/feedback/${encodeURIComponent(ticket.id)}/attachments`);
+    return { ...ticket, attachments: attachments.items, status: history.status, version: history.version, publicReplies: history.items };
   }));
 };
-export const createFeedback = ({ category, content }, idempotencyKey) =>
+export const createFeedback = ({ category, content, attachmentIds = [] }, idempotencyKey) =>
   request("/feedback", {
     method: "POST",
     idempotent: true,
@@ -1169,6 +1170,7 @@ export const createFeedback = ({ category, content }, idempotencyKey) =>
     body: {
       category,
       content,
+      attachmentIds,
       clientContext: { platform: "WEB" },
     },
   });
@@ -2359,3 +2361,25 @@ export async function loadApiWorkspace(preloadedIdentity = null) {
     activeServerSession: activeSession,
   };
 }
+
+export class FeedbackAttachmentError extends Error {}
+export const feedbackAttachmentAccept = ".jpg,.jpeg,.png,.webp,.mp4,.mov,.webm,.pdf,.docx,.xlsx,.pptx,.zip,.txt,.csv";
+export async function uploadFeedbackAttachment(file) {
+  const epoch = currentApiSessionEpoch();
+  const extension = file.name.split(".").pop()?.toLowerCase() || "";
+  const limit = ["mp4", "mov", "webm"].includes(extension) ? 50 : ["jpg", "jpeg", "png", "webp"].includes(extension) ? 10 : 20;
+  if (!feedbackAttachmentAccept.split(",").includes(`.${extension}`)) throw new FeedbackAttachmentError("请选择支持的图片、视频或文件格式 / Unsupported file format");
+  if (!file.size || file.size > limit * 1024 * 1024) throw new FeedbackAttachmentError(`附件不能为空，且不能超过 ${limit} MB / File size limit: ${limit} MB`);
+  const upload = await request("/feedback-attachments", {method:"POST",body:{fileName:file.name,size:file.size}});
+  if (!isCurrentApiSessionEpoch(epoch)) throw new FeedbackAttachmentError("登录状态已变更 / Session changed");
+  const headers = Object.fromEntries(Object.entries(upload.requiredHeaders).filter(([key]) => key.toLowerCase() !== "content-length"));
+  const response = await fetch(upload.url, {method:"PUT",headers,body:file,credentials:"omit",signal:AbortSignal.timeout(180000)});
+  if (!response.ok) throw new FeedbackAttachmentError("附件上传失败，请重试 / Upload failed, please retry");
+  if (!isCurrentApiSessionEpoch(epoch)) throw new FeedbackAttachmentError("登录状态已变更 / Session changed");
+  const result = await request(`/feedback-attachments/${upload.id}/confirm`, {method:"POST",body:{}});
+  if (["jpg", "jpeg", "png", "webp"].includes(extension)) {
+    try { const bitmap = await createImageBitmap(file), canvas = document.createElement("canvas"), scale = Math.min(1,160/Math.max(bitmap.width,bitmap.height)); canvas.width=Math.max(1,Math.round(bitmap.width*scale)); canvas.height=Math.max(1,Math.round(bitmap.height*scale)); canvas.getContext("2d").drawImage(bitmap,0,0,canvas.width,canvas.height); bitmap.close(); result.thumbnail=canvas.toDataURL("image/webp",.8); } catch { /* The attachment remains usable without a local thumbnail. */ }
+  }
+  return result;
+}
+export const accessFeedbackAttachment = id => request(`/feedback-attachments/${encodeURIComponent(id)}/access`, {method:"POST",body:{}});

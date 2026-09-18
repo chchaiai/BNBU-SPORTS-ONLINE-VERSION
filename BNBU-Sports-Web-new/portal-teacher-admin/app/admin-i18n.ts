@@ -324,7 +324,7 @@ const zh = {
   ticket_status_filter: "反馈状态筛选",
   article_status_filter: "文章状态筛选",
   open_tickets: "{count} 条待处理",
-  tickets: "学生问题反馈",
+  tickets: "问题反馈",
   requester: "提交人",
   subject: "问题内容",
   source: "来源",

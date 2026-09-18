@@ -1,0 +1,21 @@
+{
+  "organizationCode": "BNBU",
+  "cutoff": "2026-09-18T05:45:50.000Z",
+  "ordinarySubmitted": 372,
+  "ordinaryValid": 138,
+  "ordinaryPending": 230,
+  "ordinaryInvalid": 4,
+  "ordinaryCurrentCreditedMinutes": 5978,
+  "belowThreshold": 1,
+  "creditLimitProjectionCount": 41,
+  "missingRuleSnapshots": 0,
+  "settledRecords": 0,
+  "makeup": {
+    "INVALID": 5,
+    "PENDING_TEACHER": 29,
+    "VALID": 7,
+    "creditedMinutes": 330
+  },
+  "mutationExecuted": false,
+  "pendingDecision": "Retain course counting rules or override historical minimum and maximum limits"
+}

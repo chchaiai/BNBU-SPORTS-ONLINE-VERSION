@@ -45,8 +45,21 @@ export class OutboxDiagnosticsService {
         AND (${position?.value??null}::timestamptz IS NULL OR (created_at,id)<(${position?.value??null}::timestamptz,${position?.id??null}::uuid))
         ORDER BY created_at DESC,id DESC LIMIT ${q.limit+1}`);
       const page=rows.slice(0,q.limit),last=page.at(-1);
+      const actors = page.length ? await tx.$queryRaw<{id:string;actorName:string|null;actorEmail:string|null;actorRole:string|null;actorNumber:string|null;operationOutcome:string|null;action:string|null}[]>(Prisma.sql`
+        SELECT e.id,coalesce(s.full_name,t.full_name,a.full_name) AS "actorName",u.primary_email AS "actorEmail",u.role AS "actorRole",
+          s.student_number AS "actorNumber",log.outcome AS "operationOutcome",log.action_type AS action
+        FROM outbox_events e
+        LEFT JOIN LATERAL (SELECT actor_user_id,outcome,action_type FROM audit_logs l
+          WHERE l.organization_id=e.organization_id AND l.request_id=e.payload->>'requestId'
+          AND l.target_id=e.aggregate_id ORDER BY l.occurred_at DESC,l.id DESC LIMIT 1) log ON true
+        LEFT JOIN users u ON u.id=log.actor_user_id AND u.organization_id=e.organization_id
+        LEFT JOIN student_profiles s ON s.user_id=u.id AND s.organization_id=e.organization_id
+        LEFT JOIN teacher_profiles t ON t.user_id=u.id AND t.organization_id=e.organization_id
+        LEFT JOIN admin_profiles a ON a.user_id=u.id AND a.organization_id=e.organization_id
+        WHERE e.organization_id=${principal.organizationId}::uuid AND e.id::text IN (${Prisma.join(page.map(item=>item.id))})`) : [];
+      const actorMap=new Map(actors.map(actor=>[actor.id,actor]));
       return {scope:'CURRENT_ORGANIZATION',backlog,total:Number(counts[0]!.count),
-        items:page.map(({cursorTimestamp: _cursorTimestamp,...row})=>({...row,createdAt:row.createdAt.toISOString(),processedAt:row.processedAt?.toISOString()??null,
+        items:page.map(({cursorTimestamp: _cursorTimestamp,...row})=>({...row,actor:actorMap.get(row.id)??null,createdAt:row.createdAt.toISOString(),processedAt:row.processedAt?.toISOString()??null,
           lockedAt:row.lockedAt?.toISOString()??null,availableAt:row.availableAt.toISOString(),
           lastProcessedAt:(row.processedAt??row.lockedAt)?.toISOString()??null,
           retryCount:Math.max(0,row.attempts-1),

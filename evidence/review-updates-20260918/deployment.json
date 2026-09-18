@@ -1,0 +1,21 @@
+{
+  "result": "PASS",
+  "previous": "/opt/bnbu-sports-production/releases/demand-six-20260917",
+  "release": "/opt/bnbu-sports-production/releases/review-updates-final-20260918",
+  "images": {
+    "backend": "sha256:c0aabbe783c577aa89e641d93363590fdf4b3b16f7ab1917c174b5137512eb21",
+    "portal": "sha256:a41ab793b2fc9cb20da1f46b4071d2caff3f1966df984ff260bf3610b83519bc",
+    "migrator": "sha256:bb0753f6a0684353acef58818fda33e4645a4726c2a50e3cc7f90f1bdeef2ad5"
+  },
+  "backup": {
+    "check": "PRE_RELEASE_DATABASE_BACKUP",
+    "result": "PASS",
+    "path": "/opt/bnbu-sports-production/backups/before-bugfix-20260918T041040Z.dump",
+    "bytes": 40467848
+  },
+  "migration": "0085_history_duration_limit",
+  "configurationAndBudgetUnchanged": true,
+  "runtimeHashes": 15,
+  "publicStudentHashes": 2,
+  "health": "PASS"
+}

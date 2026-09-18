@@ -1,5 +1,6 @@
 import { Transform, Type } from 'class-transformer';
 import {
+  IsArray,
   ArrayMaxSize,
   ArrayMinSize,
   ArrayUnique,
@@ -211,6 +212,10 @@ export class FeedbackClientContextDto {
 }
 
 export class CreateFeedbackRequestDto {
+  @ValidateIf((_object, value: unknown) => value !== undefined)
+  @IsArray() @ArrayMaxSize(5) @ArrayUnique() @IsUUID("4", { each: true })
+  attachmentIds?: string[];
+
   @IsIn(['BUG', 'SUGGESTION', 'ACCESSIBILITY', 'PRIVACY', 'OTHER'])
   category!: string;
 

@@ -3807,17 +3807,17 @@ export function TeacherWorkspace({
           }
           toolbar={
             <div className="compact-guidance">
-              <label>AI 初审筛选 <select aria-label="AI 初审筛选" value={aiReviewFilter} onChange={event => setAiReviewFilter(event.target.value)}>
+              <label>AI 抽查建议筛选 <select aria-label="AI 抽查建议筛选" value={aiReviewFilter} onChange={event => setAiReviewFilter(event.target.value)}>
                 <option value="all">全部 AI 结果</option>
                 <option value="SUGGEST_PASS">建议通过</option>
                 <option value="TEACHER_REVIEW">需要教师复核</option>
                 <option value="SUSPECTED_RISK">疑似异常/违规</option>
-                <option value="UNAVAILABLE">等待或暂不可用</option>
+                <option value="UNAVAILABLE">未抽查 / 暂不可用</option>
               </select></label>
               <button type="button" onClick={() => void refreshTeacherData()}>刷新 AI 结果</button>
               <span aria-hidden="true">i</span>
               <p>
-                AI 初审仅提供建议与风险标记，由责任教师作出最终决定；退回补证和判无效需选择公开原因。
+                普通打卡提交默认有效；AI 随机抽查仅提供建议，不扣除学时。历史补录须教师审核；退回补证和判无效需选择公开原因。
               </p>
             </div>
           }
@@ -3978,7 +3978,7 @@ export function TeacherWorkspace({
         <div className="panel checkin-detail-panel">
           <div className="panel-head teacher-panel-head checkin-record-panel-head">
             <div>
-              <h2>{selectedCheckinStudent.name}的全部打卡记录</h2>
+              <h2>{selectedCheckinStudent.name}的全部打卡记录</h2><button type="button" className="secondary-button" disabled={checkinStudents.findIndex(student=>student.id===checkinStudentId)>=checkinStudents.length-1} onClick={()=>{const next=checkinStudents[checkinStudents.findIndex(student=>student.id===checkinStudentId)+1];if(next)openCheckinStudentRecords(next.id);}}>审核下一个同学 →</button>
               {/* Single text node so the whole-sentence English rule (with
                   its singular/plural handling) can match. */}
               <p>
@@ -3986,10 +3986,10 @@ export function TeacherWorkspace({
               </p>
             </div>
             <div className="checkin-detail-toolbar">
-              <label>AI 初审筛选 <select aria-label="AI 初审筛选" value={aiReviewFilter} onChange={event => setAiReviewFilter(event.target.value)}>
+              <label>AI 抽查建议筛选 <select aria-label="AI 抽查建议筛选" value={aiReviewFilter} onChange={event => setAiReviewFilter(event.target.value)}>
                 <option value="all">全部 AI 结果</option>
                 {Object.entries(aiReviewLabels).map(([value,label]) => <option key={value} value={value}>{label}</option>)}
-                <option value="UNAVAILABLE">等待初审 / 暂不可用</option>
+                <option value="UNAVAILABLE">未抽查 / 暂不可用</option>
               </select></label>
               <div
                 className="segmented checkin-audit-filter"

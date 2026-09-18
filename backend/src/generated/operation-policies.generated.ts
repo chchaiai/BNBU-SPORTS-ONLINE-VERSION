@@ -934,7 +934,8 @@ export const operationPolicies = {
     "authentication": "ACCESS_TOKEN",
     "allowedRoles": [
       "STUDENT",
-      "TEACHER"
+      "TEACHER",
+      "ADMIN"
     ],
     "organizationScope": "PRINCIPAL_ORGANIZATION",
     "resourceScope": "ROLE_SCOPED",
@@ -961,7 +962,8 @@ export const operationPolicies = {
     "authentication": "ACCESS_TOKEN",
     "allowedRoles": [
       "STUDENT",
-      "TEACHER"
+      "TEACHER",
+      "ADMIN"
     ],
     "organizationScope": "PRINCIPAL_ORGANIZATION",
     "resourceScope": "ROLE_SCOPED",
@@ -1455,6 +1457,64 @@ export const operationPolicies = {
     "allowedRoles": [],
     "organizationScope": "NONE",
     "resourceScope": "NONE",
+    "resourceResolver": "NONE",
+    "defaultDeny": true
+  },
+  "createFeedbackAttachment": {
+    "method": "POST",
+    "route": "/feedback-attachments",
+    "policyId": "CREATEFEEDBACKATTACHMENT",
+    "authentication": "ACCESS_TOKEN",
+    "allowedRoles": [
+      "STUDENT",
+      "TEACHER"
+    ],
+    "organizationScope": "PRINCIPAL_ORGANIZATION",
+    "resourceScope": "ROLE_SCOPED",
+    "resourceResolver": "NONE",
+    "defaultDeny": true
+  },
+  "confirmFeedbackAttachment": {
+    "method": "POST",
+    "route": "/feedback-attachments/{attachmentId}/confirm",
+    "policyId": "CONFIRMFEEDBACKATTACHMENT",
+    "authentication": "ACCESS_TOKEN",
+    "allowedRoles": [
+      "STUDENT",
+      "TEACHER"
+    ],
+    "organizationScope": "PRINCIPAL_ORGANIZATION",
+    "resourceScope": "ROLE_SCOPED",
+    "resourceResolver": "NONE",
+    "defaultDeny": true
+  },
+  "accessFeedbackAttachment": {
+    "method": "POST",
+    "route": "/feedback-attachments/{attachmentId}/access",
+    "policyId": "ACCESSFEEDBACKATTACHMENT",
+    "authentication": "ACCESS_TOKEN",
+    "allowedRoles": [
+      "STUDENT",
+      "TEACHER",
+      "ADMIN"
+    ],
+    "organizationScope": "PRINCIPAL_ORGANIZATION",
+    "resourceScope": "ROLE_SCOPED",
+    "resourceResolver": "NONE",
+    "defaultDeny": true
+  },
+  "listFeedbackAttachments": {
+    "method": "GET",
+    "route": "/feedback/{feedbackId}/attachments",
+    "policyId": "LISTFEEDBACKATTACHMENTS",
+    "authentication": "ACCESS_TOKEN",
+    "allowedRoles": [
+      "STUDENT",
+      "TEACHER",
+      "ADMIN"
+    ],
+    "organizationScope": "PRINCIPAL_ORGANIZATION",
+    "resourceScope": "ROLE_SCOPED",
     "resourceResolver": "NONE",
     "defaultDeny": true
   },
@@ -2165,7 +2225,8 @@ export const operationPolicies = {
     "policyId": "GET-V81-STUDENT-FEEDBACK-HISTORY",
     "authentication": "ACCESS_TOKEN",
     "allowedRoles": [
-      "STUDENT"
+      "STUDENT",
+      "TEACHER"
     ],
     "organizationScope": "PRINCIPAL_ORGANIZATION",
     "resourceScope": "SELF",

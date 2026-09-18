@@ -1,0 +1,10 @@
+{
+  "result": "PASS",
+  "teacherUploadImageVideoFile": true,
+  "teacherVideoPreview": true,
+  "adminAttachmentPreviewAndReply": true,
+  "teacherReplyRead": true,
+  "studentMobileImageVideoUpload": true,
+  "studentImagePreview": true,
+  "browserErrors": []
+}

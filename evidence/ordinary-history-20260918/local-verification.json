@@ -1,0 +1,12 @@
+{
+  "result": "PASS",
+  "ordinaryValid": true,
+  "originalRulesPreserved": true,
+  "belowMinimumStillZero": true,
+  "dailyLimitStillApplied": true,
+  "makeupReviewFingerprintsUnchanged": true,
+  "cutoffHonored": true,
+  "appendOnlyReviews": true,
+  "idempotent": true,
+  "cohortDriftAborts": true
+}

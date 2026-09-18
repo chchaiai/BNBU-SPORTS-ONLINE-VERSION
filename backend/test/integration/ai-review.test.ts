@@ -10,7 +10,7 @@ import { createTestPrisma, resetFoundationDatabase, seedFoundationFixture } from
 import { seedSubmittedExerciseRecord } from '../helpers/exercise-review.js';
 import { requireTestDatabaseUrl } from '../helpers/test-environment.js';
 import { appendMaterialVersion } from '../../src/modules/v8/v81-materials.js';
-import { applyAiDecision } from '../../src/modules/v8/v81-ai-decision.js';
+import { AI_AUTO_POLICY } from '../../src/modules/v8/domain/ai-review.js';
 import { initializeRecordWorkflow } from '../../src/modules/v8/v81-record-state.js';
 import { readAiReviews, enqueueAiReview } from '../../src/modules/v8/v81-ai-review-store.js';
 import type { PrismaService } from '../../src/common/database/prisma.service.js';
@@ -19,7 +19,7 @@ import type { MediaStoragePort } from '../../src/common/object-storage/media-sto
 import type { V81AiReviewWorker as AiWorkerClass } from '../../src/modules/v8/v81-ai-review.worker.js';
 import type { AiReviewProvider } from '../../src/modules/v8/ai-review-provider.js';
 
-test('default valid submission, AI exceptions, teacher precedence, retry, lease and budget', async () => {
+test('default valid submission, advisory only risk, teacher precedence, retry, lease and budget', async () => {
   const prisma = createTestPrisma(requireTestDatabaseUrl());
   const { V81AiReviewWorker } = await import(pathToFileURL(resolve('dist/modules/v8/v81-ai-review.worker.js')).href) as { V81AiReviewWorker: typeof AiWorkerClass };
   try {
@@ -52,6 +52,8 @@ test('default valid submission, AI exceptions, teacher precedence, retry, lease 
         if(historical) await tx.$executeRaw`INSERT INTO v81_history_session_sources(session_id,settings_version,earliest_date,latest_date,declared_at,request_id) VALUES(${record.sessionId}::uuid,1,'2026-01-01','2026-12-31',${now},${uuidv7()})`;
         await initializeRecordWorkflow(tx,{recordId:record.recordId,organizationId:fixture.organizationId,mediaIds:[mediaId],now});
       });
+      // Force worker fixtures into the queue; sampling is tested independently.
+      await prisma.$executeRaw`INSERT INTO v81_ai_review_jobs(id,organization_id,record_id,material_version,policy_version) VALUES(${uuidv7()}::uuid,${fixture.organizationId}::uuid,${record.recordId}::uuid,1,${AI_AUTO_POLICY}) ON CONFLICT DO NOTHING`;
       return {...record,mediaId};
     }
     const first = await seed('AI-FIRST');
@@ -63,7 +65,7 @@ test('default valid submission, AI exceptions, teacher precedence, retry, lease 
     assert.equal((await readAiReviews(prisma,[first.recordId])).get(first.recordId)?.recommendation,'SUGGEST_PASS');
     assert.equal((await prisma.exerciseRecord.findUniqueOrThrow({where:{id:first.recordId}})).version,before.version);
     assert.equal((await prisma.v81RecordWorkflow.findUniqueOrThrow({where:{recordId:first.recordId}})).stage,'VALID');
-    assert.equal((await readAiReviews(prisma,[first.recordId])).get(first.recordId)?.policyVersion,'default-valid-exceptions-v3');
+    assert.equal((await readAiReviews(prisma,[first.recordId])).get(first.recordId)?.policyVersion,'sample-advisory-v4');
     const finalReview=await prisma.reviewRecord.findFirstOrThrow({where:{recordId:first.recordId},orderBy:{reviewVersion:'desc'}});
     assert.equal(finalReview.result,'VALID'); assert.equal(finalReview.teacherId,null);
     assert.equal((await prisma.$queryRaw<{credited_minutes:number}[]>`SELECT credited_minutes FROM v81_credit_projections WHERE record_id=${first.recordId}::uuid`)[0]?.credited_minutes,60);
@@ -71,20 +73,12 @@ test('default valid submission, AI exceptions, teacher precedence, retry, lease 
     const second = await seed('AI-DUPLICATE');
     await worker().processOne();
     assert.ok((await readAiReviews(prisma,[second.recordId])).get(second.recordId)?.flags.includes('EXACT_DUPLICATE'));
-    assert.equal((await prisma.v81RecordWorkflow.findUniqueOrThrow({where:{recordId:second.recordId}})).stage,'PENDING_TEACHER');
+    assert.equal((await prisma.v81RecordWorkflow.findUniqueOrThrow({where:{recordId:second.recordId}})).stage,'VALID');
     const pendingReview=await prisma.reviewRecord.findFirstOrThrow({where:{recordId:second.recordId},orderBy:{reviewVersion:'desc'}});
     await assert.rejects(prisma.reviewRecord.create({data:{id:uuidv7(),organizationId:fixture.organizationId,recordId:second.recordId,
       reviewVersion:pendingReview.reviewVersion+1,previousReviewId:pendingReview.id,result:'INVALID',reasonCode:'SESSION_MISMATCH',reviewedAt:new Date(),createdAt:new Date()}}),
       /AI system rejection requires/);
-    const commitDecision = (recordId:string) => prisma.$transaction(async tx => {
-      await tx.$queryRaw`SELECT id FROM organizations WHERE id=${fixture.organizationId}::uuid FOR NO KEY UPDATE`;
-      const jobs=await tx.$queryRaw<{id:string}[]>`SELECT id FROM v81_ai_review_jobs WHERE record_id=${recordId}::uuid AND material_version=1`;
-      await applyAiDecision(tx,{organizationId:fixture.organizationId,recordId,materialVersion:1,jobId:jobs[0]!.id,decision:'PENDING_TEACHER',policyVersion:'default-valid-exceptions-v3'});
-    });
-    assert.equal((await prisma.$queryRaw<{credited_minutes:number}[]>`SELECT credited_minutes FROM v81_credit_projections WHERE record_id=${second.recordId}::uuid`)[0]?.credited_minutes,0);
-    const reviewCount=await prisma.reviewRecord.count({where:{recordId:second.recordId}});
-    await commitDecision(second.recordId);
-    assert.equal(await prisma.reviewRecord.count({where:{recordId:second.recordId}}),reviewCount);
+    assert.equal((await prisma.$queryRaw<{credited_minutes:number}[]>`SELECT credited_minutes FROM v81_credit_projections WHERE record_id=${second.recordId}::uuid`)[0]?.credited_minutes,60);
     const third = await seed('AI-RETRY'); fail = true;
     for (let attempt=1;attempt<=3;attempt++) {
       const result = await worker().processOne(); assert.equal(result?.status,attempt===3?'FAILED':'QUEUED');
@@ -95,6 +89,7 @@ test('default valid submission, AI exceptions, teacher precedence, retry, lease 
     fail = false;
     await prisma.$transaction(async tx => {
       await appendMaterialVersion(tx,{recordId:third.recordId,organizationId:fixture.organizationId,mediaIds:[third.mediaId],materialVersion:2,now:new Date()});
+      await tx.$executeRaw`INSERT INTO v81_ai_review_jobs(id,organization_id,record_id,material_version,policy_version) VALUES(${uuidv7()}::uuid,${fixture.organizationId}::uuid,${third.recordId}::uuid,2,${AI_AUTO_POLICY}) ON CONFLICT DO NOTHING`;
       await tx.$executeRaw`UPDATE v81_record_workflows SET material_version=2,stage='PENDING_TEACHER' WHERE record_id=${third.recordId}::uuid`;
     });
     assert.equal((await readAiReviews(prisma,[third.recordId])).get(third.recordId)?.materialVersion,2);
@@ -113,7 +108,7 @@ test('default valid submission, AI exceptions, teacher precedence, retry, lease 
     const previous=await prisma.reviewRecord.findFirstOrThrow({where:{recordId:completed.recordId},orderBy:{reviewVersion:'desc'}});
     await prisma.reviewRecord.create({data:{id:uuidv7(),organizationId:fixture.organizationId,recordId:completed.recordId,
       reviewVersion:previous.reviewVersion+1,previousReviewId:previous.id,teacherId:fixture.teacherProfileId,result:'VALID',reviewedAt:new Date(),createdAt:new Date()}});
-    await commitDecision(completed.recordId);
+
     assert.equal((await prisma.v81RecordWorkflow.findUniqueOrThrow({where:{recordId:completed.recordId}})).stage,'VALID');
     const teacherCalls=calls; await worker().processOne(); assert.equal(calls,teacherCalls);
     const historical=await seed('HISTORY',true);

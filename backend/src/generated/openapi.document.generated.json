@@ -4540,7 +4540,8 @@
           "authentication": "ACCESS_TOKEN",
           "allowedRoles": [
             "STUDENT",
-            "TEACHER"
+            "TEACHER",
+            "ADMIN"
           ],
           "organizationScope": "PRINCIPAL_ORGANIZATION",
           "resourceScope": "ROLE_SCOPED",
@@ -4648,7 +4649,8 @@
           "authentication": "ACCESS_TOKEN",
           "allowedRoles": [
             "STUDENT",
-            "TEACHER"
+            "TEACHER",
+            "ADMIN"
           ],
           "organizationScope": "PRINCIPAL_ORGANIZATION",
           "resourceScope": "ROLE_SCOPED",
@@ -7018,6 +7020,234 @@
           },
           "503": {
             "$ref": "#/components/responses/ServiceUnavailable"
+          }
+        }
+      }
+    },
+    "/feedback-attachments": {
+      "post": {
+        "operationId": "createFeedbackAttachment",
+        "tags": [
+          "Client Capabilities"
+        ],
+        "summary": "createFeedbackAttachment",
+        "x-access-policy": {
+          "policyId": "CREATEFEEDBACKATTACHMENT",
+          "authentication": "ACCESS_TOKEN",
+          "allowedRoles": [
+            "STUDENT",
+            "TEACHER"
+          ],
+          "organizationScope": "PRINCIPAL_ORGANIZATION",
+          "resourceScope": "ROLE_SCOPED",
+          "resourceResolver": "NONE",
+          "defaultDeny": true
+        },
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/RequestIdHeader"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "fileName",
+                  "size"
+                ],
+                "properties": {
+                  "fileName": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 180
+                  },
+                  "size": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 52428800
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Authorized attachment result in data envelope"
+          },
+          "201": {
+            "description": "Authorized attachment result in data envelope"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "422": {
+            "$ref": "#/components/responses/UnprocessableEntity"
+          }
+        }
+      }
+    },
+    "/feedback-attachments/{attachmentId}/confirm": {
+      "post": {
+        "operationId": "confirmFeedbackAttachment",
+        "tags": [
+          "Client Capabilities"
+        ],
+        "summary": "confirmFeedbackAttachment",
+        "x-access-policy": {
+          "policyId": "CONFIRMFEEDBACKATTACHMENT",
+          "authentication": "ACCESS_TOKEN",
+          "allowedRoles": [
+            "STUDENT",
+            "TEACHER"
+          ],
+          "organizationScope": "PRINCIPAL_ORGANIZATION",
+          "resourceScope": "ROLE_SCOPED",
+          "resourceResolver": "NONE",
+          "defaultDeny": true
+        },
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/RequestIdHeader"
+          },
+          {
+            "name": "attachmentId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Authorized attachment result in data envelope"
+          },
+          "201": {
+            "description": "Authorized attachment result in data envelope"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "422": {
+            "$ref": "#/components/responses/UnprocessableEntity"
+          }
+        }
+      }
+    },
+    "/feedback-attachments/{attachmentId}/access": {
+      "post": {
+        "operationId": "accessFeedbackAttachment",
+        "tags": [
+          "Client Capabilities"
+        ],
+        "summary": "accessFeedbackAttachment",
+        "x-access-policy": {
+          "policyId": "ACCESSFEEDBACKATTACHMENT",
+          "authentication": "ACCESS_TOKEN",
+          "allowedRoles": [
+            "STUDENT",
+            "TEACHER",
+            "ADMIN"
+          ],
+          "organizationScope": "PRINCIPAL_ORGANIZATION",
+          "resourceScope": "ROLE_SCOPED",
+          "resourceResolver": "NONE",
+          "defaultDeny": true
+        },
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/RequestIdHeader"
+          },
+          {
+            "name": "attachmentId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Authorized attachment result in data envelope"
+          },
+          "201": {
+            "description": "Authorized attachment result in data envelope"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "422": {
+            "$ref": "#/components/responses/UnprocessableEntity"
+          }
+        }
+      }
+    },
+    "/feedback/{feedbackId}/attachments": {
+      "get": {
+        "operationId": "listFeedbackAttachments",
+        "tags": [
+          "Client Capabilities"
+        ],
+        "summary": "listFeedbackAttachments",
+        "x-access-policy": {
+          "policyId": "LISTFEEDBACKATTACHMENTS",
+          "authentication": "ACCESS_TOKEN",
+          "allowedRoles": [
+            "STUDENT",
+            "TEACHER",
+            "ADMIN"
+          ],
+          "organizationScope": "PRINCIPAL_ORGANIZATION",
+          "resourceScope": "ROLE_SCOPED",
+          "resourceResolver": "NONE",
+          "defaultDeny": true
+        },
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/RequestIdHeader"
+          },
+          {
+            "name": "feedbackId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Authorized attachment result in data envelope"
+          },
+          "201": {
+            "description": "Authorized attachment result in data envelope"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "422": {
+            "$ref": "#/components/responses/UnprocessableEntity"
           }
         }
       }
@@ -11751,7 +11981,8 @@
           "policyId": "GET-V81-STUDENT-FEEDBACK-HISTORY",
           "authentication": "ACCESS_TOKEN",
           "allowedRoles": [
-            "STUDENT"
+            "STUDENT",
+            "TEACHER"
           ],
           "organizationScope": "PRINCIPAL_ORGANIZATION",
           "resourceScope": "SELF",
@@ -28814,6 +29045,12 @@
                   "expectedVersion"
                 ],
                 "properties": {
+                  "maximumMinutes": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 1440,
+                    "description": "单次历史补录最大分钟数；省略时保留既有设置。"
+                  },
                   "enabled": {
                     "type": "boolean"
                   },
@@ -37613,6 +37850,15 @@
           "content"
         ],
         "properties": {
+          "attachmentIds": {
+            "type": "array",
+            "maxItems": 5,
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
           "category": {
             "type": "string",
             "enum": [

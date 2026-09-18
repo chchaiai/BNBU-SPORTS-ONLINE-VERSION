@@ -1,5 +1,6 @@
 "use client";
 
+import { FeedbackAttachments } from './feedback-attachments';
 import { useEffect, useRef, useState } from "react";
 import { ApiError, currentApiSessionEpoch } from "./api-client";
 import { listAdminFeedback, getAdminFeedback, handleAdminFeedback, feedbackToTicket, feedbackTicketStatuses, type FeedbackStatus, type FeedbackDetail, type FeedbackItem } from "./feedback-api";
@@ -74,9 +75,11 @@ function TicketDialog({
   requesterEmail,
   close,
   onSave,
+  attachmentFeedbackId,
 }: {
   locale: AdminLocale;
   ticket: SupportTicket;
+  attachmentFeedbackId?: string;
   requesterEmail?: string;
   close: () => void;
   onSave?: (status: Exclude<TicketStatus, "pending">, reply: string) => Promise<void>;
@@ -118,7 +121,7 @@ function TicketDialog({
               <AdminBadge tone={ticketTone(ticket.status)}>{adminLabel(locale, "ticketStatus", ticket.status)}</AdminBadge>
             </header>
             <dl>
-              <div><dt>{locale === "zh" ? "学号" : "Student ID"}</dt><dd><code>{ticket.account}</code></dd></div>
+              <div><dt>{locale === "zh" ? (ticket.source === "teacher" ? "教师工号" : "学号") : "Account ID"}</dt><dd><code>{ticket.account}</code></dd></div>
               <div><dt>{locale === "zh" ? "学校邮箱" : "University email"}</dt><dd>{requesterEmail ?? adminCopy(locale, "not_available")}</dd></div>
               <div><dt>{locale === "zh" ? "提交时间" : "Submitted"}</dt><dd>{formatAdminDate(locale, ticket.submittedAt, true)}</dd></div>
             </dl>
@@ -127,13 +130,14 @@ function TicketDialog({
             <header><span>{locale === "zh" ? "问题内容" : "Problem details"}</span><AdminBadge tone="blue">{adminLabel(locale, "ticketCategory", ticket.category)}</AdminBadge></header>
             <p>{ticket.content}</p>
           </section>
+          {attachmentFeedbackId && <FeedbackAttachments feedbackId={attachmentFeedbackId} locale={locale} />}
           {ticket.replies.length > 0 && <section className="admin-ticket-thread">
             <h3>{locale === "zh" ? "处理记录" : "History"}</h3>
             {ticket.replies.map((item) => <article key={item.id}><b>{item.author}</b><p>{item.message}</p><small>{formatAdminDate(locale, item.createdAt, true)}</small></article>)}
           </section>}
         </div>
         <div className="admin-ticket-editor">
-          <header><h3>{locale === "zh" ? "处理反馈" : "Process feedback"}</h3><p>{locale === "zh" ? "更新状态，并向学生说明处理结果和下一步。" : "Update the status and explain the result and next step to the student."}</p></header>
+          <header><h3>{locale === "zh" ? "处理反馈" : "Process feedback"}</h3><p>{locale === "zh" ? "更新状态，并向提交人说明处理结果和下一步。" : "Update the status and explain the result and next step to the requester."}</p></header>
           <AdminField locale={locale} label={adminCopy(locale, "status")} required><AppSelect label={adminCopy(locale, "status")} value={status} options={(["in_progress", "technical", "resolved", "closed"] as TicketStatus[]).map((value) => ({ value, label: adminLabel(locale, "ticketStatus", value) }))} onChange={(value) => value && setStatus(value as TicketStatus)} /></AdminField>
           <AdminField locale={locale} label={adminCopy(locale, "reply")} required errorCode={error?.fieldErrors.reply}><textarea value={reply} placeholder={adminCopy(locale, "reply_placeholder")} onChange={(event) => setReply(event.target.value)} /></AdminField>
         </div>
@@ -203,7 +207,7 @@ function DemoAdminSupport({ locale }: { locale: AdminLocale }) {
           <div className="admin-support-mobile-list">{paged.items.map((ticket) => <article key={ticket.id}>
             <header><code>{ticket.id}</code><AdminBadge tone={ticketTone(ticket.status)}>{adminLabel(locale, "ticketStatus", ticket.status)}</AdminBadge></header>
             <div className="admin-support-mobile-content"><h3>{ticket.content}</h3><p>{ticket.requester}</p><dl>
-              <div><dt>{locale === "zh" ? "学号" : "Student ID"}</dt><dd>{ticket.account}</dd></div>
+              <div><dt>{locale === "zh" ? (ticket.source === "teacher" ? "教师工号" : "学号") : "Account ID"}</dt><dd>{ticket.account}</dd></div>
               <div><dt>{locale === "zh" ? "邮箱" : "Email"}</dt><dd>{requesterFor(ticket)?.email ?? adminCopy(locale, "not_available")}</dd></div>
               <div><dt>{locale === "zh" ? "问题类型" : "Problem category"}</dt><dd>{adminLabel(locale, "ticketCategory", ticket.category)}</dd></div>
               <div><dt>{adminCopy(locale, "submitted_at")}</dt><dd>{formatAdminDate(locale, ticket.submittedAt, true)}</dd></div>
@@ -321,6 +325,7 @@ function RealFeedbackSupport({ locale,notificationTarget }: TargetProps) {
         category: item.category,
         categoryLabel: adminLabel(locale, "ticketCategory", item.category),
         summary: item.content,
+        requester: item.requester.name ?? undefined, studentNumber: item.requester.studentNumber ?? undefined, email: item.requester.email ?? undefined,
       }, search),
   );
 
@@ -328,8 +333,8 @@ function RealFeedbackSupport({ locale,notificationTarget }: TargetProps) {
     <div className="admin-page-stack admin-support-page">
       <aside className="admin-planned-banner">
         {locale === "zh"
-          ? "点击反馈编号查看详情、更新处理状态并公开回复学生；处理历史会保留。"
-          : "Select a feedback ID to view details, update its status, and reply to the student. The handling history is retained."}
+          ? "点击反馈编号查看详情、更新处理状态并公开回复提交人；处理历史会保留。"
+          : "Select a feedback ID to view details, update its status, and reply to the requester. The handling history is retained."}
       </aside>
       <section className="admin-surface admin-table-surface admin-support-surface">
         <AdminSectionHeading
@@ -344,10 +349,10 @@ function RealFeedbackSupport({ locale,notificationTarget }: TargetProps) {
         </div>
         <AdminInlineError message={loadError} />
         {loading ? null : filtered.length === 0 ? <AdminEmpty locale={locale} filtered /> : (
-          <div className="table-wrap admin-support-table-wrap"><table className="admin-table admin-support-table"><thead><tr><th>ID</th><th>{locale === "zh" ? "问题类型" : "Problem category"}</th><th>{adminCopy(locale, "subject")}</th><th>{adminCopy(locale, "status")}</th><th>{adminCopy(locale, "updated_at")}</th></tr></thead><tbody>{filtered.map((item) => <tr key={item.id}><td><button className="text-button" type="button" onClick={() => void open(item.id)}><code>{item.id}</code></button></td><td>{adminLabel(locale, "ticketCategory", item.category)}</td><td><b>{item.content}</b>{item.publicReply && <small className="table-sub">{item.publicReply}</small>}</td><td><AdminBadge tone={item.status === "RESOLVED" ? "green" : item.status === "CLOSED" ? "gray" : "orange"}>{adminLabel(locale, "ticketStatus", feedbackTicketStatuses[item.status])}</AdminBadge></td><td>{formatAdminDate(locale, item.updatedAt, true)}</td></tr>)}</tbody></table></div>
+          <div className="table-wrap admin-support-table-wrap"><table className="admin-table admin-support-table"><thead><tr><th>ID</th><th>{locale === "zh" ? "提交人" : "Requester"}</th><th>{locale === "zh" ? "问题类型" : "Problem category"}</th><th>{adminCopy(locale, "subject")}</th><th>{adminCopy(locale, "status")}</th><th>{adminCopy(locale, "updated_at")}</th></tr></thead><tbody>{filtered.map((item) => <tr key={item.id}><td><button className="text-button" type="button" onClick={() => void open(item.id)}><code>{item.id}</code></button></td><td><b>{item.requester.name ?? "—"}</b><small className="table-sub">{item.requester.role === "TEACHER" ? "教师 / Teacher" : "学生 / Student"} · {item.requester.studentNumber}</small><small className="table-sub">{item.requester.email}</small></td><td>{adminLabel(locale, "ticketCategory", item.category)}</td><td><b>{item.content}</b>{item.publicReply && <small className="table-sub">{item.publicReply}</small>}</td><td><AdminBadge tone={item.status === "RESOLVED" ? "green" : item.status === "CLOSED" ? "gray" : "orange"}>{adminLabel(locale, "ticketStatus", feedbackTicketStatuses[item.status])}</AdminBadge></td><td>{formatAdminDate(locale, item.updatedAt, true)}</td></tr>)}</tbody></table></div>
         )}
       </section>
-      {selected && <TicketDialog locale={locale} ticket={feedbackToTicket(selected)} requesterEmail={selected.requester.email ?? undefined} close={() => setSelected(null)} onSave={save} />}
+      {selected && <TicketDialog locale={locale} ticket={feedbackToTicket(selected)} attachmentFeedbackId={selected.id} requesterEmail={selected.requester.email ?? undefined} close={() => setSelected(null)} onSave={save} />}
     </div>
   );
 }

@@ -1,0 +1,8 @@
+{
+  "result": "PASS",
+  "adminRecords": true,
+  "teacherMaximum": true,
+  "nextStudentButton": true,
+  "studentMobileForm": true,
+  "browserErrors": []
+}

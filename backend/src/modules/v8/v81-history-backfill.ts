@@ -1,6 +1,6 @@
 import { assertProfileReady } from '../users/application/student-profile-quality.js';
 import { Body, Controller, Get, Headers, Injectable, Param, ParseUUIDPipe, Post, Req } from '@nestjs/common';
-import { IsBoolean, IsInt, IsISO8601, Matches, Max, Min } from 'class-validator';
+import { IsBoolean, IsInt, IsISO8601, Matches, Max, Min, IsOptional } from 'class-validator';
 import { PrismaService } from '../../common/database/prisma.service.js';
 import type { Prisma } from '../../generated/prisma/client.js';
 import { ApplicationError } from '../../common/errors/application-error.js';
@@ -14,6 +14,7 @@ import { OrganizationTimeService } from '../../common/time/organization-time.ser
 import { requireUnsettledCourse } from './v81-settlement-write-guard.js';
 
 export class HistorySettingsInput {
+  @IsOptional() @IsInt() @Min(1) @Max(1440) maximumMinutes?: number;
   @IsBoolean() enabled!: boolean;
   @IsISO8601({ strict: true }) @Matches(/^\d{4}-\d{2}-\d{2}$/u) earliestDate!: string;
   @IsISO8601({ strict: true }) @Matches(/^\d{4}-\d{2}-\d{2}$/u) latestDate!: string;
@@ -23,7 +24,7 @@ export class HistorySessionInput {
   @IsISO8601({ strict: true }) @Matches(/T.*(?:Z|[+-]\d{2}:\d{2})$/u) startedAt!: string;
   @IsInt() @Min(60) @Max(86400) durationSeconds!: number;
 }
-type Settings = { enabled: boolean; earliest_date: Date; latest_date: Date; version: number };
+type Settings = { maximum_minutes: number; enabled: boolean; earliest_date: Date; latest_date: Date; version: number };
 const day = (value: Date) => value.toISOString().slice(0, 10);
 export async function isHistoricalSession(tx: Pick<Prisma.TransactionClient, '$queryRaw'>, sessionId: string) {
   return (await tx.$queryRaw<{ session_id: string }[]>`SELECT session_id FROM v81_history_session_sources WHERE session_id=${sessionId}::uuid`).length > 0;
@@ -55,7 +56,7 @@ export class V81HistoryBackfillService {
   async read(p: AuthenticatedPrincipal, id: string) {
     return this.prisma.$transaction(async tx => {
       const course = await this.course(tx,p,id), settings = await this.settings(tx,id);
-      return { classSectionId:id,enabled:settings?.enabled??false,version:settings?.version??0,
+      return { maximumMinutes:settings?.maximum_minutes??60, classSectionId:id,enabled:settings?.enabled??false,version:settings?.version??0,
         earliestDate:day(settings?.earliest_date??course.semester.startDate),latestDate:day(settings?.latest_date??course.semester.endDate),
         semesterStartDate:day(course.semester.startDate),semesterEndDate:day(course.semester.endDate),
         today:this.time.businessDate(this.clock.now(),course.organization.timezone) };
@@ -78,13 +79,16 @@ export class V81HistoryBackfillService {
       if((current?.version??0)!==input.expectedVersion) throw new ApplicationError('CONFLICT_VERSION_MISMATCH',409);
       if(input.earliestDate>input.latestDate||input.earliestDate<day(course.semester.startDate)||input.latestDate>day(course.semester.endDate))
         throw new ApplicationError('VALIDATION_FAILED',422,{reason:'HISTORY_RANGE_OUTSIDE_SEMESTER'});
+      const maximumMinutes=input.maximumMinutes??current?.maximum_minutes??60;
+      const rules=await tx.$queryRaw<{minimum_minutes:number}[]>`SELECT minimum_minutes FROM v81_course_rules WHERE class_section_id=${id}::uuid`;
+      if (input.enabled && maximumMinutes < (rules[0]?.minimum_minutes??1)) throw new ApplicationError('VALIDATION_FAILED',422,{reason:'HISTORY_MAXIMUM_BELOW_MINIMUM'});
       const version=input.expectedVersion+1,now=this.clock.now();
-      await tx.$executeRaw`INSERT INTO v81_history_settings(class_section_id,enabled,earliest_date,latest_date,version,updated_at)
-        VALUES(${id}::uuid,${input.enabled},${input.earliestDate}::date,${input.latestDate}::date,${version},${now})
-        ON CONFLICT(class_section_id) DO UPDATE SET enabled=excluded.enabled,earliest_date=excluded.earliest_date,latest_date=excluded.latest_date,version=excluded.version,updated_at=excluded.updated_at`;
+      await tx.$executeRaw`INSERT INTO v81_history_settings(class_section_id,enabled,earliest_date,latest_date,version,updated_at,maximum_minutes)
+        VALUES(${id}::uuid,${input.enabled},${input.earliestDate}::date,${input.latestDate}::date,${version},${now},${maximumMinutes})
+        ON CONFLICT(class_section_id) DO UPDATE SET enabled=excluded.enabled,earliest_date=excluded.earliest_date,latest_date=excluded.latest_date,version=excluded.version,updated_at=excluded.updated_at,maximum_minutes=excluded.maximum_minutes`;
       await tx.$executeRaw`INSERT INTO v81_events(id,organization_id,resource_type,resource_id,event_type,actor_id,request_id,version,facts,occurred_at,event_outcome)
         VALUES(${this.ids.next()}::uuid,${p.organizationId}::uuid,'HISTORY_SETTINGS',${id}::uuid,'UPDATED',${p.userId}::uuid,${requestId},${version},${JSON.stringify(input)}::jsonb,${now},'SUCCEEDED')`;
-      return this.idempotency.success({classSectionId:id,enabled:input.enabled,earliestDate:input.earliestDate,latestDate:input.latestDate,version});
+      return this.idempotency.success({maximumMinutes,classSectionId:id,enabled:input.enabled,earliestDate:input.earliestDate,latestDate:input.latestDate,version});
     });
   }
   async create(p:AuthenticatedPrincipal,enrollmentId:string,input:HistorySessionInput,requestId:string,key?:string) {
@@ -109,12 +113,12 @@ export class V81HistoryBackfillService {
       const startedAt=new Date(input.startedAt),completedAt=new Date(startedAt.getTime()+input.durationSeconds*1000);
       const businessDate=this.time.businessDate(startedAt,course.organization.timezone),today=this.time.businessDate(now,course.organization.timezone);
       if(businessDate>=today||businessDate<day(settings.earliest_date)||businessDate>day(settings.latest_date)||
-        this.time.businessDate(completedAt,course.organization.timezone)>=today||input.durationSeconds<rule.minimum_minutes*60)
+        this.time.businessDate(completedAt,course.organization.timezone)>=today||input.durationSeconds<rule.minimum_minutes*60||input.durationSeconds>settings.maximum_minutes*60)
         throw new ApplicationError('VALIDATION_FAILED',422,{reason:'HISTORY_DATE_OR_DURATION_INVALID'});
       const id=this.ids.next();
       await tx.exerciseSession.create({data:{id,organizationId:p.organizationId,studentId:member.studentId,enrollmentId,
         classSectionId:course.id,semesterId:course.semesterId,startedByAuthSessionId:p.sessionId,status:'COMPLETED',startedAt,
-        completedAt,businessDate:new Date(`${businessDate}T00:00:00Z`),endReason:'USER_COMPLETED',actualDurationSeconds:BigInt(input.durationSeconds),createdAt:now,updatedAt:now}});
+        completedAt,businessDate:new Date(`${businessDate}T00:00:00Z`),endReason:'USER_COMPLETED',maximumDurationSeconds:settings.maximum_minutes*60,actualDurationSeconds:BigInt(input.durationSeconds),createdAt:now,updatedAt:now}});
       await tx.$executeRaw`INSERT INTO v81_history_session_sources(session_id,settings_version,earliest_date,latest_date,declared_at,request_id)
         VALUES(${id}::uuid,${settings.version},${settings.earliest_date},${settings.latest_date},${now},${requestId})`;
       await tx.$executeRaw`INSERT INTO v81_events(id,organization_id,resource_type,resource_id,event_type,actor_id,request_id,version,facts,occurred_at,event_outcome)

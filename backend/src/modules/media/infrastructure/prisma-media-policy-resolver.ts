@@ -40,7 +40,8 @@ export class PrismaMediaPolicyResolver extends MediaPolicyResolver {
     const target = media.session?.classSection ?? media.exemptionEnrollment?.classSection;
     if (target === undefined) throw new ApplicationError('SYSTEM_DATA_INTEGRITY_ERROR', 500);
     const teacher = principal.role === 'TEACHER' && target.teacher.userId === principal.userId;
-    if (!owner && !teacher) throw new ApplicationError('MEDIA_OBJECT_NOT_FOUND', 404);
+    const admin = principal.role==='ADMIN' && (await this.prisma.$queryRaw<{record_id:string}[]>`SELECT m.record_id FROM v81_material_items m JOIN exercise_records r ON r.id=m.record_id WHERE m.media_id=${mediaId}::uuid AND r.organization_id=${principal.organizationId}::uuid LIMIT 1`).length>0;
+    if (!owner && !teacher && !admin) throw new ApplicationError('MEDIA_OBJECT_NOT_FOUND', 404);
     return {
       mediaId: media.id,
       organizationId: media.organizationId,

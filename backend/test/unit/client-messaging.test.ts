@@ -241,6 +241,7 @@ function createHarness(initial: Partial<HarnessState> = {}): {
     securityHashKey: createHash('sha256').update('client-messaging-test').digest('hex'),
   } as RuntimeConfig);
   const service = new ClientMessagingService(
+    { bind: async () => {} } as unknown as import("../../src/modules/client-capabilities/feedback-attachments.js").FeedbackAttachmentsService,
     store as unknown as PrismaService,
     idempotency,
     audit,
