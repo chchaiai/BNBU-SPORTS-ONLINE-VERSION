@@ -10,6 +10,7 @@ import type { ExerciseSessionProjection } from '../../application/exercise-sessi
 import { ExerciseSessionsService } from '../../application/exercise-sessions.service.js';
 import {
   ActiveExerciseSessionQueryDto,
+  RecoverableSessionQueryDto,
   CancelExerciseSessionRequestDto,
   ExerciseSessionControlRequestDto,
   ExerciseSessionPathDto,
@@ -41,6 +42,12 @@ export class ExerciseSessionsController {
     @Req() request: FoundationRequest,
   ): Promise<ExerciseSessionProjection | null> {
     return this.sessions.getActive(principal, query.enrollmentId, request.requestId);
+  }
+
+  @Get('recoverable')
+  @OperationPolicy('listRecoverableExerciseSessions')
+  recoverable(@CurrentPrincipal() principal: AuthenticatedPrincipal, @Query() query: RecoverableSessionQueryDto) {
+    return this.sessions.listRecoverable(principal, query.before);
   }
 
   @Get(':sessionId')

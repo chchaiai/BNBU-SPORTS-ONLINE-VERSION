@@ -225,7 +225,7 @@ export class AuthService {
         requestId: facts.requestId,
       },
       async (transaction) => {
-        await transaction.$queryRaw`SELECT id FROM organizations WHERE id=${user.organizationId}::uuid FOR NO KEY UPDATE`;
+        await transaction.$queryRaw`SELECT id FROM organizations WHERE id=${user.organizationId}::uuid FOR SHARE`;
         const loginPolicy = await transaction.systemPolicy.findUnique({
           where: { organizationId: user.organizationId },
         });

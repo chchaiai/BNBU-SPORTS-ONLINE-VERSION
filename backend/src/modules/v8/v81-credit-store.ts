@@ -1,4 +1,5 @@
 import type { Prisma } from '../../generated/prisma/client.js';
+import { computeCredits } from './credit-computation.js';
 import { mondayOf, selectCredits, type CreditCandidate, type CreditRules } from './domain/crediting.js';
 
 export async function recomputeCredits(
@@ -16,6 +17,10 @@ export async function recomputeCredits(
       startedAt: Date;
       businessDate: Date;
       actualSeconds: bigint;
+      projectionVersion: number | null;
+      projectionEligible: number | null;
+      projectionCredited: number | null;
+      projectionReason: string | null;
       ruleVersion: number;
       minimumMinutes: number;
       weeklyLimit: number;
@@ -24,6 +29,7 @@ export async function recomputeCredits(
   >`
     SELECT r.id,r.credit_type AS category,s.started_at AS "startedAt",r.business_date AS "businessDate",r.actual_duration_seconds AS "actualSeconds",
     (w.stage='VALID') AS valid,COALESCE(p.selected,false) AS "previouslySelected",
+    p.version AS "projectionVersion",p.eligible_minutes AS "projectionEligible",p.credited_minutes AS "projectionCredited",p.reason AS "projectionReason",
     snapshot.rule_version AS "ruleVersion", snapshot.minimum_minutes AS "minimumMinutes",
     snapshot.weekly_limit AS "weeklyLimit", snapshot.daily_limit AS "dailyLimit", snapshot.maximum_minutes AS "maximumMinutes"
     FROM exercise_records r JOIN exercise_sessions s ON s.id=r.session_id JOIN v81_record_workflows w ON w.record_id=r.id
@@ -52,7 +58,7 @@ export async function recomputeCredits(
   for (const version of [...new Set(candidates.map(r => r.ruleVersion))].sort((a,b) => a-b)) {
     const cohort = candidates.filter(r => r.ruleVersion === version);
     const first = cohort[0]!;
-    const computed = selectCredits(cohort, { ...rules[0], minimumMinutes: first.minimumMinutes,
+    const computed = await computeCredits(cohort, { ...rules[0], minimumMinutes: first.minimumMinutes,
       weeklyLimit: first.weeklyLimit, dailyLimit: first.dailyLimit }, totals, reserved);
     result.records.push(...computed.records);
     result.courseMinutes = computed.courseMinutes;
@@ -66,10 +72,17 @@ export async function recomputeCredits(
       reserved.weeks.set(week, (reserved.weeks.get(week) ?? 0) + 1);
     }
   }
-  for (const item of result.records)
+  const existing = new Map(records.map(record => [record.id,record]));
+  for (const item of result.records.filter(item => {
+    const old = existing.get(item.id);
+    return old?.projectionVersion == null || old.projectionEligible !== item.eligibleMinutes ||
+      old.projectionCredited !== item.creditedMinutes || old.previouslySelected !== item.selected || old.projectionReason !== item.reason;
+  }))
     await tx.$executeRaw`
     INSERT INTO v81_credit_projections(record_id,organization_id,eligible_minutes,credited_minutes,selected,reason,updated_at)
     VALUES(${item.id}::uuid,${rules[0].organizationId}::uuid,${item.eligibleMinutes},${item.creditedMinutes},${item.selected},${item.reason},${now})
-    ON CONFLICT(record_id) DO UPDATE SET eligible_minutes=EXCLUDED.eligible_minutes,credited_minutes=EXCLUDED.credited_minutes,selected=EXCLUDED.selected,reason=EXCLUDED.reason,version=v81_credit_projections.version+1,updated_at=EXCLUDED.updated_at`;
+    ON CONFLICT(record_id) DO UPDATE SET eligible_minutes=EXCLUDED.eligible_minutes,credited_minutes=EXCLUDED.credited_minutes,selected=EXCLUDED.selected,reason=EXCLUDED.reason,version=v81_credit_projections.version+1,updated_at=EXCLUDED.updated_at
+    WHERE (v81_credit_projections.eligible_minutes,v81_credit_projections.credited_minutes,v81_credit_projections.selected,v81_credit_projections.reason)
+      IS DISTINCT FROM (EXCLUDED.eligible_minutes,EXCLUDED.credited_minutes,EXCLUDED.selected,EXCLUDED.reason)`;
   return { ...result, recognized };
 }

@@ -1,0 +1,5 @@
+
+> test:web
+> node frontend/preview-runtime-config.test.cjs
+
+preview runtime config checks passed

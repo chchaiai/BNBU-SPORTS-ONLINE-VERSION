@@ -52,6 +52,12 @@ interface HttpResult {
 let ApplicationError: typeof ApplicationErrorType;
 
 class MemoryMediaStorage implements MediaStoragePort {
+  async copyPrivateObject(source: string, destination: string): Promise<void> {
+    const object = this.objects.get(source);
+    if (!object) throw new ApplicationError("MEDIA_OBJECT_NOT_FOUND",404);
+    this.objects.set(destination,{...object,body:Buffer.from(object.body)});
+  }
+
   checkHealth(): Promise<void> {
     return Promise.resolve();
   }

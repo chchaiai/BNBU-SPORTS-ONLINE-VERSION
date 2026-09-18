@@ -1,0 +1,14 @@
+{
+  "previousImage": "sha256:87ce4b7de5948b3874f46f78b547812d9f8f7099d4d0b4f2a78ffd69ddff8ead",
+  "sourceHead": "c154343aad8e084f2ed04ab8a342623413562ea3",
+  "sourceManifestSha256": "fcb3dcda969c9e4fa1b2f234b4c5dce25841b4be554a74bd02ff0cbe616625df",
+  "runtimePath": "modules/exercise-records/application/exercise-records.service.js",
+  "runtimeAfter": "fb76f20f6fc3914b26e6e320ec8f4f9fb7b1752136ea97d4063c3dc8c0f7b257",
+  "files": {
+    "deploy.py": "e4b86341b51c7eb5d3cf7cf64346ac73c6fc69919f5e0b4db4b8587d83dfd2fb",
+    "source-manifest.json": "fcb3dcda969c9e4fa1b2f234b4c5dce25841b4be554a74bd02ff0cbe616625df",
+    "backend/Dockerfile": "bc2acbc1e183be6fd625f3c25d2870816f1a1032c26068280378d16d10270e5b",
+    "backend/dist/modules/exercise-records/application/exercise-records.service.js": "fb76f20f6fc3914b26e6e320ec8f4f9fb7b1752136ea97d4063c3dc8c0f7b257",
+    "backend/dist/modules/exercise-records/application/exercise-records.service.js.map": "8c349ead996b836bbf575af42541f4b1734a6382086a9fa2254c8b32106f780e"
+  }
+}
