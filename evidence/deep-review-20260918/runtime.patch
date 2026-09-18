@@ -1,0 +1,1084 @@
+--- live/modules/auth/auth.service.js
+
++++ candidate/modules/auth/auth.service.js
+
+@@ -177,7 +177,7 @@
+
+             request: { accountDigest: this.digest.digest('auth-account', account), credentialDigest },
+             requestId: facts.requestId,
+         }, async (transaction) => {
+-            await transaction.$queryRaw `SELECT id FROM organizations WHERE id=${user.organizationId}::uuid FOR NO KEY UPDATE`;
++            await transaction.$queryRaw `SELECT id FROM organizations WHERE id=${user.organizationId}::uuid FOR SHARE`;
+             const loginPolicy = await transaction.systemPolicy.findUnique({
+                 where: { organizationId: user.organizationId },
+             });
+--- live/modules/exercise-records/application/exercise-records.service.js
+
++++ candidate/modules/exercise-records/application/exercise-records.service.js
+
+@@ -87,86 +87,94 @@
+
+         };
+         const position = this.cursors.decode(input.cursor, binding);
+         const businessDatePosition = position === null ? null : new Date(`${position.value}T00:00:00.000Z`);
+-        const records = await this.prisma.exerciseRecord.findMany({
+-            where: {
+-                organizationId: principal.organizationId,
+-                ...(scope.studentId === undefined ? {} : { studentId: scope.studentId }),
+-                ...(scope.teacherUserId === undefined
+-                    ? {}
+-                    : { classSection: { teacher: { userId: scope.teacherUserId }, retiredAt: null },
+-                        enrollment: { status: 'ACTIVE' } }),
+-                ...(input.classSectionId === undefined ? {} : { classSectionId: input.classSectionId }),
+-                ...(input.enrollmentId === undefined ? {} : { enrollmentId: input.enrollmentId }),
+-                ...(input.status === undefined ? {} : { status: input.status }),
+-                ...(input.reviewResult === undefined
+-                    ? {}
+-                    : { reviews: { some: { result: input.reviewResult } } }),
+-                ...(input.businessDateFrom === undefined && input.businessDateTo === undefined
+-                    ? {}
+-                    : {
+-                        businessDate: {
+-                            ...(input.businessDateFrom === undefined
+-                                ? {}
+-                                : { gte: new Date(`${input.businessDateFrom}T00:00:00.000Z`) }),
+-                            ...(input.businessDateTo === undefined
+-                                ? {}
+-                                : { lte: new Date(`${input.businessDateTo}T00:00:00.000Z`) }),
+-                        },
+-                    }),
+-                AND: [
+-                    ...(input.aiReview === undefined ? [] : [{ OR: [1, 2].map(materialVersion => ({
+-                                v81RecordWorkflow_record: { materialVersion },
+-                                aiReviewJobs: { some: { materialVersion,
+-                                        ...(['QUEUED', 'RUNNING', 'FAILED'].includes(input.aiReview)
+-                                            ? { status: input.aiReview } : { status: 'SUCCEEDED', recommendation: input.aiReview }) } },
+-                            })) }]),
+-                    ...(filters.search === null
+-                        ? []
+-                        : [
+-                            {
+-                                OR: [
+-                                    { description: { contains: filters.search, mode: 'insensitive' } },
+-                                    { sportName: { contains: filters.search, mode: 'insensitive' } },
+-                                    ...(principal.role === 'ADMIN' ? [{ student: { OR: [{ fullName: { contains: filters.search, mode: 'insensitive' } }, { studentNumber: { contains: filters.search, mode: 'insensitive' } }] } }] : []),
+-                                ],
++        return this.prisma.$transaction(async (tx) => {
++            const currentReviewIds = input.reviewResult === undefined ? null : await tx.$queryRaw `
++      SELECT r.record_id FROM review_records r JOIN exercise_records scoped ON scoped.id=r.record_id
++      WHERE r.organization_id=${principal.organizationId}::uuid AND r.result=${input.reviewResult}
++        ${scope.studentId === undefined ? Prisma.empty : Prisma.sql `AND scoped.student_id=${scope.studentId}::uuid`}
++        ${input.classSectionId === undefined ? Prisma.empty : Prisma.sql `AND scoped.class_section_id=${input.classSectionId}::uuid`}
++        AND NOT EXISTS (SELECT 1 FROM review_records newer WHERE newer.record_id=r.record_id AND newer.review_version>r.review_version)`;
++            const records = await tx.exerciseRecord.findMany({
++                where: {
++                    organizationId: principal.organizationId,
++                    ...(scope.studentId === undefined ? {} : { studentId: scope.studentId }),
++                    ...(scope.teacherUserId === undefined
++                        ? {}
++                        : { classSection: { teacher: { userId: scope.teacherUserId }, retiredAt: null },
++                            enrollment: { status: 'ACTIVE' } }),
++                    ...(input.classSectionId === undefined ? {} : { classSectionId: input.classSectionId }),
++                    ...(input.enrollmentId === undefined ? {} : { enrollmentId: input.enrollmentId }),
++                    ...(input.status === undefined ? {} : { status: input.status }),
++                    ...(input.reviewResult === undefined
++                        ? {}
++                        : { id: { in: currentReviewIds.map(row => row.record_id) } }),
++                    ...(input.businessDateFrom === undefined && input.businessDateTo === undefined
++                        ? {}
++                        : {
++                            businessDate: {
++                                ...(input.businessDateFrom === undefined
++                                    ? {}
++                                    : { gte: new Date(`${input.businessDateFrom}T00:00:00.000Z`) }),
++                                ...(input.businessDateTo === undefined
++                                    ? {}
++                                    : { lte: new Date(`${input.businessDateTo}T00:00:00.000Z`) }),
+                             },
+-                        ]),
+-                    ...(position === null || businessDatePosition === null
+-                        ? []
+-                        : [
+-                            {
+-                                OR: [
+-                                    {
+-                                        businessDate: direction === 'asc'
+-                                            ? { gt: businessDatePosition }
+-                                            : { lt: businessDatePosition },
+-                                    },
+-                                    {
+-                                        businessDate: businessDatePosition,
+-                                        id: direction === 'asc' ? { gt: position.id } : { lt: position.id },
+-                                    },
+-                                ],
+-                            },
+-                        ]),
+-                ],
+-            },
+-            include: { ...recordProjectionRelations, student: { select: { fullName: true, studentNumber: true } }, classSection: { select: { displayName: true } } },
+-            orderBy: [{ businessDate: direction }, { id: direction }],
+-            take: input.limit + 1,
+-        });
+-        const hasMore = records.length > input.limit;
+-        const items = records.slice(0, input.limit);
+-        const last = items.at(-1);
+-        return pagedResult((await projectV81Records(this.prisma, items, principal.role !== 'STUDENT')).map((row, index) => ({ ...row, ...(principal.role === 'ADMIN' ? { studentName: items[index].student.fullName, studentNumber: items[index].student.studentNumber, className: items[index].classSection.displayName } : {}) })), {
+-            nextCursor: hasMore && last !== undefined
+-                ? this.cursors.encode(binding, {
+-                    value: last.businessDate.toISOString().slice(0, 10),
+-                    id: last.id,
+-                })
+-                : null,
+-            hasMore,
+-            limit: input.limit,
+-        });
++                        }),
++                    AND: [
++                        ...(input.aiReview === undefined ? [] : [{ OR: [1, 2].map(materialVersion => ({
++                                    v81RecordWorkflow_record: { materialVersion },
++                                    aiReviewJobs: { some: { materialVersion,
++                                            ...(['QUEUED', 'RUNNING', 'FAILED'].includes(input.aiReview)
++                                                ? { status: input.aiReview } : { status: 'SUCCEEDED', recommendation: input.aiReview }) } },
++                                })) }]),
++                        ...(filters.search === null
++                            ? []
++                            : [
++                                {
++                                    OR: [
++                                        { description: { contains: filters.search, mode: 'insensitive' } },
++                                        { sportName: { contains: filters.search, mode: 'insensitive' } },
++                                        ...(principal.role === 'ADMIN' ? [{ student: { OR: [{ fullName: { contains: filters.search, mode: 'insensitive' } }, { studentNumber: { contains: filters.search, mode: 'insensitive' } }] } }] : []),
++                                    ],
++                                },
++                            ]),
++                        ...(position === null || businessDatePosition === null
++                            ? []
++                            : [
++                                {
++                                    OR: [
++                                        {
++                                            businessDate: direction === 'asc'
++                                                ? { gt: businessDatePosition }
++                                                : { lt: businessDatePosition },
++                                        },
++                                        {
++                                            businessDate: businessDatePosition,
++                                            id: direction === 'asc' ? { gt: position.id } : { lt: position.id },
++                                        },
++                                    ],
++                                },
++                            ]),
++                    ],
++                },
++                include: { ...recordProjectionRelations, student: { select: { fullName: true, studentNumber: true } }, classSection: { select: { displayName: true } } },
++                orderBy: [{ businessDate: direction }, { id: direction }],
++                take: input.limit + 1,
++            });
++            const hasMore = records.length > input.limit;
++            const items = records.slice(0, input.limit);
++            const last = items.at(-1);
++            return pagedResult((await projectV81Records(tx, items, principal.role !== 'STUDENT')).map((row, index) => ({ ...row, ...(principal.role === 'ADMIN' ? { studentName: items[index].student.fullName, studentNumber: items[index].student.studentNumber, className: items[index].classSection.displayName } : {}) })), {
++                nextCursor: hasMore && last !== undefined
++                    ? this.cursors.encode(binding, {
++                        value: last.businessDate.toISOString().slice(0, 10),
++                        id: last.id,
++                    })
++                    : null,
++                hasMore,
++                limit: input.limit,
++            });
++        }, { isolationLevel: Prisma.TransactionIsolationLevel.RepeatableRead });
+     }
+     async get(principal, context) {
+         this.assertContext(principal, context);
+@@ -371,7 +379,7 @@
+
+         }, async (transaction) => {
+             // Keep a replayable failure while rolling back any submission writes.
+             await transaction.$executeRaw `SAVEPOINT exercise_record_submit`;
+-            await transaction.$queryRaw `SELECT id FROM organizations WHERE id=${principal.organizationId}::uuid FOR NO KEY UPDATE`;
++            await transaction.$queryRaw `SELECT id FROM organizations WHERE id=${principal.organizationId}::uuid FOR SHARE`;
+             await assertProfileReady(transaction, principal.organizationId, principal.userId);
+             try {
+                 await this.lock(transaction, 'enrollments', context.enrollmentId);
+@@ -535,7 +543,8 @@
+
+                 throw error;
+             }
+         });
+-        await this.scores.processReviewChange(context.recordId);
++        // initializeRecordWorkflow already publishes V8.1 credit atomically.
++        // No fallible post-commit work may change the accepted submit response.
+         return result;
+     }
+     async discard(principal, context, input, facts) {
+--- live/modules/exercise-sessions/application/exercise-sessions.service.js
+
++++ candidate/modules/exercise-sessions/application/exercise-sessions.service.js
+
+@@ -7,10 +7,11 @@
+
+ var __metadata = (this && this.__metadata) || function (k, v) {
+     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+ };
++var ExerciseSessionsService_1;
+ import { assertProfileReady } from '../../users/application/student-profile-quality.js';
+ import { requireUnsettledCourse } from '../../v8/v81-settlement-write-guard.js';
+ import { appendV81SystemEvent } from '../../v8/v81-system-event.js';
+-import { Injectable } from '@nestjs/common';
++import { Injectable, Logger } from '@nestjs/common';
+ import { AuditService } from '../../../common/audit/audit.service.js';
+ import { PrismaService } from '../../../common/database/prisma.service.js';
+ import { ApplicationError } from '../../../common/errors/application-error.js';
+@@ -24,7 +25,9 @@
+
+ import { assertTransition, cappedRunningDuration, SESSION_DURATION_CAP_SECONDS, wholeSeconds, } from '../domain/exercise-session.js';
+ import { projectExerciseSession, } from './exercise-session-projection.js';
+ import { requiredCourseThreshold } from '../../v8/v81-record-state.js';
+-let ExerciseSessionsService = class ExerciseSessionsService {
++import { permitsExistingCourseSession } from '../../enrollments/application/course-closure-memberships.js';
++import { isHistoricalSession, requireHistoricalSubmissionWindow } from '../../v8/v81-history-backfill.js';
++let ExerciseSessionsService = ExerciseSessionsService_1 = class ExerciseSessionsService {
+     prisma;
+     idempotency;
+     audit;
+@@ -33,6 +36,8 @@
+
+     clock;
+     ids;
+     organizationTime;
++    logger = new Logger(ExerciseSessionsService_1.name);
++    dueFailures = new Map();
+     constructor(prisma, idempotency, audit, outbox, digest, clock, ids, organizationTime) {
+         this.prisma = prisma;
+         this.idempotency = idempotency;
+@@ -45,19 +50,35 @@
+
+     }
+     async completeDueSessions() {
+         const now = this.clock.now();
++        for (const [id, until] of this.dueFailures)
++            if (until <= Date.now())
++                this.dueFailures.delete(id);
++        const blocked = [...this.dueFailures.keys()];
+         const due = await this.prisma.$queryRaw `
+-      SELECT id,organization_id FROM exercise_sessions WHERE status='IN_PROGRESS'
++      SELECT id,organization_id FROM exercise_sessions WHERE status='IN_PROGRESS' AND NOT (id=ANY(${blocked}::uuid[]))
+       AND maximum_duration_seconds IS NOT NULL AND current_interval_started_at IS NOT NULL
+       AND current_interval_started_at + (maximum_duration_seconds-actual_duration_seconds)*interval '1 second' <= ${now}
+       ORDER BY current_interval_started_at,id LIMIT 100`;
+-        for (const candidate of due)
+-            await this.serializable(async (tx) => {
+-                await tx.$queryRaw `SELECT id FROM organizations WHERE id=${candidate.organization_id}::uuid FOR NO KEY UPDATE`;
+-                await tx.$queryRaw `SELECT id FROM exercise_sessions WHERE id=${candidate.id}::uuid FOR UPDATE`;
+-                const session = await tx.exerciseSession.findUnique({ where: { id: candidate.id } });
+-                if (session)
+-                    await this.materializeCap(tx, session, null, { requestId: this.ids.next(), idempotencyKey: undefined });
+-            });
++        for (const candidate of due) {
++            if ((this.dueFailures.get(candidate.id) ?? 0) > Date.now())
++                continue;
++            try {
++                await this.serializable(async (tx) => {
++                    await tx.$queryRaw `SELECT id FROM organizations WHERE id=${candidate.organization_id}::uuid FOR SHARE`;
++                    const locked = await tx.$queryRaw `SELECT id FROM exercise_sessions WHERE id=${candidate.id}::uuid FOR UPDATE SKIP LOCKED`;
++                    if (!locked.length)
++                        return;
++                    const session = await tx.exerciseSession.findUnique({ where: { id: candidate.id } });
++                    if (session)
++                        await this.materializeCap(tx, session, null, { requestId: this.ids.next(), idempotencyKey: undefined });
++                });
++                this.dueFailures.delete(candidate.id);
++            }
++            catch {
++                this.dueFailures.set(candidate.id, Date.now() + 60_000);
++                this.logger.error({ code: "SESSION_AUTO_COMPLETE_FAILED", sessionId: candidate.id });
++            }
++        }
+         return due.length;
+     }
+     async start(principal, input, facts) {
+@@ -73,12 +94,12 @@
+
+             requestId: facts.requestId,
+         }, async (transaction) => {
+             try {
+-                await transaction.$queryRaw `SELECT id FROM organizations WHERE id=${principal.organizationId}::uuid FOR NO KEY UPDATE`;
++                await transaction.$queryRaw `SELECT id FROM organizations WHERE id=${principal.organizationId}::uuid FOR SHARE`;
+                 await assertProfileReady(transaction, principal.organizationId, principal.userId);
+                 if ((await transaction.systemPolicy.findUnique({ where: { organizationId: principal.organizationId } }))?.systemMode !== 'NORMAL')
+                     throw new ApplicationError('SYSTEM_MAINTENANCE', 503);
+                 await transaction.$queryRaw `SELECT c.id FROM class_sections c JOIN enrollments e ON e.class_section_id=c.id
+-            WHERE e.id=${input.enrollmentId}::uuid AND e.organization_id=${principal.organizationId}::uuid FOR UPDATE OF c`;
++            WHERE e.id=${input.enrollmentId}::uuid AND e.organization_id=${principal.organizationId}::uuid FOR SHARE OF c`;
+                 await transaction.$queryRaw `SELECT id FROM enrollments WHERE id=${input.enrollmentId}::uuid FOR UPDATE`;
+                 const enrollment = await transaction.enrollment.findFirst({
+                     where: { id: input.enrollmentId, organizationId: principal.organizationId },
+@@ -194,6 +215,46 @@
+
+                     return this.idempotency.failure(error);
+                 throw error;
+             }
++        });
++    }
++    async listRecoverable(principal, before) {
++        this.assertStudent(principal);
++        return this.prisma.$transaction(async (tx) => {
++            const studentId = await this.requiredStudentId(tx, principal);
++            const rows = await tx.exerciseSession.findMany({
++                where: { organizationId: principal.organizationId, studentId, status: 'COMPLETED',
++                    ...(before ? { id: { lt: before } } : {}),
++                    semester: { status: { not: 'ARCHIVED' } },
++                    OR: [{ exerciseRecord: null }, { exerciseRecord: { status: 'DRAFT' } }],
++                }, orderBy: { id: 'desc' }, take: 21,
++                include: { exerciseRecord: true, enrollment: true, classSection: { include: { course: true, teacher: true } },
++                    mediaEvidence: { where: { uploadStatus: 'AVAILABLE', businessPurpose: 'EXERCISE_RECORD' }, select: { id: true, mediaType: true } } },
++            });
++            const items = [];
++            for (const row of rows.slice(0, 20)) {
++                if (!permitsExistingCourseSession(row.enrollment, row.classSection, row.startedAt) ||
++                    row.classSection.course.status !== 'ACTIVE' || row.classSection.course.deletedAt ||
++                    row.classSection.teacher.status !== 'ACTIVE' || row.classSection.teacher.deletedAt)
++                    continue;
++                try {
++                    const minimum = await requiredCourseThreshold(tx, row.classSectionId, row.exerciseRecord?.id);
++                    if (row.actualDurationSeconds < BigInt(minimum * 60))
++                        continue;
++                    await requireUnsettledCourse(tx, principal.organizationId, row.classSectionId);
++                    await requireHistoricalSubmissionWindow(tx, row.id, this.clock.now());
++                }
++                catch (error) {
++                    if (error instanceof ApplicationError)
++                        continue;
++                    throw error;
++                }
++                items.push({ session: projectExerciseSession(row, this.clock.now()),
++                    origin: await isHistoricalSession(tx, row.id) ? 'HISTORICAL' : 'REALTIME',
++                    draft: row.exerciseRecord ? { id: row.exerciseRecord.id, creditType: row.exerciseRecord.creditType,
++                        sportType: row.exerciseRecord.sportType, sportName: row.exerciseRecord.sportName, description: row.exerciseRecord.description } : null,
++                    media: row.mediaEvidence });
++            }
++            return { items, nextCursor: rows.length > 20 ? rows[19].id : null };
+         });
+     }
+     async getActive(principal, enrollmentId, requestId) {
+@@ -793,7 +854,7 @@
+
+         }
+     }
+ };
+-ExerciseSessionsService = __decorate([
++ExerciseSessionsService = ExerciseSessionsService_1 = __decorate([
+     Injectable(),
+     __metadata("design:paramtypes", [PrismaService,
+         IdempotencyService,
+--- live/modules/exercise-sessions/interface/http/exercise-sessions.controller.js
+
++++ candidate/modules/exercise-sessions/interface/http/exercise-sessions.controller.js
+
+@@ -14,7 +14,7 @@
+
+ import { OperationPolicy } from '../../../../common/policy/operation-policy.decorator.js';
+ import { CurrentPrincipal } from '../../../../common/policy/principal.decorator.js';
+ import { ExerciseSessionsService } from '../../application/exercise-sessions.service.js';
+-import { ActiveExerciseSessionQueryDto, CancelExerciseSessionRequestDto, ExerciseSessionControlRequestDto, ExerciseSessionPathDto, ReconcileExerciseSessionRequestDto, StartExerciseSessionRequestDto, } from './exercise-sessions.dto.js';
++import { ActiveExerciseSessionQueryDto, RecoverableSessionQueryDto, CancelExerciseSessionRequestDto, ExerciseSessionControlRequestDto, ExerciseSessionPathDto, ReconcileExerciseSessionRequestDto, StartExerciseSessionRequestDto, } from './exercise-sessions.dto.js';
+ let ExerciseSessionsController = class ExerciseSessionsController {
+     sessions;
+     constructor(sessions) {
+@@ -25,6 +25,9 @@
+
+     }
+     active(principal, query, request) {
+         return this.sessions.getActive(principal, query.enrollmentId, request.requestId);
++    }
++    recoverable(principal, query) {
++        return this.sessions.listRecoverable(principal, query.before);
+     }
+     get(principal, path, request) {
+         return this.sessions.get(principal, path.sessionId, request.requestId);
+@@ -82,6 +85,15 @@
+
+     __metadata("design:paramtypes", [Object, ActiveExerciseSessionQueryDto, Object]),
+     __metadata("design:returntype", Promise)
+ ], ExerciseSessionsController.prototype, "active", null);
++__decorate([
++    Get('recoverable'),
++    OperationPolicy('listRecoverableExerciseSessions'),
++    __param(0, CurrentPrincipal()),
++    __param(1, Query()),
++    __metadata("design:type", Function),
++    __metadata("design:paramtypes", [Object, RecoverableSessionQueryDto]),
++    __metadata("design:returntype", void 0)
++], ExerciseSessionsController.prototype, "recoverable", null);
+ __decorate([
+     Get(':sessionId'),
+     OperationPolicy('getExerciseSession'),
+--- live/modules/exercise-sessions/interface/http/exercise-sessions.dto.js
+
++++ candidate/modules/exercise-sessions/interface/http/exercise-sessions.dto.js
+
+@@ -24,6 +24,14 @@
+
+     IsUUID('7'),
+     __metadata("design:type", String)
+ ], ActiveExerciseSessionQueryDto.prototype, "enrollmentId", void 0);
++export class RecoverableSessionQueryDto {
++    before;
++}
++__decorate([
++    IsOptional(),
++    IsUUID(),
++    __metadata("design:type", String)
++], RecoverableSessionQueryDto.prototype, "before", void 0);
+ export class StartExerciseSessionRequestDto {
+     enrollmentId;
+     clientObservedAt;
+--- live/modules/media/application/media-processing.worker.js
+
++++ candidate/modules/media/application/media-processing.worker.js
+
+@@ -10,8 +10,10 @@
+
+ var __param = (this && this.__param) || function (paramIndex, decorator) {
+     return function (target, key) { decorator(target, key, paramIndex); }
+ };
+-import { normalizeServerVideo, VideoNormalizationError } from './video-normalizer.js';
+-import { Inject, Injectable, } from '@nestjs/common';
++var MediaProcessingWorker_1;
++import { randomUUID } from 'node:crypto';
++import { normalizeServerVideo, VideoNormalizationError, checkVideoWorkspace } from './video-normalizer.js';
++import { Logger, Inject, Injectable, } from '@nestjs/common';
+ import { AuditService } from '../../../common/audit/audit.service.js';
+ import { RUNTIME_CONFIG } from '../../../common/config/runtime-config.module.js';
+ import { PrismaService } from '../../../common/database/prisma.service.js';
+@@ -21,7 +23,7 @@
+
+ import { Clock } from '../../../common/time/clock.js';
+ import { IdGenerator } from '../../../common/time/id-generator.js';
+ import { MediaValidator } from './media-validator.js';
+-let MediaProcessingWorker = class MediaProcessingWorker {
++let MediaProcessingWorker = MediaProcessingWorker_1 = class MediaProcessingWorker {
+     prisma;
+     audit;
+     outbox;
+@@ -32,7 +34,9 @@
+
+     runtimeConfig;
+     timer = null;
+     running = false;
+-    workerId = `media-worker-${process.pid}`;
++    stopping = false;
++    logger = new Logger(MediaProcessingWorker_1.name);
++    workerId = `media-worker-${randomUUID()}`;
+     constructor(prisma, audit, outbox, clock, idGenerator, validator, storage, runtimeConfig) {
+         this.prisma = prisma;
+         this.audit = audit;
+@@ -43,24 +47,33 @@
+
+         this.storage = storage;
+         this.runtimeConfig = runtimeConfig;
+     }
+-    onApplicationBootstrap() {
++    async onApplicationBootstrap() {
+         const config = this.runtimeConfig.media;
+         if (!config?.workerEnabled)
+             return;
++        await checkVideoWorkspace();
+         this.timer = setInterval(() => void this.tick(), config.workerPollMs);
+         this.timer.unref();
+         void this.tick();
+     }
+-    onModuleDestroy() {
++    async onModuleDestroy() {
++        this.stopping = true;
+         if (this.timer !== null)
+             clearInterval(this.timer);
+         this.timer = null;
++        const deadline = Date.now() + 25_000;
++        while (this.running && Date.now() < deadline)
++            await new Promise(resolve => setTimeout(resolve, 50));
+     }
+     async processOne() {
+         const config = this.configuration();
+         const claimed = await this.claim(config);
+         if (claimed === null)
+             return false;
++        if (claimed.attemptNumber > 3) {
++            await this.failAttempt(claimed, "MEDIA_RETRY_EXHAUSTED", true);
++            return true;
++        }
+         let verified;
+         try {
+             if (claimed.media.mediaType === 'VIDEO' && claimed.media.safeMetadata?.videoPipeline === 1) {
+@@ -68,7 +81,7 @@
+
+                     businessPurpose: claimed.media.businessPurpose, mediaType: 'VIDEO', mimeType: claimed.media.declaredMimeType,
+                     fileSizeBytes: Number(claimed.media.declaredFileSizeBytes), contentSha256: claimed.media.verifiedContentSha256,
+                     durationSeconds: claimed.media.declaredDurationSeconds,
+-                }, config, this.validator);
++                }, config, this.validator, claimed.attemptNumber);
+                 verified.safeMetadata.sourceSha256 = claimed.media.verifiedContentSha256;
+             }
+             else {
+@@ -105,14 +118,14 @@
+
+         return true;
+     }
+     async tick() {
+-        if (this.running)
++        if (this.running || this.stopping)
+             return;
+         this.running = true;
+         try {
+             await this.processOne();
+         }
+         catch {
+-            // The next database-driven poll retries safely. No signed URL or object detail is logged.
++            this.logger.error({ code: "MEDIA_WORKER_POLL_FAILED" });
+         }
+         finally {
+             this.running = false;
+@@ -195,6 +208,14 @@
+
+     }
+     async completeAttempt(claimed, verified) {
+         await this.prisma.$transaction(async (transaction) => {
++            // Lock the same row used by claim, then fence expired or superseded attempts.
++            await transaction.$queryRaw `SELECT id FROM media_evidence WHERE id=${claimed.media.id}::uuid FOR UPDATE`;
++            const lease = await transaction.mediaProcessingAttempt.findFirst({
++                where: { mediaId: claimed.media.id, phase: 'STARTED' }, orderBy: { attemptNumber: 'desc' },
++            });
++            if (!lease || lease.attemptNumber !== claimed.attemptNumber || lease.workerId !== this.workerId ||
++                lease.occurredAt.getTime() + 600_000 <= this.clock.now().getTime())
++                return;
+             const current = await transaction.mediaEvidence.findUniqueOrThrow({
+                 where: { id: claimed.media.id },
+             });
+@@ -253,6 +274,14 @@
+
+     }
+     async failAttempt(claimed, resultCode, terminal) {
+         await this.prisma.$transaction(async (transaction) => {
++            // Lock the same row used by claim, then fence expired or superseded attempts.
++            await transaction.$queryRaw `SELECT id FROM media_evidence WHERE id=${claimed.media.id}::uuid FOR UPDATE`;
++            const lease = await transaction.mediaProcessingAttempt.findFirst({
++                where: { mediaId: claimed.media.id, phase: 'STARTED' }, orderBy: { attemptNumber: 'desc' },
++            });
++            if (!lease || lease.attemptNumber !== claimed.attemptNumber || lease.workerId !== this.workerId ||
++                lease.occurredAt.getTime() + 600_000 <= this.clock.now().getTime())
++                return;
+             const current = await transaction.mediaEvidence.findUniqueOrThrow({
+                 where: { id: claimed.media.id },
+             });
+@@ -346,7 +375,7 @@
+
+         return this.runtimeConfig.media;
+     }
+ };
+-MediaProcessingWorker = __decorate([
++MediaProcessingWorker = MediaProcessingWorker_1 = __decorate([
+     Injectable(),
+     __param(6, Inject(MEDIA_STORAGE_PORT)),
+     __param(7, Inject(RUNTIME_CONFIG)),
+--- live/modules/media/application/media.service.js
+
++++ candidate/modules/media/application/media.service.js
+
+@@ -371,7 +371,7 @@
+
+         }
+         const expiresAt = new Date(this.clock.now().getTime() + config.accessUrlTtlSeconds * 1000);
+         const accessUrl = await this.storage.createAccessUrl({
+-            storageKey: media.mediaType === 'VIDEO' && media.safeMetadata?.normalized === 1 ? processedVideoKey(media.storageKey) : media.storageKey,
++            storageKey: media.mediaType === 'VIDEO' && media.safeMetadata?.normalized === 1 ? processedVideoKey(media.storageKey, media.safeMetadata) : media.storageKey,
+             contentType: media.verifiedMimeType,
+             expiresInSeconds: config.accessUrlTtlSeconds,
+         });
+--- live/modules/media/application/video-normalizer.js
+
++++ candidate/modules/media/application/video-normalizer.js
+
+@@ -1,6 +1,6 @@
+
+ import { execFile } from 'node:child_process';
+ import { createReadStream, createWriteStream } from 'node:fs';
+-import { mkdtemp, rm, stat } from 'node:fs/promises';
++import { mkdtemp, rm, stat, statfs, access } from 'node:fs/promises';
+ import { tmpdir } from 'node:os';
+ import { join } from 'node:path';
+ import { Readable, Transform } from 'node:stream';
+@@ -8,7 +8,23 @@
+
+ import { promisify } from 'node:util';
+ import { ApplicationError } from '../../../common/errors/application-error.js';
+ const execute = promisify(execFile);
+-export const processedVideoKey = (key) => `${key}/normalized.mp4`;
++export const processedVideoKey = (key, metadata) => {
++    const attempt = metadata?.normalizationAttempt;
++    return typeof attempt === 'number' && Number.isSafeInteger(attempt) && attempt > 0
++        ? `${key}/normalized-${attempt}.mp4` : `${key}/normalized.mp4`;
++};
++export async function checkVideoWorkspace() {
++    const root = process.env.MEDIA_WORK_DIRECTORY || tmpdir();
++    try {
++        await access(root, 2);
++        const space = await statfs(root);
++        if (space.bavail * space.bsize < 512 * 1024 * 1024)
++            throw new Error('capacity');
++    }
++    catch {
++        throw new VideoNormalizationError('WORKSPACE_CAPACITY', false);
++    }
++}
+ export class VideoNormalizationError extends Error {
+     stage;
+     terminal;
+@@ -18,8 +34,9 @@
+
+         this.terminal = terminal;
+     }
+ }
+-export async function normalizeServerVideo(storage, storageKey, declared, config, validator) {
+-    const directory = await mkdtemp(join(tmpdir(), 'bnbu-video-'));
++export async function normalizeServerVideo(storage, storageKey, declared, config, validator, attemptNumber) {
++    await checkVideoWorkspace();
++    const directory = await mkdtemp(join(process.env.MEDIA_WORK_DIRECTORY || tmpdir(), 'bnbu-video-'));
+     const source = join(directory, 'source');
+     const output = join(directory, 'normalized.mp4');
+     let stage = 'DOWNLOAD';
+@@ -66,24 +83,28 @@
+
+             '-t', '10', '-map', '0:v:0', '-map', '0:a:0', '-vf', filters.join(','), '-filter_threads', '1',
+             '-c:v', 'libx264', '-threads', '1', '-preset', 'veryfast', '-crf', '24', '-pix_fmt', 'yuv420p',
+             '-c:a', 'aac', '-ac', '2', '-ar', '48000', '-map_metadata', '-1', '-map_metadata:s', '-1', '-map_chapters', '-1',
+-            '-movflags', '+faststart', output], { timeout: 180_000, maxBuffer: 1024 * 1024, windowsHide: true });
++            '-fs', String(200 * 1024 * 1024), '-movflags', '+faststart', output], { timeout: 180_000, maxBuffer: 1024 * 1024, windowsHide: true });
+         const outputSize = (await stat(output)).size;
++        if (outputSize >= 200 * 1024 * 1024)
++            throw new ApplicationError("MEDIA_SIZE_EXCEEDED", 413);
+         stage = 'VERIFY';
+         const verified = await validator.readAndVerify(createReadStream(output), { ...declared, mimeType: 'video/mp4', fileSizeBytes: outputSize, contentSha256: null, durationSeconds: null }, config);
+         if (verified.durationSeconds === null || verified.durationSeconds > 10)
+             throw new ApplicationError('MEDIA_VIDEO_DURATION_EXCEEDED', 422);
+         stage = 'STORE';
+-        const transport = await storage.createUploadUrl({ storageKey: processedVideoKey(storageKey), contentType: 'video/mp4', contentLength: outputSize, expiresInSeconds: 300 });
++        const transport = await storage.createUploadUrl({ storageKey: processedVideoKey(storageKey, { normalizationAttempt: attemptNumber }), contentType: 'video/mp4', contentLength: outputSize, expiresInSeconds: 300 });
+         const response = await fetch(transport.url, { method: 'PUT', headers: transport.requiredHeaders,
+             body: Readable.toWeb(createReadStream(output)), duplex: 'half', signal: AbortSignal.timeout(120_000) });
+         if (!response.ok)
+             throw new ApplicationError('SYSTEM_SERVICE_UNAVAILABLE', 503, { dependency: 'MEDIA_STORAGE' });
+-        return { ...verified, safeMetadata: { ...verified.safeMetadata, videoPipeline: 1, normalized: 1, sourceCodec: String(video.codec_name), sourceFps: String(video.avg_frame_rate), sourceHdr: hdr ? 1 : 0, sourceWidth: Number(video.width), sourceHeight: Number(video.height) } };
++        return { ...verified, safeMetadata: { ...verified.safeMetadata, videoPipeline: 1, normalized: 1, ...(attemptNumber ? { normalizationAttempt: attemptNumber } : {}), sourceCodec: String(video.codec_name), sourceFps: String(video.avg_frame_rate), sourceHdr: hdr ? 1 : 0, sourceWidth: Number(video.width), sourceHeight: Number(video.height) } };
+     }
+     catch (error) {
+         if (error instanceof ApplicationError)
+             throw error;
+         const code = error?.code;
++        if (code === 'ENOSPC' || code === 'EDQUOT' || /No space left on device/.test(String(error?.stderr)))
++            throw new VideoNormalizationError('WORKSPACE_CAPACITY', false);
+         throw new VideoNormalizationError(stage, typeof code === 'number' && code > 0);
+     }
+     finally {
+--- live/modules/v8/ai-review-media.js
+
++++ candidate/modules/v8/ai-review-media.js
+
+@@ -13,7 +13,7 @@
+
+     for (const item of media) {
+         signal.throwIfAborted();
+         const normalized = item.mediaType === 'VIDEO' && item.safeMetadata?.normalized === 1;
+-        const stream = await storage.getPrivateObject(normalized ? processedVideoKey(item.storageKey) : item.storageKey);
++        const stream = await storage.getPrivateObject(normalized ? processedVideoKey(item.storageKey, item.safeMetadata) : item.storageKey);
+         const abort = () => { stream.destroy(new Error('AI_MEDIA_TIMEOUT')); };
+         signal.addEventListener('abort', abort, { once: true });
+         const parts = [];
+--- live/modules/v8/domain/crediting.js
+
++++ candidate/modules/v8/domain/crediting.js
+
+@@ -70,6 +70,110 @@
+
+             days.set(item.businessDate, group);
+         }
+     });
++    const orderedDays = [...days].sort(([a], [b]) => a.localeCompare(b));
++    const amountOf = (index) => eligibleMinutes(sorted[index].actualSeconds, rules.minimumMinutes, sorted[index].maximumMinutes);
++    // A feasible solution is only a lower bound. Never use it as the answer:
++    // equal-scoring states retain the historical and chronological tie breakers.
++    const usedDays = new Map(reserved.days), usedWeeks = new Map(reserved.weeks);
++    let lowerCourse = recognized.course, lowerGeneral = recognized.general;
++    for (const index of [...days.values()].flat().sort((a, b) => amountOf(b) - amountOf(a) || a - b)) {
++        const record = sorted[index], week = mondayOf(record.businessDate);
++        if ((usedDays.get(record.businessDate) ?? 0) >= (rules.dailyLimit ?? 1) || (usedWeeks.get(week) ?? 0) >= rules.weeklyLimit)
++            continue;
++        const course = record.category === 'COURSE_RELATED' ? Math.min(rules.courseTarget, lowerCourse + amountOf(index)) : lowerCourse;
++        const general = record.category === 'GENERAL' ? Math.min(rules.generalTarget, lowerGeneral + amountOf(index)) : lowerGeneral;
++        if (course + general === lowerCourse + lowerGeneral)
++            continue;
++        lowerCourse = course;
++        lowerGeneral = general;
++        usedDays.set(record.businessDate, (usedDays.get(record.businessDate) ?? 0) + 1);
++        usedWeeks.set(week, (usedWeeks.get(week) ?? 0) + 1);
++    }
++    const lowerBound = lowerCourse + lowerGeneral;
++    // Relax category caps when bounding remaining minutes. Per-day and per-week
++    // maxima are admissible upper bounds, so only strictly inferior totals go.
++    const futureBudget = (after, currentWeek) => {
++        const weeks = new Map();
++        for (const [date, indices] of orderedDays.slice(after + 1)) {
++            const week = mondayOf(date);
++            const values = indices.map(amountOf).sort((a, b) => b - a).slice(0, Math.max(0, (rules.dailyLimit ?? 1) - (reserved.days.get(date) ?? 0)));
++            weeks.set(week, [...(weeks.get(week) ?? []), ...values]);
++        }
++        let later = 0;
++        for (const [week, values] of weeks) {
++            values.sort((a, b) => b - a);
++            if (week !== currentWeek)
++                later += values.slice(0, Math.max(0, rules.weeklyLimit - (reserved.weeks.get(week) ?? 0))).reduce((a, b) => a + b, 0);
++        }
++        const current = weeks.get(currentWeek) ?? [];
++        const prefix = [0];
++        for (const value of current)
++            prefix.push(prefix[prefix.length - 1] + value);
++        return (count) => later + prefix[Math.min(current.length, Math.max(0, rules.weeklyLimit - (reserved.weeks.get(currentWeek) ?? 0) - count))];
++    };
++    // If both targets and every historical selection can be retained, an
++    // include-first search gives the exact chronological winner. Otherwise the
++    // full dynamic program below resolves displacement and all tie breakers.
++    let saturated;
++    if (lowerBound === rules.courseTarget + rules.generalTarget &&
++        sorted.every((r, i) => i === 0 || r.businessDate >= sorted[i - 1].businessDate)) {
++        const indices = [...days.values()].flat().sort((a, b) => a - b);
++        const countsDay = new Map(reserved.days), countsWeek = new Map(reserved.weeks);
++        const seen = new Set();
++        const historicalCount = indices.filter(i => sorted[i].previouslySelected).length;
++        const search = (position, state) => {
++            if (state.course + state.general === lowerBound) {
++                if (state.previousCount !== historicalCount)
++                    return false;
++                saturated = state;
++                return true;
++            }
++            if (position >= indices.length)
++                return false;
++            const index = indices[position], record = sorted[index], date = record.businessDate, week = mondayOf(date);
++            const key = `${position}:${state.course}:${state.general}:${state.previousCount}:${countsDay.get(date) ?? 0}:${countsWeek.get(week) ?? 0}`;
++            if (seen.has(key))
++                return false;
++            let course = state.course, general = state.general;
++            const budgets = new Map();
++            const dayValues = new Map();
++            for (const remaining of indices.slice(position)) {
++                const row = sorted[remaining], amount = amountOf(remaining);
++                if (row.category === 'COURSE_RELATED')
++                    course += amount;
++                else
++                    general += amount;
++                dayValues.set(row.businessDate, [...(dayValues.get(row.businessDate) ?? []), amount]);
++            }
++            if (course < rules.courseTarget || general < rules.generalTarget)
++                return false;
++            for (const [day, values] of dayValues) {
++                const w = mondayOf(day);
++                budgets.set(w, [...(budgets.get(w) ?? []), ...values.sort((a, b) => b - a).slice(0, Math.max(0, (rules.dailyLimit ?? 1) - (countsDay.get(day) ?? 0)))]);
++            }
++            let possible = state.course + state.general;
++            for (const [w, values] of budgets)
++                possible += values.sort((a, b) => b - a).slice(0, Math.max(0, rules.weeklyLimit - (countsWeek.get(w) ?? 0))).reduce((a, b) => a + b, 0);
++            if (possible < lowerBound)
++                return false;
++            course = record.category === 'COURSE_RELATED' ? Math.min(rules.courseTarget, state.course + amountOf(index)) : state.course;
++            general = record.category === 'GENERAL' ? Math.min(rules.generalTarget, state.general + amountOf(index)) : state.general;
++            const dc = countsDay.get(date) ?? 0, wc = countsWeek.get(week) ?? 0;
++            if (course + general > state.course + state.general && dc < (rules.dailyLimit ?? 1) && wc < rules.weeklyLimit) {
++                countsDay.set(date, dc + 1);
++                countsWeek.set(week, wc + 1);
++                if (search(position + 1, { course, general, weekCount: wc + 1, previousCount: state.previousCount + Number(record.previouslySelected), chosen: [...state.chosen, index] }))
++                    return true;
++                countsDay.set(date, dc);
++                countsWeek.set(week, wc);
++            }
++            if (!record.previouslySelected && search(position + 1, state))
++                return true;
++            seen.add(key);
++            return false;
++        };
++        search(0, { course: recognized.course, general: recognized.general, weekCount: 0, previousCount: 0, chosen: [] });
++    }
+     let states = new Map();
+     retain(states, {
+         course: recognized.course,
+@@ -79,7 +183,9 @@
+
+         chosen: [],
+     });
+     let week;
+-    for (const [date, records] of [...days].sort(([a], [b]) => a.localeCompare(b))) {
++    for (const [dayIndex, [date, records]] of orderedDays.entries()) {
++        if (saturated)
++            break;
+         const nextWeek = mondayOf(date);
+         if (week !== nextWeek) {
+             const reset = new Map();
+@@ -125,10 +231,13 @@
+
+             daily = next;
+         }
+         states = new Map();
+-        for (const { state } of daily.values())
+-            retain(states, state);
+-    }
+-    let best;
++        const remaining = futureBudget(dayIndex, nextWeek);
++        for (const { state } of daily.values()) {
++            if (state.course + state.general + remaining(state.weekCount) >= lowerBound)
++                retain(states, state);
++        }
++    }
++    let best = saturated;
+     for (const state of states.values()) {
+         if (!best ||
+             state.course + state.general > best.course + best.general ||
+--- live/modules/v8/v81-credit-store.js
+
++++ candidate/modules/v8/v81-credit-store.js
+
+@@ -1,4 +1,5 @@
+
+-import { mondayOf, selectCredits } from './domain/crediting.js';
++import { computeCredits } from './credit-computation.js';
++import { mondayOf } from './domain/crediting.js';
+ export async function recomputeCredits(tx, enrollmentId, now) {
+     await tx.$queryRaw `SELECT id FROM enrollments WHERE id=${enrollmentId}::uuid FOR UPDATE`;
+     const rules = await tx.$queryRaw `
+@@ -9,6 +10,7 @@
+
+     const records = await tx.$queryRaw `
+     SELECT r.id,r.credit_type AS category,s.started_at AS "startedAt",r.business_date AS "businessDate",r.actual_duration_seconds AS "actualSeconds",
+     (w.stage='VALID') AS valid,COALESCE(p.selected,false) AS "previouslySelected",
++    p.version AS "projectionVersion",p.eligible_minutes AS "projectionEligible",p.credited_minutes AS "projectionCredited",p.reason AS "projectionReason",
+     snapshot.rule_version AS "ruleVersion", snapshot.minimum_minutes AS "minimumMinutes",
+     snapshot.weekly_limit AS "weeklyLimit", snapshot.daily_limit AS "dailyLimit", snapshot.maximum_minutes AS "maximumMinutes"
+     FROM exercise_records r JOIN exercise_sessions s ON s.id=r.session_id JOIN v81_record_workflows w ON w.record_id=r.id
+@@ -37,7 +39,7 @@
+
+     for (const version of [...new Set(candidates.map(r => r.ruleVersion))].sort((a, b) => a - b)) {
+         const cohort = candidates.filter(r => r.ruleVersion === version);
+         const first = cohort[0];
+-        const computed = selectCredits(cohort, { ...rules[0], minimumMinutes: first.minimumMinutes,
++        const computed = await computeCredits(cohort, { ...rules[0], minimumMinutes: first.minimumMinutes,
+             weeklyLimit: first.weeklyLimit, dailyLimit: first.dailyLimit }, totals, reserved);
+         result.records.push(...computed.records);
+         result.courseMinutes = computed.courseMinutes;
+@@ -51,11 +53,18 @@
+
+             reserved.weeks.set(week, (reserved.weeks.get(week) ?? 0) + 1);
+         }
+     }
+-    for (const item of result.records)
++    const existing = new Map(records.map(record => [record.id, record]));
++    for (const item of result.records.filter(item => {
++        const old = existing.get(item.id);
++        return old?.projectionVersion == null || old.projectionEligible !== item.eligibleMinutes ||
++            old.projectionCredited !== item.creditedMinutes || old.previouslySelected !== item.selected || old.projectionReason !== item.reason;
++    }))
+         await tx.$executeRaw `
+     INSERT INTO v81_credit_projections(record_id,organization_id,eligible_minutes,credited_minutes,selected,reason,updated_at)
+     VALUES(${item.id}::uuid,${rules[0].organizationId}::uuid,${item.eligibleMinutes},${item.creditedMinutes},${item.selected},${item.reason},${now})
+-    ON CONFLICT(record_id) DO UPDATE SET eligible_minutes=EXCLUDED.eligible_minutes,credited_minutes=EXCLUDED.credited_minutes,selected=EXCLUDED.selected,reason=EXCLUDED.reason,version=v81_credit_projections.version+1,updated_at=EXCLUDED.updated_at`;
++    ON CONFLICT(record_id) DO UPDATE SET eligible_minutes=EXCLUDED.eligible_minutes,credited_minutes=EXCLUDED.credited_minutes,selected=EXCLUDED.selected,reason=EXCLUDED.reason,version=v81_credit_projections.version+1,updated_at=EXCLUDED.updated_at
++    WHERE (v81_credit_projections.eligible_minutes,v81_credit_projections.credited_minutes,v81_credit_projections.selected,v81_credit_projections.reason)
++      IS DISTINCT FROM (EXCLUDED.eligible_minutes,EXCLUDED.credited_minutes,EXCLUDED.selected,EXCLUDED.reason)`;
+     return { ...result, recognized };
+ }
+ //# sourceMappingURL=v81-credit-store.js.map
+--- live/modules/v8/credit-computation.js
+
++++ candidate/modules/v8/credit-computation.js
+
+@@ -0,0 +1,35 @@
+
++import { Worker } from 'node:worker_threads';
++import { ApplicationError } from '../../common/errors/application-error.js';
++import { selectCredits } from './domain/crediting.js';
++let active = 0;
++const unavailable = () => new ApplicationError('SYSTEM_SERVICE_UNAVAILABLE', 503, { dependency: 'CREDIT_COMPUTATION' });
++/** Exact calculation, bounded independently of the HTTP event loop. No queue
++ * waits while holding transaction locks. On overload the transaction rolls back. */
++export async function computeCredits(...args) {
++    if (args[0].length <= 12)
++        return selectCredits(...args);
++    if (active >= 2)
++        throw unavailable();
++    active++;
++    let thread;
++    try {
++        return await new Promise((resolve, reject) => {
++            const extension = import.meta.url.endsWith('.ts') ? 'ts' : 'js';
++            const worker = thread = new Worker(`const {parentPort,workerData}=require('node:worker_threads');
++        import(workerData.url).then(({selectCredits})=>parentPort.postMessage(selectCredits(...workerData.args)));`, {
++                eval: true, execArgv: [],
++                workerData: { url: new URL(`./domain/crediting.${extension}`, import.meta.url).href, args },
++                resourceLimits: { maxOldGenerationSizeMb: 192, maxYoungGenerationSizeMb: 32 },
++            });
++            const timer = setTimeout(() => { void worker.terminate(); reject(unavailable()); }, 1500);
++            worker.once('message', result => { clearTimeout(timer); resolve(result); void worker.terminate(); });
++            worker.once('error', () => { clearTimeout(timer); reject(unavailable()); });
++            worker.once('exit', () => { clearTimeout(timer); reject(unavailable()); });
++        });
++    }
++    finally {
++        await thread?.terminate();
++        active--;
++    }
++}
++//# sourceMappingURL=credit-computation.js.map
+--- live/modules/v8/v81-history-backfill.js
+
++++ candidate/modules/v8/v81-history-backfill.js
+
+@@ -12,7 +12,7 @@
+
+ };
+ import { assertProfileReady } from '../users/application/student-profile-quality.js';
+ import { Body, Controller, Get, Headers, Injectable, Param, ParseUUIDPipe, Post, Req } from '@nestjs/common';
+-import { IsBoolean, IsInt, IsISO8601, Matches, Max, Min, IsOptional } from 'class-validator';
++import { IsBoolean, IsInt, IsISO8601, Matches, Max, Min, ValidateIf } from 'class-validator';
+ import { PrismaService } from '../../common/database/prisma.service.js';
+ import { ApplicationError } from '../../common/errors/application-error.js';
+ import { IdempotencyService } from '../../common/idempotency/idempotency.service.js';
+@@ -30,7 +30,7 @@
+
+     expectedVersion;
+ }
+ __decorate([
+-    IsOptional(),
++    ValidateIf((_o, v) => v !== undefined),
+     IsInt(),
+     Min(1),
+     Max(1440),
+--- live/generated/operation-policies.generated.js
+
++++ candidate/generated/operation-policies.generated.js
+
+@@ -699,6 +699,19 @@
+
+         "resourceResolver": "ENROLLMENT_FROM_REQUEST",
+         "defaultDeny": true
+     },
++    "listRecoverableExerciseSessions": {
++        "method": "GET",
++        "route": "/exercise-sessions/recoverable",
++        "policyId": "EXERCISE-SESSION-RECOVERY-READ",
++        "authentication": "ACCESS_TOKEN",
++        "allowedRoles": [
++            "STUDENT"
++        ],
++        "organizationScope": "PRINCIPAL_ORGANIZATION",
++        "resourceScope": "SELF",
++        "resourceResolver": "PRINCIPAL_STUDENT",
++        "defaultDeny": true
++    },
+     "getActiveExerciseSession": {
+         "method": "GET",
+         "route": "/exercise-sessions/active",
+--- live/generated/openapi.document.generated.json
+
++++ candidate/generated/openapi.document.generated.json
+
+@@ -3443,6 +3443,75 @@
+
+                     }
+                 },
+                 "description": "Student starts a server-timed session. Before the published regular deadline use ordinary course windows; after it require an accepted, currently open, unrevoked makeup grant for this enrollment. Recheck current semester, active course and member, system mode and absence of another active session. Store the makeup source atomically and preserve actual server business date; grant expiry or revocation never rewrites an existing session."
++            }
++        },
++        "/exercise-sessions/recoverable": {
++            "get": {
++                "tags": [
++                    "Exercise Sessions"
++                ],
++                "operationId": "listRecoverableExerciseSessions",
++                "x-access-policy": {
++                    "policyId": "EXERCISE-SESSION-RECOVERY-READ",
++                    "authentication": "ACCESS_TOKEN",
++                    "allowedRoles": [
++                        "STUDENT"
++                    ],
++                    "organizationScope": "PRINCIPAL_ORGANIZATION",
++                    "resourceScope": "SELF",
++                    "resourceResolver": "PRINCIPAL_STUDENT",
++                    "defaultDeny": true
++                },
++                "summary": "List the authenticated student's completed unsubmitted sessions; writes revalidate eligibility",
++                "parameters": [
++                    {
++                        "$ref": "#/components/parameters/RequestIdHeader"
++                    },
++                    {
++                        "name": "before",
++                        "in": "query",
++                        "schema": {
++                            "$ref": "#/components/schemas/OpaqueId"
++                        }
++                    }
++                ],
++                "responses": {
++                    "200": {
++                        "description": "Owned unfinished work, at most 20 sessions; nextCursor requests the next page",
++                        "content": {
++                            "application/json": {
++                                "schema": {
++                                    "type": "object",
++                                    "properties": {
++                                        "data": {
++                                            "type": "object",
++                                            "properties": {
++                                                "items": {
++                                                    "type": "array",
++                                                    "items": {
++                                                        "type": "object"
++                                                    }
++                                                },
++                                                "nextCursor": {
++                                                    "type": [
++                                                        "string",
++                                                        "null"
++                                                    ]
++                                                }
++                                            }
++                                        }
++                                    }
++                                }
++                            }
++                        }
++                    },
++                    "401": {
++                        "$ref": "#/components/responses/Unauthorized"
++                    },
++                    "403": {
++                        "$ref": "#/components/responses/Forbidden"
++                    }
++                }
+             }
+         },
+         "/exercise-sessions/active": {
+--- live/generated/openapi.manifest.generated.json
+
++++ candidate/generated/openapi.manifest.generated.json
+
+@@ -1,8 +1,8 @@
+
+ {
+   "source": "docs/backend-contracts/openapi.yaml",
+-  "sha256": "23352eec09dd1ec86ab5a6c9515a3b8be6a6905173e8713a9939e3950cbe1440",
++  "sha256": "b888a7594f06cefe1be51d1de9cdbda83e3cbf82feabdac45aaf7dcd51cd9f3a",
+   "openapi": "3.1.0",
+-  "paths": 228,
+-  "operations": 268,
++  "paths": 229,
++  "operations": 269,
+   "schemas": 397
+ }

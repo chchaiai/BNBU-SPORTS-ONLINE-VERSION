@@ -1,0 +1,4 @@
+# Local compiled baselines and transport archives; manifests and results are archived.
+/*.tar
+/*.tar.gz
+/baseline/

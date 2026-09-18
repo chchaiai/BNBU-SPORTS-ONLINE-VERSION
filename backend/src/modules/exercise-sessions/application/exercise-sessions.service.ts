@@ -1,7 +1,7 @@
 import { assertProfileReady } from '../../users/application/student-profile-quality.js';
 import { requireUnsettledCourse } from '../../v8/v81-settlement-write-guard.js';
 import { appendV81SystemEvent } from '../../v8/v81-system-event.js';
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 
 import { AuditService, type FoundationAuditAction } from '../../../common/audit/audit.service.js';
 import { PrismaService } from '../../../common/database/prisma.service.js';
@@ -31,6 +31,8 @@ import {
   type ExerciseSessionProjection,
 } from './exercise-session-projection.js';
 import { requiredCourseThreshold } from '../../v8/v81-record-state.js';
+import { permitsExistingCourseSession } from '../../enrollments/application/course-closure-memberships.js';
+import { isHistoricalSession, requireHistoricalSubmissionWindow } from '../../v8/v81-history-backfill.js';
 
 type Transaction = Prisma.TransactionClient;
 
@@ -43,6 +45,8 @@ type Command = 'PAUSE' | 'RESUME' | 'FINISH' | 'CANCEL';
 
 @Injectable()
 export class ExerciseSessionsService {
+  private readonly logger = new Logger(ExerciseSessionsService.name);
+  private readonly dueFailures = new Map<string, number>();
   constructor(
     private readonly prisma: PrismaService,
     private readonly idempotency: IdempotencyService,
@@ -56,17 +60,27 @@ export class ExerciseSessionsService {
 
   async completeDueSessions() {
     const now=this.clock.now();
+    for (const [id,until] of this.dueFailures) if(until<=Date.now()) this.dueFailures.delete(id);
+    const blocked=[...this.dueFailures.keys()];
     const due=await this.prisma.$queryRaw<{id:string;organization_id:string}[]>`
-      SELECT id,organization_id FROM exercise_sessions WHERE status='IN_PROGRESS'
+      SELECT id,organization_id FROM exercise_sessions WHERE status='IN_PROGRESS' AND NOT (id=ANY(${blocked}::uuid[]))
       AND maximum_duration_seconds IS NOT NULL AND current_interval_started_at IS NOT NULL
       AND current_interval_started_at + (maximum_duration_seconds-actual_duration_seconds)*interval '1 second' <= ${now}
       ORDER BY current_interval_started_at,id LIMIT 100`;
-    for(const candidate of due)await this.serializable(async tx=>{
-      await tx.$queryRaw`SELECT id FROM organizations WHERE id=${candidate.organization_id}::uuid FOR NO KEY UPDATE`;
-      await tx.$queryRaw`SELECT id FROM exercise_sessions WHERE id=${candidate.id}::uuid FOR UPDATE`;
+    for(const candidate of due) {
+      if ((this.dueFailures.get(candidate.id) ?? 0) > Date.now()) continue;
+      try { await this.serializable(async tx=>{
+      await tx.$queryRaw`SELECT id FROM organizations WHERE id=${candidate.organization_id}::uuid FOR SHARE`;
+      const locked = await tx.$queryRaw<{id:string}[]>`SELECT id FROM exercise_sessions WHERE id=${candidate.id}::uuid FOR UPDATE SKIP LOCKED`;
+      if (!locked.length) return;
       const session=await tx.exerciseSession.findUnique({where:{id:candidate.id}});
       if(session)await this.materializeCap(tx,session,null,{requestId:this.ids.next(),idempotencyKey:undefined});
-    });
+    }); this.dueFailures.delete(candidate.id);
+      } catch {
+        this.dueFailures.set(candidate.id, Date.now()+60_000);
+        this.logger.error({code:"SESSION_AUTO_COMPLETE_FAILED", sessionId:candidate.id});
+      }
+    }
     return due.length;
   }
 
@@ -89,12 +103,12 @@ export class ExerciseSessionsService {
       },
       async (transaction) => {
         try {
-          await transaction.$queryRaw`SELECT id FROM organizations WHERE id=${principal.organizationId}::uuid FOR NO KEY UPDATE`;
+          await transaction.$queryRaw`SELECT id FROM organizations WHERE id=${principal.organizationId}::uuid FOR SHARE`;
           await assertProfileReady(transaction,principal.organizationId,principal.userId);
           if ((await transaction.systemPolicy.findUnique({ where: { organizationId: principal.organizationId } }))?.systemMode !== 'NORMAL')
             throw new ApplicationError('SYSTEM_MAINTENANCE', 503);
           await transaction.$queryRaw`SELECT c.id FROM class_sections c JOIN enrollments e ON e.class_section_id=c.id
-            WHERE e.id=${input.enrollmentId}::uuid AND e.organization_id=${principal.organizationId}::uuid FOR UPDATE OF c`;
+            WHERE e.id=${input.enrollmentId}::uuid AND e.organization_id=${principal.organizationId}::uuid FOR SHARE OF c`;
           await transaction.$queryRaw`SELECT id FROM enrollments WHERE id=${input.enrollmentId}::uuid FOR UPDATE`;
           const enrollment = await transaction.enrollment.findFirst({
             where: { id: input.enrollmentId, organizationId: principal.organizationId },
@@ -211,6 +225,40 @@ export class ExerciseSessionsService {
         }
       },
     );
+  }
+
+  async listRecoverable(principal: AuthenticatedPrincipal, before?: string) {
+    this.assertStudent(principal);
+    return this.prisma.$transaction(async tx => {
+      const studentId = await this.requiredStudentId(tx, principal);
+      const rows = await tx.exerciseSession.findMany({
+        where: { organizationId:principal.organizationId, studentId, status:'COMPLETED',
+          ...(before ? {id:{lt:before}} : {}),
+          semester:{status:{not:'ARCHIVED'}},
+          OR:[{exerciseRecord:null},{exerciseRecord:{status:'DRAFT'}}],
+        }, orderBy:{id:'desc'}, take:21,
+        include:{exerciseRecord:true,enrollment:true,classSection:{include:{course:true,teacher:true}},
+          mediaEvidence:{where:{uploadStatus:'AVAILABLE',businessPurpose:'EXERCISE_RECORD'},select:{id:true,mediaType:true}}},
+      });
+      const items = [];
+      for (const row of rows.slice(0,20)) {
+        if (!permitsExistingCourseSession(row.enrollment,row.classSection,row.startedAt) ||
+            row.classSection.course.status !== 'ACTIVE' || row.classSection.course.deletedAt ||
+            row.classSection.teacher.status !== 'ACTIVE' || row.classSection.teacher.deletedAt) continue;
+        try {
+          const minimum = await requiredCourseThreshold(tx,row.classSectionId,row.exerciseRecord?.id);
+          if (row.actualDurationSeconds < BigInt(minimum*60)) continue;
+          await requireUnsettledCourse(tx,principal.organizationId,row.classSectionId);
+          await requireHistoricalSubmissionWindow(tx,row.id,this.clock.now());
+        } catch(error) { if(error instanceof ApplicationError) continue; throw error; }
+        items.push({session:projectExerciseSession(row,this.clock.now()),
+          origin:await isHistoricalSession(tx,row.id) ? 'HISTORICAL' : 'REALTIME',
+          draft:row.exerciseRecord ? {id:row.exerciseRecord.id,creditType:row.exerciseRecord.creditType,
+            sportType:row.exerciseRecord.sportType,sportName:row.exerciseRecord.sportName,description:row.exerciseRecord.description} : null,
+          media:row.mediaEvidence});
+      }
+      return {items,nextCursor:rows.length>20 ? rows[19]!.id : null};
+    });
   }
 
   async getActive(

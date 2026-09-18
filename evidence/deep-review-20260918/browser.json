@@ -1,0 +1,10 @@
+{
+  "result": "PASS",
+  "mobileRecovery": true,
+  "uploadedProofRestored": true,
+  "explicitDiscardPersists": true,
+  "serverEndTime": true,
+  "notificationFailureIsolated": true,
+  "staleRefreshIgnored": true,
+  "browserErrors": []
+}

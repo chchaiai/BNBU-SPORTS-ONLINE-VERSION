@@ -1905,6 +1905,7 @@ check("feedback transport sends only the frozen privacy-bounded fields", async (
     if (init.method === "POST") {
       assert.deepEqual(JSON.parse(init.body), {
         category: "BUG",
+        attachmentIds: [],
         content: "The submit button did not respond.",
         clientContext: { platform: "WEB" },
       });

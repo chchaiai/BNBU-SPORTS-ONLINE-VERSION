@@ -1,0 +1,53 @@
+name: Review release gate
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: review-gate-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: bnbu_test
+          POSTGRES_PASSWORD: ci-disposable-only
+          POSTGRES_DB: bnbu_sports_test
+        ports: ['55432:5432']
+        options: >-
+          --health-cmd "pg_isready -U bnbu_test -d bnbu_sports_test"
+          --health-interval 5s --health-timeout 5s --health-retries 10
+    env:
+      TEST_DATABASE_URL: postgresql://bnbu_test:ci-disposable-only@127.0.0.1:55432/bnbu_sports_test?schema=public
+      TEST_DATABASE_RESET_CONFIRMATION: BNBU_SPORTS_EPHEMERAL_TEST_DATABASE_V1
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+          cache-dependency-path: backend/package-lock.json
+      - run: npm ci
+        working-directory: backend
+      - run: npm run build && npm run typecheck && npm run openapi:check && npm run db:migration:check
+        working-directory: backend
+      - run: npm test
+        working-directory: backend
+      - run: node --import tsx --test --test-concurrency=1 test/integration/exercise-session.test.ts test/integration/media-evidence.test.ts test/integration/score.test.ts test/security/exercise-session-security.test.ts test/security/media-security.test.ts
+        working-directory: backend
+      - run: npm run test:student && npm run test:web
+        working-directory: BNBU-Sports-Web-new
+      - run: npm ci && npm run build
+        working-directory: BNBU-Sports-Web-new/portal-teacher-admin
+      - name: Record verified source
+        run: git rev-parse HEAD > verified-source.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: verified-source-${{ github.sha }}
+          path: verified-source.txt

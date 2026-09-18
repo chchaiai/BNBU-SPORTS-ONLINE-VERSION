@@ -1,0 +1,22 @@
+{
+  "unchangedProjectionStable": true,
+  "sharedSchoolAndClassLocksCompatible": true,
+  "duplicateStartDenied": true,
+  "recoverySessionId": "01a0b384-f96e-770e-95ee-a4e096005da0",
+  "recoveryBeforeDraft": true,
+  "recoveryWithDraftAndMedia": true,
+  "submittedExcluded": true,
+  "currentReviewFilter": true,
+  "result": "PASS",
+  "checks": 38,
+  "historyMinutes": 120,
+  "configuredMaximum": 180,
+  "pendingBeforeTeacher": true,
+  "creditedAfterTeacher": 120,
+  "adminSearch": true,
+  "adminEvidence": true,
+  "unsubmittedEvidenceDenied": true,
+  "subadminScope": true,
+  "actorAttribution": true,
+  "teacherIsolation": true
+}

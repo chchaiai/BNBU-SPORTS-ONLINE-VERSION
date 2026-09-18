@@ -105,6 +105,89 @@ export function selectCredits(
       days.set(item.businessDate, group);
     }
   });
+  const orderedDays = [...days].sort(([a], [b]) => a.localeCompare(b));
+  const amountOf = (index: number) => eligibleMinutes(sorted[index]!.actualSeconds, rules.minimumMinutes, sorted[index]!.maximumMinutes);
+  // A feasible solution is only a lower bound. Never use it as the answer:
+  // equal-scoring states retain the historical and chronological tie breakers.
+  const usedDays = new Map(reserved.days), usedWeeks = new Map(reserved.weeks);
+  let lowerCourse = recognized.course, lowerGeneral = recognized.general;
+  for (const index of [...days.values()].flat().sort((a,b) => amountOf(b)-amountOf(a) || a-b)) {
+    const record = sorted[index]!, week = mondayOf(record.businessDate);
+    if ((usedDays.get(record.businessDate) ?? 0) >= (rules.dailyLimit ?? 1) || (usedWeeks.get(week) ?? 0) >= rules.weeklyLimit) continue;
+    const course = record.category === 'COURSE_RELATED' ? Math.min(rules.courseTarget, lowerCourse + amountOf(index)) : lowerCourse;
+    const general = record.category === 'GENERAL' ? Math.min(rules.generalTarget, lowerGeneral + amountOf(index)) : lowerGeneral;
+    if (course + general === lowerCourse + lowerGeneral) continue;
+    lowerCourse = course; lowerGeneral = general;
+    usedDays.set(record.businessDate, (usedDays.get(record.businessDate) ?? 0)+1);
+    usedWeeks.set(week, (usedWeeks.get(week) ?? 0)+1);
+  }
+  const lowerBound = lowerCourse + lowerGeneral;
+  // Relax category caps when bounding remaining minutes. Per-day and per-week
+  // maxima are admissible upper bounds, so only strictly inferior totals go.
+  const futureBudget = (after: number, currentWeek: string) => {
+    const weeks = new Map<string, number[]>();
+    for (const [date, indices] of orderedDays.slice(after + 1)) {
+      const week = mondayOf(date);
+      const values = indices.map(amountOf).sort((a,b)=>b-a).slice(0, Math.max(0,(rules.dailyLimit ?? 1)-(reserved.days.get(date) ?? 0)));
+      weeks.set(week, [...(weeks.get(week) ?? []), ...values]);
+    }
+    let later = 0;
+    for (const [week, values] of weeks) {
+      values.sort((a,b)=>b-a);
+      if (week !== currentWeek) later += values.slice(0, Math.max(0,rules.weeklyLimit-(reserved.weeks.get(week) ?? 0))).reduce((a,b)=>a+b,0);
+    }
+    const current = weeks.get(currentWeek) ?? [];
+    const prefix = [0]; for (const value of current) prefix.push(prefix[prefix.length-1]!+value);
+    return (count: number) => later + prefix[Math.min(current.length, Math.max(0,rules.weeklyLimit-(reserved.weeks.get(currentWeek) ?? 0)-count))]!;
+  };
+  // If both targets and every historical selection can be retained, an
+  // include-first search gives the exact chronological winner. Otherwise the
+  // full dynamic program below resolves displacement and all tie breakers.
+  let saturated: State | undefined;
+  if (lowerBound === rules.courseTarget + rules.generalTarget &&
+      sorted.every((r,i) => i === 0 || r.businessDate >= sorted[i-1]!.businessDate)) {
+    const indices = [...days.values()].flat().sort((a,b)=>a-b);
+    const countsDay = new Map(reserved.days), countsWeek = new Map(reserved.weeks);
+    const seen = new Set<string>();
+    const historicalCount = indices.filter(i => sorted[i]!.previouslySelected).length;
+    const search = (position: number, state: State): boolean => {
+      if (state.course + state.general === lowerBound) {
+        if (state.previousCount !== historicalCount) return false;
+        saturated = state; return true;
+      }
+      if (position >= indices.length) return false;
+      const index = indices[position]!, record = sorted[index]!, date = record.businessDate, week = mondayOf(date);
+      const key = `${position}:${state.course}:${state.general}:${state.previousCount}:${countsDay.get(date) ?? 0}:${countsWeek.get(week) ?? 0}`;
+      if (seen.has(key)) return false;
+      let course = state.course, general = state.general;
+      const budgets = new Map<string, number[]>();
+      const dayValues = new Map<string, number[]>();
+      for (const remaining of indices.slice(position)) {
+        const row = sorted[remaining]!, amount = amountOf(remaining);
+        if (row.category === 'COURSE_RELATED') course += amount; else general += amount;
+        dayValues.set(row.businessDate, [...(dayValues.get(row.businessDate) ?? []), amount]);
+      }
+      if (course < rules.courseTarget || general < rules.generalTarget) return false;
+      for (const [day,values] of dayValues) {
+        const w = mondayOf(day);
+        budgets.set(w, [...(budgets.get(w) ?? []), ...values.sort((a,b)=>b-a).slice(0,Math.max(0,(rules.dailyLimit ?? 1)-(countsDay.get(day) ?? 0)))]);
+      }
+      let possible = state.course + state.general;
+      for (const [w,values] of budgets) possible += values.sort((a,b)=>b-a).slice(0,Math.max(0,rules.weeklyLimit-(countsWeek.get(w) ?? 0))).reduce((a,b)=>a+b,0);
+      if (possible < lowerBound) return false;
+      course = record.category === 'COURSE_RELATED' ? Math.min(rules.courseTarget,state.course+amountOf(index)) : state.course;
+      general = record.category === 'GENERAL' ? Math.min(rules.generalTarget,state.general+amountOf(index)) : state.general;
+      const dc = countsDay.get(date) ?? 0, wc = countsWeek.get(week) ?? 0;
+      if (course + general > state.course + state.general && dc < (rules.dailyLimit ?? 1) && wc < rules.weeklyLimit) {
+        countsDay.set(date,dc+1); countsWeek.set(week,wc+1);
+        if (search(position+1,{course,general,weekCount:wc+1,previousCount:state.previousCount+Number(record.previouslySelected),chosen:[...state.chosen,index]})) return true;
+        countsDay.set(date,dc); countsWeek.set(week,wc);
+      }
+      if (!record.previouslySelected && search(position+1,state)) return true;
+      seen.add(key); return false;
+    };
+    search(0,{course:recognized.course,general:recognized.general,weekCount:0,previousCount:0,chosen:[]});
+  }
   let states = new Map<string, State>();
   retain(states, {
     course: recognized.course,
@@ -114,7 +197,8 @@ export function selectCredits(
     chosen: [],
   });
   let week: string | undefined;
-  for (const [date, records] of [...days].sort(([a], [b]) => a.localeCompare(b))) {
+  for (const [dayIndex, [date, records]] of orderedDays.entries()) {
+    if (saturated) break;
     const nextWeek = mondayOf(date);
     if (week !== nextWeek) {
       const reset = new Map<string, State>();
@@ -159,9 +243,12 @@ export function selectCredits(
       daily = next;
     }
     states = new Map();
-    for (const { state } of daily.values()) retain(states, state);
+    const remaining = futureBudget(dayIndex, nextWeek);
+    for (const { state } of daily.values()) {
+      if (state.course + state.general + remaining(state.weekCount) >= lowerBound) retain(states, state);
+    }
   }
-  let best: State | undefined;
+  let best: State | undefined = saturated;
   for (const state of states.values()) {
     if (
       !best ||

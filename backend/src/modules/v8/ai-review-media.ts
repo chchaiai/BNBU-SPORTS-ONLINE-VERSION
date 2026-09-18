@@ -16,7 +16,7 @@ export async function prepareAiMedia(storage: MediaStoragePort, media: readonly 
   for (const item of media) {
     signal.throwIfAborted();
     const normalized = item.mediaType === 'VIDEO' && (item.safeMetadata as Record<string, unknown>)?.normalized === 1;
-    const stream = await storage.getPrivateObject(normalized ? processedVideoKey(item.storageKey) : item.storageKey);
+    const stream = await storage.getPrivateObject(normalized ? processedVideoKey(item.storageKey,item.safeMetadata) : item.storageKey);
     const abort = (): void => { stream.destroy(new Error('AI_MEDIA_TIMEOUT')); };
     signal.addEventListener('abort', abort, { once: true });
     const parts: Buffer[] = []; let size = 0;

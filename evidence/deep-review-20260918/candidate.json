@@ -1,0 +1,30 @@
+{
+  "result": "PASS",
+  "node": "v24.18.0",
+  "performanceRows": [
+    {
+      "n": 10,
+      "elapsedMs": 24.042575999999826,
+      "eventLoopDelayMs": 23.9046679999999
+    },
+    {
+      "n": 30,
+      "elapsedMs": 46.61123299999986,
+      "eventLoopDelayMs": 2.439587000000074
+    },
+    {
+      "n": 60,
+      "elapsedMs": 41.39809700000001,
+      "eventLoopDelayMs": 0.9114500000000589
+    },
+    {
+      "n": 120,
+      "elapsedMs": 59.044741999999815,
+      "eventLoopDelayMs": 0.5028089999998429
+    }
+  ],
+  "sourceBytes": 144604014,
+  "outputBytes": 27161112,
+  "actualNormalization": true,
+  "originalRetained": true
+}
