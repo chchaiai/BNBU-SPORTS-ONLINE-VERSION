@@ -1,5 +1,5 @@
 import { flushNativeAlbum } from "./native-album.js";
-import { supportsStudentDevice, renderStudentDeviceNotice } from "./student-device.js";
+import { supportsStudentDevice, renderStudentDeviceNotice, supportsStudentBrowser, showStudentBrowserNotice } from "./student-device.js";
 import { clearProofDrafts } from "./checkin-drafts.js";
 // Root application shell replicated from feature/shell/AppRootScreen.kt.
 // Single state machine — no route strings, mirroring the Compose implementation:
@@ -699,6 +699,7 @@ export const app = {
   render() {
     const viewport = this._viewport;
     if (!viewport) return;
+    if (!supportsStudentBrowser()) { showStudentBrowserNotice(viewport); return; }
     if (!this.inviteLinkConsumed && params.has('invite') && !this.state.isRestoringSession &&
         this.state.privacyConsentChecked && !this.state.needsPrivacyConsent) {
       this.inviteLinkConsumed = true;
@@ -794,6 +795,7 @@ export const app = {
   // ── Boot ─────────────────────────────────────────────────────
   start(rootElement) {
     this._viewport = rootElement;
+    if (!supportsStudentBrowser()) { showStudentBrowserNotice(rootElement); return; }
     if (!supportsStudentDevice()) {
       rootElement.innerHTML = renderStudentDeviceNotice();
       return;

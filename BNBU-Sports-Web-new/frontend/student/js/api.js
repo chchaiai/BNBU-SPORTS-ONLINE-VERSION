@@ -1,3 +1,4 @@
+import {correctPhotoMime, prepareJpegEvidence} from './photo-originals.js';
 import {SPORT_OPTIONS} from "./sports-catalog.js";
 import { uploadObject } from './upload-progress.js';
 // Real backend client for the unified BNBU Sports backend (current API,
@@ -628,6 +629,20 @@ export function toUserFacingError(error, { log = true } = {}) {
     category,
     fieldErrors: safeFieldErrors(error),
   };
+  if (error instanceof ApiError && code.startsWith('MEDIA_') && category === 'VALIDATION') {
+    const allowed = ['MEDIA_VIDEO_DURATION_EXCEEDED','MEDIA_AUDIO_TRACK_REQUIRED','MEDIA_INTEGRITY_MISMATCH','MEDIA_LOCATION_METADATA_NOT_ALLOWED','MEDIA_SIZE_EXCEEDED','MEDIA_TYPE_NOT_ALLOWED'];
+    const reason = code === 'MEDIA_FAILURE_NOT_RETRYABLE' && allowed.includes(error.details?.failureCode) ? error.details.failureCode : code;
+    model.code = reason;
+    if (reason !== code) model.message = knownApiErrorMessage(new ApiError(422, {code:reason}));
+    if (reason === 'MEDIA_VIDEO_DURATION_EXCEEDED') model.message = tx('视频时长不符合要求：须为 1–10 秒，并保留声音。', 'Video must be 1–10 seconds long and include audio.');
+    if (reason === 'MEDIA_INTEGRITY_MISMATCH') model.message = tx('照片或视频的实际格式与上传信息不一致，或文件无法完整读取。', 'The photo or video format does not match its upload information, or the file cannot be fully read.');
+    model.action = ['MEDIA_VIDEO_DURATION_EXCEEDED','MEDIA_AUDIO_TRACK_REQUIRED','MEDIA_LOCATION_METADATA_NOT_ALLOWED','MEDIA_FAILURE_NOT_RETRYABLE'].includes(reason)
+      ? tx('点击下方“校验失败”的凭证，删除后重新拍摄，再提交。', 'Open the proof marked “Verification failed” below, delete it, capture a replacement, then submit.')
+      : reason === 'MEDIA_INTEGRITY_MISMATCH'
+        ? tx('请先重试；若仍失败，删除失败的照片或视频后重新拍摄。', 'Retry first. If it still fails, delete the failed photo or video and capture a replacement.')
+        : tx('请检查下方照片或视频，按提示处理后重新提交。', 'Check the photos or video below, follow the guidance, then submit again.');
+    model.fieldErrors = [];
+  }
   if (error instanceof ApiError && error.code === "USER_NOT_FOUND" && error.details?.resourceType === "STUDENT_SIGN_IN_ACCOUNT") {
     model.title = tx("请先完成入班和邮箱验证", "Complete enrollment and email verification");
     model.action = tx("返回登录方式页，扫码加入课程；已入班的学生请继续完成邮箱绑定。", "Return to sign-in options and scan a course invitation. If already enrolled, complete email binding.");
@@ -1463,15 +1478,33 @@ export async function uploadMediaDraft(serverSessionId, draft, blob, { prepareOn
   try {
     return await uploadMediaDraftWithProgress(serverSessionId, draft, blob, {prepareOnly, onProgress, onCheckpoint});
   } catch (error) {
+    if (error instanceof ApiError && error.code.startsWith('MEDIA_') && error.code !== 'MEDIA_VERIFICATION_INCOMPLETE') {
+      draft.uploadFailure = {code:error.code};
+      await onCheckpoint(draft);
+    }
     onProgress({phase: error?.code === 'MEDIA_VERIFICATION_INCOMPLETE' ? 'PROCESSING' : 'FAILED'});
     throw error;
   }
 }
 
 async function uploadMediaDraftWithProgress(serverSessionId, draft, blob, {prepareOnly, onProgress, onCheckpoint}) {
+  draft.uploadFailure = null;
   onProgress({phase:'READING'});
   draft.swimLocked = false; // Legacy intake locks no longer govern submissions.
   const isVideo = draft.type === "video";
+  if (draft.processingFailure && !draft.mediaId) {
+    throw new ApiError(422, {code:'MEDIA_FAILURE_NOT_RETRYABLE', details:{mediaId:draft.processingFailure.mediaId, failureCode:draft.processingFailure.code}});
+  }
+  if (!isVideo && !draft.pendingUpload && !draft.mediaId) {
+    const corrected = await correctPhotoMime(blob);
+    if (corrected !== blob) {
+      try { blob = corrected.type === 'image/jpeg' ? await prepareJpegEvidence(corrected) : corrected; }
+      catch { throw new ApiError(422, {code:'MEDIA_INTEGRITY_MISMATCH'}); }
+      draft.blob = blob; draft.mimeType = blob.type; draft.byteCount = blob.size;
+      draft.initiateIdempotencyKey = uuid();
+      await onCheckpoint(draft);
+    }
+  }
   const verdict = validateProofFile(blob, draft.type, { durationSeconds: draft.durationSeconds });
   if (!verdict.ok) {
     const code = verdict.error === "duration" ? "MEDIA_VIDEO_DURATION_EXCEEDED" : verdict.error === "size" ? "MEDIA_SIZE_EXCEEDED" : "MEDIA_TYPE_NOT_ALLOWED";
@@ -1577,8 +1610,12 @@ async function uploadMediaDraftWithProgress(serverSessionId, draft, blob, {prepa
     }
   } catch (error) {
     if (!draft.swimLocked && error instanceof ApiError && (["MEDIA_UPLOAD_SESSION_EXPIRED", "MEDIA_INTEGRITY_MISMATCH", "MEDIA_VIDEO_DURATION_EXCEEDED", "MEDIA_AUDIO_TRACK_REQUIRED", "MEDIA_LOCATION_METADATA_NOT_ALLOWED"].includes(error.code) || (error.code === "MEDIA_UPLOAD_FAILED" && error.status === 403))) {
+      if (['MEDIA_VIDEO_DURATION_EXCEEDED','MEDIA_AUDIO_TRACK_REQUIRED','MEDIA_LOCATION_METADATA_NOT_ALLOWED'].includes(error.code)) {
+        draft.processingFailure = {mediaId:initiated.mediaId, code:error.code};
+      }
       draft.pendingUpload = null;
       draft.initiateIdempotencyKey = uuid();
+      await onCheckpoint(draft);
     }
     throw error;
   }
@@ -1598,6 +1635,7 @@ async function uploadMediaDraftWithProgress(serverSessionId, draft, blob, {prepa
     if (verificationStatus === "FAILED") {
       draft.processingFailure = {mediaId:initiated.mediaId, code:current.failureCode};
       if (!draft.swimLocked) { draft.pendingUpload = null; draft.initiateIdempotencyKey = uuid(); }
+      await onCheckpoint(draft);
       throw new ApiError(422, { code: "MEDIA_FAILURE_NOT_RETRYABLE", message: "Media verification failed", details:{mediaId:initiated.mediaId, failureCode:current.failureCode} });
     }
     await new Promise((resolve) => setTimeout(resolve, 750));

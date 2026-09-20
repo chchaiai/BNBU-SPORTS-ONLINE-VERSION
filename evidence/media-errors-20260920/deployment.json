@@ -1,0 +1,16 @@
+{
+  "result": "PASS",
+  "release": "/opt/bnbu-sports-production/releases/media-errors-20260920",
+  "previous": "/opt/bnbu-sports-production/releases/portal-mobile-20260920",
+  "files": {
+    "js/api.js": "763c129c0d7ee31e43789e8da0de010a58e96e7af977011871ff9a6df6363a71",
+    "js/photo-originals.js": "314773e5644e3231ed155870deca34213b486c3c451c8a9539b3083260e34cf5",
+    "js/screens/checkin.js": "faefe7c64def379448f96737fb3e4bbb613134972a602a6bbe64572bb64ad4b6"
+  },
+  "publicHashes": "PASS",
+  "health": "PASS",
+  "runtimeUnchanged": true,
+  "realStudentBusinessWrites": 0,
+  "migrationExecuted": false,
+  "rollbackAvailable": true
+}

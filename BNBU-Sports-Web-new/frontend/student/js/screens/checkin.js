@@ -1,6 +1,6 @@
 import {isRealtimeSwim, ensureSwimIntake} from "../swim-submission.js";
 import {uploadProgressLabel, uploadProgressHtml} from '../upload-progress.js';
-import {savePhotoOriginal,listPhotoOriginals,removePhotoOriginal,prepareJpegEvidence} from "../photo-originals.js";
+import {savePhotoOriginal,listPhotoOriginals,removePhotoOriginal,prepareJpegEvidence,correctPhotoMime} from "../photo-originals.js";
 import {SPORT_OPTIONS} from "../sports-catalog.js";
 import {proofTodoContext} from '../proof-todo.js';
 // Exercise check-in flow (#20–#24) — feature/checkin/CheckInScreen.kt,
@@ -582,7 +582,7 @@ function draftListHtml(app, { submissionRequired = false } = {}) {
         return `<button class="proof-card pressable" type="button" data-action="checkin.previewDraft" data-draft-id="${esc(draft.id)}" aria-label="${esc(tx(`预览${typeLabel}，${statusLabel}${locked ? "，已锁定" : ""}`, `Preview ${typeLabel}, ${statusLabel}${locked ? ", locked" : ""}`))}">
           <span class="proof-card-media">${media}<span class="proof-card-type">${badgeLabel}</span></span>
           <span class="proof-card-copy">
-            <span class="label-medium text-on-surface ellipsis">${draft.normalizationPending ? tx("视频待处理", "Video processing pending") : typeLabel}</span>
+            <span class="label-medium text-on-surface ellipsis">${evidenceStatus === "FAILED" ? tx("校验失败 · ", "Verification failed · ") : ""}${draft.normalizationPending ? tx("视频待处理", "Video processing pending") : typeLabel}</span>
             <span class="body-small text-muted">${formatMediaSize(draft.byteCount)}${draft.durationSeconds ? ` · ${Math.ceil(draft.durationSeconds)}s` : ""}</span>
           </span>
         </button>`;
@@ -615,6 +615,7 @@ function draftPreviewOverlayHtml(app) {
       <button class="proof-preview-icon proof-preview-delete pressable" type="button" data-action="checkin.deleteDraft" data-draft-id="${esc(draft.id)}" aria-label="${esc(tx("删除该凭证", "Delete this proof"))}" ${locked ? "disabled" : ""}>${icon("delete", 23)}</button>
     </div>
     <div class="proof-preview-stage">${media}</div>
+    ${draft.processingFailure ? `<div class="proof-preview-caption body-small" role="alert">${esc(toUserFacingError(new ApiError(422,{code:'MEDIA_FAILURE_NOT_RETRYABLE',details:{failureCode:draft.processingFailure.code}}),{log:false}).message)}</div>` : ''}
     <div class="proof-preview-caption body-small">${locked
       ? tx("该凭证已进入正式提交流程，当前不可删除。", "This proof has entered formal submission and can no longer be deleted.")
       : tx("如凭证不合适，可点击右上角删除；删除后可重新拍摄。", "If this proof is unsuitable, delete it from the top right and capture another.")}</div>
@@ -646,7 +647,7 @@ export function isRetainedEvidenceLocked(draft) {
 
 export function retainedEvidenceStatus(draft) {
   if (draft?.mediaId) return "AVAILABLE";
-  if (draft?.processingFailure || draft?.pendingUpload?.verificationStatus === "FAILED") return "FAILED";
+  if (draft?.processingFailure || draft?.uploadFailure || draft?.pendingUpload?.verificationStatus === "FAILED") return "FAILED";
   if (draft?.pendingUpload?.confirmed || draft?.pendingUpload?.bound) return "PROCESSING";
   return "LOCAL_DRAFT";
 }
@@ -1551,7 +1552,8 @@ function preferredRecorderMimeType() {
   return candidates.find((type) => globalThis.MediaRecorder?.isTypeSupported?.(type)) || "";
 }
 
-async function normalizeCapturedPhoto(file) {
+export async function normalizeCapturedPhoto(file) {
+  file = await correctPhotoMime(file);
   if (!canNormalizeCapturedImage(file)) throw new Error("unsupported-source-image");
   if(file.type.toLowerCase()==='image/jpeg')return prepareJpegEvidence(file);
   if(file.type.toLowerCase()==='image/png')return file;

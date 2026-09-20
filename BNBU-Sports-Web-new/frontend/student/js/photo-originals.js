@@ -52,3 +52,11 @@ export async function prepareJpegEvidence(file) {
   const result=piexif.insert(piexif.dump(safe),clean);
   return new Blob([Uint8Array.from(result,char=>char.charCodeAt(0))],{type:'image/jpeg'});
 }
+
+/** Read the actual image signature before trusting a phone's MIME label. */
+export async function correctPhotoMime(file) {
+  const h = new Uint8Array(await file.slice(0, 12).arrayBuffer());
+  const type = h[0] === 255 && h[1] === 216 && h[2] === 255 ? 'image/jpeg'
+    : [137,80,78,71,13,10,26,10].every((v,i) => h[i] === v) ? 'image/png' : null;
+  return type && type !== file.type.toLowerCase() ? new Blob([file], {type}) : file;
+}

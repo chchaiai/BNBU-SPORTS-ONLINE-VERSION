@@ -1,0 +1,18 @@
+{
+  "previous": "portal-mobile-20260920",
+  "checks": {
+    "tests": 95,
+    "smoke": 87,
+    "mobileBrowser": "PASS"
+  },
+  "files": {
+    "js/api.js": "763c129c0d7ee31e43789e8da0de010a58e96e7af977011871ff9a6df6363a71",
+    "js/photo-originals.js": "314773e5644e3231ed155870deca34213b486c3c451c8a9539b3083260e34cf5",
+    "js/screens/checkin.js": "faefe7c64def379448f96737fb3e4bbb613134972a602a6bbe64572bb64ad4b6"
+  },
+  "baseline": {
+    "js/api.js": "61a37dd121c271ae33d28515f499e922f72f1d842f493686e97676bcada018a7",
+    "js/photo-originals.js": "41c329552fbadd260a6a9c398f7ed65b5be7e804bc8d5721cc3ccae0fd8647b4",
+    "js/screens/checkin.js": "c260a3b82902d9452a2b515a2fdd895f0a1177ad10e2eb2a8cdf8bc69b22e9cb"
+  }
+}

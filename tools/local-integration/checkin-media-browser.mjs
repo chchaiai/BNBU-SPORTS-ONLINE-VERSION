@@ -47,3 +47,10 @@ export async function checkinMediaBrowser({baseUrl,token,sessionId,mediaId,stude
  await fs.writeFile(out+'/browser.json',JSON.stringify(result,null,2));return result;
  }catch(error){console.log(JSON.stringify({errors,body:(await page.locator('body').innerText()).slice(0,2000),state:await page.evaluate(async()=>{const {app}=await import('/student/js/app.js');return {screen:app.screenKey(),tab:app.state.tab,sub:app.state.subScreen,authenticated:app.state.authenticated};})}));await page.screenshot({path:out+'/browser-failure.png',fullPage:true});throw error;}finally{await browser.close();}
 }
+
+
+
+
+
+
+
