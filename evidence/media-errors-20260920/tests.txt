@@ -1,0 +1,167 @@
+✔ application documents accept the amended PDF/image formats and exact ten MB ceiling (1.3704ms)
+✔ cumulative count keeps accepted images and counts each uploaded id only once (0.1966ms)
+✔ lost local upload metadata recovers identical video by digest without allocating another slot (24.255ms)
+✔ deleted local video is restored for review while existing photos remain (1.2087ms)
+✔ different bytes remain distinct and cross-session recovery is rejected (2.6663ms)
+✔ upload progress is checkpointed before each irreversible remote stage and reservation locks deletion (6.6615ms)
+✔ transport diagnostics match the sent request and stay stable across repeated rendering (4.372ms)
+✔ local proof storage errors do not tell the student to check the network (0.555ms)
+✔ object-storage rejection explains retained evidence without claiming the student has no business permission (0.3092ms)
+✔ network failure remains renderable and does not log the private transport cause (3.0199ms)
+✔ official QR URL and existing QR tokens resolve to the same invite (1.0145ms)
+✔ progress uses real values and no fabricated percentage during processing (0.4322ms)
+✔ all video sources reject 10.001 seconds including historical files (0.3286ms)
+✔ both primary buttons synchronously request device capture (0.3105ms)
+✔ Android Edge uses device capture while desktop Edge retains the live camera (0.8904ms)
+✔ Edge capture opens the native video input synchronously and releases it on cancellation (0.4016ms)
+✔ a lost registration response retries the same issue key and cannot renew the flow (32.1317ms)
+✔ an uncertain join retries the registered capability with the original consumption key (1.0251ms)
+✔ unavailable invitation replaces remaining-time claim and blocks repeated submission (18.7098ms)
+✔ new registration renders email verification before editable student details (19.2666ms)
+✔ verified logged-in student goes directly to information confirmation (0.5176ms)
+✔ local player reads retained bytes once and keeps playback source across repeated mounts (1.6099ms)
+✔ closed local player cannot be assigned a late video source (0.3021ms)
+✔ maintenance announcement renders before a delayed supplementary-task response (24.4657ms)
+✔ a real JPEG labelled PNG is identified and prepared as JPEG (2.5183ms)
+✔ PNG signature corrects an incorrect JPEG label without changing bytes (0.8336ms)
+✔ unknown bytes are not relabelled as an allowed image (0.2147ms)
+✔ an existing failed photo draft retries with the corrected declaration, bytes and digest (33.8906ms)
+✔ worker duration failure is persisted, deletable, specific, and cannot silently upload again (3.9233ms)
+✔ unknown worker details are not exposed and media errors do not ask for nonexistent fields (0.5384ms)
+✔ a persisted quota rejection is retried once with a fresh key and completes the same proof (27.799ms)
+✔ a real quota limit remains enforced with bounded retries and a fresh key for the next user attempt (2.1485ms)
+✔ expired unconfirmed authorization is replaced before attempting an object PUT (1.6692ms)
+✔ an uncertain initiation response retains its key so the committed reservation can be recovered (1.5104ms)
+✔ mobile preview failure retains measured recorder duration, without requiring a thumbnail (1.0465ms)
+✔ submitted records remain visible during review and supplementation without earning hours (1.0467ms)
+✔ offline and failed connections have distinct exact messages and retry entry (4.8632ms)
+✔ ordinary HTTP failures and malformed projections never manufacture maintenance (22.983ms)
+✔ explicit maintenance state and error code still enter maintenance; retry recovers (1.958ms)
+✔ timeout aborts stalled request and never emits maintenance (1.5917ms)
+✔ timeout during response body also fails as transport error (3.7464ms)
+✔ upload copy preserves pixels and camera time while the original retains all EXIF (16.0747ms)
+✔ a camera image without EXIF remains a valid JPEG (3.0651ms)
+[BNBU_WEB_CLIENT_ERROR] {
+  timestamp: '2026-09-20T09:08:26.214Z',
+  level: 'ERROR',
+  requestId: '03a23d90-f3e5-4c31-b675-e484331f00bd',
+  errorCode: 'SYSTEM_SERVICE_UNAVAILABLE',
+  category: 'SERVER',
+  httpStatus: 503,
+  method: 'GET',
+  route: '/exercise-records',
+  retryable: true,
+  client: 'WEB_STUDENT'
+}
+✔ empty browser loads history directly even when workspace loading failed (27.5679ms)
+✔ draft-only pages advance to submitted history (1.0926ms)
+✔ failed read shows retry instead of no records and retry restores history (5.6588ms)
+✔ logout while reading cannot attach previous account history (1.0939ms)
+✔ pagination deduplicates records and rejects repeated cursors (2.497ms)
+✔ finalized MP4 duration supports both movie header versions and extended atoms (0.839ms)
+✔ truncated MP4 headers and invalid time scales cannot produce accepted durations (0.7447ms)
+[BNBU_WEB_CLIENT_ERROR] {
+  timestamp: '2026-09-20T09:08:26.261Z',
+  level: 'ERROR',
+  requestId: 'd8e27f14-17f3-4165-9cc0-9a15e408b45d',
+  errorCode: 'NETWORK_UNAVAILABLE',
+  category: 'NETWORK',
+  httpStatus: null,
+  method: 'GET',
+  route: '/me',
+  retryable: true,
+  client: 'WEB_STUDENT'
+}
+[BNBU_WEB_CLIENT_ERROR] {
+  timestamp: '2026-09-20T09:08:26.283Z',
+  level: 'ERROR',
+  requestId: '3135da32-07af-4973-9f89-02c6928db3c4',
+  errorCode: 'AUTH_VERIFICATION_CODE_INVALID',
+  category: 'AUTHENTICATION',
+  httpStatus: 401,
+  method: 'GET',
+  route: '/me',
+  retryable: false,
+  client: 'WEB_STUDENT'
+}
+[BNBU_WEB_CLIENT_ERROR] {
+  timestamp: '2026-09-20T09:08:26.285Z',
+  level: 'ERROR',
+  requestId: '204607f2-fcec-4207-9f2a-2b1f29158794',
+  errorCode: 'AUTH_SESSION_REVOKED',
+  category: 'AUTHENTICATION',
+  httpStatus: 401,
+  method: 'GET',
+  route: '/me',
+  retryable: false,
+  client: 'WEB_STUDENT'
+}
+[BNBU_WEB_CLIENT_ERROR] {
+  timestamp: '2026-09-20T09:08:26.286Z',
+  level: 'ERROR',
+  requestId: '2446adc2-dbb8-4591-baeb-a19230f45588',
+  errorCode: 'AUTH_ACCOUNT_DISABLED',
+  category: 'AUTHORIZATION',
+  httpStatus: 403,
+  method: 'GET',
+  route: '/me',
+  retryable: false,
+  client: 'WEB_STUDENT'
+}
+✔ a fresh module recovers persistent credentials after closing the page (4.4681ms)
+✔ missing or damaged presentation marker is rebuilt without another sign-in (0.4978ms)
+✔ verified identity repairs the display marker using the server student number (0.592ms)
+✔ offline startup retains login and finishes loading so retry remains available (5.9569ms)
+✔ a non-terminal 401 does not destroy the remembered session (21.4092ms)
+✔ revoked and disabled sessions return to sign-in without a stuck loading shell (1.5306ms)
+✔ expired access credentials rotate automatically without user sign-in (2.0281ms)
+✔ a delayed rejection from an old request cannot sign out a new login (1.2355ms)
+✔ explicit logout, removed site data and expired refresh credentials require sign-in (0.1709ms)
+✔ a login in another page also protects the new session from an older rejection (4.6503ms)
+✔ seven colleges expose matching catalogs, all majors for SAI and custom text only for SGE and GS (1.6748ms)
+✔ JC is selectable for SCC and SAI without widening other college catalogs (0.1513ms)
+✔ changing college clears a previous major before showing the new options (0.1971ms)
+✔ phones and tablets include Android tablets and iPad desktop mode (0.8896ms)
+✔ desktop and touch laptops remain blocked regardless of narrow viewport (0.2216ms)
+✔ a complete undeclared profile exposes its one-time confirmation entry (17.1366ms)
+✔ confirmed major and college are read-only while other profile corrections remain available (0.409ms)
+✔ locked major error preserves its diagnostic reference and directs students to an administrator (2.3983ms)
+✔ new bindings enforce the exact student prefix without blocking legacy login validation (0.8866ms)
+✔ school domain validation accepts complete addresses and rejects lookalikes (0.1835ms)
+✔ login, enrollment and rebind actions reject incomplete domains without a request (24.6689ms)
+✔ prepares all IDs before intake, labels video OTHER and locks the accepted batch (3.1434ms)
+✔ lost acceptance response keeps files locked and reconciles on retry (0.5488ms)
+✔ delay correction renews only rejected intake identity (0.538ms)
+✔ missing truthful stages and replacement of locked files are rejected (0.6889ms)
+✔ all sports use the shared submission rules (0.1527ms)
+✔ safe swimming reasons replace misleading field-format guidance (2.2637ms)
+✔ finished swimming uses shared material controls (20.134ms)
+✔ media preparation sends only metadata and uploads the same locked ID after intake (23.6728ms)
+✔ upload reports measured byte progress separately from confirmation (1.9231ms)
+✔ unknown upload length shows a phase rather than an invented percentage (0.2184ms)
+✔ Help cache separates users and languages and ignores unscoped legacy data (1.5169ms)
+✔ check-in retries an expired object URL with fresh authorization and the same evidence bytes (23.4394ms)
+✔ exemption retries an expired object URL with fresh authorization and the same evidence bytes (2.0902ms)
+✔ proof todos read every backend page through the normal API envelope (0.6852ms)
+✔ proof todo pagination rejects a repeated cursor instead of looping (0.4103ms)
+✔ a supplement retry preserves its original media, workflow version and idempotency key (0.4916ms)
+✔ ten-second clips and unknown raw duration pass while known invalid durations fail (0.6565ms)
+✔ first frame with NaN waits for finite mobile duration (0.7945ms)
+✔ first frame with Infinity waits for finite mobile duration (0.1664ms)
+✔ stops on either recording limit, including the exact boundary (0.6392ms)
+✔ raw MOV and MP4 retain every byte without a decoder (1.7575ms)
+✔ raw source rejects oversized data before reading and supports WebM (0.4924ms)
+✔ new video uploads use 200MB and ten seconds, unknown duration is server verified (0.2037ms)
+(node:51276) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///C:/Users/23328/Desktop/new_version/.local/media-errors-20260920/candidate/student/vendor/ffmpeg/api/classes.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to C:\Users\23328\Desktop\new_version\.local\media-errors-20260920\candidate\student\vendor\ffmpeg\api\package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ worker startup errors reject pending work immediately (1.1184ms)
+ℹ tests 95
+ℹ suites 0
+ℹ pass 95
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 524.9305
