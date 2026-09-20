@@ -9,3 +9,5 @@ docs/backend-contracts/openapi.yaml text eol=lf
 backend/prisma/migrations/0085_history_duration_limit/migration.sql -text whitespace=cr-at-eol
 
 backend/prisma/migrations/0086_feedback_attachments/migration.sql text eol=lf
+
+backend/prisma/migrations/0087_roster_xls/migration.sql text eol=lf whitespace=-blank-at-eof

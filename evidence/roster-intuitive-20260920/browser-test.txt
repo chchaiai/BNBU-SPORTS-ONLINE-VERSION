@@ -1,0 +1,18 @@
+(node:39400) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+{"result":"PASS","environment":"LOCAL_BROWSER_HTTP_POSTGRES","automaticCheck":true,"missingAndWrongClassVisible":true,"identityConflictSeparate":true,"joinedRefresh":true,"uploadRequests":1,"mobileNoPageOverflow":true,"browserErrors":[]}
+▶ Official Roster Import and Alignment HTTP E2E
+  ✔ intuitive roster browser imports maps checks and refreshes real membership (5854.2651ms)
+  ✔ uploads and confirms original XLS/XLSX/CSV dotted-name files through HTTP and PostgreSQL (823.2503ms)
+  ✔ continues an accepted electronic roster after closing while rejecting new imports without side effects (732.3717ms)
+  ✔ uploads private immutable versions and enforces Teacher/Admin/Student projections and scope (808.8936ms)
+  ✔ aligns a frozen current snapshot and appends confirm/resolve/reopen while ignore is side-effect free (810.1164ms)
+✔ Official Roster Import and Alignment HTTP E2E (10389.1486ms)
+ℹ tests 5
+ℹ suites 1
+ℹ pass 5
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 11138.3979

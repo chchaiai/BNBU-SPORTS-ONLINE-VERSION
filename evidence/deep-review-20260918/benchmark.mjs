@@ -1,0 +1,3 @@
+import {selectCredits} from '../../backend/src/modules/v8/domain/crediting.ts';
+const n=Number(process.argv[2]);const rows=Array.from({length:n},(_,i)=>{const date=new Date(Date.UTC(2026,8,1+i)).toISOString().slice(0,10);return {id:`r${i}`,category:i%2?'GENERAL':'COURSE_RELATED',startedAt:`${date}T10:00:00Z`,businessDate:date,actualSeconds:(30+i*17%31)*60,valid:true,previouslySelected:false,maximumMinutes:60}});
+const start=performance.now();const result=selectCredits(rows,{minimumMinutes:30,weeklyLimit:3,dailyLimit:1,courseTarget:600,generalTarget:600});console.log(JSON.stringify({n,ms:performance.now()-start,total:result.totalMinutes,rss:process.resourceUsage().maxRSS/1024}));

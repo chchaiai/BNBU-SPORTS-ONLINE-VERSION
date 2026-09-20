@@ -1,0 +1,10 @@
+{
+  "result": "PASS",
+  "release": "/opt/bnbu-sports-production/releases/portal-mobile-20260920",
+  "previous": "/opt/bnbu-sports-production/releases/roster-buttons-20260920",
+  "portalImage": "sha256:211a8e1b552ddea128d8484b55e68d4ae766869ef2817893a975709278f8a90b",
+  "backendUnchanged": true,
+  "migrationExecuted": false,
+  "publicAssets": 9,
+  "health": "PASS"
+}

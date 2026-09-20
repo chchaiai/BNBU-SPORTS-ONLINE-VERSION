@@ -1,0 +1,21 @@
+{
+  "mode": "LOCAL_HTTP_POSTGRES",
+  "results": [
+    {
+      "role": "teacher",
+      "result": "PASS",
+      "realLogin": true,
+      "mobileNavigation": true,
+      "profileWithinViewport": true,
+      "errors": []
+    },
+    {
+      "role": "admin",
+      "result": "PASS",
+      "realLogin": true,
+      "mobileNavigation": true,
+      "profileWithinViewport": true,
+      "errors": []
+    }
+  ]
+}

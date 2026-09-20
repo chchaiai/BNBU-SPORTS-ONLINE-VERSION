@@ -1,0 +1,14 @@
+{
+  "previousRelease": "zero-target-20260918",
+  "release": "record-history-20260918",
+  "sourceHead": "3019895fe7e0b76864ebf982f29b49ac1a5ab2c1",
+  "baseline": {
+    "js/api.js": "9fb1540888b510c8e78cc46e214640d8e6bae076c2510198f5c199e7d3583912",
+    "js/screens/checkin.js": "6400ba7c0605a598f89d3db9b8207b9725ee57db86396e75bc97aea2c832edb8"
+  },
+  "files": {
+    "js/api.js": "e9426eb7ae6bb4bc6973a4212b929eab5a6e3648edb6dad374c961e5145ccf4b",
+    "js/screens/checkin.js": "d910dfb44c118cc8cca321046db37a777bad2800b227b7cb7ff6dcf7309f8cd0"
+  },
+  "scope": "student history reads only; production baseline overlay"
+}

@@ -1,5 +1,7 @@
-import {normalizeServerVideo, VideoNormalizationError} from './video-normalizer.js';
+import { randomUUID } from 'node:crypto';
+import {normalizeServerVideo, VideoNormalizationError, checkVideoWorkspace} from './video-normalizer.js';
 import {
+  Logger,
   Inject,
   Injectable,
   type OnApplicationBootstrap,
@@ -31,7 +33,9 @@ interface ClaimedMedia {
 export class MediaProcessingWorker implements OnApplicationBootstrap, OnModuleDestroy {
   private timer: ReturnType<typeof setInterval> | null = null;
   private running = false;
-  private readonly workerId = `media-worker-${process.pid}`;
+  private stopping = false;
+  private readonly logger = new Logger(MediaProcessingWorker.name);
+  private readonly workerId = `media-worker-${randomUUID()}`;
 
   constructor(
     private readonly prisma: PrismaService,
@@ -44,23 +48,31 @@ export class MediaProcessingWorker implements OnApplicationBootstrap, OnModuleDe
     @Inject(RUNTIME_CONFIG) private readonly runtimeConfig: RuntimeConfig,
   ) {}
 
-  onApplicationBootstrap(): void {
+  async onApplicationBootstrap(): Promise<void> {
     const config = this.runtimeConfig.media;
     if (!config?.workerEnabled) return;
+    await checkVideoWorkspace();
     this.timer = setInterval(() => void this.tick(), config.workerPollMs);
     this.timer.unref();
     void this.tick();
   }
 
-  onModuleDestroy(): void {
+  async onModuleDestroy(): Promise<void> {
+    this.stopping = true;
     if (this.timer !== null) clearInterval(this.timer);
     this.timer = null;
+    const deadline = Date.now()+25_000;
+    while(this.running && Date.now()<deadline) await new Promise(resolve=>setTimeout(resolve,50));
   }
 
   async processOne(): Promise<boolean> {
     const config = this.configuration();
     const claimed = await this.claim(config);
     if (claimed === null) return false;
+    if (claimed.attemptNumber > 3) {
+      await this.failAttempt(claimed,"MEDIA_RETRY_EXHAUSTED",true);
+      return true;
+    }
     let verified: VerifiedMediaFacts;
     try {
       if (claimed.media.mediaType === 'VIDEO' && (claimed.media.safeMetadata as Record<string, unknown>)?.videoPipeline === 1) {
@@ -68,7 +80,7 @@ export class MediaProcessingWorker implements OnApplicationBootstrap, OnModuleDe
           businessPurpose:claimed.media.businessPurpose,mediaType:'VIDEO',mimeType:claimed.media.declaredMimeType,
           fileSizeBytes:Number(claimed.media.declaredFileSizeBytes),contentSha256:claimed.media.verifiedContentSha256,
           durationSeconds:claimed.media.declaredDurationSeconds,
-        }, config, this.validator);
+        }, config, this.validator, claimed.attemptNumber);
         verified.safeMetadata.sourceSha256 = claimed.media.verifiedContentSha256!;
       } else {
       verified = await this.validator.readAndVerify(
@@ -112,12 +124,12 @@ export class MediaProcessingWorker implements OnApplicationBootstrap, OnModuleDe
   }
 
   private async tick(): Promise<void> {
-    if (this.running) return;
+    if (this.running || this.stopping) return;
     this.running = true;
     try {
       await this.processOne();
     } catch {
-      // The next database-driven poll retries safely. No signed URL or object detail is logged.
+      this.logger.error({code:"MEDIA_WORKER_POLL_FAILED"});
     } finally {
       this.running = false;
     }
@@ -203,6 +215,13 @@ export class MediaProcessingWorker implements OnApplicationBootstrap, OnModuleDe
     verified: VerifiedMediaFacts,
   ): Promise<void> {
     await this.prisma.$transaction(async (transaction) => {
+      // Lock the same row used by claim, then fence expired or superseded attempts.
+      await transaction.$queryRaw`SELECT id FROM media_evidence WHERE id=${claimed.media.id}::uuid FOR UPDATE`;
+      const lease = await transaction.mediaProcessingAttempt.findFirst({
+        where: {mediaId:claimed.media.id, phase:'STARTED'}, orderBy:{attemptNumber:'desc'},
+      });
+      if (!lease || lease.attemptNumber !== claimed.attemptNumber || lease.workerId !== this.workerId ||
+          lease.occurredAt.getTime()+600_000 <= this.clock.now().getTime()) return;
       const current = await transaction.mediaEvidence.findUniqueOrThrow({
         where: { id: claimed.media.id },
       });
@@ -271,6 +290,13 @@ export class MediaProcessingWorker implements OnApplicationBootstrap, OnModuleDe
     terminal: boolean,
   ): Promise<void> {
     await this.prisma.$transaction(async (transaction) => {
+      // Lock the same row used by claim, then fence expired or superseded attempts.
+      await transaction.$queryRaw`SELECT id FROM media_evidence WHERE id=${claimed.media.id}::uuid FOR UPDATE`;
+      const lease = await transaction.mediaProcessingAttempt.findFirst({
+        where: {mediaId:claimed.media.id, phase:'STARTED'}, orderBy:{attemptNumber:'desc'},
+      });
+      if (!lease || lease.attemptNumber !== claimed.attemptNumber || lease.workerId !== this.workerId ||
+          lease.occurredAt.getTime()+600_000 <= this.clock.now().getTime()) return;
       const current = await transaction.mediaEvidence.findUniqueOrThrow({
         where: { id: claimed.media.id },
       });

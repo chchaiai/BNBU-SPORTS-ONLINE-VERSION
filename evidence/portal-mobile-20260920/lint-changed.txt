@@ -1,0 +1,5 @@
+
+C:\Users\23328\Desktop\new_version\BNBU-Sports-Web-new\portal-teacher-admin\app\portal-app.tsx
+  1310:21  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+✖ 1 problem (0 errors, 1 warning)

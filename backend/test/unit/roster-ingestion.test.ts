@@ -1,3 +1,4 @@
+import { utils, write } from 'xlsx';
 import assert from 'node:assert/strict';
 import { createHash } from 'node:crypto';
 import { Readable } from 'node:stream';
@@ -199,4 +200,26 @@ describe('Stage 13 private roster ingestion', () => {
       ['VALID', 'VALID', 'VALID', 'INVALID', 'INVALID'],
     );
   });
+});
+
+it('accepts original CSV/XLSX/XLS dotted names and rejects mismatched signatures with cleanup', async () => {
+  for (const extension of ['csv', 'xlsx', 'xls'] as const) {
+    const storage = new MemoryObjectStorage();
+    const service = new RosterMultipartUploadService(runtimeConfig(), storage);
+    const book = utils.book_new();
+    utils.book_append_sheet(book, utils.aoa_to_sheet([['studentNumber', 'fullName'], ['000123', 'Synthetic']]), 'Roster');
+    const bytes = write(book, { type: 'buffer', bookType: extension }) as Buffer;
+    const fields = { source: 'FILE', fileFormat: extension.toUpperCase(), fieldMappingSnapshot: JSON.stringify(FIELD_MAPPING),
+      ...(extension === 'csv' ? {} : { sheetName: 'Roster' }), fileChecksumSha256: createHash('sha256').update(bytes).digest('hex') };
+    const file = { name: `course.2026.09.${extension}`, type: extension === 'csv' ? 'text/csv' : extension === 'xls' ? 'application/vnd.ms-excel' : 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', body: bytes };
+    const result = await service.receive(multipartRequest(fields, file) as never, { organizationId: 'synthetic', classSectionId: 'synthetic' });
+    assert.equal(result.fileFormat, extension.toUpperCase());
+    assert.equal(result.sanitizedOriginalFileName, file.name);
+    assert.ok(storage.objects.get(result.sourceFileStorageKey)?.equals(bytes));
+    if (extension !== 'csv') {
+      await assert.rejects(service.receive(multipartRequest(fields, { ...file, body: Buffer.from('not a workbook') }) as never,
+        { organizationId: 'synthetic', classSectionId: 'synthetic' }), (e: unknown) => e instanceof ApplicationError && e.code === 'ROSTER_FILE_INVALID');
+      assert.equal(storage.objects.size, 1);
+    }
+  }
 });

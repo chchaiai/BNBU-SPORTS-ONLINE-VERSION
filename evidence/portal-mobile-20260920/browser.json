@@ -1,0 +1,485 @@
+{
+  "result": "PASS",
+  "mode": "local synthetic preview",
+  "checks": [
+    {
+      "role": "teacher",
+      "page": "课程管理",
+      "width": 320,
+      "viewport": 320,
+      "scroll": 320
+    },
+    {
+      "role": "teacher",
+      "page": "学生管理",
+      "width": 320,
+      "viewport": 320,
+      "scroll": 320
+    },
+    {
+      "role": "teacher",
+      "page": "打卡审核",
+      "width": 320,
+      "viewport": 320,
+      "scroll": 320
+    },
+    {
+      "role": "teacher",
+      "page": "内部成绩册",
+      "width": 320,
+      "viewport": 320,
+      "scroll": 320
+    },
+    {
+      "role": "teacher",
+      "page": "免测与认证",
+      "width": 320,
+      "viewport": 320,
+      "scroll": 320
+    },
+    {
+      "role": "teacher",
+      "page": "问题反馈",
+      "width": 320,
+      "viewport": 320,
+      "scroll": 320
+    },
+    {
+      "role": "admin",
+      "page": "学生打卡记录",
+      "width": 320,
+      "viewport": 320,
+      "scroll": 320
+    },
+    {
+      "role": "admin",
+      "page": "系统概览",
+      "width": 320,
+      "viewport": 320,
+      "scroll": 320
+    },
+    {
+      "role": "admin",
+      "page": "课程目录看板",
+      "width": 320,
+      "viewport": 320,
+      "scroll": 320
+    },
+    {
+      "role": "admin",
+      "page": "学期管理",
+      "width": 320,
+      "viewport": 320,
+      "scroll": 320
+    },
+    {
+      "role": "admin",
+      "page": "用户与账号",
+      "width": 320,
+      "viewport": 320,
+      "scroll": 320
+    },
+    {
+      "role": "admin",
+      "page": "分管理员设置",
+      "width": 320,
+      "viewport": 320,
+      "scroll": 320
+    },
+    {
+      "role": "admin",
+      "page": "问题反馈",
+      "width": 320,
+      "viewport": 320,
+      "scroll": 320
+    },
+    {
+      "role": "admin",
+      "page": "全局规则",
+      "width": 320,
+      "viewport": 320,
+      "scroll": 320
+    },
+    {
+      "role": "admin",
+      "page": "系统模式",
+      "width": 320,
+      "viewport": 320,
+      "scroll": 320
+    },
+    {
+      "role": "admin",
+      "page": "帮助中心",
+      "width": 320,
+      "viewport": 320,
+      "scroll": 320
+    },
+    {
+      "role": "admin",
+      "page": "审计日志",
+      "width": 320,
+      "viewport": 320,
+      "scroll": 320
+    },
+    {
+      "role": "teacher",
+      "page": "课程管理",
+      "width": 390,
+      "viewport": 390,
+      "scroll": 390
+    },
+    {
+      "role": "teacher",
+      "page": "学生管理",
+      "width": 390,
+      "viewport": 390,
+      "scroll": 390
+    },
+    {
+      "role": "teacher",
+      "page": "打卡审核",
+      "width": 390,
+      "viewport": 390,
+      "scroll": 390
+    },
+    {
+      "role": "teacher",
+      "page": "内部成绩册",
+      "width": 390,
+      "viewport": 390,
+      "scroll": 390
+    },
+    {
+      "role": "teacher",
+      "page": "免测与认证",
+      "width": 390,
+      "viewport": 390,
+      "scroll": 390
+    },
+    {
+      "role": "teacher",
+      "page": "问题反馈",
+      "width": 390,
+      "viewport": 390,
+      "scroll": 390
+    },
+    {
+      "role": "admin",
+      "page": "学生打卡记录",
+      "width": 390,
+      "viewport": 390,
+      "scroll": 390
+    },
+    {
+      "role": "admin",
+      "page": "系统概览",
+      "width": 390,
+      "viewport": 390,
+      "scroll": 390
+    },
+    {
+      "role": "admin",
+      "page": "课程目录看板",
+      "width": 390,
+      "viewport": 390,
+      "scroll": 390
+    },
+    {
+      "role": "admin",
+      "page": "学期管理",
+      "width": 390,
+      "viewport": 390,
+      "scroll": 390
+    },
+    {
+      "role": "admin",
+      "page": "用户与账号",
+      "width": 390,
+      "viewport": 390,
+      "scroll": 390
+    },
+    {
+      "role": "admin",
+      "page": "分管理员设置",
+      "width": 390,
+      "viewport": 390,
+      "scroll": 390
+    },
+    {
+      "role": "admin",
+      "page": "问题反馈",
+      "width": 390,
+      "viewport": 390,
+      "scroll": 390
+    },
+    {
+      "role": "admin",
+      "page": "全局规则",
+      "width": 390,
+      "viewport": 390,
+      "scroll": 390
+    },
+    {
+      "role": "admin",
+      "page": "系统模式",
+      "width": 390,
+      "viewport": 390,
+      "scroll": 390
+    },
+    {
+      "role": "admin",
+      "page": "帮助中心",
+      "width": 390,
+      "viewport": 390,
+      "scroll": 390
+    },
+    {
+      "role": "admin",
+      "page": "审计日志",
+      "width": 390,
+      "viewport": 390,
+      "scroll": 390
+    },
+    {
+      "role": "teacher",
+      "page": "课程管理",
+      "width": 768,
+      "viewport": 768,
+      "scroll": 768
+    },
+    {
+      "role": "teacher",
+      "page": "学生管理",
+      "width": 768,
+      "viewport": 768,
+      "scroll": 768
+    },
+    {
+      "role": "teacher",
+      "page": "打卡审核",
+      "width": 768,
+      "viewport": 768,
+      "scroll": 768
+    },
+    {
+      "role": "teacher",
+      "page": "内部成绩册",
+      "width": 768,
+      "viewport": 768,
+      "scroll": 768
+    },
+    {
+      "role": "teacher",
+      "page": "免测与认证",
+      "width": 768,
+      "viewport": 768,
+      "scroll": 768
+    },
+    {
+      "role": "teacher",
+      "page": "问题反馈",
+      "width": 768,
+      "viewport": 768,
+      "scroll": 768
+    },
+    {
+      "role": "admin",
+      "page": "学生打卡记录",
+      "width": 768,
+      "viewport": 768,
+      "scroll": 768
+    },
+    {
+      "role": "admin",
+      "page": "系统概览",
+      "width": 768,
+      "viewport": 768,
+      "scroll": 768
+    },
+    {
+      "role": "admin",
+      "page": "课程目录看板",
+      "width": 768,
+      "viewport": 768,
+      "scroll": 768
+    },
+    {
+      "role": "admin",
+      "page": "学期管理",
+      "width": 768,
+      "viewport": 768,
+      "scroll": 768
+    },
+    {
+      "role": "admin",
+      "page": "用户与账号",
+      "width": 768,
+      "viewport": 768,
+      "scroll": 768
+    },
+    {
+      "role": "admin",
+      "page": "分管理员设置",
+      "width": 768,
+      "viewport": 768,
+      "scroll": 768
+    },
+    {
+      "role": "admin",
+      "page": "问题反馈",
+      "width": 768,
+      "viewport": 768,
+      "scroll": 768
+    },
+    {
+      "role": "admin",
+      "page": "全局规则",
+      "width": 768,
+      "viewport": 768,
+      "scroll": 768
+    },
+    {
+      "role": "admin",
+      "page": "系统模式",
+      "width": 768,
+      "viewport": 768,
+      "scroll": 768
+    },
+    {
+      "role": "admin",
+      "page": "帮助中心",
+      "width": 768,
+      "viewport": 768,
+      "scroll": 768
+    },
+    {
+      "role": "admin",
+      "page": "审计日志",
+      "width": 768,
+      "viewport": 768,
+      "scroll": 768
+    },
+    {
+      "role": "teacher",
+      "page": "课程管理",
+      "width": 1280,
+      "viewport": 1280,
+      "scroll": 1280
+    },
+    {
+      "role": "teacher",
+      "page": "学生管理",
+      "width": 1280,
+      "viewport": 1280,
+      "scroll": 1280
+    },
+    {
+      "role": "teacher",
+      "page": "打卡审核",
+      "width": 1280,
+      "viewport": 1280,
+      "scroll": 1280
+    },
+    {
+      "role": "teacher",
+      "page": "内部成绩册",
+      "width": 1280,
+      "viewport": 1280,
+      "scroll": 1280
+    },
+    {
+      "role": "teacher",
+      "page": "免测与认证",
+      "width": 1280,
+      "viewport": 1280,
+      "scroll": 1280
+    },
+    {
+      "role": "teacher",
+      "page": "问题反馈",
+      "width": 1280,
+      "viewport": 1280,
+      "scroll": 1280
+    },
+    {
+      "role": "admin",
+      "page": "学生打卡记录",
+      "width": 1280,
+      "viewport": 1280,
+      "scroll": 1280
+    },
+    {
+      "role": "admin",
+      "page": "系统概览",
+      "width": 1280,
+      "viewport": 1280,
+      "scroll": 1280
+    },
+    {
+      "role": "admin",
+      "page": "课程目录看板",
+      "width": 1280,
+      "viewport": 1280,
+      "scroll": 1280
+    },
+    {
+      "role": "admin",
+      "page": "学期管理",
+      "width": 1280,
+      "viewport": 1280,
+      "scroll": 1280
+    },
+    {
+      "role": "admin",
+      "page": "用户与账号",
+      "width": 1280,
+      "viewport": 1280,
+      "scroll": 1280
+    },
+    {
+      "role": "admin",
+      "page": "分管理员设置",
+      "width": 1280,
+      "viewport": 1280,
+      "scroll": 1280
+    },
+    {
+      "role": "admin",
+      "page": "问题反馈",
+      "width": 1280,
+      "viewport": 1280,
+      "scroll": 1280
+    },
+    {
+      "role": "admin",
+      "page": "全局规则",
+      "width": 1280,
+      "viewport": 1280,
+      "scroll": 1280
+    },
+    {
+      "role": "admin",
+      "page": "系统模式",
+      "width": 1280,
+      "viewport": 1280,
+      "scroll": 1280
+    },
+    {
+      "role": "admin",
+      "page": "帮助中心",
+      "width": 1280,
+      "viewport": 1280,
+      "scroll": 1280
+    },
+    {
+      "role": "admin",
+      "page": "审计日志",
+      "width": 1280,
+      "viewport": 1280,
+      "scroll": 1280
+    }
+  ],
+  "keyboardAndProfile": true,
+  "desktopCollapsedThenMobile": true,
+  "errors": []
+}

@@ -1,0 +1,10 @@
+{
+  "result": "PASS",
+  "environment": "LOCAL_HTTP_POSTGRES_SYNTHETIC",
+  "productionCandidate": true,
+  "missingServerProofRestored": true,
+  "rejectedSubmissionClearsProgress": true,
+  "retrySubmitted": true,
+  "duplicateUploadRequests": 0,
+  "browserErrors": []
+}

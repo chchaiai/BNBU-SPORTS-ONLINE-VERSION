@@ -431,6 +431,11 @@ export const foundationMigrations = [
     sha256: '2b07957d69e1b6b73f43da349c5fecc09967b7be7775774c8809e5536b0f85ae',
     destructive: false,
   },
+  {
+    migrationId: '0087_roster_xls',
+    sha256: '74e7043ffa8528e2c8655d4237ae58b6655a12464e800351816eb642d75e3bc1',
+    destructive: false,
+  },
 ] as const;
 
 export const foundationMigration = foundationMigrations[0];

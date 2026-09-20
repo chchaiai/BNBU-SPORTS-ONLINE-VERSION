@@ -1,0 +1,43 @@
+Codepage tables are not loaded.  Non-ASCII characters may not give expected results
+Codepage tables are not loaded.  Non-ASCII characters may not give expected results
+✔ a replaced reconciliation result rejects confirmation instead of silently reporting success (15.8652ms)
+Codepage tables are not loaded.  Non-ASCII characters may not give expected results
+Codepage tables are not loaded.  Non-ASCII characters may not give expected results
+Codepage tables are not loaded.  Non-ASCII characters may not give expected results
+Codepage tables are not loaded.  Non-ASCII characters may not give expected results
+Codepage tables are not loaded.  Non-ASCII characters may not give expected results
+Codepage tables are not loaded.  Non-ASCII characters may not give expected results
+✔ original CSV and XLSX bytes reach multipart and confirmation retries reuse the uploaded source (75.9537ms)
+✔ import confirms then checks membership automatically; retry after a lost check response never reuploads (2.0186ms)
+✔ reselected duplicate file reuses current confirmation and checks again; changed columns and historical files are explicit (4.2956ms)
+✔ Mock 名单服务可以生成完整对齐结果并保留处理状态 (384.2029ms)
+✔ Mock 名单导入创建本地版本并自动运行一次核对 (424.2258ms)
+✔ 模式路由只在 Mock 预览中选择本地名单服务 (94.0913ms)
+✔ maps every authoritative Backend reconciliation status without reclassifying it in the browser (1.2205ms)
+✔ uses the latest server resolution version and note instead of browser-persisted state (0.1331ms)
+✔ student numbers remain strings with leading zeros and duplicate rows are excluded (0.5429ms)
+✔ the import adapter parses xlsx, legacy xls, and csv rosters (91.9615ms)
+✔ statistics keep official members, platform members, and resolution state separate (0.2694ms)
+✔ teacher roster flow keeps authoritative API and synthetic Mock adapters separated (5.1262ms)
+✔ encodes every roster API identifier before building the API path (0.1374ms)
+Codepage tables are not loaded.  Non-ASCII characters may not give expected results
+Codepage tables are not loaded.  Non-ASCII characters may not give expected results
+Codepage tables are not loaded.  Non-ASCII characters may not give expected results
+Codepage tables are not loaded.  Non-ASCII characters may not give expected results
+Codepage tables are not loaded.  Non-ASCII characters may not give expected results
+Codepage tables are not loaded.  Non-ASCII characters may not give expected results
+Codepage tables are not loaded.  Non-ASCII characters may not give expected results
+Codepage tables are not loaded.  Non-ASCII characters may not give expected results
+Codepage tables are not loaded.  Non-ASCII characters may not give expected results
+Codepage tables are not loaded.  Non-ASCII characters may not give expected results
+✔ file metadata accepts exactly 100 MiB and rejects one byte more before decoding (3.4069ms)
+✔ csv preview enforces the business limit of 500 personnel rows (10.1253ms)
+✔ xlsx preview enforces the business limit of 500 personnel rows (34.5858ms)
+ℹ tests 17
+ℹ suites 0
+ℹ pass 17
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1230.8922

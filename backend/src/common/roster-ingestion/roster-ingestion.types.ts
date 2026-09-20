@@ -22,7 +22,7 @@ export interface RosterFieldMappingSnapshot {
 
 export interface ReceivedRosterUpload {
   source: 'FILE';
-  fileFormat: 'CSV' | 'XLSX';
+  fileFormat: 'CSV' | 'XLSX' | 'XLS';
   sourceSheet?: string | null;
   sanitizedOriginalFileName: string;
   sourceFileStorageKey: string;

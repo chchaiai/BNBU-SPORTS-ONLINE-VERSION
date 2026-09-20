@@ -29,13 +29,14 @@ import {
   type RosterFieldMapping,
   type RosterReconciliationBundle,
   type ValidatedRosterImport,
+  ROSTER_IMPORT_FIELDS,
 } from "./roster-reconciliation-types";
 
 type ApiRosterImport = components["schemas"]["OfficialRosterImport"];
 type ApiRosterEntry = components["schemas"]["OfficialRosterEntry"];
 type ApiAlignmentResult = components["schemas"]["RosterAlignmentResult"];
 type ApiAlignmentRun = components["schemas"]["AlignmentRun"];
-const importIntents = new WeakMap<ParsedRosterFile, Map<string, { uploadKey: string; confirmationKey: string; imported?: ApiRosterImport }>>();
+const importIntents = new WeakMap<ParsedRosterFile, Map<string, { uploadKey: string; confirmationKey: string; alignmentKey: string; imported?: ApiRosterImport }>>();
 
 export {
   ROSTER_API_PATHS,
@@ -175,6 +176,9 @@ function normalizedCsv(parsed: ParsedRosterFile): Blob {
 
 export class RosterServiceError extends Error {
   readonly code:
+    | "ROSTER_CHECK_INCOMPLETE"
+    | "ROSTER_DUPLICATE_MAPPING"
+    | "ROSTER_DUPLICATE_HISTORICAL"
     | "NO_OFFICIAL_ROSTER"
     | "ROSTER_IMPORT_FAILED"
     | "STALE_ROSTER_RESULT"
@@ -182,6 +186,9 @@ export class RosterServiceError extends Error {
 
   constructor(
     code:
+      | "ROSTER_CHECK_INCOMPLETE"
+      | "ROSTER_DUPLICATE_MAPPING"
+      | "ROSTER_DUPLICATE_HISTORICAL"
       | "NO_OFFICIAL_ROSTER"
       | "ROSTER_IMPORT_FAILED"
       | "STALE_ROSTER_RESULT"
@@ -219,24 +226,24 @@ export const rosterApiService: RosterApiAdapter = {
     if (validation.errors.some(error => error.code !== 'DUPLICATE_STUDENT_NUMBER'))
       throw new RosterServiceError("ROSTER_IMPORT_FAILED");
     const extension = input.parsed.fileName.split('.').pop()?.toLowerCase();
-    if (!['csv', 'xlsx'].includes(extension ?? '') || (extension === 'xlsx' && !input.parsed.originalFile))
+    if (!['csv', 'xlsx', 'xls'].includes(extension ?? '') || (extension !== 'csv' && !input.parsed.originalFile))
       throw new RosterServiceError('ROSTER_IMPORT_FAILED');
-    const fileFormat = extension === 'xlsx' ? 'XLSX' : 'CSV';
+    const fileFormat = extension === 'xlsx' ? 'XLSX' : extension === 'xls' ? 'XLS' : 'CSV';
     const original = input.parsed.originalFile ?? normalizedCsv(input.parsed);
     const source = new Blob([original], { type: fileFormat === 'XLSX'
-      ? 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' : 'text/csv' });
+      ? 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' : fileFormat === 'XLS' ? 'application/vnd.ms-excel' : 'text/csv' });
     const digest = Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256', await source.arrayBuffer())))
       .map(value => value.toString(16).padStart(2, '0')).join('');
     const intentId = JSON.stringify({ epoch: currentApiSessionEpoch(), courseId: input.course.id, mapping: input.mapping,
-      fileFormat, sheetName: fileFormat === 'XLSX' ? input.parsed.sheetName : null, digest });
+      fileFormat, sheetName: fileFormat !== 'CSV' ? input.parsed.sheetName : null, digest });
     const intents = importIntents.get(input.parsed) ?? new Map();
     importIntents.set(input.parsed, intents);
-    const intent = intents.get(intentId) ?? { uploadKey: crypto.randomUUID(), confirmationKey: crypto.randomUUID() };
+    const intent = intents.get(intentId) ?? { uploadKey: crypto.randomUUID(), confirmationKey: crypto.randomUUID(), alignmentKey: crypto.randomUUID() };
     intents.set(intentId, intent);
     const form = new FormData();
     form.append("source", "FILE");
     form.append('fileFormat', fileFormat);
-    if (fileFormat === 'XLSX') form.append('sheetName', input.parsed.sheetName);
+    if (fileFormat !== 'CSV') form.append('sheetName', input.parsed.sheetName);
     form.append(
       "fieldMappingSnapshot",
       JSON.stringify(
@@ -249,17 +256,70 @@ export const rosterApiService: RosterApiAdapter = {
       ),
     );
     form.append('file', source, input.parsed.fileName);
+    let reused = false;
     const imported = intent.imported ?? await requestFormData<ApiRosterImport>(
       ROSTER_API_PATHS.uploadRoster(input.course.id),
       form,
       { method: "POST", headers: { 'Idempotency-Key': intent.uploadKey } },
-    );
+    ).catch(async (error: unknown) => {
+      if (!(error instanceof ApiError) || error.code !== 'ROSTER_IMPORT_DUPLICATE') throw error;
+      const current = await loadCurrentRosterImport(input.course.id);
+      if (!current)
+        throw new RosterServiceError('ROSTER_DUPLICATE_HISTORICAL');
+      // Public error envelopes may omit internal resource IDs. Verify the scoped source instead.
+      const existingSource = await request<{ sourceSha256: string; sheetName: string | null }>(
+        `/roster-imports/${encodeURIComponent(current.id)}/source`);
+      if (existingSource.sourceSha256 !== digest)
+        throw new RosterServiceError('ROSTER_DUPLICATE_HISTORICAL');
+      if (fileFormat !== 'CSV' && existingSource.sheetName !== input.parsed.sheetName)
+        throw new RosterServiceError('ROSTER_DUPLICATE_MAPPING');
+      const entries = await listAll<ApiRosterEntry>(ROSTER_API_PATHS.rosterEntries(current.id), { sort: 'sourceRowNumber' });
+      // Never silently reuse an old interpretation when the teacher selected different columns.
+      const normalized = (field: string, value: unknown) => {
+        const text = String(value ?? '').trim().normalize('NFC');
+        return field === 'studentNumber' || field === 'gender' ? text.toUpperCase() : text;
+      };
+      const sameRows = entries.length === input.parsed.rows.length && entries.every((entry, index) =>
+        ROSTER_IMPORT_FIELDS.every(field => normalized(field, entry[field]) ===
+          normalized(field, input.mapping[field] ? input.parsed.rows[index]?.[input.mapping[field]!] : null)));
+      if (!sameRows) throw new RosterServiceError('ROSTER_DUPLICATE_MAPPING');
+      reused = true;
+      return current;
+    });
     if (imported.status !== "VALIDATED" || !imported.isCurrent)
       throw new RosterServiceError("ROSTER_IMPORT_FAILED");
     intent.imported = imported;
-    await request(`/roster-imports/${encodeURIComponent(imported.id)}/confirmation`, { method: 'POST',
-      body: { expectedVersion: imported.version }, headers: { 'Idempotency-Key': intent.confirmationKey } });
-    return loadBundle(input.course.id);
+    const confirmationPath = `/roster-imports/${encodeURIComponent(imported.id)}/confirmation`;
+    let confirmed = false;
+    if (reused) {
+      try { await request(confirmationPath); confirmed = true; }
+      catch (error) {
+        if (!(error instanceof ApiError) || error.status !== 404 || error.code !== 'PERMISSION_RESOURCE_NOT_FOUND') throw error;
+      }
+    }
+    if (!confirmed) {
+      try {
+        await request(confirmationPath, { method: 'POST', body: { expectedVersion: imported.version },
+          headers: { 'Idempotency-Key': intent.confirmationKey } });
+      } catch (error) {
+        if (!(error instanceof ApiError) || error.code !== 'CONFLICT_STATE_TRANSITION') throw error;
+        // A previous confirmation may have succeeded before its response was lost.
+        await request(confirmationPath);
+      }
+    }
+    try {
+      const run = await request<ApiAlignmentRun>(ROSTER_API_PATHS.align(imported.id), {
+        method: "POST", body: { expectedRosterImportVersion: imported.version },
+        headers: { "Idempotency-Key": intent.alignmentKey },
+      });
+      if (run.status !== "COMPLETED") throw new RosterServiceError("ROSTER_CHECK_INCOMPLETE");
+      lastAlignmentAtByCourse.set(input.course.id, run.completedAt ?? run.startedAt);
+      const bundle = await loadBundle(input.course.id);
+      if (bundle.currentRoster?.version.id !== imported.id) throw new RosterServiceError("STALE_ROSTER_RESULT");
+      return bundle;
+    } catch {
+      throw new RosterServiceError("ROSTER_CHECK_INCOMPLETE");
+    }
   },
 
   async reconcile(context: ReconciliationContext) {
@@ -271,6 +331,7 @@ export const rosterApiService: RosterApiAdapter = {
       method: "POST",
       body: { expectedRosterImportVersion: current.version },
     });
+    if (run.status !== "COMPLETED") throw new RosterServiceError("ROSTER_CHECK_INCOMPLETE");
     if (operationEpoch === rosterCacheEpoch) {
       lastAlignmentAtByCourse.set(
         context.course.id,

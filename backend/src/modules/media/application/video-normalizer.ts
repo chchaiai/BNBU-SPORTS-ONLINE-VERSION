@@ -1,6 +1,6 @@
 import {execFile} from 'node:child_process';
 import {createReadStream, createWriteStream} from 'node:fs';
-import {mkdtemp, rm, stat} from 'node:fs/promises';
+import {mkdtemp, rm, stat, statfs, access} from 'node:fs/promises';
 import {tmpdir} from 'node:os';
 import {join} from 'node:path';
 import {Readable, Transform} from 'node:stream';
@@ -12,7 +12,19 @@ import type {MediaStoragePort} from '../../../common/object-storage/media-storag
 import type {MediaValidator, DeclaredMediaFacts, VerifiedMediaFacts} from './media-validator.js';
 
 const execute = promisify(execFile);
-export const processedVideoKey = (key: string): string => `${key}/normalized.mp4`;
+export const processedVideoKey = (key: string, metadata?: unknown): string => {
+  const attempt = (metadata as {normalizationAttempt?: unknown} | null)?.normalizationAttempt;
+  return typeof attempt === 'number' && Number.isSafeInteger(attempt) && attempt > 0
+    ? `${key}/normalized-${attempt}.mp4` : `${key}/normalized.mp4`;
+};
+export async function checkVideoWorkspace(): Promise<void> {
+  const root = process.env.MEDIA_WORK_DIRECTORY || tmpdir();
+  try {
+    await access(root, 2);
+    const space = await statfs(root);
+    if (space.bavail * space.bsize < 512 * 1024 * 1024) throw new Error('capacity');
+  } catch { throw new VideoNormalizationError('WORKSPACE_CAPACITY', false); }
+}
 export class VideoNormalizationError extends Error {
   constructor(readonly stage: string, readonly terminal: boolean) {
     super(`VIDEO_${stage}_FAILED`);
@@ -20,8 +32,9 @@ export class VideoNormalizationError extends Error {
 }
 
 export async function normalizeServerVideo(storage: MediaStoragePort, storageKey: string,
-  declared: DeclaredMediaFacts, config: MediaConfig, validator: MediaValidator): Promise<VerifiedMediaFacts> {
-  const directory = await mkdtemp(join(tmpdir(), 'bnbu-video-'));
+  declared: DeclaredMediaFacts, config: MediaConfig, validator: MediaValidator, attemptNumber?: number): Promise<VerifiedMediaFacts> {
+  await checkVideoWorkspace();
+  const directory = await mkdtemp(join(process.env.MEDIA_WORK_DIRECTORY || tmpdir(), 'bnbu-video-'));
   const source = join(directory, 'source');
   const output = join(directory, 'normalized.mp4');
   let stage = 'DOWNLOAD';
@@ -65,20 +78,22 @@ export async function normalizeServerVideo(storage: MediaStoragePort, storageKey
       '-t','10','-map','0:v:0','-map','0:a:0','-vf',filters.join(','),'-filter_threads','1',
       '-c:v','libx264','-threads','1','-preset','veryfast','-crf','24','-pix_fmt','yuv420p',
       '-c:a','aac','-ac','2','-ar','48000','-map_metadata','-1','-map_metadata:s','-1','-map_chapters','-1',
-      '-movflags','+faststart',output], {timeout:180_000, maxBuffer:1024*1024, windowsHide:true});
+      '-fs',String(200*1024*1024),'-movflags','+faststart',output], {timeout:180_000, maxBuffer:1024*1024, windowsHide:true});
     const outputSize = (await stat(output)).size;
+    if (outputSize >= 200*1024*1024) throw new ApplicationError("MEDIA_SIZE_EXCEEDED",413);
     stage = 'VERIFY';
     const verified = await validator.readAndVerify(createReadStream(output), {...declared, mimeType:'video/mp4', fileSizeBytes:outputSize, contentSha256:null, durationSeconds:null}, config);
     if (verified.durationSeconds === null || verified.durationSeconds > 10) throw new ApplicationError('MEDIA_VIDEO_DURATION_EXCEEDED',422);
     stage = 'STORE';
-    const transport = await storage.createUploadUrl({storageKey:processedVideoKey(storageKey), contentType:'video/mp4', contentLength:outputSize, expiresInSeconds:300});
+    const transport = await storage.createUploadUrl({storageKey:processedVideoKey(storageKey,{normalizationAttempt:attemptNumber}), contentType:'video/mp4', contentLength:outputSize, expiresInSeconds:300});
     const response = await fetch(transport.url, {method:'PUT', headers:transport.requiredHeaders,
       body:Readable.toWeb(createReadStream(output)), duplex:'half', signal:AbortSignal.timeout(120_000)});
     if (!response.ok) throw new ApplicationError('SYSTEM_SERVICE_UNAVAILABLE',503,{dependency:'MEDIA_STORAGE'});
-    return {...verified, safeMetadata:{...verified.safeMetadata, videoPipeline:1, normalized:1, sourceCodec:String(video.codec_name), sourceFps:String(video.avg_frame_rate), sourceHdr:hdr ? 1 : 0, sourceWidth:Number(video.width), sourceHeight:Number(video.height)}};
+    return {...verified, safeMetadata:{...verified.safeMetadata, videoPipeline:1, normalized:1, ...(attemptNumber ? {normalizationAttempt:attemptNumber} : {}), sourceCodec:String(video.codec_name), sourceFps:String(video.avg_frame_rate), sourceHdr:hdr ? 1 : 0, sourceWidth:Number(video.width), sourceHeight:Number(video.height)}};
   } catch (error) {
     if (error instanceof ApplicationError) throw error;
     const code = (error as {code?:unknown})?.code;
+    if (code === 'ENOSPC' || code === 'EDQUOT' || /No space left on device/.test(String((error as {stderr?:unknown})?.stderr))) throw new VideoNormalizationError('WORKSPACE_CAPACITY',false);
     throw new VideoNormalizationError(stage, typeof code === 'number' && code > 0);
   } finally {
     await rm(directory, {recursive:true, force:true});

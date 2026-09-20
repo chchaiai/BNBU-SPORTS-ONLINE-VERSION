@@ -1,6 +1,6 @@
 import { assertProfileReady } from '../users/application/student-profile-quality.js';
 import { Body, Controller, Get, Headers, Injectable, Param, ParseUUIDPipe, Post, Req } from '@nestjs/common';
-import { IsBoolean, IsInt, IsISO8601, Matches, Max, Min, IsOptional } from 'class-validator';
+import { IsBoolean, IsInt, IsISO8601, Matches, Max, Min, ValidateIf } from 'class-validator';
 import { PrismaService } from '../../common/database/prisma.service.js';
 import type { Prisma } from '../../generated/prisma/client.js';
 import { ApplicationError } from '../../common/errors/application-error.js';
@@ -14,7 +14,7 @@ import { OrganizationTimeService } from '../../common/time/organization-time.ser
 import { requireUnsettledCourse } from './v81-settlement-write-guard.js';
 
 export class HistorySettingsInput {
-  @IsOptional() @IsInt() @Min(1) @Max(1440) maximumMinutes?: number;
+  @ValidateIf((_o,v:unknown)=>v!==undefined) @IsInt() @Min(1) @Max(1440) maximumMinutes?: number;
   @IsBoolean() enabled!: boolean;
   @IsISO8601({ strict: true }) @Matches(/^\d{4}-\d{2}-\d{2}$/u) earliestDate!: string;
   @IsISO8601({ strict: true }) @Matches(/^\d{4}-\d{2}-\d{2}$/u) latestDate!: string;

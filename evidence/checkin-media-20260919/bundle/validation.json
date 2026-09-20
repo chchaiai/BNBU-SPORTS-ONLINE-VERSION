@@ -1,0 +1,32 @@
+{
+  "previous": "/opt/bnbu-sports-production/releases/record-history-20260918",
+  "baseImage": "sha256:b45bfea7a7c9820234c20c4d38c9ab97db3018529eda17eebda02591b5d7b3db",
+  "portalImage": "sha256:e75c2d3f0cba133f1f7a0101a7753ee7bd0be7a26c7d0765ecdde59871ae18fe",
+  "baselineFiles": {
+    ".env": "f34278b4548fd8a88e498b4b587bf351d44d4a04b5822fb06ce53ecf79bf3850",
+    "production.env": "7cda6c396c5fa3f0099ca726d3cd5265a54d1bcf74c14011d1def117d52245e3",
+    "compose.yml": "b8156e5ef17686b43e109a2a119330037a4caef84f35be45b5ed5cb08c4b00e0",
+    "nginx.conf": "6b108ca514c32d3af9b4d63df7d237f2af549e36bd1829ccff82d0e66dbd2791",
+    "web/student/js/api.js": "e9426eb7ae6bb4bc6973a4212b929eab5a6e3648edb6dad374c961e5145ccf4b",
+    "web/student/js/screens/checkin.js": "d910dfb44c118cc8cca321046db37a777bad2800b227b7cb7ff6dcf7309f8cd0"
+  },
+  "baselineBackend": {
+    "modules/exercise-records/application/exercise-records.service.js": "a9bc2c6636b56e8ee7d100ebc6bc34221233406a4aa9e25ec8414f5c251c14a7"
+  },
+  "checks": {
+    "frontend": 89,
+    "smoke": 87,
+    "candidateUnit": 8,
+    "candidateBrowser": "PASS",
+    "httpRecovery": "PASS",
+    "baselineRegressionFailures": 6,
+    "typecheck": "PASS"
+  },
+  "files": {
+    "deploy.py": "4b3116269e336cedf9848515dba8fbbaab58fdc722f5cbc936c0e20ab8da115a",
+    "backend/Dockerfile": "9e5f9237d98b39feda4969f874fb7ef0d230db8aa9224ab98d8f6294d72fc50f",
+    "web/student/js/api.js": "61a37dd121c271ae33d28515f499e922f72f1d842f493686e97676bcada018a7",
+    "web/student/js/screens/checkin.js": "c260a3b82902d9452a2b515a2fdd895f0a1177ad10e2eb2a8cdf8bc69b22e9cb",
+    "backend/dist/modules/exercise-records/application/exercise-records.service.js": "66e97d1b66906071cf5d79ec187bebd851d24c22cdcd2f9c0b5c047ba4447245"
+  }
+}

@@ -9,8 +9,9 @@ export type RosterSourceTable = {
 /** Decode source rows only. Identity validation and teacher confirmation are separate steps. */
 export function readRosterXlsx(bytes: Uint8Array, sheetName: string,
   mapping: { studentNumber: string; fullName: string }): RosterSourceTable {
+  const isXls = Buffer.from(bytes.subarray(0, 8)).equals(Buffer.from([0xd0, 0xcf, 0x11, 0xe0, 0xa1, 0xb1, 0x1a, 0xe1]));
   if (bytes.length < 4 || bytes.length > 100 * 1024 * 1024 ||
-    bytes[0] !== 0x50 || bytes[1] !== 0x4b || bytes[2] !== 3 || bytes[3] !== 4)
+    (!isXls && (bytes[0] !== 0x50 || bytes[1] !== 0x4b || bytes[2] !== 3 || bytes[3] !== 4)))
     throw new Error('ROSTER_XLSX_SIZE_OR_FORMAT');
   // SheetJS attaches parsing state to its input. Preserve the caller's original file object.
   const workbook = read(Uint8Array.from(bytes), { type: 'array', cellNF: true, cellDates: false,

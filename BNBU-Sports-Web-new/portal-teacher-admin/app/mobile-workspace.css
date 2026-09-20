@@ -1,0 +1,74 @@
+/* Shared mobile layout; desktop sizing stays with the existing workspace styles. */
+.mobile-navigation-bar { display: none; }
+@media (max-width: 860px) {
+  .app-shell.app-shell-tabbed-workspace { display: block; min-width: 0; }
+  .app-shell.app-shell-tabbed-workspace .sidebar {
+    position: sticky; top: 0; height: auto; max-height: 80dvh; overflow-y: auto;
+    padding: max(6px, env(safe-area-inset-top)) 14px 6px; border-top: 0;
+    background: var(--color-surface); z-index: 45;
+  }
+  .mobile-navigation-bar { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 48px; }
+  .mobile-navigation-bar strong { font-size: 16px; color: var(--color-primary); }
+  .mobile-navigation-bar button { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 8px 12px; border: 1px solid var(--card-border); border-radius: 10px; background: var(--color-surface-low); color: var(--color-on-surface); font-size: 14px; }
+  .app-shell .sidebar > .brand, .app-shell .sidebar > .workspace-label,
+  .app-shell .sidebar > .sidebar-collapse-button, .app-shell .sidebar > .sidebar-resizer { display: none; }
+  .app-shell.app-shell-tabbed-workspace .sidebar nav,
+  .app-shell.app-shell-tabbed-workspace .sidebar-bottom { display: none; }
+  .app-shell.app-shell-tabbed-workspace .sidebar.is-mobile-open nav { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 6px; padding: 8px 0; overflow: visible; }
+  .app-shell.app-shell-tabbed-workspace .sidebar.is-mobile-open nav button { width: 100%; min-width: 0; min-height: 46px; grid-template-columns: 22px minmax(0,1fr); gap: 8px; padding: 8px 10px; font-size: 14px; }
+  .app-shell.app-shell-tabbed-workspace .sidebar.is-mobile-open nav button > span { width: auto; min-width: 0; max-inline-size: none; opacity: 1; visibility: visible; pointer-events: auto; white-space: normal; }
+  .app-shell.app-shell-tabbed-workspace .sidebar.is-mobile-open .sidebar-bottom { display: block; max-width: none; padding: 8px 0; margin: 0; }
+  .app-shell .workspace, .app-shell .page-content,
+  .app-shell .page-content > *, .app-shell .admin-page-stack, .app-shell .admin-panel { min-width: 0; max-width: 100%; }
+  .app-shell.app-shell-tabbed-workspace .workspace-header.workspace-header-tabbed { min-height: 0; height: auto; padding: 16px; gap: 12px; align-items: stretch; flex-direction: column; }
+  .app-shell .workspace-header h1 { font-size: 25px; line-height: 1.25; }
+  .app-shell .header-actions { min-width: 0; width: 100%; flex-wrap: wrap; gap: 8px; justify-content: flex-start; }
+  .app-shell .workspace-school-mark { display: none; }
+  .app-shell .semester-pill { min-width: 0; max-width: 100%; flex: 1 1 100%; }
+  .app-shell .semester-pill b { white-space: normal; overflow-wrap: anywhere; }
+  .app-shell .page-content { padding: 16px 14px calc(24px + env(safe-area-inset-bottom)); }
+  .app-shell .status-tabs, .app-shell .admin-view-tabs { width: 100%; max-width: 100%; min-width: 0; overflow-x: auto; overscroll-behavior-x: contain; }
+  .app-shell .status-tabs button, .app-shell .admin-view-tabs button { flex-shrink: 0; min-height: 44px; }
+  .app-shell .data-table-scroll, .app-shell .table-scroll, .app-shell .table-wrap { width: 100%; min-width: 0; max-width: 100%; overflow-x: auto; overscroll-behavior-x: contain; }
+  .app-shell .admin-course-filters, .app-shell .admin-outbox-filters { grid-template-columns: minmax(0,1fr); }
+  .app-shell .admin-course-card, .app-shell .admin-course-cards, .app-shell .admin-course-hours { min-width: 0; max-width: 100%; }
+  .app-shell .admin-course-hours { grid-template-columns: minmax(0,1fr); }
+  .app-shell .review-mode-banner { flex-wrap: wrap; min-width: 0; }
+  .app-shell .review-mode-copy { min-width: 0; flex: 1; }
+  .app-shell .review-mode-actions { flex-wrap: wrap; }
+}
+@media (max-width: 620px) {
+  .app-shell :is(input:not([type=checkbox]):not([type=radio]),textarea,select) { font-size: 16px; min-width: 0; max-width: 100%; }
+  .app-shell :is(.primary-button,.secondary-button,.danger-button,.icon-button,.app-select-trigger) { min-height: 44px; }
+  .app-shell :is(.filter-toolbar-fields,.admin-filter-row,.admin-audit-filter-grid) { grid-template-columns: minmax(0,1fr); min-width: 0; }
+  .app-shell .filter-toolbar-fields > *, .app-shell .admin-filter-row > * { min-width: 0; max-width: 100%; }
+  .app-shell .admin-heading-actions, .app-shell .layout-command-row { flex-wrap: wrap; }
+  .app-shell .admin-heading-actions > button { white-space: normal; }
+  .app-shell .admin-search { min-width: 0; flex-basis: auto; }
+  .app-shell .admin-pagination, .app-shell .roster-pagination { gap: 12px; flex-wrap: wrap; }
+  .app-shell .admin-course-card-head { align-items: flex-start; flex-wrap: wrap; }
+  .app-shell .admin-course-card-head h3 { overflow-wrap: anywhere; }
+  .modal-backdrop, .app-shell-admin .admin-modal-backdrop:has(.admin-subadmin-editor-layout) { padding: max(8px, env(safe-area-inset-top)) 8px max(8px, env(safe-area-inset-bottom)); }
+  .modal-backdrop .modal { max-width: 100%; max-height: calc(100dvh - 32px); min-width: 0; border-radius: 14px; }
+  .modal-backdrop :is(.teacher-dialog,.admin-dialog) { display: flex; flex-direction: column; overflow: hidden; }
+  .modal-backdrop :is(.teacher-dialog-body,.admin-dialog-body,.admin-drawer-body) { min-height: 0; overflow: auto; padding: 16px; }
+  .modal-backdrop :is(.modal-head,.modal-footer) { flex-shrink: 0; padding: 12px 16px; gap: 8px; }
+  .modal-backdrop .modal-footer { flex-wrap: wrap; }
+  .modal-backdrop .modal-footer button { min-height: 44px; white-space: normal; }
+  .modal-backdrop :is(input:not([type=checkbox]):not([type=radio]),select,textarea) { font-size: 16px; max-width: 100%; min-width: 0; }
+  .modal-backdrop .field-grid { grid-template-columns: minmax(0,1fr); }
+  .toast { max-width: calc(100vw - 28px); overflow-wrap: anywhere; }
+}
+@media (max-width: 860px) {
+  .app-shell .teacher-page-layout, .app-shell .teacher-page-layout > *,
+  .app-shell .teacher-course-grid > *, .app-shell .course-card-identity { min-width: 0; max-width: 100%; }
+  .app-shell .teacher-course-grid { grid-template-columns: minmax(0,1fr); }
+  .app-shell .course-card-identity h3 { white-space: normal; overflow-wrap: anywhere; }
+}
+@media (max-width: 860px) {
+  /* Tab animation transforms must not turn fixed dialogs into page-positioned content. */
+  .app-shell .teacher-tab-page-transition__page.is-active:has(.modal-backdrop) {
+    animation: none; transform: none; will-change: auto; z-index: 60;
+  }
+  .app-shell:has(.modal-backdrop) > .sidebar { z-index: 0; }
+}

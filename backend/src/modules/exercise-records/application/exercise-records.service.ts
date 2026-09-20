@@ -110,7 +110,14 @@ export class ExerciseRecordsService {
     const position = this.cursors.decode(input.cursor, binding);
     const businessDatePosition =
       position === null ? null : new Date(`${position.value}T00:00:00.000Z`);
-    const records = await this.prisma.exerciseRecord.findMany({
+    return this.prisma.$transaction(async tx => {
+    const currentReviewIds = input.reviewResult === undefined ? null : await tx.$queryRaw<{record_id: string}[]>`
+      SELECT r.record_id FROM review_records r JOIN exercise_records scoped ON scoped.id=r.record_id
+      WHERE r.organization_id=${principal.organizationId}::uuid AND r.result=${input.reviewResult}
+        ${scope.studentId === undefined ? Prisma.empty : Prisma.sql`AND scoped.student_id=${scope.studentId}::uuid`}
+        ${input.classSectionId === undefined ? Prisma.empty : Prisma.sql`AND scoped.class_section_id=${input.classSectionId}::uuid`}
+        AND NOT EXISTS (SELECT 1 FROM review_records newer WHERE newer.record_id=r.record_id AND newer.review_version>r.review_version)`;
+    const records = await tx.exerciseRecord.findMany({
       where: {
         organizationId: principal.organizationId,
         ...(scope.studentId === undefined ? {} : { studentId: scope.studentId }),
@@ -123,7 +130,7 @@ export class ExerciseRecordsService {
         ...(input.status === undefined ? {} : { status: input.status }),
         ...(input.reviewResult === undefined
           ? {}
-          : { reviews: { some: { result: input.reviewResult } } }),
+          : { id: { in: currentReviewIds!.map(row => row.record_id) } }),
         ...(input.businessDateFrom === undefined && input.businessDateTo === undefined
           ? {}
           : {
@@ -182,7 +189,7 @@ export class ExerciseRecordsService {
     const items = records.slice(0, input.limit);
     const last = items.at(-1);
     return pagedResult(
-      (await projectV81Records(this.prisma,items, principal.role !== 'STUDENT')).map((row,index)=>({...row,...(principal.role==='ADMIN'?{studentName:items[index]!.student.fullName,studentNumber:items[index]!.student.studentNumber,className:items[index]!.classSection.displayName}:{})})),
+      (await projectV81Records(tx,items, principal.role !== 'STUDENT')).map((row,index)=>({...row,...(principal.role==='ADMIN'?{studentName:items[index]!.student.fullName,studentNumber:items[index]!.student.studentNumber,className:items[index]!.classSection.displayName}:{})})),
       {
         nextCursor:
           hasMore && last !== undefined
@@ -195,6 +202,7 @@ export class ExerciseRecordsService {
         limit: input.limit,
       },
     );
+    }, {isolationLevel: Prisma.TransactionIsolationLevel.RepeatableRead});
   }
 
   async get(
@@ -214,12 +222,30 @@ export class ExerciseRecordsService {
       where: { id: context.recordId },
       select: {
         id: true,
+        status: true,
+        studentId: true,
         sessionId: true,
         session: { select: { startedAt: true, completedAt: true } },
         media: { orderBy: { position: 'asc' }, select: { mediaId: true } },
       },
     });
     if (record === null) throw new ApplicationError('EXERCISE_RECORD_NOT_FOUND', 404);
+    // Drafts have no record-media associations yet. Recover the verified
+    // session evidence that submission already requires, within the same scope.
+    if (record.status === 'DRAFT' && principal.role === 'STUDENT') {
+      const media = await this.prisma.mediaEvidence.findMany({
+        where: {
+          organizationId: principal.organizationId,
+          ownerStudentId: record.studentId,
+          sessionId: record.sessionId,
+          businessPurpose: 'EXERCISE_RECORD',
+          uploadStatus: 'AVAILABLE',
+        },
+        select: { id: true },
+        orderBy: { id: 'asc' },
+      });
+      record.media = media.map(({ id }) => ({ mediaId: id }));
+    }
     return projectExerciseRecordEvidenceContext(record);
   }
 
@@ -436,7 +462,7 @@ export class ExerciseRecordsService {
       async (transaction) => {
         // Keep a replayable failure while rolling back any submission writes.
         await transaction.$executeRaw`SAVEPOINT exercise_record_submit`;
-        await transaction.$queryRaw`SELECT id FROM organizations WHERE id=${principal.organizationId}::uuid FOR NO KEY UPDATE`;
+        await transaction.$queryRaw`SELECT id FROM organizations WHERE id=${principal.organizationId}::uuid FOR SHARE`;
         await assertProfileReady(transaction,principal.organizationId,principal.userId);
         try {
           await this.lock(transaction, 'enrollments', context.enrollmentId);
@@ -600,6 +626,9 @@ export class ExerciseRecordsService {
           );
         } catch (error: unknown) {
           if (error instanceof ApplicationError) {
+            // Roll back the idempotency reservation too, so temporary compute
+            // exhaustion can be retried with the same submission key.
+            if (error.code === 'SYSTEM_SERVICE_UNAVAILABLE') throw error;
             await transaction.$executeRaw`ROLLBACK TO SAVEPOINT exercise_record_submit`;
             return this.idempotency.failure(error);
           }
@@ -613,7 +642,8 @@ export class ExerciseRecordsService {
         }
       },
     );
-    await this.scores.processReviewChange(context.recordId);
+    // initializeRecordWorkflow already publishes V8.1 credit atomically.
+    // No fallible post-commit work may change the accepted submit response.
     return result;
   }
 

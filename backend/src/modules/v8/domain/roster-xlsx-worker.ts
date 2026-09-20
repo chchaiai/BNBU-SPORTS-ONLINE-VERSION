@@ -5,7 +5,7 @@ import { inspectXlsxArchiveBudget } from './xlsx-archive-budget.js';
 if (!parentPort) throw new Error('ROSTER_XLSX_WORKER_REQUIRED');
 try {
   const input = workerData as { bytes: Uint8Array; sheetName: string; mapping: { studentNumber: string; fullName: string } };
-  inspectXlsxArchiveBudget(input.bytes);
+  if (input.bytes[0] === 0x50 && input.bytes[1] === 0x4b) inspectXlsxArchiveBudget(input.bytes);
   parentPort.postMessage({ table: readRosterXlsx(input.bytes, input.sheetName, input.mapping) });
 } catch (error) {
   parentPort.postMessage({ error: error instanceof Error ? error.message : 'ROSTER_XLSX_INVALID' });

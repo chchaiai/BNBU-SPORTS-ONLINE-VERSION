@@ -26,6 +26,12 @@ export class ActiveExerciseSessionQueryDto {
   enrollmentId?: string;
 }
 
+export class RecoverableSessionQueryDto {
+  @IsOptional()
+  @IsUUID()
+  before?: string;
+}
+
 export class StartExerciseSessionRequestDto {
   @IsUUID('7')
   enrollmentId!: string;

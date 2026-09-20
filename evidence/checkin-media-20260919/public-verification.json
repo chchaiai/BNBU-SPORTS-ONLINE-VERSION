@@ -1,0 +1,13 @@
+{
+  "js/api.js": {
+    "sha256": "61a37dd121c271ae33d28515f499e922f72f1d842f493686e97676bcada018a7",
+    "cacheControl": "no-store"
+  },
+  "js/screens/checkin.js": {
+    "sha256": "c260a3b82902d9452a2b515a2fdd895f0a1177ad10e2eb2a8cdf8bc69b22e9cb",
+    "cacheControl": "no-store"
+  },
+  "result": "PASS",
+  "readiness": "PASS",
+  "unauthenticatedContextStatus": 401
+}

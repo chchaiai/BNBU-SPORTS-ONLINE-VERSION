@@ -1,0 +1,23 @@
+{
+  "result": "PASS",
+  "environment": "LOCAL_HTTP_POSTGRESQL_SYNTHETIC",
+  "results": [
+    {
+      "moduleFailure": false,
+      "initialWorkspaceLoaded": true,
+      "records": 1,
+      "freshBrowser": true,
+      "clearedStorage": true,
+      "failedReadRetry": true
+    },
+    {
+      "moduleFailure": true,
+      "initialWorkspaceLoaded": true,
+      "records": 1,
+      "freshBrowser": true,
+      "clearedStorage": true,
+      "failedReadRetry": true
+    }
+  ],
+  "browserErrors": []
+}

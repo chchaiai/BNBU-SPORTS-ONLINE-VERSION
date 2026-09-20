@@ -1,0 +1,17 @@
+{
+  "result": "PASS",
+  "release": "/opt/bnbu-sports-production/releases/checkin-media-20260919",
+  "previous": "/opt/bnbu-sports-production/releases/record-history-20260918",
+  "image": "sha256:cd0376f41e5b2c440470500acf8e6990da42258b02d098b59a5d94d100f0aac1",
+  "healthAndStaticHashes": "PASS",
+  "backendHashes": "PASS",
+  "sites": [
+    "https://www.student.bnbusports.cn/student/",
+    "https://www.student.bnbusports.cn/api/v1/health/ready",
+    "https://www.teacher.bnbusports.cn/",
+    "https://bnbusports.cn/"
+  ],
+  "migrationExecuted": false,
+  "realStudentBusinessWrites": 0,
+  "rollbackAvailable": true
+}

@@ -1,0 +1,21 @@
+{
+  "result": "PASS",
+  "previous": "/opt/bnbu-sports-production/releases/checkin-media-20260919",
+  "release": "/opt/bnbu-sports-production/releases/roster-xls-20260920",
+  "images": {
+    "backend": "sha256:29d8612b0e63e4adc2820dd4027f7e905f8fa9b0c894a4f262b67c33166c8a8b",
+    "portal": "sha256:efb95aeacd93c1265458efc7a4fb4260463433977f5d9dd9c50e61f1f531d75a",
+    "migrator": "sha256:4f5c84aa7dcd7441607e11367404f89baaf6b5d2be7961fb85648ccd741e0591"
+  },
+  "backup": {
+    "check": "PRE_RELEASE_DATABASE_BACKUP",
+    "result": "PASS",
+    "path": "/opt/bnbu-sports-production/backups/before-bugfix-20260920T015309Z.dump",
+    "bytes": 58665940
+  },
+  "migration": "0087_roster_xls",
+  "configurationAndBudgetUnchanged": true,
+  "runtimeHashes": 6,
+  "publicStudentHashes": 0,
+  "health": "PASS"
+}

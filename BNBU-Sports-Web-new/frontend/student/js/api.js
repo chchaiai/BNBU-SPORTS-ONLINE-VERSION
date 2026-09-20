@@ -391,7 +391,7 @@ function knownApiErrorMessage(error) {
     EXERCISE_RECORD_DURATION_NOT_CREDITABLE: tx("本次运动时长不足，不能计入打卡。", "This session is too short to be credited."),
     EXERCISE_RECORD_DAILY_LIMIT_REACHED: tx("今日打卡次数已达上限。", "You reached today's check-in limit."),
     EXERCISE_RECORD_DUPLICATE_SUBMISSION: tx("该打卡已提交，请勿重复提交。", "This record was already submitted."),
-    EXERCISE_RECORD_MEDIA_INCOMPLETE: tx("凭证尚未处理完成，请稍后再提交。", "The proof is still processing. Try submitting again shortly."),
+    EXERCISE_RECORD_MEDIA_INCOMPLETE: tx("本机凭证与服务器记录不一致，请重试以恢复已上传凭证。", "Local proof differs from the server record. Retry to recover uploaded proof."),
     EXERCISE_RECORD_NOT_FOUND: tx("打卡记录不存在。", "The check-in record was not found."),
     EXERCISE_RECORD_ALREADY_EXISTS_FOR_SESSION: tx("本次运动已创建过打卡记录。", "A record already exists for this session."),
     MEDIA_EVIDENCE_REQUIRED: tx("请至少上传一项打卡凭证。", "At least one proof item is required."),
@@ -1130,6 +1130,25 @@ export const listMyEnrollments = () => listAllCursorPages("/enrollments");
 export const listMyClassSections = () => listAllCursorPages("/class-sections");
 export const getCourseById = (courseId) => request(`/courses/${courseId}`);
 export const getTeacherById = (teacherId) => request(`/teachers/${encodeURIComponent(teacherId)}`);
+export async function listMyRecordPage(cursor = null) {
+  const path = '/exercise-records?limit=50&sort=-businessDate';
+  const seen = new Set();
+  // Drafts share this collection. A page containing only drafts must not hide
+  // submitted history further back in the student's server-side timeline.
+  for (let index = 0; index < CURSOR_PAGE_LIMIT; index += 1) {
+    if (seen.has(cursor)) throw new ApiError(502, { code: 'INVALID_SUCCESS_RESPONSE' });
+    seen.add(cursor);
+    const page = await request(cursor ? withCursor(path, cursor) : path, { includeMeta: true });
+    const next = page?.meta?.pagination?.nextCursor;
+    if (!Array.isArray(page?.data) || (next !== null && (typeof next !== 'string' || !next))) {
+      throw invalidSuccessResponse(page, path, 'GET');
+    }
+    if (page.data.some(record => ['SUBMITTED', 'REVIEWED'].includes(record.status)) || !next) return page;
+    cursor = next;
+  }
+  throw new Error('API_PAGINATION_LIMIT_EXCEEDED');
+}
+export const listMyNotificationPage = (cursor = null) => request(cursor ? withCursor('/notifications?limit=50',cursor) : '/notifications?limit=50',{includeMeta:true});
 export const listMyRecords = () => listAllCursorPages("/exercise-records?limit=50&sort=-businessDate");
 export const getRecordEvidenceContext = (recordId) =>
   request(`/exercise-records/${recordId}/evidence-context`);
@@ -1138,6 +1157,7 @@ export const listMyScores = () => Promise.resolve([]);
 export const listMyStudentProgress = () => listAllCursorPages("/student-progress?limit=100");
 export const getClassProgressTarget = (classSectionId) =>
   request(`/class-sections/${encodeURIComponent(classSectionId)}/progress-target`);
+export const listRecoverableSessions = (before = null) => request(`/exercise-sessions/recoverable${before ? `?before=${encodeURIComponent(before)}` : ""}`);
 export const getActiveSession = () => request("/exercise-sessions/active");
 export const listMyActivityCertificationApplications = () =>
   listAllCursorPages("/activity-certification-applications?limit=100");
@@ -1409,16 +1429,46 @@ export function applyMediaVerificationState(draft, media) {
   return status;
 }
 
-export async function uploadMediaDraft(serverSessionId, draft, blob, { prepareOnly = false, onProgress = () => {} } = {}) {
+export async function reconcileRecordDraftMedia(recordId, sessionId, drafts) {
+  const context = await getRecordEvidenceContext(recordId);
+  if (context.sessionId !== sessionId) throw new ApiError(409, {code:'MEDIA_BIND_TARGET_INVALID'});
+  const result = [...drafts], hashes = new Map();
+  let restored = 0;
+  for (const id of context.mediaIds) {
+    const media = await request(`/media/${id}`);
+    if (media.sessionId !== sessionId || media.businessPurpose !== 'EXERCISE_RECORD' || media.uploadStatus !== 'AVAILABLE') {
+      throw new ApiError(409, {code:'MEDIA_NOT_AVAILABLE'});
+    }
+    let draft = result.find(d => d.mediaId === id || d.pendingUpload?.initiated?.mediaId === id);
+    if (!draft && media.declaredContentSha256) {
+      for (const candidate of result.filter(d => !d.mediaId && d.blob instanceof Blob)) {
+        if (!hashes.has(candidate)) hashes.set(candidate, await sha256Hex(candidate.blob));
+        if (hashes.get(candidate) === media.declaredContentSha256 &&
+            candidate.blob.size === media.declaredFileSizeBytes &&
+            (candidate.type === 'video' ? 'VIDEO' : 'IMAGE') === media.mediaType) { draft = candidate; break; }
+      }
+    }
+    if (!draft) {
+      draft = {id:`server-${id}`, serverOnly:true, type:media.mediaType === 'VIDEO' ? 'video' : 'image',
+        fileName:tx('已上传凭证', 'Uploaded proof'), byteCount:media.verifiedFileSizeBytes ?? media.declaredFileSizeBytes,
+        durationSeconds:media.verifiedDurationSeconds ?? media.declaredDurationSeconds, url:''};
+      result.push(draft); restored++;
+    }
+    applyMediaVerificationState(draft, media);
+  }
+  return {drafts:result, restored};
+}
+
+export async function uploadMediaDraft(serverSessionId, draft, blob, { prepareOnly = false, onProgress = () => {}, onCheckpoint = async () => {} } = {}) {
   try {
-    return await uploadMediaDraftWithProgress(serverSessionId, draft, blob, {prepareOnly, onProgress});
+    return await uploadMediaDraftWithProgress(serverSessionId, draft, blob, {prepareOnly, onProgress, onCheckpoint});
   } catch (error) {
     onProgress({phase: error?.code === 'MEDIA_VERIFICATION_INCOMPLETE' ? 'PROCESSING' : 'FAILED'});
     throw error;
   }
 }
 
-async function uploadMediaDraftWithProgress(serverSessionId, draft, blob, {prepareOnly, onProgress}) {
+async function uploadMediaDraftWithProgress(serverSessionId, draft, blob, {prepareOnly, onProgress, onCheckpoint}) {
   onProgress({phase:'READING'});
   draft.swimLocked = false; // Legacy intake locks no longer govern submissions.
   const isVideo = draft.type === "video";
@@ -1441,7 +1491,9 @@ async function uploadMediaDraftWithProgress(serverSessionId, draft, blob, {prepa
 
   if (!draft.pendingUpload) {
     draft.initiateIdempotencyKey ||= uuid();
-    const initiate = () => request("/media-uploads", {
+    const initiate = async () => {
+      await onCheckpoint(draft);
+      return request("/media-uploads", {
       method: "POST",
       headers: { "Idempotency-Key": draft.initiateIdempotencyKey },
       body: {
@@ -1454,7 +1506,8 @@ async function uploadMediaDraftWithProgress(serverSessionId, draft, blob, {prepa
         declaredContentSha256,
         durationSeconds: isVideo ? verdict.durationSeconds : null,
       },
-    });
+      });
+    };
     let initiated;
     try { initiated = await initiate(); }
     catch (error) {
@@ -1477,6 +1530,7 @@ async function uploadMediaDraftWithProgress(serverSessionId, draft, blob, {prepa
       confirmIdempotencyKey: uuid(),
       bindIdempotencyKey: uuid(),
     };
+    await onCheckpoint(draft);
   }
 
   if (prepareOnly) return { mediaId: draft.pendingUpload.initiated.mediaId };
@@ -1499,6 +1553,7 @@ async function uploadMediaDraftWithProgress(serverSessionId, draft, blob, {prepa
         });
       }
       pending.objectUploaded = true;
+      await onCheckpoint(draft);
     }
 
     if (!pending.confirmed) {
@@ -1508,6 +1563,7 @@ async function uploadMediaDraftWithProgress(serverSessionId, draft, blob, {prepa
         headers: { "Idempotency-Key": pending.confirmIdempotencyKey },
         body: { etag: pending.etag },
       });
+      await onCheckpoint(draft);
     }
 
     if (!pending.bound) {
@@ -1517,6 +1573,7 @@ async function uploadMediaDraftWithProgress(serverSessionId, draft, blob, {prepa
         body: { sessionId: serverSessionId, expectedVersion: pending.confirmed.version },
       });
       pending.bound = true;
+      await onCheckpoint(draft);
     }
   } catch (error) {
     if (!draft.swimLocked && error instanceof ApiError && (["MEDIA_UPLOAD_SESSION_EXPIRED", "MEDIA_INTEGRITY_MISMATCH", "MEDIA_VIDEO_DURATION_EXCEEDED", "MEDIA_AUDIO_TRACK_REQUIRED", "MEDIA_LOCATION_METADATA_NOT_ALLOWED"].includes(error.code) || (error.code === "MEDIA_UPLOAD_FAILED" && error.status === 403))) {
@@ -1535,6 +1592,7 @@ async function uploadMediaDraftWithProgress(serverSessionId, draft, blob, {prepa
     if (verificationStatus === "AVAILABLE") {
       onProgress({phase:'SUCCESS'});
       draft.mediaId ||= initiated.mediaId;
+      await onCheckpoint(draft);
       return { mediaId: initiated.mediaId, media: current };
     }
     if (verificationStatus === "FAILED") {
@@ -2160,27 +2218,36 @@ export async function loadApiWorkspace(preloadedIdentity = null) {
   const identity = preloadedIdentity || (await loadApiStudentIdentity());
   const { me, profile } = identity;
 
+  const moduleErrors = [];
+  const optionalModule = (name, promise, fallback) => promise.catch(error => {
+    if (error?.status === 401 || error?.status === 403) throw error;
+    moduleErrors.push(name); return fallback;
+  });
   const optionalNotFound = (promise) => promise.catch((error) => {
     if (error instanceof ApiError && error.status === 404) return null;
     throw error;
   });
   const optionalCapability = (promise) => promise.catch((error) => {
-    if (error instanceof ApiError && [404, 501, 503].includes(error.status)) return null;
+    if (error instanceof ApiError && [404, 501].includes(error.status)) return null;
     throw error;
   });
-  const [semester, enrollments, sections, records, scores, studentProgressRows, activeSession, exemptions, activityCertifications, notifications] = await Promise.all([
+  const [semester, enrollments, sections, recordPage, scores, studentProgressRows, activeSession, exemptions, activityCertifications, notificationPage] = await Promise.all([
     optionalNotFound(getCurrentSemester()),
     listMyEnrollments(),
     listMyClassSections(),
-    listMyRecords(),
-    listMyScores(),
+    listMyRecordPage(),
+    optionalModule(tx("成绩", "Scores"), listMyScores(), []),
     optionalCapability(listMyStudentProgress()),
     optionalNotFound(getActiveSession()),
     listMyStructuredExemptionApplications(),
     optionalNotFound(listMyActivityCertificationApplications()),
-    listMyNotifications(),
+    optionalModule(tx("通知", "Notifications"), listMyNotificationPage(), {data:[],meta:{}}),
   ]);
 
+  const records = studentProgressRows === null ? await listMyRecords() : recordPage.data;
+  const notifications = notificationPage.data;
+  const recovery = await optionalModule(tx("待提交运动", "Unfinished sessions"),
+    listRecoverableSessions(), { items: [], nextCursor: null });
   const joinContext = readJoinContext();
   const activeEnrollments = enrollments.filter((e) => e.status === "ACTIVE");
   const courseCache = {};
@@ -2258,7 +2325,7 @@ export async function loadApiWorkspace(preloadedIdentity = null) {
     sections.some((section) => section.id === enrollment.classSectionId && section.semesterId === semester?.id),
   );
   const currentSection = sections.find((section) => section.id === currentEnrollment?.classSectionId) || null;
-  const physicalResult = currentEnrollment ? await getOwnPhysicalResult(currentEnrollment.id) : { status: 'NOT_RECORDED', result: null };
+  const physicalResult = currentEnrollment ? await optionalModule(tx("体测", "Physical results"), getOwnPhysicalResult(currentEnrollment.id), {status:"UNAVAILABLE",result:null}) : { status: 'NOT_RECORDED', result: null };
   const currentStudentProgress = selectCurrentStudentProgress(
     studentProgressRows || [],
     currentEnrollment,
@@ -2320,6 +2387,9 @@ export async function loadApiWorkspace(preloadedIdentity = null) {
 
   return {
     workspace: {
+      recordNextCursor:studentProgressRows === null ? null : recordPage.meta?.pagination?.nextCursor ?? null,
+      notificationNextCursor:notificationPage.meta?.pagination?.nextCursor ?? null,
+      moduleErrors, recoverableSessions: recovery.items, recoveryNextCursor: recovery.nextCursor,
       student: { ...mapServerStudent(me, profile, semester, deriveStudentStatus(activeEnrollments)),
         className: currentSection?.displayName || currentSection?.classCode || "",
       },

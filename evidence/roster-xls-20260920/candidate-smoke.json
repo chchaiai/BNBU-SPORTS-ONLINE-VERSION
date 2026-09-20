@@ -1,0 +1,13 @@
+{
+  "result": "PASS",
+  "formats": [
+    "CSV",
+    "XLSX",
+    "XLS"
+  ],
+  "originalBytes": true,
+  "workerParsing": true,
+  "leadingZero": true,
+  "chinese": true,
+  "productionWrites": 0
+}
