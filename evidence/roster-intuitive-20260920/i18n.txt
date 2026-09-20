@@ -1,0 +1,53 @@
+✖ keeps translation resources unique and covers all static system text (137.1354ms)
+✔ keeps portals, accessibility attributes, enum labels, and reverse switching in the i18n boundary (4.53ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 1
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 827.7561
+
+✖ failing tests:
+
+test at tests\i18n-resources.test.mjs:71:1
+✖ keeps translation resources unique and covers all static system text (137.1354ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+
+  + [
+  +   'app/course-history-settings.tsx:20 单次补录最多时长（分钟）',
+  +   'app/course-history-settings.tsx:20 可设置 1–1440 分钟；不得低于课程最低运动时长。补录仍须教师审核。',
+  +   'app/portal-app.tsx:184 问题反馈',
+  +   'app/portal-app.tsx:188 学生打卡记录',
+  +   'app/portal-app.tsx:194 问题反馈',
+  +   'app/portal-app.tsx:226 问题反馈',
+  +   'app/portal-app.tsx:226 服务与支持',
+  +   'app/portal-app.tsx:226 向管理员反馈问题，上传附件并查看处理回复。',
+  +   'app/portal-app.tsx:258 学生打卡记录',
+  +   'app/portal-app.tsx:258 全组织查询',
+  +   'app/portal-app.tsx:258 查询本组织所有学生的打卡、审核结果与原始凭证。',
+  +   'app/portal-app.tsx:287 问题反馈',
+  +   'app/portal-app.tsx:318 向管理员反馈问题，上传附件并查看处理回复。',
+  +   'app/teacher-workspace.tsx:3810 AI 抽查建议筛选',
+  +   'app/teacher-workspace.tsx:3810 AI 抽查建议筛选',
+  +   'app/teacher-workspace.tsx:3815 未抽查 / 暂不可用',
+  +   'app/teacher-workspace.tsx:3820 普通打卡提交默认有效；AI 随机抽查仅提供建议，不扣除学时。历史补录须教师审核；退回补证和判无效需选择公开原因。',
+  +   'app/teacher-workspace.tsx:3981 审核下一个同学 →',
+  +   'app/teacher-workspace.tsx:3989 AI 抽查建议筛选',
+  +   'app/teacher-workspace.tsx:3989 AI 抽查建议筛选',
+  +   'app/teacher-workspace.tsx:3992 未抽查 / 暂不可用'
+  + ]
+  - []
+
+      at TestContext.<anonymous> (file:///C:/Users/23328/Desktop/new_version/BNBU-Sports-Web-new/portal-teacher-admin/tests/i18n-resources.test.mjs:105:10)
+      at async Test.run (node:internal/test_runner/test:1110:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:358:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: [ 'app/course-history-settings.tsx:20 单次补录最多时长（分钟）', 'app/course-history-settings.tsx:20 可设置 1–1440 分钟；不得低于课程最低运动时长。补录仍须教师审核。', 'app/portal-app.tsx:184 问题反馈', 'app/portal-app.tsx:188 学生打卡记录', 'app/portal-app.tsx:194 问题反馈', 'app/portal-app.tsx:226 问题反馈', 'app/portal-app.tsx:226 服务与支持', 'app/portal-app.tsx:226 向管理员反馈问题，上传附件并查看处理回复。', 'app/portal-app.tsx:258 学生打卡记录', 'app/portal-app.tsx:258 全组织查询', 'app/portal-app.tsx:258 查询本组织所有学生的打卡、审核结果与原始凭证。', 'app/portal-app.tsx:287 问题反馈', 'app/portal-app.tsx:318 向管理员反馈问题，上传附件并查看处理回复。', 'app/teacher-workspace.tsx:3810 AI 抽查建议筛选', 'app/teacher-workspace.tsx:3810 AI 抽查建议筛选', 'app/teacher-workspace.tsx:3815 未抽查 / 暂不可用', 'app/teacher-workspace.tsx:3820 普通打卡提交默认有效；AI 随机抽查仅提供建议，不扣除学时。历史补录须教师审核；退回补证和判无效需选择公开原因。', 'app/teacher-workspace.tsx:3981 审核下一个同学 →', 'app/teacher-workspace.tsx:3989 AI 抽查建议筛选', 'app/teacher-workspace.tsx:3989 AI 抽查建议筛选', 'app/teacher-workspace.tsx:3992 未抽查 / 暂不可用' ],
+    expected: [],
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }

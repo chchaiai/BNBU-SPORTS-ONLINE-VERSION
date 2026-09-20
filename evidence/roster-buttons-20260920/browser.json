@@ -1,0 +1,13 @@
+{
+  "result": "PASS",
+  "environment": "LOCAL_BROWSER_HTTP_POSTGRES",
+  "automaticCheck": true,
+  "missingAndWrongClassVisible": true,
+  "identityConflictSeparate": true,
+  "joinedRefresh": true,
+  "uploadRequests": 2,
+  "repeatImportRefreshed": true,
+  "fourButtons": true,
+  "mobileNoPageOverflow": true,
+  "browserErrors": []
+}

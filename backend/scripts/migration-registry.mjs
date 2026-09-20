@@ -86,4 +86,5 @@ export const migrationIds = [
   '0084_ai_review_decisions',
   '0085_history_duration_limit',
   '0086_feedback_attachments',
+  '0087_roster_xls',
 ];

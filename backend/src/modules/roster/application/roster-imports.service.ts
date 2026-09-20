@@ -267,7 +267,7 @@ export class RosterImportsService {
     let parsed: ParsedRosterCsv | null = null;
     let failureCategory: string | null = null;
     try {
-      parsed = reservation.value.sourceFormat === 'XLSX' ? await this.csv.parseStoredXlsx({
+      parsed = ['XLSX', 'XLS'].includes(reservation.value.sourceFormat ?? '') ? await this.csv.parseStoredXlsx({
         sourceFileStorageKey: reservation.value.sourceFileStorageKey,
         expectedSha256: reservation.value.fileChecksumSha256,
         sheetName: reservation.value.sourceSheet ?? '',

@@ -1,0 +1,822 @@
+
+> bnbu-pe-management-portal@0.1.0 lint
+> eslint . --ignore-pattern dist --ignore-pattern .next
+
+
+C:\Users\23328\Desktop\new_version\BNBU-Sports-Web-new\portal-teacher-admin\app\admin-checkins.tsx
+  11:31  error  Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+C:\Users\23328\Desktop\new_version\BNBU-Sports-Web-new\portal-teacher-admin\app\admin-checkins.tsx:11:31
+   9 |  const zh=locale==='zh';const [rows,setRows]=useState<RecordRow[]>([]),[search,setSearch]=useState(''),[query,setQuery]=useState(''),[from,setFrom]=useState(''),[to,setTo]=useState('');
+  10 |  const [cursor,setCursor]=useState<string|undefined>(),[history,setHistory]=useState<(string|undefined)[]>([]),[next,setNext]=useState<string|null>(null),[busy,setBusy]=useState(false),[error,setError]=useState(''),[open,setOpen]=useState<string|null>(null);
+> 11 |  useEffect(()=>{let live=true;setBusy(true);setError('');setOpen(null);const p=new URLSearchParams({limit:'25',sort:'-businessDate'});if(query)p.set('q',query);if(from)p.set('businessDateFrom',from);if(to)p.set('businessDateTo',to);if(cursor)p.set('cursor',cursor);
+     |                               ^^^^^^^ Avoid calling setState() directly within an effect
+  12 |  void requestWithMeta<RecordRow[]>(`/exercise-records?${p}`).then(result=>{if(live){setRows(result.data);setNext(result.meta.pagination?.nextCursor??null);}}).catch(e=>{if(live){setRows([]);setError(formatUserFacingError(e));}}).finally(()=>{if(live)setBusy(false);});return()=>{live=false;};},[query,from,to,cursor]);
+  13 |  const reset=()=>{setCursor(undefined);setHistory([]);};
+  14 |  const labels:Record<string,string>={VALID:zh?'有效':'Valid',INVALID:zh?'无效':'Invalid',PENDING:zh?'待教师审核':'Pending review',DRAFT:zh?'草稿':'Draft'};  react-hooks/set-state-in-effect
+
+C:\Users\23328\Desktop\new_version\BNBU-Sports-Web-new\portal-teacher-admin\app\admin-courses.tsx
+  179:61  error  Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+C:\Users\23328\Desktop\new_version\BNBU-Sports-Web-new\portal-teacher-admin\app\admin-courses.tsx:179:61
+  177 |     if(mode!=='real'||notificationTarget?.targetType!=='CLASS_SECTION'||loading||error||openedNotification.current===notificationTarget)return;
+  178 |     openedNotification.current=notificationTarget;setTargetError(null);setExpandedId(null);setQuery('');setStatus('all');
+> 179 |     if(rows.some(row=>row.id===notificationTarget.targetId))setExpandedId(notificationTarget.targetId);
+      |                                                             ^^^^^^^^^^^^^ Avoid calling setState() directly within an effect
+  180 |     else setTargetError({...localUserFacingError(locale==='zh'?'相关课程不在当前可查看目录中，可能已关闭、归档或无权查看。':'This course is outside the current directory; it may be closed, archived or inaccessible.',locale),title:locale==='zh'?'无法定位课程':'Course unavailable',action:locale==='zh'?'刷新目录后重试。':'Refresh the directory and retry.'});
+  181 |   },[notificationTarget,loading,error,rows,mode,locale]);
+  182 |   useEffect(()=>{  react-hooks/set-state-in-effect
+
+C:\Users\23328\Desktop\new_version\BNBU-Sports-Web-new\portal-teacher-admin\app\admin-help.tsx
+  119:5    error  Error: Cannot access variable before it is declared
+
+`setEditing` is accessed before it is declared, which prevents the earlier access from updating when this value changes over time.
+
+C:\Users\23328\Desktop\new_version\BNBU-Sports-Web-new\portal-teacher-admin\app\admin-help.tsx:119:5
+  117 |     pendingStorage.current = raw;
+  118 |     setRecoveredInput(saved.input);
+> 119 |     setEditing(saved.editing); setTransition(saved.transition); setUnresolved(true);
+      |     ^^^^^^^^^^ `setEditing` accessed before it is declared
+  120 |     setRealError(locale === 'zh' ? '已恢复未确认的提交，请按原内容重试。' : 'An unconfirmed submission was restored. Retry the original content.');
+  121 |   }).catch(failure => setRealError(adminApiErrorText(failure, locale))); }, [mode, locale]);
+  122 |   const realSave = async (input: HelpArticleInput) => {
+
+C:\Users\23328\Desktop\new_version\BNBU-Sports-Web-new\portal-teacher-admin\app\admin-help.tsx:161:19
+  159 |   const [categoryFilter, setCategoryFilter] = useState("all");
+  160 |   const [page, setPage] = useState(1);
+> 161 |   const [editing, setEditing] = useState<HelpArticle | "new" | null>(null);
+      |                   ^^^^^^^^^^ `setEditing` is declared here
+  162 |   const [transition, setTransition] = useState<{ article: HelpArticle; nextStatus: "published" | "archived" } | null>(null);
+  163 |   if (!state) return null;
+  164 |   const query = search.trim().toLowerCase();                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       react-hooks/immutability
+  119:32   error  Error: Cannot access variable before it is declared
+
+`setTransition` is accessed before it is declared, which prevents the earlier access from updating when this value changes over time.
+
+C:\Users\23328\Desktop\new_version\BNBU-Sports-Web-new\portal-teacher-admin\app\admin-help.tsx:119:32
+  117 |     pendingStorage.current = raw;
+  118 |     setRecoveredInput(saved.input);
+> 119 |     setEditing(saved.editing); setTransition(saved.transition); setUnresolved(true);
+      |                                ^^^^^^^^^^^^^ `setTransition` accessed before it is declared
+  120 |     setRealError(locale === 'zh' ? '已恢复未确认的提交，请按原内容重试。' : 'An unconfirmed submission was restored. Retry the original content.');
+  121 |   }).catch(failure => setRealError(adminApiErrorText(failure, locale))); }, [mode, locale]);
+  122 |   const realSave = async (input: HelpArticleInput) => {
+
+C:\Users\23328\Desktop\new_version\BNBU-Sports-Web-new\portal-teacher-admin\app\admin-help.tsx:162:22
+  160 |   const [page, setPage] = useState(1);
+  161 |   const [editing, setEditing] = useState<HelpArticle | "new" | null>(null);
+> 162 |   const [transition, setTransition] = useState<{ article: HelpArticle; nextStatus: "published" | "archived" } | null>(null);
+      |                      ^^^^^^^^^^^^^ `setTransition` is declared here
+  163 |   if (!state) return null;
+  164 |   const query = search.trim().toLowerCase();
+  165 |   const articles = mode === 'real' ? realRows : state.helpArticles;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    react-hooks/immutability
+  203:185  error  Error: Cannot access refs during render
+
+React refs are values that are not needed for rendering. Refs should only be accessed outside of render, such as in event handlers or effects. Accessing a ref value (the `current` property) during render can cause your component not to update as expected (https://react.dev/reference/react/useRef).
+
+C:\Users\23328\Desktop\new_version\BNBU-Sports-Web-new\portal-teacher-admin\app\admin-help.tsx:203:185
+  201 |         <AdminPagination locale={locale} page={paged.page} totalPages={paged.totalPages} total={paged.total} onPage={setPage} />
+  202 |       </section>
+> 203 |       {editing && <ArticleDialog locale={locale} article={editing === "new" ? undefined : editing} close={() => { if (!inFlight.current && !pending.current) setEditing(null); }} real={mode === 'real' ? { save: realSave, busy: realBusy, locked: unresolved || realBusy, error: realError, initial: recoveredInput, pendingStatus: pending.current?.body.status } : undefined} />}
+      |                                                                                                                                                                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Cannot access ref value during render
+  204 |       {transition && <AdminConfirm locale={locale} title={adminCopy(locale, transition.nextStatus === "published" ? "publish" : "take_offline")} description={transition.nextStatus === "published" ? adminCopy(locale, "help_audience") : adminCopy(locale, "article_archive_confirm")} close={() => { if (!inFlight.current && !pending.current) setTransition(null); }} confirm={() => void confirmTransition()} confirmLabel={adminCopy(locale, transition.nextStatus === "published" ? "publish" : "take_offline")} busy={realBusy || busyKey === transitionKey} danger={transition.nextStatus === "archived"}><div className="admin-confirm-object">{mode === 'real' && <AdminInlineError message={realError} />}<b>{locale === "en" ? transition.article.titleEn : transition.article.titleZh}</b><span>{adminLabel(locale, "helpStatus", transition.article.status)} → {adminLabel(locale, "helpStatus", transition.nextStatus)}</span></div></AdminConfirm>}
+  205 |     </div>
+  206 |   );  react-hooks/refs
+  203:327  error  Error: Cannot access refs during render
+
+React refs are values that are not needed for rendering. Refs should only be accessed outside of render, such as in event handlers or effects. Accessing a ref value (the `current` property) during render can cause your component not to update as expected (https://react.dev/reference/react/useRef).
+
+C:\Users\23328\Desktop\new_version\BNBU-Sports-Web-new\portal-teacher-admin\app\admin-help.tsx:203:327
+  201 |         <AdminPagination locale={locale} page={paged.page} totalPages={paged.totalPages} total={paged.total} onPage={setPage} />
+  202 |       </section>
+> 203 |       {editing && <ArticleDialog locale={locale} article={editing === "new" ? undefined : editing} close={() => { if (!inFlight.current && !pending.current) setEditing(null); }} real={mode === 'real' ? { save: realSave, busy: realBusy, locked: unresolved || realBusy, error: realError, initial: recoveredInput, pendingStatus: pending.current?.body.status } : undefined} />}
+      |                                                                                                                                                                                                                                                                                                                                       ^^^^^^^^^^^^^^^ Cannot access ref value during render
+  204 |       {transition && <AdminConfirm locale={locale} title={adminCopy(locale, transition.nextStatus === "published" ? "publish" : "take_offline")} description={transition.nextStatus === "published" ? adminCopy(locale, "help_audience") : adminCopy(locale, "article_archive_confirm")} close={() => { if (!inFlight.current && !pending.current) setTransition(null); }} confirm={() => void confirmTransition()} confirmLabel={adminCopy(locale, transition.nextStatus === "published" ? "publish" : "take_offline")} busy={realBusy || busyKey === transitionKey} danger={transition.nextStatus === "archived"}><div className="admin-confirm-object">{mode === 'real' && <AdminInlineError message={realError} />}<b>{locale === "en" ? transition.article.titleEn : transition.article.titleZh}</b><span>{adminLabel(locale, "helpStatus", transition.article.status)} → {adminLabel(locale, "helpStatus", transition.nextStatus)}</span></div></AdminConfirm>}
+  205 |     </div>
+  206 |   );                             react-hooks/refs
+  203:327  error  Error: Cannot access refs during render
+
+React refs are values that are not needed for rendering. Refs should only be accessed outside of render, such as in event handlers or effects. Accessing a ref value (the `current` property) during render can cause your component not to update as expected (https://react.dev/reference/react/useRef).
+
+C:\Users\23328\Desktop\new_version\BNBU-Sports-Web-new\portal-teacher-admin\app\admin-help.tsx:203:327
+  201 |         <AdminPagination locale={locale} page={paged.page} totalPages={paged.totalPages} total={paged.total} onPage={setPage} />
+  202 |       </section>
+> 203 |       {editing && <ArticleDialog locale={locale} article={editing === "new" ? undefined : editing} close={() => { if (!inFlight.current && !pending.current) setEditing(null); }} real={mode === 'real' ? { save: realSave, busy: realBusy, locked: unresolved || realBusy, error: realError, initial: recoveredInput, pendingStatus: pending.current?.body.status } : undefined} />}
+      |                                                                                                                                                                                                                                                                                                                                       ^^^^^^^^^^^^^^^^^^^^^ Cannot access ref value during render
+  204 |       {transition && <AdminConfirm locale={locale} title={adminCopy(locale, transition.nextStatus === "published" ? "publish" : "take_offline")} description={transition.nextStatus === "published" ? adminCopy(locale, "help_audience") : adminCopy(locale, "article_archive_confirm")} close={() => { if (!inFlight.current && !pending.current) setTransition(null); }} confirm={() => void confirmTransition()} confirmLabel={adminCopy(locale, transition.nextStatus === "published" ? "publish" : "take_offline")} busy={realBusy || busyKey === transitionKey} danger={transition.nextStatus === "archived"}><div className="admin-confirm-object">{mode === 'real' && <AdminInlineError message={realError} />}<b>{locale === "en" ? transition.article.titleEn : transition.article.titleZh}</b><span>{adminLabel(locale, "helpStatus", transition.article.status)} → {adminLabel(locale, "helpStatus", transition.nextStatus)}</span></div></AdminConfirm>}
+  205 |     </div>
+  206 |   );                       react-hooks/refs
+  203:327  error  Error: Cannot access refs during render
+
+React refs are values that are not needed for rendering. Refs should only be accessed outside of render, such as in event handlers or effects. Accessing a ref value (the `current` property) during render can cause your component not to update as expected (https://react.dev/reference/react/useRef).
+
+C:\Users\23328\Desktop\new_version\BNBU-Sports-Web-new\portal-teacher-admin\app\admin-help.tsx:203:327
+  201 |         <AdminPagination locale={locale} page={paged.page} totalPages={paged.totalPages} total={paged.total} onPage={setPage} />
+  202 |       </section>
+> 203 |       {editing && <ArticleDialog locale={locale} article={editing === "new" ? undefined : editing} close={() => { if (!inFlight.current && !pending.current) setEditing(null); }} real={mode === 'real' ? { save: realSave, busy: realBusy, locked: unresolved || realBusy, error: realError, initial: recoveredInput, pendingStatus: pending.current?.body.status } : undefined} />}
+      |                                                                                                                                                                                                                                                                                                                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Cannot access ref value during render
+  204 |       {transition && <AdminConfirm locale={locale} title={adminCopy(locale, transition.nextStatus === "published" ? "publish" : "take_offline")} description={transition.nextStatus === "published" ? adminCopy(locale, "help_audience") : adminCopy(locale, "article_archive_confirm")} close={() => { if (!inFlight.current && !pending.current) setTransition(null); }} confirm={() => void confirmTransition()} confirmLabel={adminCopy(locale, transition.nextStatus === "published" ? "publish" : "take_offline")} busy={realBusy || busyKey === transitionKey} danger={transition.nextStatus === "archived"}><div className="admin-confirm-object">{mode === 'real' && <AdminInlineError message={realError} />}<b>{locale === "en" ? transition.article.titleEn : transition.article.titleZh}</b><span>{adminLabel(locale, "helpStatus", transition.article.status)} → {adminLabel(locale, "helpStatus", transition.nextStatus)}</span></div></AdminConfirm>}
+  205 |     </div>
+  206 |   );                react-hooks/refs
+
+C:\Users\23328\Desktop\new_version\BNBU-Sports-Web-new\portal-teacher-admin\app\admin-outbox.tsx
+  20:5   error    Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+C:\Users\23328\Desktop\new_version\BNBU-Sports-Web-new\portal-teacher-admin\app\admin-outbox.tsx:20:5
+  18 |   useEffect(()=>{
+  19 |     const current=++sequence.current;
+> 20 |     setBusy(true);setError(null);
+     |     ^^^^^^^ Avoid calling setState() directly within an effect
+  21 |     const query=new URLSearchParams({limit:'25'});
+  22 |     if(status)query.set('status',status);if(eventType.trim())query.set('eventType',eventType.trim());if(cursor)query.set('cursor',cursor);
+  23 |     if(from)query.set('from',new Date(from).toISOString());if(to)query.set('to',new Date(to).toISOString());  react-hooks/set-state-in-effect
+  27:25  warning  The ref value 'sequence.current' will likely have changed by the time this effect cleanup function runs. If this ref points to a node rendered by React, copy 'sequence.current' to a variable inside the effect, and use that variable in the cleanup function                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                react-hooks/exhaustive-deps
+
+C:\Users\23328\Desktop\new_version\BNBU-Sports-Web-new\portal-teacher-admin\app\admin-review-services.tsx
+  17:70  error  Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+C:\Users\23328\Desktop\new_version\BNBU-Sports-Web-new\portal-teacher-admin\app\admin-review-services.tsx:17:70
+  15 |   const [error, setError] = useState<UserFacingError | null>(null);
+  16 |   const [message, setMessage] = useState('');
+> 17 |   useEffect(() => { try { const raw = sessionStorage.getItem(scope); setPending(raw ? JSON.parse(raw) : null); } catch { setPending(null); } }, [scope]);
+     |                                                                      ^^^^^^^^^^ Avoid calling setState() directly within an effect
+  18 |   async function save(path: string, body: Record<string, unknown>) {
+  19 |     if (busy) return;
+  20 |     setBusy(true); setError(null); setMessage('');                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     react-hooks/set-state-in-effect
+  39:23  error  Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+C:\Users\23328\Desktop\new_version\BNBU-Sports-Web-new\portal-teacher-admin\app\admin-review-services.tsx:39:23
+  37 |   const [minutes,setMinutes]=useState('1200'),[error,setError]=useState<UserFacingError|null>(null);
+  38 |   const reload=useCallback(async()=>{const data=await request<{totalTargetMinutes:number;version:number}>('/admin/exercise-goal');setCurrent(data);setMinutes(String(data.totalTargetMinutes));setError(null);},[]);
+> 39 |   useEffect(()=>{void reload().catch(f=>setError(toUserFacingError(f,locale)));},[reload,locale]);
+     |                       ^^^^^^ Avoid calling setState() directly within an effect
+  40 |   const mutation=useSave(`admin-exercise-goal:${userId}`,locale,reload);
+  41 |   return <section className="admin-surface admin-dialog-body" data-admin-form="exercise-goal">
+  42 |     <h2>{zh?'所有课程打卡总时长':'Exercise target for all courses'}</h2>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             react-hooks/set-state-in-effect
+  57:26  error  Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+C:\Users\23328\Desktop\new_version\BNBU-Sports-Web-new\portal-teacher-admin\app\admin-review-services.tsx:57:26
+  55 |   const [error, setError] = useState<UserFacingError | null>(null);
+  56 |   const reload = useCallback(async () => { setReady(false); const data = await request<{ items: { version: number; displayName: string }[] }>('/rule-templates?limit=1'); setCurrent(data.items[0] ?? null); setReady(true); setError(null); }, []);
+> 57 |   useEffect(() => { void reload().catch(f => setError(toUserFacingError(f, locale))); }, [reload, locale]);
+     |                          ^^^^^^ Avoid calling setState() directly within an effect
+  58 |   const mutation = useSave(`admin-template:${userId}`, locale, reload);
+  59 |   return <section className="admin-surface admin-dialog-body" data-admin-form="templates"><h2>{zh ? '统一运动模板' : 'Unified exercise template'}</h2>
+  60 |     <p>{zh ? '发布已确认运动规则的统一模板，教师选择发布版本用于课程。' : 'Publish the approved business rules for teachers to select for courses.'}</p>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    react-hooks/set-state-in-effect
+  77:40  error  Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+C:\Users\23328\Desktop\new_version\BNBU-Sports-Web-new\portal-teacher-admin\app\admin-review-services.tsx:77:40
+  75 |   useEffect(() => { void loadCourseDirectory().then(d => setCourses(d.rows)).catch(f => setError(toUserFacingError(f, locale))); }, [locale]);
+  76 |   const reload = useCallback(async () => { setCurrent(null); if (!id) return; const data = await request<Manual>(`/admin/review-services/manual-mode/${id}`); setCurrent(data); setEnabled(data.enabled); setReason(''); setError(null); }, [id]);
+> 77 |   useEffect(() => { let active = true; setCurrent(null); if (id) void request<Manual>(`/admin/review-services/manual-mode/${id}`).then(d => { if (active) { setCurrent(d); setEnabled(d.enabled); setReason(''); setError(null); } }).catch(f => { if (active) setError(toUserFacingError(f, locale)); }); return () => { active = false; }; }, [id, locale]);
+     |                                        ^^^^^^^^^^ Avoid calling setState() directly within an effect
+  78 |   const mutation = useSave(`admin-manual:${userId}`, locale, reload);
+  79 |   return <section className="admin-surface admin-dialog-body" data-admin-form="manual"><h2>{zh ? '课程人工审核' : 'Course manual review'}</h2><p>{zh ? 'AI 第一期仅提供初审建议，所有新提交均由责任教师最终决定。本设置用于将历史待 AI 或技术处理中记录转交教师，关闭不会阻止新提交的人工审核。' : 'AI provides advice only; responsible teachers decide all new submissions. This setting transfers historical AI-pending or technical records to teachers. Disabling it does not block manual review of new submissions.'}</p>
+  80 |     <form className="admin-form-grid" onSubmit={e => { e.preventDefault(); void mutation.save('/admin/review-services/manual-mode', { classSectionId: id, enabled, reason: reason.trim(), expectedVersion: current?.version ?? 0 }); }}>  react-hooks/set-state-in-effect
+  94:26  error  Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+C:\Users\23328\Desktop\new_version\BNBU-Sports-Web-new\portal-teacher-admin\app\admin-review-services.tsx:94:26
+  92 |   const [error, setError] = useState<UserFacingError | null>(null);
+  93 |   const reload = useCallback(async () => { const data = await request<Ocr>('/admin/review-services/ocr'); setCurrent(data); setConfig(data.configuration); setReason(''); setError(null); }, []);
+> 94 |   useEffect(() => { void reload().catch(f => setError(toUserFacingError(f, locale))); }, [reload, locale]);
+     |                          ^^^^^^ Avoid calling setState() directly within an effect
+  95 |   const mutation = useSave(`admin-ocr:${userId}`, locale, reload);
+  96 |   return <section className="admin-surface admin-dialog-body" data-admin-form="ocr"><h2>{zh ? 'OCR 识别服务' : 'OCR recognition service'}</h2><p>{zh ? '识别结果由教师确认。凭证使用 CVM 角色；云服务连通性须另行验证。' : 'Teachers confirm recognition results. Credentials use a CVM role; cloud connectivity requires verification.'}</p>
+  97 |     {current && <p>{zh ? '配置版本' : 'Configuration version'}: {current.configuration.version} · {zh ? '识别任务进程' : 'Worker'}: {current.runtimeWorkerEnabled ? (zh ? '已启用' : 'Enabled') : (zh ? '未启用' : 'Disabled')} · {zh ? '执行条件' : 'Execution prerequisites'}: {current.executionEnabled ? (zh ? '已满足，连通性未验证' : 'Met; connectivity unverified') : (zh ? '未满足' : 'Not met')}</p>}                                                                                                                                                                                                                                                                                                                                                                                                              react-hooks/set-state-in-effect
+
+C:\Users\23328\Desktop\new_version\BNBU-Sports-Web-new\portal-teacher-admin\app\admin-service.ts
+    4:3  warning  'GRADE_CORRECTION_TRANSITIONS' is defined but never used  @typescript-eslint/no-unused-vars
+    7:3  warning  'USER_TRANSITIONS' is defined but never used              @typescript-eslint/no-unused-vars
+   21:3  warning  'validateUserInput' is defined but never used             @typescript-eslint/no-unused-vars
+   33:8  warning  'AdminCourse' is defined but never used                   @typescript-eslint/no-unused-vars
+   41:8  warning  'GradeCorrectionStatus' is defined but never used         @typescript-eslint/no-unused-vars
+  830:6  warning  'ClassSectionTeacherReference' is defined but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\23328\Desktop\new_version\BNBU-Sports-Web-new\portal-teacher-admin\app\admin-student-bulk-deletion.tsx
+  27:3   error  Error: Cannot access refs during render
+
+React refs are values that are not needed for rendering. Refs should only be accessed outside of render, such as in event handlers or effects. Accessing a ref value (the `current` property) during render can cause your component not to update as expected (https://react.dev/reference/react/useRef).
+
+C:\Users\23328\Desktop\new_version\BNBU-Sports-Web-new\portal-teacher-admin\app\admin-student-bulk-deletion.tsx:27:3
+  25 |   const busyRef = useRef(false), stopRef = useRef(false);
+  26 |   const removedRef = useRef(removed);
+> 27 |   removedRef.current = removed;
+     |   ^^^^^^^^^^^^^^^^^^ Cannot update ref during render
+  28 |   const zh = locale === 'zh';
+  29 |   useEffect(() => {
+  30 |     mountedRef.current = true;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      react-hooks/refs
+  32:11  error  Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+C:\Users\23328\Desktop\new_version\BNBU-Sports-Web-new\portal-teacher-admin\app\admin-student-bulk-deletion.tsx:32:11
+  30 |     mountedRef.current = true;
+  31 |     stopRef.current = false;
+> 32 |     try { setBatch(readStudentDeletionBatch(sessionStorage.getItem(deletionJournalKey(ownerId)), ownerId)); }
+     |           ^^^^^^^^ Avoid calling setState() directly within an effect
+  33 |     catch { setStorageBlocked(true); }
+  34 |     setInitialized(true);
+  35 |     return () => { stopRef.current = true; mountedRef.current = false; };  react-hooks/set-state-in-effect
+
+C:\Users\23328\Desktop\new_version\BNBU-Sports-Web-new\portal-teacher-admin\app\admin-subadmins.tsx
+  7:20  warning  'toUserFacingError' is defined but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\23328\Desktop\new_version\BNBU-Sports-Web-new\portal-teacher-admin\app\admin-support.tsx
+  246:5   error  Error: Cannot access variable before it is declared
+
+`setLoadError` is accessed before it is declared, which prevents the earlier access from updating when this value changes over time.
+
+C:\Users\23328\Desktop\new_version\BNBU-Sports-Web-new\portal-teacher-admin\app\admin-support.tsx:246:5
+  244 |   };
+  245 |   const open = async (id: string) => {
+> 246 |     setLoadError("");
+      |     ^^^^^^^^^^^^ `setLoadError` accessed before it is declared
+  247 |     try {
+  248 |       if (intent.current) {
+  249 |         const pending = intent.current;
+
+C:\Users\23328\Desktop\new_version\BNBU-Sports-Web-new\portal-teacher-admin\app\admin-support.tsx:285:21
+  283 |   };
+  284 |   const [loading, setLoading] = useState(true);
+> 285 |   const [loadError, setLoadError] = useState("");
+      |                     ^^^^^^^^^^^^ `setLoadError` is declared here
+  286 |   const [categoryFilter, setCategoryFilter] = useState<TicketCategoryFilter>("all");
+  287 |   const [statusFilter, setStatusFilter] = useState("all");
+  288 |   const [search, setSearch] = useState("");                                                                                                                                                                                                                                                                                                                                                            react-hooks/immutability
+  259:62  error  Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+C:\Users\23328\Desktop\new_version\BNBU-Sports-Web-new\portal-teacher-admin\app\admin-support.tsx:259:62
+  257 |   useEffect(()=>{
+  258 |     if(notificationTarget?.targetType!=='FEEDBACK')return;
+> 259 |     let cancelled=false;const epoch=currentApiSessionEpoch();setSelected(null);setLoadError('');
+      |                                                              ^^^^^^^^^^^ Avoid calling setState() directly within an effect
+  260 |     void getAdminFeedback(notificationTarget.targetId).then(detail=>{
+  261 |       if(!cancelled&&epoch===currentApiSessionEpoch())setSelected(detail);
+  262 |     }).catch(failure=>{if(!cancelled&&epoch===currentApiSessionEpoch())setLoadError(adminApiErrorText(failure,locale));});  react-hooks/set-state-in-effect
+
+C:\Users\23328\Desktop\new_version\BNBU-Sports-Web-new\portal-teacher-admin\app\course-closure.tsx
+   3:66  warning  'toUserFacingError' is defined but never used                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             @typescript-eslint/no-unused-vars
+  13:43  error    Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+C:\Users\23328\Desktop\new_version\BNBU-Sports-Web-new\portal-teacher-admin\app\course-closure.tsx:13:43
+  11 |  const load=async()=>{setPending(sessionStorage.getItem(storageKey)!==null);const result=await request<Section>(path);if(valid()){setSection(result);setPending(sessionStorage.getItem(storageKey)!==null);}};
+  12 |  const run=async(action:()=>Promise<void>)=>{if(locked.current)return;locked.current=true;setBusy(true);setError('');try{await action();}catch(failure){if(valid())setError(formatUserFacingError(failure));}finally{locked.current=false;if(valid())setBusy(false);}};
+> 13 |  useEffect(()=>{mounted.current=true;void run(load);return()=>{mounted.current=false;};},[classSectionId]);
+     |                                           ^^^ Avoid calling setState() directly within an effect
+  14 |  const close=async()=>{
+  15 |   let intent:Intent;const stored=sessionStorage.getItem(storageKey);
+  16 |   if(stored){intent=JSON.parse(stored);if(!intent.key||!Number.isSafeInteger(intent.body?.expectedVersion)||intent.body.confirmCourseRetirement!==true||typeof intent.body.confirmationCourseName!=='string'||typeof intent.body.reason!=='string'||!intent.body.reason.trim()){setError('删除请求恢复记录异常，请联系管理员核查。');return;}}  react-hooks/set-state-in-effect
+  13:90  warning  React Hook useEffect has missing dependencies: 'load' and 'run'. Either include them or remove the dependency array                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       react-hooks/exhaustive-deps
+
+C:\Users\23328\Desktop\new_version\BNBU-Sports-Web-new\portal-teacher-admin\app\course-history-settings.tsx
+  4:17  warning  'toUserFacingError' is defined but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\23328\Desktop\new_version\BNBU-Sports-Web-new\portal-teacher-admin\app\course-name-settings.tsx
+   3:53   warning  'toUserFacingError' is defined but never used                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              @typescript-eslint/no-unused-vars
+  24:6    warning  React Hook useEffect has missing dependencies: 'path' and 'valid'. Either include them or remove the dependency array                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      react-hooks/exhaustive-deps
+  46:82   error    Error: Cannot access refs during render
+
+React refs are values that are not needed for rendering. Refs should only be accessed outside of render, such as in event handlers or effects. Accessing a ref value (the `current` property) during render can cause your component not to update as expected (https://react.dev/reference/react/useRef).
+
+C:\Users\23328\Desktop\new_version\BNBU-Sports-Web-new\portal-teacher-admin\app\course-name-settings.tsx:46:82
+  44 |     <h3>修改课程名称</h3>
+  45 |     <label htmlFor="course-name-edit">课程名称</label>
+> 46 |     <input id="course-name-edit" value={name} maxLength={200} disabled={busy || !!intent.current || !section || ['CLOSED','ARCHIVED'].includes(section.status)} onChange={event => setName(event.target.value)} />
+     |                                                                                  ^^^^^^^^^^^^^^^ Cannot access ref value during render
+  47 |     <button type="button" className="secondary-button" disabled={busy || !section || !name.trim() || (!intent.current && name.trim()===section.displayName) || ['CLOSED','ARCHIVED'].includes(section.status)} onClick={() => void save()}>{busy ? '正在保存…' : intent.current ? '重试保存名称' : '保存课程名称'}</button>
+  48 |     {message && <p role="status">{message}</p>}
+  49 |   </section>;                                                                                                                                                            react-hooks/refs
+  46:83   error    Error: Cannot access refs during render
+
+React refs are values that are not needed for rendering. Refs should only be accessed outside of render, such as in event handlers or effects. Accessing a ref value (the `current` property) during render can cause your component not to update as expected (https://react.dev/reference/react/useRef).
+
+C:\Users\23328\Desktop\new_version\BNBU-Sports-Web-new\portal-teacher-admin\app\course-name-settings.tsx:46:83
+  44 |     <h3>修改课程名称</h3>
+  45 |     <label htmlFor="course-name-edit">课程名称</label>
+> 46 |     <input id="course-name-edit" value={name} maxLength={200} disabled={busy || !!intent.current || !section || ['CLOSED','ARCHIVED'].includes(section.status)} onChange={event => setName(event.target.value)} />
+     |                                                                                   ^^^^^^^^^^^^^^ Cannot access ref value during render
+  47 |     <button type="button" className="secondary-button" disabled={busy || !section || !name.trim() || (!intent.current && name.trim()===section.displayName) || ['CLOSED','ARCHIVED'].includes(section.status)} onClick={() => void save()}>{busy ? '正在保存…' : intent.current ? '重试保存名称' : '保存课程名称'}</button>
+  48 |     {message && <p role="status">{message}</p>}
+  49 |   </section>;
+
+To initialize a ref only once, check that the ref is null with the pattern `if (ref.current == null) { ref.current = ... }`                               react-hooks/refs
+  47:66   error    Error: Cannot access refs during render
+
+React refs are values that are not needed for rendering. Refs should only be accessed outside of render, such as in event handlers or effects. Accessing a ref value (the `current` property) during render can cause your component not to update as expected (https://react.dev/reference/react/useRef).
+
+C:\Users\23328\Desktop\new_version\BNBU-Sports-Web-new\portal-teacher-admin\app\course-name-settings.tsx:47:66
+  45 |     <label htmlFor="course-name-edit">课程名称</label>
+  46 |     <input id="course-name-edit" value={name} maxLength={200} disabled={busy || !!intent.current || !section || ['CLOSED','ARCHIVED'].includes(section.status)} onChange={event => setName(event.target.value)} />
+> 47 |     <button type="button" className="secondary-button" disabled={busy || !section || !name.trim() || (!intent.current && name.trim()===section.displayName) || ['CLOSED','ARCHIVED'].includes(section.status)} onClick={() => void save()}>{busy ? '正在保存…' : intent.current ? '重试保存名称' : '保存课程名称'}</button>
+     |                                                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Cannot access ref value during render
+  48 |     {message && <p role="status">{message}</p>}
+  49 |   </section>;
+  50 | }                                                                                                                   react-hooks/refs
+  47:66   error    Error: Cannot access refs during render
+
+React refs are values that are not needed for rendering. Refs should only be accessed outside of render, such as in event handlers or effects. Accessing a ref value (the `current` property) during render can cause your component not to update as expected (https://react.dev/reference/react/useRef).
+
+C:\Users\23328\Desktop\new_version\BNBU-Sports-Web-new\portal-teacher-admin\app\course-name-settings.tsx:47:66
+  45 |     <label htmlFor="course-name-edit">课程名称</label>
+  46 |     <input id="course-name-edit" value={name} maxLength={200} disabled={busy || !!intent.current || !section || ['CLOSED','ARCHIVED'].includes(section.status)} onChange={event => setName(event.target.value)} />
+> 47 |     <button type="button" className="secondary-button" disabled={busy || !section || !name.trim() || (!intent.current && name.trim()===section.displayName) || ['CLOSED','ARCHIVED'].includes(section.status)} onClick={() => void save()}>{busy ? '正在保存…' : intent.current ? '重试保存名称' : '保存课程名称'}</button>
+     |                                                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Cannot access ref value during render
+  48 |     {message && <p role="status">{message}</p>}
+  49 |   </section>;
+  50 | }                                                                                                                   react-hooks/refs
+  47:66   error    Error: Cannot access refs during render
+
+React refs are values that are not needed for rendering. Refs should only be accessed outside of render, such as in event handlers or effects. Accessing a ref value (the `current` property) during render can cause your component not to update as expected (https://react.dev/reference/react/useRef).
+
+C:\Users\23328\Desktop\new_version\BNBU-Sports-Web-new\portal-teacher-admin\app\course-name-settings.tsx:47:66
+  45 |     <label htmlFor="course-name-edit">课程名称</label>
+  46 |     <input id="course-name-edit" value={name} maxLength={200} disabled={busy || !!intent.current || !section || ['CLOSED','ARCHIVED'].includes(section.status)} onChange={event => setName(event.target.value)} />
+> 47 |     <button type="button" className="secondary-button" disabled={busy || !section || !name.trim() || (!intent.current && name.trim()===section.displayName) || ['CLOSED','ARCHIVED'].includes(section.status)} onClick={() => void save()}>{busy ? '正在保存…' : intent.current ? '重试保存名称' : '保存课程名称'}</button>
+     |                                                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Cannot access ref value during render
+  48 |     {message && <p role="status">{message}</p>}
+  49 |   </section>;
+  50 | }                                                                                                                   react-hooks/refs
+  47:66   error    Error: Cannot access refs during render
+
+React refs are values that are not needed for rendering. Refs should only be accessed outside of render, such as in event handlers or effects. Accessing a ref value (the `current` property) during render can cause your component not to update as expected (https://react.dev/reference/react/useRef).
+
+C:\Users\23328\Desktop\new_version\BNBU-Sports-Web-new\portal-teacher-admin\app\course-name-settings.tsx:47:66
+  45 |     <label htmlFor="course-name-edit">课程名称</label>
+  46 |     <input id="course-name-edit" value={name} maxLength={200} disabled={busy || !!intent.current || !section || ['CLOSED','ARCHIVED'].includes(section.status)} onChange={event => setName(event.target.value)} />
+> 47 |     <button type="button" className="secondary-button" disabled={busy || !section || !name.trim() || (!intent.current && name.trim()===section.displayName) || ['CLOSED','ARCHIVED'].includes(section.status)} onClick={() => void save()}>{busy ? '正在保存…' : intent.current ? '重试保存名称' : '保存课程名称'}</button>
+     |                                                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Cannot access ref value during render
+  48 |     {message && <p role="status">{message}</p>}
+  49 |   </section>;
+  50 | }                                                                 react-hooks/refs
+  47:103  error    Error: Cannot access refs during render
+
+React refs are values that are not needed for rendering. Refs should only be accessed outside of render, such as in event handlers or effects. Accessing a ref value (the `current` property) during render can cause your component not to update as expected (https://react.dev/reference/react/useRef).
+
+C:\Users\23328\Desktop\new_version\BNBU-Sports-Web-new\portal-teacher-admin\app\course-name-settings.tsx:47:103
+  45 |     <label htmlFor="course-name-edit">课程名称</label>
+  46 |     <input id="course-name-edit" value={name} maxLength={200} disabled={busy || !!intent.current || !section || ['CLOSED','ARCHIVED'].includes(section.status)} onChange={event => setName(event.target.value)} />
+> 47 |     <button type="button" className="secondary-button" disabled={busy || !section || !name.trim() || (!intent.current && name.trim()===section.displayName) || ['CLOSED','ARCHIVED'].includes(section.status)} onClick={() => void save()}>{busy ? '正在保存…' : intent.current ? '重试保存名称' : '保存课程名称'}</button>
+     |                                                                                                       ^^^^^^^^^^^^^^^ Cannot access ref value during render
+  48 |     {message && <p role="status">{message}</p>}
+  49 |   </section>;
+  50 | }                                                                                                                                                        react-hooks/refs
+  47:103  error    Error: Cannot access refs during render
+
+React refs are values that are not needed for rendering. Refs should only be accessed outside of render, such as in event handlers or effects. Accessing a ref value (the `current` property) during render can cause your component not to update as expected (https://react.dev/reference/react/useRef).
+
+C:\Users\23328\Desktop\new_version\BNBU-Sports-Web-new\portal-teacher-admin\app\course-name-settings.tsx:47:103
+  45 |     <label htmlFor="course-name-edit">课程名称</label>
+  46 |     <input id="course-name-edit" value={name} maxLength={200} disabled={busy || !!intent.current || !section || ['CLOSED','ARCHIVED'].includes(section.status)} onChange={event => setName(event.target.value)} />
+> 47 |     <button type="button" className="secondary-button" disabled={busy || !section || !name.trim() || (!intent.current && name.trim()===section.displayName) || ['CLOSED','ARCHIVED'].includes(section.status)} onClick={() => void save()}>{busy ? '正在保存…' : intent.current ? '重试保存名称' : '保存课程名称'}</button>
+     |                                                                                                       ^^^^^^^^^^^^^^^ Cannot access ref value during render
+  48 |     {message && <p role="status">{message}</p>}
+  49 |   </section>;
+  50 | }                                                                                                                                                        react-hooks/refs
+  47:103  error    Error: Cannot access refs during render
+
+React refs are values that are not needed for rendering. Refs should only be accessed outside of render, such as in event handlers or effects. Accessing a ref value (the `current` property) during render can cause your component not to update as expected (https://react.dev/reference/react/useRef).
+
+C:\Users\23328\Desktop\new_version\BNBU-Sports-Web-new\portal-teacher-admin\app\course-name-settings.tsx:47:103
+  45 |     <label htmlFor="course-name-edit">课程名称</label>
+  46 |     <input id="course-name-edit" value={name} maxLength={200} disabled={busy || !!intent.current || !section || ['CLOSED','ARCHIVED'].includes(section.status)} onChange={event => setName(event.target.value)} />
+> 47 |     <button type="button" className="secondary-button" disabled={busy || !section || !name.trim() || (!intent.current && name.trim()===section.displayName) || ['CLOSED','ARCHIVED'].includes(section.status)} onClick={() => void save()}>{busy ? '正在保存…' : intent.current ? '重试保存名称' : '保存课程名称'}</button>
+     |                                                                                                       ^^^^^^^^^^^^^^^ Cannot access ref value during render
+  48 |     {message && <p role="status">{message}</p>}
+  49 |   </section>;
+  50 | }                                                                                                                                                        react-hooks/refs
+  47:103  error    Error: Cannot access refs during render
+
+React refs are values that are not needed for rendering. Refs should only be accessed outside of render, such as in event handlers or effects. Accessing a ref value (the `current` property) during render can cause your component not to update as expected (https://react.dev/reference/react/useRef).
+
+C:\Users\23328\Desktop\new_version\BNBU-Sports-Web-new\portal-teacher-admin\app\course-name-settings.tsx:47:103
+  45 |     <label htmlFor="course-name-edit">课程名称</label>
+  46 |     <input id="course-name-edit" value={name} maxLength={200} disabled={busy || !!intent.current || !section || ['CLOSED','ARCHIVED'].includes(section.status)} onChange={event => setName(event.target.value)} />
+> 47 |     <button type="button" className="secondary-button" disabled={busy || !section || !name.trim() || (!intent.current && name.trim()===section.displayName) || ['CLOSED','ARCHIVED'].includes(section.status)} onClick={() => void save()}>{busy ? '正在保存…' : intent.current ? '重试保存名称' : '保存课程名称'}</button>
+     |                                                                                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Cannot access ref value during render
+  48 |     {message && <p role="status">{message}</p>}
+  49 |   </section>;
+  50 | }                                                                                                                   react-hooks/refs
+  47:104  error    Error: Cannot access refs during render
+
+React refs are values that are not needed for rendering. Refs should only be accessed outside of render, such as in event handlers or effects. Accessing a ref value (the `current` property) during render can cause your component not to update as expected (https://react.dev/reference/react/useRef).
+
+C:\Users\23328\Desktop\new_version\BNBU-Sports-Web-new\portal-teacher-admin\app\course-name-settings.tsx:47:104
+  45 |     <label htmlFor="course-name-edit">课程名称</label>
+  46 |     <input id="course-name-edit" value={name} maxLength={200} disabled={busy || !!intent.current || !section || ['CLOSED','ARCHIVED'].includes(section.status)} onChange={event => setName(event.target.value)} />
+> 47 |     <button type="button" className="secondary-button" disabled={busy || !section || !name.trim() || (!intent.current && name.trim()===section.displayName) || ['CLOSED','ARCHIVED'].includes(section.status)} onClick={() => void save()}>{busy ? '正在保存…' : intent.current ? '重试保存名称' : '保存课程名称'}</button>
+     |                                                                                                        ^^^^^^^^^^^^^^ Cannot access ref value during render
+  48 |     {message && <p role="status">{message}</p>}
+  49 |   </section>;
+  50 | }
+
+To initialize a ref only once, check that the ref is null with the pattern `if (ref.current == null) { ref.current = ... }`                           react-hooks/refs
+  47:254  error    Error: Cannot access refs during render
+
+React refs are values that are not needed for rendering. Refs should only be accessed outside of render, such as in event handlers or effects. Accessing a ref value (the `current` property) during render can cause your component not to update as expected (https://react.dev/reference/react/useRef).
+
+C:\Users\23328\Desktop\new_version\BNBU-Sports-Web-new\portal-teacher-admin\app\course-name-settings.tsx:47:254
+  45 |     <label htmlFor="course-name-edit">课程名称</label>
+  46 |     <input id="course-name-edit" value={name} maxLength={200} disabled={busy || !!intent.current || !section || ['CLOSED','ARCHIVED'].includes(section.status)} onChange={event => setName(event.target.value)} />
+> 47 |     <button type="button" className="secondary-button" disabled={busy || !section || !name.trim() || (!intent.current && name.trim()===section.displayName) || ['CLOSED','ARCHIVED'].includes(section.status)} onClick={() => void save()}>{busy ? '正在保存…' : intent.current ? '重试保存名称' : '保存课程名称'}</button>
+     |                                                                                                                                                                                                                                                              ^^^^^^^^^^^^^^ Cannot access ref value during render
+  48 |     {message && <p role="status">{message}</p>}
+  49 |   </section>;
+  50 | }  react-hooks/refs
+
+C:\Users\23328\Desktop\new_version\BNBU-Sports-Web-new\portal-teacher-admin\app\course-settlement.tsx
+   5:61   warning  'toUserFacingError' is defined but never used                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  @typescript-eslint/no-unused-vars
+  76:47   error    Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+C:\Users\23328\Desktop\new_version\BNBU-Sports-Web-new\portal-teacher-admin\app\course-settlement.tsx:76:47
+  74 |     finally { if (valid()) setBusy(false); }
+  75 |   };
+> 76 |   useEffect(() => { live.current = true; void run(load); return () => { live.current = false; }; }, [classSectionId]); // Each course mounts its own state.
+     |                                               ^^^ Avoid calling setState() directly within an effect
+  77 |   const save = async () => {
+  78 |     const saved = sessionStorage.getItem(storageKey);
+  79 |     let intent: Intent;  react-hooks/set-state-in-effect
+  76:101  warning  React Hook useEffect has missing dependencies: 'load' and 'run'. Either include them or remove the dependency array                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            react-hooks/exhaustive-deps
+
+C:\Users\23328\Desktop\new_version\BNBU-Sports-Web-new\portal-teacher-admin\app\feedback-attachments.tsx
+  24:191  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             @next/next/no-img-element
+  46:69   error    Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+C:\Users\23328\Desktop\new_version\BNBU-Sports-Web-new\portal-teacher-admin\app\feedback-attachments.tsx:46:69
+  44 |   const [items,setItems]=useState<FeedbackAttachment[]>([]),[error,setError]=useState(''),[preview,setPreview]=useState<{item:FeedbackAttachment;url:string}|null>(null);
+  45 |   const [busy,setBusy]=useState('');
+> 46 |   useEffect(()=>{let live=true;const epoch=currentApiSessionEpoch();setItems([]);setPreview(null);setError('');
+     |                                                                     ^^^^^^^^ Avoid calling setState() directly within an effect
+  47 |     void request<{items:FeedbackAttachment[]}>(`/feedback/${feedbackId}/attachments`).then(data=>{if(live&&epoch===currentApiSessionEpoch())setItems(data.items);}).catch(()=>{if(live)setError(locale==='zh'?'附件加载失败，请重新打开反馈。':'Unable to load attachments. Reopen this report.');});
+  48 |     return()=>{live=false;};},[feedbackId,locale]);
+  49 |   const open=async(item:FeedbackAttachment)=>{const epoch=currentApiSessionEpoch();setBusy(item.id);setError('');try{  react-hooks/set-state-in-effect
+  56:93   warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             @next/next/no-img-element
+
+C:\Users\23328\Desktop\new_version\BNBU-Sports-Web-new\portal-teacher-admin\app\makeup-window-form.tsx
+   3:66  warning  'toUserFacingError' is defined but never used                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   @typescript-eslint/no-unused-vars
+  31:43  error    Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+C:\Users\23328\Desktop\new_version\BNBU-Sports-Web-new\portal-teacher-admin\app\makeup-window-form.tsx:31:43
+  29 |   if(valid()){setRules(rule);setItems(grants);setPending(sessionStorage.getItem(key)!==null);}
+  30 |  };
+> 31 |  useEffect(()=>{mounted.current=true;void run(load);return()=>{mounted.current=false;};},[courseId,enrollmentId]);
+     |                                           ^^^ Avoid calling setState() directly within an effect
+  32 |  const send=async(candidate?:Omit<Intent,"key">)=>{
+  33 |   const stored=sessionStorage.getItem(key);
+  34 |   if(!stored&&!candidate)throw new Error("没有待重试的操作。");  react-hooks/set-state-in-effect
+  31:90  warning  React Hook useEffect has missing dependencies: 'load' and 'run'. Either include them or remove the dependency array                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             react-hooks/exhaustive-deps
+
+C:\Users\23328\Desktop\new_version\BNBU-Sports-Web-new\portal-teacher-admin\app\ocr-import-panel.tsx
+   3:88    warning  'toUserFacingError' is defined but never used                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         @typescript-eslint/no-unused-vars
+  49:43    error    Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+C:\Users\23328\Desktop\new_version\BNBU-Sports-Web-new\portal-teacher-admin\app\ocr-import-panel.tsx:49:43
+  47 |   catch(e){if(valid()&&e instanceof ApiError&&e.status>=400&&e.status<500&&e.code!=="CONFLICT_REQUEST_IN_PROGRESS"){sessionStorage.removeItem(storageKey+":intent");setPending(false);}throw e;}
+  48 |  };
+> 49 |  useEffect(()=>{mounted.current=true;void run(async()=>{setPending(!!sessionStorage.getItem(storageKey+":intent"));setUploadPending(!!sessionStorage.getItem(storageKey+":upload"));await list();const id=sessionStorage.getItem(storageKey+":batch");if(id)await load(id);});return()=>{mounted.current=false;};},[storageKey]);
+     |                                           ^^^ Avoid calling setState() directly within an effect
+  50 |  const upload=async()=>{
+  51 |   if(!files.length||files.length>1000||files.some(f=>!f.size||!["image/png","image/jpeg","image/webp"].includes(f.type))||files.reduce((n,f)=>n+f.size,0)>104857600)throw new Error("请选择 PNG、JPEG 或 WebP 图片，批次总量不超过100 MB。");
+  52 |   const fingerprint=JSON.stringify(await Promise.all(files.map(async f=>({size:f.size,type:f.type,sha256:Array.from(new Uint8Array(await crypto.subtle.digest("SHA-256",await f.arrayBuffer()))).map(n=>n.toString(16).padStart(2,"0")).join("")}))));  react-hooks/set-state-in-effect
+  49:308   warning  React Hook useEffect has missing dependencies: 'list', 'load', and 'run'. Either include them or remove the dependency array                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          react-hooks/exhaustive-deps
+  86:12    warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               @next/next/no-img-element
+  87:1111  warning  'enabled' is defined but never used                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   @typescript-eslint/no-unused-vars
+
+C:\Users\23328\Desktop\new_version\BNBU-Sports-Web-new\portal-teacher-admin\app\physical-import-panel.tsx
+   4:66   warning  'toUserFacingError' is defined but never used                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            @typescript-eslint/no-unused-vars
+  26:82   error    Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+C:\Users\23328\Desktop\new_version\BNBU-Sports-Web-new\portal-teacher-admin\app\physical-import-panel.tsx:26:82
+  24 |  function display(value:Batch){setBatch(value);setEditing(null);setShowUpload(false);setSelected([]);setEdits({});setHistory(null);}
+  25 |  async function load(id:string){const value=await request<Batch>(`/physical-imports/${id}`);if(valid())display(value);}
+> 26 |  useEffect(()=>{mounted.current=true;epoch.current=currentApiSessionEpoch();void run(async()=>{const saved=sessionStorage.getItem(storageKey);if(saved){const value:Intent=JSON.parse(saved);if(!value.key||!(value.path===base||value.path===base+'/xlsx'||/^\/physical-imports\/[0-9a-f-]+\/(confirm|revisions)$/.test(value.path)))throw new Error("导入恢复记录异常，请联系管理员。");setPending(value);}await loadList();});return()=>{mounted.current=false;};},[courseId]);
+     |                                                                                  ^^^ Avoid calling setState() directly within an effect
+  27 |  async function execute(intent:Intent){
+  28 |   try{const value=await request<Batch>(intent.path,{method:"POST",body:intent.body,headers:{"Idempotency-Key":intent.key}});if(!valid())return;sessionStorage.removeItem(storageKey);setPending(null);display(value);setMessage(value.pendingCount===0?"本批次已全部确认，体测资料已更新。":`已保存，还有 ${value.pendingCount} 行待核对。`);onSaved();await loadList();}
+  29 |   catch(e){if(valid()&&e instanceof ApiError&&[403,404,409,422].includes(e.status)){sessionStorage.removeItem(storageKey);setPending(null);}throw e;}  react-hooks/set-state-in-effect
+  26:439  warning  React Hook useEffect has missing dependencies: 'base', 'loadList', 'run', and 'storageKey'. Either include them or remove the dependency array                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           react-hooks/exhaustive-deps
+
+C:\Users\23328\Desktop\new_version\BNBU-Sports-Web-new\portal-teacher-admin\app\physical-result-form.tsx
+   5:66  warning  'toUserFacingError' is defined but never used                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     @typescript-eslint/no-unused-vars
+  30:43  error    Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+C:\Users\23328\Desktop\new_version\BNBU-Sports-Web-new\portal-teacher-admin\app\physical-result-form.tsx:30:43
+  28 |   setMinutes(latest?String(Math.floor(latest.elapsedSeconds/60)):"");setSeconds(latest?String(latest.elapsedSeconds%60):"");setDate(latest?.testedOn??"");
+  29 |  };
+> 30 |  useEffect(()=>{mounted.current=true;void run(load);return()=>{mounted.current=false;};},[enrollmentId]);
+     |                                           ^^^ Avoid calling setState() directly within an effect
+  31 |  const save=async()=>{
+  32 |   const stored=sessionStorage.getItem(storageKey);let intent:Intent;
+  33 |   if(stored){intent=JSON.parse(stored);if(!intent.key||![path,path+'/corrections'].includes(intent.path)||!Number.isSafeInteger(intent.body?.expectedVersion))throw new PhysicalValidationError("体测恢复记录异常，请联系管理员核查。");}  react-hooks/set-state-in-effect
+  30:90  warning  React Hook useEffect has missing dependencies: 'load' and 'run'. Either include them or remove the dependency array                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               react-hooks/exhaustive-deps
+
+C:\Users\23328\Desktop\new_version\BNBU-Sports-Web-new\portal-teacher-admin\app\portal-app.tsx
+   440:10  error    Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+C:\Users\23328\Desktop\new_version\BNBU-Sports-Web-new\portal-teacher-admin\app\portal-app.tsx:440:10
+  438 |   }, [role, workspaceMode]);
+  439 |   useEffect(() => {
+> 440 |     void refreshNotificationBadge();
+      |          ^^^^^^^^^^^^^^^^^^^^^^^^ Avoid calling setState() directly within an effect
+  441 |     if (!role || workspaceMode !== "real") return;
+  442 |     const interval = window.setInterval(() => void refreshNotificationBadge(), 60000);
+  443 |     return () => window.clearInterval(interval);  react-hooks/set-state-in-effect
+  1302:21  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 @next/next/no-img-element
+
+C:\Users\23328\Desktop\new_version\BNBU-Sports-Web-new\portal-teacher-admin\app\portal-notifications.tsx
+  21:40  error    Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+C:\Users\23328\Desktop\new_version\BNBU-Sports-Web-new\portal-teacher-admin\app\portal-notifications.tsx:21:40
+  19 |   if(!valid())return;setItems(current=>more?[...current,...response.data.filter(item=>!current.some(old=>old.id===item.id))]:response.data);setCursor(page.nextCursor??null);setUnread(filter);
+  20 |  };
+> 21 |  useEffect(()=>{live.current=true;void run(()=>load());return()=>{live.current=false;};},[]);
+     |                                        ^^^ Avoid calling setState() directly within an effect
+  22 |  const read=async(item:Notice)=>{
+  23 |   if(item.readAt)return;
+  24 |   if(!keys.current.has(item.id))keys.current.set(item.id,crypto.randomUUID());  react-hooks/set-state-in-effect
+  21:90  warning  React Hook useEffect has missing dependencies: 'load' and 'run'. Either include them or remove the dependency array                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           react-hooks/exhaustive-deps
+
+C:\Users\23328\Desktop\new_version\BNBU-Sports-Web-new\portal-teacher-admin\app\student-major-correction.tsx
+  3:19  warning  'toUserFacingError' is defined but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\23328\Desktop\new_version\BNBU-Sports-Web-new\portal-teacher-admin\app\teacher-feedback.tsx
+  23:69   error    Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+C:\Users\23328\Desktop\new_version\BNBU-Sports-Web-new\portal-teacher-admin\app\teacher-feedback.tsx:23:69
+  21 |  }while(cursor);if(valid())setItems(all);};
+  22 |  const open=async(item:Ticket)=>{const result=await request<History>(`/student/feedback/${item.id}/history`);if(valid()){setSelected(item);setHistory(result);}};
+> 23 |  useEffect(()=>{if(notificationTarget?.targetType==='FEEDBACK')void run(async()=>{setTab('history');await load();await open(await request<Ticket>(`/feedback/${notificationTarget.targetId}`));});},[notificationTarget]);
+     |                                                                     ^^^ Avoid calling setState() directly within an effect
+  24 |  const submit=()=>run(async()=>{
+  25 |    if(!content.trim())throw new FeedbackAttachmentError('请填写问题描述。');
+  26 |    intent.current??={body:{category,content:content.trim(),attachmentIds:attachments.map(item=>item.id),clientContext:{platform:'WEB'}},key:crypto.randomUUID()};setPending(true);  react-hooks/set-state-in-effect
+  23:197  warning  React Hook useEffect has missing dependencies: 'load', 'open', and 'run'. Either include them or remove the dependency array                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 react-hooks/exhaustive-deps
+
+C:\Users\23328\Desktop\new_version\BNBU-Sports-Web-new\portal-teacher-admin\app\teacher-media-preview.tsx
+  13:56  error  Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+C:\Users\23328\Desktop\new_version\BNBU-Sports-Web-new\portal-teacher-admin\app\teacher-media-preview.tsx:13:56
+  11 |   const [retry,setRetry]=useState(0);
+  12 |   useEffect(()=>{
+> 13 |     let live=true;const epoch=currentApiSessionEpoch();setMedia(null);setError(null);
+     |                                                        ^^^^^^^^ Avoid calling setState() directly within an effect
+  14 |     void (async()=>{
+  15 |       const result=await loadTeacherMedia(mediaId,retry>0);
+  16 |       if(live&&epoch===currentApiSessionEpoch())setMedia(result);  react-hooks/set-state-in-effect
+
+C:\Users\23328\Desktop\new_version\BNBU-Sports-Web-new\portal-teacher-admin\app\teacher-workspace.tsx
+    99:3   warning  'fetchExerciseRecord' is defined but never used                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     @typescript-eslint/no-unused-vars
+   113:3   warning  'reviseClassProgressTarget' is defined but never used                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               @typescript-eslint/no-unused-vars
+   978:10  warning  'scoreStatusLabel' is defined but never used                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        @typescript-eslint/no-unused-vars
+  1444:5   error    Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+C:\Users\23328\Desktop\new_version\BNBU-Sports-Web-new\portal-teacher-admin\app\teacher-workspace.tsx:1444:5
+  1442 |   const [gradeSettlement, setGradeSettlement] = useState<{gradeId:string;settled:boolean}|null>(null);
+  1443 |   useEffect(()=>{
+> 1444 |     setGradeSettlement(null);
+       |     ^^^^^^^^^^^^^^^^^^ Avoid calling setState() directly within an effect
+  1445 |     if(mode!=='real'||dialog?.type!=='grade')return;
+  1446 |     const grade=grades.find(item=>item.id===dialog.gradeId);if(!grade)return;
+  1447 |     let cancelled=false;const epoch=currentApiSessionEpoch();                                                                                                                                                                                                                                                                                                                                                                                    react-hooks/set-state-in-effect
+  1450:70  error    Error: Cannot access variable before it is declared
+
+`setFormError` is accessed before it is declared, which prevents the earlier access from updating when this value changes over time.
+
+C:\Users\23328\Desktop\new_version\BNBU-Sports-Web-new\portal-teacher-admin\app\teacher-workspace.tsx:1450:70
+  1448 |     void request<{items:unknown[]}>(`/class-sections/${grade.courseId}/settlement-reports?limit=1`).then(result=>{
+  1449 |       if(!cancelled&&epoch===currentApiSessionEpoch())setGradeSettlement({gradeId:grade.id,settled:result.items.length>0});
+> 1450 |     }).catch(error=>{if(!cancelled&&epoch===currentApiSessionEpoch())setFormError(toUserFacingError(error));});
+       |                                                                      ^^^^^^^^^^^^ `setFormError` accessed before it is declared
+  1451 |     return()=>{cancelled=true;};
+  1452 |   },[dialog,mode]);
+  1453 |   const writeFinalGrade = async (grade: Grade, finalGrade: number, published: boolean, correctionReason?:string) => {
+
+C:\Users\23328\Desktop\new_version\BNBU-Sports-Web-new\portal-teacher-admin\app\teacher-workspace.tsx:1475:21
+  1473 |     }
+  1474 |   };
+> 1475 |   const [formError, setFormError] = useState<FormErrorState>("");
+       |                     ^^^^^^^^^^^^ `setFormError` is declared here
+  1476 |   const [makeupBusy, setMakeupBusy] = useState(true);
+  1477 |   const [courseRuleSettings,setCourseRuleSettings]=useState<{templates:CourseTemplate[];rules:CourseRules|null;goal:{totalTargetMinutes:number;version:number}}|null>(null);
+  1478 |   const coursePublicationRef=useRef<ReturnType<typeof createCoursePublicationIntent>|null>(null);  react-hooks/immutability
+  1452:5   warning  React Hook useEffect has a missing dependency: 'grades'. Either include it or remove the dependency array                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           react-hooks/exhaustive-deps
+  1486:5   error    Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+C:\Users\23328\Desktop\new_version\BNBU-Sports-Web-new\portal-teacher-admin\app\teacher-workspace.tsx:1486:5
+  1484 |     if(mode!=='real'||dialog?.type!=='course-manage')return;
+  1485 |     let cancelled=false;
+> 1486 |     setCourseRuleSettings(null);
+       |     ^^^^^^^^^^^^^^^^^^^^^ Avoid calling setState() directly within an effect
+  1487 |     void loadCourseRuleSettings(dialog.courseId).then(settings=>{
+  1488 |       if(cancelled)return;
+  1489 |       setCourseRuleSettings(settings);                                                                                                                                                                                                                                                                                                                                                                                                                                                                              react-hooks/set-state-in-effect
+  1957:53  error    Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+C:\Users\23328\Desktop\new_version\BNBU-Sports-Web-new\portal-teacher-admin\app\teacher-workspace.tsx:1957:53
+  1955 |     const {targetType,targetId}=notificationTarget;
+  1956 |     if(targetType==='CLASS_SECTION') {
+> 1957 |       if(courses.some(course=>course.id===targetId))openDialog({type:'course-manage',courseId:targetId});
+       |                                                     ^^^^^^^^^^ Avoid calling setState() directly within an effect
+  1958 |       else showToast('相关课程不存在或当前账号无权查看，请刷新课程后重试。');
+  1959 |     } else if(targetType==='EXEMPTION_APPLICATION') {
+  1960 |       const application=exemptions.find(item=>String(item.id)===targetId);                                                                                                                                                                                                                                                                                                         react-hooks/set-state-in-effect
+  1968:5   warning  React Hook useEffect has a missing dependency: 'showToast'. Either include it or remove the dependency array. If 'showToast' changes too often, find the parent component that defines it and wrap that definition in useCallback                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   react-hooks/exhaustive-deps
+  2978:56  error    Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+C:\Users\23328\Desktop\new_version\BNBU-Sports-Web-new\portal-teacher-admin\app\teacher-workspace.tsx:2978:56
+  2976 |   const exemptionDialogId=dialog?.type==='exemption'?dialog.exemptionId:null;
+  2977 |   useEffect(()=>{
+> 2978 |     let live=true;const epoch=currentApiSessionEpoch();setRecognitionHistory([]);setRecognitionHistoryError('');
+       |                                                        ^^^^^^^^^^^^^^^^^^^^^ Avoid calling setState() directly within an effect
+  2979 |     const item=exemptions.find(item=>item.id===exemptionDialogId);
+  2980 |     if(mode!=='demo'&&item&&['校队认证','社团认证'].includes(item.kind))void fetchRecognitionRevisions(String(item.id)).then(rows=>{if(live&&epoch===currentApiSessionEpoch())setRecognitionHistory(rows);}).catch(error=>{if(live&&epoch===currentApiSessionEpoch())setRecognitionHistoryError(formatUserFacingError(error));});
+  2981 |     return()=>{live=false;};                                          react-hooks/set-state-in-effect
+  2984:5   error    Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+C:\Users\23328\Desktop\new_version\BNBU-Sports-Web-new\portal-teacher-admin\app\teacher-workspace.tsx:2984:5
+  2982 |   },[exemptionDialogId,mode,exemptions]);
+  2983 |   useEffect(()=>{
+> 2984 |     setExemptionRecovery(false);
+       |     ^^^^^^^^^^^^^^^^^^^^ Avoid calling setState() directly within an effect
+  2985 |     if(mode==='demo'||exemptionDialogId===null)return;
+  2986 |     const saved=sessionStorage.getItem(`bnbu:application-review:${apiSessionUserId()}:${exemptionDialogId}`);
+  2987 |     if(!saved)return;                                                                                                                                                                                                                                                                                                                                                                                                                                                  react-hooks/set-state-in-effect
+  6016:36  error    Error: Cannot access refs during render
+
+React refs are values that are not needed for rendering. Refs should only be accessed outside of render, such as in event handlers or effects. Accessing a ref value (the `current` property) during render can cause your component not to update as expected (https://react.dev/reference/react/useRef).
+
+C:\Users\23328\Desktop\new_version\BNBU-Sports-Web-new\portal-teacher-admin\app\teacher-workspace.tsx:6016:36
+  6014 |                     type="button"
+  6015 |                     disabled={gradeWritePending || (mode==='real' && gradeSettlement?.gradeId!==selectedGrade.id)}
+> 6016 |                     onClick={() => saveGrade(selectedGrade.id)}
+       |                                    ^^^^^^^^^ Passing a ref to a function may read its value during render
+  6017 |                   >
+  6018 |                     {gradeWritePending?'正在保存…':gradeSettlement?.settled?'保存成绩更正':'保存最终成绩'}
+  6019 |                   </button>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         react-hooks/refs
+  6177:36  error    Error: Cannot access refs during render
+
+React refs are values that are not needed for rendering. Refs should only be accessed outside of render, such as in event handlers or effects. Accessing a ref value (the `current` property) during render can cause your component not to update as expected (https://react.dev/reference/react/useRef).
+
+C:\Users\23328\Desktop\new_version\BNBU-Sports-Web-new\portal-teacher-admin\app\teacher-workspace.tsx:6177:36
+  6175 |                     className="primary-button"
+  6176 |                     type="button"
+> 6177 |                     onClick={() => reviewExemption(selectedExemption.id)}
+       |                                    ^^^^^^^^^^^^^^^ Passing a ref to a function may read its value during render
+  6178 |                     disabled={exemptionWritePending||(mode!=='demo'&&!exemptionRecovery&&selectedExemption.status!=='pending'&&!['revoke','adjust'].includes(form.decision??''))}
+  6179 |                   >
+  6180 |                     确认审核                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         react-hooks/refs
+
+✖ 85 problems (49 errors, 36 warnings)

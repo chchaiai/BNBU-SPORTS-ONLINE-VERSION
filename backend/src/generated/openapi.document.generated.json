@@ -3445,6 +3445,75 @@
         "description": "Student starts a server-timed session. Before the published regular deadline use ordinary course windows; after it require an accepted, currently open, unrevoked makeup grant for this enrollment. Recheck current semester, active course and member, system mode and absence of another active session. Store the makeup source atomically and preserve actual server business date; grant expiry or revocation never rewrites an existing session."
       }
     },
+    "/exercise-sessions/recoverable": {
+      "get": {
+        "tags": [
+          "Exercise Sessions"
+        ],
+        "operationId": "listRecoverableExerciseSessions",
+        "x-access-policy": {
+          "policyId": "EXERCISE-SESSION-RECOVERY-READ",
+          "authentication": "ACCESS_TOKEN",
+          "allowedRoles": [
+            "STUDENT"
+          ],
+          "organizationScope": "PRINCIPAL_ORGANIZATION",
+          "resourceScope": "SELF",
+          "resourceResolver": "PRINCIPAL_STUDENT",
+          "defaultDeny": true
+        },
+        "summary": "List the authenticated student's completed unsubmitted sessions; writes revalidate eligibility",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/RequestIdHeader"
+          },
+          {
+            "name": "before",
+            "in": "query",
+            "schema": {
+              "$ref": "#/components/schemas/OpaqueId"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Owned unfinished work, at most 20 sessions; nextCursor requests the next page",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "items": {
+                          "type": "array",
+                          "items": {
+                            "type": "object"
+                          }
+                        },
+                        "nextCursor": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          }
+        }
+      }
+    },
     "/exercise-sessions/active": {
       "get": {
         "tags": [
@@ -18135,7 +18204,8 @@
                           "type": "string",
                           "enum": [
                             "CSV",
-                            "XLSX"
+                            "XLSX",
+                            "XLS"
                           ],
                           "x-enum-subset-of": "RosterFileFormat"
                         },
@@ -30915,7 +30985,8 @@
         "type": "string",
         "enum": [
           "CSV",
-          "XLSX"
+          "XLSX",
+          "XLS"
         ]
       },
       "RosterImportStatus": {
@@ -35467,7 +35538,7 @@
           "file": {
             "type": "string",
             "format": "binary",
-            "description": "Original UTF-8 CSV or XLSX file; stored privately without converting the source."
+            "description": "Original UTF-8 CSV, XLS or XLSX file; stored privately without converting the source."
           },
           "fileChecksumSha256": {
             "oneOf": [
@@ -35486,16 +35557,19 @@
             "type": "string",
             "minLength": 1,
             "maxLength": 31,
-            "description": "Required for XLSX; exact source worksheet name. Omit for CSV."
+            "description": "Required for XLS or XLSX; exact source worksheet name. Omit for CSV."
           }
         },
-        "description": "FILE accepts CSV or XLSX. XLSX requires sheetName; CSV omits it. OFFICIAL_API remains unsupported.",
+        "description": "FILE accepts CSV, XLS or XLSX. XLS/XLSX requires sheetName; CSV omits it. OFFICIAL_API remains unsupported.",
         "allOf": [
           {
             "if": {
               "properties": {
                 "fileFormat": {
-                  "const": "XLSX"
+                  "enum": [
+                    "XLS",
+                    "XLSX"
+                  ]
                 }
               }
             },

@@ -82,7 +82,8 @@ test("maps every authoritative Backend reconciliation status without reclassifyi
     results.find((result) => result.status === RosterReconciliationStatus.IDENTITY_CONFLICT).differences[0].field,
     "FULL_NAME",
   );
-  assert.ok(results.every((result) => result.reason.startsWith("后端核对结果：")));
+  assert.ok(results.every((result) => !result.reason.includes("后端")));
+  assert.match(results.find(result => result.status === "MISSING_IN_PLATFORM").reason, /还未加入本班/);
 });
 
 test("uses the latest server resolution version and note instead of browser-persisted state", () => {

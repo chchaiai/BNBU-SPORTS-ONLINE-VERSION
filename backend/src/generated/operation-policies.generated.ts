@@ -700,6 +700,19 @@ export const operationPolicies = {
     "resourceResolver": "ENROLLMENT_FROM_REQUEST",
     "defaultDeny": true
   },
+  "listRecoverableExerciseSessions": {
+    "method": "GET",
+    "route": "/exercise-sessions/recoverable",
+    "policyId": "EXERCISE-SESSION-RECOVERY-READ",
+    "authentication": "ACCESS_TOKEN",
+    "allowedRoles": [
+      "STUDENT"
+    ],
+    "organizationScope": "PRINCIPAL_ORGANIZATION",
+    "resourceScope": "SELF",
+    "resourceResolver": "PRINCIPAL_STUDENT",
+    "defaultDeny": true
+  },
   "getActiveExerciseSession": {
     "method": "GET",
     "route": "/exercise-sessions/active",

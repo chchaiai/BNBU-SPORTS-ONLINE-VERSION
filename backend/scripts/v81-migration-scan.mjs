@@ -40,6 +40,7 @@ export function prepareV81MigrationScan(migrationId,sql){
     '0065_course_rule_customization': ['v81_course_rules_minimum_minutes_check','v81_course_rules_weekly_limit_check'],
     '0066_exemption_documents_metadata': ['media_evidence_media_type_check','media_evidence_duration_check','media_evidence_verified_complete_check'],
     '0067_historical_backfill': ['media_evidence_capture_source_check'],
+    '0087_roster_xls': ['official_roster_imports_file_shape_check'],
     '0071_course_retirement_invite_revocation': ['course_invites_revoke_shape_check'],
   }[migrationId];
   if(demandConstraints)for(const name of demandConstraints){

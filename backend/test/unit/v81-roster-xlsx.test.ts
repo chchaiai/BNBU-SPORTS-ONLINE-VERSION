@@ -36,3 +36,15 @@ it('rejects ambiguous sheets, missing identity columns, formulas and merged sour
   source.sheet['!merges'] = [utils.decode_range('A2:B2')];
   assert.throws(() => readRosterXlsx(source.bytes(), '名单', mapping), /MERGED_CELLS/);
 });
+
+it('reads original BIFF XLS with Chinese text, leading zeroes and row limits', () => {
+  const book = utils.book_new();
+  const sheet = utils.aoa_to_sheet([['学号', '姓名'], [123, '测试学生']]);
+  sheet.A2.z = '000000';
+  utils.book_append_sheet(book, sheet, '名单');
+  const bytes = write(book, { type: 'buffer', bookType: 'xls' }) as Buffer;
+  assert.deepEqual(readRosterXlsx(bytes, '名单', mapping).rows[0]?.cells, ['000123', '测试学生']);
+  const large = utils.book_new();
+  utils.book_append_sheet(large, utils.aoa_to_sheet([['学号', '姓名'], ...Array.from({length: 501}, () => ['001', 'Synthetic'])]), '名单');
+  assert.throws(() => readRosterXlsx(write(large, {type: 'buffer', bookType: 'xls'}), '名单', mapping), /ROW_LIMIT/);
+});

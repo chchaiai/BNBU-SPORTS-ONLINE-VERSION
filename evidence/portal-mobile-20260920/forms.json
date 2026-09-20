@@ -1,0 +1,26 @@
+[
+  {
+    "role": "teacher",
+    "height": 700,
+    "result": "PASS",
+    "footerReachable": true
+  },
+  {
+    "role": "teacher",
+    "height": 480,
+    "result": "PASS",
+    "footerReachable": true
+  },
+  {
+    "role": "admin",
+    "height": 700,
+    "result": "PASS",
+    "footerReachable": true
+  },
+  {
+    "role": "admin",
+    "height": 480,
+    "result": "PASS",
+    "footerReachable": true
+  }
+]

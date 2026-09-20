@@ -1,0 +1,10 @@
+{
+  "result": "PASS",
+  "release": "/opt/bnbu-sports-production/releases/roster-intuitive-20260920",
+  "previous": "/opt/bnbu-sports-production/releases/roster-xls-20260920",
+  "portalImage": "sha256:a230486ffaed39108d93db8d7b511936d28321294547811d0ed720940a2a4bd6",
+  "backendUnchanged": true,
+  "migrationExecuted": false,
+  "publicAssets": 9,
+  "health": "PASS"
+}

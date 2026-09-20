@@ -1,0 +1,13 @@
+{
+  "result": "PASS",
+  "release": "/opt/bnbu-sports-production/releases/record-history-20260918",
+  "previous": "/opt/bnbu-sports-production/releases/zero-target-20260918",
+  "publicHashes": {
+    "js/api.js": "e9426eb7ae6bb4bc6973a4212b929eab5a6e3648edb6dad374c961e5145ccf4b",
+    "js/screens/checkin.js": "d910dfb44c118cc8cca321046db37a777bad2800b227b7cb7ff6dcf7309f8cd0"
+  },
+  "containersUnchanged": true,
+  "health": "PASS",
+  "databaseWrites": 0,
+  "sourceHead": "3019895fe7e0b76864ebf982f29b49ac1a5ab2c1"
+}

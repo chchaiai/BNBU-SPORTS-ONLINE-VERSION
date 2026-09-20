@@ -1,0 +1,21 @@
+
+C:\Users\23328\Desktop\new_version\BNBU-Sports-Web-new\portal-teacher-admin\app\portal-app.tsx
+   442:10  error    Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+C:\Users\23328\Desktop\new_version\BNBU-Sports-Web-new\portal-teacher-admin\app\portal-app.tsx:442:10
+  440 |   }, [role, workspaceMode]);
+  441 |   useEffect(() => {
+> 442 |     void refreshNotificationBadge();
+      |          ^^^^^^^^^^^^^^^^^^^^^^^^ Avoid calling setState() directly within an effect
+  443 |     if (!role || workspaceMode !== "real") return;
+  444 |     const interval = window.setInterval(() => void refreshNotificationBadge(), 60000);
+  445 |     return () => window.clearInterval(interval);  react-hooks/set-state-in-effect
+  1310:21  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 @next/next/no-img-element
+
+✖ 2 problems (1 error, 1 warning)

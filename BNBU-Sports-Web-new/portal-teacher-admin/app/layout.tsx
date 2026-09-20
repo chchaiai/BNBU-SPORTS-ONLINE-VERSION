@@ -7,6 +7,7 @@ import "./admin-workspace.css";
 import "./typography.css";
 import { ScrollbarManager } from "./scrollbar-manager";
 import "./app-select.css";
+import "./mobile-workspace.css";
 
 export async function generateMetadata(): Promise<Metadata> {
   const requestHeaders = await headers();

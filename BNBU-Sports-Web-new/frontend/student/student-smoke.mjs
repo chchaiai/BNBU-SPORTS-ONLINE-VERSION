@@ -811,7 +811,7 @@ check("proof rules follow the exact current API media allowlist", () => {
 check("check-in proof UI follows the Android preview-then-delete flow", () => {
   assert.match(checkinScreenSource, /data-action="checkin\.previewDraft"/u);
   assert.match(checkinScreenSource, /data-action="checkin\.closeDraftPreview"/u);
-  assert.match(checkinScreenSource, /正式提交开始前，可以删除不合适的照片或视频/u);
+  assert.match(checkinScreenSource, /尚未开始上传的本机素材可以删除，已上传凭证会保留/u);
   assert.match(checkinScreenSource, /ui\.finish\.submitting \|\| isRetainedEvidenceLocked\(draft\)/u);
   assert.match(checkinScreenSource, /删除后可重新拍摄/u);
   assert.doesNotMatch(checkinScreenSource, /checkin\.retakeDraft|pendingRetakeId|拍照并保留|结束并保留/u);
@@ -1905,6 +1905,7 @@ check("feedback transport sends only the frozen privacy-bounded fields", async (
     if (init.method === "POST") {
       assert.deepEqual(JSON.parse(init.body), {
         category: "BUG",
+        attachmentIds: [],
         content: "The submit button did not respond.",
         clientContext: { platform: "WEB" },
       });

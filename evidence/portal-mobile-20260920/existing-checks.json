@@ -1,0 +1,12 @@
+{
+  "renderedHtmlFailure": {
+    "description": "Existing assertion expects 2 native selects; unchanged HEAD has 4",
+    "baselineNativeSelectCount": 4
+  },
+  "lintFailure": {
+    "description": "Existing notification effect calls refreshNotificationBadge synchronously",
+    "file": "app/portal-app.tsx",
+    "rule": "react-hooks/set-state-in-effect",
+    "baseline": true
+  }
+}

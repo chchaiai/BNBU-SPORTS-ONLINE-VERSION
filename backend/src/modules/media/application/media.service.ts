@@ -517,7 +517,7 @@ export class MediaService {
     }
     const expiresAt = new Date(this.clock.now().getTime() + config.accessUrlTtlSeconds * 1000);
     const accessUrl = await this.storage.createAccessUrl({
-      storageKey: media.mediaType === 'VIDEO' && (media.safeMetadata as Record<string, unknown>)?.normalized === 1 ? processedVideoKey(media.storageKey) : media.storageKey,
+      storageKey: media.mediaType === 'VIDEO' && (media.safeMetadata as Record<string, unknown>)?.normalized === 1 ? processedVideoKey(media.storageKey,media.safeMetadata) : media.storageKey,
       contentType: media.verifiedMimeType,
       expiresInSeconds: config.accessUrlTtlSeconds,
     });

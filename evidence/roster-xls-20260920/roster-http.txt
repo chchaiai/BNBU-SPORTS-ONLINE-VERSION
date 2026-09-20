@@ -1,0 +1,16 @@
+(node:36160) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+▶ Official Roster Import and Alignment HTTP E2E
+  ✔ uploads and confirms original XLS/XLSX/CSV dotted-name files through HTTP and PostgreSQL (1303.7697ms)
+  ✔ continues an accepted electronic roster after closing while rejecting new imports without side effects (803.2646ms)
+  ✔ uploads private immutable versions and enforces Teacher/Admin/Student projections and scope (843.6681ms)
+  ✔ aligns a frozen current snapshot and appends confirm/resolve/reopen while ignore is side-effect free (844.6894ms)
+✔ Official Roster Import and Alignment HTTP E2E (5111.4241ms)
+ℹ tests 4
+ℹ suites 1
+ℹ pass 4
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 5856.3562

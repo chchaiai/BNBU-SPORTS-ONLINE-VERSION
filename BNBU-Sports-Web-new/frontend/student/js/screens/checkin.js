@@ -27,10 +27,11 @@ import {
 import {
   request, startServerSession, pauseServerSession, resumeServerSession, finishServerSession,
   cancelServerSession, createRecordDraft, submitRecord, getSwimIntake, acceptSwimIntake,
-  uploadMediaDraft, cacheRecordProofs, createMediaAccessUrl, proxyObjectUrl,
+  uploadMediaDraft, reconcileRecordDraftMedia, cacheRecordProofs, createMediaAccessUrl, proxyObjectUrl,
   getRecordWorkflow, getRecordEvidenceContext, submitRecordSupplement,
   loadServerRecordProofs,
-  listMyRecords, getActiveSession, getServerSession, ApiError, toUserFacingError,
+  currentApiSessionEpoch, isCurrentApiSessionEpoch,
+  listMyRecordPage, mapSubmittedRecords, listRecoverableSessions, getMediaEvidence, listMyRecords, getActiveSession, getServerSession, ApiError, toUserFacingError,
   isQualificationReached, sessionStartErrorText,
   MAX_PROOF_VIDEO_SECONDS, MAX_PROOF_IMAGES, MAX_PROOF_VIDEOS,
 } from "../api.js";
@@ -182,7 +183,8 @@ function draftScope(app) {
     : "pending";
 }
 
-export async function restoreCheckinContinuity(app) {
+export async function restoreCheckinContinuity(app, current = () => true) {
+  if (!current()) return;
   const owner = accountId(app), ui = checkinState(app), scope = draftScope(app);
   const local = loadSession(owner), server = app.state.workspace.activeServerSession;
   if (local?.serverId === server?.id && ["active", "paused"].includes(local?.phase) && ["IN_PROGRESS", "PAUSED"].includes(server?.status)) persist(app, reconcileAuthoritativeSession(local, server));
@@ -193,9 +195,17 @@ export async function restoreCheckinContinuity(app) {
   ui.restoringDrafts = true;
   try {
     const drafts = await loadProofDrafts(owner, scope);
-    if (accountId(app) !== owner || app.ui.checkin !== ui || ui.draftScope !== scope) {
+    if (!current() || accountId(app) !== owner || app.ui.checkin !== ui || ui.draftScope !== scope) {
       for (const draft of drafts) URL.revokeObjectURL(draft.url);
       return;
+    }
+    const recovery = app.state.workspace.recoverableSessions?.find(item => item.session.id === local?.serverId);
+    for (const media of recovery?.media || []) {
+      if (drafts.some(d => d.mediaId === media.id)) continue;
+      const access = await createMediaAccessUrl(media.id);
+      if (!current() || accountId(app) !== owner || app.ui.checkin !== ui || ui.draftScope !== scope) return;
+      drafts.push({id:media.id,mediaId:media.id,serverOnly:true,type:media.mediaType==='VIDEO'?'video':'image',
+        fileName:tx('已上传凭证','Uploaded proof'),url:proxyObjectUrl(access.accessUrl)});
     }
     const ids = new Set(ui.drafts.map(draft => draft.id));
     for (const draft of drafts) if (!ids.has(draft.id)) ui.drafts.push(draft); else URL.revokeObjectURL(draft.url);
@@ -203,7 +213,7 @@ export async function restoreCheckinContinuity(app) {
   } catch {
     ui.captureError = tx("无法读取本机保存的凭证，请保持此页面并重试。", "Cannot read saved proof on this device. Keep this page open and retry.");
     ui.draftScope = null;
-  } finally { ui.restoringDrafts = false; }
+  } finally { if(current()) ui.restoringDrafts = false; }
 }
 
 export async function resumeCheckinContinuity(app) {
@@ -297,6 +307,7 @@ export function renderCheckIn(app) {
     inner = renderPreparation(app);
   }
 
+  const recoveries = focused ? "" : `<div class="col" style="gap:8px">${(app.state.workspace.recoverableSessions || []).map(item => `<button class="outlined-btn" data-action="checkin.recover" data-session="${esc(item.session.id)}">${tx('恢复待提交运动','Resume unfinished submission')} · ${esc(formatDateOnly(Date.parse(item.session.startedAt)))} · ${Math.floor(item.session.actualDurationSeconds/60)} ${tx('分钟','min')}</button>`).join('')}${app.state.workspace.recoveryNextCursor ? `<button class="outlined-btn" data-action="checkin.moreRecovery">${tx('查看更多待提交运动','More unfinished sessions')}</button>` : ''}</div>`;
   const header = focused ? "" : `
     <div class="headline-medium" style="color:var(--color-on-background)">${tx("运动打卡", "Exercise check-in")}</div>
     <div style="height:14px"></div>
@@ -306,7 +317,7 @@ export function renderCheckIn(app) {
     </div>
     <div style="height:16px"></div>`;
 
-  return `<div class="tab-content checkin-root">${header}${inner}${mediaStatus}</div>${liveCameraOverlayHtml(app)}${draftPreviewOverlayHtml(app)}`;
+  return `<div class="tab-content checkin-root">${header}${recoveries}${inner}${mediaStatus}</div>${liveCameraOverlayHtml(app)}${draftPreviewOverlayHtml(app)}`;
 }
 
 function liveCameraOverlayHtml(app) {
@@ -564,7 +575,7 @@ function draftListHtml(app, { submissionRequired = false } = {}) {
         const badgeLabel = draft.type === "video" ? tx("视频", "Video") : tx("照片", "Photo");
         const statusLabel = evidenceStatus === "AVAILABLE" ? tx("已验证", "Verified") : evidenceStatus === "FAILED" ? tx("校验失败", "Verification failed") : evidenceStatus === "PROCESSING" ? tx("校验中", "Verifying") : tx("本机草稿", "Local draft");
         const media = draft.type === "image"
-          ? `<img src="${esc(draft.url)}" alt="">`
+          ? `${draft.url ? `<img src="${esc(draft.url)}" alt="">` : `<span class="proof-card-video-placeholder">${icon("camera-alt", 32)}</span>`}`
           : `${draft.thumbnailUrl
             ? `<img class="proof-card-thumbnail" src="${esc(draft.thumbnailUrl)}" alt="">`
             : `<span class="proof-card-video-placeholder" aria-hidden="true">${icon("videocam", 32)}</span>`}${draft.normalizationPending ? "" : `<span class="proof-card-play">${icon("play-arrow", 24)}</span>`}`;
@@ -578,7 +589,7 @@ function draftListHtml(app, { submissionRequired = false } = {}) {
       }
     )
     .join("")}</div>
-    <div class="body-small text-muted proof-preview-hint">${tx("点击某项凭证可预览；正式提交开始前，可以删除不合适的照片或视频。", "Open an evidence item to preview it. Before formal submission starts, you can delete an unsuitable photo or video.")}</div>
+    <div class="body-small text-muted proof-preview-hint">${tx("点击凭证可预览；尚未开始上传的本机素材可以删除，已上传凭证会保留。", "Open proof to preview it. Local items can be deleted before uploading; uploaded proof is retained.")}</div>
     ${submissionNote}${swimEvidenceHtml(app)}`;
 }
 
@@ -627,7 +638,7 @@ export function attachDraftVideoPreview(app) {
 /** Confirmed/bound Session evidence is append-only for final submission. */
 export function isRetainedEvidenceLocked(draft) {
   return Boolean(
-    draft?.mediaId ||
+    draft?.mediaId || draft?.pendingUpload?.initiated ||
     draft?.pendingUpload?.confirmed ||
     draft?.pendingUpload?.bound
   );
@@ -876,6 +887,7 @@ function proofSummaryText(record) {
 }
 
 function renderRecordsTab(app) {
+  const ui = checkinState(app);
   const records = app.state.workspace.records.filter((r) => r.creditType !== "offset");
   // Same rule as the dashboard progress: rejected records are listed but do
   // not add hours, so the two screens can never show different totals.
@@ -890,7 +902,7 @@ function renderRecordsTab(app) {
     ${records.length ? `<div class="swiss-panel" style="padding:18px 20px">
       <div class="row">
         <div class="col grow" style="gap:3px">
-          <span class="label-medium text-muted">${tx("计入时长", "Credited time")}</span>
+          <span class="label-medium text-muted">${tx("已加载记录计入时长", "Credited time in loaded records")}</span>
           <span class="headline-medium text-on-surface">${creditedMinuteText(totalHours)}</span>
         </div>
         <div class="col" style="align-items:flex-end;gap:4px">
@@ -936,12 +948,15 @@ function renderRecordsTab(app) {
 
   return `<div class="col" style="gap:14px;padding-bottom:28px">
     ${intro}
-    ${records.length === 0
+    ${ui.recordListError ? userFacingErrorPanel(ui.recordListError, { compact: true }) : ""}
+    ${app.isApiMode() ? `<button class="outlined-btn" data-action="checkin.refreshRecords" ${ui.loadingRecords ? "disabled" : ""}>${ui.loadingRecords ? tx("正在读取打卡记录…", "Loading check-in records…") : ui.recordListError ? tx("重试读取记录", "Retry records") : tx("刷新记录", "Refresh records")}</button>` : ""}
+    ${records.length === 0 && !ui.loadingRecords && !ui.recordListError
       ? emptyPlaceholder(tx("暂无记录", "No records"), tx("当前账号还没有可展示的打卡记录。", "There are no check-in records to show for this account."))
       : `<div class="row" style="padding-top:2px">
-          <span class="title-medium text-on-surface grow">${tx("全部记录", "All records")}</span>
+          <span class="title-medium text-on-surface grow">${tx("已加载记录", "Loaded records")}</span>
           <span class="label-medium text-muted">${tx(`${records.length} 条`, `${records.length} records`)}</span>
         </div>${cards}`}
+    ${app.state.workspace.recordNextCursor ? `<button class="outlined-btn" data-action="checkin.moreRecords" ${ui.loadingRecords ? "disabled" : ""}>${tx("加载更早记录","Load earlier records")}</button>` : ""}
   </div>`;
 }
 
@@ -1333,7 +1348,7 @@ async function finishSession(app, session) {
     const finished = {
       ...paused,
       phase: "finished",
-      endedAt: Date.now(),
+      endedAt: serverSession?.endedAt ? Date.parse(serverSession.endedAt) : Date.now(),
       activeDurationMillis: serverSession ? serverSession.actualDurationSeconds * 1000 : paused.accumulatedMs,
       serverVersion: serverSession ? serverSession.version : paused.serverVersion,
       serverActualDurationSeconds: serverSession ? serverSession.actualDurationSeconds : null,
@@ -1793,6 +1808,7 @@ async function submitCheckInApi(app, session, retained) {
   const ui = checkinState(app);
   const details = session.details;
   ui.uploadProgress = {phase:'WAITING'};
+  let accepted = false;
   try {
     session.recordSubmission ||= { createKey: crypto.randomUUID(), submitKey: crypto.randomUUID() };
     persist(app, session);
@@ -1818,6 +1834,19 @@ async function submitCheckInApi(app, session, retained) {
         body:{description:details.description.trim(),expectedVersion:record.version}});
     }
     const alreadySubmitted = record.status !== 'DRAFT';
+    if (!alreadySubmitted) {
+      const recovered = await reconcileRecordDraftMedia(record.id, session.serverId, retained);
+      retained = recovered.drafts;
+      ui.drafts = retained;
+      for (const draft of retained) if (!draft.serverOnly) await saveProofDraft(accountId(app), session.serverId, draft);
+      if (recovered.restored) {
+        ui.finish.submitting = false;
+        ui.uploadProgress = null;
+        ui.mediaNotice = tx('已恢复服务器保存的凭证，请核对照片和视频后再次提交。', 'Uploaded proof restored. Review the photos and video, then submit again.');
+        app.render();
+        return;
+      }
+    }
     if (!alreadySubmitted && isRealtimeSwim(session)) {
       ui.mediaNotice = tx('正在预受理游泳材料…', 'Accepting swimming evidence…');
       app.render();
@@ -1834,10 +1863,10 @@ async function submitCheckInApi(app, session, retained) {
       const draft = retained[index];
       ui.mediaNotice = tx(`正在处理凭证 ${index + 1}/${retained.length}…`, `Processing proof ${index + 1}/${retained.length}…`);
       app.render();
-      const blob = draft.blob || (await fetch(draft.url).then((r) => r.blob()));
+      const blob = draft.mediaId ? null : draft.blob || (await fetch(draft.url).then((r) => r.blob()));
       let mediaId;
-      try { mediaId = draft.mediaId || (await uploadMediaDraft(session.serverId, draft, blob,{onProgress:progress=>{ui.uploadProgress=progress;ui.mediaNotice=uploadProgressLabel(progress);app.render();}})).mediaId; }
-      finally { await saveProofDraft(accountId(app), session.serverId, draft); }
+      try { mediaId = draft.mediaId || (await uploadMediaDraft(session.serverId, draft, blob,{onCheckpoint: d=>saveProofDraft(accountId(app), session.serverId, d),onProgress:progress=>{ui.uploadProgress=progress;ui.mediaNotice=uploadProgressLabel(progress);app.render();}})).mediaId; }
+      finally { if (!draft.serverOnly) await saveProofDraft(accountId(app), session.serverId, draft); }
       uploaded.push({
         mediaId,
         type: draft.type,
@@ -1848,16 +1877,17 @@ async function submitCheckInApi(app, session, retained) {
     }
     ui.mediaNotice = tx("全部凭证已验证，正在提交打卡…", "All proof is verified. Submitting the check-in…");
     app.render();
-    const submitFingerprint = JSON.stringify({mediaIds:uploaded.map(u=>u.mediaId), delay:session.swimDelayReason?.trim()||''});
+    const submitFingerprint = JSON.stringify({mediaIds:uploaded.map(u=>u.mediaId).sort(), version:record.version, delay:session.swimDelayReason?.trim()||''});
     if (session.recordSubmission.submitFingerprint && session.recordSubmission.submitFingerprint !== submitFingerprint) session.recordSubmission.submitKey = crypto.randomUUID();
     session.recordSubmission.submitFingerprint = submitFingerprint;
     persist(app,session);
     const submittedRecord = alreadySubmitted ? record : await submitRecord(record.id, uploaded.map((u) => u.mediaId), record.version, session.swimDelayReason, session.recordSubmission.submitKey);
+    accepted = true;
     cacheRecordProofs(record.id, uploaded);
     // The server has committed submission. Album failure must never turn this
     // into a failed check-in; persisted native work retries on the next visit.
     try {
-      const album = await saveSuccessfulEvidence(originalOwnerId(app), record.id, retained);
+      const album = await saveSuccessfulEvidence(originalOwnerId(app), record.id, retained.filter(d=>!d.serverOnly));
       if (album.pending) ui.mediaNotice = tx('打卡已成功，相册保存待重试。', 'Check-in succeeded. Album saving will retry.');
     } catch { ui.mediaNotice = tx('打卡已成功，本机凭证暂未存入相册。', 'Check-in succeeded. Evidence has not yet been saved to the album.'); }
     ui.finish.submitting = false;
@@ -1875,7 +1905,7 @@ async function submitCheckInApi(app, session, retained) {
         proofCount: uploaded.length,
       },
     };
-    await clearProofDrafts(accountId(app), session.serverId);
+    await clearProofDrafts(accountId(app), session.serverId).catch(() => { ui.captureError = tx("提交已成功，本机凭证清理失败，可稍后重试。", "Submitted successfully. Local proof cleanup failed; retry later."); });
     persist(app, submitted);
     for (const draft of ui.drafts) if (draft.url?.startsWith("blob:")) URL.revokeObjectURL(draft.url);
     ui.drafts = [];
@@ -1883,6 +1913,16 @@ async function submitCheckInApi(app, session, retained) {
     app.reloadApiWorkspace();
   } catch (error) {
     ui.finish.submitting = false;
+    ui.uploadProgress = null;
+    ui.mediaNotice = tx('本次提交未完成，凭证已保留，请重试。', 'Submission did not complete. Proof is retained; please retry.');
+    if (error?.status >= 400 && error?.status < 500 && session.recordSubmission) {
+      session.recordSubmission.submitKey = crypto.randomUUID();
+      persist(app, session);
+    }
+    if (accepted) {
+      app.showDialog({title:tx('打卡已提交','Check-in submitted'),body:tx('服务器已受理，本机同步尚未完成，请刷新查看记录。','Accepted by the server. Local synchronization is incomplete; refresh to view the record.'),buttons:[{label:tx('知道了','OK'),action:'dialog.close'}]});
+      void app.reloadApiWorkspace();app.render();return;
+    }
     if (error?.code === 'MEDIA_VERIFICATION_INCOMPLETE') {
       ui.mediaNotice = tx('视频已上传，正在处理，可以继续填写其他内容。处理完成后请再次提交。', 'Video uploaded and processing. Continue editing and submit when ready.');
     } else apiFailureDialog(app, error, tx("提交失败", "Submission failed"));
@@ -1915,7 +1955,61 @@ export function checkinTick(app) {
 //  Actions
 // ═══════════════════════════════════════════════════════════════
 
+export async function reloadRecordList(app, append = false) {
+  const ui = checkinState(app), epoch = currentApiSessionEpoch();
+  const cursor = append ? app.state.workspace.recordNextCursor : null;
+  if (!app.isApiMode() || ui.loadingRecords || (append && !cursor)) return;
+  const current = () => app.ui.checkin === ui && isCurrentApiSessionEpoch(epoch);
+  ui.loadingRecords = true;
+  ui.recordListError = null;
+  app.render();
+  try {
+    const page = await listMyRecordPage(cursor);
+    if (!current()) return;
+    const workspace = app.state.workspace;
+    // A concurrent workspace refresh can replace the page while it is loading.
+    if (append && workspace.recordNextCursor !== cursor) return;
+    const courseIdBySection = Object.fromEntries(workspace.courses.map(c => [c.classSectionId, c.id]));
+    const mapped = mapSubmittedRecords(page.data, { courseIdBySection });
+    const ids = new Set(workspace.records.map(r => r.id));
+    workspace.records = append ? [...workspace.records, ...mapped.filter(r => !ids.has(r.id))] : mapped;
+    workspace.recordNextCursor = page.meta?.pagination?.nextCursor ?? null;
+  } catch (error) {
+    if (current()) ui.recordListError = toUserFacingError(error);
+  } finally {
+    if (current()) { ui.loadingRecords = false; app.render(); }
+  }
+}
+
 export const checkinActions = {
+  "checkin.refreshRecords": app => reloadRecordList(app),
+  "checkin.moreRecords": app => reloadRecordList(app, true),
+  "checkin.moreRecovery": async (app) => {
+    const owner=accountId(app);
+    try { const page=await listRecoverableSessions(app.state.workspace.recoveryNextCursor);
+      if(accountId(app)!==owner)return;
+      app.state.workspace.recoverableSessions.push(...page.items);app.state.workspace.recoveryNextCursor=page.nextCursor;app.render();
+    } catch(error){apiFailureDialog(app,error,tx('恢复列表加载失败','Cannot load unfinished sessions'));}
+  },
+  "checkin.recover": async (app, el) => {
+    const item=app.state.workspace.recoverableSessions?.find(row=>row.session.id===el.dataset.session);
+    if(!item)return;
+    const ui=checkinState(app),owner=accountId(app),course=app.state.workspace.courses.find(c=>c.enrollmentId===item.session.enrollmentId);
+    try {
+      const server=await getServerSession(item.session.id);
+      if(accountId(app)!==owner)return;
+      if(server.status!=='COMPLETED')throw new Error('Session is no longer recoverable');
+      const sport=courseSportSelection(course?.name || '');
+      const details=item.draft ? {creditType:item.draft.creditType==='COURSE_RELATED'?'course':'general',sportType:item.draft.sportType.toLowerCase(),customSportName:item.draft.sportName,description:item.draft.description || ''} :
+        {creditType:ui.setup.creditType,sportType:ui.setup.creditType==='course'?sport.sportType:ui.setup.generalSportType,customSportName:ui.setup.creditType==='course'?sport.customSportName:ui.setup.generalCustomSportName || null,description:''};
+      persist(app,{...startSession(details),phase:'finished',recordOrigin:item.origin,serverId:server.id,serverVersion:server.version,enrollmentId:server.enrollmentId,
+        startedAt:Date.parse(server.startedAt),endedAt:Date.parse(server.endedAt),accumulatedMs:server.actualDurationSeconds*1000,lastResumedAt:null,
+        maximumDurationSeconds:server.maximumDurationSeconds,activeDurationMillis:server.actualDurationSeconds*1000,serverActualDurationSeconds:server.actualDurationSeconds});
+      ui.draftScope=null;ui.finish={submitting:false};await restoreCheckinContinuity(app);
+      ui.mediaNotice=tx('已恢复服务器运动记录及已上传凭证；未上传的本机素材需重新提供。未建草稿的运动沿用上方所选类别。','Server session and uploaded proof restored. Local-only proof must be provided again. Sessions without a draft use your selected category.');
+      app.render();
+    } catch(error){apiFailureDialog(app,error,tx('无法恢复运动','Cannot restore exercise'));}
+  },
   "checkin.nativePhoto": async (app, el) => {
     const file = el.files?.[0]; el.value = "";
     if (file) await addDraftFromFile(app, file, "image");
@@ -1993,6 +2087,7 @@ export const checkinActions = {
   "checkin.tab": (app, el) => {
     checkinState(app).tab = el.dataset.tab;
     app.render();
+    if (el.dataset.tab === "records") return reloadRecordList(app);
   },
   "checkin.creditType": (app, el) => {
     checkinState(app).setup.creditType = el.dataset.value;
@@ -2022,7 +2117,7 @@ export const checkinActions = {
     app.state.dialog = null;
     app.selectTab("dashboard");
   },
-  "checkin.start": (app) => {
+  "checkin.start": (app, zeroTargetConfirmed = false) => {
     const ui = checkinState(app);
     const readiness = evaluateReadiness(app);
     if (!readiness.canStart) {
@@ -2117,7 +2212,24 @@ export const checkinActions = {
       });
       return;
     }
+    const targetHours = isCourse ? workspace.hourRule?.courseRequired : workspace.hourRule?.generalRequired;
+    if (!workspace.activeServerSession && targetHours === 0 && zeroTargetConfirmed !== true) {
+      const category = isCourse ? tx("课程相关运动", "Course-related exercise") : tx("自主运动", "Independent exercise");
+      app.showDialog({
+        title: tx("该类型运动不计入有效时长", "This exercise will not count toward your target"),
+        body: esc(tx(`当前“${category}”的目标时长为 0 小时，本次运动将不会计入有效时长。仍要开始运动吗？`, `The target for ${category} is 0 hours. This session will not count toward your credited exercise hours. Start anyway?`)),
+        buttons: [
+          { label: tx("重新选择", "Choose again"), action: "dialog.close" },
+          { label: tx("仍要开始", "Start anyway"), action: "checkin.confirmZeroTargetStart" },
+        ],
+      });
+      return;
+    }
     begin();
+  },
+  "checkin.confirmZeroTargetStart": (app) => {
+    app.state.dialog = null;
+    checkinActions["checkin.start"](app, true);
   },
   "checkin.ackHealth": (app) => {
     app.overlay.healthReminderAck = true;
@@ -2334,10 +2446,14 @@ export const checkinActions = {
   "checkin.cameraStopVideo": (app) => {
     finishLiveVideoRecording(app);
   },
-  "checkin.previewDraft": (app, el) => {
+  "checkin.previewDraft": async (app, el) => {
     const ui = checkinState(app);
     const draft = ui.drafts.find((d) => d.id === el.dataset.draftId);
     if (!draft) return;
+    if (draft.serverOnly) {
+      try { draft.url = proxyObjectUrl((await createMediaAccessUrl(draft.mediaId)).accessUrl); }
+      catch (error) { apiFailureDialog(app, error, tx('凭证预览失败', 'Proof preview failed')); return; }
+    }
     ui.previewDraftId = draft.id;
     app.render();
     if (draft.type === "video") {
@@ -2400,6 +2516,7 @@ export const checkinActions = {
       apiFailureDialog(app, new ApiError(409, { code: "PROOF_PREVIEW_NOT_SUBMITTED" }), tx("未提交补证", "Proof not submitted"));
       return;
     }
+    let accepted=false;
     ui.finish.submitting = true;
     app.render();
     try {
@@ -2421,10 +2538,11 @@ export const checkinActions = {
         ui.proofSubmissionIntent = intent;
       }
       await submitRecordSupplement(intent.recordId, intent.mediaIds, intent.expectedVersion, intent.key);
+      accepted=true;
       try { await saveSuccessfulEvidence(originalOwnerId(app), intent.recordId, drafts); }
       catch { ui.mediaNotice = tx('补证已成功，相册保存待重试。', 'Supplement succeeded. Album saving will retry.'); }
       ui.proofSubmissionIntent = null;
-      await clearProofDrafts(accountId(app), draftScope(app));
+      await clearProofDrafts(accountId(app), draftScope(app)).catch(() => { ui.captureError = tx("提交已成功，本机凭证清理失败，可稍后重试。", "Submitted successfully. Local proof cleanup failed; retry later."); });
       ui.drafts = [];
       ui.focusProofRecordId = null;
       await app.reloadApiWorkspace();
@@ -2432,7 +2550,8 @@ export const checkinActions = {
         body: tx("原记录的补证已由服务器受理，等待教师复核。", "The server accepted the supplement for the original record. Await teacher review."),
         buttons: [{ label: tx("确定", "OK"), action: "dialog.close" }] });
     } catch (error) {
-      apiFailureDialog(app, error, tx("补证提交失败", "Supplement submission failed"));
+      if(accepted) app.showDialog({title:tx("补证已受理","Supplement accepted"),body:tx("服务器已受理，请刷新查看最新记录。","Accepted by the server. Refresh to view the latest record."),buttons:[{label:tx("知道了","OK"),action:"dialog.close"}]});
+      else apiFailureDialog(app, error, tx("补证提交失败", "Supplement submission failed"));
     } finally {
       ui.finish.submitting = false;
       app.render();
@@ -2441,7 +2560,7 @@ export const checkinActions = {
   "checkin.abandon": (app) => {
     app.showDialog({
       title: tx("放弃待提交记录？", "Discard pending record?"),
-      body: tx("本次运动时长和所有本地媒体草稿都会被删除。", "The exercise duration and all local media drafts will be deleted."),
+      body: tx("放弃后不再恢复这次待提交记录，并清理本机凭证。服务器运动事实仍保留。", "Discard this pending submission and clear local proof. The server retains the exercise history."),
       buttons: [
         { label: tx("取消", "Cancel"), action: "dialog.close" },
         { label: tx("确认放弃", "Discard"), action: "checkin.abandonConfirm" },
@@ -2451,8 +2570,18 @@ export const checkinActions = {
   "checkin.abandonConfirm": async (app) => {
     const ui = checkinState(app);
     const session = loadSession(accountId(app));
-    if (app.isApiMode() && session?.serverId && session.phase !== "finished") {
-      cancelServerSession(session.serverId, session.serverVersion, "student discarded").catch(() => {});
+    if (app.isApiMode() && session?.serverId) {
+      try {
+        if (session.phase !== 'finished') await cancelServerSession(session.serverId, session.serverVersion, 'student discarded');
+        else {
+          let record=(await listMyRecords()).find(r=>r.sessionId===session.serverId);
+          if(!record) record=await createRecordDraft({sessionId:session.serverId,...session.details,sportName:session.details.customSportName || null},crypto.randomUUID());
+          if(record.status==='DRAFT') await request(`/exercise-records/${record.id}/discard`,{method:'POST',idempotent:true,body:{expectedVersion:record.version,reason:'student discarded'}});
+        }
+      } catch(error) {
+        if(error?.code!=='EXERCISE_RECORD_DURATION_NOT_CREDITABLE') {apiFailureDialog(app,error,tx('放弃未完成，请重试','Discard incomplete; retry'));return;}
+      }
+      app.state.workspace.recoverableSessions=app.state.workspace.recoverableSessions?.filter(item=>item.session.id!==session.serverId) || [];
     }
     for (const draft of ui.drafts) if (draft.url?.startsWith("blob:")) URL.revokeObjectURL(draft.url);
     ui.drafts = [];

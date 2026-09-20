@@ -1,0 +1,21 @@
+{
+  "result": "PASS",
+  "previous": "/opt/bnbu-sports-production/releases/zero-target-20260918",
+  "release": "/opt/bnbu-sports-production/releases/deep-review-20260918",
+  "backendImage": "sha256:87ce4b7de5948b3874f46f78b547812d9f8f7099d4d0b4f2a78ffd69ddff8ead",
+  "runtimeHashes": 16,
+  "studentHashes": 4,
+  "health": "PASS",
+  "recoveryUnauthenticated": 401,
+  "mediaDiskMounted": true,
+  "migrations": 0,
+  "historicalRewrites": 0,
+  "backup": {
+    "check": "PRE_RELEASE_DATABASE_BACKUP",
+    "result": "PASS",
+    "path": "/opt/bnbu-sports-production/backups/before-bugfix-20260918T080210Z.dump",
+    "bytes": 41436713
+  },
+  "sourceHead": "c154343aad8e084f2ed04ab8a342623413562ea3",
+  "sourceManifestSha256": "cd6d47bfcd39fea04852c44b6367ddc8fd207b0f70af1e2b343d269cfce7bf35"
+}

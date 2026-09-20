@@ -1,0 +1,56 @@
+✔ FormField preserves a native control id and connects its label (7.0304ms)
+✔ FormField gives a native control and its label the same generated id (0.6668ms)
+✔ FormField connects AppSelect and forwards required accessibility state (2.2796ms)
+✔ FormField links hint and error text and marks the native control invalid (0.5673ms)
+✔ FormField merges a child's existing aria-describedby ids with its own ids (0.6099ms)
+✔ AdminField delegates label, required state and inline error association to FormField (0.6683ms)
+✔ read-only course filters and review, roster and exemption controls keep accessible labels (7.6765ms)
+✔ runtime log downloads use the real server export flow and never synthesize CSV (1.2008ms)
+✔ major search and roster upload controls expose an accessible name or helper (1.9465ms)
+✔ administrator feedback search matches problem summary, student number, email, and visible category (0.3957ms)
+✔ administrator feedback supports combined problem-category and status filters (1.0227ms)
+✔ administrator dashboards keep supported metrics, student identity, and clean dialog close behavior (2.8459ms)
+✔ login and recovery map safe fieldErrors to their concrete controls (3.2623ms)
+✔ authentication boundaries clear both module-level account caches (1.2456ms)
+✔ responsive workspace keeps the teacher/admin account entry available (1.2423ms)
+✔ server-renders a fail-closed system-status gate before sign-in (474.6373ms)
+✔ uses a deterministic hydration gate and preserves retryable saved sessions (3.2785ms)
+✔ keeps formal authentication and gates skip-sign-in preview access to local development (2.1596ms)
+✔ teacher and admin account dialogs use an in-workspace password settings flow (1.2702ms)
+✔ keeps role responsibilities and semantic theme tokens in source (1.0323ms)
+✔ uses a same-origin API default with an explicit local development proxy (0.4592ms)
+✔ keeps teacher and admin sidebars resizable, collapsible, and locally persisted (1.3177ms)
+✔ keeps teacher overview metrics single-sourced and separate from status filters (2.8808ms)
+✔ uses the direct-enrollment roster as the teacher membership surface (1.1013ms)
+✔ keeps teacher course cards free of the retired task business (1.7246ms)
+✔ teacher evidence preview only exposes the file name and submitter (0.8557ms)
+✔ course workspaces do not expose an ended course business state (0.7859ms)
+✔ uses one progressive student identity pattern across teacher workflows (1.6508ms)
+✖ uses one portal-backed AppSelect instead of native browser selects (4.6676ms)
+ℹ tests 29
+ℹ suites 0
+ℹ pass 28
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 721.8558
+
+✖ failing tests:
+
+test at tests\rendered-html.test.mjs:414:1
+✖ uses one portal-backed AppSelect instead of native browser selects (4.6676ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+
+  4 !== 2
+
+      at TestContext.<anonymous> (C:\Users\23328\Desktop\new_version\BNBU-Sports-Web-new\portal-teacher-admin\tests\rendered-html.test.mjs:427:10)
+      at async Test.run (node:internal/test_runner/test:1110:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:785:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 4,
+    expected: 2,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

@@ -3327,7 +3327,7 @@ export function TeacherWorkspace({
                     onClick={() => setReconciliationCourseId(course.id)}
                   >
                     <ListChecks size={15} aria-hidden="true" />
-                    名单对齐
+                    检查学生进班
                   </button>
                   <button
                     className="course-invite-button"

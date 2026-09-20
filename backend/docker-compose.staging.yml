@@ -45,6 +45,10 @@ services:
         target: tencentdb-ca-chain.pem
     ports:
       - 127.0.0.1:${BACKEND_BIND_PORT:-3000}:3000
+    environment:
+      MEDIA_WORK_DIRECTORY: /var/lib/bnbu-media-work
+    volumes:
+      - ${MEDIA_WORK_HOST_DIRECTORY:?Set a writable disk directory owned by UID 10001}:/var/lib/bnbu-media-work
     read_only: true
     tmpfs:
       - /tmp:rw,noexec,nosuid,nodev,size=64m

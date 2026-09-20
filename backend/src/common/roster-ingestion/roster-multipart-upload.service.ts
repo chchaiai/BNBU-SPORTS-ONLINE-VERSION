@@ -37,7 +37,7 @@ interface MultipartFieldState {
 }
 
 interface StoredFile {
-  fileFormat: 'CSV' | 'XLSX';
+  fileFormat: 'CSV' | 'XLSX' | 'XLS';
   storageKey: string;
   sanitizedOriginalFileName: string;
   checksumSha256: string;
@@ -66,7 +66,7 @@ class BodyLimitTransform extends Transform {
 }
 
 class CsvSafetyTransform extends Transform {
-  constructor(private readonly format: 'CSV' | 'XLSX' = 'CSV') { super(); }
+  constructor(private readonly format: 'CSV' | 'XLSX' | 'XLS' = 'CSV') { super(); }
   private readonly checksum = createHash('sha256');
   private readonly decoder = new TextDecoder('utf-8', { fatal: true, ignoreBOM: true });
   private readonly prefixChunks: Buffer[] = [];
@@ -105,6 +105,8 @@ class CsvSafetyTransform extends Transform {
       if (this.format === 'CSV') {
         this.validateDecodedText(this.decoder.decode());
         this.validateSignature(Buffer.concat(this.prefixChunks));
+      } else if (this.format === 'XLS') {
+        if (!Buffer.concat(this.prefixChunks).subarray(0, 8).equals(Buffer.from([0xd0, 0xcf, 0x11, 0xe0, 0xa1, 0xb1, 0x1a, 0xe1]))) this.invalid('XLS_SIGNATURE');
       } else if (!Buffer.concat(this.prefixChunks).subarray(0, 4).equals(Buffer.from([0x50, 0x4b, 3, 4]))) {
         this.invalid('XLSX_SIGNATURE');
       }
@@ -187,18 +189,21 @@ export class RosterMultipartUploadService {
         return;
       }
       try {
-        const fileFormat = info.filename.toLowerCase().endsWith('.xlsx') ? 'XLSX' : 'CSV';
-        const sanitizedOriginalFileName = fileFormat === 'CSV' ? this.sanitizeCsvFileName(info.filename)
-          : this.sanitizeCsvFileName(info.filename.slice(0, -5) + '.csv').slice(0, -4) + '.xlsx';
+        const extension = info.filename.toLowerCase().split('.').pop();
+        const fileFormat = extension === 'xlsx' ? 'XLSX' : extension === 'xls' ? 'XLS' : 'CSV';
+        const suffix = '.' + fileFormat.toLowerCase();
+        const sanitizedOriginalFileName = this.sanitizeCsvFileName(
+          fileFormat === 'CSV' ? info.filename : info.filename.slice(0, -suffix.length) + '.csv',
+        ).slice(0, -4) + suffix;
         if (
-          info.mimeType.toLowerCase() !== (fileFormat === 'CSV' ? 'text/csv' : 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet') ||
+          info.mimeType.toLowerCase() !== (fileFormat === 'CSV' ? 'text/csv' : fileFormat === 'XLS' ? 'application/vnd.ms-excel' : 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet') ||
           !ALLOWED_TRANSFER_ENCODINGS.has(info.encoding.toLowerCase())
         ) {
           throw new ApplicationError('ROSTER_FILE_INVALID', 422, {
             category: 'FILE_TYPE',
           });
         }
-        generatedStorageKey = this.createStorageKey(scope).replace(/\.csv$/, fileFormat === 'CSV' ? '.csv' : '.xlsx');
+        generatedStorageKey = this.createStorageKey(scope).replace(/\.csv$/, suffix);
         fileTask = this.storeFile(
           stream,
           generatedStorageKey,
@@ -238,7 +243,7 @@ export class RosterMultipartUploadService {
 
       const source = fields.source;
       if (source !== 'FILE') throw this.schemaError('SOURCE');
-      if (!['CSV', 'XLSX'].includes(fields.fileFormat ?? '')) {
+      if (!['CSV', 'XLSX', 'XLS'].includes(fields.fileFormat ?? '')) {
         throw new ApplicationError('ROSTER_FILE_INVALID', 422, {
           category: 'FILE_FORMAT',
         });
@@ -249,7 +254,7 @@ export class RosterMultipartUploadService {
       const storedFile = await activeFileTask;
       if (fields.fileFormat !== storedFile.fileFormat) throw this.schemaError('FILE_FORMAT_MISMATCH');
       const sourceSheet = fields.sheetName ?? null;
-      if (storedFile.fileFormat === 'XLSX' ? (!sourceSheet || sourceSheet !== sourceSheet.trim() || sourceSheet.length > 31)
+      if (storedFile.fileFormat !== 'CSV' ? (!sourceSheet || sourceSheet !== sourceSheet.trim() || sourceSheet.length > 31)
         : sourceSheet !== null) throw this.schemaError('SOURCE_SHEET');
       const fieldMappingSnapshot = this.parseFieldMapping(fields.fieldMappingSnapshot);
       const declaredChecksum = fields.fileChecksumSha256?.trim() ?? '';
@@ -315,7 +320,7 @@ export class RosterMultipartUploadService {
     storageKey: string,
     sanitizedOriginalFileName: string,
     maximumBytes: number,
-    fileFormat: 'CSV' | 'XLSX',
+    fileFormat: 'CSV' | 'XLSX' | 'XLS',
   ): Promise<StoredFile> {
     const safety = new CsvSafetyTransform(fileFormat);
     const body = new PassThrough();
@@ -323,7 +328,7 @@ export class RosterMultipartUploadService {
     const storageTask = this.objectStorage.putPrivateObject({
       storageKey,
       body,
-      contentType: fileFormat === 'CSV' ? 'text/csv; charset=utf-8' : 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+      contentType: fileFormat === 'CSV' ? 'text/csv; charset=utf-8' : fileFormat === 'XLS' ? 'application/vnd.ms-excel' : 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
     });
     const [validation, storage] = await Promise.allSettled([validationTask, storageTask]);
     if (validation.status === 'rejected') throw validation.reason;
@@ -347,8 +352,7 @@ export class RosterMultipartUploadService {
     if (
       normalized.length < 5 ||
       normalized.length > 255 ||
-      !SAFE_FILE_NAME_PATTERN.test(normalized) ||
-      normalized.slice(0, -4).includes('.')
+      !SAFE_FILE_NAME_PATTERN.test(normalized)
     ) {
       throw new ApplicationError('ROSTER_FILE_INVALID', 422, {
         category: 'FILE_NAME',

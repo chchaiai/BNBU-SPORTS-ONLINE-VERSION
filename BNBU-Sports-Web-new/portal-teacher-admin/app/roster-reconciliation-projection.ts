@@ -76,12 +76,12 @@ export function mapRosterEntry(
 }
 
 const STATUS_REASON: Record<RosterReconciliationStatus, string> = {
-  MATCHED: "后端核对结果：官方名单与平台成员一致。",
-  MISSING_IN_PLATFORM: "后端核对结果：官方名单中存在，但当前平台成员中不存在。",
-  EXTRA_IN_PLATFORM: "后端核对结果：平台成员中存在，但当前官方名单中不存在。",
-  WRONG_COURSE: "后端核对结果：学生当前加入的教学班与官方名单归属不一致。",
-  IDENTITY_CONFLICT: "后端核对结果：学号匹配，但主要身份字段不一致。",
-  DUPLICATED: "后端核对结果：官方名单或平台成员存在重复身份记录。",
+  MATCHED: "已加入本班，名单信息一致。",
+  MISSING_IN_PLATFORM: "还未加入本班，请提醒学生使用本班邀请码或二维码加入。",
+  EXTRA_IN_PLATFORM: "已加入本班，但不在导入名单中，请核实是否选了这门课。",
+  WRONG_COURSE: "目前加入了其他班级，请联系学生核实选课情况。",
+  IDENTITY_CONFLICT: "学号相同，但姓名、性别或入学年份不同，请核实学生信息。",
+  DUPLICATED: "同一学号出现多次，请先核实重复的学生信息。",
 };
 
 function findPlatformMember(

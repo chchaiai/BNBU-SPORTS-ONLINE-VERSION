@@ -1,3 +1,4 @@
+import { utils, write } from 'xlsx';
 import assert from 'node:assert/strict';
 import { createServer } from 'node:net';
 import { resolve } from 'node:path';
@@ -362,6 +363,52 @@ describe('Official Roster Import and Alignment HTTP E2E', () => {
     });
     return { profileId, enrollmentId };
   }
+
+  it('teacher and admin mobile shells work with real authenticated sessions', { skip: process.env.PORTAL_MOBILE_BROWSER !== '1' }, async () => {
+    const { portalMobileRealBrowser } = await import('../../../tools/local-integration/portal-mobile-real-browser.mjs');
+    await portalMobileRealBrowser({ baseUrl, teacherEmail: fixture.teacherEmail, adminEmail: fixture.adminEmail, password: TEST_PASSWORD });
+  });
+
+  it('intuitive roster browser imports maps checks and refreshes real membership', { skip: process.env.ROSTER_UI_BROWSER !== '1' }, async () => {
+    await createPlatformStudent({ studentNumber: '000101', fullName: '已进班同学', classSectionId: fixture.teacherAActiveSectionId });
+    await createPlatformStudent({ studentNumber: '000103', fullName: '其他班同学', classSectionId: fixture.teacherBActiveSectionId });
+    await createPlatformStudent({ studentNumber: '000104', fullName: '信息待核实同学', classSectionId: fixture.teacherAActiveSectionId });
+    await createPlatformStudent({ studentNumber: '000105', fullName: '名单外同学', classSectionId: fixture.teacherAActiveSectionId });
+    const { rosterIntuitiveBrowser } = await import('../../../tools/local-integration/roster-intuitive-browser.mjs');
+    await rosterIntuitiveBrowser({ baseUrl, sectionId: fixture.teacherAActiveSectionId, email: fixture.teacherEmail, password: TEST_PASSWORD,
+      joinMissing: async () => { await createPlatformStudent({ studentNumber: '000102', fullName: '未进班同学', classSectionId: fixture.teacherAActiveSectionId }); } });
+    assert.equal(await prisma.officialRosterImport.count(), 1);
+    const confirmed = await prisma.$queryRaw<{count: bigint}[]>`SELECT count(*) FROM v81_confirmed_rosters`;
+    assert.equal(confirmed[0]?.count, 1n);
+  });
+
+  it('uploads and confirms original XLS/XLSX/CSV dotted-name files through HTTP and PostgreSQL', async () => {
+    const teacher = await login(fixture.teacherEmail);
+    for (const extension of ['xls', 'xlsx', 'csv'] as const) {
+      const book = utils.book_new();
+      utils.book_append_sheet(book, utils.aoa_to_sheet([['studentNumber', 'fullName', 'gender', 'gradeYear'], ['000123', '测试学生', 'OTHER', '2026']]), '名单');
+      const bytes = write(book, { type: 'buffer', bookType: extension }) as Buffer;
+      const form = new FormData();
+      form.set('source', 'FILE'); form.set('fileFormat', extension.toUpperCase());
+      form.set('fieldMappingSnapshot', JSON.stringify(FIELD_MAPPING));
+      if (extension !== 'csv') form.set('sheetName', '名单');
+      form.set('file', new Blob([Uint8Array.from(bytes)], {type: extension === 'csv' ? 'text/csv' : extension === 'xls' ? 'application/vnd.ms-excel' : 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'}), `课程.2026.09.${extension}`);
+      const imported = await request(`/api/v1/class-sections/${fixture.teacherAActiveSectionId}/roster-imports`, {
+        method: 'POST', headers: {authorization: `Bearer ${teacher}`, 'idempotency-key': uuidv7()}, body: form,
+      });
+      assert.equal(imported.status, 201, JSON.stringify(imported.body));
+      const source = object(imported.body.data);
+      assert.equal(source.status, 'VALIDATED');
+      const stored = await prisma.officialRosterImport.findUniqueOrThrow({where: {id: String(source.id)}});
+      assert.equal(stored.sourceFormat, extension.toUpperCase());
+      assert.ok(storage.objects.get(stored.sourceFileStorageKey!)?.equals(bytes));
+      const confirmed = await request(`/api/v1/roster-imports/${source.id}/confirmation`, authenticated(teacher, 'POST', {expectedVersion: source.version}, uuidv7()));
+      assert.equal(confirmed.status, 201, JSON.stringify(confirmed.body));
+      const entry = await prisma.officialRosterEntry.findFirstOrThrow({where: {rosterImportId: String(source.id)}});
+      assert.equal(entry.normalizedStudentNumber, '000123');
+      assert.equal(entry.fullName, '测试学生');
+    }
+  });
 
   it('continues an accepted electronic roster after closing while rejecting new imports without side effects', async () => {
     const teacher = await login(fixture.teacherEmail);

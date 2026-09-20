@@ -1,0 +1,186 @@
+{
+  "width": 390,
+  "scroll": 390,
+  "elements": [
+    {
+      "tag": "BUTTON",
+      "cls": "",
+      "right": 436,
+      "width": 113
+    },
+    {
+      "tag": "SPAN",
+      "cls": "",
+      "right": 427,
+      "width": 60
+    },
+    {
+      "tag": "BUTTON",
+      "cls": "",
+      "right": 551,
+      "width": 113
+    },
+    {
+      "tag": "I",
+      "cls": "sidebar-nav-icon",
+      "right": 469,
+      "width": 22
+    },
+    {
+      "tag": "svg",
+      "cls": {},
+      "right": 468.5,
+      "width": 21
+    },
+    {
+      "tag": "path",
+      "cls": {},
+      "right": 465,
+      "width": 14
+    },
+    {
+      "tag": "path",
+      "cls": {},
+      "right": 460.625,
+      "width": 5.25
+    },
+    {
+      "tag": "SPAN",
+      "cls": "",
+      "right": 542,
+      "width": 60
+    },
+    {
+      "tag": "BUTTON",
+      "cls": "",
+      "right": 654,
+      "width": 101
+    },
+    {
+      "tag": "I",
+      "cls": "sidebar-nav-icon",
+      "right": 584,
+      "width": 22
+    },
+    {
+      "tag": "svg",
+      "cls": {},
+      "right": 583.5,
+      "width": 21
+    },
+    {
+      "tag": "path",
+      "cls": {},
+      "right": 581.75,
+      "width": 17.5
+    },
+    {
+      "tag": "path",
+      "cls": {},
+      "right": 575.625,
+      "width": 5.25
+    },
+    {
+      "tag": "SPAN",
+      "cls": "",
+      "right": 645,
+      "width": 48
+    },
+    {
+      "tag": "SPAN",
+      "cls": "teacher-profile-tooltip",
+      "right": 650.484375,
+      "width": 261.484375
+    },
+    {
+      "tag": "B",
+      "cls": "",
+      "right": 638.484375,
+      "width": 237.484375
+    },
+    {
+      "tag": "SMALL",
+      "cls": "",
+      "right": 638.484375,
+      "width": 237.484375
+    },
+    {
+      "tag": "BUTTON",
+      "cls": "sidebar-collapse-button",
+      "right": 406,
+      "width": 32
+    },
+    {
+      "tag": "svg",
+      "cls": {},
+      "right": 398,
+      "width": 16
+    },
+    {
+      "tag": "TABLE",
+      "cls": "data-table roster-reconciliation-table",
+      "right": 709,
+      "width": 680
+    },
+    {
+      "tag": "COLGROUP",
+      "cls": "",
+      "right": 709,
+      "width": 680
+    },
+    {
+      "tag": "COL",
+      "cls": "",
+      "right": 654.578125,
+      "width": 299.1875
+    },
+    {
+      "tag": "COL",
+      "cls": "",
+      "right": 709,
+      "width": 54.421875
+    },
+    {
+      "tag": "THEAD",
+      "cls": "",
+      "right": 709,
+      "width": 680
+    },
+    {
+      "tag": "TR",
+      "cls": "",
+      "right": 709,
+      "width": 680
+    },
+    {
+      "tag": "TH",
+      "cls": "",
+      "right": 654.578125,
+      "width": 299.1875
+    },
+    {
+      "tag": "TH",
+      "cls": "action-column",
+      "right": 709,
+      "width": 54.421875
+    },
+    {
+      "tag": "TBODY",
+      "cls": "",
+      "right": 709,
+      "width": 680
+    },
+    {
+      "tag": "TR",
+      "cls": "",
+      "right": 709,
+      "width": 680
+    },
+    {
+      "tag": "TD",
+      "cls": "",
+      "right": 654.578125,
+      "width": 299.1875
+    }
+  ]
+}

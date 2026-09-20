@@ -1,0 +1,100 @@
+{
+  "release": "checkin-media-20260919",
+  "baseImages": {
+    "backend": "sha256:cd0376f41e5b2c440470500acf8e6990da42258b02d098b59a5d94d100f0aac1",
+    "portal": "sha256:e75c2d3f0cba133f1f7a0101a7753ee7bd0be7a26c7d0765ecdde59871ae18fe",
+    "migrator": "sha256:d42031d3cb9bf8858e1f2fdfc4713bd2635ec3aa912411f9e22dbe75581b7411"
+  },
+  "delta": [
+    {
+      "path": "common/roster-ingestion/roster-multipart-upload.service.js",
+      "before": "315e0cc43a76c3017cadd7b372cc53601bcc06c45fd242da9d30caa3a1248e79",
+      "after": "11d49f8517c309c9516c9eb3062ca1a8b6e17b90d8717adcc7c2e1783720aa03"
+    },
+    {
+      "path": "modules/roster/application/roster-imports.service.js",
+      "before": "586cf28c1a735fcaa86de602a1dece92564c7f69cd8b3d15579dd5f438bc1c25",
+      "after": "c210b0bb17fa2786c6b90c9badea451eb8a67a39a9afdcff9cc62174ebbaa90b"
+    },
+    {
+      "path": "modules/v8/domain/roster-xlsx.js",
+      "before": "7c68a81e453b982b5b22d9ae140c58518aedc4bee3deb1c532f76cfc375501c0",
+      "after": "6a43332515738fb1d5ce2ebe9326bc3e2795ee96482f5fb2db4e4c6d8d7f09b4"
+    },
+    {
+      "path": "modules/v8/domain/roster-xlsx-worker.js",
+      "before": "90e8a6ab8379a2ca56427b28555e2e099166544b42e814b194e8d1aa7a874bc4",
+      "after": "270f5cb534f13884dc6a729b18707dc0a33c566791eef54e0339efe2e21e3cec"
+    },
+    {
+      "path": "generated/migration-manifest.generated.js",
+      "before": "58caa6fdd936603b8017ffa70d5de5face4cd4459c6e5d3cd2ee3fff25852b4d",
+      "after": "2715b3cffba07af8b7c9a6eea72a603165cdd0ca2529f8d49fdbc2f7ab4c6de4"
+    },
+    {
+      "path": "generated/openapi.document.generated.json",
+      "before": "d881f277ac0ed9a79403c0855bc7502311c3d8a9d23d48a03a961f8a6451670f",
+      "after": "34dff319589178b8be50e45a05f0e4195fbaa1ce3e8d34aef6f897b0c9287d83"
+    }
+  ],
+  "web": [],
+  "checks": {
+    "backendUnit": 339,
+    "httpPostgres": 4,
+    "frontendFocused": 12,
+    "typecheck": "PASS",
+    "focusedLint": "PASS",
+    "migrationSafety": "PASS"
+  },
+  "files": {
+    "backup.py": "9cecd40cebed88097f86e7597ef66cc9a9bec686a8eb784f909be06bb80da4f9",
+    "candidate-smoke.mjs": "b7c9a1a5226b05883bda0de7a28cb9295387a87ac3fe4eaa6a0a816d24671680",
+    "deploy.py": "53a696f5fac6bcf1562988a6b12d55376bb58acc804a67582e2990edadf60096",
+    "backend/Dockerfile": "7f3a2b347f7d239fee6e9ec2597bf5f2192da2162b52e8f9c62de29d165e3dc8",
+    "migrator/Dockerfile": "6b2ffd33591acf9639e07076b10043cbc093d47446c53543a20b816b41bac132",
+    "portal/Dockerfile": "57b13318ca2a9c2d05801964c186e0a473fed18ecf6c0e5af1274eedb33e3805",
+    "portal/dist/.openai/hosting.json": "64861cc7aa4efc47960347ef1bbd2813fbd6412bebb14edd717b31d3ac55100b",
+    "portal/dist/client/.assetsignore": "4f83140d5f4293ab55bd1207327e995c83258f1e7d3145b1b5d7a3d17fdfe0a7",
+    "portal/dist/client/bnbu-emblem.svg": "de978cb12b86a80a17499703a1cbd0fd3cd2694fdc3964bdec066edebcae31ed",
+    "portal/dist/client/bnbu-sports-icon.svg": "49a400d7c5bec25e697347923377578da8fc8d3991c25d146a50f05b2768f6b2",
+    "portal/dist/client/checkin-evidence-preview.svg": "58596b837e2ea01eb5aa410abc5c988b94c5c4292c701bdcfa25680c08f17178",
+    "portal/dist/client/og.png": "d7ec95b61de99a4ec66568e91750d044d7eb533a1a876a25411d2eb5ce6cf0c4",
+    "portal/dist/client/_headers": "9e55124bccd40b43dbc6e002daa777fa8f32a230420152910784ca65501d9e0f",
+    "portal/dist/server/image-config.json": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+    "portal/dist/server/index.js": "430747b9dcb4a0b829207474c299e762567992c950faa80f17c2a24593f6ae31",
+    "portal/dist/server/vinext-externals.json": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+    "portal/dist/server/vinext-server.json": "4d0b04c42429bdbbe83d2e3d0dda950ee370ceab880bb4b3ce7a913869a89947",
+    "portal/dist/server/wrangler.json": "eaf4062368300b5dc8fdb355e39c10c391f1c7a0d74ee96cd6c10ebbd833bc75",
+    "portal/dist/server/__vite_rsc_assets_manifest.js": "727ee087f8af791802f7dbbc978e1bde535cc42a4646f4d1e1c24e4eeedc3ae5",
+    "portal/dist/server/.vite/manifest.json": "a73e5933cdc32e3c2c641d49efeb19ea3bff2c266278d5db0939c51c9cc4956c",
+    "portal/dist/server/assets/index-TsKuYum7.css": "88f151e33f0d99bf7b883fae5007f530e01ecc4c7ac20983b9e0d628b4a280f1",
+    "portal/dist/server/ssr/index.js": "454e8f262950b3ec63ffce47b2cb83419c638f10db6579165e835cefcb0fcaa3",
+    "portal/dist/server/ssr/vinext-server.json": "4d0b04c42429bdbbe83d2e3d0dda950ee370ceab880bb4b3ce7a913869a89947",
+    "portal/dist/server/ssr/__vite_rsc_assets_manifest.js": "727ee087f8af791802f7dbbc978e1bde535cc42a4646f4d1e1c24e4eeedc3ae5",
+    "portal/dist/server/ssr/assets/cpexcel.full-DCOxMb2E.js": "8d87acc51c1c86ffe5b9742eb286edb3f129881d45e3037ea419f0c5ae5d74fc",
+    "portal/dist/server/ssr/assets/endurance-api-B0R-Qai-.js": "360fd6644fcfa783ffd71aab35110f07a3e7b137e9d461a1fe174901c723512c",
+    "portal/dist/server/ssr/assets/worker-entry-KuIQxfqK.css": "b1efde2a66ce300629bce5fb279fb8837e3ba0b3bc561a22e12ae7f25d2da4a0",
+    "portal/dist/server/ssr/assets/worker-entry-VBESCoaU.js": "2ff41d6d179030f2c538c43ac529d285e049bac9221c07f9102f9764d3153598",
+    "portal/dist/server/ssr/assets/xlsx-CFbTV10H.js": "650b3923a1fff46a62acf65005c4613a1c7ace0a72392543af700a99028bee04",
+    "portal/dist/client/.vite/manifest.json": "df6d8cac0d5f59de46953bb24268bb6cfdcc9fcfa5c47634e0b85d4d4d814691",
+    "portal/dist/client/assets/cpexcel.full-CAlsa5X_.js": "e3a61ce01017d596b5d6a513ee4162bf69f91eb0c84e01175e58501c74edb141",
+    "portal/dist/client/assets/endurance-api-BKKuG-Jh.js": "890d2544cfc0752b0bbad4cd58157896abdd06eeb71ab983ee90587fd17e852f",
+    "portal/dist/client/assets/framework-bym5aI3S.js": "a9b4ce28eb1fd24f44bd6afc700324f83feec30c0419725ce29a8c61bfa8996a",
+    "portal/dist/client/assets/index-MqACpvUz.js": "8b17843318816d8ec472cd4a6f17d0d1bc37481b0ced9464b766d0620a4fcdd3",
+    "portal/dist/client/assets/index-TsKuYum7.css": "88f151e33f0d99bf7b883fae5007f530e01ecc4c7ac20983b9e0d628b4a280f1",
+    "portal/dist/client/assets/rolldown-runtime-hePW80VL.js": "580ad8c58061a4dde99bde0a56905e382f0568516ee2f5b84dbfb52085709021",
+    "portal/dist/client/assets/worker-entry-KpZcfGMt.js": "690f80020796750af1cbf778eba4e693f8eaeda3b13092c5dab4be9d06f42f40",
+    "portal/dist/client/assets/worker-entry-KuIQxfqK.css": "b1efde2a66ce300629bce5fb279fb8837e3ba0b3bc561a22e12ae7f25d2da4a0",
+    "portal/dist/client/assets/xlsx-DwRHmDrW.js": "7af040a5ba632e8b806def4e97a07b2fa28cfe7af2f5fa952759d47af9ab5105",
+    "portal/dist/client/brand/verity-ai-logo.svg": "fcdb41bdfe71352863e6e55577726adf281a32dbdfe6da320499e3af5e668e16",
+    "portal/dist/client/branding/sports-logo.png": "377ba9c5e34ff40835b821e65729c16ad5f621848bcd46a6f56c3ead546fb17e",
+    "migrator/prisma/migrations/0087_roster_xls/manifest.json": "fe5f7ec3d0551fe761ffca828e561d513ca66615ea1d0e38b02ed3a8dd501367",
+    "migrator/prisma/migrations/0087_roster_xls/migration.sql": "74e7043ffa8528e2c8655d4237ae58b6655a12464e800351816eb642d75e3bc1",
+    "backend/dist/generated/migration-manifest.generated.js": "2715b3cffba07af8b7c9a6eea72a603165cdd0ca2529f8d49fdbc2f7ab4c6de4",
+    "backend/dist/generated/openapi.document.generated.json": "34dff319589178b8be50e45a05f0e4195fbaa1ce3e8d34aef6f897b0c9287d83",
+    "backend/dist/modules/v8/domain/roster-xlsx-worker.js": "270f5cb534f13884dc6a729b18707dc0a33c566791eef54e0339efe2e21e3cec",
+    "backend/dist/modules/v8/domain/roster-xlsx.js": "6a43332515738fb1d5ce2ebe9326bc3e2795ee96482f5fb2db4e4c6d8d7f09b4",
+    "backend/dist/modules/roster/application/roster-imports.service.js": "c210b0bb17fa2786c6b90c9badea451eb8a67a39a9afdcff9cc62174ebbaa90b",
+    "backend/dist/common/roster-ingestion/roster-multipart-upload.service.js": "11d49f8517c309c9516c9eb3062ca1a8b6e17b90d8717adcc7c2e1783720aa03"
+  }
+}

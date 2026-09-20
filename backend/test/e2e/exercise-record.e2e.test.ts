@@ -494,6 +494,21 @@ describe('ExerciseRecord HTTP E2E', () => {
     assert.equal(incomplete.status, 422);
     assert.equal(incomplete.body.code, 'EXERCISE_RECORD_MEDIA_INCOMPLETE');
 
+    const recovered = await request(`/api/v1/exercise-records/${recordId}/evidence-context`, authenticated(token));
+    assert.equal(recovered.status, 200);
+    assert.deepEqual((object(recovered.body.data).mediaIds as string[]).sort(), [mediaId, secondMediaId].sort());
+    assert.equal(object(recovered.body.data).sessionId, sessionId);
+    const anonymous = await request(`/api/v1/exercise-records/${recordId}/evidence-context`);
+    assert.equal(anonymous.status, 401);
+    if (process.env.CHECKIN_MEDIA_BROWSER === '1') {
+      const browser = await import(pathToFileURL(resolve('../tools/local-integration/checkin-media-browser.mjs')).href) as {
+        checkinMediaBrowser: (input: {baseUrl:string;token:string;sessionId:string;mediaId:string;studentId:string;userId:string}) => Promise<unknown>;
+      };
+      await browser.checkinMediaBrowser({baseUrl, token, sessionId, mediaId, studentId:student.studentId, userId:student.userId});
+      assert.equal(await prisma.exerciseRecordMedia.count({where:{recordId}}), 2);
+      return;
+    }
+
     const submitted = await request(
       `/api/v1/exercise-records/${recordId}/submit`,
       authenticated(

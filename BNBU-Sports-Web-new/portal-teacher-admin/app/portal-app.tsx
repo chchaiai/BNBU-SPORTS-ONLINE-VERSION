@@ -18,6 +18,8 @@ import {
   GraduationCap,
   LayoutDashboard,
   Mail,
+  Menu,
+  X,
   ScrollText,
   Settings,
   ShieldCheck,
@@ -462,6 +464,12 @@ export function PortalApp() {
   });
   const [teacherSemesterName, setTeacherSemesterName] = useState("—");
   const sidebarController = useResizableSidebar(role ?? "teacher");
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const mobileMenuButton = useRef<HTMLButtonElement>(null);
+  const closeMobileMenu = () => {
+    setMobileMenuOpen(false);
+    if (window.matchMedia('(max-width: 860px)').matches) mobileMenuButton.current?.focus();
+  };
   const preferencesRestored = useRef(false);
   const sessionRestoreAttemptRef = useRef(0);
   const themeTransitionTimeoutRef = useRef<number | null>(null);
@@ -1484,7 +1492,16 @@ export function PortalApp() {
           } as CSSProperties
         }
       >
-        <aside className="sidebar" id={`${role}-sidebar`}>
+        <aside className={`sidebar ${mobileMenuOpen ? "is-mobile-open" : ""}`} id={`${role}-sidebar`}
+          onKeyDown={event => { if (event.key === "Escape" && mobileMenuOpen) closeMobileMenu(); }}>
+          <div className="mobile-navigation-bar">
+            <strong>{role === "teacher" ? "教师端" : "管理端"}</strong>
+            <button ref={mobileMenuButton} type="button" aria-expanded={mobileMenuOpen} aria-controls={`${role}-navigation`}
+              onClick={() => setMobileMenuOpen(open => !open)}>
+              {mobileMenuOpen ? <X size={20} aria-hidden="true" /> : <Menu size={20} aria-hidden="true" />}
+              {mobileMenuOpen ? "收起菜单" : "菜单"}
+            </button>
+          </div>
           <SportsBrand />
           <div className="workspace-label">
             <span>{role === "teacher" ? "教师空间" : "管理空间"}</span>
@@ -1494,7 +1511,7 @@ export function PortalApp() {
               role === "admin" && <Badge tone="green">ADMIN</Badge>
             )}
           </div>
-          <nav aria-label="主要导航">
+          <nav id={`${role}-navigation`} aria-label="主要导航">
             {nav.map((item) => {
               const NavIcon = item.icon;
 
@@ -1506,7 +1523,7 @@ export function PortalApp() {
                   aria-current={active === item.id ? "page" : undefined}
                   aria-label={item.label}
                   title={isSidebarCollapsed ? item.label : undefined}
-                  onClick={() => navigateTo(item.id)}
+                  onClick={() => { navigateTo(item.id); closeMobileMenu(); }}
                 >
                   <i className="sidebar-nav-icon" aria-hidden="true">
                     <NavIcon size={21} strokeWidth={1.8} />
@@ -1529,7 +1546,7 @@ export function PortalApp() {
                 aria-describedby={
                   isSidebarCollapsed ? "teacher-profile-tooltip" : undefined
                 }
-                onClick={() => setModal("profile")}
+                onClick={() => { closeMobileMenu(); setModal("profile"); }}
               >
                 <span
                   className="avatar teacher-profile-avatar"
@@ -1563,7 +1580,7 @@ export function PortalApp() {
                     ? `Open ${displayUser.name}'s profile`
                     : `打开${displayUser.name}的用户信息`
                 }
-                onClick={() => setModal("profile")}
+                onClick={() => { closeMobileMenu(); setModal("profile"); }}
               >
                 <span className="avatar">
                   {displayUser.name.trim().slice(0, 1) || "管"}

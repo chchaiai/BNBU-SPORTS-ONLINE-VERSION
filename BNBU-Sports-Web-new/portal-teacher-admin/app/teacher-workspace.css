@@ -7912,3 +7912,46 @@ button:disabled {
 .ai-review-panel[data-ai-recommendation='SUGGEST_PASS'] { border-left:4px solid #168653; }
 .ai-review-panel[data-ai-recommendation='SUSPECTED_RISK'] { border-left:4px solid #be3535; }
 .ai-review-panel[data-ai-recommendation='TEACHER_REVIEW'] { border-left:4px solid #b57b09; }
+
+/* Keep the attendance check focused on actionable student groups. */
+.roster-reconciliation-page .roster-check-stats { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.roster-import-dialog .roster-check-steps { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+@media (max-width: 760px) {
+  .roster-reconciliation-page .roster-check-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+.roster-import-dialog { display: flex; flex-direction: column; overflow: hidden; }
+.roster-import-dialog > .modal-head, .roster-import-dialog > .modal-footer { flex-shrink: 0; }
+.roster-import-dialog > .teacher-dialog-body { min-height: 0; overflow-y: auto; }
+@media (max-width: 760px) {
+  .app-shell-teacher:has(.roster-reconciliation-page) { overflow-x: clip; }
+}
+
+.roster-reconciliation-page .roster-check-meta { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.roster-reconciliation-table td { max-width: none; white-space: normal; }
+.roster-reconciliation-table .roster-reason-link { display: block; max-width: none; overflow: visible; }
+.roster-reconciliation-table .action-column { width: 64px; }
+@media (max-width: 560px) {
+  .roster-reconciliation-page .roster-check-meta { grid-template-columns: 1fr; }
+}
+
+/* Keep the conclusion prominent and result selectors visibly actionable. */
+.roster-check-conclusion { display:flex; gap:18px; align-items:flex-start; padding:24px 28px; border:1px solid #a9c9ed; border-radius:16px; background:var(--surface, #fff); color:var(--text-primary, #172b46); }
+.roster-check-conclusion > svg { color:#1671cc; flex-shrink:0; margin-top:6px; }
+.roster-check-conclusion h2 { font-size:26px; line-height:1.4; margin:0 0 10px; }
+.roster-check-conclusion h2 strong { font-size:36px; color:#0875d1; }
+.roster-check-conclusion p { font-size:16px; line-height:1.7; margin:4px 0; }
+.roster-result-buttons { display:flex; flex-wrap:wrap; gap:12px; }
+.roster-result-button { display:flex; align-items:center; justify-content:center; gap:10px; min-height:52px; padding:12px 18px; border:1px solid #9daec2; border-radius:10px; background:var(--surface, #fff); color:var(--text-primary, #172b46); font-size:16px; font-weight:600; cursor:pointer; box-shadow:0 2px 3px #172b4610; }
+.roster-result-button b { padding:2px 9px; border-radius:7px; background:#e8eff8; color:#153b65; font-size:17px; }
+.roster-result-button:hover { border-color:#0875d1; box-shadow:0 0 0 2px #0875d120; }
+.roster-result-button:focus-visible { outline:3px solid #0875d1; outline-offset:3px; }
+.roster-result-button.is-selected { background:#0875d1; border-color:#0875d1; color:#fff; }
+.roster-result-button.is-selected b { background:#fff; color:#075da8; }
+@media(max-width:640px) {
+ .roster-check-conclusion { padding:18px; gap:10px; }
+ .roster-check-conclusion h2 { font-size:21px; }
+ .roster-check-conclusion p { font-size:15px; }
+ .roster-result-buttons { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:8px; }
+ .roster-result-button { padding:10px 8px; font-size:14px; gap:6px; flex-wrap:wrap; }
+}
