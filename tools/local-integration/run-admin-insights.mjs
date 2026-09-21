@@ -1,0 +1,20 @@
+import {execFileSync,spawnSync} from 'node:child_process';
+import {createRequire} from 'node:module';
+import {writeFileSync,mkdirSync} from 'node:fs';
+const require=createRequire(new URL('../../backend/package.json',import.meta.url));
+const {Client}=require('pg');
+const container=JSON.parse(execFileSync('docker',['inspect','bnbu-demand-20260916-postgres-1'],{encoding:'utf8'}))[0];
+const env=Object.fromEntries(container.Config.Env.map(s=>{const i=s.indexOf('=');return [s.slice(0,i),s.slice(i+1)]}));
+const database='bnbu_insights_'+Date.now();
+const base={host:'127.0.0.1',port:55432,user:env.POSTGRES_USER,password:env.POSTGRES_PASSWORD};
+const client=new Client({...base,database:env.POSTGRES_DB});await client.connect();
+await client.query(`CREATE DATABASE "${database}"`);await client.end();
+const url=`postgresql://${encodeURIComponent(base.user)}:${encodeURIComponent(base.password)}@127.0.0.1:55432/${database}?schema=public`;
+const processEnv={...process.env,DATABASE_URL:url,MIGRATION_DATABASE_URL:url,INSIGHTS_TEST_DATABASE:url};
+mkdirSync('evidence/admin-analytics-20260921',{recursive:true});
+const migration=spawnSync(process.execPath,['node_modules/prisma/build/index.js','migrate','deploy'],{cwd:'backend',env:processEnv,encoding:'utf8'});
+writeFileSync('evidence/admin-analytics-20260921/local-migration.log',migration.stdout+ migration.stderr);
+if(migration.status!==0)throw Error('Isolated database migration failed; see local-migration.log');
+const result=spawnSync(process.execPath,['--import','tsx','../tools/local-integration/admin-insights-http.mjs'],{cwd:'backend',env:processEnv,encoding:'utf8'});
+writeFileSync('evidence/admin-analytics-20260921/http-tests.log',result.stdout+result.stderr);
+console.log(result.stdout);if(result.status!==0){console.error(result.stderr);process.exitCode=1;}

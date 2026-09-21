@@ -1,0 +1,595 @@
+--- a/BNBU-Sports-Web-new/frontend/student/js/screens/checkin.js
++++ b/BNBU-Sports-Web-new/frontend/student/js/screens/checkin.js
+@@ -132,7 +132,8 @@
+     if (keywords.some((k) => lower.includes(k.toLowerCase()))) return { sportType, displayName, customSportName: null };
+   }
+   const paren = [...name.matchAll(/[（(]([^（）()]+)[）)]/g)].pop()?.[1]?.trim();
+-  const displayName = paren || name || "课程运动";
++  const schedule = /^(?:mon(?:day)?|tue(?:sday)?|wed(?:nesday)?|thu(?:rsday)?|fri(?:day)?|sat(?:urday)?|sun(?:day)?|周[一二三四五六日天]|星期[一二三四五六日天])(?:[\s\d:.-]*)$/i;
++  const displayName = (paren && !schedule.test(paren) ? paren : name.replace(/[（(][^（）()]*[）)]\s*\d*\s*$/, "").trim()) || name || "课程运动";
+   return { sportType: OTHER, displayName, customSportName: displayName };
+ }
+ 
+--- a/backend/scripts/migration-registry.mjs
++++ b/backend/scripts/migration-registry.mjs
+@@ -88,4 +88,5 @@
+   '0086_feedback_attachments',
+   '0087_roster_xls',
+   '0088_student_self_erasure',
++  '0089_teacher_notes',
+ ];
+--- a/docs/backend-contracts/openapi.yaml
++++ b/docs/backend-contracts/openapi.yaml
+@@ -2450,6 +2450,26 @@
+         defaultDeny: true
+       summary: List authorized record projections
+       parameters:
++        - name: page
++          in: query
++          required: false
++          schema: {type: integer, minimum: 1, maximum: 100000}
++        - name: studentId
++          in: query
++          required: false
++          schema: {type: string, format: uuid}
++        - name: sportType
++          in: query
++          required: false
++          schema: {type: string, maxLength: 64}
++        - name: creditType
++          in: query
++          required: false
++          schema: {type: string, enum: [COURSE_RELATED, GENERAL]}
++        - name: workflowStage
++          in: query
++          required: false
++          schema: {type: string, enum: [VALID, INVALID, PENDING_TEACHER, PENDING_AI, AWAITING_SUPPLEMENT, TECHNICAL]}
+         - $ref: "#/components/parameters/RequestIdHeader"
+         - $ref: "#/components/parameters/Cursor"
+         - $ref: "#/components/parameters/Limit"
+@@ -11042,6 +11062,119 @@
+           $ref: "#/components/responses/Conflict"
+         "422":
+           $ref: "#/components/responses/UnprocessableEntity"
++  /admin/insights:
++    get:
++      operationId: getV81ManagementInsights
++      tags: [V8.1 local implementation]
++      summary: getV81ManagementInsights
++      x-access-policy:
++        policyId: GETV81MANAGEMENTINSIGHTS
++        authentication: ACCESS_TOKEN
++        allowedRoles: [ADMIN]
++        organizationScope: PRINCIPAL_ORGANIZATION
++        resourceScope: SELF
++        resourceResolver: PRINCIPAL_USER
++        defaultDeny: true
++      parameters:
++        - name: from
++          in: query
++          required: false
++          schema: {type: string, format: date}
++        - name: to
++          in: query
++          required: false
++          schema: {type: string, format: date}
++        - name: classSectionId
++          in: query
++          required: false
++          schema: {type: string, format: uuid}
++        - $ref: "#/components/parameters/RequestIdHeader"
++      responses:
++        "200":
++          description: Persisted result in the data envelope
++          content:
++            application/json:
++              schema:
++                type: object
++                properties:
++                  data: {type: object, additionalProperties: true}
++                  meta: {type: object, additionalProperties: true}
++        "403":
++          description: Permission denied
++  /admin/teachers/{id}/details:
++    get:
++      operationId: getV81TeacherDetails
++      tags: [V8.1 local implementation]
++      summary: getV81TeacherDetails
++      x-access-policy:
++        policyId: GETV81TEACHERDETAILS
++        authentication: ACCESS_TOKEN
++        allowedRoles: [ADMIN]
++        organizationScope: PRINCIPAL_ORGANIZATION
++        resourceScope: SELF
++        resourceResolver: PRINCIPAL_USER
++        defaultDeny: true
++      parameters:
++        - $ref: "#/components/parameters/RequestIdHeader"
++        - name: id
++          in: path
++          required: true
++          schema: {type: string, format: uuid}
++      responses:
++        "200":
++          description: Persisted result in the data envelope
++          content:
++            application/json:
++              schema:
++                type: object
++                properties:
++                  data: {type: object, additionalProperties: true}
++                  meta: {type: object, additionalProperties: true}
++        "403":
++          description: Permission denied
++    patch:
++      operationId: updateV81TeacherDetails
++      tags: [V8.1 local implementation]
++      summary: updateV81TeacherDetails
++      x-access-policy:
++        policyId: UPDATEV81TEACHERDETAILS
++        authentication: ACCESS_TOKEN
++        allowedRoles: [ADMIN]
++        organizationScope: PRINCIPAL_ORGANIZATION
++        resourceScope: SELF
++        resourceResolver: PRINCIPAL_USER
++        defaultDeny: true
++      parameters:
++        - $ref: "#/components/parameters/RequestIdHeader"
++        - name: id
++          in: path
++          required: true
++          schema: {type: string, format: uuid}
++        - $ref: "#/components/parameters/IdempotencyKeyHeader"
++      requestBody:
++        required: true
++        content:
++          application/json:
++            schema:
++              type: object
++              additionalProperties: false
++              required: [fullName, remark, expectedVersion]
++              properties:
++                fullName: {type: string, minLength: 1, maxLength: 100}
++                remark: {type: string, maxLength: 1000}
++                expectedVersion: {type: integer, minimum: 1}
++      responses:
++        "200":
++          description: Persisted result in the data envelope
++          content:
++            application/json:
++              schema:
++                type: object
++                properties:
++                  data: {type: object, additionalProperties: true}
++                  meta: {type: object, additionalProperties: true}
++        "403":
++          description: Permission denied
+   /admin/course-directory:
+     get:
+       operationId: getV81AdminCourseDirectory
+@@ -18785,6 +18918,8 @@
+       type: object
+       additionalProperties: false
+       properties:
++        total: {type: integer, minimum: 0}
++        totalPages: {type: integer, minimum: 0}
+         nextCursor:
+           type:
+             - string
+@@ -20236,6 +20371,8 @@
+       x-same-day-independent-records: true
+       x-daily-credited-record-limit: 1
+       properties:
++        startedAt: {type: string, format: date-time}
++        endedAt: {type: [string, 'null'], format: date-time}
+         aiReview:
+           description: Only returned to an authorized teacher; null for records without an AI job.
+           oneOf:
+--- a/backend/src/generated/migration-manifest.generated.ts
++++ b/backend/src/generated/migration-manifest.generated.ts
+@@ -439,6 +439,11 @@
+   {
+     migrationId: '0088_student_self_erasure',
+     sha256: '9edda2ce0aead50db9a996661502fcd7ce2862160da3fbb1b71bc7e4b15c2363',
++    destructive: false,
++  },
++  {
++    migrationId: '0089_teacher_notes',
++    sha256: 'ace05467a0ccd3b847d8d326ef4dfc28c37afb2dd19355782a34bafa5021d93a',
+     destructive: false,
+   },
+ ] as const;
+--- a/backend/src/generated/openapi.document.generated.json
++++ b/backend/src/generated/openapi.document.generated.json
+@@ -3907,6 +3907,62 @@
+         },
+         "summary": "List authorized record projections",
+         "parameters": [
++          {
++            "name": "page",
++            "in": "query",
++            "required": false,
++            "schema": {
++              "type": "integer",
++              "minimum": 1,
++              "maximum": 100000
++            }
++          },
++          {
++            "name": "studentId",
++            "in": "query",
++            "required": false,
++            "schema": {
++              "type": "string",
++              "format": "uuid"
++            }
++          },
++          {
++            "name": "sportType",
++            "in": "query",
++            "required": false,
++            "schema": {
++              "type": "string",
++              "maxLength": 64
++            }
++          },
++          {
++            "name": "creditType",
++            "in": "query",
++            "required": false,
++            "schema": {
++              "type": "string",
++              "enum": [
++                "COURSE_RELATED",
++                "GENERAL"
++              ]
++            }
++          },
++          {
++            "name": "workflowStage",
++            "in": "query",
++            "required": false,
++            "schema": {
++              "type": "string",
++              "enum": [
++                "VALID",
++                "INVALID",
++                "PENDING_TEACHER",
++                "PENDING_AI",
++                "AWAITING_SUPPLEMENT",
++                "TECHNICAL"
++              ]
++            }
++          },
+           {
+             "$ref": "#/components/parameters/RequestIdHeader"
+           },
+@@ -18526,6 +18582,233 @@
+         }
+       }
+     },
++    "/admin/insights": {
++      "get": {
++        "operationId": "getV81ManagementInsights",
++        "tags": [
++          "V8.1 local implementation"
++        ],
++        "summary": "getV81ManagementInsights",
++        "x-access-policy": {
++          "policyId": "GETV81MANAGEMENTINSIGHTS",
++          "authentication": "ACCESS_TOKEN",
++          "allowedRoles": [
++            "ADMIN"
++          ],
++          "organizationScope": "PRINCIPAL_ORGANIZATION",
++          "resourceScope": "SELF",
++          "resourceResolver": "PRINCIPAL_USER",
++          "defaultDeny": true
++        },
++        "parameters": [
++          {
++            "name": "from",
++            "in": "query",
++            "required": false,
++            "schema": {
++              "type": "string",
++              "format": "date"
++            }
++          },
++          {
++            "name": "to",
++            "in": "query",
++            "required": false,
++            "schema": {
++              "type": "string",
++              "format": "date"
++            }
++          },
++          {
++            "name": "classSectionId",
++            "in": "query",
++            "required": false,
++            "schema": {
++              "type": "string",
++              "format": "uuid"
++            }
++          },
++          {
++            "$ref": "#/components/parameters/RequestIdHeader"
++          }
++        ],
++        "responses": {
++          "200": {
++            "description": "Persisted result in the data envelope",
++            "content": {
++              "application/json": {
++                "schema": {
++                  "type": "object",
++                  "properties": {
++                    "data": {
++                      "type": "object",
++                      "additionalProperties": true
++                    },
++                    "meta": {
++                      "type": "object",
++                      "additionalProperties": true
++                    }
++                  }
++                }
++              }
++            }
++          },
++          "403": {
++            "description": "Permission denied"
++          }
++        }
++      }
++    },
++    "/admin/teachers/{id}/details": {
++      "get": {
++        "operationId": "getV81TeacherDetails",
++        "tags": [
++          "V8.1 local implementation"
++        ],
++        "summary": "getV81TeacherDetails",
++        "x-access-policy": {
++          "policyId": "GETV81TEACHERDETAILS",
++          "authentication": "ACCESS_TOKEN",
++          "allowedRoles": [
++            "ADMIN"
++          ],
++          "organizationScope": "PRINCIPAL_ORGANIZATION",
++          "resourceScope": "SELF",
++          "resourceResolver": "PRINCIPAL_USER",
++          "defaultDeny": true
++        },
++        "parameters": [
++          {
++            "$ref": "#/components/parameters/RequestIdHeader"
++          },
++          {
++            "name": "id",
++            "in": "path",
++            "required": true,
++            "schema": {
++              "type": "string",
++              "format": "uuid"
++            }
++          }
++        ],
++        "responses": {
++          "200": {
++            "description": "Persisted result in the data envelope",
++            "content": {
++              "application/json": {
++                "schema": {
++                  "type": "object",
++                  "properties": {
++                    "data": {
++                      "type": "object",
++                      "additionalProperties": true
++                    },
++                    "meta": {
++                      "type": "object",
++                      "additionalProperties": true
++                    }
++                  }
++                }
++              }
++            }
++          },
++          "403": {
++            "description": "Permission denied"
++          }
++        }
++      },
++      "patch": {
++        "operationId": "updateV81TeacherDetails",
++        "tags": [
++          "V8.1 local implementation"
++        ],
++        "summary": "updateV81TeacherDetails",
++        "x-access-policy": {
++          "policyId": "UPDATEV81TEACHERDETAILS",
++          "authentication": "ACCESS_TOKEN",
++          "allowedRoles": [
++            "ADMIN"
++          ],
++          "organizationScope": "PRINCIPAL_ORGANIZATION",
++          "resourceScope": "SELF",
++          "resourceResolver": "PRINCIPAL_USER",
++          "defaultDeny": true
++        },
++        "parameters": [
++          {
++            "$ref": "#/components/parameters/RequestIdHeader"
++          },
++          {
++            "name": "id",
++            "in": "path",
++            "required": true,
++            "schema": {
++              "type": "string",
++              "format": "uuid"
++            }
++          },
++          {
++            "$ref": "#/components/parameters/IdempotencyKeyHeader"
++          }
++        ],
++        "requestBody": {
++          "required": true,
++          "content": {
++            "application/json": {
++              "schema": {
++                "type": "object",
++                "additionalProperties": false,
++                "required": [
++                  "fullName",
++                  "remark",
++                  "expectedVersion"
++                ],
++                "properties": {
++                  "fullName": {
++                    "type": "string",
++                    "minLength": 1,
++                    "maxLength": 100
++                  },
++                  "remark": {
++                    "type": "string",
++                    "maxLength": 1000
++                  },
++                  "expectedVersion": {
++                    "type": "integer",
++                    "minimum": 1
++                  }
++                }
++              }
++            }
++          }
++        },
++        "responses": {
++          "200": {
++            "description": "Persisted result in the data envelope",
++            "content": {
++              "application/json": {
++                "schema": {
++                  "type": "object",
++                  "properties": {
++                    "data": {
++                      "type": "object",
++                      "additionalProperties": true
++                    },
++                    "meta": {
++                      "type": "object",
++                      "additionalProperties": true
++                    }
++                  }
++                }
++              }
++            }
++          },
++          "403": {
++            "description": "Permission denied"
++          }
++        }
++      }
++    },
+     "/admin/course-directory": {
+       "get": {
+         "operationId": "getV81AdminCourseDirectory",
+@@ -31456,6 +31739,14 @@
+         "type": "object",
+         "additionalProperties": false,
+         "properties": {
++          "total": {
++            "type": "integer",
++            "minimum": 0
++          },
++          "totalPages": {
++            "type": "integer",
++            "minimum": 0
++          },
+           "nextCursor": {
+             "type": [
+               "string",
+@@ -33447,6 +33738,17 @@
+         "x-same-day-independent-records": true,
+         "x-daily-credited-record-limit": 1,
+         "properties": {
++          "startedAt": {
++            "type": "string",
++            "format": "date-time"
++          },
++          "endedAt": {
++            "type": [
++              "string",
++              "null"
++            ],
++            "format": "date-time"
++          },
+           "aiReview": {
+             "description": "Only returned to an authorized teacher; null for records without an AI job.",
+             "oneOf": [
+--- a/backend/src/generated/openapi.manifest.generated.json
++++ b/backend/src/generated/openapi.manifest.generated.json
+@@ -1,8 +1,8 @@
+ {
+   "source": "docs/backend-contracts/openapi.yaml",
+-  "sha256": "17582db90ad8b450a995ac571b4e5458d25a48ca8bf1fa4791246aedb6fb16bd",
++  "sha256": "609261903dea597e907bfbb4893aa2bf6e7036cda4a63e05ffd1f87162405604",
+   "openapi": "3.1.0",
+-  "paths": 230,
+-  "operations": 270,
++  "paths": 232,
++  "operations": 273,
+   "schemas": 397
+ }
+--- a/backend/src/generated/operation-policies.generated.ts
++++ b/backend/src/generated/operation-policies.generated.ts
+@@ -2701,6 +2701,45 @@
+     "resourceResolver": "PRINCIPAL_USER",
+     "defaultDeny": true
+   },
++  "getV81ManagementInsights": {
++    "method": "GET",
++    "route": "/admin/insights",
++    "policyId": "GETV81MANAGEMENTINSIGHTS",
++    "authentication": "ACCESS_TOKEN",
++    "allowedRoles": [
++      "ADMIN"
++    ],
++    "organizationScope": "PRINCIPAL_ORGANIZATION",
++    "resourceScope": "SELF",
++    "resourceResolver": "PRINCIPAL_USER",
++    "defaultDeny": true
++  },
++  "getV81TeacherDetails": {
++    "method": "GET",
++    "route": "/admin/teachers/{id}/details",
++    "policyId": "GETV81TEACHERDETAILS",
++    "authentication": "ACCESS_TOKEN",
++    "allowedRoles": [
++      "ADMIN"
++    ],
++    "organizationScope": "PRINCIPAL_ORGANIZATION",
++    "resourceScope": "SELF",
++    "resourceResolver": "PRINCIPAL_USER",
++    "defaultDeny": true
++  },
++  "updateV81TeacherDetails": {
++    "method": "PATCH",
++    "route": "/admin/teachers/{id}/details",
++    "policyId": "UPDATEV81TEACHERDETAILS",
++    "authentication": "ACCESS_TOKEN",
++    "allowedRoles": [
++      "ADMIN"
++    ],
++    "organizationScope": "PRINCIPAL_ORGANIZATION",
++    "resourceScope": "SELF",
++    "resourceResolver": "PRINCIPAL_USER",
++    "defaultDeny": true
++  },
+   "getV81AdminCourseDirectory": {
+     "method": "GET",
+     "route": "/admin/course-directory",

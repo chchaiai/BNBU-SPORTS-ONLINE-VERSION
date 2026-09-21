@@ -80,6 +80,9 @@ export function selectCredits(
   reserved: { days: ReadonlyMap<string, number>; weeks: ReadonlyMap<string, number> } = { days: new Map(), weeks: new Map() },
 ) {
   validateCreditRules(rules);
+  // Preserve the recorded sport category; allocate its credit to the open target.
+  if (rules.courseTarget === 0) candidates = candidates.map(record =>
+    record.category === 'COURSE_RELATED' ? { ...record, category: 'GENERAL' } : record);
   if (
     ![recognized.course, recognized.general].every(
       (value) => Number.isInteger(value) && value >= 0,

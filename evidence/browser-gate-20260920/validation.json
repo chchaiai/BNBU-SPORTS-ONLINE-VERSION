@@ -1,0 +1,16 @@
+{
+  "previous": "media-errors-20260920",
+  "checks": {
+    "tests": 99,
+    "smoke": 87,
+    "browserScenarios": 8
+  },
+  "files": {
+    "js/app.js": "2b2c92e1aa496de81310a22f42a9143b38e0c9ee3c4b817fe86848fa3078409f",
+    "js/student-device.js": "20648b98dad5f039d3e58929ea5f690fea9dd10acd3caeee8d87e0f8d088e9c2"
+  },
+  "baseline": {
+    "js/app.js": "cc1de024974c29f5940cdf03f70f9cc1419eeb3d0d38300b018765ba3f40df39",
+    "js/student-device.js": "415424117e6cdc1ead100804364934b8b07a2cb7a60618ca23dc3cd784e8015f"
+  }
+}

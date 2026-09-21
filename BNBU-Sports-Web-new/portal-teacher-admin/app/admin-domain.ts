@@ -41,6 +41,7 @@ export const ADMIN_PERMISSIONS: ReadonlySet<AdminPermission> = new Set([
 ]);
 
 export const ADMIN_ROUTE_PERMISSION: Record<AdminRoute, AdminPermission> = {
+  insights: "admin.dashboard.read",
   checkins: "admin.dashboard.read",
   overview: "admin.dashboard.read",
   courses: "admin.dashboard.read",

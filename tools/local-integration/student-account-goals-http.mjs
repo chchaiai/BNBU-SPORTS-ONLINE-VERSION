@@ -1,0 +1,103 @@
+import assert from 'node:assert/strict';
+import {spawn} from 'node:child_process';
+import {randomUUID} from 'node:crypto';
+import {createRequire} from 'node:module';
+import {setTimeout as delay} from 'node:timers/promises';
+import {createTestPrisma,seedFoundationFixture} from '../../backend/test/helpers/database.ts';
+import {seedSubmittedExerciseRecord} from '../../backend/test/helpers/exercise-review.ts';
+import {seedExerciseSessionStudent} from '../../backend/test/helpers/exercise-session.ts';
+import {foundationEnvironment,TEST_PRIVATE_KEY} from '../../backend/test/helpers/test-environment.ts';
+import {approvedRuleTemplate} from '../../backend/dist/modules/v8/domain/rule-template.js';
+import {pathToFileURL} from 'node:url';
+import {resolve} from 'node:path';
+const dist=process.env.ACCOUNT_GOALS_DIST ? pathToFileURL(resolve(process.env.ACCOUNT_GOALS_DIST)+'/') : new URL('../../backend/dist/',import.meta.url);
+const {recomputeCredits}=await import(new URL('modules/v8/v81-credit-store.js',dist));
+const require=createRequire(new URL('../../backend/package.json',import.meta.url));
+const {SignJWT,importPKCS8}=require('jose');
+const url=process.env.ACCOUNT_GOALS_TEST_DATABASE;
+assert.match(new URL(url).pathname,/^\/bnbu_self_delete_\d+$/);
+const prisma=createTestPrisma(url),port=53291,base=`http://127.0.0.1:${port}/api/v1`;
+const scope=await seedFoundationFixture(prisma,randomUUID().slice(0,8).toUpperCase());
+const record=await seedSubmittedExerciseRecord(prisma,scope,'SELF-'+randomUUID().slice(0,8),'VALID');
+const peer=await seedExerciseSessionStudent(prisma,scope,'PEER-'+randomUUID().slice(0,8));
+const student=await prisma.studentProfile.findUniqueOrThrow({where:{id:record.studentId}});
+const enrollment=await prisma.enrollment.findFirstOrThrow({where:{studentId:student.id}});
+const key=await importPKCS8(TEST_PRIVATE_KEY,'EdDSA');
+async function token(userId,sessionId,role='STUDENT') {return new SignJWT({organizationId:scope.organizationId,role,sessionId,tokenVersion:0})
+ .setProtectedHeader({alg:'EdDSA',typ:'JWT'}).setSubject(userId).setJti(randomUUID()).setIssuer('bnbu-sports-test').setAudience('bnbu-sports-test-clients').setIssuedAt().setExpirationTime('30m').sign(key)}
+const ownToken=await token(record.studentUserId,record.studentAuthSessionId),peerToken=await token(peer.userId,peer.authSessionId);
+const child=spawn(process.execPath,[new URL('main.js',dist).pathname.replace(/^\/(.:)/,'$1')],{cwd:new URL('../../backend',import.meta.url),env:{...foundationEnvironment(url,port),
+  ACCESS_TOKEN_TTL:'1800',REFRESH_TOKEN_IDLE_TTL:'3600',REFRESH_TOKEN_ABSOLUTE_TTL:'7200',EMAIL_DELIVERY_PROVIDER:'SMTP',SMTP_HOST:'127.0.0.1',SMTP_PORT:'51025',SMTP_FROM_ADDRESS:'synthetic@example.test',SMTP_SECURE:'false',REQUEST_TIMEOUT_MS:'65000'},stdio:['ignore','pipe','pipe']});
+let output='';child.stdout.on('data',b=>output+=b);child.stderr.on('data',b=>output+=b);
+const request=async(path,access=ownToken,body,idem=randomUUID())=>{const r=await fetch(base+path,{method:body?'POST':'GET',headers:{authorization:`Bearer ${access}`,...(body?{'content-type':'application/json','idempotency-key':idem}:{})},...(body?{body:JSON.stringify(body)}:{})});return {status:r.status,...await r.json()}};
+let passed=0;const pass=name=>{passed++;console.log('PASS '+name)};
+try {
+ for(let i=0;i<100;i++){if(child.exitCode!==null)throw Error(output);try{if((await fetch(base+'/health/live')).ok)break}catch{}await delay(150)}
+ assert.equal((await request('/me')).status,200);pass('authenticated student HTTP');
+ const templateId=randomUUID();
+ await prisma.v81AdminAccess.create({data:{userId:scope.adminUserId,organizationId:scope.organizationId,kind:'SUPER',permissions:[],mustChangePassword:false}});
+ await prisma.$executeRaw`INSERT INTO v81_rule_templates(id,organization_id,version,display_name,rules,actor_id,request_id,published_at) VALUES(${templateId}::uuid,${scope.organizationId}::uuid,1,'Synthetic',${JSON.stringify(approvedRuleTemplate)}::jsonb,${scope.adminUserId}::uuid,${randomUUID()},now())`;
+ // Real legacy course record and immutable rule snapshot, on a fresh isolated database.
+ await prisma.$executeRaw`INSERT INTO v81_course_rules(class_section_id,organization_id,minimum_minutes,weekly_limit,daily_limit,course_target,general_target,regular_deadline,closing_deadline,settlement_planned_at,published_at,maximum_minutes,template_id)
+ VALUES(${scope.teacherAActiveSectionId}::uuid,${scope.organizationId}::uuid,30,3,1,0,1200,'2027-01-23','2027-01-30','2027-01-30',now(),60,${templateId}::uuid)`;
+ // Fixture record was initially GENERAL: create a second course-category record through the same helper shape.
+ const existing=await prisma.exerciseRecord.findUniqueOrThrow({where:{id:record.recordId}});
+ const courseStudent=await seedExerciseSessionStudent(prisma,scope,'COURSE-'+randomUUID().slice(0,8));
+ const originalSession=await prisma.exerciseSession.findUniqueOrThrow({where:{id:record.sessionId}});
+ const sid=randomUUID(),rid=randomUUID();
+ await prisma.exerciseSession.create({data:{...originalSession,id:sid,studentId:courseStudent.studentId,enrollmentId:courseStudent.enrollmentId,startedByAuthSessionId:courseStudent.authSessionId}});
+ await prisma.exerciseRecord.create({data:{...existing,id:rid,sessionId:sid,studentId:courseStudent.studentId,enrollmentId:courseStudent.enrollmentId,creditType:'COURSE_RELATED',clientRequestId:randomUUID()}});
+ await prisma.$executeRaw`INSERT INTO v81_record_workflows(record_id,organization_id,stage) VALUES(${rid}::uuid,${scope.organizationId}::uuid,'VALID')`;
+ const recomputed=await prisma.$transaction(tx=>recomputeCredits(tx,courseStudent.enrollmentId,new Date()),{timeout:30000});
+ assert.equal(recomputed.courseMinutes,0);assert.equal(recomputed.generalMinutes,60);
+ const courseToken=await token(courseStudent.userId,courseStudent.authSessionId);
+ const progress=await request('/student-progress',courseToken);assert.equal(progress.status,200);
+ assert.equal(progress.data[0].general.validExerciseSeconds,3600);assert.equal(progress.data[0].courseRelated.validExerciseSeconds,0);
+ assert.equal((await prisma.exerciseRecord.findUniqueOrThrow({where:{id:rid}})).creditType,'COURSE_RELATED');pass('historical course credit reallocated and HTTP progress reconciled');
+ const own=await prisma.user.findUniqueOrThrow({where:{id:record.studentUserId}}),idem=randomUUID();
+ let challenge=await request('/me/account-deletion-challenges',ownToken,{expectedVersion:own.version,locale:'en'},idem);
+ assert.equal(challenge.status,201,JSON.stringify(challenge));challenge=challenge.data;
+ const replay=await request('/me/account-deletion-challenges',ownToken,{expectedVersion:own.version,locale:'en'},idem);
+ assert.deepEqual(replay.data,challenge);pass('OTP issuance and idempotent replay');
+ assert.equal((await request('/me/account-deletion-challenges',ownToken,{expectedVersion:own.version,locale:'en'})).status,429);pass('resend throttling');
+ const messages=await (await fetch('http://127.0.0.1:58025/api/v1/messages?limit=100')).json();
+ const mail=messages.messages.find(m=>JSON.stringify(m.To).includes(record.studentEmail));assert.ok(mail);
+ const detail=await(await fetch(`http://127.0.0.1:58025/api/v1/message/${mail.ID}`)).json();
+ const code=detail.Text.match(/(?:code is|验证码是)\s*(\d{6})/u)?.[1];assert.ok(code);pass('real SMTP deletion email');
+ const path=`/me/account-deletion-challenges/${challenge.challengeId}/confirm`;
+ assert.equal((await request(path,peerToken,{expectedVersion:challenge.version,verificationCode:code})).status,403);pass('other student cannot consume challenge');
+ const otherSessionId=randomUUID();
+ const firstSession=await prisma.authSession.findUniqueOrThrow({where:{id:record.studentAuthSessionId}});
+ await prisma.authSession.create({data:{...firstSession,id:otherSessionId,tokenFamilyId:randomUUID()}});
+ const otherSessionToken=await token(record.studentUserId,otherSessionId);
+ assert.equal((await request(path,otherSessionToken,{expectedVersion:challenge.version,verificationCode:code})).status,403);pass('same account different session rejected');
+ const wrong=await request(path,ownToken,{expectedVersion:challenge.version,verificationCode:code==='000000'?'999999':'000000'});
+ assert.equal(wrong.status,422,JSON.stringify(wrong));assert.equal(wrong.details.actualVersion,challenge.version+1);
+ const [attempt]=await prisma.$queryRaw`SELECT failed_attempts FROM v81_account_deletion_challenges WHERE id=${challenge.challengeId}::uuid`;
+ assert.equal(attempt.failed_attempts,1);pass('wrong OTP attempt persisted');
+ const stale=await request(path,ownToken,{expectedVersion:challenge.version,verificationCode:code});assert.equal(stale.status,409);pass('stale version rejected');
+ const deleted=await request(path,ownToken,{expectedVersion:challenge.version+1,verificationCode:code});
+ assert.equal(deleted.status,200,JSON.stringify(deleted));assert.equal(deleted.data.status,'DELETED');
+ assert.equal(await prisma.user.count({where:{id:record.studentUserId}}),0);
+ assert.equal(await prisma.studentProfile.count({where:{id:record.studentId}}),0);
+ assert.equal(await prisma.exerciseRecord.count({where:{id:record.recordId}}),0);
+ assert.equal(await prisma.exerciseSession.count({where:{id:record.sessionId}}),0);
+ assert.equal(await prisma.reviewRecord.count({where:{recordId:record.recordId}}),0);
+ assert.equal(await prisma.authSession.count({where:{userId:record.studentUserId}}),0);
+ assert.equal(await prisma.enrollment.count({where:{id:enrollment.id}}),0);
+ assert.equal((await request('/me')).status,401);assert.equal((await request('/me',peerToken)).status,200);pass('full account history and sessions removed; peer preserved');
+ const peerUser=await prisma.user.findUniqueOrThrow({where:{id:peer.userId}});
+ const peerChallenge=await request('/me/account-deletion-challenges',peerToken,{expectedVersion:peerUser.version,locale:'en'});
+ assert.equal(peerChallenge.status,201);const pc=peerChallenge.data;
+ const peerMessages=await(await fetch('http://127.0.0.1:58025/api/v1/messages?limit=100')).json();
+ const peerMail=peerMessages.messages.find(m=>JSON.stringify(m.To).includes(peer.email));
+ const peerDetail=await(await fetch(`http://127.0.0.1:58025/api/v1/message/${peerMail.ID}`)).json();
+ const peerCode=peerDetail.Text.match(/(?:code is|验证码是)\s*(\d{6})/u)[1];
+ const pp=`/me/account-deletion-challenges/${pc.challengeId}/confirm`;
+ for(let i=0;i<5;i++)assert.equal((await request(pp,peerToken,{expectedVersion:pc.version+i,verificationCode:peerCode==='000000'?'999999':'000000'})).status,422);
+ assert.equal((await request(pp,peerToken,{expectedVersion:pc.version+5,verificationCode:peerCode})).status,403);
+ assert.equal(await prisma.user.count({where:{id:peer.userId}}),1);pass('five incorrect attempts lock challenge and preserve account');
+ await prisma.$executeRaw`UPDATE v81_account_deletion_challenges SET requested_at=now()-interval '20 minutes',expires_at=now()-interval '10 minutes',status='ACTIVE' WHERE id=${pc.challengeId}::uuid`;
+ assert.equal((await request(pp,peerToken,{expectedVersion:pc.version+5,verificationCode:peerCode})).status,403);pass('expired challenge rejected');
+ console.log(JSON.stringify({result:'PASS',checks:passed,database:'isolated synthetic PostgreSQL',smtp:'Mailpit',productionWrites:0}));
+} finally {child.kill();await prisma.$disconnect();}

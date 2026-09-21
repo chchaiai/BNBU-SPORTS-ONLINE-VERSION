@@ -1,5 +1,5 @@
-import { Body, Controller, Headers, Injectable, Post, Req } from '@nestjs/common';
-import { IsIn, IsInt, Max, Min } from 'class-validator';
+import { Body, Controller, Headers, HttpCode, Injectable, Param, ParseUUIDPipe, Post, Req } from '@nestjs/common';
+import { IsIn, IsInt, Matches, Max, Min } from 'class-validator';
 import { randomInt, randomUUID } from 'node:crypto';
 import { PrismaService } from '../../common/database/prisma.service.js';
 import { IdempotencyService } from '../../common/idempotency/idempotency.service.js';
@@ -15,6 +15,10 @@ class DeletionChallengeInput {
   @IsInt() @Min(1) @Max(2147483647) expectedVersion!: number;
   @IsIn(['zh-CN', 'en']) locale!: 'zh-CN' | 'en';
 }
+class DeletionConfirmInput {
+  @IsInt() @Min(1) @Max(2147483647) expectedVersion!: number;
+  @Matches(/^\d{6}$/) verificationCode!: string;
+}
 type DeletionStage = { id: string; code: string; recipient: string; emailDigest: string; expiresAt: Date; userVersion: number };
 type DeletionChallengeResponse = { challengeId: string; mode: 'STUDENT_EMAIL_OTP'; expiresAt: string; version: number };
 
@@ -22,6 +26,48 @@ type DeletionChallengeResponse = { challengeId: string; mode: 'STUDENT_EMAIL_OTP
 export class V81AccountDeletionService {
   constructor(private readonly prisma: PrismaService, private readonly idempotency: IdempotencyService,
     private readonly digest: SecureDigestService, private readonly clock: Clock, private readonly delivery: AuthCodeDeliveryPort) {}
+  async confirm(p: AuthenticatedPrincipal, id: string, input: DeletionConfirmInput, requestId: string) {
+    if (p.role !== 'STUDENT') throw new ApplicationError('PERMISSION_RESOURCE_SCOPE_DENIED', 403);
+    // The deletion removes this subject's idempotency records and sessions too.
+    // Serialize on the organization and commit failed attempts before returning an error.
+    const outcome = await this.prisma.$transaction(async tx => {
+      await tx.$queryRaw`SELECT id FROM organizations WHERE id=${p.organizationId}::uuid FOR UPDATE`;
+      if ((await tx.systemPolicy.findUnique({ where: { organizationId: p.organizationId } }))?.systemMode !== 'NORMAL')
+        throw new ApplicationError('SYSTEM_MAINTENANCE', 503);
+      const [challenge] = await tx.$queryRaw<{ id: string; version: number; status: string; expires_at: Date;
+        expected_user_version: number; email_digest: string; code_digest: string; failed_attempts: number }[]>`
+        SELECT * FROM v81_account_deletion_challenges WHERE id=${id}::uuid AND organization_id=${p.organizationId}::uuid
+          AND user_id=${p.userId}::uuid AND auth_session_id=${p.sessionId}::uuid FOR UPDATE`;
+      const now = this.clock.now();
+      const user = await tx.user.findFirst({ where: { id: p.userId, organizationId: p.organizationId, role: 'STUDENT', status: 'ACTIVE', deletedAt: null } });
+      const session = await tx.authSession.findUnique({ where: { id: p.sessionId } });
+      if (!challenge || challenge.status !== 'ACTIVE' || challenge.expires_at <= now || !user?.emailVerifiedAt ||
+          session?.status !== 'ACTIVE' || user.version !== challenge.expected_user_version ||
+          this.digest.digest('account-deletion-email', user.primaryEmailNormalized ?? '') !== challenge.email_digest)
+        return { error: new ApplicationError('PERMISSION_RESOURCE_SCOPE_DENIED', 403, { currentState: 'ACCOUNT_DELETION_REAUTH_REQUIRED' }) };
+      if (challenge.version !== input.expectedVersion)
+        return { error: new ApplicationError('CONFLICT_VERSION_MISMATCH', 409, { actualVersion: challenge.version }) };
+      if (this.digest.digest('account-deletion-code:' + id, input.verificationCode) !== challenge.code_digest) {
+        const locked = challenge.failed_attempts + 1 >= 5;
+        await tx.$executeRaw`UPDATE v81_account_deletion_challenges SET failed_attempts=failed_attempts+1,version=version+1,
+          status=${locked ? 'LOCKED' : 'ACTIVE'} WHERE id=${id}::uuid`;
+        return { error: new ApplicationError('VALIDATION_FAILED', 422,
+          { currentState: locked ? 'ACCOUNT_DELETION_REAUTH_REQUIRED' : 'ACCOUNT_DELETION_CODE_INVALID', actualVersion: challenge.version + 1 }) };
+      }
+      const student = await tx.studentProfile.findFirst({ where: { userId: p.userId, organizationId: p.organizationId } });
+      if (!student) throw new ApplicationError('PERMISSION_RESOURCE_NOT_FOUND', 404);
+      await tx.$executeRaw`UPDATE v81_account_deletion_challenges SET status='CONSUMED',version=version+1 WHERE id=${id}::uuid`;
+      await tx.$queryRaw`SELECT set_config('bnbu.self_erasure_challenge',${id},true)`;
+      const [result] = await tx.$queryRaw<{ counts: Record<string, number> }[]>`
+        SELECT erase_v81_student(${p.organizationId}::uuid,${student.id}::uuid,${p.userId}::uuid) AS counts`;
+      await tx.$executeRaw`INSERT INTO v81_events(id,organization_id,resource_type,resource_id,event_type,actor_id,request_id,version,facts,occurred_at,event_outcome)
+        VALUES(${randomUUID()}::uuid,${p.organizationId}::uuid,'STUDENT',${student.id}::uuid,'ACCOUNT_AND_HISTORY_DELETED',${p.userId}::uuid,${requestId},${student.version + 1},
+        ${JSON.stringify({ source: 'STUDENT_SELF_SERVICE', deletedCounts: result?.counts ?? {}, mediaCleanup: 'QUEUED' })}::jsonb,${now},'SUCCEEDED')`;
+      return { data: { status: 'DELETED' as const, deletedAt: now.toISOString(), allSessionsRevoked: true, newRegistrationRequired: true } };
+    }, { timeout: 60000 });
+    if (outcome.error) throw outcome.error;
+    return outcome.data;
+  }
   async challenge(p: AuthenticatedPrincipal, input: DeletionChallengeInput, requestId: string, key?: string): Promise<DeletionChallengeResponse> {
     if (p.role !== 'STUDENT') throw new ApplicationError('PERMISSION_RESOURCE_SCOPE_DENIED', 403);
     const owner = await this.idempotency.reserveStage<DeletionStage, DeletionChallengeResponse>({ organizationId: p.organizationId,
@@ -74,8 +120,12 @@ export class V81AccountDeletionController {
   @Post() @OperationPolicy('requestCurrentUserAccountDeletionChallenge')
   challenge(@CurrentPrincipal() p: AuthenticatedPrincipal, @Body() input: DeletionChallengeInput,
     @Headers('idempotency-key') key: string | undefined, @Req() request: FoundationRequest) {
-    throw new ApplicationError('SYSTEM_SERVICE_UNAVAILABLE', 503, {
-      reason: 'FEATURE_DEFERRED', currentState: 'FEATURE_DEFERRED',
-    });
+    return this.service.challenge(p, input, request.requestId, key);
+  }
+  @Post(':id/confirm') @HttpCode(200) @OperationPolicy('confirmCurrentUserAccountDeletion')
+  confirm(@CurrentPrincipal() p: AuthenticatedPrincipal,
+    @Param('id', new ParseUUIDPipe({ exceptionFactory: () => new ApplicationError('VALIDATION_FAILED', 422) })) id: string,
+    @Body() input: DeletionConfirmInput, @Req() request: FoundationRequest) {
+    return this.service.confirm(p, id, input, request.requestId);
   }
 }

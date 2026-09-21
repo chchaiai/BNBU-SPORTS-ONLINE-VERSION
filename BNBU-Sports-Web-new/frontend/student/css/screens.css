@@ -475,6 +475,13 @@
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 8px;
 }
+.category-btn:disabled {
+  background: var(--color-surface-variant);
+  color: var(--color-on-surface-variant);
+  opacity: .45;
+  cursor: not-allowed;
+  filter: grayscale(1);
+}
 .sport-btn {
   flex: 1; min-height: 88px; min-width: 0;
   border-radius: var(--shape-medium);

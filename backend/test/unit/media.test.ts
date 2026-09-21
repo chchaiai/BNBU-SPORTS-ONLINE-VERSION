@@ -32,6 +32,19 @@ const config: MediaConfig = {
   workerPollMs: 500,
 };
 
+it('accepts a full-resolution 50 MP phone JPEG when the pixel cap is disabled while preserving integrity checks', async () => {
+  const body = await sharp({create:{width:6144,height:8192,channels:3,background:'#aaccee'}}).jpeg().toBuffer();
+  const facts = {businessPurpose:'EXERCISE_RECORD',mediaType:'IMAGE',mimeType:'image/jpeg',fileSizeBytes:body.length,
+    contentSha256:createHash('sha256').update(body).digest('hex'),durationSeconds:null};
+  const validator = new MediaValidator(), unlimited = {...config,maxImageBytes:10*1024*1024,maxImagePixels:0};
+  await assert.rejects(validator.readAndVerify(Readable.from([body]),facts,{...unlimited,maxImagePixels:40000000}));
+  const result = await validator.readAndVerify(Readable.from([body]),facts,unlimited);
+  assert.equal(result.safeMetadata.width,6144);assert.equal(result.safeMetadata.height,8192);
+  assert.equal(result.contentSha256,facts.contentSha256);
+  await assert.rejects(validator.readAndVerify(Readable.from([body]),{...facts,contentSha256:'0'.repeat(64)},unlimited));
+  await assert.rejects(validator.readAndVerify(Readable.from([body]),facts,{...unlimited,maxImageBytes:10}));
+});
+
 it('accepts WebP declarations for certification images but not exercise evidence', () => {
   const validator = new MediaValidator();
   const facts = {

@@ -13,6 +13,7 @@ export async function seedSubmittedExerciseRecord(
     actualSeconds: 3600,
     maximumSeconds: null,
   },
+  content: {creditType?: 'GENERAL' | 'COURSE_RELATED'; sportType?: string; sportName?: string} = {},
 ): Promise<{
   recordId: string;
   sessionId: string;
@@ -59,8 +60,9 @@ export async function seedSubmittedExerciseRecord(
       teacherId: fixture.teacherProfileId,
       sessionId,
       businessDate,
-      creditType: 'GENERAL',
-      sportType: 'RUNNING',
+      creditType: content.creditType ?? 'GENERAL',
+      sportType: content.sportType ?? 'RUNNING',
+      sportName: content.sportName ?? null,
       description: `Synthetic review record ${suffix}`,
       actualDurationSeconds: BigInt(duration.actualSeconds),
       pausedDurationSeconds: 0n,

@@ -1,6 +1,6 @@
 import {isRealtimeSwim, ensureSwimIntake} from "../swim-submission.js";
 import {uploadProgressLabel, uploadProgressHtml} from '../upload-progress.js';
-import {savePhotoOriginal,listPhotoOriginals,removePhotoOriginal,prepareJpegEvidence} from "../photo-originals.js";
+import {savePhotoOriginal,listPhotoOriginals,removePhotoOriginal,prepareJpegEvidence,correctPhotoMime} from "../photo-originals.js";
 import {SPORT_OPTIONS} from "../sports-catalog.js";
 import {proofTodoContext} from '../proof-todo.js';
 // Exercise check-in flow (#20–#24) — feature/checkin/CheckInScreen.kt,
@@ -132,7 +132,8 @@ function courseSportSelection(courseName) {
     if (keywords.some((k) => lower.includes(k.toLowerCase()))) return { sportType, displayName, customSportName: null };
   }
   const paren = [...name.matchAll(/[（(]([^（）()]+)[）)]/g)].pop()?.[1]?.trim();
-  const displayName = paren || name || "课程运动";
+  const schedule = /^(?:mon(?:day)?|tue(?:sday)?|wed(?:nesday)?|thu(?:rsday)?|fri(?:day)?|sat(?:urday)?|sun(?:day)?|周[一二三四五六日天]|星期[一二三四五六日天])(?:[\s\d:.-]*)$/i;
+  const displayName = (paren && !schedule.test(paren) ? paren : name.replace(/[（(][^（）()]*[）)]\s*\d*\s*$/, "").trim()) || name || "课程运动";
   return { sportType: OTHER, displayName, customSportName: displayName };
 }
 
@@ -141,7 +142,7 @@ function checkinState(app) {
     app.ui.checkin = {
       tab: "exercise",
       selectedRecordId: null,
-      setup: { creditType: "course", generalSportType: "running", generalCustomSportName: "" },
+      setup: { creditType: categoryLocked(app.state.workspace, "course") && !categoryLocked(app.state.workspace, "general") ? "general" : "course", generalSportType: "running", generalCustomSportName: "" },
       finish: { submitting: false },
       mediaNotice: null,
       captureError: null,
@@ -214,6 +215,21 @@ export async function restoreCheckinContinuity(app, current = () => true) {
     ui.captureError = tx("无法读取本机保存的凭证，请保持此页面并重试。", "Cannot read saved proof on this device. Keep this page open and retry.");
     ui.draftScope = null;
   } finally { if(current()) ui.restoringDrafts = false; }
+  // Reloads can recover verified server evidence even when IndexedDB is unreadable.
+  if (app.isApiMode() && local?.phase === 'finished' && local.serverId === scope) {
+    try {
+      const record = (await listMyRecords()).find(r => r.sessionId === scope && r.status === 'DRAFT');
+      if (!record) return;
+      const recovered = await reconcileRecordDraftMedia(record.id, scope, ui.drafts);
+      if (!current() || accountId(app) !== owner || app.ui.checkin !== ui || loadSession(owner)?.serverId !== scope) return;
+      ui.drafts = recovered.drafts;
+      ui.draftScope = scope;
+      if (recovered.restored) ui.mediaNotice = tx('已恢复服务器保存的凭证，请核对后提交；未上传的素材仍需补充。', 'Uploaded proof restored. Review it before submitting; add any missing local-only proof.');
+    } catch {
+      ui.mediaNotice = tx('暂时无法恢复服务器凭证，请保持页面打开后重试。', 'Server proof could not be restored. Keep this page open and retry.');
+      ui.draftScope = null;
+    }
+  }
 }
 
 export async function resumeCheckinContinuity(app) {
@@ -238,6 +254,10 @@ function healthAcknowledged(app) {
   return app.overlay.healthReminderAck === true;
 }
 
+export function categoryLocked(workspace, category) {
+  return (category === "course" ? workspace.hourRule?.courseRequired : workspace.hourRule?.generalRequired) === 0;
+}
+
 // ── Readiness (evaluateCheckInReadiness) ──
 function evaluateReadiness(app) {
   const workspace = app.state.workspace;
@@ -249,6 +269,8 @@ function evaluateReadiness(app) {
   }
   if (workspace.activeServerSession && ['IN_PROGRESS','PAUSED'].includes(workspace.activeServerSession.status))
     return {canStart:true, blockedReason:null};
+  if (categoryLocked(workspace, checkinState(app).setup.creditType))
+    return {canStart:false, blockedReason:tx('该类别目标时长为 0，已关闭打卡，请选择其他类别。','This category has a zero-hour target and is closed. Choose another category.')};
   if(workspace.creditPolicy?.allocationPending)return {canStart:false,blockedReason:tx('课程总目标已调整，等待教师分配两类目标后即可开始打卡。','The course target changed. New check-ins resume after your teacher allocates both category targets.')};
   if (!findCurrentCourse(workspace)) {
     return { canStart: false, blockedReason: tx("当前课程尚未开放打卡，请联系任课教师", "Check-in is not open for the current course. Contact your instructor.") };
@@ -487,13 +509,13 @@ function renderPreparation(app) {
           <div class="title-small text-on-surface">${tx("打卡类别", "Check-in category")}</div>
           <div style="height:10px"></div>
           <div class="row" style="gap:8px">
-            <button class="category-btn pressable${isCourse ? " selected" : ""}" data-action="checkin.creditType" data-value="course">${tx("课程相关", "Course-related")}</button>
-            <button class="category-btn pressable${!isCourse ? " selected" : ""}" data-action="checkin.creditType" data-value="general">${tx("自主运动", "Independent exercise")}</button>
+            <button class="category-btn pressable${isCourse ? " selected" : ""}" data-action="checkin.creditType" data-value="course" ${categoryLocked(workspace, 'course') ? 'disabled aria-disabled="true"' : ''}>${tx("课程相关", "Course-related")}${categoryLocked(workspace, 'course') ? tx(' · 已关闭', ' · Closed') : ''}</button>
+            <button class="category-btn pressable${!isCourse ? " selected" : ""}" data-action="checkin.creditType" data-value="general" ${categoryLocked(workspace, 'general') ? 'disabled aria-disabled="true"' : ''}>${tx("自主运动", "Independent exercise")}${categoryLocked(workspace, 'general') ? tx(' · 已关闭', ' · Closed') : ''}</button>
           </div>
           <div class="course-divider" style="margin:18px 0 16px"></div>
           <div class="title-small text-on-surface">${isCourse ? tx("课程运动", "Course exercise") : tx("运动项目", "Exercise type")}</div>
           <div style="height:10px"></div>
-          <div class="sport-grid">${sportOptions.map((option) => `<button class="sport-btn pressable${sportType === option.value ? " selected" : ""}" data-action="checkin.sport" data-value="${esc(option.value)}" type="button">
+          <div class="sport-grid">${sportOptions.map((option) => `<button class="sport-btn pressable${sportType === option.value ? " selected" : ""}" data-action="checkin.sport" data-value="${esc(option.value)}" type="button" ${categoryLocked(workspace, setup.creditType) ? "disabled" : ""}>
               <span class="sport-glyph">${icon(option.icon, 24)}</span>
               <span class="label-medium ellipsis">${esc(tx(option.zh, option.en))}</span>
             </button>`).join("")}</div>
@@ -582,7 +604,7 @@ function draftListHtml(app, { submissionRequired = false } = {}) {
         return `<button class="proof-card pressable" type="button" data-action="checkin.previewDraft" data-draft-id="${esc(draft.id)}" aria-label="${esc(tx(`预览${typeLabel}，${statusLabel}${locked ? "，已锁定" : ""}`, `Preview ${typeLabel}, ${statusLabel}${locked ? ", locked" : ""}`))}">
           <span class="proof-card-media">${media}<span class="proof-card-type">${badgeLabel}</span></span>
           <span class="proof-card-copy">
-            <span class="label-medium text-on-surface ellipsis">${draft.normalizationPending ? tx("视频待处理", "Video processing pending") : typeLabel}</span>
+            <span class="label-medium text-on-surface ellipsis">${evidenceStatus === "FAILED" ? tx("校验失败 · ", "Verification failed · ") : ""}${draft.normalizationPending ? tx("视频待处理", "Video processing pending") : typeLabel}</span>
             <span class="body-small text-muted">${formatMediaSize(draft.byteCount)}${draft.durationSeconds ? ` · ${Math.ceil(draft.durationSeconds)}s` : ""}</span>
           </span>
         </button>`;
@@ -615,6 +637,7 @@ function draftPreviewOverlayHtml(app) {
       <button class="proof-preview-icon proof-preview-delete pressable" type="button" data-action="checkin.deleteDraft" data-draft-id="${esc(draft.id)}" aria-label="${esc(tx("删除该凭证", "Delete this proof"))}" ${locked ? "disabled" : ""}>${icon("delete", 23)}</button>
     </div>
     <div class="proof-preview-stage">${media}</div>
+    ${draft.processingFailure ? `<div class="proof-preview-caption body-small" role="alert">${esc(toUserFacingError(new ApiError(422,{code:'MEDIA_FAILURE_NOT_RETRYABLE',details:{failureCode:draft.processingFailure.code}}),{log:false}).message)}</div>` : ''}
     <div class="proof-preview-caption body-small">${locked
       ? tx("该凭证已进入正式提交流程，当前不可删除。", "This proof has entered formal submission and can no longer be deleted.")
       : tx("如凭证不合适，可点击右上角删除；删除后可重新拍摄。", "If this proof is unsuitable, delete it from the top right and capture another.")}</div>
@@ -646,7 +669,7 @@ export function isRetainedEvidenceLocked(draft) {
 
 export function retainedEvidenceStatus(draft) {
   if (draft?.mediaId) return "AVAILABLE";
-  if (draft?.processingFailure || draft?.pendingUpload?.verificationStatus === "FAILED") return "FAILED";
+  if (draft?.processingFailure || draft?.uploadFailure || draft?.pendingUpload?.verificationStatus === "FAILED") return "FAILED";
   if (draft?.pendingUpload?.confirmed || draft?.pendingUpload?.bound) return "PROCESSING";
   return "LOCAL_DRAFT";
 }
@@ -1551,7 +1574,8 @@ function preferredRecorderMimeType() {
   return candidates.find((type) => globalThis.MediaRecorder?.isTypeSupported?.(type)) || "";
 }
 
-async function normalizeCapturedPhoto(file) {
+export async function normalizeCapturedPhoto(file) {
+  file = await correctPhotoMime(file);
   if (!canNormalizeCapturedImage(file)) throw new Error("unsupported-source-image");
   if(file.type.toLowerCase()==='image/jpeg')return prepareJpegEvidence(file);
   if(file.type.toLowerCase()==='image/png')return file;
@@ -1754,8 +1778,8 @@ async function addDraftFromFileImpl(app, file, type, capturedDurationSeconds, ex
   try {
     if (accountId(app) !== owner || app.ui.checkin !== ui) { URL.revokeObjectURL(url); return; }
     await saveProofDraft(owner, scope, draft);
-  } catch {
-    ui.captureError = tx("凭证尚未保存到本机，请勿关闭页面；请释放存储空间后重新拍摄。", "Proof is not saved on this device. Keep this page open and free storage before capturing again.");
+  } catch (error) {
+    ui.captureError = toUserFacingError(error).message;
   }
   if (accountId(app) !== owner || app.ui.checkin !== ui) { URL.revokeObjectURL(url); return; }
   for (const previous of ui.drafts.filter(d=>d.id===draftId)) URL.revokeObjectURL(previous.url);
@@ -1864,9 +1888,9 @@ async function submitCheckInApi(app, session, retained) {
       ui.mediaNotice = tx(`正在处理凭证 ${index + 1}/${retained.length}…`, `Processing proof ${index + 1}/${retained.length}…`);
       app.render();
       const blob = draft.mediaId ? null : draft.blob || (await fetch(draft.url).then((r) => r.blob()));
-      let mediaId;
-      try { mediaId = draft.mediaId || (await uploadMediaDraft(session.serverId, draft, blob,{onCheckpoint: d=>saveProofDraft(accountId(app), session.serverId, d),onProgress:progress=>{ui.uploadProgress=progress;ui.mediaNotice=uploadProgressLabel(progress);app.render();}})).mediaId; }
-      finally { if (!draft.serverOnly) await saveProofDraft(accountId(app), session.serverId, draft); }
+      // Upload checkpoints persist changes. A redundant finally write could
+      // hide the original upload error or block already verified evidence.
+      const mediaId = draft.mediaId || (await uploadMediaDraft(session.serverId, draft, blob,{onCheckpoint: d=>saveProofDraft(accountId(app), session.serverId, d),onProgress:progress=>{ui.uploadProgress=progress;ui.mediaNotice=uploadProgressLabel(progress);app.render();}})).mediaId;
       uploaded.push({
         mediaId,
         type: draft.type,
@@ -2090,12 +2114,13 @@ export const checkinActions = {
     if (el.dataset.tab === "records") return reloadRecordList(app);
   },
   "checkin.creditType": (app, el) => {
+    if (!['course', 'general'].includes(el.dataset.value) || categoryLocked(app.state.workspace, el.dataset.value)) return;
     checkinState(app).setup.creditType = el.dataset.value;
     app.render();
   },
   "checkin.sport": (app, el) => {
     const ui = checkinState(app);
-    if (ui.setup.creditType !== "general") return;
+    if (ui.setup.creditType !== "general" || categoryLocked(app.state.workspace, 'general')) return;
     ui.setup.generalSportType = el.dataset.value;
     if (el.dataset.value !== OTHER) ui.setup.generalCustomSportName = "";
     app.render();
@@ -2117,7 +2142,7 @@ export const checkinActions = {
     app.state.dialog = null;
     app.selectTab("dashboard");
   },
-  "checkin.start": (app, zeroTargetConfirmed = false) => {
+  "checkin.start": (app) => {
     const ui = checkinState(app);
     const readiness = evaluateReadiness(app);
     if (!readiness.canStart) {
@@ -2212,24 +2237,7 @@ export const checkinActions = {
       });
       return;
     }
-    const targetHours = isCourse ? workspace.hourRule?.courseRequired : workspace.hourRule?.generalRequired;
-    if (!workspace.activeServerSession && targetHours === 0 && zeroTargetConfirmed !== true) {
-      const category = isCourse ? tx("课程相关运动", "Course-related exercise") : tx("自主运动", "Independent exercise");
-      app.showDialog({
-        title: tx("该类型运动不计入有效时长", "This exercise will not count toward your target"),
-        body: esc(tx(`当前“${category}”的目标时长为 0 小时，本次运动将不会计入有效时长。仍要开始运动吗？`, `The target for ${category} is 0 hours. This session will not count toward your credited exercise hours. Start anyway?`)),
-        buttons: [
-          { label: tx("重新选择", "Choose again"), action: "dialog.close" },
-          { label: tx("仍要开始", "Start anyway"), action: "checkin.confirmZeroTargetStart" },
-        ],
-      });
-      return;
-    }
     begin();
-  },
-  "checkin.confirmZeroTargetStart": (app) => {
-    app.state.dialog = null;
-    checkinActions["checkin.start"](app, true);
   },
   "checkin.ackHealth": (app) => {
     app.overlay.healthReminderAck = true;

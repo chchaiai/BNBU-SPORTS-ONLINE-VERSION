@@ -1,0 +1,130 @@
+{
+  "previous": "proof-storage-pixels-20260920",
+  "baseBackend": "sha256:f2bf9ed7bc243494b84ba03d6f0e229c6add1eff605ffb27f2f26c5cab4bdb5d",
+  "basePortal": "sha256:211a8e1b552ddea128d8484b55e68d4ae766869ef2817893a975709278f8a90b",
+  "delta": [
+    {
+      "path": "modules/v8/v81.module.js",
+      "before": "4cf0d89c9e6ca857b36ba148a0f133be396d66c7b336608f22fd3c44cf9326ea",
+      "after": "1f59edda6fcb02f0dfc3f1b3e6bff1e166b257cc1cc2faf87a651d735f4cb1ea"
+    },
+    {
+      "path": "common/policy/v81-admin-permission.guard.js",
+      "before": "337acd65c19d955a0324fbfc48b76bf7fd9adab596360511d4a46e310beb5bc4",
+      "after": "66bc406b571ca44b64b860c0420174751bca0d3be6154f38ce94a629aa664aed"
+    },
+    {
+      "path": "modules/exercise-records/application/exercise-records.service.js",
+      "before": "66e97d1b66906071cf5d79ec187bebd851d24c22cdcd2f9c0b5c047ba4447245",
+      "after": "795def66893fa4a31bf8d6a58bf017ffa51abeb10ebfca662a8916c0a8ab9c04"
+    },
+    {
+      "path": "modules/exercise-records/interface/http/exercise-records.dto.js",
+      "before": "175924949ae7f585b8315cf04dbdcf3f86499a93ccb581c32bf6f15886bfbc3b",
+      "after": "df063726898d464b979b3956702c86f7d767f613701ad2d25ce7e32b183b2d51"
+    },
+    {
+      "path": "modules/v8/v81-record-projection.js",
+      "before": "52b81a89e5d4f195ebb5277ff4001447903e2a5a3fa515eb80d304cc40c0e5eb",
+      "after": "4fb77d23aa2ba521d626cd7e993662967ca4299bf6e566f8558d87edd3c183e2"
+    },
+    {
+      "path": "modules/v8/v81-management-insights.js",
+      "before": null,
+      "after": "2d82646d7cbb1defc3e01f3c041a3d05c493b8f4263aa42669f0d55eb8d7c052"
+    },
+    {
+      "path": "modules/v8/domain/sport-display.js",
+      "before": null,
+      "after": "3ebf0103b90005d52fd476ee834f01ab2330527b3aba6259e4d680b990a4d20b"
+    },
+    {
+      "path": "generated/operation-policies.generated.js",
+      "before": "f98272e91fb31a25b0ff9c7eb7fdf4f47ff60a7ff9cdf68cc86049a42cd93c59",
+      "after": "83d12e083f61415878191349b3abe6703a80568b518f811801a85754c8ea5b2e"
+    },
+    {
+      "path": "generated/openapi.document.generated.json",
+      "before": "220a53e2dc152b17411e4c0c202f8c218ec0ca83e562fe89817a28dda6df985b",
+      "after": "922453c3dedb19559d97b88dccd1593cf790c55fc37017e1037cb0cc7773dc70"
+    },
+    {
+      "path": "generated/migration-manifest.generated.js",
+      "before": "957739e2e35cfefceb384543cd0251d340fe939581efaee213731f3fae943275",
+      "after": "2357a680a43bd33a3ae786eb7391e06137d6109df70e6792dcc87bbd77bf176e"
+    }
+  ],
+  "web": [
+    {
+      "path": "js/screens/checkin.js",
+      "before": "e280a1612524ab30c55570a44865844c833c935f844c636936ace4da97b2a23e",
+      "after": "8df56071d094c4d427d10749ddff73e386a363741a669faf2929fa0138c49029"
+    }
+  ],
+  "checks": {
+    "backendUnit": 343,
+    "portalRegression": 13,
+    "candidateHttp": 10,
+    "browser": 8,
+    "types": "PASS",
+    "contract": "PASS",
+    "build": "PASS",
+    "migrationSafety": "PASS"
+  },
+  "files": {
+    "backup.py": "9cecd40cebed88097f86e7597ef66cc9a9bec686a8eb784f909be06bb80da4f9",
+    "deploy.py": "dc6942ed54cacecd5f62866d759e9458183ee6916df68bf7bcf933a31e61421d",
+    "verify.mjs": "8a1dc33cc51c0486e7dff47174e5b5e6174ad2a783a6b992d159fa56708bd042",
+    "backend/Dockerfile": "819b95256487c039841e3918228dc7a2b18ca8c9a857e72044f152e41ad50c4d",
+    "migrator/Dockerfile": "9819d9b4d20d778945dbc1f87ae918a2a159d5512f3b222adebefc92c0a443ed",
+    "portal/Dockerfile": "c0991396a7ca1d7cf765ac18425b500616960868a07c3e2fde78426027db003b",
+    "web/student/js/screens/checkin.js": "8df56071d094c4d427d10749ddff73e386a363741a669faf2929fa0138c49029",
+    "portal/dist/.openai/hosting.json": "64861cc7aa4efc47960347ef1bbd2813fbd6412bebb14edd717b31d3ac55100b",
+    "portal/dist/client/.assetsignore": "4f83140d5f4293ab55bd1207327e995c83258f1e7d3145b1b5d7a3d17fdfe0a7",
+    "portal/dist/client/bnbu-emblem.svg": "de978cb12b86a80a17499703a1cbd0fd3cd2694fdc3964bdec066edebcae31ed",
+    "portal/dist/client/bnbu-sports-icon.svg": "49a400d7c5bec25e697347923377578da8fc8d3991c25d146a50f05b2768f6b2",
+    "portal/dist/client/checkin-evidence-preview.svg": "58596b837e2ea01eb5aa410abc5c988b94c5c4292c701bdcfa25680c08f17178",
+    "portal/dist/client/og.png": "d7ec95b61de99a4ec66568e91750d044d7eb533a1a876a25411d2eb5ce6cf0c4",
+    "portal/dist/client/_headers": "9e55124bccd40b43dbc6e002daa777fa8f32a230420152910784ca65501d9e0f",
+    "portal/dist/server/image-config.json": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+    "portal/dist/server/index.js": "b091e69b13587127a71457e7544d4975be4ef179a7c82c8221a919abc40a7de8",
+    "portal/dist/server/vinext-externals.json": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+    "portal/dist/server/vinext-server.json": "5e8b80599f10291b183c22a80920b562a2942c427188a7ff7564f93736720cf0",
+    "portal/dist/server/wrangler.json": "eaf4062368300b5dc8fdb355e39c10c391f1c7a0d74ee96cd6c10ebbd833bc75",
+    "portal/dist/server/__vite_rsc_assets_manifest.js": "49eb014df9815a8acb32054a714d80918088c56c385f18151fb0661d7232922d",
+    "portal/dist/server/.vite/manifest.json": "1f04abf515ebc277cf6bec190e01aadbad61e0b52f3e9404213e4af4d7279150",
+    "portal/dist/server/assets/index-BTiFSTlC.css": "2718238896e656937ab5b9b07127d605f0ab1cc695d62957c44c84af90bca734",
+    "portal/dist/server/ssr/index.js": "065145e6ac0a59cfdc13d8a5a4744f57333a9ceba76d5d9ae086cd0cd07f18cb",
+    "portal/dist/server/ssr/vinext-server.json": "5e8b80599f10291b183c22a80920b562a2942c427188a7ff7564f93736720cf0",
+    "portal/dist/server/ssr/__vite_rsc_assets_manifest.js": "49eb014df9815a8acb32054a714d80918088c56c385f18151fb0661d7232922d",
+    "portal/dist/server/ssr/assets/cpexcel.full-DCOxMb2E.js": "8d87acc51c1c86ffe5b9742eb286edb3f129881d45e3037ea419f0c5ae5d74fc",
+    "portal/dist/server/ssr/assets/endurance-api-CZOZHViV.js": "b7f344e8f15018d9989ecc924772db969c6ceefb70bb4ba8a8a06c078dfc10ef",
+    "portal/dist/server/ssr/assets/worker-entry-BdMZogzA.js": "9a78740861e942bdc46d22cf0ba9182f9de056ededadb28b7d271016550d4d5e",
+    "portal/dist/server/ssr/assets/worker-entry-KuIQxfqK.css": "b1efde2a66ce300629bce5fb279fb8837e3ba0b3bc561a22e12ae7f25d2da4a0",
+    "portal/dist/server/ssr/assets/xlsx-CFbTV10H.js": "650b3923a1fff46a62acf65005c4613a1c7ace0a72392543af700a99028bee04",
+    "portal/dist/client/.vite/manifest.json": "e1a49730cd2f824136db3d3851f48adc43f1b614fa833e999c174dfd064cf6fd",
+    "portal/dist/client/assets/cpexcel.full-CAlsa5X_.js": "e3a61ce01017d596b5d6a513ee4162bf69f91eb0c84e01175e58501c74edb141",
+    "portal/dist/client/assets/endurance-api-CztQ8SI3.js": "0e7c87ebdfd1c5f34db98ae31813ff548b38692e34f978ba621ac79e706aa6b6",
+    "portal/dist/client/assets/framework-bym5aI3S.js": "a9b4ce28eb1fd24f44bd6afc700324f83feec30c0419725ce29a8c61bfa8996a",
+    "portal/dist/client/assets/index-BTiFSTlC.css": "2718238896e656937ab5b9b07127d605f0ab1cc695d62957c44c84af90bca734",
+    "portal/dist/client/assets/index-D-4BKJDj.js": "bddade4a208ab47ed977b00673e6a4f6ea40d4d22359985692acbd782c6bcc19",
+    "portal/dist/client/assets/rolldown-runtime-hePW80VL.js": "580ad8c58061a4dde99bde0a56905e382f0568516ee2f5b84dbfb52085709021",
+    "portal/dist/client/assets/worker-entry-ChLnouZs.js": "39221fbee1ccfa240150f2f7f7e1401c120b5ef601e6a9f9187f70cfa0cbfda9",
+    "portal/dist/client/assets/worker-entry-KuIQxfqK.css": "b1efde2a66ce300629bce5fb279fb8837e3ba0b3bc561a22e12ae7f25d2da4a0",
+    "portal/dist/client/assets/xlsx-DwRHmDrW.js": "7af040a5ba632e8b806def4e97a07b2fa28cfe7af2f5fa952759d47af9ab5105",
+    "portal/dist/client/brand/verity-ai-logo.svg": "fcdb41bdfe71352863e6e55577726adf281a32dbdfe6da320499e3af5e668e16",
+    "portal/dist/client/branding/sports-logo.png": "377ba9c5e34ff40835b821e65729c16ad5f621848bcd46a6f56c3ead546fb17e",
+    "migrator/prisma/migrations/0089_teacher_notes/manifest.json": "5a2be2e4f453a54279e9c14b6d77c2d89c2c7003af876d14406792db60f12397",
+    "migrator/prisma/migrations/0089_teacher_notes/migration.sql": "ace05467a0ccd3b847d8d326ef4dfc28c37afb2dd19355782a34bafa5021d93a",
+    "backend/dist/generated/migration-manifest.generated.js": "2357a680a43bd33a3ae786eb7391e06137d6109df70e6792dcc87bbd77bf176e",
+    "backend/dist/generated/openapi.document.generated.json": "922453c3dedb19559d97b88dccd1593cf790c55fc37017e1037cb0cc7773dc70",
+    "backend/dist/generated/operation-policies.generated.js": "83d12e083f61415878191349b3abe6703a80568b518f811801a85754c8ea5b2e",
+    "backend/dist/modules/v8/v81-management-insights.js": "2d82646d7cbb1defc3e01f3c041a3d05c493b8f4263aa42669f0d55eb8d7c052",
+    "backend/dist/modules/v8/v81-record-projection.js": "4fb77d23aa2ba521d626cd7e993662967ca4299bf6e566f8558d87edd3c183e2",
+    "backend/dist/modules/v8/v81.module.js": "1f59edda6fcb02f0dfc3f1b3e6bff1e166b257cc1cc2faf87a651d735f4cb1ea",
+    "backend/dist/modules/v8/domain/sport-display.js": "3ebf0103b90005d52fd476ee834f01ab2330527b3aba6259e4d680b990a4d20b",
+    "backend/dist/modules/exercise-records/application/exercise-records.service.js": "795def66893fa4a31bf8d6a58bf017ffa51abeb10ebfca662a8916c0a8ab9c04",
+    "backend/dist/modules/exercise-records/interface/http/exercise-records.dto.js": "df063726898d464b979b3956702c86f7d767f613701ad2d25ce7e32b183b2d51",
+    "backend/dist/common/policy/v81-admin-permission.guard.js": "66bc406b571ca44b64b860c0420174751bca0d3be6154f38ce94a629aa664aed"
+  }
+}

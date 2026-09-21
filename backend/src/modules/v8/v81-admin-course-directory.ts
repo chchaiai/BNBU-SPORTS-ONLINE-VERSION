@@ -61,8 +61,8 @@ export class V81AdminCourseDirectoryService {
           coalesce(c.general,0)::bigint AS "recognizedGeneral"
         FROM enrollments e JOIN class_sections s ON s.id=e.class_section_id
         LEFT JOIN LATERAL (SELECT
-          sum(p.credited_minutes) FILTER(WHERE r.credit_type='COURSE_RELATED') AS course,
-          sum(p.credited_minutes) FILTER(WHERE r.credit_type='GENERAL') AS general
+          sum(p.credited_minutes) FILTER(WHERE (CASE WHEN r.credit_type='COURSE_RELATED' AND EXISTS(SELECT 1 FROM enrollments ce JOIN v81_course_rules cr ON cr.class_section_id=ce.class_section_id WHERE ce.id=r.enrollment_id AND cr.course_target=0) THEN 'GENERAL' ELSE r.credit_type END)='COURSE_RELATED') AS course,
+          sum(p.credited_minutes) FILTER(WHERE (CASE WHEN r.credit_type='COURSE_RELATED' AND EXISTS(SELECT 1 FROM enrollments ce JOIN v81_course_rules cr ON cr.class_section_id=ce.class_section_id WHERE ce.id=r.enrollment_id AND cr.course_target=0) THEN 'GENERAL' ELSE r.credit_type END)='GENERAL') AS general
           FROM exercise_records r JOIN v81_record_workflows w ON w.record_id=r.id AND w.stage='VALID'
           JOIN v81_credit_projections p ON p.record_id=r.id
           WHERE r.enrollment_id=e.id AND r.organization_id=e.organization_id) x ON true

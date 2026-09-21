@@ -91,7 +91,7 @@ export class V81CompositeRosterService {
         studentNumber: row.student.studentNumber, fullName: row.student.fullName, emailVerified: row.student.user.emailVerifiedAt !== null,
         enrolledInSection: row.status === 'ACTIVE' || isCourseClosureHistoricalMember(row, section) })));
       const records = await tx.$queryRaw<RecordFact[]>`SELECT r.enrollment_id AS "enrollmentId",r.actual_duration_seconds AS "actualSeconds",
-        coalesce(p.credited_minutes,0) AS "creditedMinutes",w.stage,r.credit_type AS "creditType"
+        coalesce(p.credited_minutes,0) AS "creditedMinutes",w.stage,(CASE WHEN r.credit_type='COURSE_RELATED' AND EXISTS(SELECT 1 FROM v81_course_rules cr WHERE cr.class_section_id=r.class_section_id AND cr.course_target=0) THEN 'GENERAL' ELSE r.credit_type END) AS "creditType"
         FROM exercise_records r LEFT JOIN v81_record_workflows w ON w.record_id=r.id
         LEFT JOIN v81_credit_projections p ON p.record_id=r.id
         WHERE r.class_section_id=${classSectionId}::uuid AND r.organization_id=${principal.organizationId}::uuid`;

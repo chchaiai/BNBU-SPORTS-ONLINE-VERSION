@@ -1,3 +1,4 @@
+import { displaySportName } from './domain/sport-display.js';
 import { Prisma } from '../../generated/prisma/client.js';
 import { readAiReviews, type AiReviewProjection } from './v81-ai-review-store.js';
 import {
@@ -33,8 +34,9 @@ export async function projectV81Records(
     WHERE session_id::text IN (${Prisma.join(records.map(record=>record.sessionId))})`;
   const historical = new Set(sources.map(row=>row.session_id));
   const states = new Map(rows.map((row) => [row.record_id, row]));
+  const courses = await tx.$queryRaw<{id:string;display_name:string}[]>`SELECT id,display_name FROM class_sections WHERE id::text IN (${Prisma.join([...new Set(records.map(record=>record.classSectionId))])})`;
   return records.map((record) => {
-    const original = {...projectExerciseRecord(record),recordOrigin:historical.has(record.sessionId)?'HISTORICAL':'LIVE'},
+    const original = {...projectExerciseRecord(record),sportName:displaySportName(record.sportName,record.creditType,courses.find(c=>c.id===record.classSectionId)?.display_name??''),recordOrigin:historical.has(record.sessionId)?'HISTORICAL':'LIVE'},
       state = states.get(record.id);
     if (!state) return historical.has(record.sessionId)
       ? { ...original, creditedDurationSeconds: 0 }

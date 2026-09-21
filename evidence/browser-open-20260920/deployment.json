@@ -1,0 +1,14 @@
+{
+  "result": "PASS",
+  "release": "/opt/bnbu-sports-production/releases/browser-open-20260920",
+  "previous": "/opt/bnbu-sports-production/releases/student-account-goals-20260920",
+  "files": {
+    "js/student-device.js": "2aa699bf11058d642426e8e5ea3e4d8f670b95b7398293a106d55e11bff4649f"
+  },
+  "publicHashes": "PASS",
+  "health": "PASS",
+  "runtimeUnchanged": true,
+  "realStudentBusinessWrites": 0,
+  "migrationExecuted": false,
+  "rollbackAvailable": true
+}

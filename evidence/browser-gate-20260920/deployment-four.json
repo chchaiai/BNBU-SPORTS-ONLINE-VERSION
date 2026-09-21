@@ -1,0 +1,14 @@
+{
+  "result": "PASS",
+  "release": "/opt/bnbu-sports-production/releases/browser-access-four-20260920",
+  "previous": "/opt/bnbu-sports-production/releases/browser-gate-20260920",
+  "files": {
+    "js/student-device.js": "7d5b35b27eb79182144fff4541957c45314e06fd9198a9b55aaae65005da7e11"
+  },
+  "publicHashes": "PASS",
+  "health": "PASS",
+  "runtimeUnchanged": true,
+  "realStudentBusinessWrites": 0,
+  "migrationExecuted": false,
+  "rollbackAvailable": true
+}

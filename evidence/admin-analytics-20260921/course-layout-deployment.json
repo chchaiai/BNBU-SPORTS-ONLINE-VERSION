@@ -1,0 +1,9 @@
+{
+  "result": "PASS",
+  "release": "/opt/bnbu-sports-production/releases/course-layout-20260921",
+  "previous": "/opt/bnbu-sports-production/releases/admin-insights-20260921",
+  "portalImage": "sha256:f15200e977dfa29885f2a49902d309826cfd1e01cb6c1d7c233b5898c8f41cfb",
+  "publicAssetsVerified": 9,
+  "backendUnchanged": true,
+  "databaseChanges": false
+}

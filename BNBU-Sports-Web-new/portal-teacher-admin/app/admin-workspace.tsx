@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useRef } from "react";
 import { ADMIN_PERMISSIONS, ADMIN_ROUTE_PERMISSION } from "./admin-domain";
 import { adminCopy } from "./admin-i18n";
+import { AdminInsights } from "./admin-insights";
 import { AdminCheckins } from "./admin-checkins";
 import { AdminAudit } from "./admin-audit";
 import { AdminCourses } from "./admin-courses";
@@ -32,6 +33,7 @@ import type { NotificationTarget } from "./portal-notifications";
 import type { SemesterRow } from "./semester-api";
 
 const adminRoutes: AdminRoute[] = [
+  "insights",
   "checkins",
   "overview",
   "courses",
@@ -88,6 +90,7 @@ function AdminPage({
       </div>
     );
   }
+  if (active === "insights") return mode === "real" ? <AdminInsights/> : <p>数据看板需要连接正式账号读取真实统计数据。</p>;
   if (active === "checkins") return <AdminCheckins locale={locale} />;
   if (active === "courses") return <AdminCourses locale={locale} mode={mode} notificationTarget={notificationTarget} />;
   if (active === "semesters") return <AdminSemesters locale={locale} onSemestersLoaded={onSemestersLoaded} />;

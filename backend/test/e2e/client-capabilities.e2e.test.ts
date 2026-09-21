@@ -416,7 +416,7 @@ describe('Stage 21 client capabilities with real PostgreSQL', () => {
     assert.equal((await request('/api/v1/students?email=PROFILE', { headers: authorization(teacher.data.accessToken) })).status, 403);
   });
 
-  it('keeps student account deletion deferred with no challenge or account mutation', async () => {
+  it('fails account deletion closed when email delivery is unavailable', async () => {
     const student = await seedExerciseSessionStudent(prisma, fixture, 'DEFERRED');
     const token = await studentAccessToken(student.userId, student.authSessionId);
     const before = await prisma.user.findUniqueOrThrow({ where: { id: student.userId } });
@@ -428,7 +428,7 @@ describe('Stage 21 client capabilities with real PostgreSQL', () => {
       const result = await request('/api/v1/me/account-deletion-challenges', init);
       assert.equal(result.status, 503, JSON.stringify(result.body));
       assert.equal(result.body.code, 'SYSTEM_SERVICE_UNAVAILABLE');
-      assert.equal(object(result.body.details).currentState, 'FEATURE_DEFERRED');
+      assert.notEqual(object(result.body.details).currentState, 'FEATURE_DEFERRED');
     }
     const teacher = await login();
     const denied = await request('/api/v1/me/account-deletion-challenges',
@@ -437,7 +437,7 @@ describe('Stage 21 client capabilities with real PostgreSQL', () => {
     assert.deepEqual(await prisma.user.findUniqueOrThrow({ where: { id: student.userId } }), before);
     const rows = await prisma.$queryRaw<{ count: number }[]>`SELECT count(*)::int AS count
       FROM v81_account_deletion_challenges WHERE user_id=${student.userId}::uuid`;
-    assert.equal(rows[0]!.count, 0);
+    assert.equal(rows[0]!.count, 1);
     assert.equal((await request('/api/v1/me', { headers: authorization(token) })).status, 200);
   });
 

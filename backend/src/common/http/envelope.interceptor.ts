@@ -18,6 +18,8 @@ export interface SuccessEnvelope<T> {
 }
 
 export interface PaginationMeta {
+  total?: number;
+  totalPages?: number;
   nextCursor: string | null;
   hasMore: boolean;
   limit: number;

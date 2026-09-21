@@ -1,0 +1,13 @@
+"use client";
+import {useEffect,useState} from 'react';
+import {requestWithMeta,formatUserFacingError} from './api-client';
+import {AdminCheckins} from './admin-checkins';
+import type {AdminLocale} from './admin-types';
+type Student={id:string;fullName:string;studentNumber:string};
+export function AdminClassRecords({classSectionId,locale}:{classSectionId:string;locale:AdminLocale}) {
+ const [students,setStudents]=useState<Student[]>([]),[selected,setSelected]=useState<Student|null>(null),[error,setError]=useState(''),[busy,setBusy]=useState(true),[search,setSearch]=useState('');
+ useEffect(()=>{let live=true;setBusy(true);setError('');setSelected(null);void (async()=>{const all:Student[]=[];let cursor:string|null=null;const seen=new Set<string>();do{const q=new URLSearchParams({classSectionId,limit:'100'});if(cursor)q.set('cursor',cursor);const r=await requestWithMeta<Student[]>(`/students?${q}`);if(!live)return;all.push(...r.data);cursor=r.meta.pagination?.nextCursor??null;if(cursor&&seen.has(cursor))throw Error('分页异常，请重试');if(cursor)seen.add(cursor);}while(cursor);setStudents(all);})().catch(e=>{if(live)setError(formatUserFacingError(e));}).finally(()=>{if(live)setBusy(false);});return()=>{live=false;};},[classSectionId]);
+ useEffect(()=>{if(selected)document.querySelector('.course-student-heading')?.scrollIntoView({block:'start'});},[selected]);
+ if(selected)return <section className="admin-class-records course-student-detail"><div className="course-student-heading"><button className="secondary-button" onClick={()=>setSelected(null)}>← 返回班级学生</button><div><span className="course-eyebrow">学生打卡记录</span><h3>{selected.fullName}<small>学号 {selected.studentNumber}</small></h3></div></div><AdminCheckins key={selected.id} locale={locale} classSectionId={classSectionId} studentId={selected.id}/></section>;
+ return <section className="admin-surface admin-class-records course-student-list"><h3>班级学生 · {students.length} 人</h3><p>点击学生右侧的“查看打卡记录”，查看运动明细与凭证。</p><input aria-label="搜索班级学生" placeholder="姓名 / 学号" value={search} onChange={e=>setSearch(e.target.value)}/>{busy&&<p>正在加载全班学生…</p>}{error&&<p role="alert">{error}</p>}<div className="table-scroll"><table className="admin-table"><thead><tr><th>学号</th><th>姓名</th><th>打卡情况</th></tr></thead><tbody>{students.filter(s=>`${s.fullName} ${s.studentNumber}`.toLowerCase().includes(search.toLowerCase())).map(s=><tr key={s.id}><td>{s.studentNumber}</td><td>{s.fullName}</td><td><button className="secondary-button" onClick={()=>setSelected(s)}>查看打卡记录 →</button></td></tr>)}</tbody></table></div>{!busy&&!error&&!students.length&&<p>暂无学生。</p>}</section>;
+}

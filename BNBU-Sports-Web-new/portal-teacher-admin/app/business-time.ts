@@ -33,10 +33,10 @@ export function businessDateTime(value?: string | null): string {
     new Intl.DateTimeFormat("en-CA", {
       timeZone: BUSINESS_TIME_ZONE,
       year: "numeric", month: "2-digit", day: "2-digit",
-      hour: "2-digit", minute: "2-digit", hour12: false,
+      hour: "2-digit", minute: "2-digit", second: "2-digit", hour12: false,
     })
       .formatToParts(date)
       .map((part) => [part.type, part.value])
   );
-  return `${parts.year}-${parts.month}-${parts.day} ${parts.hour === "24" ? "00" : parts.hour}:${parts.minute}`;
+  return `${parts.year}-${parts.month}-${parts.day} ${parts.hour === "24" ? "00" : parts.hour}:${parts.minute}:${parts.second}`;
 }

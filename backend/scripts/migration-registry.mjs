@@ -87,4 +87,6 @@ export const migrationIds = [
   '0085_history_duration_limit',
   '0086_feedback_attachments',
   '0087_roster_xls',
+  '0088_student_self_erasure',
+  '0089_teacher_notes',
 ];

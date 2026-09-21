@@ -2701,6 +2701,45 @@ export const operationPolicies = {
     "resourceResolver": "PRINCIPAL_USER",
     "defaultDeny": true
   },
+  "getV81ManagementInsights": {
+    "method": "GET",
+    "route": "/admin/insights",
+    "policyId": "GETV81MANAGEMENTINSIGHTS",
+    "authentication": "ACCESS_TOKEN",
+    "allowedRoles": [
+      "ADMIN"
+    ],
+    "organizationScope": "PRINCIPAL_ORGANIZATION",
+    "resourceScope": "SELF",
+    "resourceResolver": "PRINCIPAL_USER",
+    "defaultDeny": true
+  },
+  "getV81TeacherDetails": {
+    "method": "GET",
+    "route": "/admin/teachers/{id}/details",
+    "policyId": "GETV81TEACHERDETAILS",
+    "authentication": "ACCESS_TOKEN",
+    "allowedRoles": [
+      "ADMIN"
+    ],
+    "organizationScope": "PRINCIPAL_ORGANIZATION",
+    "resourceScope": "SELF",
+    "resourceResolver": "PRINCIPAL_USER",
+    "defaultDeny": true
+  },
+  "updateV81TeacherDetails": {
+    "method": "PATCH",
+    "route": "/admin/teachers/{id}/details",
+    "policyId": "UPDATEV81TEACHERDETAILS",
+    "authentication": "ACCESS_TOKEN",
+    "allowedRoles": [
+      "ADMIN"
+    ],
+    "organizationScope": "PRINCIPAL_ORGANIZATION",
+    "resourceScope": "SELF",
+    "resourceResolver": "PRINCIPAL_USER",
+    "defaultDeny": true
+  },
   "getV81AdminCourseDirectory": {
     "method": "GET",
     "route": "/admin/course-directory",
@@ -3175,6 +3214,19 @@ export const operationPolicies = {
     "method": "POST",
     "route": "/me/account-deletion-challenges",
     "policyId": "REQUEST-CURRENT-USER-ACCOUNT-DELETION-CHALLENGE",
+    "authentication": "ACCESS_TOKEN",
+    "allowedRoles": [
+      "STUDENT"
+    ],
+    "organizationScope": "PRINCIPAL_ORGANIZATION",
+    "resourceScope": "SELF",
+    "resourceResolver": "PRINCIPAL_USER",
+    "defaultDeny": true
+  },
+  "confirmCurrentUserAccountDeletion": {
+    "method": "POST",
+    "route": "/me/account-deletion-challenges/{id}/confirm",
+    "policyId": "CONFIRM-CURRENT-USER-ACCOUNT-DELETION",
     "authentication": "ACCESS_TOKEN",
     "allowedRoles": [
       "STUDENT"

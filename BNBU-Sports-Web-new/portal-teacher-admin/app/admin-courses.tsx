@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { AdminClassRecords } from "./admin-class-records";
 import { AppSelect } from "./app-select";
 import { loadCourseDirectory, type DirectorySummary } from "./admin-course-directory-api";
 import { toUserFacingError, type UserFacingError } from "./api-client";
@@ -180,7 +181,7 @@ export function AdminCourses({
     else setTargetError({...localUserFacingError(locale==='zh'?'相关课程不在当前可查看目录中，可能已关闭、归档或无权查看。':'This course is outside the current directory; it may be closed, archived or inaccessible.',locale),title:locale==='zh'?'无法定位课程':'Course unavailable',action:locale==='zh'?'刷新目录后重试。':'Refresh the directory and retry.'});
   },[notificationTarget,loading,error,rows,mode,locale]);
   useEffect(()=>{
-    if(!expandedId)return;const frame=requestAnimationFrame(()=>document.getElementById(`admin-course-${expandedId}`)?.scrollIntoView({block:'center'}));return()=>cancelAnimationFrame(frame);
+    if(!expandedId)return;const frame=requestAnimationFrame(()=>document.querySelector('.course-focus')?.scrollIntoView({block:'start'}));return()=>cancelAnimationFrame(frame);
   },[expandedId]);
 
   const filtered = useMemo(() => {
@@ -197,6 +198,15 @@ export function AdminCourses({
     teachers: new Set(rows.map((row) => row.teacherId)).size,
   }), [rows, mode, realSummary]);
   if (loading) return <AdminLoading locale={locale} />;
+  const selectedCourse = rows.find(row => row.id === expandedId);
+  if (selectedCourse) return <div className="admin-page-stack admin-course-dashboard course-focus">
+    <nav className="course-breadcrumb" aria-label="当前位置"><button onClick={() => setExpandedId(null)}>课程目录</button><span>/</span><span aria-current="page">{selectedCourse.courseName}</span></nav>
+    <header className="course-focus-header"><div><span className="course-eyebrow">班级详情</span><h2>{selectedCourse.courseName}</h2><p>{selectedCourse.teacherName} · {selectedCourse.semesterName}</p></div><button className="secondary-button" onClick={() => setExpandedId(null)}>← 返回课程列表</button></header>
+    <div className="course-focus-summary"><span>在班学生 <b>{selectedCourse.activeStudents}</b></span><span>已提交学生 <b>{selectedCourse.submittedStudents}</b></span><span>打卡记录 <b>{selectedCourse.totalRecords}</b></span><span>计入时长 <b>{durationLabel(locale, selectedCourse.creditedSeconds)}</b></span></div>
+    <details className="course-settings"><summary>课程目标与打卡时间</summary><p>允许打卡：{selectedCourse.checkInWindow}</p><p>课程相关目标：{selectedCourse.courseTargetSeconds === null ? '—' : durationLabel(locale, selectedCourse.courseTargetSeconds)} · 其他运动目标：{selectedCourse.generalTargetSeconds === null ? '—' : durationLabel(locale, selectedCourse.generalTargetSeconds)}</p></details>
+    {mode === 'real' ? <AdminClassRecords classSectionId={selectedCourse.id} locale={locale}/> : <p>演示课程暂无真实学生记录。</p>}
+  </div>;
+
 
   return (
     <div className="admin-page-stack admin-course-dashboard">
@@ -222,7 +232,7 @@ export function AdminCourses({
       <section className="admin-surface admin-course-list-surface">
         <AdminSectionHeading
           title={locale === "zh" ? "课程列表" : "Courses"}
-          description={locale === "zh" ? "先查看班级运行摘要，再按需展开学期、目标和成员明细。" : "Scan each class summary first, then expand semester, target, and membership details when needed."}
+          description={locale === "zh" ? "选择课程查看班级学生，再进入学生的打卡记录与凭证。" : "Scan each class summary first, then expand semester, target, and membership details when needed."}
         />
         <div className="admin-audit-filters admin-course-filters">
           <AdminField locale={locale} label={locale === "zh" ? "搜索课程" : "Search courses"}>
@@ -252,7 +262,7 @@ export function AdminCourses({
                     <div className="admin-course-identity">
                       <div><h3>{row.courseName}</h3><p>{row.teacherName}</p></div>
                     </div>
-                    <AdminBadge tone={tone}>{row.status}</AdminBadge>
+                    <AdminBadge tone={tone}>{locale === "zh" ? ({ACTIVE:"进行中",UPCOMING:"即将开始"}[row.status] ?? row.status) : row.status}</AdminBadge>
                   </div>
                   <div className="admin-course-card-stats">
                     <span><small>{locale === "zh" ? "有效学生" : "Students"}</small><b>{row.activeStudents}</b></span>
@@ -272,9 +282,10 @@ export function AdminCourses({
                     </div>
                   </div>
                   <button className="admin-course-expand" type="button" aria-expanded={expanded} onClick={() => setExpandedId(expanded ? null : row.id)}>
-                    {expanded ? (locale === "zh" ? "收起详情" : "Hide details") : (locale === "zh" ? "查看详情" : "View details")}
+                    {expanded ? (locale === "zh" ? "收起详情" : "Hide details") : (locale === "zh" ? "查看班级学生 →" : "View class students")}
                     <span aria-hidden="true">{expanded ? "−" : "+"}</span>
                   </button>
+                  {expanded && mode === "real" && <AdminClassRecords classSectionId={row.id} locale={locale}/>}
                   {expanded && (
                     <div className="admin-course-detail-grid">
                       <span><small>{locale === "zh" ? "当前学期" : "Semester"}</small><b>{row.semesterName}</b></span>

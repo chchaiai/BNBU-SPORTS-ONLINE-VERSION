@@ -1,6 +1,7 @@
 export type AdminLocale = "zh" | "en";
 
 export type AdminRoute =
+  | "insights"
   | "checkins"
   | "overview"
   | "courses"

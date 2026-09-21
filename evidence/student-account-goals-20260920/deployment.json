@@ -1,0 +1,49 @@
+{
+  "result": "PASS",
+  "release": "/opt/bnbu-sports-production/releases/student-account-goals-20260920",
+  "previous": "/opt/bnbu-sports-production/releases/browser-access-four-20260920",
+  "images": {
+    "backend": "sha256:6e380354ec53871aedbb860a0c1aef59cbde76bf479aa5256ab7b9ca5f57251e",
+    "migrator": "sha256:1b5dfa4cb020898bea6718c658116af3cc5d7414d4ad37893220a748ba179009"
+  },
+  "backup": {
+    "check": "PRE_RELEASE_DATABASE_BACKUP",
+    "result": "PASS",
+    "path": "/opt/bnbu-sports-production/backups/before-bugfix-20260920T105957Z.dump",
+    "bytes": 62255531
+  },
+  "migration": "0088_student_self_erasure",
+  "runtimeHashes": 9,
+  "studentPublicHashes": 3,
+  "health": "PASS",
+  "recredit": {
+    "result": "PASS",
+    "enrollments": 137,
+    "records": 171,
+    "valid": 164,
+    "previousCourseMinutes": 0,
+    "generalMinutes": 18227
+  },
+  "recreditVerification": {
+    "result": "PASS",
+    "enrollments": 137,
+    "records": 171,
+    "valid": 164,
+    "previousCourseMinutes": 11885,
+    "after": {
+      "credited_course_records": 11885,
+      "invalid_credited": 0
+    },
+    "event": {
+      "rule": "COURSE_ZERO_TO_GENERAL",
+      "valid": 164,
+      "records": 171,
+      "enrollments": 137,
+      "generalMinutes": 18227,
+      "previousCourseMinutes": 0,
+      "originalRecordCategoriesPreserved": true
+    }
+  },
+  "realAccountsDeletedByDeployment": 0,
+  "rollbackAvailable": true
+}

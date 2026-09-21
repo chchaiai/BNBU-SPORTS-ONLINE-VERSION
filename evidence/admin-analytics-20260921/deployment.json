@@ -1,0 +1,46 @@
+{
+  "result": "PASS",
+  "release": "/opt/bnbu-sports-production/releases/admin-insights-20260921",
+  "previous": "/opt/bnbu-sports-production/releases/proof-storage-pixels-20260920",
+  "images": {
+    "backend": "sha256:1c45984aea52068cfa0faddde348b1e1b72a5b3b708891c5056152b10d75d82d",
+    "portal": "sha256:571a150cf362d61a9d3878e288a6313df4b6a41b30a7254008ab1573e86e8fd1",
+    "migrator": "sha256:1c6435f441f514a9fbb581e51caa833ae72b6cc8219a5a79eb5ac7dc9fc6f5a2"
+  },
+  "backup": {
+    "check": "PRE_RELEASE_DATABASE_BACKUP",
+    "result": "PASS",
+    "path": "/opt/bnbu-sports-production/backups/before-bugfix-20260921T035822Z.dump",
+    "bytes": 67613630
+  },
+  "migration": "0089_teacher_notes",
+  "verification": {
+    "result": "PASS",
+    "verifiedAt": "2026-09-21T03:58:32.343Z",
+    "range": {
+      "from": "2026-08-23",
+      "to": "2026-09-21"
+    },
+    "summary": {
+      "records": 1000,
+      "students": 521,
+      "seconds": 4160708,
+      "credited": 3836880
+    },
+    "chartTotalsReconciled": true,
+    "teacherDetailsReadable": true,
+    "outbox": [
+      {
+        "status": "PENDING",
+        "count": 41117,
+        "never_attempted": 41117
+      }
+    ],
+    "productionBusinessWrites": 0
+  },
+  "runtimeHashes": 10,
+  "publicPortalAssets": 9,
+  "studentPublicFiles": 1,
+  "health": "PASS",
+  "rollbackAvailable": true
+}
