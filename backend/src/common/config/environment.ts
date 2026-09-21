@@ -394,7 +394,7 @@ function mediaConfiguration(
       maximum: 3600,
     }),
     maxImageBytes: integer(raw, 'MEDIA_MAX_IMAGE_BYTES', { minimum: 1024 }),
-    maxImagePixels: integer(raw, 'MEDIA_MAX_IMAGE_PIXELS', { minimum: 1 }),
+    maxImagePixels: integer(raw, 'MEDIA_MAX_IMAGE_PIXELS', { minimum: 0 }),
     maxVideoTransportBytes: integer(raw, 'MEDIA_MAX_VIDEO_TRANSPORT_BYTES', {
       minimum: 1024,
       maximum: Number.MAX_SAFE_INTEGER,

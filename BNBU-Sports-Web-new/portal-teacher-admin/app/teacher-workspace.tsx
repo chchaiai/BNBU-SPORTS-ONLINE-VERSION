@@ -957,7 +957,7 @@ function courseLabel(course?: Course) {
 
 function checkinDateLabel(record: CheckinRecord) {
   const formatted = businessDateTime(record.startAt);
-  return formatted ? formatted.split(" ")[0] : record.startAt;
+  return formatted || record.startAt;
 }
 
 function enduranceScoreLabel(grade: Grade) {
@@ -1511,6 +1511,7 @@ export function TeacherWorkspace({
   const [checkinStudentId, setCheckinStudentId] = useState<string | null>(null);
   const [checkinDetailView, setCheckinDetailView] =
     useState<CheckinDetailView>("list");
+  const [checkinClassFilter, setCheckinClassFilter] = useState("all");
   const [checkinReviewFilter, setCheckinReviewFilter] =
     useState<CheckinReviewFilter>("history");
   const [checkinAuditFilter, setCheckinAuditFilter] =
@@ -1860,7 +1861,7 @@ export function TeacherWorkspace({
 
   // Removing a member blocks new check-ins but must not hide or delete existing
   // pending/valid/invalid records from the teacher's audit workspace.
-  const checkinStudents = students.filter(
+  const checkinStudents = students.filter(student => checkinClassFilter === "all" || student.courseId === checkinClassFilter).filter(
     (student) =>
       student.status === "active" ||
       records.some((record) => record.studentId === student.id),
@@ -3727,18 +3728,19 @@ export function TeacherWorkspace({
       // auditStatus from currentReview.result), so the queue is read from that
       // single source. Guessing "unreviewed" from a missing comment would be a
       // second state derivation, which current API forbids.
-      const invalidQueueRecords = records.filter(isTeacherReviewQueueRecord);
-      const invalidRecords = records.filter(
+      const scopedRecords = records.filter(record => checkinClassFilter === "all" || record.courseId === checkinClassFilter);
+      const invalidQueueRecords = scopedRecords.filter(isTeacherReviewQueueRecord);
+      const invalidRecords = scopedRecords.filter(
         (record) => record.auditStatus === "invalid",
       );
       const showingHistory = checkinReviewFilter === "history";
       const reviewScopeRecords = showingHistory
-        ? records
+        ? scopedRecords
         : invalidQueueRecords;
-      const visibleRecords = reviewScopeRecords.filter(record => aiReviewFilter === 'all' ||
+      const visibleRecords = reviewScopeRecords.filter(record => checkinClassFilter === "all" || record.courseId === checkinClassFilter).filter(record => aiReviewFilter === 'all' ||
         (aiReviewFilter === 'UNAVAILABLE' ? !record.aiReview?.recommendation : record.aiReview?.recommendation === aiReviewFilter));
       const involvedStudentIds = new Set(
-        records.map((record) => record.studentId),
+        scopedRecords.map((record) => record.studentId),
       );
       const visibleStudentIds = new Set(
         visibleRecords.map((record) => record.studentId),
@@ -3775,7 +3777,7 @@ export function TeacherWorkspace({
                 items={[
                   // Only three tiles render, so the third one shows whatever
                   // actually needs the teacher: records currently marked invalid.
-                  { label: "打卡记录", value: records.length },
+                  { label: "打卡记录", value: scopedRecords.length },
                   { label: "涉及学生", value: involvedStudentIds.size },
                   {
                     label: "已标记无效",
@@ -3800,13 +3802,14 @@ export function TeacherWorkspace({
                 {
                   value: "history",
                   label: "全部记录",
-                  count: records.length,
+                  count: scopedRecords.length,
                 },
               ]}
             />
           }
           toolbar={
             <div className="compact-guidance">
+              <label>班级 <select aria-label="班级筛选" value={checkinClassFilter} onChange={event => {setCheckinClassFilter(event.target.value);setCheckinStudentId(null);}}><option value="all">全部班级</option>{courses.map(course => <option key={course.id} value={course.id}>{course.name}</option>)}</select></label>
               <label>AI 抽查建议筛选 <select aria-label="AI 抽查建议筛选" value={aiReviewFilter} onChange={event => setAiReviewFilter(event.target.value)}>
                 <option value="all">全部 AI 结果</option>
                 <option value="SUGGEST_PASS">建议通过</option>
@@ -3986,6 +3989,7 @@ export function TeacherWorkspace({
               </p>
             </div>
             <div className="checkin-detail-toolbar">
+              <label>班级 <select aria-label="班级筛选" value={checkinClassFilter} onChange={event => {setCheckinClassFilter(event.target.value);setCheckinStudentId(null);}}><option value="all">全部班级</option>{courses.map(course => <option key={course.id} value={course.id}>{course.name}</option>)}</select></label>
               <label>AI 抽查建议筛选 <select aria-label="AI 抽查建议筛选" value={aiReviewFilter} onChange={event => setAiReviewFilter(event.target.value)}>
                 <option value="all">全部 AI 结果</option>
                 {Object.entries(aiReviewLabels).map(([value,label]) => <option key={value} value={value}>{label}</option>)}

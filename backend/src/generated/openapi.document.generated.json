@@ -3908,6 +3908,62 @@
         "summary": "List authorized record projections",
         "parameters": [
           {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100000
+            }
+          },
+          {
+            "name": "studentId",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "sportType",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "maxLength": 64
+            }
+          },
+          {
+            "name": "creditType",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "COURSE_RELATED",
+                "GENERAL"
+              ]
+            }
+          },
+          {
+            "name": "workflowStage",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "VALID",
+                "INVALID",
+                "PENDING_TEACHER",
+                "PENDING_AI",
+                "AWAITING_SUPPLEMENT",
+                "TECHNICAL"
+              ]
+            }
+          },
+          {
             "$ref": "#/components/parameters/RequestIdHeader"
           },
           {
@@ -18526,6 +18582,233 @@
         }
       }
     },
+    "/admin/insights": {
+      "get": {
+        "operationId": "getV81ManagementInsights",
+        "tags": [
+          "V8.1 local implementation"
+        ],
+        "summary": "getV81ManagementInsights",
+        "x-access-policy": {
+          "policyId": "GETV81MANAGEMENTINSIGHTS",
+          "authentication": "ACCESS_TOKEN",
+          "allowedRoles": [
+            "ADMIN"
+          ],
+          "organizationScope": "PRINCIPAL_ORGANIZATION",
+          "resourceScope": "SELF",
+          "resourceResolver": "PRINCIPAL_USER",
+          "defaultDeny": true
+        },
+        "parameters": [
+          {
+            "name": "from",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "date"
+            }
+          },
+          {
+            "name": "to",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "date"
+            }
+          },
+          {
+            "name": "classSectionId",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/RequestIdHeader"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Persisted result in the data envelope",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "additionalProperties": true
+                    },
+                    "meta": {
+                      "type": "object",
+                      "additionalProperties": true
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Permission denied"
+          }
+        }
+      }
+    },
+    "/admin/teachers/{id}/details": {
+      "get": {
+        "operationId": "getV81TeacherDetails",
+        "tags": [
+          "V8.1 local implementation"
+        ],
+        "summary": "getV81TeacherDetails",
+        "x-access-policy": {
+          "policyId": "GETV81TEACHERDETAILS",
+          "authentication": "ACCESS_TOKEN",
+          "allowedRoles": [
+            "ADMIN"
+          ],
+          "organizationScope": "PRINCIPAL_ORGANIZATION",
+          "resourceScope": "SELF",
+          "resourceResolver": "PRINCIPAL_USER",
+          "defaultDeny": true
+        },
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/RequestIdHeader"
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Persisted result in the data envelope",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "additionalProperties": true
+                    },
+                    "meta": {
+                      "type": "object",
+                      "additionalProperties": true
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Permission denied"
+          }
+        }
+      },
+      "patch": {
+        "operationId": "updateV81TeacherDetails",
+        "tags": [
+          "V8.1 local implementation"
+        ],
+        "summary": "updateV81TeacherDetails",
+        "x-access-policy": {
+          "policyId": "UPDATEV81TEACHERDETAILS",
+          "authentication": "ACCESS_TOKEN",
+          "allowedRoles": [
+            "ADMIN"
+          ],
+          "organizationScope": "PRINCIPAL_ORGANIZATION",
+          "resourceScope": "SELF",
+          "resourceResolver": "PRINCIPAL_USER",
+          "defaultDeny": true
+        },
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/RequestIdHeader"
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/IdempotencyKeyHeader"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "fullName",
+                  "remark",
+                  "expectedVersion"
+                ],
+                "properties": {
+                  "fullName": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 100
+                  },
+                  "remark": {
+                    "type": "string",
+                    "maxLength": 1000
+                  },
+                  "expectedVersion": {
+                    "type": "integer",
+                    "minimum": 1
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Persisted result in the data envelope",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "additionalProperties": true
+                    },
+                    "meta": {
+                      "type": "object",
+                      "additionalProperties": true
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Permission denied"
+          }
+        }
+      }
+    },
     "/admin/course-directory": {
       "get": {
         "operationId": "getV81AdminCourseDirectory",
@@ -25495,13 +25778,11 @@
     "/me/account-deletion-challenges": {
       "post": {
         "operationId": "requestCurrentUserAccountDeletionChallenge",
-        "x-availability": "DEFERRED",
-        "x-deferral-reason": "Student account cancellation postponed by user decision; display 暂时功能无法实现，敬请期待.",
         "tags": [
           "V8.1 local implementation"
         ],
         "summary": "requestCurrentUserAccountDeletionChallenge",
-        "description": "Deferred by user decision. A valid authenticated student request returns 503 with details.currentState FEATURE_DEFERRED. No OTP is issued, no account data is changed, and the existing session remains valid. Clients display 暂时功能无法实现，敬请期待.",
+        "description": "Send a session-bound email OTP for irreversible student account and history deletion.",
         "x-access-policy": {
           "policyId": "REQUEST-CURRENT-USER-ACCOUNT-DELETION-CHALLENGE",
           "authentication": "ACCESS_TOKEN",
@@ -25532,11 +25813,182 @@
           }
         },
         "responses": {
+          "201": {
+            "description": "Email verification challenge issued",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "data",
+                    "meta"
+                  ],
+                  "properties": {
+                    "meta": {
+                      "$ref": "#/components/schemas/V81SettlementReportMetadata"
+                    },
+                    "data": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "challengeId",
+                        "mode",
+                        "expiresAt",
+                        "version"
+                      ],
+                      "properties": {
+                        "challengeId": {
+                          "type": "string",
+                          "format": "uuid"
+                        },
+                        "mode": {
+                          "const": "STUDENT_EMAIL_OTP"
+                        },
+                        "expiresAt": {
+                          "type": "string",
+                          "format": "date-time"
+                        },
+                        "version": {
+                          "type": "integer",
+                          "minimum": 1
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
           "401": {
             "$ref": "#/components/responses/Unauthorized"
           },
           "403": {
             "$ref": "#/components/responses/Forbidden"
+          },
+          "422": {
+            "$ref": "#/components/responses/UnprocessableEntity"
+          },
+          "503": {
+            "$ref": "#/components/responses/ServiceUnavailable"
+          }
+        }
+      }
+    },
+    "/me/account-deletion-challenges/{id}/confirm": {
+      "post": {
+        "operationId": "confirmCurrentUserAccountDeletion",
+        "tags": [
+          "V8.1 local implementation"
+        ],
+        "summary": "Confirm student account and history deletion",
+        "description": "Verify the current student's session-bound email OTP, then atomically erase their account and operational history. All sessions are removed; media deletion is queued and immutable operation audit remains.",
+        "x-access-policy": {
+          "policyId": "CONFIRM-CURRENT-USER-ACCOUNT-DELETION",
+          "authentication": "ACCESS_TOKEN",
+          "allowedRoles": [
+            "STUDENT"
+          ],
+          "organizationScope": "PRINCIPAL_ORGANIZATION",
+          "resourceScope": "SELF",
+          "resourceResolver": "PRINCIPAL_USER",
+          "defaultDeny": true
+        },
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/RequestIdHeader"
+          },
+          {
+            "$ref": "#/components/parameters/IdempotencyKeyHeader"
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "expectedVersion",
+                  "verificationCode"
+                ],
+                "properties": {
+                  "expectedVersion": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 2147483647
+                  },
+                  "verificationCode": {
+                    "type": "string",
+                    "pattern": "^[0-9]{6}$"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Account and history erased",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "data",
+                    "meta"
+                  ],
+                  "properties": {
+                    "meta": {
+                      "$ref": "#/components/schemas/V81SettlementReportMetadata"
+                    },
+                    "data": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "status",
+                        "deletedAt",
+                        "allSessionsRevoked",
+                        "newRegistrationRequired"
+                      ],
+                      "properties": {
+                        "status": {
+                          "const": "DELETED"
+                        },
+                        "deletedAt": {
+                          "type": "string",
+                          "format": "date-time"
+                        },
+                        "allSessionsRevoked": {
+                          "const": true
+                        },
+                        "newRegistrationRequired": {
+                          "const": true
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
           },
           "422": {
             "$ref": "#/components/responses/UnprocessableEntity"
@@ -31287,6 +31739,14 @@
         "type": "object",
         "additionalProperties": false,
         "properties": {
+          "total": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "totalPages": {
+            "type": "integer",
+            "minimum": 0
+          },
           "nextCursor": {
             "type": [
               "string",
@@ -33278,6 +33738,17 @@
         "x-same-day-independent-records": true,
         "x-daily-credited-record-limit": 1,
         "properties": {
+          "startedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "endedAt": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "date-time"
+          },
           "aiReview": {
             "description": "Only returned to an authorized teacher; null for records without an AI job.",
             "oneOf": [

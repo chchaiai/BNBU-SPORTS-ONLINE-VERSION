@@ -1,0 +1,96 @@
+{
+  "result": "PASS",
+  "scenarios": [
+    {
+      "name": "windows",
+      "allowed": true,
+      "apiRequests": 1,
+      "pageErrors": []
+    },
+    {
+      "name": "linux",
+      "allowed": true,
+      "apiRequests": 1,
+      "pageErrors": []
+    },
+    {
+      "name": "mac",
+      "allowed": true,
+      "apiRequests": 1,
+      "pageErrors": []
+    },
+    {
+      "name": "qq",
+      "allowed": true,
+      "apiRequests": 1,
+      "pageErrors": []
+    },
+    {
+      "name": "uc",
+      "allowed": true,
+      "apiRequests": 1,
+      "pageErrors": []
+    },
+    {
+      "name": "quark",
+      "allowed": true,
+      "apiRequests": 1,
+      "pageErrors": []
+    },
+    {
+      "name": "huawei",
+      "allowed": true,
+      "apiRequests": 1,
+      "pageErrors": []
+    },
+    {
+      "name": "wechat",
+      "allowed": true,
+      "apiRequests": 1,
+      "pageErrors": []
+    },
+    {
+      "name": "safari",
+      "allowed": true,
+      "apiRequests": 1,
+      "pageErrors": []
+    },
+    {
+      "name": "samsung",
+      "allowed": true,
+      "apiRequests": 1,
+      "pageErrors": []
+    },
+    {
+      "name": "firefox",
+      "allowed": true,
+      "apiRequests": 1,
+      "pageErrors": []
+    },
+    {
+      "name": "chrome-android",
+      "allowed": true,
+      "apiRequests": 1,
+      "pageErrors": []
+    },
+    {
+      "name": "edge-android",
+      "allowed": true,
+      "apiRequests": 1,
+      "pageErrors": []
+    },
+    {
+      "name": "chrome-ios",
+      "allowed": true,
+      "apiRequests": 1,
+      "pageErrors": []
+    },
+    {
+      "name": "edge-ios",
+      "allowed": true,
+      "apiRequests": 1,
+      "pageErrors": []
+    }
+  ],
+  "scope": "Automated browser identity simulations, not physical phone acceptance"
+}

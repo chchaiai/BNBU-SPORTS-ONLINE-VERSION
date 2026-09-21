@@ -149,7 +149,7 @@ export class MediaValidator {
     try {
       const decoder = sharp(body, {
         failOn: 'warning',
-        limitInputPixels: config.maxImagePixels,
+        limitInputPixels: config.maxImagePixels === 0 ? false : config.maxImagePixels,
         pages: -1,
       });
       const metadata = await decoder.metadata();
@@ -325,7 +325,7 @@ export class MediaValidator {
     } else {
       return this.integrityFailure();
     }
-    if (width < 1 || height < 1 || width * height > maximumPixels) this.integrityFailure();
+    if (width < 1 || height < 1 || (maximumPixels > 0 && width * height > maximumPixels)) this.integrityFailure();
     return { mimeType, durationSeconds: null, safeMetadata: { width, height } };
   }
 

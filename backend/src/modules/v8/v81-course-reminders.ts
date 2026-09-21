@@ -60,8 +60,8 @@ export class V81CourseRemindersService {
       include: { student: true }, orderBy: { id: 'asc' }, take: 101 });
     for (const member of members.slice(0, 100)) {
       const totals = (await tx.$queryRaw<{ course: bigint; general: bigint; course_cert: bigint; general_cert: bigint; pending: bigint }[]>`
-        SELECT coalesce(sum(p.credited_minutes) FILTER(WHERE w.stage='VALID' AND r.credit_type='COURSE_RELATED'),0)::bigint AS course,
-          coalesce(sum(p.credited_minutes) FILTER(WHERE w.stage='VALID' AND r.credit_type='GENERAL'),0)::bigint AS general,
+        SELECT coalesce(sum(p.credited_minutes) FILTER(WHERE w.stage='VALID' AND (CASE WHEN r.credit_type='COURSE_RELATED' AND EXISTS(SELECT 1 FROM enrollments ce JOIN v81_course_rules cr ON cr.class_section_id=ce.class_section_id WHERE ce.id=r.enrollment_id AND cr.course_target=0) THEN 'GENERAL' ELSE r.credit_type END)='COURSE_RELATED'),0)::bigint AS course,
+          coalesce(sum(p.credited_minutes) FILTER(WHERE w.stage='VALID' AND (CASE WHEN r.credit_type='COURSE_RELATED' AND EXISTS(SELECT 1 FROM enrollments ce JOIN v81_course_rules cr ON cr.class_section_id=ce.class_section_id WHERE ce.id=r.enrollment_id AND cr.course_target=0) THEN 'GENERAL' ELSE r.credit_type END)='GENERAL'),0)::bigint AS general,
           (SELECT coalesce(sum(course_minutes),0)::bigint FROM v81_certification_credits WHERE enrollment_id=${member.id}::uuid AND active=true) AS course_cert,
           (SELECT coalesce(sum(general_minutes),0)::bigint FROM v81_certification_credits WHERE enrollment_id=${member.id}::uuid AND active=true) AS general_cert,
           count(*) FILTER(WHERE r.id IS NOT NULL AND (w.stage IS NULL OR w.stage NOT IN ('VALID','INVALID'))) +

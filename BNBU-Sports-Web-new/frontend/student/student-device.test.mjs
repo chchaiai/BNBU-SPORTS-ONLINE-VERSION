@@ -9,9 +9,9 @@ test('phones and tablets include Android tablets and iPad desktop mode', () => {
   assert.equal(supportsStudentDevice({userAgent:'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15)',maxTouchPoints:5}), true);
 });
 
-test('desktop and touch laptops remain blocked regardless of narrow viewport', () => {
+test('desktop and touch laptops can access the student portal', () => {
   for (const userAgent of ['Mozilla/5.0 (Windows NT 10.0; Win64; x64)', 'Mozilla/5.0 (X11; Linux x86_64)', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15)']) {
-    assert.equal(supportsStudentDevice({userAgent,maxTouchPoints:0}), false);
+    assert.equal(supportsStudentDevice({userAgent,maxTouchPoints:0}), true);
   }
-  assert.equal(supportsStudentDevice({userAgent:'Mozilla/5.0 (Windows NT 10.0; Win64; x64)',maxTouchPoints:10}), false);
+  assert.equal(supportsStudentDevice({userAgent:'Mozilla/5.0 (Windows NT 10.0; Win64; x64)',maxTouchPoints:10}), true);
 });

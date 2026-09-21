@@ -1,0 +1,54 @@
+{
+  "result": "PASS",
+  "scenarios": [
+    {
+      "name": "wechat",
+      "allowed": false,
+      "apiRequests": 0,
+      "pageErrors": []
+    },
+    {
+      "name": "safari",
+      "allowed": true,
+      "apiRequests": 1,
+      "pageErrors": []
+    },
+    {
+      "name": "samsung",
+      "allowed": false,
+      "apiRequests": 0,
+      "pageErrors": []
+    },
+    {
+      "name": "firefox",
+      "allowed": true,
+      "apiRequests": 1,
+      "pageErrors": []
+    },
+    {
+      "name": "chrome-android",
+      "allowed": true,
+      "apiRequests": 1,
+      "pageErrors": []
+    },
+    {
+      "name": "edge-android",
+      "allowed": true,
+      "apiRequests": 1,
+      "pageErrors": []
+    },
+    {
+      "name": "chrome-ios",
+      "allowed": true,
+      "apiRequests": 1,
+      "pageErrors": []
+    },
+    {
+      "name": "edge-ios",
+      "allowed": true,
+      "apiRequests": 1,
+      "pageErrors": []
+    }
+  ],
+  "scope": "Automated browser identity simulations, not physical phone acceptance"
+}

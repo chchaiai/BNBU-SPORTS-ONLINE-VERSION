@@ -83,8 +83,8 @@ export class V81ProgressService {
           return pagedResult([], { hasMore: false, nextCursor: null, limit: input.limit });
         const ids = Prisma.join(page.map((row) => row.enrollmentId));
         const exercise = await tx.$queryRaw<Totals[]>`SELECT r.enrollment_id AS "enrollmentId",
-        coalesce(sum(p.credited_minutes) FILTER(WHERE r.credit_type='COURSE_RELATED'),0)::bigint AS course,
-        coalesce(sum(p.credited_minutes) FILTER(WHERE r.credit_type='GENERAL'),0)::bigint AS general
+        coalesce(sum(p.credited_minutes) FILTER(WHERE (CASE WHEN r.credit_type='COURSE_RELATED' AND EXISTS(SELECT 1 FROM enrollments ce JOIN v81_course_rules cr ON cr.class_section_id=ce.class_section_id WHERE ce.id=r.enrollment_id AND cr.course_target=0) THEN 'GENERAL' ELSE r.credit_type END)='COURSE_RELATED'),0)::bigint AS course,
+        coalesce(sum(p.credited_minutes) FILTER(WHERE (CASE WHEN r.credit_type='COURSE_RELATED' AND EXISTS(SELECT 1 FROM enrollments ce JOIN v81_course_rules cr ON cr.class_section_id=ce.class_section_id WHERE ce.id=r.enrollment_id AND cr.course_target=0) THEN 'GENERAL' ELSE r.credit_type END)='GENERAL'),0)::bigint AS general
         FROM exercise_records r JOIN v81_record_workflows w ON w.record_id=r.id AND w.stage='VALID'
         JOIN v81_credit_projections p ON p.record_id=r.id
         WHERE r.enrollment_id::text IN (${ids}) AND r.organization_id=${principal.organizationId}::uuid GROUP BY r.enrollment_id`;

@@ -86,6 +86,7 @@ export class ExerciseRecordsService {
     ) {
       this.scopeDenied();
     }
+    if (input.page !== undefined && input.cursor !== undefined) throw new ApplicationError('VALIDATION_FAILED',422);
     const direction = input.sort === 'businessDate' ? 'asc' : 'desc';
     if (input.aiReview && principal.role !== 'TEACHER') this.scopeDenied();
     const filters = {
@@ -95,6 +96,8 @@ export class ExerciseRecordsService {
       status: input.status ?? null,
       reviewResult: input.reviewResult ?? null,
       aiReview: input.aiReview ?? null,
+      sportType: input.sportType ?? null, creditType: input.creditType ?? null,
+      studentId: input.studentId ?? null, workflowStage: input.workflowStage ?? null,
       businessDateFrom: input.businessDateFrom ?? null,
       businessDateTo: input.businessDateTo ?? null,
     };
@@ -117,8 +120,7 @@ export class ExerciseRecordsService {
         ${scope.studentId === undefined ? Prisma.empty : Prisma.sql`AND scoped.student_id=${scope.studentId}::uuid`}
         ${input.classSectionId === undefined ? Prisma.empty : Prisma.sql`AND scoped.class_section_id=${input.classSectionId}::uuid`}
         AND NOT EXISTS (SELECT 1 FROM review_records newer WHERE newer.record_id=r.record_id AND newer.review_version>r.review_version)`;
-    const records = await tx.exerciseRecord.findMany({
-      where: {
+    const where: Prisma.ExerciseRecordWhereInput = {
         organizationId: principal.organizationId,
         ...(scope.studentId === undefined ? {} : { studentId: scope.studentId }),
         ...(scope.teacherUserId === undefined
@@ -128,6 +130,9 @@ export class ExerciseRecordsService {
         ...(input.classSectionId === undefined ? {} : { classSectionId: input.classSectionId }),
         ...(input.enrollmentId === undefined ? {} : { enrollmentId: input.enrollmentId }),
         ...(input.status === undefined ? {} : { status: input.status }),
+        ...(input.sportType ? { sportType: input.sportType } : {}),
+        ...(input.creditType ? { creditType: input.creditType } : {}),
+        ...(input.workflowStage ? { v81RecordWorkflow_record: { stage: input.workflowStage } } : {}),
         ...(input.reviewResult === undefined
           ? {}
           : { id: { in: currentReviewIds!.map(row => row.record_id) } }),
@@ -144,7 +149,7 @@ export class ExerciseRecordsService {
               },
             }),
         AND: [
-          ...(input.aiReview === undefined ? [] : [{ OR: [1, 2].map(materialVersion => ({
+          ...(input.studentId ? [{ studentId: input.studentId }] : []),          ...(input.aiReview === undefined ? [] : [{ OR: [1, 2].map(materialVersion => ({
             v81RecordWorkflow_record: { materialVersion },
             aiReviewJobs: { some: { materialVersion,
               ...(['QUEUED', 'RUNNING', 'FAILED'].includes(input.aiReview!)
@@ -157,10 +162,16 @@ export class ExerciseRecordsService {
                   OR: [
                     { description: { contains: filters.search, mode: 'insensitive' as const } },
                     { sportName: { contains: filters.search, mode: 'insensitive' as const } },
+                    { classSection: { displayName: { contains: filters.search, mode: 'insensitive' as const } } },
                     ...(principal.role==='ADMIN'?[{student:{OR:[{fullName:{contains:filters.search,mode:'insensitive' as const}},{studentNumber:{contains:filters.search,mode:'insensitive' as const}}]}}]:[]),
                   ],
                 },
               ]),
+        ],
+      };
+    const total = await tx.exerciseRecord.count({ where });
+    const records = await tx.exerciseRecord.findMany({
+      where: { ...where, AND: [...(where.AND as Prisma.ExerciseRecordWhereInput[]),
           ...(position === null || businessDatePosition === null
             ? []
             : [
@@ -179,17 +190,17 @@ export class ExerciseRecordsService {
                   ],
                 },
               ]),
-        ],
-      },
-      include: {...recordProjectionRelations,student:{select:{fullName:true,studentNumber:true}},classSection:{select:{displayName:true}}},
+      ] },
+      include: {...recordProjectionRelations,student:{select:{fullName:true,studentNumber:true}},classSection:{select:{displayName:true}},session:{select:{startedAt:true,completedAt:true}}},
       orderBy: [{ businessDate: direction }, { id: direction }],
+      skip: input.page === undefined ? 0 : (input.page - 1) * input.limit,
       take: input.limit + 1,
     });
     const hasMore = records.length > input.limit;
     const items = records.slice(0, input.limit);
     const last = items.at(-1);
     return pagedResult(
-      (await projectV81Records(tx,items, principal.role !== 'STUDENT')).map((row,index)=>({...row,...(principal.role==='ADMIN'?{studentName:items[index]!.student.fullName,studentNumber:items[index]!.student.studentNumber,className:items[index]!.classSection.displayName}:{})})),
+      (await projectV81Records(tx,items, principal.role !== 'STUDENT')).map((row,index)=>({...row,startedAt:items[index]!.session.startedAt.toISOString(),endedAt:items[index]!.session.completedAt?.toISOString()??null,...(principal.role==='ADMIN'?{studentName:items[index]!.student.fullName,studentNumber:items[index]!.student.studentNumber,className:items[index]!.classSection.displayName}:{})})),
       {
         nextCursor:
           hasMore && last !== undefined
@@ -199,6 +210,8 @@ export class ExerciseRecordsService {
               })
             : null,
         hasMore,
+        total,
+        totalPages: Math.ceil(total / input.limit),
         limit: input.limit,
       },
     );

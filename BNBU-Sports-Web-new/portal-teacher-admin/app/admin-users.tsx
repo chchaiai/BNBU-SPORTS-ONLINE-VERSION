@@ -1,4 +1,5 @@
 "use client";
+import { AdminTeacherDetails } from "./admin-teacher-details";
 import { StudentMajorCorrection } from './student-major-correction';
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
@@ -404,7 +405,7 @@ export function AdminUsers({ locale }: { locale: AdminLocale }) {
         close={() => { setBatchTargets(null); setSelectedStudentIds([]); void load(); }}
         removed={ids => { const deletedIds = new Set(ids); setStudents(current => current.filter(student => !deletedIds.has(student.id))); setSelectedStudentIds(current => current.filter(id => !deletedIds.has(id))); }} />}
       {studentDeleteTarget && <AdminStudentDeletion student={studentDeleteTarget} locale={locale} close={() => setStudentDeleteTarget(null)} completed={async () => { setStudentDeleteTarget(null); setStudentDetail(null); await load(); }} />}
-      {teacherDetail && <TeacherDrawer locale={locale} teacher={teacherDetail} mode={mode} assignedCourseCount={state?.users.find((user) => user.id === teacherDetail.userId && user.role === "teacher")?.assignedCourseCount ?? 0} close={() => setTeacherDetail(null)} onDelete={() => beginTeacherDelete(teacherDetail)} />}
+      {teacherDetail && <TeacherDrawer locale={locale} teacher={teacherDetail} onSaved={()=>{void load();void getTeacherProfile(teacherDetail.id).then(setTeacherDetail).catch(failure=>setError(toUserFacingError(failure,locale)));}} mode={mode} assignedCourseCount={state?.users.find((user) => user.id === teacherDetail.userId && user.role === "teacher")?.assignedCourseCount ?? 0} close={() => setTeacherDetail(null)} onDelete={() => beginTeacherDelete(teacherDetail)} />}
 
       {importOpen && (
         <AdminDialog
@@ -490,7 +491,7 @@ function StudentDrawer({ locale, student, close, onDelete, onCorrected }: { loca
   );
 }
 
-function TeacherDrawer({ locale, teacher, mode, assignedCourseCount, close, onDelete }: { locale: AdminLocale; teacher: TeacherProfileProjection; mode: "demo" | "real"; assignedCourseCount: number; close: () => void; onDelete: () => void }) {
+function TeacherDrawer({ locale, teacher, mode, assignedCourseCount, close, onDelete, onSaved }: { locale: AdminLocale; teacher: TeacherProfileProjection; onSaved: () => void; mode: "demo" | "real"; assignedCourseCount: number; close: () => void; onDelete: () => void }) {
   const deletionBlocked = assignedCourseCount > 0;
   return <AdminDrawer locale={locale} title={teacher.fullName} description={teacher.employeeNumber} close={close} footer={<div className="admin-drawer-actions admin-teacher-drawer-actions"><span>{locale === "zh" ? "删除将关闭课程并解除在课关系，保留学生账号及全部历史。" : "Deletion closes courses and ends memberships while retaining student accounts and all history."}</span><button className="danger-button" type="button" disabled={mode==='demo'&&deletionBlocked} onClick={onDelete}>{locale === "zh" ? "删除教师账号" : "Delete account"}</button></div>}>
     <div className="admin-detail-list">
@@ -500,6 +501,7 @@ function TeacherDrawer({ locale, teacher, mode, assignedCourseCount, close, onDe
       <Detail label={adminCopy(locale, "college")} value={teacher.collegeName} />
       <Detail label={adminCopy(locale, "department")} value={teacher.departmentName} />
       <Detail label={adminCopy(locale, "job_title")} value={teacher.title} />
+      {mode === "real" && <AdminTeacherDetails key={teacher.id} id={teacher.id} onSaved={onSaved}/>}
       <Detail label={adminCopy(locale, "status")} value={teacher.status} />
       <Detail label={adminCopy(locale, "updated_at")} value={formatAdminDate(locale, teacher.updatedAt, true)} />
       <Detail label={adminCopy(locale, "record_version")} value={teacher.version} />

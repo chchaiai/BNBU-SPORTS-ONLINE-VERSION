@@ -1,0 +1,47 @@
+{
+  "previous": "browser-open-all-20260920",
+  "baseBackend": "sha256:6e380354ec53871aedbb860a0c1aef59cbde76bf479aa5256ab7b9ca5f57251e",
+  "delta": [
+    {
+      "path": "common/config/environment.js",
+      "before": "139990b1d74b0e8a894ef0a0536c8c3fe307e04856ba471a5b797b0826a19b58",
+      "after": "682cdbf5ab014ca58e00cde1f4f435195cb8ab61d9b52ecbabdebd4515e16be5"
+    },
+    {
+      "path": "modules/media/application/media-validator.js",
+      "before": "eb794c2bfce2276a259803699621bbf1eb048e46da33392df7466fc0db546e26",
+      "after": "011c365832c2196366719f4db8ad22a057b2e1fc8f46f208ce3953583953eb95"
+    }
+  ],
+  "web": [
+    {
+      "path": "js/checkin-drafts.js",
+      "before": "d85e51455669726d4184a8c7dd19fe6dc616f1f3ce100d6ab37a90756c99b38f",
+      "after": "02fcc05dc8500daaf3913aec74b651624c8a607797a043eecf74bc5333291b2c"
+    },
+    {
+      "path": "js/api.js",
+      "before": "763c129c0d7ee31e43789e8da0de010a58e96e7af977011871ff9a6df6363a71",
+      "after": "fecdfe7e3bed7c9d60da2562fc2dedaa94aed4457249866f82b25526cc8112d5"
+    },
+    {
+      "path": "js/screens/checkin.js",
+      "before": "70659ac1f1350ab6ad8650532ce8d40858ec92703be80586da1b0acec58aad36",
+      "after": "e280a1612524ab30c55570a44865844c833c935f844c636936ace4da97b2a23e"
+    }
+  ],
+  "checks": {
+    "frontend": 25,
+    "backendMedia": 25,
+    "browser": 3
+  },
+  "files": {
+    "verify.mjs": "f0d1e25ed8efae13c96f7d44409b7ac95604a99a7b50580769310158bb9b26f7",
+    "backend/Dockerfile": "78167667b50a0737bf1e5333e3d1545387dce4068e9edade2a251914a644ac5e",
+    "web/student/js/api.js": "fecdfe7e3bed7c9d60da2562fc2dedaa94aed4457249866f82b25526cc8112d5",
+    "web/student/js/checkin-drafts.js": "02fcc05dc8500daaf3913aec74b651624c8a607797a043eecf74bc5333291b2c",
+    "web/student/js/screens/checkin.js": "e280a1612524ab30c55570a44865844c833c935f844c636936ace4da97b2a23e",
+    "backend/dist/modules/media/application/media-validator.js": "011c365832c2196366719f4db8ad22a057b2e1fc8f46f208ce3953583953eb95",
+    "backend/dist/common/config/environment.js": "682cdbf5ab014ca58e00cde1f4f435195cb8ab61d9b52ecbabdebd4515e16be5"
+  }
+}

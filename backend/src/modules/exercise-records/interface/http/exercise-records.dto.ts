@@ -28,6 +28,12 @@ export class ExerciseRecordPathDto {
 }
 
 export class ExerciseRecordListQueryDto {
+  @IsOptional() @Type(() => Number) @IsInt() @Min(1) @Max(100000) page?: number;
+  @IsOptional() @IsUUID('7') studentId?: string;
+  @IsOptional() @IsString() @MaxLength(64) sportType?: string;
+  @IsOptional() @IsIn(['COURSE_RELATED', 'GENERAL']) creditType?: string;
+  @IsOptional() @IsIn(['VALID','INVALID','PENDING_TEACHER','PENDING_AI','AWAITING_SUPPLEMENT','TECHNICAL']) workflowStage?: string;
+
   @IsOptional()
   @IsIn(['SUGGEST_PASS', 'TEACHER_REVIEW', 'SUSPECTED_RISK', 'QUEUED', 'RUNNING', 'FAILED'])
   aiReview?: string;

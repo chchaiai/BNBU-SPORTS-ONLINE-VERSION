@@ -14,7 +14,7 @@ export function AdminOutbox({locale}:{locale:AdminLocale}){
   const [cursor,setCursor]=useState<string|undefined>(),[history,setHistory]=useState<(string|undefined)[]>([]);
   const [revision,setRevision]=useState(0);
   const sequence=useRef(0),zh=locale==='zh';
-  const labels:Record<string,string>={PENDING:zh?'待处理':'Pending',PROCESSING:zh?'处理中':'Processing',PROCESSED:zh?'已成功':'Succeeded',FAILED:zh?'重试中（等待重试）':'Retry pending'};
+  const labels:Record<string,string>={PENDING:zh?'尚未消费':'Not consumed',PROCESSING:zh?'处理中':'Processing',PROCESSED:zh?'已消费':'Consumed',FAILED:zh?'处理失败':'Processing failed'};
   useEffect(()=>{
     const current=++sequence.current;
     setBusy(true);setError(null);
@@ -30,7 +30,7 @@ export function AdminOutbox({locale}:{locale:AdminLocale}){
   const missing=zh?'未记录':'Not recorded';
   return <section className="admin-surface admin-outbox" aria-label={zh?'业务事件详情':'Business event details'}>
     <h3>{zh?'当前组织业务事件':'Current organization business events'}</h3>
-    <p>{zh?'积压数量为待处理与等待重试事件之和，不代表未发送邮件。最终失败需有终止处理事实，现有记录不据此推断。':'Backlog counts pending and retry-pending events, not unsent email. Terminal failure is not inferred without a recorded terminal outcome.'}</p>
+    <p>{zh?'这里记录已发生的业务操作。事件消费状态是后台技术状态，不是管理员待办；“尚未消费”不表示原操作失败或邮件未发送。需要审核的打卡请进入打卡审核，需要回复的问题请进入问题反馈。若事件显示处理失败，请将详情中的诊断编号提供给维护人员。':'Backlog counts pending and retry-pending events, not unsent email. Terminal failure is not inferred without a recorded terminal outcome.'}</p>
     <div className="admin-outbox-filters">
       <label>{zh?'状态':'Status'}<select value={status} onChange={e=>change(()=>setStatus(e.target.value))}><option value="">{zh?'全部':'All'}</option>{Object.entries(labels).map(([value,label])=><option key={value} value={value}>{label}</option>)}</select></label>
       <label>{zh?'事件类型':'Event type'}<input value={eventType} maxLength={128} onChange={e=>change(()=>setEventType(e.target.value))}/></label>
@@ -40,8 +40,8 @@ export function AdminOutbox({locale}:{locale:AdminLocale}){
     </div>
     {error&&<ErrorPanel error={error} locale={locale}/>}
     {busy&&<p role="status">{zh?'正在查询…':'Loading…'}</p>}
-    {page&&<><p>{zh?`当前组织积压 ${page.backlog} 条；筛选结果 ${page.total} 条。`:`Organization backlog: ${page.backlog}; matching events: ${page.total}.`}</p>
-      <div className="table-scroll"><table><thead><tr>{(zh?['时间','操作人','做了什么','操作反馈','后续处理','详情']:['Time','Actor','Action','Outcome','Processing','Details']).map(label=><th key={label}>{label}</th>)}</tr></thead>
+    {page&&<><p>{zh?`当前组织未消费或失败事件 ${page.backlog} 条；筛选结果 ${page.total} 条。`:`Organization backlog: ${page.backlog}; matching events: ${page.total}.`}</p>
+      <div className="table-scroll"><table><thead><tr>{(zh?['时间','操作人','做了什么','操作反馈','事件消费状态','详情']:['Time','Actor','Action','Outcome','Processing','Details']).map(label=><th key={label}>{label}</th>)}</tr></thead>
       <tbody>{page.items.map(event=><tr key={event.id}><td>{new Date(event.createdAt).toLocaleString(locale)}</td><td><strong>{event.actor?.actorName??(zh?'未记录操作人':'Actor not recorded')}</strong><small className="table-sub">{event.actor?.actorRole==='STUDENT'?(zh?'学生':'Student'):event.actor?.actorRole==='TEACHER'?(zh?'教师':'Teacher'):event.actor?.actorRole==='ADMIN'?(zh?'管理员':'Administrator'):''} {event.actor?.actorNumber}</small><small className="table-sub">{event.actor?.actorEmail}</small></td><td>{(zh?eventLabels[event.eventType]??eventLabels[event.eventType.replace(/_V\d+$/,'')]:null)??event.eventType}</td><td>{event.actor?.operationOutcome==='SUCCEEDED'?(zh?'操作成功':'Succeeded'):event.actor?.operationOutcome==='FAILED'?(zh?'操作失败':'Failed'):event.actor?.operationOutcome??(zh?'未记录':'Not recorded')}</td><td>{labels[event.status]??event.status}{event.lastErrorCode&&<small className="table-sub">{event.lastErrorCode}</small>}</td><td><details><summary>{zh?'查看详情':'Details'}</summary><p>{event.eventType}</p><p>{event.aggregateType}: {event.aggregateId}</p><p>{zh?'尝试 / 重试':'Attempts / retries'}: {event.attempts} / {event.retryCount}</p><p>{zh?'诊断编号':'Diagnostic ID'}: {event.requestId??missing}</p><p>{zh?'最近处理':'Last processed'}: {event.lastProcessedAt?new Date(event.lastProcessedAt).toLocaleString(locale):missing}</p></details></td></tr>)}</tbody></table></div>
       {!page.items.length&&<p>{zh?'没有符合条件的事件。':'No events match the filters.'}</p>}
       <button type="button" disabled={busy||!history.length} onClick={()=>{setCursor(history.at(-1));setHistory(value=>value.slice(0,-1));}}>{zh?'上一页':'Previous'}</button>

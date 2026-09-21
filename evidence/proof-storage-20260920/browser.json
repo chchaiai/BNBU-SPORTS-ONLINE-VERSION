@@ -1,0 +1,23 @@
+{
+  "result": "PASS",
+  "scenarios": [
+    {
+      "name": "real IndexedDB save/reload and closed-connection retry",
+      "pass": true,
+      "reopened": true
+    },
+    {
+      "name": "quota failure keeps cause and blocks local-only evidence",
+      "pass": true,
+      "code": "LOCAL_PROOF_STORAGE_FULL",
+      "verifiedEvidenceBypassesLocalWrite": true
+    },
+    {
+      "name": "verified video submits while every local database open fails; reload recovery works",
+      "pass": true,
+      "submissions": 2,
+      "serverRecovery": true
+    }
+  ],
+  "scope": "Local Chromium with synthetic media and mocked API; no real student writes or physical-phone acceptance"
+}

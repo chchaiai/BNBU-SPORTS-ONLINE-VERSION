@@ -436,6 +436,16 @@ export const foundationMigrations = [
     sha256: '74e7043ffa8528e2c8655d4237ae58b6655a12464e800351816eb642d75e3bc1',
     destructive: false,
   },
+  {
+    migrationId: '0088_student_self_erasure',
+    sha256: '9edda2ce0aead50db9a996661502fcd7ce2862160da3fbb1b71bc7e4b15c2363',
+    destructive: false,
+  },
+  {
+    migrationId: '0089_teacher_notes',
+    sha256: 'ace05467a0ccd3b847d8d326ef4dfc28c37afb2dd19355782a34bafa5021d93a',
+    destructive: false,
+  },
 ] as const;
 
 export const foundationMigration = foundationMigrations[0];

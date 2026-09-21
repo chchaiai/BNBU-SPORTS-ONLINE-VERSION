@@ -1,0 +1,14 @@
+{
+  "previous": "browser-gate-20260920",
+  "checks": {
+    "tests": 100,
+    "smoke": 87,
+    "browserScenarios": 8
+  },
+  "files": {
+    "js/student-device.js": "7d5b35b27eb79182144fff4541957c45314e06fd9198a9b55aaae65005da7e11"
+  },
+  "baseline": {
+    "js/student-device.js": "20648b98dad5f039d3e58929ea5f690fea9dd10acd3caeee8d87e0f8d088e9c2"
+  }
+}

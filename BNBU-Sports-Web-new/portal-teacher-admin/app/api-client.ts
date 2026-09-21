@@ -101,6 +101,8 @@ export interface StudentProfileData {
 }
 
 export type ApiPaginationMeta = {
+  total?: number;
+  totalPages?: number;
   nextCursor: string | null;
   hasMore: boolean;
   limit: number;

@@ -1,3 +1,4 @@
+import { V81ManagementInsightsController, V81ManagementInsightsService } from './v81-management-insights.js';
 import {V81HistoryBackfillController,V81HistoryBackfillService} from './v81-history-backfill.js';
 import { AI_REVIEW_PROVIDER } from './ai-review-provider.js';
 import { TencentAiReviewProvider } from './tencent-ai-review-provider.js';
@@ -59,7 +60,7 @@ import { V81FinalGradesController, V81FinalGradesService } from './v81-final-gra
 import { V81SettlementCheckController, V81SettlementCheckService } from './v81-settlement-check.js';
 @Module({
   imports: [ObjectStorageModule, AuthModule, ClientCapabilitiesModule],
-  controllers: [V81HistoryBackfillController,V81CourseDeletionController,V81StudentDeletionController,V81TeacherDeletionController,V81InviteRevocationController,V81TeacherCoursesController,
+  controllers: [V81ManagementInsightsController,V81HistoryBackfillController,V81CourseDeletionController,V81StudentDeletionController,V81TeacherDeletionController,V81InviteRevocationController,V81TeacherCoursesController,
     V81OcrGovernanceController,
     V81AccountDeletionController,
     V81RuntimeArchivesController,
@@ -103,7 +104,7 @@ import { V81SettlementCheckController, V81SettlementCheckService } from './v81-s
     V81FinalGradesController,
     V81SettlementCheckController,
   ],
-  providers: [V81HistoryBackfillService,V81CourseDeletionService,V81StudentMediaErasureWorker,V81StudentDeletionService,
+  providers: [V81ManagementInsightsService,V81HistoryBackfillService,V81CourseDeletionService,V81StudentMediaErasureWorker,V81StudentDeletionService,
     V81AiReviewWorker,
     { provide: AI_REVIEW_PROVIDER, inject: [RUNTIME_CONFIG], useFactory: (config: RuntimeConfig): TencentAiReviewProvider => new TencentAiReviewProvider(config.aiReview ?? { enabled: false, budgetFen: 500000 }) },
     V81TeacherDeletionService,

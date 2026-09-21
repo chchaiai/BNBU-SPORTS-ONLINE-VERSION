@@ -93,7 +93,7 @@ function studentNumberForDisplay(student) {
 }
 
 function displayDate(value) {
-  const raw = value.slice(0, 10);
+  const raw = value.slice(0, 6);
   const [year, month, day] = raw.split("-").map(Number);
   if (!year || !month || !day) return raw;
   // Construct as local time so a date-only string never shifts by timezone.
@@ -353,7 +353,7 @@ function accountDeletionState(app) {
 export function renderAccountDeletion(app) {
   const state = accountDeletionState(app);
   const student = app.state.workspace.student;
-  const codeError = state.code !== "" && !/^\d{4,10}$/u.test(state.code);
+  const codeError = state.code !== "" && !/^\d{6}$/u.test(state.code);
   const challengeReady = typeof state.challengeId === "string" && Number.isInteger(state.challengeVersion) && state.challengeVersion > 0;
   return `<div class="screen" style="background:transparent">
     <div class="screen-scroll" data-scroll-key="account-deletion">
@@ -365,7 +365,7 @@ export function renderAccountDeletion(app) {
         <div class="swiss-panel col" style="gap:12px;border:1px solid var(--color-error)">
           <div class="title-medium text-error">${tx("这是不可恢复的危险操作", "This is an irreversible action")}</div>
           <div class="body-medium text-on-surface">${tx("注销后，当前账号会立即停用，所有设备的登录会话、刷新令牌和推送设备关联都会失效。", "Deletion immediately disables this account and revokes sign-ins, refresh tokens, and push-device links on every device.")}</div>
-          <div class="body-medium text-on-surface">${tx("可识别个人资料会删除或去标识化；为保证审核和审计完整性必须保留的记录会以匿名方式继续保存。", "Identifying profile data is removed or de-identified. Records required for reviews and audit integrity remain anonymously.")}</div>
+          <div class="body-medium text-on-surface">${tx("个人资料、入班信息、历史运动记录、学时及审核记录将删除。照片和视频会进入删除队列；系统保留必要的操作审计。", "Your profile, enrollments, exercise history, credits and reviews will be deleted. Photos and videos are queued for deletion; necessary operation audit logs remain.")}</div>
           <div class="body-medium text-on-surface">${tx("以后再次注册会创建全新的账号，不会恢复这一个账号或它的历史身份。", "A later registration creates a new account; this identity and its old account are never restored.")}</div>
         </div>
         ${challengeReady ? `<div class="swiss-panel col" style="gap:14px">
@@ -376,13 +376,14 @@ export function renderAccountDeletion(app) {
             <div style="height:8px"></div>
             <div class="vfield${codeError ? " error" : ""}${state.busy ? " disabled" : ""}">
               <span class="vfield-icon">${icon("lock", 20)}</span>
-              <input ${fieldControlAttrs({ id: "account-deletion-code", error: codeError ? tx("请输入 4–10 位数字验证码。", "Enter the 4–10 digit code.") : null, required: true })} class="vfield-input code-style" type="text" inputmode="numeric" maxlength="10" autocomplete="one-time-code" value="${esc(state.code)}" data-input="profile.accountDeletionCode" ${state.busy ? "disabled" : ""} />
+              <input ${fieldControlAttrs({ id: "account-deletion-code", error: codeError ? tx("请输入 6 位数字验证码。", "Enter the 6-digit code.") : null, required: true })} class="vfield-input code-style" type="text" inputmode="numeric" maxlength="6" autocomplete="one-time-code" value="${esc(state.code)}" data-input="profile.accountDeletionCode" ${state.busy ? "disabled" : ""} />
             </div>
-            ${fieldSupport({ id: "account-deletion-code", error: codeError ? tx("请输入 4–10 位数字验证码。", "Enter the 4–10 digit code.") : null, helper: tx("验证码只用于这次注销确认。", "The code is used only for this deletion confirmation.") })}
+            ${fieldSupport({ id: "account-deletion-code", error: codeError ? tx("请输入 6 位数字验证码。", "Enter the 6-digit code.") : null, helper: tx("验证码只用于这次注销确认。", "The code is used only for this deletion confirmation.") })}
           </div>
           <button class="vlogin-submit pressable" data-action="profile.accountDeletionFinalConfirm" ${state.busy ? "disabled" : ""} style="background:var(--color-error)">
             ${state.busy ? `${spinner(18, "on-primary")}<span style="width:10px"></span>` : ""}<span class="title-medium">${tx("最终确认注销", "Final deletion confirmation")}</span>
           </button>
+          <button class="text-btn" data-action="profile.accountDeletionRequestConfirm" ${state.busy ? "disabled" : ""}>${tx("重新发送验证码", "Resend verification code")}</button>
         </div>` : `<button class="vlogin-submit pressable" data-action="profile.accountDeletionRequestConfirm" ${state.busy ? "disabled" : ""} style="background:var(--color-error)">
           ${state.busy ? `${spinner(18, "on-primary")}<span style="width:10px"></span>` : ""}<span class="title-medium">${tx("开始注销验证", "Start deletion verification")}</span>
         </button>`}
@@ -451,11 +452,8 @@ export const profileActions = {
   },
   "profile.openAbout": (app) => app.openSub("about"),
   "profile.openAccountDeletion": (app) => {
-    app.showDialog({
-      title: tx("注销账户", "Delete account"),
-      body: tx("暂时功能无法实现，敬请期待", "This feature is not available yet. Please stay tuned."),
-      buttons: [{ label: tx("知道了", "OK"), action: "dialog.close" }],
-    });
+    app.ui.accountDeletion = null;
+    app.openSub("accountDeletion");
   },
   "profile.accountDeletionBack": (app) => {
     if (accountDeletionState(app).busy) return;
@@ -464,7 +462,7 @@ export const profileActions = {
   },
   "profile.accountDeletionCode": (app, el) => {
     const state = accountDeletionState(app);
-    state.code = String(el.value || "").replace(/\D/gu, "").slice(0, 10);
+    state.code = String(el.value || "").replace(/\D/gu, "").slice(0, 6);
     state.error = null;
     app.render();
   },
@@ -481,10 +479,12 @@ export const profileActions = {
   "profile.accountDeletionRequest": async (app) => {
     app.state.dialog = null;
     const state = accountDeletionState(app);
+    if (state.busy) return;
     state.busy = true;
     state.error = null;
     app.render();
     try {
+      await app.reloadApiWorkspace();
       const result = await requestCurrentUserAccountDeletionChallenge(
         app.state.workspace.student.userVersion,
       );
@@ -501,7 +501,7 @@ export const profileActions = {
   },
   "profile.accountDeletionFinalConfirm": (app) => {
     const state = accountDeletionState(app);
-    if (!/^\d{4,10}$/u.test(state.code)) {
+    if (!/^\d{6}$/u.test(state.code)) {
       app.render();
       focusFirstInvalidField(app._viewport, ["#account-deletion-code"]);
       return;
@@ -519,7 +519,7 @@ export const profileActions = {
   "profile.accountDeletionFinalize": async (app) => {
     app.state.dialog = null;
     const state = accountDeletionState(app);
-    if (!state.challengeId || !Number.isInteger(state.challengeVersion)) return;
+    if (state.busy || !state.challengeId || !Number.isInteger(state.challengeVersion)) return;
     state.busy = true;
     state.error = null;
     app.render();
@@ -534,13 +534,17 @@ export const profileActions = {
       if (error instanceof ApiError && Number.isInteger(error.details?.actualVersion)) {
         state.challengeVersion = error.details.actualVersion;
       }
-      if (error instanceof ApiError && error.code === "ACCOUNT_DELETION_REAUTH_REQUIRED") {
+      if (error instanceof ApiError && (error.code === "ACCOUNT_DELETION_REAUTH_REQUIRED" || error.details?.currentState === "ACCOUNT_DELETION_REAUTH_REQUIRED")) {
         state.challengeId = null;
         state.challengeVersion = null;
         state.expiresAt = null;
         state.code = "";
       }
-      state.error = toUserFacingError(error);
+      state.error = error.details?.currentState === "ACCOUNT_DELETION_CODE_INVALID"
+        ? {...toUserFacingError(error), message: tx("验证码不正确，请重新输入。", "Incorrect code. Please try again.")}
+        : error.details?.currentState === "ACCOUNT_DELETION_REAUTH_REQUIRED"
+          ? {...toUserFacingError(error), message: tx("验证码已失效，请重新发送并验证。", "Verification expired. Request a new code.")}
+          : toUserFacingError(error);
       state.busy = false;
       app.render();
     }

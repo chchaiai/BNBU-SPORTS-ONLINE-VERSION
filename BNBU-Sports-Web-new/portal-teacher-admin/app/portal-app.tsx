@@ -187,6 +187,7 @@ const teacherNav: NavItem[] = [
 ];
 
 const adminNav: NavItem[] = [
+  { id: "insights", label: "运动数据看板", icon: LayoutDashboard },
   { id: "checkins", label: "学生打卡记录", icon: ClipboardCheck },
   { id: "overview", label: "系统概览", icon: LayoutDashboard },
   { id: "courses", label: "课程目录看板", icon: BookOpen },
@@ -267,7 +268,7 @@ const pageCopy: Record<
     courses: {
       title: "课程目录看板",
       eyebrow: "教学运行",
-      description: "只读查看当前全部课程。不代填成绩，不开放单条打卡下钻。",
+      description: "查看课程内全部学生、打卡详情和凭证相册。",
     },
     semesters: {
       title: "学期管理",
@@ -279,6 +280,7 @@ const pageCopy: Record<
       eyebrow: "全局治理",
       description: "管理教师和学生账号、恢复申请、验证码解锁与数据删除。",
     },
+    insights: { title: "运动数据看板", eyebrow: "数据分析", description: "查看学生运动频率、时段分布与教师审核数据。" },
     subadmins: {
       title: "分管理员设置",
       eyebrow: "权限管理",
@@ -423,6 +425,7 @@ export function PortalApp() {
   const [theme, setTheme] = useState<Theme>("system");
   const [locale, setLocale] = useState<Locale>("zh");
   const [active, setActive] = useState("overview");
+  const [adminKind, setAdminKind] = useState<"SUPER" | "SUB" | null>(null);
   const [notificationTarget,setNotificationTarget]=useState<NotificationTarget|null>(null);
   const [tabDirection, setTabDirection] =
     useState<TabTransitionDirection>("forward");
@@ -614,6 +617,7 @@ export function PortalApp() {
     const expectedEpoch = currentApiSessionEpoch();
     try {
       const security = await getAccountSecurity();
+      setAdminKind(security.adminKind);
       if (sessionRestoreAttemptRef.current !== attempt || currentApiSessionEpoch() !== expectedEpoch) return;
       if (security.mustChangePassword) {
         setFirstPasswordVersion(security.version);
@@ -755,6 +759,7 @@ export function PortalApp() {
         return;
       }
       const security = await getAccountSecurity();
+      setAdminKind(security.adminKind);
       if (currentApiSessionEpoch() !== expectedEpoch) return;
       if (security.mustChangePassword) {
         setFirstPasswordVersion(security.version);
@@ -1009,6 +1014,7 @@ export function PortalApp() {
     try {
       // A lost success response can be resolved without retaining passwords across reloads.
       const security = await getAccountSecurity();
+      setAdminKind(security.adminKind);
       if (epoch !== currentApiSessionEpoch()) return;
       if (security.mustChangePassword) {
         const input = { currentPassword: recoveryCode, newPassword: recoveryPassword,
@@ -1437,7 +1443,7 @@ export function PortalApp() {
   }
 
   const displayUser = currentUser;
-  const nav = role === "teacher" ? teacherNav : adminNav;
+  const nav = role === "teacher" ? teacherNav : adminNav.filter(item => item.id !== "insights" || workspaceMode === "demo" || adminKind === "SUPER");
   const baseCopy =
     pageCopy[role][active] ??
     pageCopy[role][role === "teacher" ? "courses" : "overview"];

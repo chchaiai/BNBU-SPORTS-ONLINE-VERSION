@@ -1,0 +1,9 @@
+{
+  "result": "PASS",
+  "mobileWidth": 390,
+  "failureMarked": true,
+  "specificReason": true,
+  "deleteEnabled": true,
+  "pageErrors": [],
+  "scope": "Synthetic browser UI; no production student writes"
+}
