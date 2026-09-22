@@ -1175,7 +1175,6 @@ export const listMyScores = () => Promise.resolve([]);
 export const listMyStudentProgress = () => listAllCursorPages("/student-progress?limit=100");
 export const getClassProgressTarget = (classSectionId) =>
   request(`/class-sections/${encodeURIComponent(classSectionId)}/progress-target`);
-export const listRecoverableSessions = (before = null) => request(`/exercise-sessions/recoverable${before ? `?before=${encodeURIComponent(before)}` : ""}`);
 export const getActiveSession = () => request("/exercise-sessions/active");
 export const listMyActivityCertificationApplications = () =>
   listAllCursorPages("/activity-certification-applications?limit=100");
@@ -2287,8 +2286,6 @@ export async function loadApiWorkspace(preloadedIdentity = null) {
 
   const records = studentProgressRows === null ? await listMyRecords() : recordPage.data;
   const notifications = notificationPage.data;
-  const recovery = await optionalModule(tx("待提交运动", "Unfinished sessions"),
-    listRecoverableSessions(), { items: [], nextCursor: null });
   const joinContext = readJoinContext();
   const activeEnrollments = enrollments.filter((e) => e.status === "ACTIVE");
   const courseCache = {};
@@ -2430,7 +2427,7 @@ export async function loadApiWorkspace(preloadedIdentity = null) {
     workspace: {
       recordNextCursor:studentProgressRows === null ? null : recordPage.meta?.pagination?.nextCursor ?? null,
       notificationNextCursor:notificationPage.meta?.pagination?.nextCursor ?? null,
-      moduleErrors, recoverableSessions: recovery.items, recoveryNextCursor: recovery.nextCursor,
+      moduleErrors,
       student: { ...mapServerStudent(me, profile, semester, deriveStudentStatus(activeEnrollments)),
         className: currentSection?.displayName || currentSection?.classCode || "",
       },
