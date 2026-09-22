@@ -31,7 +31,7 @@ import {
   getRecordWorkflow, getRecordEvidenceContext, submitRecordSupplement,
   loadServerRecordProofs,
   currentApiSessionEpoch, isCurrentApiSessionEpoch,
-  listMyRecordPage, mapSubmittedRecords, listRecoverableSessions, getMediaEvidence, listMyRecords, getActiveSession, getServerSession, ApiError, toUserFacingError,
+  listMyRecordPage, mapSubmittedRecords, getMediaEvidence, listMyRecords, getActiveSession, getServerSession, ApiError, toUserFacingError,
   isQualificationReached, sessionStartErrorText,
   MAX_PROOF_VIDEO_SECONDS, MAX_PROOF_IMAGES, MAX_PROOF_VIDEOS,
 } from "../api.js";
@@ -200,14 +200,6 @@ export async function restoreCheckinContinuity(app, current = () => true) {
       for (const draft of drafts) URL.revokeObjectURL(draft.url);
       return;
     }
-    const recovery = app.state.workspace.recoverableSessions?.find(item => item.session.id === local?.serverId);
-    for (const media of recovery?.media || []) {
-      if (drafts.some(d => d.mediaId === media.id)) continue;
-      const access = await createMediaAccessUrl(media.id);
-      if (!current() || accountId(app) !== owner || app.ui.checkin !== ui || ui.draftScope !== scope) return;
-      drafts.push({id:media.id,mediaId:media.id,serverOnly:true,type:media.mediaType==='VIDEO'?'video':'image',
-        fileName:tx('已上传凭证','Uploaded proof'),url:proxyObjectUrl(access.accessUrl)});
-    }
     const ids = new Set(ui.drafts.map(draft => draft.id));
     for (const draft of drafts) if (!ids.has(draft.id)) ui.drafts.push(draft); else URL.revokeObjectURL(draft.url);
     for (const draft of drafts.filter(d=>d.normalizationPending)) await addDraftFromFile(app,draft.blob,"video",draft.capturedDurationSeconds,draft.id,draft.nativeCapture ?? false);
@@ -329,7 +321,6 @@ export function renderCheckIn(app) {
     inner = renderPreparation(app);
   }
 
-  const recoveries = focused ? "" : `<div class="col" style="gap:8px">${(app.state.workspace.recoverableSessions || []).map(item => `<button class="outlined-btn" data-action="checkin.recover" data-session="${esc(item.session.id)}">${tx('恢复待提交运动','Resume unfinished submission')} · ${esc(formatDateOnly(Date.parse(item.session.startedAt)))} · ${Math.floor(item.session.actualDurationSeconds/60)} ${tx('分钟','min')}</button>`).join('')}${app.state.workspace.recoveryNextCursor ? `<button class="outlined-btn" data-action="checkin.moreRecovery">${tx('查看更多待提交运动','More unfinished sessions')}</button>` : ''}</div>`;
   const header = focused ? "" : `
     <div class="headline-medium" style="color:var(--color-on-background)">${tx("运动打卡", "Exercise check-in")}</div>
     <div style="height:14px"></div>
@@ -339,7 +330,7 @@ export function renderCheckIn(app) {
     </div>
     <div style="height:16px"></div>`;
 
-  return `<div class="tab-content checkin-root">${header}${recoveries}${inner}${mediaStatus}</div>${liveCameraOverlayHtml(app)}${draftPreviewOverlayHtml(app)}`;
+  return `<div class="tab-content checkin-root">${header}${inner}${mediaStatus}</div>${liveCameraOverlayHtml(app)}${draftPreviewOverlayHtml(app)}`;
 }
 
 function liveCameraOverlayHtml(app) {
@@ -2008,32 +1999,6 @@ export async function reloadRecordList(app, append = false) {
 export const checkinActions = {
   "checkin.refreshRecords": app => reloadRecordList(app),
   "checkin.moreRecords": app => reloadRecordList(app, true),
-  "checkin.moreRecovery": async (app) => {
-    const owner=accountId(app);
-    try { const page=await listRecoverableSessions(app.state.workspace.recoveryNextCursor);
-      if(accountId(app)!==owner)return;
-      app.state.workspace.recoverableSessions.push(...page.items);app.state.workspace.recoveryNextCursor=page.nextCursor;app.render();
-    } catch(error){apiFailureDialog(app,error,tx('恢复列表加载失败','Cannot load unfinished sessions'));}
-  },
-  "checkin.recover": async (app, el) => {
-    const item=app.state.workspace.recoverableSessions?.find(row=>row.session.id===el.dataset.session);
-    if(!item)return;
-    const ui=checkinState(app),owner=accountId(app),course=app.state.workspace.courses.find(c=>c.enrollmentId===item.session.enrollmentId);
-    try {
-      const server=await getServerSession(item.session.id);
-      if(accountId(app)!==owner)return;
-      if(server.status!=='COMPLETED')throw new Error('Session is no longer recoverable');
-      const sport=courseSportSelection(course?.name || '');
-      const details=item.draft ? {creditType:item.draft.creditType==='COURSE_RELATED'?'course':'general',sportType:item.draft.sportType.toLowerCase(),customSportName:item.draft.sportName,description:item.draft.description || ''} :
-        {creditType:ui.setup.creditType,sportType:ui.setup.creditType==='course'?sport.sportType:ui.setup.generalSportType,customSportName:ui.setup.creditType==='course'?sport.customSportName:ui.setup.generalCustomSportName || null,description:''};
-      persist(app,{...startSession(details),phase:'finished',recordOrigin:item.origin,serverId:server.id,serverVersion:server.version,enrollmentId:server.enrollmentId,
-        startedAt:Date.parse(server.startedAt),endedAt:Date.parse(server.endedAt),accumulatedMs:server.actualDurationSeconds*1000,lastResumedAt:null,
-        maximumDurationSeconds:server.maximumDurationSeconds,activeDurationMillis:server.actualDurationSeconds*1000,serverActualDurationSeconds:server.actualDurationSeconds});
-      ui.draftScope=null;ui.finish={submitting:false};await restoreCheckinContinuity(app);
-      ui.mediaNotice=tx('已恢复服务器运动记录及已上传凭证；未上传的本机素材需重新提供。未建草稿的运动沿用上方所选类别。','Server session and uploaded proof restored. Local-only proof must be provided again. Sessions without a draft use your selected category.');
-      app.render();
-    } catch(error){apiFailureDialog(app,error,tx('无法恢复运动','Cannot restore exercise'));}
-  },
   "checkin.nativePhoto": async (app, el) => {
     const file = el.files?.[0]; el.value = "";
     if (file) await addDraftFromFile(app, file, "image");
@@ -2589,7 +2554,6 @@ export const checkinActions = {
       } catch(error) {
         if(error?.code!=='EXERCISE_RECORD_DURATION_NOT_CREDITABLE') {apiFailureDialog(app,error,tx('放弃未完成，请重试','Discard incomplete; retry'));return;}
       }
-      app.state.workspace.recoverableSessions=app.state.workspace.recoverableSessions?.filter(item=>item.session.id!==session.serverId) || [];
     }
     for (const draft of ui.drafts) if (draft.url?.startsWith("blob:")) URL.revokeObjectURL(draft.url);
     ui.drafts = [];
