@@ -42,7 +42,7 @@ export class FeedbackAttachmentsService {
     const id=randomUUID(),key=`media/${principal.organizationId}/${id}/document`;
     await this.prisma.$transaction(async tx=>{
       // Serialize per owner so parallel uploads cannot bypass the daily quota.
-      await tx.$queryRaw`SELECT id FROM users WHERE id=${principal.userId}::uuid FOR NO KEY UPDATE`;
+      await this.lockOwner(tx,principal);
       const [usage]=await tx.$queryRaw<{count:number}[]>`SELECT count(*)::int AS count FROM feedback_attachments
         WHERE organization_id=${principal.organizationId}::uuid AND owner_id=${principal.userId}::uuid AND created_at>now()-interval '1 day'`;
       if(usage!.count>=40) throw new ApplicationError('AUTH_RATE_LIMITED',429);
@@ -58,6 +58,10 @@ export class FeedbackAttachmentsService {
     if(Date.now()-row.created_at.getTime()>3600_000) throw new ApplicationError('CONFLICT_STATE_TRANSITION',409);
     // Copy first to a server-only key: a still-valid PUT URL must never change an accepted attachment.
     const key=`media/${principal.organizationId}/${randomUUID()}/document`;
+    // Register before touching COS so failures and interrupted requests remain reclaimable.
+    await this.prisma.$executeRaw`INSERT INTO feedback_object_cleanup(storage_key,next_attempt_at)
+      VALUES(${key},clock_timestamp()+interval '1 hour')`;
+    try {
     await this.storage.copyPrivateObject(row.upload_key,key);
     let stream=await this.storage.getPrivateObject(key);
     const config=this.config.media;
@@ -82,9 +86,26 @@ export class FeedbackAttachmentsService {
       mime==='application/pdf'?prefix.toString('ascii',0,5)==='%PDF-':
       mime.startsWith('text/')?!prefix.includes(0):prefix.subarray(0,4).equals(Buffer.from([80,75,3,4]));
     if(size!==row.size||!valid) throw new ApplicationError('MEDIA_INTEGRITY_MISMATCH',422);
-    await this.prisma.$executeRaw`UPDATE feedback_attachments SET storage_key=${key}
-      WHERE id=${id}::uuid AND storage_key IS NULL`;
+    await this.prisma.$transaction(async tx=>{
+      await this.lockOwner(tx,principal);
+      const [current]=await tx.$queryRaw<Attachment[]>`SELECT * FROM feedback_attachments
+        WHERE id=${id}::uuid AND organization_id=${principal.organizationId}::uuid
+          AND owner_id=${principal.userId}::uuid FOR UPDATE`;
+      if(!current) throw new ApplicationError('PERMISSION_RESOURCE_NOT_FOUND',404);
+      if(current.storage_key) return;
+      // A delayed request must not adopt an object already claimed by the cleanup worker.
+      const removed=await tx.$executeRaw`DELETE FROM feedback_object_cleanup
+        WHERE storage_key=${key} AND next_attempt_at>clock_timestamp()`;
+      if(removed!==1) throw new ApplicationError('CONFLICT_STATE_TRANSITION',409);
+      await tx.$executeRaw`UPDATE feedback_attachments SET storage_key=${key} WHERE id=${id}::uuid`;
+    });
     return project(row);
+    } finally {
+      // Only unadopted copies still have a queue row; retain a durable retry on COS failure.
+      await this.prisma.$executeRaw`INSERT INTO feedback_object_cleanup(storage_key,next_attempt_at)
+        SELECT ${key},clock_timestamp() WHERE NOT EXISTS(SELECT 1 FROM feedback_attachments WHERE storage_key=${key})
+        ON CONFLICT(storage_key) DO UPDATE SET next_attempt_at=clock_timestamp()`;
+    }
   }
 
   async bind(tx:Prisma.TransactionClient,principal:AuthenticatedPrincipal,id:string,ids:string[]) {
@@ -94,6 +115,13 @@ export class FeedbackAttachmentsService {
       AND organization_id=${principal.organizationId}::uuid AND owner_id=${principal.userId}::uuid
       AND feedback_id IS NULL AND storage_key IS NOT NULL AND created_at>now()-interval '1 day'`;
     if(count!==ids.length) throw new ApplicationError('CONFLICT_STATE_TRANSITION',409);
+  }
+
+  async lockOwner(tx:Prisma.TransactionClient,principal:AuthenticatedPrincipal) {
+    const owners=await tx.$queryRaw<{id:string}[]>`SELECT id FROM users
+      WHERE id=${principal.userId}::uuid AND organization_id=${principal.organizationId}::uuid
+        AND status='ACTIVE' AND deleted_at IS NULL FOR NO KEY UPDATE`;
+    if(!owners.length) throw new ApplicationError('PERMISSION_RESOURCE_NOT_FOUND',404);
   }
 
   async list(principal:AuthenticatedPrincipal,id:string) {

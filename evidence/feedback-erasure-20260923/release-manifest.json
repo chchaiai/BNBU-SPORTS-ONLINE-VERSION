@@ -1,0 +1,60 @@
+{
+  "release": "outbox-accounts-20260922",
+  "baseImages": {
+    "backend": "sha256:ce41949b0da96b1e057f59414a778bdabf00a720b871078d1dc2a758d4b66071",
+    "portal": "sha256:93768ded8f0112c103dc72a8fc4f59b17139c3b2762bda4c142cbae0149b8a13",
+    "migrator": "sha256:7516ba6d720b96152f63b7fed322be930ca1497a5cf0c3b7998abf841302a2a2"
+  },
+  "delta": [
+    {
+      "path": "modules/client-capabilities/feedback-attachments.js",
+      "before": "211a642c4bf535c9a8b0d9d92fb902c7333ff81e57035cd3fe80e1e7a65bab57",
+      "after": "0125278af25907684e2249ec8a71cc54fb8aabb1ae908d7fe0670b13c3bf24e7"
+    },
+    {
+      "path": "modules/client-capabilities/client-messaging.service.js",
+      "before": "d99e4d788d23f04734df2ad525a2f7e440256e7805a6e6f545d85452280fa862",
+      "after": "ae4a83a438a954c0cef5aa4614b3a45f908da9fde0a4e174f7881a00a75a5cc7"
+    },
+    {
+      "path": "modules/client-capabilities/client-error-reports.controller.js",
+      "before": "49a1fd29b62639b0d3466b6ec839e06450e2c44b5b05e4b3ac8b8d3d9dbd94df",
+      "after": "319d57cd760befb94862dcd858574c4779042feccf97050f37f3cbee2a54794e"
+    },
+    {
+      "path": "modules/v8/v81-student-media-erasure.js",
+      "before": "965f7773ac5111f85c21d827435324993ff990c8019437c74e14d939de38a8c7",
+      "after": "62d5437f941ad798b51e5e2fa03a8b7ab1af524c9c17d8bbed9a28ae1805c0a7"
+    },
+    {
+      "path": "generated/migration-manifest.generated.js",
+      "before": "dcc233c45fe9bb46091b6123485f2dd93316f3b12ac2432413c4e33a55a3d07b",
+      "after": "7d878065c662b3017d86ddd9f0df31439bff097610869ebfc1b4da8fab0c7f49"
+    },
+    {
+      "path": "generated/openapi.document.generated.json",
+      "before": "746221232bb3f159871b076f5217423ead64a3fd7765236aea8a555309e03ef4",
+      "after": "06376a76e9c30293c9be1b11ab14a1b9580585b45c2fa1946d0fc92ed752cbce"
+    }
+  ],
+  "migration": "0091_feedback_erasure_cleanup",
+  "checks": {
+    "unit": 9,
+    "isolatedPostgres": 8
+  },
+  "files": {
+    "backup.py": "9cecd40cebed88097f86e7597ef66cc9a9bec686a8eb784f909be06bb80da4f9",
+    "test.mjs": "f849fbb0ebc1554114681af65406059a25fac295a972bb6a202e629ead5b810c",
+    "verify.mjs": "79b377faa0ad75951e38933340893fbdcf54c3c3b77695f747ae0f69c2ac6c8c",
+    "backend/Dockerfile": "36775a88a7321aa9cf9428b8e138b936d173d479b933607780e8b5c5f0342840",
+    "migrator/Dockerfile": "33e190775d97252bc8d707e7c246c3451ad23a3b84744d238cce4ed7bd2a05f8",
+    "migrator/prisma/migrations/0091_feedback_erasure_cleanup/manifest.json": "556101b05ed7ddf04f278d4c5ca82f42a3e3afcc737b5f701c3f0e11e6df6bdf",
+    "migrator/prisma/migrations/0091_feedback_erasure_cleanup/migration.sql": "a8ef189667050669f2e37bfd71da7303c559e86a55a687289675a9036623db7e",
+    "backend/dist/generated/migration-manifest.generated.js": "7d878065c662b3017d86ddd9f0df31439bff097610869ebfc1b4da8fab0c7f49",
+    "backend/dist/generated/openapi.document.generated.json": "06376a76e9c30293c9be1b11ab14a1b9580585b45c2fa1946d0fc92ed752cbce",
+    "backend/dist/modules/client-capabilities/client-error-reports.controller.js": "319d57cd760befb94862dcd858574c4779042feccf97050f37f3cbee2a54794e",
+    "backend/dist/modules/client-capabilities/client-messaging.service.js": "ae4a83a438a954c0cef5aa4614b3a45f908da9fde0a4e174f7881a00a75a5cc7",
+    "backend/dist/modules/client-capabilities/feedback-attachments.js": "0125278af25907684e2249ec8a71cc54fb8aabb1ae908d7fe0670b13c3bf24e7",
+    "backend/dist/modules/v8/v81-student-media-erasure.js": "62d5437f941ad798b51e5e2fa03a8b7ab1af524c9c17d8bbed9a28ae1805c0a7"
+  }
+}

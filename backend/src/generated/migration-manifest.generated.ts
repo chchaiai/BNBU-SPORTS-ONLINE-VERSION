@@ -446,6 +446,11 @@ export const foundationMigrations = [
     sha256: 'ace05467a0ccd3b847d8d326ef4dfc28c37afb2dd19355782a34bafa5021d93a',
     destructive: false,
   },
+  {
+    migrationId: '0091_feedback_erasure_cleanup',
+    sha256: 'a8ef189667050669f2e37bfd71da7303c559e86a55a687289675a9036623db7e',
+    destructive: false,
+  },
 ] as const;
 
 export const foundationMigration = foundationMigrations[0];
