@@ -1,0 +1,15 @@
+{
+  "result": "PASS",
+  "checks": [
+    "concurrent confirmation keeps one accepted copy and removes loser",
+    "scan failure cleanup survives storage outage and retries",
+    "erasure removes bound and unbound attachments, feedback and sessions while preserving peer",
+    "stale authenticated principal cannot recreate attachments",
+    "confirm versus erasure removes late COS copy",
+    "old upload capability is followed by a second deletion",
+    "verified self-service erasure also handles attachments",
+    "native student diagnostics accepted without permitting role impersonation"
+  ],
+  "count": 8,
+  "productionDatabaseUsed": false
+}

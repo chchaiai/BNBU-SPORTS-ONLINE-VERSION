@@ -43694,7 +43694,9 @@
             "enum": [
               "WEB_STUDENT",
               "WEB_TEACHER",
-              "WEB_ADMIN"
+              "WEB_ADMIN",
+              "IOS",
+              "ANDROID"
             ],
             "x-transport-constraint": true
           },

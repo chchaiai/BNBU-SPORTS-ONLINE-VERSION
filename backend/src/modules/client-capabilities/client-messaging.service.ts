@@ -708,6 +708,7 @@ export class ClientMessagingService {
       },
       async (transaction) => {
         const now = this.clock.now();
+        await this.attachments.lockOwner(transaction, principal);
         const feedback = await this.store(transaction).feedback.create({
           data: {
             id: this.ids.next(),

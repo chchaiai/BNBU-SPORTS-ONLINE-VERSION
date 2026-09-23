@@ -27,7 +27,7 @@ import { RateLimitPort } from '../../common/rate-limit/rate-limit.port.js';
 import { operationPolicies } from '../../generated/operation-policies.generated.js';
 
 export class ClientErrorReportInput {
-  @IsIn(['WEB_STUDENT', 'WEB_TEACHER', 'WEB_ADMIN']) platform!: string;
+  @IsIn(['WEB_STUDENT', 'WEB_TEACHER', 'WEB_ADMIN', 'IOS', 'ANDROID']) platform!: string;
   @IsIn(['ERROR']) level!: string;
   @IsString() @Matches(/^[A-Z][A-Z0-9_]{0,99}$/) errorCode!: string;
   @IsIn([
@@ -78,7 +78,8 @@ export class ClientErrorReportsController {
     @Headers('idempotency-key') key: string | undefined,
     @Req() request: FoundationRequest,
   ): Promise<{auditLogId: string; receivedAt: string}> {
-    if (body.platform !== `WEB_${principal.role}`)
+    const nativeStudent = principal.role === 'STUDENT' && ['IOS', 'ANDROID'].includes(body.platform);
+    if (body.platform !== `WEB_${principal.role}` && !nativeStudent)
       throw new ApplicationError('PERMISSION_RESOURCE_SCOPE_DENIED', 403);
     const rate = await this.rateLimits.consume({
       purpose: 'CLIENT_DIAGNOSTICS',
