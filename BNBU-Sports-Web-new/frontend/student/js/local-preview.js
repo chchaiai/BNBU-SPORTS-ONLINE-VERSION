@@ -214,6 +214,19 @@ export function buildLocalPreviewWorkspace() {
   workspace.memberships = [];
   workspace.notices = [
     {
+      id: "preview-notice-app-beta",
+      title: "BNBU Sports APP端内测开放啦",
+      message: "iOS、Android 手机端现已开放内测，华为／鸿蒙手机也可查看对应安装指引。\n\n安装后使用自己的学校邮箱登录，即可体验体育打卡、运动记录与学时查询。欢迎加入对应测试群，反馈使用中遇到的问题。",
+      time: "刚刚",
+      createdAt: "2026-09-29T09:00:00Z",
+      category: "system",
+      notificationType: "APP_BETA_ANNOUNCEMENT",
+      targetType: null,
+      targetId: null,
+      isUnread: true,
+      readAt: null,
+    },
+    {
       id: "preview-notice-score",
       title: "成绩已发布",
       message: "本学期总分预估 85，等级良好。",
@@ -298,6 +311,8 @@ export function buildLocalPreviewWorkspace() {
     excludedDates: [],
     semesterDeadline: "2027-01-15",
   };
+  // Synthetic course rules for the local UI review; never used in API mode.
+  workspace.creditPolicy = {minCreditThresholdMinutes: 30, maxCreditMinutes: 120, dailyLimit: 2, weeklyLimit: 5};
   workspace.courseJoinRequest = null;
   return workspace;
 }

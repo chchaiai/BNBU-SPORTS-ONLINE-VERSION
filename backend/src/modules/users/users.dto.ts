@@ -115,6 +115,8 @@ export class VerifyEmailChallengeRequestDto {
 }
 
 export class UpdateStudentRequestDto {
+  @ValidateIf((_o,v:unknown)=>v!==undefined) @IsUUID('7') secondClassSemesterId?: string;
+  @ValidateIf((_o,v:unknown)=>v!==undefined) @Transform(trim) @IsString() @Length(1,200) secondClassReason?: string;
   @ValidateIf((_o,v:unknown)=>v!==undefined) @Transform(trim) @IsString() @Length(1,200) majorCorrectionReason?: string;
   @ValidateIf((_o,v:unknown)=>v!==undefined) @Transform(trim) @IsString() @Length(1,200) profileUpdateReason?: string;
   @ValidateIf((_object, value: unknown) => value !== undefined)

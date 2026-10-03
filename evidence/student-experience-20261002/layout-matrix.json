@@ -1,0 +1,226 @@
+[
+  {
+    "width": 320,
+    "page": "首页",
+    "navFits": true,
+    "overflow": false,
+    "theme": "light"
+  },
+  {
+    "width": 320,
+    "page": "课程",
+    "navFits": true,
+    "overflow": false,
+    "theme": "light"
+  },
+  {
+    "width": 320,
+    "page": "记录与进度",
+    "navFits": true,
+    "overflow": false,
+    "theme": "light"
+  },
+  {
+    "width": 320,
+    "page": "我的",
+    "navFits": true,
+    "overflow": false,
+    "theme": "light"
+  },
+  {
+    "width": 390,
+    "page": "首页",
+    "navFits": true,
+    "overflow": false,
+    "theme": "light"
+  },
+  {
+    "width": 390,
+    "page": "课程",
+    "navFits": true,
+    "overflow": false,
+    "theme": "light"
+  },
+  {
+    "width": 390,
+    "page": "记录与进度",
+    "navFits": true,
+    "overflow": false,
+    "theme": "light"
+  },
+  {
+    "width": 390,
+    "page": "我的",
+    "navFits": true,
+    "overflow": false,
+    "theme": "light"
+  },
+  {
+    "width": 430,
+    "page": "首页",
+    "navFits": true,
+    "overflow": false,
+    "theme": "light"
+  },
+  {
+    "width": 430,
+    "page": "课程",
+    "navFits": true,
+    "overflow": false,
+    "theme": "light"
+  },
+  {
+    "width": 430,
+    "page": "记录与进度",
+    "navFits": true,
+    "overflow": false,
+    "theme": "light"
+  },
+  {
+    "width": 430,
+    "page": "我的",
+    "navFits": true,
+    "overflow": false,
+    "theme": "light"
+  },
+  {
+    "width": 1280,
+    "page": "首页",
+    "navFits": true,
+    "overflow": false,
+    "theme": "light"
+  },
+  {
+    "width": 1280,
+    "page": "课程",
+    "navFits": true,
+    "overflow": false,
+    "theme": "light"
+  },
+  {
+    "width": 1280,
+    "page": "记录与进度",
+    "navFits": true,
+    "overflow": false,
+    "theme": "light"
+  },
+  {
+    "width": 1280,
+    "page": "我的",
+    "navFits": true,
+    "overflow": false,
+    "theme": "light"
+  },
+  {
+    "width": 320,
+    "page": "首页",
+    "navFits": true,
+    "overflow": false,
+    "theme": "dark"
+  },
+  {
+    "width": 320,
+    "page": "课程",
+    "navFits": true,
+    "overflow": false,
+    "theme": "dark"
+  },
+  {
+    "width": 320,
+    "page": "记录与进度",
+    "navFits": true,
+    "overflow": false,
+    "theme": "dark"
+  },
+  {
+    "width": 320,
+    "page": "我的",
+    "navFits": true,
+    "overflow": false,
+    "theme": "dark"
+  },
+  {
+    "width": 390,
+    "page": "首页",
+    "navFits": true,
+    "overflow": false,
+    "theme": "dark"
+  },
+  {
+    "width": 390,
+    "page": "课程",
+    "navFits": true,
+    "overflow": false,
+    "theme": "dark"
+  },
+  {
+    "width": 390,
+    "page": "记录与进度",
+    "navFits": true,
+    "overflow": false,
+    "theme": "dark"
+  },
+  {
+    "width": 390,
+    "page": "我的",
+    "navFits": true,
+    "overflow": false,
+    "theme": "dark"
+  },
+  {
+    "width": 430,
+    "page": "首页",
+    "navFits": true,
+    "overflow": false,
+    "theme": "dark"
+  },
+  {
+    "width": 430,
+    "page": "课程",
+    "navFits": true,
+    "overflow": false,
+    "theme": "dark"
+  },
+  {
+    "width": 430,
+    "page": "记录与进度",
+    "navFits": true,
+    "overflow": false,
+    "theme": "dark"
+  },
+  {
+    "width": 430,
+    "page": "我的",
+    "navFits": true,
+    "overflow": false,
+    "theme": "dark"
+  },
+  {
+    "width": 1280,
+    "page": "首页",
+    "navFits": true,
+    "overflow": false,
+    "theme": "dark"
+  },
+  {
+    "width": 1280,
+    "page": "课程",
+    "navFits": true,
+    "overflow": false,
+    "theme": "dark"
+  },
+  {
+    "width": 1280,
+    "page": "记录与进度",
+    "navFits": true,
+    "overflow": false,
+    "theme": "dark"
+  },
+  {
+    "width": 1280,
+    "page": "我的",
+    "navFits": true,
+    "overflow": false,
+    "theme": "dark"
+  }
+]

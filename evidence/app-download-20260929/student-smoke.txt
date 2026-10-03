@@ -1,0 +1,264 @@
+ok - student persists the complete versioned refresh session
+ok - student rejects malformed or refresh-expired persisted sessions
+ok - temporary student startup failure preserves the persisted session
+ok - disabled student account clears the persisted session
+ok - i18n resolves zh by default and en after switch
+ok - semester presentation preserves the administrator-managed name
+ok - student login keeps real-account testing and gates local UI preview
+ok - local UI preview workspace is labeled and does not invent student scores
+ok - check-in sport icons share one stroke set and keep each activity recognizable
+ok - time window evaluator blocks unavailable policy
+ok - class check-in window preserves the teacher's backend values without fixed fallbacks
+ok - server progress and teacher targets map seconds to real student hours
+ok - dashboard keeps the full backend total and never invents a missing target
+ok - system mode opens only for an explicit NORMAL projection
+ok - dashboard progress state follows active membership
+ok - course detail omits related exercise records
+ok - session timing preserves elapsed exercise and applies published thresholds only to estimated credit
+ok - profile mirrors the Android account-card hierarchy and instant service navigation stays scoped
+ok - exemption form mirrors Android fields and accepted Contract limits
+ok - exemption detail mirrors the Android information hierarchy
+ok - course and independent exercise descriptions are both required
+ok - account details show gender and endurance exemption distance follows it
+ok - live camera duration uses the measured recording interval
+ok - help categories stay aligned with the published projection
+ok - help Markdown renders formatting while escaping administrator HTML
+ok - published help API requests the current-language non-paginated projection
+ok - daily submission observation follows the Beijing business day
+ok - daily client observation never hard-blocks a backend-authorized submission
+ok - hourText matches Kotlin Double.hourText()
+ok - time window blocks excluded dates and passed deadlines
+ok - proof rules follow the exact current API media allowlist
+ok - check-in proof UI follows the Android preview-then-delete flow
+ok - check-in stages follow the Android information hierarchy
+ok - local proof deletion preserves bytes when durable storage is unavailable
+ok - /me mapping uses the current API masked email and verification fields
+ok - student membership state is ACTIVE only while enrolled, otherwise PENDING
+ok - a submitted record is valid on arrival and credits the server's hours
+ok - submission summary never invents credited hours from the local timer
+ok - a teacher's INVALID verdict reaches the student verbatim
+ok - published scores read finalScore/baseScore and never invent a zero
+ok - cross-device record media maps from the authoritative evidence context
+ok - authenticated API base stays same-origin and ignores query or persisted overrides
+ok - only explicit loopback MinIO URLs with valid ports use the same-origin proxy
+ok - object upload ETag normalization fails closed on a missing value
+ok - confirmed Session evidence stays locked while PROCESSING or FAILED
+ok - unconfirmed capture remains deletable and AVAILABLE evidence remains locked
+ok - proof preview deletion uses the shared lock and fake local +60 is removed
+ok - public runtime config loads before the student application
+ok - student login distinguishes account enrollment guidance from invalid codes in both languages
+ok - user-facing errors cover status families without exposing raw server text
+ok - structured client routes remove query values and dynamic identifiers
+ok - error panel string compatibility never renders the supplied raw string
+ok - major Student backend failures and binding fields use the shared safe UI
+ok - managed email binding opens the Android-aligned change form directly
+ok - a missing object-store ETag stops before media confirmation
+ok - current score requires an exact semester and uses backend total-only qualification
+ok - student cursor lists collect every page from meta.pagination.nextCursor
+ok - student cursor lists reject repeated cursors instead of looping
+ok - student cursor lists stop after the defensive page limit
+ok - 401 refresh retries one student mutation with the same Idempotency-Key
+ok - ambiguous student refresh failure keeps the session and reuses its intent key
+ok - terminal student refresh rejection clears the local session
+ok - logout wins a race with refresh and stale tokens cannot return
+ok - active-session conflict fails closed without implicit cancellation
+ok - new QR student enters real email binding before protected workspace calls
+ok - student account deletion uses the exact two-stage API flow and clears local auth only after a valid terminal result
+ok - student account deletion keeps local auth when the Backend terminal proof is incomplete
+ok - student deletion re-authentication failure is never refreshed or replayed
+ok - invalid access token is terminal and is not refreshed
+ok - student account deletion strictly validates challenge data and keeps success requestId
+ok - deletion cleanup removes only the current account's durable workspace
+ok - account cleanup releases nested transient Blob URLs
+ok - Student form primitives focus the first invalid control and endurance view hides scores
+ok - feedback transport sends only the frozen privacy-bounded fields
+ok - exemption transport creates, uploads, associates, and submits one current draft
+ok - structured exemption projection keeps subtype, immutable media references, and review status
+ok - student target reads use authenticated same-origin backend routes
+ok - organization certification cards use only the signed-in student's backend applications
+ok - organization certification and recognition reads use authenticated backend routes
+ok - student account deletion UI requires explanation, OTP, and final confirmation
+ok - store self-heals corrupted keys and drops legacy synthetic overlay fields
+ok - exercise session round-trips through the store per account
+FAIL - v8 contract-wired student pages keep grace non-refreshable and show server proof todos: The input did not match the regular expression /每学期仅可选择一门课程/u. Input:
+
+'// Course list (#17) and course detail (#18) — feature/courses/CoursesScreen.kt.\n' +
+  '\n' +
+  'import { tx } from "../i18n.js";\n' +
+  'import { icon } from "../icons.js";\n' +
+  'import { esc } from "../ui.js";\n' +
+  'import { localizedJoinStatus } from "./join.js";\n' +
+  '\n' +
+  'function enrollmentStatusLabel(status) {\n' +
+  '  switch (status) {\n' +
+  '    case "enrolled": return tx("修读中", "In progress");\n' +
+  '    case "completed": return tx("已完成", "Complete");\n' +
+  '    case "withdrawn": return tx("已退课", "Withdrawn");\n' +
+  '    default: return status || tx("待确认", "Pending");\n' +
+  '  }\n' +
+  '}\n' +
+  '\n' +
+  'function statusPill(text, { emphasized = false, destructive = false } = {}) {\n' +
+  '  const cls = destructive ? "destructive" : emphasized ? "emphasized" : "";\n' +
+  '  return `<span class="course-pill ${cls}">${esc(text)}</span>`;\n' +
+  '}\n' +
+  '\n' +
+  'function courseMetaLine(iconName, text) {\n' +
+  '  return `<div class="row" style="gap:10px">\n' +
+  '    <span class="text-muted" style="display:inline-flex;flex:none">${icon(iconName, 19)}</span>\n' +
+  '    <span class="ellipsis" style="font-size:15px;line-height:20px;color:var(--color-on-surface)">${esc(text)}</span>\n' +
+  '  </div>`;\n' +
+  '}\n' +
+  '\n' +
+  'function courseCard(course) {\n' +
+  '  return `<button class="course-card pressable" data-action="courses.open" data-course-id="${esc(course.classSectionId || course.id)}">\n' +
+  '    <div class="row" style="align-items:flex-start">\n' +
+  '      <div class="col grow" style="gap:5px;text-align:left">\n' +
+  '        <span style="font-size:20px;line-height:26px;font-weight:600;color:var(--color-on-surface)">${esc(course.name)}</span>\n' +
+  '      </div>\n' +
+  '      <span style="width:10px"></span>\n' +
+  '      <span class="text-muted" style="display:inline-flex;padding-top:2px">${icon("chevron-right", 22)}</span>\n' +
+  '    </div>\n' +
+  '    <div class="course-divider"></div>\n' +
+  '    <div class="col" style="gap:10px;text-align:left">\n' +
+  '      ${courseMetaLine("person-outline", course.teacher || tx("任课教师待公布", "Instructor to be announced"))}\n' +
+  '      ${courseMetaLine("event", course.semester || tx("学期待定", "Semester pending"))}\n' +
+  '    </div>\n' +
+  '    <div class="row" style="gap:10px">\n' +
+  '      ${statusPill(enrollmentStatusLabel(course.enrollmentStatus), { emphasized: course.enrollmentStatus === "enrolled" })}\n' +
+  '    </div>\n' +
+  '  </button>`;\n' +
+  '}\n' +
+  '\n' +
+  'function sectionHeader(title, count, unit) {\n' +
+  '  return `<div class="row" style="padding-top:4px">\n' +
+  '    <span class="grow" style="font-size:20px;line-height:25px;font-weight:600;color:var(--color-on-background)">${esc(title)}</span>\n' +
+  '    <span style="font-size:15px;line-height:20px;color:var(--color-on-surface-variant)">${count} ${esc(unit)}</span>\n' +
+  '  </div>`;\n' +
+  '}\n' +
+  '\n' +
+  'export function renderCourses(app) {\n' +
+  '  if (!app.ui.courses) app.ui.courses = { selectedCourseId: null };\n' +
+  '  const ui = app.ui.courses;\n' +
+  '  const workspace = app.state.workspace;\n' +
+  '  const currentCourses = workspace.courses.filter((course) => course.isCurrent && course.enrollmentStatus === "enrolled");\n' +
+  '  const selected = ui.selectedCourseId ? currentCourses.find((course) => (course.classSectionId || course.id) === ui.selectedCourseId) : null;\n' +
+  '  if (selected) return renderCourseDetail(app, selected);\n' +
+  '\n' +
+  '  const subtitle = currentCourses.length === 0\n' +
+  '    ? tx("课程同步后将在这里显示", "Your courses will appear here after syncing.")\n' +
+  '    : tx(`${currentCourses.length} 门课程正在修读`, `${currentCourses.length} courses in progress`);\n' +
+  '\n' +
+  '  const request = workspace.courseJoinRequest;\n' +
+  '  const hasPendingJoinRequest = request && request.status !== "ACTIVE";\n' +
+  '\n' +
+  '  let listBody = "";\n' +
+  '  if (currentCourses.length === 0) {\n' +
+  '    listBody = `<div class="course-card" style="padding:24px 20px">\n' +
+  '      <div class="col" style="gap:7px">\n' +
+  '        <span style="font-size:20px;line-height:25px;font-weight:600;color:var(--color-on-surface)">${tx("还没有课程", "No courses yet")}</span>\n' +
+  '        <span style="font-size:15px;line-height:22px;color:var(--color-on-surface-variant)">${tx("扫描教师提供的二维码或输入邀请码，加入体育教学班。", "Scan your instructor\'s QR code or enter an invitation code to join a class.")}</span>\n' +
+  '      </div>\n' +
+  '    </div>`;\n' +
+  '  } else {\n' +
+  '    listBody = sectionHeader(tx("本学期", "This semester"), currentCourses.length, tx("门", "courses"));\n' +
+  '    listBody += currentCourses.map((course) => courseCard(course)).join("");\n' +
+  '  }\n' +
+  '\n' +
+  '  return `<div class="tab-content col" style="gap:20px;padding-top:8px">\n' +
+  '    <div class="col" style="gap:5px">\n' +
+  '      <span class="course-large-title">${tx("我的课程", "My courses")}</span>\n' +
+  '      <span style="font-size:17px;line-height:23px;color:var(--color-on-surface)">${esc(subtitle)}</span>\n' +
+  '      <span style="font-size:13px;line-height:18px;color:var(--color-on-surface-variant)">${workspace.student.maximumActiveEnrollments === 2 ? tx("本学期可同时加入两个班级。打卡和学时分别计算，可在页面上方切换班级。", "You may join two classes this semester. Switch above; check-ins and progress are separate.") : tx("同一时间可加入一个班级。", "You may join one class at a time.")}</span>\n' +
+  '    </div>\n' +
+  '    ${hasPendingJoinRequest ? `\n' +
+  '      <button class="course-card pressable" data-action="join.openStatus" style="padding:16px 18px">\n' +
+  '        <div class="row">\n' +
+  '          <div class="col grow" style="gap:5px;text-align:left">\n' +
+  '            <span style="font-size:17px;line-height:22px;font-weight:600;color:var(--color-on-surface)">${tx("课程加入申请", "Course join request")}</span>\n' +
+  '            <span style="font-size:14px;line-height:19px;color:var(--color-on-surface-variant)">${esc(request.courseName || tx("课程", "Course"))}</span>\n' +
+  '          </div>\n' +
+  '          ${statusPill(localizedJoinStatus(request.status), { emphasized: request.status === "PENDING" })}\n' +
+  '          <span style="width:8px"></span>\n' +
+  '          <span class="text-muted" style="display:inline-flex">${icon("chevron-right", 20)}</span>\n' +
+  '        </div>\n' +
+  '      </button>` : ""}\n' +
+  '    ${listBody}\n' +
+  '    ${app.canStartNewCourseJoin() ? `<div class="col" style="gap:10px">\n' +
+  '      <button class="primary-btn pressable" data-action="courses.scan" style="min-height:52px">\n' +
+  '        ${icon("qr-code-scanner", 20)}<span style="font-size:16px;font-weight:600">${tx("扫描二维码", "Scan QR code")}</span>\n' +
+  '      </button>\n' +
+  '      <button class="outlined-btn pressable" data-action="courses.enterCode" style="min-height:52px;border-radius:14px">\n' +
+  '        ${icon("text-fields", 20)}<span style="font-size:16px;font-weight:600">${tx("输入邀请码", "Enter invitation code")}</span>\n' +
+  '      </button>\n' +
+  '    </div>` : ""}\n' +
+  '  </div>`;\n' +
+  '}\n' +
+  '\n' +
+  'function detailFactRow(label, value, last) {\n' +
+  '  return `<div class="row" style="min-height:48px;padding:12px 0;align-items:flex-start">\n' +
+  '      <span style="width:80px;flex:none;font-size:14px;line-height:20px;color:var(--color-on-surface-variant)">${esc(label)}</span>\n' +
+  '      <span style="width:12px"></span>\n' +
+  '      <span class="grow" style="font-size:15px;line-height:20px;color:var(--color-on-surface)">${esc(value)}</span>\n' +
+  '    </div>${last ? "" : `<div class="course-divider course-detail-divider"></div>`}`;\n' +
+  '}\n' +
+  '\n' +
+  'function renderCourseDetail(app, course) {\n' +
+  '  const facts = [\n' +
+  '    [tx("任课教师", "Instructor"), course.teacher || tx("待公布", "To be announced")],\n' +
+  '    [tx("开课学期", "Teaching term"), course.semester || tx("学期待定", "Semester pending")],\n' +
+  '  ];\n' +
+  '  return `<div class="tab-content col anim-enter-forward" style="gap:18px;padding-top:2px">\n' +
+  '    <button class="row pressable" data-action="courses.backToList" style="min-height:48px;color:var(--color-primary)">\n' +
+  '      <span style="display:inline-flex;padding:0 10px">${icon("arrow-back", 24)}</span>\n' +
+  '      <span style="font-size:17px;line-height:22px">${tx("我的课程", "My courses")}</span>\n' +
+  '    </button>\n' +
+  '    <div class="col" style="gap:8px">\n' +
+  '      <span style="font-size:30px;line-height:37px;font-weight:700;letter-spacing:-0.25px;color:var(--color-on-background)">${esc(course.name)}</span>\n' +
+  '      <div class="row" style="gap:10px">\n' +
+  '        ${statusPill(enrollmentStatusLabel(course.enrollmentStatus), { emphasized: course.enrollmentStatus === "enrolled" })}\n' +
+  '      </div>\n' +
+  '    </div>\n' +
+  '    <div class="course-card" style="padding:16px 18px">${facts.map((f, i) => detailFactRow(f[0], f[1], i === facts.length - 1)).join("")}</div>\n' +
+  '  </div>`;\n' +
+  '}\n' +
+  '\n' +
+  'export const coursesActions = {\n' +
+  '  "courses.refreshRoster": async (app) => { if (app.state.isLoading) return; await app.reloadApiWorkspace(); app.render(); },\n' +
+  '  "courses.open": (app, el) => {\n' +
+  '    app.ui.courses.selectedCourseId = el.dataset.courseId;\n' +
+  '    app.navDirection = "forward";\n' +
+  '    app.render();\n' +
+  '  },\n' +
+  '  "courses.backToList": (app) => {\n' +
+  '    app.ui.courses.selectedCourseId = null;\n' +
+  '    app.navDirection = "back";\n' +
+  '    app.render();\n' +
+  '  },\n' +
+  '  "courses.scan": (app) => {\n' +
+  '    app.ui.scan = null;\n' +
+  '    app.openSub("scan", {});\n' +
+  '  },\n' +
+  '  "courses.enterCode": (app) => {\n' +
+  '    app.ui.enterCode = null;\n' +
+  '    app.openSub("enterCode", {});\n' +
+  '  },\n' +
+  '};\n' +
+  '\n' +
+  '// Course detail intercepts back to return to the list (返回规则).\n' +
+  'export function coursesBackInterceptor(app) {\n' +
+  '  if (app.screenKey() === "tab-courses" && app.ui.courses?.selectedCourseId) {\n' +
+  '    app.ui.courses.selectedCourseId = null;\n' +
+  '    app.navDirection = "back";\n' +
+  '    app.render();\n' +
+  '    return true;\n' +
+  '  }\n' +
+  '  return false;\n' +
+  '}\n'
+
+ok - v8.1 public reasons keep six bilingual categories and action scopes
+ok - v8.1 review stages stay separate and do not guess missing wire values
+ok - v8.1 notices keep proof wording and drop only explicit score disclosures
+ok - v8.1 maintenance page shows paused proof timing or an unavailable state
+
+1 smoke check(s) failed

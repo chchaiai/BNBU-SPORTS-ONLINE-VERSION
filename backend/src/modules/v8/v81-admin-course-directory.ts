@@ -52,8 +52,10 @@ export class V81AdminCourseDirectoryService {
       const members = await tx.enrollment.findMany({ where: { organizationId: principal.organizationId, status: 'ACTIVE',
         classSection: { semesterId: semester.id, status: { in: ['UPCOMING', 'ACTIVE'] } } },
         select: { studentId: true }, distinct: ['studentId'] });
-      const rules = await tx.$queryRaw<{ classSectionId: string; course: number; general: number }[]>`
-        SELECT class_section_id AS "classSectionId",course_target AS course,general_target AS general
+      const rules = await tx.$queryRaw<{ classSectionId: string; course: number; general: number; minimumMinutes: number; maximumMinutes: number; weeklyLimit: number; dailyLimit: number }[]>`
+        SELECT class_section_id AS "classSectionId",course_target AS course,general_target AS general,
+          minimum_minutes AS "minimumMinutes",COALESCE(maximum_minutes,GREATEST(60,minimum_minutes)) AS "maximumMinutes",
+          weekly_limit AS "weeklyLimit",daily_limit AS "dailyLimit"
         FROM v81_course_rules WHERE organization_id=${principal.organizationId}::uuid AND published_at IS NOT NULL`;
       const progress = await tx.$queryRaw<{ classSectionId: string; course: bigint; general: bigint; recognizedCourse: bigint; recognizedGeneral: bigint }[]>`
         SELECT e.class_section_id AS "classSectionId",coalesce(x.course,0)::bigint AS course,
@@ -85,6 +87,8 @@ export class V81AdminCourseDirectoryService {
           dailyStartTime: section.dailyStartTime?.toISOString().slice(11, 19) ?? null,
           dailyEndTime: section.dailyEndTime?.toISOString().slice(11, 19) ?? null,
           courseTargetSeconds: rule ? rule.course * 60 : null, generalTargetSeconds: rule ? rule.general * 60 : null,
+          minimumMinutes: rule?.minimumMinutes ?? null, maximumMinutes: rule?.maximumMinutes ?? null,
+          weeklyLimit: rule?.weeklyLimit ?? null, dailyLimit: rule?.dailyLimit ?? null,
           currentMembers: metrics(aggregates.find(item => item.classSectionId === section.id && item.active)),
           removedMembers: metrics(aggregates.find(item => item.classSectionId === section.id && !item.active)),
           completedStudents, completionRate: completedStudents !== null && students.length > 0

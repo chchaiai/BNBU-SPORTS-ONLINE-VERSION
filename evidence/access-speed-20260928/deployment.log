@@ -1,0 +1,14 @@
+24a4e61f57e6c0ab5255fa1f80e397f95916da0dda93f7cd15ec69aa64143ec6
+nginx: the configuration file /etc/nginx/nginx.conf syntax is ok
+nginx: configuration file /etc/nginx/nginx.conf test is successful
+Warm portal is serving; previous Nginx workers drained.
+ Container bnbu-sports-production-portal-1 Recreate 
+ Container bnbu-sports-production-portal-1 Recreated 
+ Container bnbu-sports-production-portal-1 Starting 
+ Container bnbu-sports-production-portal-1 Started 
+nginx: the configuration file /etc/nginx/nginx.conf syntax is ok
+nginx: configuration file /etc/nginx/nginx.conf test is successful
+Flag --time has been deprecated, use --timeout instead
+bnbu-access-speed-warm-portal
+bnbu-access-speed-warm-portal
+{"result": "PASS", "release": "/opt/bnbu-sports-production/releases/access-speed-20260928", "portalImage": "sha256:3e8a1a2d1915b8c2a65a56d3a315fbdd8416b9d8bdc52dfd32e41ac72e9a2db5", "backendUnchanged": true, "legacyStudentPreserved": true, "immutableAssetsVerified": 410, "oldPortalAssetsVerified": 91, "health": [{"host": "www.student.bnbusports.cn", "path": "/student/", "status": 200}, {"host": "www.teacher.bnbusports.cn", "path": "/", "status": 200}, {"host": "www.student.bnbusports.cn", "path": "/api/v1/health/ready", "status": 200}, {"host": "www.teacher.bnbusports.cn", "path": "/api/v1/health/ready", "status": 200}], "warmSwitch": true, "rollbackAvailable": true, "businessDataWrites": 0, "databaseMigrations": 0}

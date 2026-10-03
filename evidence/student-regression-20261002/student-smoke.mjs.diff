@@ -1,0 +1,38 @@
+--- before/student-smoke.mjs
++++ BNBU-Sports-Web-new/frontend/student/student-smoke.mjs
+@@ -577,6 +577,27 @@
+   assert.doesNotMatch(coursesScreenSource, /courseRecordCard|workspace\.records\.filter/u);
+ });
+ 
++check("course list reflects the student's enrollment allowance and join availability", () => {
++  setLanguage("zh");
++  for (const maximumActiveEnrollments of [1, 2]) {
++    for (const canJoin of [false, true]) {
++      const workspace = studentWorkspaceFixture();
++      workspace.student.maximumActiveEnrollments = maximumActiveEnrollments;
++      const html = renderCourses({
++        ui: { courses: { selectedCourseId: null } },
++        state: { workspace },
++        canStartNewCourseJoin: () => canJoin,
++      });
++      assert.match(html, maximumActiveEnrollments === 2
++        ? /本学期可同时加入两个班级/u : /同一时间可加入一个班级/u);
++      assert.doesNotMatch(html, maximumActiveEnrollments === 2
++        ? /同一时间可加入一个班级/u : /本学期可同时加入两个班级/u);
++      assert.equal(html.includes('data-action="courses.scan"'), canJoin);
++      assert.equal(html.includes('data-action="courses.enterCode"'), canJoin);
++    }
++  }
++});
++
+ check("session timing preserves elapsed exercise and applies published thresholds only to estimated credit", () => {
+   const t0 = 1_000_000;
+   let session = startSession({ creditType: "general", sportType: "running" }, t0);
+@@ -2186,7 +2207,6 @@
+   assert.match(dashboardScreenSource, /data-action="dashboard.openProofTodo"/u);
+   assert.doesNotMatch(dashboardScreenSource, /打开补证待办（当前接口没有）/u);
+   assert.doesNotMatch(gradesScreenSource, /<button[^>]*>[^\n]*(?:换算分|converted scores)/u);
+-  assert.match(coursesScreenSource, /每学期仅可选择一门课程/u);
+   assert.match(notificationsScreenSource, /最近补证截止还剩约/u);
+   assert.doesNotMatch(notificationsScreenSource, /补证倒计时（当前接口没有）/u);
+   assert.match(profileScreenSource, /具体以教师审核结果为准/u);

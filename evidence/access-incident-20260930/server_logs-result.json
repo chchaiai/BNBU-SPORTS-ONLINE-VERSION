@@ -1,0 +1,4105 @@
+{
+  "window": [
+    "2026-09-30T07:00:00+08:00",
+    "2026-09-30T10:51:00+08:00"
+  ],
+  "captured": "2026-09-30T10:54:29.017474+08:00",
+  "timing": {
+    "total": {
+      "count": 8170,
+      "status": {
+        "200": 6751,
+        "401": 104,
+        "400": 24,
+        "404": 976,
+        "301": 68,
+        "304": 80,
+        "201": 81,
+        "202": 22,
+        "499": 47,
+        "302": 13,
+        "409": 3,
+        "308": 1
+      },
+      "requestSeconds": {
+        "n": 8170,
+        "p50": 0.006,
+        "p95": 0.097,
+        "p99": 0.687,
+        "max": 9.786,
+        "ge1s": 37,
+        "ge5s": 15
+      },
+      "upstreamSeconds": {
+        "n": 4574,
+        "p50": 0.008,
+        "p95": 0.048,
+        "p99": 0.388,
+        "max": 1.14,
+        "ge1s": 5,
+        "ge5s": 0
+      },
+      "pairedRequestMinusUpstreamSeconds": {
+        "n": 4574,
+        "p50": 0.001,
+        "p95": 0.004999999999999999,
+        "p99": 0.006,
+        "max": 5.598000000000001,
+        "ge1s": 1,
+        "ge5s": 1
+      },
+      "bytes": 26990595,
+      "protocol": {
+        "HTTP/2.0": 7631,
+        "": 17,
+        "HTTP/1.1": 522
+      }
+    },
+    "groups": {
+      "www.student.bnbusports.cn api": {
+        "count": 3906,
+        "status": {
+          "200": 3697,
+          "401": 80,
+          "201": 81,
+          "202": 22,
+          "499": 23,
+          "409": 3
+        },
+        "requestSeconds": {
+          "n": 3906,
+          "p50": 0.007,
+          "p95": 0.047,
+          "p99": 0.105,
+          "max": 5.602,
+          "ge1s": 6,
+          "ge5s": 1
+        },
+        "upstreamSeconds": {
+          "n": 3906,
+          "p50": 0.008,
+          "p95": 0.048,
+          "p99": 0.096,
+          "max": 1.14,
+          "ge1s": 5,
+          "ge5s": 0
+        },
+        "pairedRequestMinusUpstreamSeconds": {
+          "n": 3906,
+          "p50": 0.001,
+          "p95": 0.005,
+          "p99": 0.006000000000000002,
+          "max": 5.598000000000001,
+          "ge1s": 1,
+          "ge5s": 1
+        },
+        "bytes": 1796660,
+        "protocol": {
+          "HTTP/2.0": 3906
+        }
+      },
+      "www.teacher.bnbusports.cn api": {
+        "count": 659,
+        "status": {
+          "200": 633,
+          "401": 24,
+          "499": 2
+        },
+        "requestSeconds": {
+          "n": 659,
+          "p50": 0.008,
+          "p95": 0.37,
+          "p99": 0.42,
+          "max": 0.425,
+          "ge1s": 0,
+          "ge5s": 0
+        },
+        "upstreamSeconds": {
+          "n": 659,
+          "p50": 0.008,
+          "p95": 0.368,
+          "p99": 0.42,
+          "max": 0.424,
+          "ge1s": 0,
+          "ge5s": 0
+        },
+        "pairedRequestMinusUpstreamSeconds": {
+          "n": 659,
+          "p50": 0.0009999999999999992,
+          "p95": 0.004,
+          "p99": 0.006,
+          "max": 0.226,
+          "ge1s": 0,
+          "ge5s": 0
+        },
+        "bytes": 397995,
+        "protocol": {
+          "HTTP/2.0": 659
+        }
+      },
+      "_ page": {
+        "count": 878,
+        "status": {
+          "400": 24,
+          "404": 854
+        },
+        "requestSeconds": {
+          "n": 878,
+          "p50": 0.0,
+          "p95": 0.0,
+          "p99": 0.742,
+          "max": 9.786,
+          "ge1s": 8,
+          "ge5s": 8
+        },
+        "upstreamSeconds": {
+          "n": 0
+        },
+        "pairedRequestMinusUpstreamSeconds": {
+          "n": 0
+        },
+        "bytes": 287264,
+        "protocol": {
+          "": 17,
+          "HTTP/1.1": 483,
+          "HTTP/2.0": 378
+        }
+      },
+      "www.student.bnbusports.cn student": {
+        "count": 2412,
+        "status": {
+          "200": 2313,
+          "304": 80,
+          "499": 19
+        },
+        "requestSeconds": {
+          "n": 2412,
+          "p50": 0.0,
+          "p95": 0.209,
+          "p99": 0.886,
+          "max": 5.923,
+          "ge1s": 18,
+          "ge5s": 4
+        },
+        "upstreamSeconds": {
+          "n": 0
+        },
+        "pairedRequestMinusUpstreamSeconds": {
+          "n": 0
+        },
+        "bytes": 8910256,
+        "protocol": {
+          "HTTP/2.0": 2410,
+          "HTTP/1.1": 2
+        }
+      },
+      "www.student.bnbusports.cn page": {
+        "count": 175,
+        "status": {
+          "200": 50,
+          "404": 110,
+          "302": 13,
+          "499": 1,
+          "308": 1
+        },
+        "requestSeconds": {
+          "n": 175,
+          "p50": 0.0,
+          "p95": 0.127,
+          "p99": 0.886,
+          "max": 2.05,
+          "ge1s": 1,
+          "ge5s": 0
+        },
+        "upstreamSeconds": {
+          "n": 0
+        },
+        "pairedRequestMinusUpstreamSeconds": {
+          "n": 0
+        },
+        "bytes": 26236,
+        "protocol": {
+          "HTTP/2.0": 169,
+          "HTTP/1.1": 6
+        }
+      },
+      "verityai.cn page": {
+        "count": 49,
+        "status": {
+          "301": 4,
+          "200": 45
+        },
+        "requestSeconds": {
+          "n": 49,
+          "p50": 0.045,
+          "p95": 1.986,
+          "p99": 5.716,
+          "max": 5.716,
+          "ge1s": 4,
+          "ge5s": 2
+        },
+        "upstreamSeconds": {
+          "n": 0
+        },
+        "pairedRequestMinusUpstreamSeconds": {
+          "n": 0
+        },
+        "bytes": 15226602,
+        "protocol": {
+          "HTTP/1.1": 11,
+          "HTTP/2.0": 38
+        }
+      },
+      "_ api": {
+        "count": 5,
+        "status": {
+          "404": 5
+        },
+        "requestSeconds": {
+          "n": 5,
+          "p50": 0.0,
+          "p95": 0.0,
+          "p99": 0.0,
+          "max": 0.0,
+          "ge1s": 0,
+          "ge5s": 0
+        },
+        "upstreamSeconds": {
+          "n": 0
+        },
+        "pairedRequestMinusUpstreamSeconds": {
+          "n": 0
+        },
+        "bytes": 1534,
+        "protocol": {
+          "HTTP/1.1": 3,
+          "HTTP/2.0": 2
+        }
+      },
+      "_ asset": {
+        "count": 2,
+        "status": {
+          "404": 2
+        },
+        "requestSeconds": {
+          "n": 2,
+          "p50": 0.0,
+          "p95": 0.0,
+          "p99": 0.0,
+          "max": 0.0,
+          "ge1s": 0,
+          "ge5s": 0
+        },
+        "upstreamSeconds": {
+          "n": 0
+        },
+        "pairedRequestMinusUpstreamSeconds": {
+          "n": 0
+        },
+        "bytes": 694,
+        "protocol": {
+          "HTTP/1.1": 1,
+          "HTTP/2.0": 1
+        }
+      },
+      "www.bnbusports.cn page": {
+        "count": 59,
+        "status": {
+          "301": 59
+        },
+        "requestSeconds": {
+          "n": 59,
+          "p50": 0.0,
+          "p95": 0.0,
+          "p99": 0.0,
+          "max": 0.0,
+          "ge1s": 0,
+          "ge5s": 0
+        },
+        "upstreamSeconds": {
+          "n": 0
+        },
+        "pairedRequestMinusUpstreamSeconds": {
+          "n": 0
+        },
+        "bytes": 9558,
+        "protocol": {
+          "HTTP/2.0": 56,
+          "HTTP/1.1": 3
+        }
+      },
+      "www.verityai.cn page": {
+        "count": 4,
+        "status": {
+          "404": 4
+        },
+        "requestSeconds": {
+          "n": 4,
+          "p50": 0.0,
+          "p95": 0.0,
+          "p99": 0.0,
+          "max": 0.0,
+          "ge1s": 0,
+          "ge5s": 0
+        },
+        "upstreamSeconds": {
+          "n": 0
+        },
+        "pairedRequestMinusUpstreamSeconds": {
+          "n": 0
+        },
+        "bytes": 1388,
+        "protocol": {
+          "HTTP/1.1": 4
+        }
+      },
+      "knowledge.verityai.cn page": {
+        "count": 2,
+        "status": {
+          "200": 2
+        },
+        "requestSeconds": {
+          "n": 2,
+          "p50": 0.0,
+          "p95": 0.0,
+          "p99": 0.0,
+          "max": 0.0,
+          "ge1s": 0,
+          "ge5s": 0
+        },
+        "upstreamSeconds": {
+          "n": 0
+        },
+        "pairedRequestMinusUpstreamSeconds": {
+          "n": 0
+        },
+        "bytes": 910,
+        "protocol": {
+          "HTTP/1.1": 1,
+          "HTTP/2.0": 1
+        }
+      },
+      "bnbusports.cn page": {
+        "count": 5,
+        "status": {
+          "301": 5
+        },
+        "requestSeconds": {
+          "n": 5,
+          "p50": 0.0,
+          "p95": 0.0,
+          "p99": 0.0,
+          "max": 0.0,
+          "ge1s": 0,
+          "ge5s": 0
+        },
+        "upstreamSeconds": {
+          "n": 0
+        },
+        "pairedRequestMinusUpstreamSeconds": {
+          "n": 0
+        },
+        "bytes": 810,
+        "protocol": {
+          "HTTP/1.1": 5
+        }
+      },
+      "www.teacher.bnbusports.cn page": {
+        "count": 9,
+        "status": {
+          "200": 6,
+          "499": 2,
+          "404": 1
+        },
+        "requestSeconds": {
+          "n": 9,
+          "p50": 0.004,
+          "p95": 0.007,
+          "p99": 0.007,
+          "max": 0.007,
+          "ge1s": 0,
+          "ge5s": 0
+        },
+        "upstreamSeconds": {
+          "n": 9,
+          "p50": 0.0,
+          "p95": 0.004,
+          "p99": 0.004,
+          "max": 0.004,
+          "ge1s": 0,
+          "ge5s": 0
+        },
+        "pairedRequestMinusUpstreamSeconds": {
+          "n": 9,
+          "p50": 0.001,
+          "p95": 0.005,
+          "p99": 0.005,
+          "max": 0.005,
+          "ge1s": 0,
+          "ge5s": 0
+        },
+        "bytes": 19553,
+        "protocol": {
+          "HTTP/2.0": 6,
+          "HTTP/1.1": 3
+        }
+      },
+      "www.teacher.bnbusports.cn asset": {
+        "count": 5,
+        "status": {
+          "200": 5
+        },
+        "requestSeconds": {
+          "n": 5,
+          "p50": 0.016,
+          "p95": 0.32,
+          "p99": 0.32,
+          "max": 0.32,
+          "ge1s": 0,
+          "ge5s": 0
+        },
+        "upstreamSeconds": {
+          "n": 0
+        },
+        "pairedRequestMinusUpstreamSeconds": {
+          "n": 0
+        },
+        "bytes": 311135,
+        "protocol": {
+          "HTTP/2.0": 5
+        }
+      }
+    },
+    "hourly": {
+      "2026-09-30T07": {
+        "count": 1507,
+        "status": {
+          "200": 669,
+          "401": 10,
+          "400": 5,
+          "404": 812,
+          "301": 3,
+          "304": 2,
+          "201": 4,
+          "202": 1,
+          "499": 1
+        },
+        "requestSeconds": {
+          "n": 1507,
+          "p50": 0.0,
+          "p95": 0.038,
+          "p99": 0.197,
+          "max": 1.148,
+          "ge1s": 3,
+          "ge5s": 0
+        },
+        "upstreamSeconds": {
+          "n": 556,
+          "p50": 0.008,
+          "p95": 0.036,
+          "p99": 0.072,
+          "max": 1.14,
+          "ge1s": 3,
+          "ge5s": 0
+        },
+        "pairedRequestMinusUpstreamSeconds": {
+          "n": 556,
+          "p50": 0.001,
+          "p95": 0.005,
+          "p99": 0.006999999999999992,
+          "max": 0.010000000000000002,
+          "ge1s": 0,
+          "ge5s": 0
+        },
+        "bytes": 2031123,
+        "protocol": {
+          "HTTP/2.0": 1073,
+          "": 2,
+          "HTTP/1.1": 432
+        }
+      },
+      "2026-09-30T08": {
+        "count": 2097,
+        "status": {
+          "200": 1876,
+          "404": 63,
+          "302": 5,
+          "401": 22,
+          "201": 32,
+          "301": 30,
+          "202": 8,
+          "499": 34,
+          "400": 12,
+          "304": 14,
+          "409": 1
+        },
+        "requestSeconds": {
+          "n": 2097,
+          "p50": 0.006,
+          "p95": 0.091,
+          "p99": 0.74,
+          "max": 5.923,
+          "ge1s": 13,
+          "ge5s": 11
+        },
+        "upstreamSeconds": {
+          "n": 1219,
+          "p50": 0.008,
+          "p95": 0.044,
+          "p99": 0.092,
+          "max": 1.064,
+          "ge1s": 1,
+          "ge5s": 0
+        },
+        "pairedRequestMinusUpstreamSeconds": {
+          "n": 1219,
+          "p50": 0.0009999999999999992,
+          "p95": 0.004999999999999999,
+          "p99": 0.006000000000000002,
+          "max": 5.598000000000001,
+          "ge1s": 1,
+          "ge5s": 1
+        },
+        "bytes": 10675752,
+        "protocol": {
+          "HTTP/2.0": 2039,
+          "HTTP/1.1": 46,
+          "": 12
+        }
+      },
+      "2026-09-30T09": {
+        "count": 2447,
+        "status": {
+          "200": 2236,
+          "201": 28,
+          "301": 21,
+          "401": 47,
+          "404": 66,
+          "304": 31,
+          "499": 8,
+          "202": 9,
+          "302": 1
+        },
+        "requestSeconds": {
+          "n": 2447,
+          "p50": 0.007,
+          "p95": 0.197,
+          "p99": 0.417,
+          "max": 5.716,
+          "ge1s": 3,
+          "ge5s": 2
+        },
+        "upstreamSeconds": {
+          "n": 1651,
+          "p50": 0.008,
+          "p95": 0.108,
+          "p99": 0.42,
+          "max": 0.932,
+          "ge1s": 0,
+          "ge5s": 0
+        },
+        "pairedRequestMinusUpstreamSeconds": {
+          "n": 1651,
+          "p50": 0.001,
+          "p95": 0.0049999999999999975,
+          "p99": 0.006000000000000005,
+          "max": 0.287,
+          "ge1s": 0,
+          "ge5s": 0
+        },
+        "bytes": 10385682,
+        "protocol": {
+          "HTTP/2.0": 2425,
+          "HTTP/1.1": 22
+        }
+      },
+      "2026-09-30T10": {
+        "count": 2119,
+        "status": {
+          "200": 1970,
+          "301": 14,
+          "304": 33,
+          "404": 35,
+          "401": 25,
+          "202": 4,
+          "400": 7,
+          "302": 7,
+          "201": 17,
+          "499": 4,
+          "409": 2,
+          "308": 1
+        },
+        "requestSeconds": {
+          "n": 2119,
+          "p50": 0.007,
+          "p95": 0.086,
+          "p99": 0.886,
+          "max": 9.786,
+          "ge1s": 18,
+          "ge5s": 2
+        },
+        "upstreamSeconds": {
+          "n": 1148,
+          "p50": 0.008,
+          "p95": 0.048,
+          "p99": 0.092,
+          "max": 1.028,
+          "ge1s": 1,
+          "ge5s": 0
+        },
+        "pairedRequestMinusUpstreamSeconds": {
+          "n": 1148,
+          "p50": 0.001,
+          "p95": 0.004999999999999999,
+          "p99": 0.006,
+          "max": 0.012,
+          "ge1s": 0,
+          "ge5s": 0
+        },
+        "bytes": 3898038,
+        "protocol": {
+          "HTTP/2.0": 2094,
+          "HTTP/1.1": 22,
+          "": 3
+        }
+      }
+    },
+    "peakMinutes": [
+      [
+        "2026-09-30T07:26",
+        503
+      ],
+      [
+        "2026-09-30T08:59",
+        266
+      ],
+      [
+        "2026-09-30T07:27",
+        244
+      ],
+      [
+        "2026-09-30T09:49",
+        199
+      ],
+      [
+        "2026-09-30T08:51",
+        194
+      ],
+      [
+        "2026-09-30T08:28",
+        185
+      ],
+      [
+        "2026-09-30T08:53",
+        181
+      ],
+      [
+        "2026-09-30T10:45",
+        177
+      ],
+      [
+        "2026-09-30T10:40",
+        173
+      ],
+      [
+        "2026-09-30T10:44",
+        129
+      ]
+    ],
+    "slowest": [
+      {
+        "time": "2026-09-30T10:34:40+08:00",
+        "host": "_",
+        "group": "page",
+        "method": "",
+        "status": 400,
+        "bytes": 0,
+        "request_time": 9.786,
+        "upstream_connect": "",
+        "upstream_header": "",
+        "upstream_response": "",
+        "protocol": "",
+        "connection_requests": 1
+      },
+      {
+        "time": "2026-09-30T08:50:28+08:00",
+        "host": "www.student.bnbusports.cn",
+        "group": "student",
+        "method": "GET",
+        "status": 200,
+        "bytes": 1527,
+        "request_time": 5.923,
+        "upstream_connect": "",
+        "upstream_header": "",
+        "upstream_response": "",
+        "protocol": "HTTP/2.0",
+        "connection_requests": 22
+      },
+      {
+        "time": "2026-09-30T08:50:28+08:00",
+        "host": "www.student.bnbusports.cn",
+        "group": "student",
+        "method": "GET",
+        "status": 200,
+        "bytes": 12886,
+        "request_time": 5.923,
+        "upstream_connect": "",
+        "upstream_header": "",
+        "upstream_response": "",
+        "protocol": "HTTP/2.0",
+        "connection_requests": 23
+      },
+      {
+        "time": "2026-09-30T08:50:28+08:00",
+        "host": "www.student.bnbusports.cn",
+        "group": "student",
+        "method": "GET",
+        "status": 200,
+        "bytes": 758,
+        "request_time": 5.923,
+        "upstream_connect": "",
+        "upstream_header": "",
+        "upstream_response": "",
+        "protocol": "HTTP/2.0",
+        "connection_requests": 24
+      },
+      {
+        "time": "2026-09-30T08:50:28+08:00",
+        "host": "www.student.bnbusports.cn",
+        "group": "student",
+        "method": "GET",
+        "status": 200,
+        "bytes": 1545,
+        "request_time": 5.923,
+        "upstream_connect": "",
+        "upstream_header": "",
+        "upstream_response": "",
+        "protocol": "HTTP/2.0",
+        "connection_requests": 25
+      },
+      {
+        "time": "2026-09-30T09:43:15+08:00",
+        "host": "verityai.cn",
+        "group": "page",
+        "method": "GET",
+        "status": 200,
+        "bytes": 1023197,
+        "request_time": 5.716,
+        "upstream_connect": "",
+        "upstream_header": "",
+        "upstream_response": "",
+        "protocol": "HTTP/2.0",
+        "connection_requests": 1
+      },
+      {
+        "time": "2026-09-30T08:43:13+08:00",
+        "host": "www.student.bnbusports.cn",
+        "group": "api",
+        "method": "POST",
+        "status": 401,
+        "bytes": 174,
+        "request_time": 5.602,
+        "upstream_connect": "0.000",
+        "upstream_header": "0.004",
+        "upstream_response": "0.004",
+        "protocol": "HTTP/2.0",
+        "connection_requests": 1
+      },
+      {
+        "time": "2026-09-30T09:35:53+08:00",
+        "host": "verityai.cn",
+        "group": "page",
+        "method": "GET",
+        "status": 200,
+        "bytes": 401408,
+        "request_time": 5.541,
+        "upstream_connect": "",
+        "upstream_header": "",
+        "upstream_response": "",
+        "protocol": "HTTP/2.0",
+        "connection_requests": 1
+      },
+      {
+        "time": "2026-09-30T08:29:28+08:00",
+        "host": "_",
+        "group": "page",
+        "method": "",
+        "status": 400,
+        "bytes": 150,
+        "request_time": 5.005,
+        "upstream_connect": "",
+        "upstream_header": "",
+        "upstream_response": "",
+        "protocol": "",
+        "connection_requests": 1
+      },
+      {
+        "time": "2026-09-30T08:29:20+08:00",
+        "host": "_",
+        "group": "page",
+        "method": "",
+        "status": 400,
+        "bytes": 150,
+        "request_time": 5.003,
+        "upstream_connect": "",
+        "upstream_header": "",
+        "upstream_response": "",
+        "protocol": "",
+        "connection_requests": 1
+      },
+      {
+        "time": "2026-09-30T08:29:04+08:00",
+        "host": "_",
+        "group": "page",
+        "method": "",
+        "status": 400,
+        "bytes": 150,
+        "request_time": 5.002,
+        "upstream_connect": "",
+        "upstream_header": "",
+        "upstream_response": "",
+        "protocol": "",
+        "connection_requests": 1
+      },
+      {
+        "time": "2026-09-30T08:29:12+08:00",
+        "host": "_",
+        "group": "page",
+        "method": "",
+        "status": 400,
+        "bytes": 150,
+        "request_time": 5.002,
+        "upstream_connect": "",
+        "upstream_header": "",
+        "upstream_response": "",
+        "protocol": "",
+        "connection_requests": 1
+      },
+      {
+        "time": "2026-09-30T08:28:48+08:00",
+        "host": "_",
+        "group": "page",
+        "method": "",
+        "status": 400,
+        "bytes": 150,
+        "request_time": 5.0,
+        "upstream_connect": "",
+        "upstream_header": "",
+        "upstream_response": "",
+        "protocol": "",
+        "connection_requests": 1
+      },
+      {
+        "time": "2026-09-30T08:28:56+08:00",
+        "host": "_",
+        "group": "page",
+        "method": "",
+        "status": 400,
+        "bytes": 150,
+        "request_time": 5.0,
+        "upstream_connect": "",
+        "upstream_header": "",
+        "upstream_response": "",
+        "protocol": "",
+        "connection_requests": 1
+      },
+      {
+        "time": "2026-09-30T10:13:34+08:00",
+        "host": "_",
+        "group": "page",
+        "method": "",
+        "status": 400,
+        "bytes": 150,
+        "request_time": 5.0,
+        "upstream_connect": "",
+        "upstream_header": "",
+        "upstream_response": "",
+        "protocol": "",
+        "connection_requests": 1
+      },
+      {
+        "time": "2026-09-30T10:01:30+08:00",
+        "host": "www.student.bnbusports.cn",
+        "group": "student",
+        "method": "GET",
+        "status": 200,
+        "bytes": 8682,
+        "request_time": 2.11,
+        "upstream_connect": "",
+        "upstream_header": "",
+        "upstream_response": "",
+        "protocol": "HTTP/2.0",
+        "connection_requests": 57
+      },
+      {
+        "time": "2026-09-30T10:19:50+08:00",
+        "host": "www.student.bnbusports.cn",
+        "group": "student",
+        "method": "GET",
+        "status": 200,
+        "bytes": 2154,
+        "request_time": 2.05,
+        "upstream_connect": "",
+        "upstream_header": "",
+        "upstream_response": "",
+        "protocol": "HTTP/2.0",
+        "connection_requests": 53
+      },
+      {
+        "time": "2026-09-30T10:19:50+08:00",
+        "host": "www.student.bnbusports.cn",
+        "group": "student",
+        "method": "GET",
+        "status": 200,
+        "bytes": 9052,
+        "request_time": 2.05,
+        "upstream_connect": "",
+        "upstream_header": "",
+        "upstream_response": "",
+        "protocol": "HTTP/2.0",
+        "connection_requests": 54
+      },
+      {
+        "time": "2026-09-30T10:19:50+08:00",
+        "host": "www.student.bnbusports.cn",
+        "group": "student",
+        "method": "GET",
+        "status": 200,
+        "bytes": 949,
+        "request_time": 2.05,
+        "upstream_connect": "",
+        "upstream_header": "",
+        "upstream_response": "",
+        "protocol": "HTTP/2.0",
+        "connection_requests": 55
+      },
+      {
+        "time": "2026-09-30T10:19:50+08:00",
+        "host": "www.student.bnbusports.cn",
+        "group": "page",
+        "method": "GET",
+        "status": 200,
+        "bytes": 156,
+        "request_time": 2.05,
+        "upstream_connect": "",
+        "upstream_header": "",
+        "upstream_response": "",
+        "protocol": "HTTP/2.0",
+        "connection_requests": 56
+      },
+      {
+        "time": "2026-09-30T10:19:50+08:00",
+        "host": "www.student.bnbusports.cn",
+        "group": "student",
+        "method": "GET",
+        "status": 200,
+        "bytes": 3254,
+        "request_time": 2.05,
+        "upstream_connect": "",
+        "upstream_header": "",
+        "upstream_response": "",
+        "protocol": "HTTP/2.0",
+        "connection_requests": 57
+      },
+      {
+        "time": "2026-09-30T10:19:50+08:00",
+        "host": "www.student.bnbusports.cn",
+        "group": "student",
+        "method": "GET",
+        "status": 200,
+        "bytes": 8682,
+        "request_time": 2.05,
+        "upstream_connect": "",
+        "upstream_header": "",
+        "upstream_response": "",
+        "protocol": "HTTP/2.0",
+        "connection_requests": 58
+      },
+      {
+        "time": "2026-09-30T09:36:12+08:00",
+        "host": "verityai.cn",
+        "group": "page",
+        "method": "GET",
+        "status": 200,
+        "bytes": 1023197,
+        "request_time": 1.986,
+        "upstream_connect": "",
+        "upstream_header": "",
+        "upstream_response": "",
+        "protocol": "HTTP/2.0",
+        "connection_requests": 1
+      },
+      {
+        "time": "2026-09-30T08:33:15+08:00",
+        "host": "verityai.cn",
+        "group": "page",
+        "method": "GET",
+        "status": 200,
+        "bytes": 1023197,
+        "request_time": 1.427,
+        "upstream_connect": "",
+        "upstream_header": "",
+        "upstream_response": "",
+        "protocol": "HTTP/1.1",
+        "connection_requests": 1
+      },
+      {
+        "time": "2026-09-30T07:28:41+08:00",
+        "host": "www.student.bnbusports.cn",
+        "group": "api",
+        "method": "POST",
+        "status": 200,
+        "bytes": 1102,
+        "request_time": 1.148,
+        "upstream_connect": "0.000",
+        "upstream_header": "1.140",
+        "upstream_response": "1.140",
+        "protocol": "HTTP/2.0",
+        "connection_requests": 107
+      },
+      {
+        "time": "2026-09-30T07:28:49+08:00",
+        "host": "www.student.bnbusports.cn",
+        "group": "api",
+        "method": "POST",
+        "status": 200,
+        "bytes": 1102,
+        "request_time": 1.139,
+        "upstream_connect": "0.000",
+        "upstream_header": "1.132",
+        "upstream_response": "1.132",
+        "protocol": "HTTP/2.0",
+        "connection_requests": 113
+      },
+      {
+        "time": "2026-09-30T10:02:06+08:00",
+        "host": "www.student.bnbusports.cn",
+        "group": "student",
+        "method": "GET",
+        "status": 200,
+        "bytes": 1134,
+        "request_time": 1.089,
+        "upstream_connect": "",
+        "upstream_header": "",
+        "upstream_response": "",
+        "protocol": "HTTP/2.0",
+        "connection_requests": 42
+      },
+      {
+        "time": "2026-09-30T10:02:06+08:00",
+        "host": "www.student.bnbusports.cn",
+        "group": "student",
+        "method": "GET",
+        "status": 200,
+        "bytes": 2328,
+        "request_time": 1.089,
+        "upstream_connect": "",
+        "upstream_header": "",
+        "upstream_response": "",
+        "protocol": "HTTP/2.0",
+        "connection_requests": 43
+      },
+      {
+        "time": "2026-09-30T10:02:06+08:00",
+        "host": "www.student.bnbusports.cn",
+        "group": "student",
+        "method": "GET",
+        "status": 200,
+        "bytes": 3049,
+        "request_time": 1.089,
+        "upstream_connect": "",
+        "upstream_header": "",
+        "upstream_response": "",
+        "protocol": "HTTP/2.0",
+        "connection_requests": 44
+      },
+      {
+        "time": "2026-09-30T10:02:06+08:00",
+        "host": "www.student.bnbusports.cn",
+        "group": "student",
+        "method": "GET",
+        "status": 200,
+        "bytes": 927,
+        "request_time": 1.089,
+        "upstream_connect": "",
+        "upstream_header": "",
+        "upstream_response": "",
+        "protocol": "HTTP/2.0",
+        "connection_requests": 45
+      },
+      {
+        "time": "2026-09-30T10:02:06+08:00",
+        "host": "www.student.bnbusports.cn",
+        "group": "student",
+        "method": "GET",
+        "status": 200,
+        "bytes": 2691,
+        "request_time": 1.089,
+        "upstream_connect": "",
+        "upstream_header": "",
+        "upstream_response": "",
+        "protocol": "HTTP/2.0",
+        "connection_requests": 46
+      },
+      {
+        "time": "2026-09-30T10:02:06+08:00",
+        "host": "www.student.bnbusports.cn",
+        "group": "student",
+        "method": "GET",
+        "status": 200,
+        "bytes": 37609,
+        "request_time": 1.089,
+        "upstream_connect": "",
+        "upstream_header": "",
+        "upstream_response": "",
+        "protocol": "HTTP/2.0",
+        "connection_requests": 47
+      },
+      {
+        "time": "2026-09-30T10:02:06+08:00",
+        "host": "www.student.bnbusports.cn",
+        "group": "student",
+        "method": "GET",
+        "status": 200,
+        "bytes": 767,
+        "request_time": 1.089,
+        "upstream_connect": "",
+        "upstream_header": "",
+        "upstream_response": "",
+        "protocol": "HTTP/2.0",
+        "connection_requests": 48
+      },
+      {
+        "time": "2026-09-30T10:02:06+08:00",
+        "host": "www.student.bnbusports.cn",
+        "group": "student",
+        "method": "GET",
+        "status": 200,
+        "bytes": 642,
+        "request_time": 1.089,
+        "upstream_connect": "",
+        "upstream_header": "",
+        "upstream_response": "",
+        "protocol": "HTTP/2.0",
+        "connection_requests": 49
+      },
+      {
+        "time": "2026-09-30T08:59:39+08:00",
+        "host": "www.student.bnbusports.cn",
+        "group": "api",
+        "method": "POST",
+        "status": 200,
+        "bytes": 945,
+        "request_time": 1.064,
+        "upstream_connect": "0.000",
+        "upstream_header": "1.064",
+        "upstream_response": "1.064",
+        "protocol": "HTTP/2.0",
+        "connection_requests": 87
+      }
+    ],
+    "parseErrors": 0
+  },
+  "containers": {
+    "bnbu-sports-production-backend-1": {
+      "exit": 0,
+      "messages": [
+        [
+          "http_request_completed",
+          4906
+        ],
+        [
+          "",
+          128
+        ]
+      ],
+      "levels": {
+        "30": 4927,
+        "40": 107
+      },
+      "completed": 4906,
+      "status": {
+        "200": 4799,
+        "201": 81,
+        "202": 22,
+        "409": 3,
+        "401": 1
+      },
+      "durationSeconds": {
+        "n": 4906,
+        "p50": 0.00297,
+        "p95": 0.024300000000000002,
+        "p99": 0.07848000000000001,
+        "max": 1.13538,
+        "ge1s": 5,
+        "ge5s": 0
+      },
+      "operations": {
+        "getV81MaintenanceAnnouncement": {
+          "count": 1884,
+          "seconds": {
+            "n": 1884,
+            "p50": 0.00283,
+            "p95": 0.0038900000000000002,
+            "p99": 0.00625,
+            "max": 0.03637,
+            "ge1s": 0,
+            "ge5s": 0
+          },
+          "status": {
+            "200": 1884
+          }
+        },
+        "listNotifications": {
+          "count": 326,
+          "seconds": {
+            "n": 326,
+            "p50": 0.0015,
+            "p95": 0.00318,
+            "p99": 0.00684,
+            "max": 0.01671,
+            "ge1s": 0,
+            "ge5s": 0
+          },
+          "status": {
+            "200": 326
+          }
+        },
+        "getHealthLive": {
+          "count": 459,
+          "seconds": {
+            "n": 459,
+            "p50": 0.0001,
+            "p95": 0.00013000000000000002,
+            "p99": 0.00016,
+            "max": 0.00049,
+            "ge1s": 0,
+            "ge5s": 0
+          },
+          "status": {
+            "200": 459
+          }
+        },
+        "refreshSession": {
+          "count": 75,
+          "seconds": {
+            "n": 75,
+            "p50": 0.02418,
+            "p95": 0.03228,
+            "p99": 0.04471,
+            "max": 0.04471,
+            "ge1s": 0,
+            "ge5s": 0
+          },
+          "status": {
+            "200": 75
+          }
+        },
+        "getCurrentUser": {
+          "count": 100,
+          "seconds": {
+            "n": 100,
+            "p50": 0.0044,
+            "p95": 0.00545,
+            "p99": 0.0072,
+            "max": 0.01077,
+            "ge1s": 0,
+            "ge5s": 0
+          },
+          "status": {
+            "200": 100
+          }
+        },
+        "getCurrentSemester": {
+          "count": 83,
+          "seconds": {
+            "n": 83,
+            "p50": 0.00181,
+            "p95": 0.00405,
+            "p99": 0.004889999999999999,
+            "max": 0.004889999999999999,
+            "ge1s": 0,
+            "ge5s": 0
+          },
+          "status": {
+            "200": 83
+          }
+        },
+        "getActiveExerciseSession": {
+          "count": 105,
+          "seconds": {
+            "n": 105,
+            "p50": 0.00437,
+            "p95": 0.01595,
+            "p99": 0.02447,
+            "max": 0.03491,
+            "ge1s": 0,
+            "ge5s": 0
+          },
+          "status": {
+            "200": 105
+          }
+        },
+        "listEnrollments": {
+          "count": 84,
+          "seconds": {
+            "n": 84,
+            "p50": 0.00752,
+            "p95": 0.03227,
+            "p99": 0.0525,
+            "max": 0.0525,
+            "ge1s": 0,
+            "ge5s": 0
+          },
+          "status": {
+            "200": 84
+          }
+        },
+        "getCurrentUserPreferences": {
+          "count": 115,
+          "seconds": {
+            "n": 115,
+            "p50": 0.00181,
+            "p95": 0.00638,
+            "p99": 0.015189999999999999,
+            "max": 0.019530000000000002,
+            "ge1s": 0,
+            "ge5s": 0
+          },
+          "status": {
+            "200": 115
+          }
+        },
+        "listExerciseRecords": {
+          "count": 121,
+          "seconds": {
+            "n": 121,
+            "p50": 0.01078,
+            "p95": 0.024829999999999998,
+            "p99": 0.040119999999999996,
+            "max": 0.06472,
+            "ge1s": 0,
+            "ge5s": 0
+          },
+          "status": {
+            "200": 121
+          }
+        },
+        "listStructuredExemptionApplications": {
+          "count": 84,
+          "seconds": {
+            "n": 84,
+            "p50": 0.00461,
+            "p95": 0.01066,
+            "p99": 0.0214,
+            "max": 0.0214,
+            "ge1s": 0,
+            "ge5s": 0
+          },
+          "status": {
+            "200": 84
+          }
+        },
+        "listV81Certifications": {
+          "count": 82,
+          "seconds": {
+            "n": 82,
+            "p50": 0.00437,
+            "p95": 0.008,
+            "p99": 0.032350000000000004,
+            "max": 0.032350000000000004,
+            "ge1s": 0,
+            "ge5s": 0
+          },
+          "status": {
+            "200": 82
+          }
+        },
+        "listClassSections": {
+          "count": 84,
+          "seconds": {
+            "n": 84,
+            "p50": 0.0054,
+            "p95": 0.01009,
+            "p99": 0.04707,
+            "max": 0.04707,
+            "ge1s": 0,
+            "ge5s": 0
+          },
+          "status": {
+            "200": 84
+          }
+        },
+        "listV81StudentProgress": {
+          "count": 82,
+          "seconds": {
+            "n": 82,
+            "p50": 0.01586,
+            "p95": 0.02624,
+            "p99": 0.04045,
+            "max": 0.04045,
+            "ge1s": 0,
+            "ge5s": 0
+          },
+          "status": {
+            "200": 82
+          }
+        },
+        "getCourse": {
+          "count": 82,
+          "seconds": {
+            "n": 82,
+            "p50": 0.00268,
+            "p95": 0.0038900000000000002,
+            "p99": 0.0058200000000000005,
+            "max": 0.0058200000000000005,
+            "ge1s": 0,
+            "ge5s": 0
+          },
+          "status": {
+            "200": 82
+          }
+        },
+        "getTeacher": {
+          "count": 81,
+          "seconds": {
+            "n": 81,
+            "p50": 0.00235,
+            "p95": 0.00409,
+            "p99": 0.0179,
+            "max": 0.0179,
+            "ge1s": 0,
+            "ge5s": 0
+          },
+          "status": {
+            "200": 81
+          }
+        },
+        "getV81OwnRosterStatus": {
+          "count": 81,
+          "seconds": {
+            "n": 81,
+            "p50": 0.005719999999999999,
+            "p95": 0.0081,
+            "p99": 0.00934,
+            "max": 0.00934,
+            "ge1s": 0,
+            "ge5s": 0
+          },
+          "status": {
+            "200": 81
+          }
+        },
+        "getV81StudentPhysicalResult": {
+          "count": 79,
+          "seconds": {
+            "n": 79,
+            "p50": 0.00394,
+            "p95": 0.00549,
+            "p99": 0.01288,
+            "max": 0.01288,
+            "ge1s": 0,
+            "ge5s": 0
+          },
+          "status": {
+            "200": 79
+          }
+        },
+        "getV81ProgressTarget": {
+          "count": 81,
+          "seconds": {
+            "n": 81,
+            "p50": 0.00438,
+            "p95": 0.00663,
+            "p99": 0.032850000000000004,
+            "max": 0.032850000000000004,
+            "ge1s": 0,
+            "ge5s": 0
+          },
+          "status": {
+            "200": 81
+          }
+        },
+        "getV81CourseRules": {
+          "count": 78,
+          "seconds": {
+            "n": 78,
+            "p50": 0.00536,
+            "p95": 0.008199999999999999,
+            "p99": 0.01354,
+            "max": 0.01354,
+            "ge1s": 0,
+            "ge5s": 0
+          },
+          "status": {
+            "200": 78
+          }
+        },
+        "listV81ProofTodos": {
+          "count": 78,
+          "seconds": {
+            "n": 78,
+            "p50": 0.00538,
+            "p95": 0.0076500000000000005,
+            "p99": 0.00939,
+            "max": 0.00939,
+            "ge1s": 0,
+            "ge5s": 0
+          },
+          "status": {
+            "200": 78
+          }
+        },
+        "getExerciseRecordEvidenceContext": {
+          "count": 43,
+          "seconds": {
+            "n": 43,
+            "p50": 0.013460000000000001,
+            "p95": 0.03228,
+            "p99": 0.18214,
+            "max": 0.18214,
+            "ge1s": 0,
+            "ge5s": 0
+          },
+          "status": {
+            "200": 43
+          }
+        },
+        "getMediaEvidence": {
+          "count": 87,
+          "seconds": {
+            "n": 87,
+            "p50": 0.00408,
+            "p95": 0.01458,
+            "p99": 0.028120000000000003,
+            "max": 0.028120000000000003,
+            "ge1s": 0,
+            "ge5s": 0
+          },
+          "status": {
+            "200": 87
+          }
+        },
+        "completeCurrentStudentProfile": {
+          "count": 1,
+          "seconds": {
+            "n": 1,
+            "p50": 0.02841,
+            "p95": 0.02841,
+            "p99": 0.02841,
+            "max": 0.02841,
+            "ge1s": 0,
+            "ge5s": 0
+          },
+          "status": {
+            "200": 1
+          }
+        },
+        "createExerciseRecordDraft": {
+          "count": 7,
+          "seconds": {
+            "n": 7,
+            "p50": 0.02817,
+            "p95": 0.03107,
+            "p99": 0.03107,
+            "max": 0.03107,
+            "ge1s": 0,
+            "ge5s": 0
+          },
+          "status": {
+            "201": 7
+          }
+        },
+        "initiateMediaUpload": {
+          "count": 24,
+          "seconds": {
+            "n": 24,
+            "p50": 0.036789999999999996,
+            "p95": 0.04306,
+            "p99": 0.08839,
+            "max": 0.08839,
+            "ge1s": 0,
+            "ge5s": 0
+          },
+          "status": {
+            "201": 24
+          }
+        },
+        "confirmMediaUpload": {
+          "count": 24,
+          "seconds": {
+            "n": 24,
+            "p50": 0.8580099999999999,
+            "p95": 1.1231900000000001,
+            "p99": 1.13538,
+            "max": 1.13538,
+            "ge1s": 5,
+            "ge5s": 0
+          },
+          "status": {
+            "200": 24
+          }
+        },
+        "bindMediaEvidence": {
+          "count": 23,
+          "seconds": {
+            "n": 23,
+            "p50": 0.02157,
+            "p95": 0.04306,
+            "p99": 0.06149,
+            "max": 0.06149,
+            "ge1s": 0,
+            "ge5s": 0
+          },
+          "status": {
+            "200": 23
+          }
+        },
+        "submitExerciseRecord": {
+          "count": 8,
+          "seconds": {
+            "n": 8,
+            "p50": 0.06271,
+            "p95": 0.07953,
+            "p99": 0.07953,
+            "max": 0.07953,
+            "ge1s": 0,
+            "ge5s": 0
+          },
+          "status": {
+            "200": 8
+          }
+        },
+        "createMediaAccessUrl": {
+          "count": 16,
+          "seconds": {
+            "n": 16,
+            "p50": 0.01768,
+            "p95": 0.04168,
+            "p99": 0.04168,
+            "max": 0.04168,
+            "ge1s": 0,
+            "ge5s": 0
+          },
+          "status": {
+            "200": 16
+          }
+        },
+        "getAppReleasePolicy": {
+          "count": 114,
+          "seconds": {
+            "n": 114,
+            "p50": 0.0014399999999999999,
+            "p95": 0.00188,
+            "p99": 0.00226,
+            "max": 0.00302,
+            "ge1s": 0,
+            "ge5s": 0
+          },
+          "status": {
+            "200": 114
+          }
+        },
+        "resolveReviewLoginMethod": {
+          "count": 20,
+          "seconds": {
+            "n": 20,
+            "p50": 0.0053,
+            "p95": 0.00842,
+            "p99": 0.00859,
+            "max": 0.00859,
+            "ge1s": 0,
+            "ge5s": 0
+          },
+          "status": {
+            "200": 20
+          }
+        },
+        "requestStudentSignInCode": {
+          "count": 22,
+          "seconds": {
+            "n": 22,
+            "p50": 0.08304,
+            "p95": 0.17362,
+            "p99": 0.20409,
+            "max": 0.20409,
+            "ge1s": 0,
+            "ge5s": 0
+          },
+          "status": {
+            "202": 22
+          }
+        },
+        "verifyStudentSignInCode": {
+          "count": 20,
+          "seconds": {
+            "n": 20,
+            "p50": 0.02273,
+            "p95": 0.02875,
+            "p99": 0.03749,
+            "max": 0.03749,
+            "ge1s": 0,
+            "ge5s": 0
+          },
+          "status": {
+            "200": 19,
+            "401": 1
+          }
+        },
+        "getV81StudentSettlementResult": {
+          "count": 20,
+          "seconds": {
+            "n": 20,
+            "p50": 0.00318,
+            "p95": 0.004059999999999999,
+            "p99": 0.00452,
+            "max": 0.00452,
+            "ge1s": 0,
+            "ge5s": 0
+          },
+          "status": {
+            "200": 20
+          }
+        },
+        "startExerciseSession": {
+          "count": 17,
+          "seconds": {
+            "n": 17,
+            "p50": 0.030510000000000002,
+            "p95": 0.05588,
+            "p99": 0.05588,
+            "max": 0.05588,
+            "ge1s": 0,
+            "ge5s": 0
+          },
+          "status": {
+            "201": 14,
+            "409": 3
+          }
+        },
+        "getExerciseSession": {
+          "count": 53,
+          "seconds": {
+            "n": 53,
+            "p50": 0.00263,
+            "p95": 0.00387,
+            "p99": 0.00561,
+            "max": 0.00561,
+            "ge1s": 0,
+            "ge5s": 0
+          },
+          "status": {
+            "200": 53
+          }
+        },
+        "reconcileExerciseSession": {
+          "count": 6,
+          "seconds": {
+            "n": 6,
+            "p50": 0.01736,
+            "p95": 0.01882,
+            "p99": 0.01882,
+            "max": 0.01882,
+            "ge1s": 0,
+            "ge5s": 0
+          },
+          "status": {
+            "200": 6
+          }
+        },
+        "registerPushDevice": {
+          "count": 33,
+          "seconds": {
+            "n": 33,
+            "p50": 0.0030600000000000002,
+            "p95": 0.0201,
+            "p99": 0.02265,
+            "max": 0.02265,
+            "ge1s": 0,
+            "ge5s": 0
+          },
+          "status": {
+            "201": 33
+          }
+        },
+        "updateCurrentUserPreferences": {
+          "count": 7,
+          "seconds": {
+            "n": 7,
+            "p50": 0.015179999999999999,
+            "p95": 0.02092,
+            "p99": 0.02092,
+            "max": 0.02092,
+            "ge1s": 0,
+            "ge5s": 0
+          },
+          "status": {
+            "200": 7
+          }
+        },
+        "createExemptionApplication": {
+          "count": 1,
+          "seconds": {
+            "n": 1,
+            "p50": 0.03056,
+            "p95": 0.03056,
+            "p99": 0.03056,
+            "max": 0.03056,
+            "ge1s": 0,
+            "ge5s": 0
+          },
+          "status": {
+            "201": 1
+          }
+        },
+        "updateExemptionApplication": {
+          "count": 1,
+          "seconds": {
+            "n": 1,
+            "p50": 0.03141,
+            "p95": 0.03141,
+            "p99": 0.03141,
+            "max": 0.03141,
+            "ge1s": 0,
+            "ge5s": 0
+          },
+          "status": {
+            "200": 1
+          }
+        },
+        "submitExemptionApplication": {
+          "count": 1,
+          "seconds": {
+            "n": 1,
+            "p50": 0.022109999999999998,
+            "p95": 0.022109999999999998,
+            "p99": 0.022109999999999998,
+            "max": 0.022109999999999998,
+            "ge1s": 0,
+            "ge5s": 0
+          },
+          "status": {
+            "200": 1
+          }
+        },
+        "reportClientError": {
+          "count": 11,
+          "seconds": {
+            "n": 11,
+            "p50": 0.01325,
+            "p95": 0.01957,
+            "p99": 0.01957,
+            "max": 0.01957,
+            "ge1s": 0,
+            "ge5s": 0
+          },
+          "status": {
+            "200": 11
+          }
+        },
+        "getV81HistorySettings": {
+          "count": 2,
+          "seconds": {
+            "n": 2,
+            "p50": 0.0044599999999999996,
+            "p95": 0.0053,
+            "p99": 0.0053,
+            "max": 0.0053,
+            "ge1s": 0,
+            "ge5s": 0
+          },
+          "status": {
+            "200": 2
+          }
+        },
+        "createV81HistoricalSession": {
+          "count": 2,
+          "seconds": {
+            "n": 2,
+            "p50": 0.027460000000000002,
+            "p95": 0.028730000000000002,
+            "p99": 0.028730000000000002,
+            "max": 0.028730000000000002,
+            "ge1s": 0,
+            "ge5s": 0
+          },
+          "status": {
+            "201": 2
+          }
+        },
+        "markNotificationRead": {
+          "count": 2,
+          "seconds": {
+            "n": 2,
+            "p50": 0.01342,
+            "p95": 0.01511,
+            "p99": 0.01511,
+            "max": 0.01511,
+            "ge1s": 0,
+            "ge5s": 0
+          },
+          "status": {
+            "200": 2
+          }
+        },
+        "listV81RecognitionRevisions": {
+          "count": 7,
+          "seconds": {
+            "n": 7,
+            "p50": 0.00325,
+            "p95": 0.0037400000000000003,
+            "p99": 0.0037400000000000003,
+            "max": 0.0037400000000000003,
+            "ge1s": 0,
+            "ge5s": 0
+          },
+          "status": {
+            "200": 7
+          }
+        },
+        "getV81AccountSecurity": {
+          "count": 2,
+          "seconds": {
+            "n": 2,
+            "p50": 0.00166,
+            "p95": 0.0017800000000000001,
+            "p99": 0.0017800000000000001,
+            "max": 0.0017800000000000001,
+            "ge1s": 0,
+            "ge5s": 0
+          },
+          "status": {
+            "200": 2
+          }
+        },
+        "listCourses": {
+          "count": 1,
+          "seconds": {
+            "n": 1,
+            "p50": 0.00302,
+            "p95": 0.00302,
+            "p99": 0.00302,
+            "max": 0.00302,
+            "ge1s": 0,
+            "ge5s": 0
+          },
+          "status": {
+            "200": 1
+          }
+        },
+        "listV81TeacherSemesters": {
+          "count": 1,
+          "seconds": {
+            "n": 1,
+            "p50": 0.00221,
+            "p95": 0.00221,
+            "p99": 0.00221,
+            "max": 0.00221,
+            "ge1s": 0,
+            "ge5s": 0
+          },
+          "status": {
+            "200": 1
+          }
+        },
+        "getStudent": {
+          "count": 9,
+          "seconds": {
+            "n": 9,
+            "p50": 0.0034100000000000003,
+            "p95": 0.00532,
+            "p99": 0.00532,
+            "max": 0.00532,
+            "ge1s": 0,
+            "ge5s": 0
+          },
+          "status": {
+            "200": 9
+          }
+        },
+        "getExerciseRecord": {
+          "count": 25,
+          "seconds": {
+            "n": 25,
+            "p50": 0.0701,
+            "p95": 0.08634,
+            "p99": 0.08642,
+            "max": 0.08642,
+            "ge1s": 0,
+            "ge5s": 0
+          },
+          "status": {
+            "200": 25
+          }
+        },
+        "listExerciseRecordReviews": {
+          "count": 25,
+          "seconds": {
+            "n": 25,
+            "p50": 0.04439,
+            "p95": 0.0586,
+            "p99": 0.06068,
+            "max": 0.06068,
+            "ge1s": 0,
+            "ge5s": 0
+          },
+          "status": {
+            "200": 25
+          }
+        },
+        "listV81TeacherProgress": {
+          "count": 1,
+          "seconds": {
+            "n": 1,
+            "p50": 0.025,
+            "p95": 0.025,
+            "p99": 0.025,
+            "max": 0.025,
+            "ge1s": 0,
+            "ge5s": 0
+          },
+          "status": {
+            "200": 1
+          }
+        },
+        "listV81PhysicalResults": {
+          "count": 9,
+          "seconds": {
+            "n": 9,
+            "p50": 0.0048,
+            "p95": 0.00984,
+            "p99": 0.00984,
+            "max": 0.00984,
+            "ge1s": 0,
+            "ge5s": 0
+          },
+          "status": {
+            "200": 9
+          }
+        },
+        "listV81FinalGrades": {
+          "count": 9,
+          "seconds": {
+            "n": 9,
+            "p50": 0.01601,
+            "p95": 0.0222,
+            "p99": 0.0222,
+            "max": 0.0222,
+            "ge1s": 0,
+            "ge5s": 0
+          },
+          "status": {
+            "200": 9
+          }
+        },
+        "finishExerciseSession": {
+          "count": 5,
+          "seconds": {
+            "n": 5,
+            "p50": 0.02183,
+            "p95": 0.027809999999999998,
+            "p99": 0.027809999999999998,
+            "max": 0.027809999999999998,
+            "ge1s": 0,
+            "ge5s": 0
+          },
+          "status": {
+            "200": 5
+          }
+        },
+        "pauseExerciseSession": {
+          "count": 3,
+          "seconds": {
+            "n": 3,
+            "p50": 0.02234,
+            "p95": 0.02309,
+            "p99": 0.02309,
+            "max": 0.02309,
+            "ge1s": 0,
+            "ge5s": 0
+          },
+          "status": {
+            "200": 3
+          }
+        }
+      },
+      "slowest": [
+        {
+          "time": "2026-09-29T23:28:41.946Z",
+          "operationId": "confirmMediaUpload",
+          "statusCode": 200,
+          "durationMs": 1135.38
+        },
+        {
+          "time": "2026-09-29T23:28:49.493Z",
+          "operationId": "confirmMediaUpload",
+          "statusCode": 200,
+          "durationMs": 1123.19
+        },
+        {
+          "time": "2026-09-30T00:59:39.259Z",
+          "operationId": "confirmMediaUpload",
+          "statusCode": 200,
+          "durationMs": 1054.21
+        },
+        {
+          "time": "2026-09-29T23:28:58.888Z",
+          "operationId": "confirmMediaUpload",
+          "statusCode": 200,
+          "durationMs": 1027.19
+        },
+        {
+          "time": "2026-09-30T02:47:35.060Z",
+          "operationId": "confirmMediaUpload",
+          "statusCode": 200,
+          "durationMs": 1020.09
+        },
+        {
+          "time": "2026-09-30T00:59:42.995Z",
+          "operationId": "confirmMediaUpload",
+          "statusCode": 200,
+          "durationMs": 976.14
+        },
+        {
+          "time": "2026-09-30T00:54:35.043Z",
+          "operationId": "confirmMediaUpload",
+          "statusCode": 200,
+          "durationMs": 951.02
+        },
+        {
+          "time": "2026-09-30T02:10:22.980Z",
+          "operationId": "confirmMediaUpload",
+          "statusCode": 200,
+          "durationMs": 943.23
+        },
+        {
+          "time": "2026-09-30T01:53:27.064Z",
+          "operationId": "confirmMediaUpload",
+          "statusCode": 200,
+          "durationMs": 923.83
+        },
+        {
+          "time": "2026-09-30T01:56:32.498Z",
+          "operationId": "confirmMediaUpload",
+          "statusCode": 200,
+          "durationMs": 919.19
+        },
+        {
+          "time": "2026-09-30T01:34:21.722Z",
+          "operationId": "confirmMediaUpload",
+          "statusCode": 200,
+          "durationMs": 914.74
+        },
+        {
+          "time": "2026-09-30T02:10:15.095Z",
+          "operationId": "confirmMediaUpload",
+          "statusCode": 200,
+          "durationMs": 893.51
+        },
+        {
+          "time": "2026-09-30T02:47:38.460Z",
+          "operationId": "confirmMediaUpload",
+          "statusCode": 200,
+          "durationMs": 858.01
+        },
+        {
+          "time": "2026-09-30T01:56:36.590Z",
+          "operationId": "confirmMediaUpload",
+          "statusCode": 200,
+          "durationMs": 848.8
+        },
+        {
+          "time": "2026-09-30T00:54:24.606Z",
+          "operationId": "confirmMediaUpload",
+          "statusCode": 200,
+          "durationMs": 838.9
+        },
+        {
+          "time": "2026-09-30T02:47:41.925Z",
+          "operationId": "confirmMediaUpload",
+          "statusCode": 200,
+          "durationMs": 833.34
+        },
+        {
+          "time": "2026-09-30T01:53:40.408Z",
+          "operationId": "confirmMediaUpload",
+          "statusCode": 200,
+          "durationMs": 808.38
+        },
+        {
+          "time": "2026-09-30T01:53:51.243Z",
+          "operationId": "confirmMediaUpload",
+          "statusCode": 200,
+          "durationMs": 782.43
+        },
+        {
+          "time": "2026-09-30T00:23:37.440Z",
+          "operationId": "confirmMediaUpload",
+          "statusCode": 200,
+          "durationMs": 733.12
+        },
+        {
+          "time": "2026-09-30T01:34:24.038Z",
+          "operationId": "confirmMediaUpload",
+          "statusCode": 200,
+          "durationMs": 729.6
+        },
+        {
+          "time": "2026-09-30T01:04:35.952Z",
+          "operationId": "confirmMediaUpload",
+          "statusCode": 200,
+          "durationMs": 373.96
+        },
+        {
+          "time": "2026-09-30T00:54:28.794Z",
+          "operationId": "confirmMediaUpload",
+          "statusCode": 200,
+          "durationMs": 372.18
+        },
+        {
+          "time": "2026-09-30T02:10:18.357Z",
+          "operationId": "confirmMediaUpload",
+          "statusCode": 200,
+          "durationMs": 235.84
+        },
+        {
+          "time": "2026-09-30T01:12:25.710Z",
+          "operationId": "requestStudentSignInCode",
+          "statusCode": 202,
+          "durationMs": 204.09
+        },
+        {
+          "time": "2026-09-30T01:49:10.669Z",
+          "operationId": "getExerciseRecordEvidenceContext",
+          "statusCode": 200,
+          "durationMs": 182.14
+        }
+      ],
+      "warnings": [
+        {
+          "time": "2026-09-29T23:13:15.120Z",
+          "msg": null,
+          "level": 40,
+          "code": null,
+          "operationId": null,
+          "durationMs": null
+        },
+        {
+          "time": "2026-09-29T23:17:21.135Z",
+          "msg": null,
+          "level": 40,
+          "code": null,
+          "operationId": null,
+          "durationMs": null
+        },
+        {
+          "time": "2026-09-29T23:20:31.032Z",
+          "msg": null,
+          "level": 40,
+          "code": null,
+          "operationId": null,
+          "durationMs": null
+        },
+        {
+          "time": "2026-09-29T23:28:15.134Z",
+          "msg": null,
+          "level": 40,
+          "code": null,
+          "operationId": null,
+          "durationMs": null
+        },
+        {
+          "time": "2026-09-29T23:28:16.549Z",
+          "msg": null,
+          "level": 40,
+          "code": null,
+          "operationId": null,
+          "durationMs": null
+        },
+        {
+          "time": "2026-09-29T23:38:25.229Z",
+          "msg": null,
+          "level": 40,
+          "code": null,
+          "operationId": null,
+          "durationMs": null
+        },
+        {
+          "time": "2026-09-29T23:41:38.936Z",
+          "msg": null,
+          "level": 40,
+          "code": null,
+          "operationId": null,
+          "durationMs": null
+        },
+        {
+          "time": "2026-09-29T23:43:15.147Z",
+          "msg": null,
+          "level": 40,
+          "code": null,
+          "operationId": null,
+          "durationMs": null
+        },
+        {
+          "time": "2026-09-29T23:54:07.215Z",
+          "msg": null,
+          "level": 40,
+          "code": null,
+          "operationId": null,
+          "durationMs": null
+        },
+        {
+          "time": "2026-09-29T23:58:15.159Z",
+          "msg": null,
+          "level": 40,
+          "code": null,
+          "operationId": null,
+          "durationMs": null
+        },
+        {
+          "time": "2026-09-30T00:06:08.725Z",
+          "msg": null,
+          "level": 40,
+          "code": null,
+          "operationId": null,
+          "durationMs": null
+        },
+        {
+          "time": "2026-09-30T00:13:15.172Z",
+          "msg": null,
+          "level": 40,
+          "code": null,
+          "operationId": null,
+          "durationMs": null
+        },
+        {
+          "time": "2026-09-30T00:13:30.407Z",
+          "msg": null,
+          "level": 40,
+          "code": null,
+          "operationId": null,
+          "durationMs": null
+        },
+        {
+          "time": "2026-09-30T00:23:23.912Z",
+          "msg": null,
+          "level": 40,
+          "code": null,
+          "operationId": null,
+          "durationMs": null
+        },
+        {
+          "time": "2026-09-30T00:23:23.991Z",
+          "msg": null,
+          "level": 40,
+          "code": null,
+          "operationId": null,
+          "durationMs": null
+        },
+        {
+          "time": "2026-09-30T00:23:24.083Z",
+          "msg": null,
+          "level": 40,
+          "code": null,
+          "operationId": null,
+          "durationMs": null
+        },
+        {
+          "time": "2026-09-30T00:23:24.803Z",
+          "msg": null,
+          "level": 40,
+          "code": null,
+          "operationId": null,
+          "durationMs": null
+        },
+        {
+          "time": "2026-09-30T00:24:57.907Z",
+          "msg": null,
+          "level": 40,
+          "code": null,
+          "operationId": null,
+          "durationMs": null
+        },
+        {
+          "time": "2026-09-30T00:24:57.908Z",
+          "msg": null,
+          "level": 40,
+          "code": null,
+          "operationId": null,
+          "durationMs": null
+        },
+        {
+          "time": "2026-09-30T00:28:12.837Z",
+          "msg": null,
+          "level": 40,
+          "code": null,
+          "operationId": null,
+          "durationMs": null
+        },
+        {
+          "time": "2026-09-30T00:28:15.186Z",
+          "msg": null,
+          "level": 40,
+          "code": null,
+          "operationId": null,
+          "durationMs": null
+        },
+        {
+          "time": "2026-09-30T00:42:21.998Z",
+          "msg": null,
+          "level": 40,
+          "code": null,
+          "operationId": null,
+          "durationMs": null
+        },
+        {
+          "time": "2026-09-30T00:42:50.096Z",
+          "msg": null,
+          "level": 40,
+          "code": null,
+          "operationId": null,
+          "durationMs": null
+        },
+        {
+          "time": "2026-09-30T00:43:13.989Z",
+          "msg": null,
+          "level": 40,
+          "code": null,
+          "operationId": null,
+          "durationMs": null
+        },
+        {
+          "time": "2026-09-30T00:43:15.199Z",
+          "msg": null,
+          "level": 40,
+          "code": null,
+          "operationId": null,
+          "durationMs": null
+        },
+        {
+          "time": "2026-09-30T00:43:18.450Z",
+          "msg": null,
+          "level": 40,
+          "code": null,
+          "operationId": null,
+          "durationMs": null
+        },
+        {
+          "time": "2026-09-30T00:49:52.143Z",
+          "msg": null,
+          "level": 40,
+          "code": null,
+          "operationId": null,
+          "durationMs": null
+        },
+        {
+          "time": "2026-09-30T00:50:43.207Z",
+          "msg": null,
+          "level": 40,
+          "code": null,
+          "operationId": null,
+          "durationMs": null
+        },
+        {
+          "time": "2026-09-30T00:51:38.665Z",
+          "msg": null,
+          "level": 40,
+          "code": null,
+          "operationId": null,
+          "durationMs": null
+        },
+        {
+          "time": "2026-09-30T00:52:32.124Z",
+          "msg": null,
+          "level": 40,
+          "code": null,
+          "operationId": null,
+          "durationMs": null
+        },
+        {
+          "time": "2026-09-30T00:53:24.180Z",
+          "msg": null,
+          "level": 40,
+          "code": null,
+          "operationId": null,
+          "durationMs": null
+        },
+        {
+          "time": "2026-09-30T00:58:15.213Z",
+          "msg": null,
+          "level": 40,
+          "code": null,
+          "operationId": null,
+          "durationMs": null
+        },
+        {
+          "time": "2026-09-30T00:59:28.366Z",
+          "msg": null,
+          "level": 40,
+          "code": null,
+          "operationId": null,
+          "durationMs": null
+        },
+        {
+          "time": "2026-09-30T01:01:26.043Z",
+          "msg": null,
+          "level": 40,
+          "code": null,
+          "operationId": null,
+          "durationMs": null
+        },
+        {
+          "time": "2026-09-30T01:01:26.202Z",
+          "msg": null,
+          "level": 40,
+          "code": null,
+          "operationId": null,
+          "durationMs": null
+        },
+        {
+          "time": "2026-09-30T01:01:26.232Z",
+          "msg": null,
+          "level": 40,
+          "code": null,
+          "operationId": null,
+          "durationMs": null
+        },
+        {
+          "time": "2026-09-30T01:01:27.294Z",
+          "msg": null,
+          "level": 40,
+          "code": null,
+          "operationId": null,
+          "durationMs": null
+        },
+        {
+          "time": "2026-09-30T01:01:27.336Z",
+          "msg": null,
+          "level": 40,
+          "code": null,
+          "operationId": null,
+          "durationMs": null
+        },
+        {
+          "time": "2026-09-30T01:01:35.155Z",
+          "msg": null,
+          "level": 40,
+          "code": null,
+          "operationId": null,
+          "durationMs": null
+        },
+        {
+          "time": "2026-09-30T01:01:35.195Z",
+          "msg": null,
+          "level": 40,
+          "code": null,
+          "operationId": null,
+          "durationMs": null
+        }
+      ],
+      "plainErrors": []
+    },
+    "knowledge-images-app-1": {
+      "exit": 0,
+      "messages": [
+        [
+          "incoming request",
+          1369
+        ],
+        [
+          "request completed",
+          1369
+        ]
+      ],
+      "levels": {
+        "30": 2738
+      },
+      "completed": 0,
+      "status": {},
+      "durationSeconds": {
+        "n": 0
+      },
+      "operations": {},
+      "slowest": [],
+      "warnings": [],
+      "plainErrors": []
+    },
+    "knowledge-production-app-1": {
+      "exit": 0,
+      "messages": [
+        [
+          "incoming request",
+          460
+        ],
+        [
+          "request completed",
+          460
+        ]
+      ],
+      "levels": {
+        "30": 920
+      },
+      "completed": 0,
+      "status": {},
+      "durationSeconds": {
+        "n": 0
+      },
+      "operations": {},
+      "slowest": [],
+      "warnings": [],
+      "plainErrors": []
+    },
+    "bnbu-sports-production-portal-1": {
+      "exit": 0,
+      "messages": [],
+      "levels": {},
+      "completed": 0,
+      "status": {},
+      "durationSeconds": {
+        "n": 0
+      },
+      "operations": {},
+      "slowest": [],
+      "warnings": [],
+      "plainErrors": []
+    },
+    "knowledge-production-db-1": {
+      "exit": 0,
+      "messages": [],
+      "levels": {},
+      "completed": 0,
+      "status": {},
+      "durationSeconds": {
+        "n": 0
+      },
+      "operations": {},
+      "slowest": [],
+      "warnings": [],
+      "plainErrors": []
+    },
+    "verityai-contact": {
+      "exit": 0,
+      "messages": [],
+      "levels": {},
+      "completed": 0,
+      "status": {},
+      "durationSeconds": {
+        "n": 0
+      },
+      "operations": {},
+      "slowest": [],
+      "warnings": [],
+      "plainErrors": []
+    }
+  },
+  "access": {
+    "access.log": {
+      "count": 3588,
+      "uniqueIPs": 125,
+      "topIPs": [
+        {
+          "id": "b5b739c0fa",
+          "requests": 895,
+          "status": {
+            "301": 20,
+            "302": 7,
+            "200": 772,
+            "304": 34,
+            "404": 40,
+            "499": 22
+          }
+        },
+        {
+          "id": "bbacad5ca4",
+          "requests": 756,
+          "status": {
+            "404": 756
+          }
+        },
+        {
+          "id": "35e45b8954",
+          "requests": 148,
+          "status": {
+            "200": 134,
+            "404": 3,
+            "304": 11
+          }
+        },
+        {
+          "id": "b8649c000d",
+          "requests": 75,
+          "status": {
+            "200": 67,
+            "404": 6,
+            "301": 1,
+            "304": 1
+          }
+        },
+        {
+          "id": "18c446b59f",
+          "requests": 72,
+          "status": {
+            "200": 61,
+            "304": 11
+          }
+        },
+        {
+          "id": "1d9cc71a53",
+          "requests": 70,
+          "status": {
+            "200": 64,
+            "404": 3,
+            "301": 1,
+            "304": 2
+          }
+        },
+        {
+          "id": "eabcab8e83",
+          "requests": 68,
+          "status": {
+            "200": 63,
+            "404": 3,
+            "304": 2
+          }
+        },
+        {
+          "id": "eada2c6a27",
+          "requests": 67,
+          "status": {
+            "404": 6,
+            "200": 61
+          }
+        },
+        {
+          "id": "ec5dced836",
+          "requests": 67,
+          "status": {
+            "301": 1,
+            "200": 65,
+            "304": 1
+          }
+        },
+        {
+          "id": "5f35f1360f",
+          "requests": 66,
+          "status": {
+            "301": 1,
+            "200": 61,
+            "304": 4
+          }
+        }
+      ],
+      "topPaths": [
+        [
+          "/student/bnbu-sports-icon.svg",
+          149
+        ],
+        [
+          "/",
+          130
+        ],
+        [
+          "/student/",
+          82
+        ],
+        [
+          "/student/assets/privacy_policy_zh_cn.md",
+          54
+        ],
+        [
+          "/student/assets/privacy_policy_en.md",
+          54
+        ],
+        [
+          "/runtime-config.js",
+          51
+        ],
+        [
+          "/favicon.ico",
+          44
+        ],
+        [
+          "/student/_assets/7d9318cac3d130b1db94bdc8/css/tokens.css",
+          38
+        ],
+        [
+          "/student/_assets/7d9318cac3d130b1db94bdc8/css/components.css",
+          38
+        ],
+        [
+          "/student/_assets/7d9318cac3d130b1db94bdc8/css/screens.css",
+          38
+        ],
+        [
+          "/student/_assets/7d9318cac3d130b1db94bdc8/css/upload-progress.css",
+          38
+        ],
+        [
+          "/student/_assets/7d9318cac3d130b1db94bdc8/css/ui-refinement.css",
+          38
+        ],
+        [
+          "/student/_assets/7d9318cac3d130b1db94bdc8/css/app-download-promo.css",
+          38
+        ],
+        [
+          "/student/_assets/7d9318cac3d130b1db94bdc8/js/api.js",
+          38
+        ],
+        [
+          "/student/_assets/7d9318cac3d130b1db94bdc8/js/photo-originals.js",
+          38
+        ],
+        [
+          "/student/_assets/7d9318cac3d130b1db94bdc8/js/vendor/piexif.js",
+          38
+        ],
+        [
+          "/student/_assets/7d9318cac3d130b1db94bdc8/js/sports-catalog.js",
+          38
+        ],
+        [
+          "/student/_assets/7d9318cac3d130b1db94bdc8/js/upload-progress.js",
+          38
+        ],
+        [
+          "/student/_assets/7d9318cac3d130b1db94bdc8/js/proofs.js",
+          38
+        ],
+        [
+          "/student/_assets/7d9318cac3d130b1db94bdc8/js/semester.js",
+          38
+        ],
+        [
+          "/student/_assets/7d9318cac3d130b1db94bdc8/js/screens/startup.js",
+          38
+        ],
+        [
+          "/student/_assets/7d9318cac3d130b1db94bdc8/js/local-time.js",
+          38
+        ],
+        [
+          "/student/_assets/7d9318cac3d130b1db94bdc8/js/screens/consent.js",
+          38
+        ],
+        [
+          "/student/_assets/7d9318cac3d130b1db94bdc8/js/screens/guide.js",
+          38
+        ],
+        [
+          "/student/_assets/7d9318cac3d130b1db94bdc8/js/screens/login.js",
+          38
+        ]
+      ],
+      "status": {
+        "200": 2421,
+        "404": 976,
+        "301": 68,
+        "304": 80,
+        "400": 7,
+        "302": 13,
+        "499": 22,
+        "308": 1
+      },
+      "userAgents": [
+        [
+          "Mozilla/5.0 (iPhone; CPU iPhone OS 18_7 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/26.6.1 Mobile/15",
+          385
+        ],
+        [
+          "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.113 Safari/537.36",
+          378
+        ],
+        [
+          "Mozilla/5.0 (iPad; CPU OS 8_4_1 like Mac OS X) AppleWebKit/600.1.4 (KHTML, like Gecko) GSA/6.0.51363 Mobile/12H321 Safar",
+          378
+        ],
+        [
+          "Mozilla/5.0 (iPhone; CPU iPhone OS 18_5 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.5 Mobile/15E1",
+          303
+        ],
+        [
+          "Mozilla/5.0 (Phone; OpenHarmony 6.1; Android 10) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 Safari/537.36  ",
+          141
+        ],
+        [
+          "Mozilla/5.0 (iPhone; CPU iPhone OS 18_7 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko)  Mobile/15E148 wxwork/5.",
+          134
+        ],
+        [
+          "Mozilla/5.0 (iPhone; CPU iPhone OS 18_7 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/26.5.2 Mobile/15",
+          130
+        ],
+        [
+          "Mozilla/5.0 (iPhone; CPU iPhone OS 18_7 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/26.6 Mobile/15E1",
+          121
+        ],
+        [
+          "Mozilla/5.0 (Phone; OpenHarmony 7.0; Android 10) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36  ",
+          92
+        ],
+        [
+          "Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/153.0.0.0 Mobile Safari/537.36 EdgA/153",
+          82
+        ],
+        [
+          "Mozilla/5.0 (Linux; U; Android 15; zh-cn; 23013RK75C Build/AQ3A.250226.002) AppleWebKit/537.36 (KHTML, like Gecko) Chrom",
+          72
+        ],
+        [
+          "Mozilla/5.0 (iPhone; CPU iPhone OS 26_6_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 MicroMes",
+          67
+        ],
+        [
+          "Mozilla/5.0 (iPhone; CPU iPhone OS 18_7 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/27.0 Mobile/15E1",
+          67
+        ],
+        [
+          "NetworkingExtension/8624.5.1.10.3 Network/5812.160.9 iOS/26.6.2",
+          66
+        ],
+        [
+          "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/26.6.1 Safari/605.1.15",
+          64
+        ]
+      ],
+      "peakMinutes": [
+        [
+          "2026-09-30T07:26",
+          497
+        ],
+        [
+          "2026-09-30T07:27",
+          238
+        ],
+        [
+          "2026-09-30T08:59",
+          169
+        ],
+        [
+          "2026-09-30T08:51",
+          162
+        ],
+        [
+          "2026-09-30T08:28",
+          132
+        ],
+        [
+          "2026-09-30T08:53",
+          131
+        ],
+        [
+          "2026-09-30T10:44",
+          121
+        ],
+        [
+          "2026-09-30T10:45",
+          121
+        ],
+        [
+          "2026-09-30T09:23",
+          72
+        ],
+        [
+          "2026-09-30T10:02",
+          71
+        ]
+      ],
+      "peakSeconds": [
+        [
+          "2026-09-30T08:28:41",
+          64
+        ],
+        [
+          "2026-09-30T08:28:11",
+          63
+        ],
+        [
+          "2026-09-30T08:42:48",
+          63
+        ],
+        [
+          "2026-09-30T09:16:36",
+          63
+        ],
+        [
+          "2026-09-30T09:31:58",
+          63
+        ]
+      ],
+      "peakIPMinutes": [
+        [
+          [
+            "bbacad5ca4",
+            "2026-09-30T07:26"
+          ],
+          497
+        ],
+        [
+          [
+            "bbacad5ca4",
+            "2026-09-30T07:27"
+          ],
+          238
+        ],
+        [
+          [
+            "b5b739c0fa",
+            "2026-09-30T08:53"
+          ],
+          130
+        ],
+        [
+          [
+            "b5b739c0fa",
+            "2026-09-30T08:59"
+          ],
+          109
+        ],
+        [
+          [
+            "b5b739c0fa",
+            "2026-09-30T08:51"
+          ],
+          98
+        ]
+      ],
+      "scanPaths": [
+        [
+          [
+            "/index.php",
+            "404"
+          ],
+          5
+        ],
+        [
+          [
+            "/.env",
+            "404"
+          ],
+          2
+        ],
+        [
+          [
+            "/appsettings/.env",
+            "404"
+          ],
+          2
+        ],
+        [
+          [
+            "/_API/.env",
+            "404"
+          ],
+          2
+        ],
+        [
+          [
+            "/_admin/.env",
+            "404"
+          ],
+          2
+        ],
+        [
+          [
+            "/_api/.env",
+            "404"
+          ],
+          2
+        ],
+        [
+          [
+            "/_apis/.env",
+            "404"
+          ],
+          2
+        ],
+        [
+          [
+            "/_app/.env",
+            "404"
+          ],
+          2
+        ],
+        [
+          [
+            "/_application/.env",
+            "404"
+          ],
+          2
+        ],
+        [
+          [
+            "/_appsettings/.env",
+            "404"
+          ],
+          2
+        ],
+        [
+          [
+            "/_back/.env",
+            "404"
+          ],
+          2
+        ],
+        [
+          [
+            "/_backend/.env",
+            "404"
+          ],
+          2
+        ],
+        [
+          [
+            "/_bot/.env",
+            "404"
+          ],
+          2
+        ],
+        [
+          [
+            "/_client/.env",
+            "404"
+          ],
+          2
+        ],
+        [
+          [
+            "/_config/.env",
+            "404"
+          ],
+          2
+        ],
+        [
+          [
+            "/_core/.env",
+            "404"
+          ],
+          2
+        ],
+        [
+          [
+            "/_crm/.env",
+            "404"
+          ],
+          2
+        ],
+        [
+          [
+            "/_dashboard/.env",
+            "404"
+          ],
+          2
+        ],
+        [
+          [
+            "/_debug/default/.env",
+            "404"
+          ],
+          2
+        ],
+        [
+          [
+            "/_debug/.env",
+            "404"
+          ],
+          2
+        ],
+        [
+          [
+            "/_demo/.env",
+            "404"
+          ],
+          2
+        ],
+        [
+          [
+            "/_dev/.env",
+            "404"
+          ],
+          2
+        ],
+        [
+          [
+            "/_docs/.env",
+            "404"
+          ],
+          2
+        ],
+        [
+          [
+            "/_frontend/.env",
+            "404"
+          ],
+          2
+        ],
+        [
+          [
+            "/_images/.env",
+            "404"
+          ],
+          2
+        ],
+        [
+          [
+            "/_info/.env",
+            "404"
+          ],
+          2
+        ],
+        [
+          [
+            "/_laravel/.env",
+            "404"
+          ],
+          2
+        ],
+        [
+          [
+            "/_local/.env",
+            "404"
+          ],
+          2
+        ],
+        [
+          [
+            "/_media/.env",
+            "404"
+          ],
+          2
+        ],
+        [
+          [
+            "/_phpinfo/.env",
+            "404"
+          ],
+          2
+        ]
+      ],
+      "bytes": 24793690,
+      "largeResponses": [
+        {
+          "time": "2026-09-30T07:34:49+08:00",
+          "path": "/email-assets/:id/email-b2e40b8fd8a487cf.jpg",
+          "bytes": 1023197,
+          "status": "200",
+          "source": "bd28befe7a"
+        },
+        {
+          "time": "2026-09-30T08:22:31+08:00",
+          "path": "/email-assets/:id/email-b2e40b8fd8a487cf.jpg",
+          "bytes": 1023197,
+          "status": "200",
+          "source": "59b9896d27"
+        },
+        {
+          "time": "2026-09-30T08:24:46+08:00",
+          "path": "/email-assets/:id/email-b2e40b8fd8a487cf.jpg",
+          "bytes": 1023197,
+          "status": "200",
+          "source": "3a20d4dc74"
+        },
+        {
+          "time": "2026-09-30T08:28:06+08:00",
+          "path": "/email-assets/:id/email-b2e40b8fd8a487cf.jpg",
+          "bytes": 1023197,
+          "status": "200",
+          "source": "ae4ea1df7b"
+        },
+        {
+          "time": "2026-09-30T08:33:15+08:00",
+          "path": "/email-assets/:id/email-b2e40b8fd8a487cf.jpg",
+          "bytes": 1023197,
+          "status": "200",
+          "source": "4d9d88f313"
+        },
+        {
+          "time": "2026-09-30T08:38:33+08:00",
+          "path": "/email-assets/:id/email-b2e40b8fd8a487cf.jpg",
+          "bytes": 1023197,
+          "status": "200",
+          "source": "db830817d5"
+        },
+        {
+          "time": "2026-09-30T08:50:32+08:00",
+          "path": "/email-assets/:id/email-b2e40b8fd8a487cf.jpg",
+          "bytes": 1023197,
+          "status": "200",
+          "source": "409412a168"
+        },
+        {
+          "time": "2026-09-30T08:54:01+08:00",
+          "path": "/email-assets/:id/email-b2e40b8fd8a487cf.jpg",
+          "bytes": 1023197,
+          "status": "200",
+          "source": "d0c473ff81"
+        },
+        {
+          "time": "2026-09-30T09:12:38+08:00",
+          "path": "/email-assets/:id/email-b2e40b8fd8a487cf.jpg",
+          "bytes": 1023197,
+          "status": "200",
+          "source": "2e8742c060"
+        },
+        {
+          "time": "2026-09-30T09:25:09+08:00",
+          "path": "/email-assets/:id/email-b2e40b8fd8a487cf.jpg",
+          "bytes": 1023197,
+          "status": "200",
+          "source": "ec5dced836"
+        },
+        {
+          "time": "2026-09-30T09:26:22+08:00",
+          "path": "/email-assets/:id/email-b2e40b8fd8a487cf.jpg",
+          "bytes": 1023197,
+          "status": "200",
+          "source": "ec5dced836"
+        },
+        {
+          "time": "2026-09-30T09:36:12+08:00",
+          "path": "/email-assets/:id/email-b2e40b8fd8a487cf.jpg",
+          "bytes": 1023197,
+          "status": "200",
+          "source": "a8019356be"
+        },
+        {
+          "time": "2026-09-30T09:43:15+08:00",
+          "path": "/email-assets/:id/email-b2e40b8fd8a487cf.jpg",
+          "bytes": 1023197,
+          "status": "200",
+          "source": "b5b739c0fa"
+        },
+        {
+          "time": "2026-09-30T09:44:57+08:00",
+          "path": "/email-assets/:id/email-b2e40b8fd8a487cf.jpg",
+          "bytes": 1023197,
+          "status": "200",
+          "source": "3b39c19ff6"
+        }
+      ]
+    },
+    "bnbu-sports-download.access.log": {
+      "count": 2262,
+      "uniqueIPs": 62,
+      "topIPs": [
+        {
+          "id": "b5b739c0fa",
+          "requests": 675,
+          "status": {
+            "200": 614,
+            "206": 55,
+            "499": 6
+          }
+        },
+        {
+          "id": "68a729c768",
+          "requests": 122,
+          "status": {
+            "200": 5,
+            "404": 117
+          }
+        },
+        {
+          "id": "5f35f1360f",
+          "requests": 110,
+          "status": {
+            "200": 108,
+            "206": 2
+          }
+        },
+        {
+          "id": "f4eb9196c4",
+          "requests": 102,
+          "status": {
+            "200": 101,
+            "206": 1
+          }
+        },
+        {
+          "id": "dab43557d7",
+          "requests": 80,
+          "status": {
+            "200": 78,
+            "206": 2
+          }
+        },
+        {
+          "id": "2e8742c060",
+          "requests": 78,
+          "status": {
+            "200": 73,
+            "206": 5
+          }
+        },
+        {
+          "id": "5cb791e5f3",
+          "requests": 75,
+          "status": {
+            "200": 69,
+            "206": 6
+          }
+        },
+        {
+          "id": "8cc2d5f51e",
+          "requests": 74,
+          "status": {
+            "200": 73,
+            "206": 1
+          }
+        },
+        {
+          "id": "d0c473ff81",
+          "requests": 55,
+          "status": {
+            "200": 50,
+            "499": 5
+          }
+        },
+        {
+          "id": "db830817d5",
+          "requests": 54,
+          "status": {
+            "200": 54
+          }
+        }
+      ],
+      "topPaths": [
+        [
+          "/favicon.svg",
+          197
+        ],
+        [
+          "/",
+          149
+        ],
+        [
+          "/_next/static/css/index.BMk1FaBM.css",
+          127
+        ],
+        [
+          "/_next/static/css/Home.BWHpEOqT.css",
+          127
+        ],
+        [
+          "/android/1.2.1-build11/BNBU-Student-1.2.1-build11-release.apk",
+          127
+        ],
+        [
+          "/campus/complex-mobile.webp",
+          121
+        ],
+        [
+          "/sports-logo.png",
+          95
+        ],
+        [
+          "/campus/basketball-960.webp",
+          65
+        ],
+        [
+          "/campus/swimming-960.webp",
+          64
+        ],
+        [
+          "/campus/lawn-mobile.webp",
+          63
+        ],
+        [
+          "/_next/static/chunks/vinext-C01ePDmG.js",
+          55
+        ],
+        [
+          "/_next/static/chunks/framework-DTZGTDtF.js",
+          54
+        ],
+        [
+          "/_next/static/chunks/Home-Dol85O2r.js",
+          54
+        ],
+        [
+          "/campus/track-700.webp",
+          54
+        ],
+        [
+          "/campus/color-run-700.webp",
+          54
+        ],
+        [
+          "/_next/static/chunks/layout-segment-context-Bc758CS_.js",
+          53
+        ],
+        [
+          "/fonts/manrope-latin-variable.woff2",
+          53
+        ],
+        [
+          "/fonts/noto-sans-sc-subset-variable.woff2",
+          53
+        ],
+        [
+          "/_next/static/chunks/index-B_jBP_c4.js",
+          53
+        ],
+        [
+          "/_next/static/chunks/rolldown-runtime-hePW80VL.js",
+          52
+        ],
+        [
+          "/android/latest.json",
+          52
+        ],
+        [
+          "/campus/tennis-700.webp",
+          52
+        ],
+        [
+          "/campus/cycling-960.webp",
+          52
+        ],
+        [
+          "/sports-metal-mask.svg",
+          49
+        ],
+        [
+          "/groups/ios-test-group.png",
+          39
+        ]
+      ],
+      "status": {
+        "200": 2010,
+        "499": 17,
+        "206": 97,
+        "404": 137,
+        "405": 1
+      },
+      "userAgents": [
+        [
+          "Mozilla/5.0 (Phone; OpenHarmony 7.0; Android 10) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36  ",
+          220
+        ],
+        [
+          "Mozilla/5.0 (iPhone; CPU iPhone OS 26_6_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 MicroMes",
+          168
+        ],
+        [
+          "Mozilla/5.0 (iPhone; CPU iPhone OS 27_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 MicroMesse",
+          161
+        ],
+        [
+          "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
+          117
+        ],
+        [
+          "Mozilla/5.0 (iPhone; CPU iPhone OS 26_6_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 MicroMes",
+          114
+        ],
+        [
+          "Mozilla/5.0 (Linux; Android 14; SDY-AN00 Build/HONORSDY-AN00; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chr",
+          95
+        ],
+        [
+          "Mozilla/5.0 (Phone; OpenHarmony 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 Safari/537.36 ArkWeb/6.0.0.",
+          91
+        ],
+        [
+          "Mozilla/5.0 (iPhone; CPU iPhone OS 18_7 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/26.6.1 Mobile/15",
+          72
+        ],
+        [
+          "okhttp/4.12.0",
+          62
+        ],
+        [
+          "Mozilla/5.0 (Phone; OpenHarmony 6.1; Android 10) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 Safari/537.36  ",
+          52
+        ],
+        [
+          "Mozilla/5.0 (Linux; Android 16; PKR110 Build/AP3A.240617.008; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chr",
+          52
+        ],
+        [
+          "Mozilla/5.0 (iPhone; CPU iPhone OS 18_7 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/27.0 Mobile/15E1",
+          49
+        ],
+        [
+          "Mozilla/5.0 (iPhone; CPU iPhone OS 18_5 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.5 Mobile/15E1",
+          44
+        ],
+        [
+          "AndroidDownloadManager/16 (Linux; U; Android 16; 25053RT47C Build/BP2A.250605.031.A3)",
+          44
+        ],
+        [
+          "Mozilla/5.0 (Phone; OpenHarmony 7.0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 Safari/537.36 ArkWeb/6.0.0.",
+          43
+        ]
+      ],
+      "peakMinutes": [
+        [
+          "2026-09-30T08:43",
+          263
+        ],
+        [
+          "2026-09-30T08:22",
+          137
+        ],
+        [
+          "2026-09-30T10:40",
+          126
+        ],
+        [
+          "2026-09-30T09:26",
+          118
+        ],
+        [
+          "2026-09-30T08:19",
+          78
+        ],
+        [
+          "2026-09-30T08:51",
+          66
+        ],
+        [
+          "2026-09-30T08:20",
+          62
+        ],
+        [
+          "2026-09-30T10:30",
+          62
+        ],
+        [
+          "2026-09-30T09:00",
+          58
+        ],
+        [
+          "2026-09-30T08:29",
+          56
+        ]
+      ],
+      "peakSeconds": [
+        [
+          "2026-09-30T10:40:32",
+          69
+        ],
+        [
+          "2026-09-30T10:40:31",
+          48
+        ],
+        [
+          "2026-09-30T08:43:38",
+          41
+        ],
+        [
+          "2026-09-30T09:27:34",
+          29
+        ],
+        [
+          "2026-09-30T08:43:39",
+          24
+        ]
+      ],
+      "peakIPMinutes": [
+        [
+          [
+            "b5b739c0fa",
+            "2026-09-30T08:43"
+          ],
+          214
+        ],
+        [
+          [
+            "68a729c768",
+            "2026-09-30T10:40"
+          ],
+          122
+        ],
+        [
+          [
+            "f4eb9196c4",
+            "2026-09-30T08:22"
+          ],
+          80
+        ],
+        [
+          [
+            "5f35f1360f",
+            "2026-09-30T09:26"
+          ],
+          80
+        ],
+        [
+          [
+            "8cc2d5f51e",
+            "2026-09-30T10:30"
+          ],
+          61
+        ]
+      ],
+      "scanPaths": [
+        [
+          [
+            "//:id/wp-includes/wlwmanifest.xml",
+            "404"
+          ],
+          2
+        ],
+        [
+          [
+            "//wp-includes/wlwmanifest.xml",
+            "404"
+          ],
+          1
+        ],
+        [
+          [
+            "//xmlrpc.php",
+            "404"
+          ],
+          1
+        ],
+        [
+          [
+            "//blog/wp-includes/wlwmanifest.xml",
+            "404"
+          ],
+          1
+        ],
+        [
+          [
+            "//web/wp-includes/wlwmanifest.xml",
+            "404"
+          ],
+          1
+        ],
+        [
+          [
+            "//wordpress/wp-includes/wlwmanifest.xml",
+            "404"
+          ],
+          1
+        ],
+        [
+          [
+            "//website/wp-includes/wlwmanifest.xml",
+            "404"
+          ],
+          1
+        ],
+        [
+          [
+            "//wp/wp-includes/wlwmanifest.xml",
+            "404"
+          ],
+          1
+        ],
+        [
+          [
+            "//news/wp-includes/wlwmanifest.xml",
+            "404"
+          ],
+          1
+        ],
+        [
+          [
+            "//shop/wp-includes/wlwmanifest.xml",
+            "404"
+          ],
+          1
+        ],
+        [
+          [
+            "//wp1/wp-includes/wlwmanifest.xml",
+            "404"
+          ],
+          1
+        ],
+        [
+          [
+            "//test/wp-includes/wlwmanifest.xml",
+            "404"
+          ],
+          1
+        ],
+        [
+          [
+            "//media/wp-includes/wlwmanifest.xml",
+            "404"
+          ],
+          1
+        ],
+        [
+          [
+            "//wp2/wp-includes/wlwmanifest.xml",
+            "404"
+          ],
+          1
+        ],
+        [
+          [
+            "//site/wp-includes/wlwmanifest.xml",
+            "404"
+          ],
+          1
+        ],
+        [
+          [
+            "//cms/wp-includes/wlwmanifest.xml",
+            "404"
+          ],
+          1
+        ],
+        [
+          [
+            "//sito/wp-includes/wlwmanifest.xml",
+            "404"
+          ],
+          1
+        ],
+        [
+          [
+            "/wp-json/batch/v1",
+            "404"
+          ],
+          1
+        ],
+        [
+          [
+            "/index.php",
+            "404"
+          ],
+          1
+        ],
+        [
+          [
+            "/.docker/laravel/app/.env",
+            "404"
+          ],
+          1
+        ],
+        [
+          [
+            "/.env-example",
+            "404"
+          ],
+          1
+        ],
+        [
+          [
+            "/.env",
+            "404"
+          ],
+          1
+        ],
+        [
+          [
+            "/.docker/.env",
+            "404"
+          ],
+          1
+        ],
+        [
+          [
+            "/.aws/.env",
+            "404"
+          ],
+          1
+        ],
+        [
+          [
+            "/.env-sample",
+            "404"
+          ],
+          1
+        ],
+        [
+          [
+            "/.env.anthropic",
+            "404"
+          ],
+          1
+        ],
+        [
+          [
+            "/.env.aws",
+            "404"
+          ],
+          1
+        ],
+        [
+          [
+            "/.env.backup",
+            "404"
+          ],
+          1
+        ],
+        [
+          [
+            "/.env.bak",
+            "404"
+          ],
+          1
+        ],
+        [
+          [
+            "/.env.dist",
+            "404"
+          ],
+          1
+        ]
+      ],
+      "bytes": 1102870318,
+      "largeResponses": [
+        {
+          "time": "2026-09-30T07:31:23+08:00",
+          "path": "/android/1.2.2-build12/BNBU-Student-1.2.2-build12-release.apk",
+          "bytes": 38388596,
+          "status": "200",
+          "source": "d02d63dc45"
+        },
+        {
+          "time": "2026-09-30T08:24:00+08:00",
+          "path": "/android/1.2.2-build12/BNBU-Student-1.2.2-build12-release.apk",
+          "bytes": 38388596,
+          "status": "200",
+          "source": "f4eb9196c4"
+        },
+        {
+          "time": "2026-09-30T08:59:44+08:00",
+          "path": "/android/1.2.2-build12/BNBU-Student-1.2.2-build12-release.apk",
+          "bytes": 38388596,
+          "status": "200",
+          "source": "2e8742c060"
+        },
+        {
+          "time": "2026-09-30T10:34:54+08:00",
+          "path": "/android/1.2.2-build12/BNBU-Student-1.2.2-build12-release.apk",
+          "bytes": 38388596,
+          "status": "200",
+          "source": "8cc2d5f51e"
+        },
+        {
+          "time": "2026-09-30T07:30:55+08:00",
+          "path": "/android/1.2.1-build11/BNBU-Student-1.2.1-build11-release.apk",
+          "bytes": 38370784,
+          "status": "200",
+          "source": "d02d63dc45"
+        },
+        {
+          "time": "2026-09-30T08:23:13+08:00",
+          "path": "/android/1.2.1-build11/BNBU-Student-1.2.1-build11-release.apk",
+          "bytes": 38370784,
+          "status": "206",
+          "source": "f4eb9196c4"
+        },
+        {
+          "time": "2026-09-30T08:30:22+08:00",
+          "path": "/android/1.2.1-build11/BNBU-Student-1.2.1-build11-release.apk",
+          "bytes": 38370784,
+          "status": "200",
+          "source": "b5b739c0fa"
+        },
+        {
+          "time": "2026-09-30T08:30:28+08:00",
+          "path": "/android/1.2.1-build11/BNBU-Student-1.2.1-build11-release.apk",
+          "bytes": 38370784,
+          "status": "200",
+          "source": "789912e485"
+        },
+        {
+          "time": "2026-09-30T08:30:35+08:00",
+          "path": "/android/1.2.1-build11/BNBU-Student-1.2.1-build11-release.apk",
+          "bytes": 38370784,
+          "status": "200",
+          "source": "7d19b7dd19"
+        },
+        {
+          "time": "2026-09-30T09:04:19+08:00",
+          "path": "/android/1.2.1-build11/BNBU-Student-1.2.1-build11-release.apk",
+          "bytes": 38370784,
+          "status": "200",
+          "source": "90657d3f7e"
+        },
+        {
+          "time": "2026-09-30T09:06:46+08:00",
+          "path": "/android/1.2.1-build11/BNBU-Student-1.2.1-build11-release.apk",
+          "bytes": 38370784,
+          "status": "200",
+          "source": "67e79c26da"
+        },
+        {
+          "time": "2026-09-30T10:32:49+08:00",
+          "path": "/android/1.2.1-build11/BNBU-Student-1.2.1-build11-release.apk",
+          "bytes": 38370784,
+          "status": "206",
+          "source": "8cc2d5f51e"
+        },
+        {
+          "time": "2026-09-30T08:45:00+08:00",
+          "path": "/android/1.2.2-build12/BNBU-Student-1.2.2-build12-release.apk",
+          "bytes": 31989760,
+          "status": "200",
+          "source": "244158b9f9"
+        },
+        {
+          "time": "2026-09-30T08:29:58+08:00",
+          "path": "/android/1.2.1-build11/BNBU-Student-1.2.1-build11-release.apk",
+          "bytes": 20971520,
+          "status": "206",
+          "source": "edc03ff440"
+        },
+        {
+          "time": "2026-09-30T10:26:06+08:00",
+          "path": "/android/1.2.1-build11/BNBU-Student-1.2.1-build11-release.apk",
+          "bytes": 18993537,
+          "status": "206",
+          "source": "b5b739c0fa"
+        },
+        {
+          "time": "2026-09-30T08:30:04+08:00",
+          "path": "/android/1.2.1-build11/BNBU-Student-1.2.1-build11-release.apk",
+          "bytes": 17399264,
+          "status": "206",
+          "source": "abb786cdac"
+        },
+        {
+          "time": "2026-09-30T08:26:54+08:00",
+          "path": "/android/1.2.1-build11/BNBU-Student-1.2.1-build11-release.apk",
+          "bytes": 16777216,
+          "status": "200",
+          "source": "2e8742c060"
+        },
+        {
+          "time": "2026-09-30T08:30:13+08:00",
+          "path": "/android/1.2.1-build11/BNBU-Student-1.2.1-build11-release.apk",
+          "bytes": 15736859,
+          "status": "206",
+          "source": "b5b739c0fa"
+        },
+        {
+          "time": "2026-09-30T08:45:14+08:00",
+          "path": "/android/1.2.1-build11/BNBU-Student-1.2.1-build11-release.apk",
+          "bytes": 14172160,
+          "status": "200",
+          "source": "b5b739c0fa"
+        },
+        {
+          "time": "2026-09-30T08:45:18+08:00",
+          "path": "/android/1.2.1-build11/BNBU-Student-1.2.1-build11-release.apk",
+          "bytes": 14139392,
+          "status": "206",
+          "source": "b5b739c0fa"
+        }
+      ]
+    }
+  },
+  "nginxErrors": [
+    {
+      "file": "error.log",
+      "line": "2026/09/30 09:03:14 [crit] 4170230#4170230: *1235632 SSL_do_handshake() failed (SSL: error:0A00006C:SSL routines::bad key share) while SSL handshaking, client: [redacted], server: 0.0.0.0:443\n"
+    },
+    {
+      "file": "error.log",
+      "line": "2026/09/30 10:43:21 [crit] 4170230#4170230: *1238893 SSL_do_handshake() failed (SSL: error:0A00006C:SSL routines::bad key share) while SSL handshaking, client: [redacted], server: 0.0.0.0:443\n"
+    }
+  ]
+}

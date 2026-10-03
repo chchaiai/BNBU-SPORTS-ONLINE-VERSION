@@ -1,0 +1,2526 @@
+{
+  "samples": 360,
+  "failures": [],
+  "rows": [
+    {
+      "time": 1790595449.1253154,
+      "host": "www.teacher.bnbusports.cn",
+      "path": "/",
+      "status": 200,
+      "ms": 15.97
+    },
+    {
+      "time": 1790595449.128894,
+      "host": "www.student.bnbusports.cn",
+      "path": "/student/",
+      "status": 200,
+      "ms": 3.57
+    },
+    {
+      "time": 1790595449.1682153,
+      "host": "www.student.bnbusports.cn",
+      "path": "/api/v1/health/ready",
+      "status": 200,
+      "ms": 39.32
+    },
+    {
+      "time": 1790595450.1886618,
+      "host": "www.teacher.bnbusports.cn",
+      "path": "/",
+      "status": 200,
+      "ms": 19.4
+    },
+    {
+      "time": 1790595450.1943996,
+      "host": "www.student.bnbusports.cn",
+      "path": "/student/",
+      "status": 200,
+      "ms": 5.73
+    },
+    {
+      "time": 1790595450.2829187,
+      "host": "www.student.bnbusports.cn",
+      "path": "/api/v1/health/ready",
+      "status": 200,
+      "ms": 88.51
+    },
+    {
+      "time": 1790595451.29273,
+      "host": "www.teacher.bnbusports.cn",
+      "path": "/",
+      "status": 200,
+      "ms": 8.77
+    },
+    {
+      "time": 1790595451.2964156,
+      "host": "www.student.bnbusports.cn",
+      "path": "/student/",
+      "status": 200,
+      "ms": 3.68
+    },
+    {
+      "time": 1790595451.3351686,
+      "host": "www.student.bnbusports.cn",
+      "path": "/api/v1/health/ready",
+      "status": 200,
+      "ms": 38.75
+    },
+    {
+      "time": 1790595452.344948,
+      "host": "www.teacher.bnbusports.cn",
+      "path": "/",
+      "status": 200,
+      "ms": 8.73
+    },
+    {
+      "time": 1790595452.348622,
+      "host": "www.student.bnbusports.cn",
+      "path": "/student/",
+      "status": 200,
+      "ms": 3.66
+    },
+    {
+      "time": 1790595452.389759,
+      "host": "www.student.bnbusports.cn",
+      "path": "/api/v1/health/ready",
+      "status": 200,
+      "ms": 41.13
+    },
+    {
+      "time": 1790595453.4003487,
+      "host": "www.teacher.bnbusports.cn",
+      "path": "/",
+      "status": 200,
+      "ms": 9.54
+    },
+    {
+      "time": 1790595453.4041252,
+      "host": "www.student.bnbusports.cn",
+      "path": "/student/",
+      "status": 200,
+      "ms": 3.77
+    },
+    {
+      "time": 1790595453.442205,
+      "host": "www.student.bnbusports.cn",
+      "path": "/api/v1/health/ready",
+      "status": 200,
+      "ms": 38.07
+    },
+    {
+      "time": 1790595454.4513428,
+      "host": "www.teacher.bnbusports.cn",
+      "path": "/",
+      "status": 200,
+      "ms": 8.84
+    },
+    {
+      "time": 1790595454.4549236,
+      "host": "www.student.bnbusports.cn",
+      "path": "/student/",
+      "status": 200,
+      "ms": 3.57
+    },
+    {
+      "time": 1790595454.493726,
+      "host": "www.student.bnbusports.cn",
+      "path": "/api/v1/health/ready",
+      "status": 200,
+      "ms": 38.8
+    },
+    {
+      "time": 1790595455.504107,
+      "host": "www.teacher.bnbusports.cn",
+      "path": "/",
+      "status": 200,
+      "ms": 9.33
+    },
+    {
+      "time": 1790595455.5080462,
+      "host": "www.student.bnbusports.cn",
+      "path": "/student/",
+      "status": 200,
+      "ms": 3.93
+    },
+    {
+      "time": 1790595455.5482345,
+      "host": "www.student.bnbusports.cn",
+      "path": "/api/v1/health/ready",
+      "status": 200,
+      "ms": 40.18
+    },
+    {
+      "time": 1790595456.5581484,
+      "host": "www.teacher.bnbusports.cn",
+      "path": "/",
+      "status": 200,
+      "ms": 9.01
+    },
+    {
+      "time": 1790595456.5617642,
+      "host": "www.student.bnbusports.cn",
+      "path": "/student/",
+      "status": 200,
+      "ms": 3.6
+    },
+    {
+      "time": 1790595456.6002874,
+      "host": "www.student.bnbusports.cn",
+      "path": "/api/v1/health/ready",
+      "status": 200,
+      "ms": 38.52
+    },
+    {
+      "time": 1790595457.6104546,
+      "host": "www.teacher.bnbusports.cn",
+      "path": "/",
+      "status": 200,
+      "ms": 9.12
+    },
+    {
+      "time": 1790595457.6140764,
+      "host": "www.student.bnbusports.cn",
+      "path": "/student/",
+      "status": 200,
+      "ms": 3.61
+    },
+    {
+      "time": 1790595457.654539,
+      "host": "www.student.bnbusports.cn",
+      "path": "/api/v1/health/ready",
+      "status": 200,
+      "ms": 40.46
+    },
+    {
+      "time": 1790595458.6643398,
+      "host": "www.teacher.bnbusports.cn",
+      "path": "/",
+      "status": 200,
+      "ms": 8.76
+    },
+    {
+      "time": 1790595458.668022,
+      "host": "www.student.bnbusports.cn",
+      "path": "/student/",
+      "status": 200,
+      "ms": 3.67
+    },
+    {
+      "time": 1790595458.7089558,
+      "host": "www.student.bnbusports.cn",
+      "path": "/api/v1/health/ready",
+      "status": 200,
+      "ms": 40.93
+    },
+    {
+      "time": 1790595459.7174497,
+      "host": "www.teacher.bnbusports.cn",
+      "path": "/",
+      "status": 200,
+      "ms": 8.42
+    },
+    {
+      "time": 1790595459.721081,
+      "host": "www.student.bnbusports.cn",
+      "path": "/student/",
+      "status": 200,
+      "ms": 3.62
+    },
+    {
+      "time": 1790595459.7599196,
+      "host": "www.student.bnbusports.cn",
+      "path": "/api/v1/health/ready",
+      "status": 200,
+      "ms": 38.83
+    },
+    {
+      "time": 1790595460.770224,
+      "host": "www.teacher.bnbusports.cn",
+      "path": "/",
+      "status": 200,
+      "ms": 9.26
+    },
+    {
+      "time": 1790595460.7738798,
+      "host": "www.student.bnbusports.cn",
+      "path": "/student/",
+      "status": 200,
+      "ms": 3.64
+    },
+    {
+      "time": 1790595460.8118389,
+      "host": "www.student.bnbusports.cn",
+      "path": "/api/v1/health/ready",
+      "status": 200,
+      "ms": 37.95
+    },
+    {
+      "time": 1790595461.8241334,
+      "host": "www.teacher.bnbusports.cn",
+      "path": "/",
+      "status": 200,
+      "ms": 11.25
+    },
+    {
+      "time": 1790595461.8289568,
+      "host": "www.student.bnbusports.cn",
+      "path": "/student/",
+      "status": 200,
+      "ms": 4.81
+    },
+    {
+      "time": 1790595461.8819563,
+      "host": "www.student.bnbusports.cn",
+      "path": "/api/v1/health/ready",
+      "status": 200,
+      "ms": 52.99
+    },
+    {
+      "time": 1790595462.8954997,
+      "host": "www.teacher.bnbusports.cn",
+      "path": "/",
+      "status": 200,
+      "ms": 13.24
+    },
+    {
+      "time": 1790595462.9008374,
+      "host": "www.student.bnbusports.cn",
+      "path": "/student/",
+      "status": 200,
+      "ms": 5.32
+    },
+    {
+      "time": 1790595462.957584,
+      "host": "www.student.bnbusports.cn",
+      "path": "/api/v1/health/ready",
+      "status": 200,
+      "ms": 56.74
+    },
+    {
+      "time": 1790595463.9667847,
+      "host": "www.teacher.bnbusports.cn",
+      "path": "/",
+      "status": 200,
+      "ms": 8.15
+    },
+    {
+      "time": 1790595463.970509,
+      "host": "www.student.bnbusports.cn",
+      "path": "/student/",
+      "status": 200,
+      "ms": 3.71
+    },
+    {
+      "time": 1790595464.0113258,
+      "host": "www.student.bnbusports.cn",
+      "path": "/api/v1/health/ready",
+      "status": 200,
+      "ms": 40.81
+    },
+    {
+      "time": 1790595465.0229273,
+      "host": "www.teacher.bnbusports.cn",
+      "path": "/",
+      "status": 200,
+      "ms": 10.53
+    },
+    {
+      "time": 1790595465.0275114,
+      "host": "www.student.bnbusports.cn",
+      "path": "/student/",
+      "status": 200,
+      "ms": 4.57
+    },
+    {
+      "time": 1790595465.0788581,
+      "host": "www.student.bnbusports.cn",
+      "path": "/api/v1/health/ready",
+      "status": 200,
+      "ms": 51.34
+    },
+    {
+      "time": 1790595466.0889812,
+      "host": "www.teacher.bnbusports.cn",
+      "path": "/",
+      "status": 200,
+      "ms": 9.07
+    },
+    {
+      "time": 1790595466.0927768,
+      "host": "www.student.bnbusports.cn",
+      "path": "/student/",
+      "status": 200,
+      "ms": 3.78
+    },
+    {
+      "time": 1790595466.1328,
+      "host": "www.student.bnbusports.cn",
+      "path": "/api/v1/health/ready",
+      "status": 200,
+      "ms": 40.02
+    },
+    {
+      "time": 1790595467.1418896,
+      "host": "www.teacher.bnbusports.cn",
+      "path": "/",
+      "status": 200,
+      "ms": 8.04
+    },
+    {
+      "time": 1790595467.145483,
+      "host": "www.student.bnbusports.cn",
+      "path": "/student/",
+      "status": 200,
+      "ms": 3.58
+    },
+    {
+      "time": 1790595467.1904259,
+      "host": "www.student.bnbusports.cn",
+      "path": "/api/v1/health/ready",
+      "status": 200,
+      "ms": 44.94
+    },
+    {
+      "time": 1790595468.2004933,
+      "host": "www.teacher.bnbusports.cn",
+      "path": "/",
+      "status": 200,
+      "ms": 9.21
+    },
+    {
+      "time": 1790595468.2043796,
+      "host": "www.student.bnbusports.cn",
+      "path": "/student/",
+      "status": 200,
+      "ms": 3.88
+    },
+    {
+      "time": 1790595468.2438872,
+      "host": "www.student.bnbusports.cn",
+      "path": "/api/v1/health/ready",
+      "status": 200,
+      "ms": 39.5
+    },
+    {
+      "time": 1790595469.2527547,
+      "host": "www.teacher.bnbusports.cn",
+      "path": "/",
+      "status": 200,
+      "ms": 7.82
+    },
+    {
+      "time": 1790595469.2562473,
+      "host": "www.student.bnbusports.cn",
+      "path": "/student/",
+      "status": 200,
+      "ms": 3.48
+    },
+    {
+      "time": 1790595469.302645,
+      "host": "www.student.bnbusports.cn",
+      "path": "/api/v1/health/ready",
+      "status": 200,
+      "ms": 46.39
+    },
+    {
+      "time": 1790595470.316281,
+      "host": "www.teacher.bnbusports.cn",
+      "path": "/",
+      "status": 200,
+      "ms": 12.58
+    },
+    {
+      "time": 1790595470.3216114,
+      "host": "www.student.bnbusports.cn",
+      "path": "/student/",
+      "status": 200,
+      "ms": 5.32
+    },
+    {
+      "time": 1790595470.37123,
+      "host": "www.student.bnbusports.cn",
+      "path": "/api/v1/health/ready",
+      "status": 200,
+      "ms": 49.61
+    },
+    {
+      "time": 1790595471.3830566,
+      "host": "www.teacher.bnbusports.cn",
+      "path": "/",
+      "status": 200,
+      "ms": 11.77
+    },
+    {
+      "time": 1790595471.3880677,
+      "host": "www.student.bnbusports.cn",
+      "path": "/student/",
+      "status": 200,
+      "ms": 5.0
+    },
+    {
+      "time": 1790595471.431444,
+      "host": "www.student.bnbusports.cn",
+      "path": "/api/v1/health/ready",
+      "status": 200,
+      "ms": 43.36
+    },
+    {
+      "time": 1790595472.4405732,
+      "host": "www.teacher.bnbusports.cn",
+      "path": "/",
+      "status": 200,
+      "ms": 8.09
+    },
+    {
+      "time": 1790595472.4442804,
+      "host": "www.student.bnbusports.cn",
+      "path": "/student/",
+      "status": 200,
+      "ms": 3.7
+    },
+    {
+      "time": 1790595472.484449,
+      "host": "www.student.bnbusports.cn",
+      "path": "/api/v1/health/ready",
+      "status": 200,
+      "ms": 40.16
+    },
+    {
+      "time": 1790595473.4935925,
+      "host": "www.teacher.bnbusports.cn",
+      "path": "/",
+      "status": 200,
+      "ms": 8.1
+    },
+    {
+      "time": 1790595473.4971266,
+      "host": "www.student.bnbusports.cn",
+      "path": "/student/",
+      "status": 200,
+      "ms": 3.52
+    },
+    {
+      "time": 1790595473.5377128,
+      "host": "www.student.bnbusports.cn",
+      "path": "/api/v1/health/ready",
+      "status": 200,
+      "ms": 40.58
+    },
+    {
+      "time": 1790595474.549333,
+      "host": "www.teacher.bnbusports.cn",
+      "path": "/",
+      "status": 200,
+      "ms": 11.36
+    },
+    {
+      "time": 1790595474.5546336,
+      "host": "www.student.bnbusports.cn",
+      "path": "/student/",
+      "status": 200,
+      "ms": 5.29
+    },
+    {
+      "time": 1790595474.5979517,
+      "host": "www.student.bnbusports.cn",
+      "path": "/api/v1/health/ready",
+      "status": 200,
+      "ms": 43.31
+    },
+    {
+      "time": 1790595475.6105351,
+      "host": "www.teacher.bnbusports.cn",
+      "path": "/",
+      "status": 200,
+      "ms": 11.53
+    },
+    {
+      "time": 1790595475.6145098,
+      "host": "www.student.bnbusports.cn",
+      "path": "/student/",
+      "status": 200,
+      "ms": 3.96
+    },
+    {
+      "time": 1790595475.6749232,
+      "host": "www.student.bnbusports.cn",
+      "path": "/api/v1/health/ready",
+      "status": 200,
+      "ms": 60.41
+    },
+    {
+      "time": 1790595476.6894822,
+      "host": "www.teacher.bnbusports.cn",
+      "path": "/",
+      "status": 200,
+      "ms": 13.92
+    },
+    {
+      "time": 1790595476.6936085,
+      "host": "www.student.bnbusports.cn",
+      "path": "/student/",
+      "status": 200,
+      "ms": 4.11
+    },
+    {
+      "time": 1790595476.7326202,
+      "host": "www.student.bnbusports.cn",
+      "path": "/api/v1/health/ready",
+      "status": 200,
+      "ms": 39.01
+    },
+    {
+      "time": 1790595477.744563,
+      "host": "www.teacher.bnbusports.cn",
+      "path": "/",
+      "status": 200,
+      "ms": 10.89
+    },
+    {
+      "time": 1790595477.7483506,
+      "host": "www.student.bnbusports.cn",
+      "path": "/student/",
+      "status": 200,
+      "ms": 3.78
+    },
+    {
+      "time": 1790595477.7875288,
+      "host": "www.student.bnbusports.cn",
+      "path": "/api/v1/health/ready",
+      "status": 200,
+      "ms": 39.17
+    },
+    {
+      "time": 1790595478.8026261,
+      "host": "www.teacher.bnbusports.cn",
+      "path": "/",
+      "status": 200,
+      "ms": 14.04
+    },
+    {
+      "time": 1790595478.807516,
+      "host": "www.student.bnbusports.cn",
+      "path": "/student/",
+      "status": 200,
+      "ms": 4.88
+    },
+    {
+      "time": 1790595478.8602934,
+      "host": "www.student.bnbusports.cn",
+      "path": "/api/v1/health/ready",
+      "status": 200,
+      "ms": 52.77
+    },
+    {
+      "time": 1790595479.873524,
+      "host": "www.teacher.bnbusports.cn",
+      "path": "/",
+      "status": 200,
+      "ms": 12.57
+    },
+    {
+      "time": 1790595479.8774369,
+      "host": "www.student.bnbusports.cn",
+      "path": "/student/",
+      "status": 200,
+      "ms": 3.9
+    },
+    {
+      "time": 1790595479.9168346,
+      "host": "www.student.bnbusports.cn",
+      "path": "/api/v1/health/ready",
+      "status": 200,
+      "ms": 39.39
+    },
+    {
+      "time": 1790595480.939042,
+      "host": "www.teacher.bnbusports.cn",
+      "path": "/",
+      "status": 200,
+      "ms": 21.16
+    },
+    {
+      "time": 1790595480.94467,
+      "host": "www.student.bnbusports.cn",
+      "path": "/student/",
+      "status": 200,
+      "ms": 5.62
+    },
+    {
+      "time": 1790595480.9896407,
+      "host": "www.student.bnbusports.cn",
+      "path": "/api/v1/health/ready",
+      "status": 200,
+      "ms": 44.97
+    },
+    {
+      "time": 1790595481.9992633,
+      "host": "www.teacher.bnbusports.cn",
+      "path": "/",
+      "status": 200,
+      "ms": 9.3
+    },
+    {
+      "time": 1790595482.003224,
+      "host": "www.student.bnbusports.cn",
+      "path": "/student/",
+      "status": 200,
+      "ms": 3.95
+    },
+    {
+      "time": 1790595482.0455163,
+      "host": "www.student.bnbusports.cn",
+      "path": "/api/v1/health/ready",
+      "status": 200,
+      "ms": 42.29
+    },
+    {
+      "time": 1790595483.0564208,
+      "host": "www.teacher.bnbusports.cn",
+      "path": "/",
+      "status": 200,
+      "ms": 10.57
+    },
+    {
+      "time": 1790595483.0602047,
+      "host": "www.student.bnbusports.cn",
+      "path": "/student/",
+      "status": 200,
+      "ms": 3.76
+    },
+    {
+      "time": 1790595483.1013505,
+      "host": "www.student.bnbusports.cn",
+      "path": "/api/v1/health/ready",
+      "status": 200,
+      "ms": 41.14
+    },
+    {
+      "time": 1790595484.1126902,
+      "host": "www.teacher.bnbusports.cn",
+      "path": "/",
+      "status": 200,
+      "ms": 10.29
+    },
+    {
+      "time": 1790595484.1164536,
+      "host": "www.student.bnbusports.cn",
+      "path": "/student/",
+      "status": 200,
+      "ms": 3.75
+    },
+    {
+      "time": 1790595484.1548681,
+      "host": "www.student.bnbusports.cn",
+      "path": "/api/v1/health/ready",
+      "status": 200,
+      "ms": 38.41
+    },
+    {
+      "time": 1790595485.1660156,
+      "host": "www.teacher.bnbusports.cn",
+      "path": "/",
+      "status": 200,
+      "ms": 10.1
+    },
+    {
+      "time": 1790595485.1696694,
+      "host": "www.student.bnbusports.cn",
+      "path": "/student/",
+      "status": 200,
+      "ms": 3.64
+    },
+    {
+      "time": 1790595485.2080712,
+      "host": "www.student.bnbusports.cn",
+      "path": "/api/v1/health/ready",
+      "status": 200,
+      "ms": 38.39
+    },
+    {
+      "time": 1790595486.2192392,
+      "host": "www.teacher.bnbusports.cn",
+      "path": "/",
+      "status": 200,
+      "ms": 10.12
+    },
+    {
+      "time": 1790595486.2232018,
+      "host": "www.student.bnbusports.cn",
+      "path": "/student/",
+      "status": 200,
+      "ms": 3.95
+    },
+    {
+      "time": 1790595486.2618065,
+      "host": "www.student.bnbusports.cn",
+      "path": "/api/v1/health/ready",
+      "status": 200,
+      "ms": 38.6
+    },
+    {
+      "time": 1790595487.2743146,
+      "host": "www.teacher.bnbusports.cn",
+      "path": "/",
+      "status": 200,
+      "ms": 12.08
+    },
+    {
+      "time": 1790595487.2802453,
+      "host": "www.student.bnbusports.cn",
+      "path": "/student/",
+      "status": 200,
+      "ms": 5.91
+    },
+    {
+      "time": 1790595487.335548,
+      "host": "www.student.bnbusports.cn",
+      "path": "/api/v1/health/ready",
+      "status": 200,
+      "ms": 55.3
+    },
+    {
+      "time": 1790595488.3505282,
+      "host": "www.teacher.bnbusports.cn",
+      "path": "/",
+      "status": 200,
+      "ms": 13.93
+    },
+    {
+      "time": 1790595488.3559716,
+      "host": "www.student.bnbusports.cn",
+      "path": "/student/",
+      "status": 200,
+      "ms": 5.43
+    },
+    {
+      "time": 1790595488.478627,
+      "host": "www.student.bnbusports.cn",
+      "path": "/api/v1/health/ready",
+      "status": 200,
+      "ms": 122.65
+    },
+    {
+      "time": 1790595489.492742,
+      "host": "www.teacher.bnbusports.cn",
+      "path": "/",
+      "status": 200,
+      "ms": 13.07
+    },
+    {
+      "time": 1790595489.4968514,
+      "host": "www.student.bnbusports.cn",
+      "path": "/student/",
+      "status": 200,
+      "ms": 4.1
+    },
+    {
+      "time": 1790595489.5414991,
+      "host": "www.student.bnbusports.cn",
+      "path": "/api/v1/health/ready",
+      "status": 200,
+      "ms": 44.64
+    },
+    {
+      "time": 1790595490.5515838,
+      "host": "www.teacher.bnbusports.cn",
+      "path": "/",
+      "status": 200,
+      "ms": 9.04
+    },
+    {
+      "time": 1790595490.5552948,
+      "host": "www.student.bnbusports.cn",
+      "path": "/student/",
+      "status": 200,
+      "ms": 3.7
+    },
+    {
+      "time": 1790595490.5979004,
+      "host": "www.student.bnbusports.cn",
+      "path": "/api/v1/health/ready",
+      "status": 200,
+      "ms": 42.6
+    },
+    {
+      "time": 1790595491.608169,
+      "host": "www.teacher.bnbusports.cn",
+      "path": "/",
+      "status": 200,
+      "ms": 9.22
+    },
+    {
+      "time": 1790595491.611831,
+      "host": "www.student.bnbusports.cn",
+      "path": "/student/",
+      "status": 200,
+      "ms": 3.65
+    },
+    {
+      "time": 1790595491.6492116,
+      "host": "www.student.bnbusports.cn",
+      "path": "/api/v1/health/ready",
+      "status": 200,
+      "ms": 37.38
+    },
+    {
+      "time": 1790595492.6595993,
+      "host": "www.teacher.bnbusports.cn",
+      "path": "/",
+      "status": 200,
+      "ms": 9.35
+    },
+    {
+      "time": 1790595492.6631846,
+      "host": "www.student.bnbusports.cn",
+      "path": "/student/",
+      "status": 200,
+      "ms": 3.58
+    },
+    {
+      "time": 1790595492.7040904,
+      "host": "www.student.bnbusports.cn",
+      "path": "/api/v1/health/ready",
+      "status": 200,
+      "ms": 40.9
+    },
+    {
+      "time": 1790595493.714085,
+      "host": "www.teacher.bnbusports.cn",
+      "path": "/",
+      "status": 200,
+      "ms": 8.95
+    },
+    {
+      "time": 1790595493.717865,
+      "host": "www.student.bnbusports.cn",
+      "path": "/student/",
+      "status": 200,
+      "ms": 3.77
+    },
+    {
+      "time": 1790595493.7609777,
+      "host": "www.student.bnbusports.cn",
+      "path": "/api/v1/health/ready",
+      "status": 200,
+      "ms": 43.11
+    },
+    {
+      "time": 1790595494.7709813,
+      "host": "www.teacher.bnbusports.cn",
+      "path": "/",
+      "status": 200,
+      "ms": 8.95
+    },
+    {
+      "time": 1790595494.775005,
+      "host": "www.student.bnbusports.cn",
+      "path": "/student/",
+      "status": 200,
+      "ms": 4.01
+    },
+    {
+      "time": 1790595494.8163595,
+      "host": "www.student.bnbusports.cn",
+      "path": "/api/v1/health/ready",
+      "status": 200,
+      "ms": 41.35
+    },
+    {
+      "time": 1790595495.8263178,
+      "host": "www.teacher.bnbusports.cn",
+      "path": "/",
+      "status": 200,
+      "ms": 8.91
+    },
+    {
+      "time": 1790595495.829879,
+      "host": "www.student.bnbusports.cn",
+      "path": "/student/",
+      "status": 200,
+      "ms": 3.55
+    },
+    {
+      "time": 1790595495.8922358,
+      "host": "www.student.bnbusports.cn",
+      "path": "/api/v1/health/ready",
+      "status": 200,
+      "ms": 62.35
+    },
+    {
+      "time": 1790595496.9026318,
+      "host": "www.teacher.bnbusports.cn",
+      "path": "/",
+      "status": 200,
+      "ms": 9.35
+    },
+    {
+      "time": 1790595496.9063785,
+      "host": "www.student.bnbusports.cn",
+      "path": "/student/",
+      "status": 200,
+      "ms": 3.74
+    },
+    {
+      "time": 1790595496.94596,
+      "host": "www.student.bnbusports.cn",
+      "path": "/api/v1/health/ready",
+      "status": 200,
+      "ms": 39.58
+    },
+    {
+      "time": 1790595497.956191,
+      "host": "www.teacher.bnbusports.cn",
+      "path": "/",
+      "status": 200,
+      "ms": 9.19
+    },
+    {
+      "time": 1790595497.9597907,
+      "host": "www.student.bnbusports.cn",
+      "path": "/student/",
+      "status": 200,
+      "ms": 3.59
+    },
+    {
+      "time": 1790595498.0026329,
+      "host": "www.student.bnbusports.cn",
+      "path": "/api/v1/health/ready",
+      "status": 200,
+      "ms": 42.84
+    },
+    {
+      "time": 1790595499.0124083,
+      "host": "www.teacher.bnbusports.cn",
+      "path": "/",
+      "status": 200,
+      "ms": 8.73
+    },
+    {
+      "time": 1790595499.0161402,
+      "host": "www.student.bnbusports.cn",
+      "path": "/student/",
+      "status": 200,
+      "ms": 3.72
+    },
+    {
+      "time": 1790595499.0552242,
+      "host": "www.student.bnbusports.cn",
+      "path": "/api/v1/health/ready",
+      "status": 200,
+      "ms": 39.08
+    },
+    {
+      "time": 1790595500.065771,
+      "host": "www.teacher.bnbusports.cn",
+      "path": "/",
+      "status": 200,
+      "ms": 9.5
+    },
+    {
+      "time": 1790595500.0697076,
+      "host": "www.student.bnbusports.cn",
+      "path": "/student/",
+      "status": 200,
+      "ms": 3.92
+    },
+    {
+      "time": 1790595500.1132267,
+      "host": "www.student.bnbusports.cn",
+      "path": "/api/v1/health/ready",
+      "status": 200,
+      "ms": 43.51
+    },
+    {
+      "time": 1790595501.123344,
+      "host": "www.teacher.bnbusports.cn",
+      "path": "/",
+      "status": 200,
+      "ms": 9.53
+    },
+    {
+      "time": 1790595501.1271887,
+      "host": "www.student.bnbusports.cn",
+      "path": "/student/",
+      "status": 200,
+      "ms": 3.83
+    },
+    {
+      "time": 1790595501.170521,
+      "host": "www.student.bnbusports.cn",
+      "path": "/api/v1/health/ready",
+      "status": 200,
+      "ms": 43.32
+    },
+    {
+      "time": 1790595502.1817784,
+      "host": "www.teacher.bnbusports.cn",
+      "path": "/",
+      "status": 200,
+      "ms": 10.21
+    },
+    {
+      "time": 1790595502.1865056,
+      "host": "www.student.bnbusports.cn",
+      "path": "/student/",
+      "status": 200,
+      "ms": 4.72
+    },
+    {
+      "time": 1790595502.2283394,
+      "host": "www.student.bnbusports.cn",
+      "path": "/api/v1/health/ready",
+      "status": 200,
+      "ms": 41.83
+    },
+    {
+      "time": 1790595503.2394366,
+      "host": "www.teacher.bnbusports.cn",
+      "path": "/",
+      "status": 200,
+      "ms": 10.05
+    },
+    {
+      "time": 1790595503.243318,
+      "host": "www.student.bnbusports.cn",
+      "path": "/student/",
+      "status": 200,
+      "ms": 3.87
+    },
+    {
+      "time": 1790595503.2808433,
+      "host": "www.student.bnbusports.cn",
+      "path": "/api/v1/health/ready",
+      "status": 200,
+      "ms": 37.52
+    },
+    {
+      "time": 1790595504.2918293,
+      "host": "www.teacher.bnbusports.cn",
+      "path": "/",
+      "status": 200,
+      "ms": 9.94
+    },
+    {
+      "time": 1790595504.2955873,
+      "host": "www.student.bnbusports.cn",
+      "path": "/student/",
+      "status": 200,
+      "ms": 3.75
+    },
+    {
+      "time": 1790595504.33595,
+      "host": "www.student.bnbusports.cn",
+      "path": "/api/v1/health/ready",
+      "status": 200,
+      "ms": 40.36
+    },
+    {
+      "time": 1790595505.3466616,
+      "host": "www.teacher.bnbusports.cn",
+      "path": "/",
+      "status": 200,
+      "ms": 9.67
+    },
+    {
+      "time": 1790595505.3503985,
+      "host": "www.student.bnbusports.cn",
+      "path": "/student/",
+      "status": 200,
+      "ms": 3.73
+    },
+    {
+      "time": 1790595505.3894339,
+      "host": "www.student.bnbusports.cn",
+      "path": "/api/v1/health/ready",
+      "status": 200,
+      "ms": 39.03
+    },
+    {
+      "time": 1790595506.4001756,
+      "host": "www.teacher.bnbusports.cn",
+      "path": "/",
+      "status": 200,
+      "ms": 9.69
+    },
+    {
+      "time": 1790595506.4038167,
+      "host": "www.student.bnbusports.cn",
+      "path": "/student/",
+      "status": 200,
+      "ms": 3.63
+    },
+    {
+      "time": 1790595506.4437683,
+      "host": "www.student.bnbusports.cn",
+      "path": "/api/v1/health/ready",
+      "status": 200,
+      "ms": 39.95
+    },
+    {
+      "time": 1790595507.4533744,
+      "host": "www.teacher.bnbusports.cn",
+      "path": "/",
+      "status": 200,
+      "ms": 9.25
+    },
+    {
+      "time": 1790595507.4569917,
+      "host": "www.student.bnbusports.cn",
+      "path": "/student/",
+      "status": 200,
+      "ms": 3.61
+    },
+    {
+      "time": 1790595507.4974995,
+      "host": "www.student.bnbusports.cn",
+      "path": "/api/v1/health/ready",
+      "status": 200,
+      "ms": 40.5
+    },
+    {
+      "time": 1790595508.5079532,
+      "host": "www.teacher.bnbusports.cn",
+      "path": "/",
+      "status": 200,
+      "ms": 9.41
+    },
+    {
+      "time": 1790595508.5116577,
+      "host": "www.student.bnbusports.cn",
+      "path": "/student/",
+      "status": 200,
+      "ms": 3.69
+    },
+    {
+      "time": 1790595508.5503244,
+      "host": "www.student.bnbusports.cn",
+      "path": "/api/v1/health/ready",
+      "status": 200,
+      "ms": 38.66
+    },
+    {
+      "time": 1790595509.560338,
+      "host": "www.teacher.bnbusports.cn",
+      "path": "/",
+      "status": 200,
+      "ms": 8.97
+    },
+    {
+      "time": 1790595509.5640147,
+      "host": "www.student.bnbusports.cn",
+      "path": "/student/",
+      "status": 200,
+      "ms": 3.67
+    },
+    {
+      "time": 1790595509.6179113,
+      "host": "www.student.bnbusports.cn",
+      "path": "/api/v1/health/ready",
+      "status": 200,
+      "ms": 53.88
+    },
+    {
+      "time": 1790595510.6281173,
+      "host": "www.teacher.bnbusports.cn",
+      "path": "/",
+      "status": 200,
+      "ms": 9.13
+    },
+    {
+      "time": 1790595510.6319559,
+      "host": "www.student.bnbusports.cn",
+      "path": "/student/",
+      "status": 200,
+      "ms": 3.83
+    },
+    {
+      "time": 1790595510.6716833,
+      "host": "www.student.bnbusports.cn",
+      "path": "/api/v1/health/ready",
+      "status": 200,
+      "ms": 39.72
+    },
+    {
+      "time": 1790595511.6813812,
+      "host": "www.teacher.bnbusports.cn",
+      "path": "/",
+      "status": 200,
+      "ms": 8.65
+    },
+    {
+      "time": 1790595511.6852076,
+      "host": "www.student.bnbusports.cn",
+      "path": "/student/",
+      "status": 200,
+      "ms": 3.81
+    },
+    {
+      "time": 1790595511.7238264,
+      "host": "www.student.bnbusports.cn",
+      "path": "/api/v1/health/ready",
+      "status": 200,
+      "ms": 38.61
+    },
+    {
+      "time": 1790595512.73446,
+      "host": "www.teacher.bnbusports.cn",
+      "path": "/",
+      "status": 200,
+      "ms": 9.58
+    },
+    {
+      "time": 1790595512.7384727,
+      "host": "www.student.bnbusports.cn",
+      "path": "/student/",
+      "status": 200,
+      "ms": 4.0
+    },
+    {
+      "time": 1790595512.7787824,
+      "host": "www.student.bnbusports.cn",
+      "path": "/api/v1/health/ready",
+      "status": 200,
+      "ms": 39.54
+    },
+    {
+      "time": 1790595513.7887113,
+      "host": "www.teacher.bnbusports.cn",
+      "path": "/",
+      "status": 200,
+      "ms": 8.88
+    },
+    {
+      "time": 1790595513.7924242,
+      "host": "www.student.bnbusports.cn",
+      "path": "/student/",
+      "status": 200,
+      "ms": 3.7
+    },
+    {
+      "time": 1790595513.8335257,
+      "host": "www.student.bnbusports.cn",
+      "path": "/api/v1/health/ready",
+      "status": 200,
+      "ms": 41.09
+    },
+    {
+      "time": 1790595514.844051,
+      "host": "www.teacher.bnbusports.cn",
+      "path": "/",
+      "status": 200,
+      "ms": 9.48
+    },
+    {
+      "time": 1790595514.84776,
+      "host": "www.student.bnbusports.cn",
+      "path": "/student/",
+      "status": 200,
+      "ms": 3.7
+    },
+    {
+      "time": 1790595514.885593,
+      "host": "www.student.bnbusports.cn",
+      "path": "/api/v1/health/ready",
+      "status": 200,
+      "ms": 37.83
+    },
+    {
+      "time": 1790595515.8957639,
+      "host": "www.teacher.bnbusports.cn",
+      "path": "/",
+      "status": 200,
+      "ms": 9.12
+    },
+    {
+      "time": 1790595515.8994312,
+      "host": "www.student.bnbusports.cn",
+      "path": "/student/",
+      "status": 200,
+      "ms": 3.66
+    },
+    {
+      "time": 1790595515.9384558,
+      "host": "www.student.bnbusports.cn",
+      "path": "/api/v1/health/ready",
+      "status": 200,
+      "ms": 39.02
+    },
+    {
+      "time": 1790595516.9478204,
+      "host": "www.teacher.bnbusports.cn",
+      "path": "/",
+      "status": 200,
+      "ms": 8.31
+    },
+    {
+      "time": 1790595516.9513805,
+      "host": "www.student.bnbusports.cn",
+      "path": "/student/",
+      "status": 200,
+      "ms": 3.55
+    },
+    {
+      "time": 1790595516.9899452,
+      "host": "www.student.bnbusports.cn",
+      "path": "/api/v1/health/ready",
+      "status": 200,
+      "ms": 38.56
+    },
+    {
+      "time": 1790595518.0001488,
+      "host": "www.teacher.bnbusports.cn",
+      "path": "/",
+      "status": 200,
+      "ms": 9.15
+    },
+    {
+      "time": 1790595518.0041153,
+      "host": "www.student.bnbusports.cn",
+      "path": "/student/",
+      "status": 200,
+      "ms": 3.95
+    },
+    {
+      "time": 1790595518.0564766,
+      "host": "www.student.bnbusports.cn",
+      "path": "/api/v1/health/ready",
+      "status": 200,
+      "ms": 52.35
+    },
+    {
+      "time": 1790595519.066228,
+      "host": "www.teacher.bnbusports.cn",
+      "path": "/",
+      "status": 200,
+      "ms": 8.71
+    },
+    {
+      "time": 1790595519.0699809,
+      "host": "www.student.bnbusports.cn",
+      "path": "/student/",
+      "status": 200,
+      "ms": 3.74
+    },
+    {
+      "time": 1790595519.112177,
+      "host": "www.student.bnbusports.cn",
+      "path": "/api/v1/health/ready",
+      "status": 200,
+      "ms": 42.19
+    },
+    {
+      "time": 1790595520.1219869,
+      "host": "www.teacher.bnbusports.cn",
+      "path": "/",
+      "status": 200,
+      "ms": 8.75
+    },
+    {
+      "time": 1790595520.125614,
+      "host": "www.student.bnbusports.cn",
+      "path": "/student/",
+      "status": 200,
+      "ms": 3.62
+    },
+    {
+      "time": 1790595520.1650898,
+      "host": "www.student.bnbusports.cn",
+      "path": "/api/v1/health/ready",
+      "status": 200,
+      "ms": 39.48
+    },
+    {
+      "time": 1790595521.1763742,
+      "host": "www.teacher.bnbusports.cn",
+      "path": "/",
+      "status": 200,
+      "ms": 10.4
+    },
+    {
+      "time": 1790595521.1826386,
+      "host": "www.student.bnbusports.cn",
+      "path": "/student/",
+      "status": 200,
+      "ms": 6.25
+    },
+    {
+      "time": 1790595521.2252607,
+      "host": "www.student.bnbusports.cn",
+      "path": "/api/v1/health/ready",
+      "status": 200,
+      "ms": 42.61
+    },
+    {
+      "time": 1790595522.2347407,
+      "host": "www.teacher.bnbusports.cn",
+      "path": "/",
+      "status": 200,
+      "ms": 8.77
+    },
+    {
+      "time": 1790595522.238394,
+      "host": "www.student.bnbusports.cn",
+      "path": "/student/",
+      "status": 200,
+      "ms": 3.64
+    },
+    {
+      "time": 1790595522.2769928,
+      "host": "www.student.bnbusports.cn",
+      "path": "/api/v1/health/ready",
+      "status": 200,
+      "ms": 38.59
+    },
+    {
+      "time": 1790595523.2915976,
+      "host": "www.teacher.bnbusports.cn",
+      "path": "/",
+      "status": 200,
+      "ms": 13.63
+    },
+    {
+      "time": 1790595523.2956975,
+      "host": "www.student.bnbusports.cn",
+      "path": "/student/",
+      "status": 200,
+      "ms": 4.09
+    },
+    {
+      "time": 1790595523.3375556,
+      "host": "www.student.bnbusports.cn",
+      "path": "/api/v1/health/ready",
+      "status": 200,
+      "ms": 41.85
+    },
+    {
+      "time": 1790595524.349564,
+      "host": "www.teacher.bnbusports.cn",
+      "path": "/",
+      "status": 200,
+      "ms": 11.58
+    },
+    {
+      "time": 1790595524.3544607,
+      "host": "www.student.bnbusports.cn",
+      "path": "/student/",
+      "status": 200,
+      "ms": 4.89
+    },
+    {
+      "time": 1790595524.407512,
+      "host": "www.student.bnbusports.cn",
+      "path": "/api/v1/health/ready",
+      "status": 200,
+      "ms": 53.05
+    },
+    {
+      "time": 1790595525.4172773,
+      "host": "www.teacher.bnbusports.cn",
+      "path": "/",
+      "status": 200,
+      "ms": 8.72
+    },
+    {
+      "time": 1790595525.4209175,
+      "host": "www.student.bnbusports.cn",
+      "path": "/student/",
+      "status": 200,
+      "ms": 3.63
+    },
+    {
+      "time": 1790595525.459672,
+      "host": "www.student.bnbusports.cn",
+      "path": "/api/v1/health/ready",
+      "status": 200,
+      "ms": 38.75
+    },
+    {
+      "time": 1790595526.4745183,
+      "host": "www.teacher.bnbusports.cn",
+      "path": "/",
+      "status": 200,
+      "ms": 14.18
+    },
+    {
+      "time": 1790595526.480073,
+      "host": "www.student.bnbusports.cn",
+      "path": "/student/",
+      "status": 200,
+      "ms": 5.54
+    },
+    {
+      "time": 1790595526.523979,
+      "host": "www.student.bnbusports.cn",
+      "path": "/api/v1/health/ready",
+      "status": 200,
+      "ms": 43.9
+    },
+    {
+      "time": 1790595527.5336504,
+      "host": "www.teacher.bnbusports.cn",
+      "path": "/",
+      "status": 200,
+      "ms": 8.63
+    },
+    {
+      "time": 1790595527.5373693,
+      "host": "www.student.bnbusports.cn",
+      "path": "/student/",
+      "status": 200,
+      "ms": 3.71
+    },
+    {
+      "time": 1790595527.5770435,
+      "host": "www.student.bnbusports.cn",
+      "path": "/api/v1/health/ready",
+      "status": 200,
+      "ms": 39.67
+    },
+    {
+      "time": 1790595528.5885243,
+      "host": "www.teacher.bnbusports.cn",
+      "path": "/",
+      "status": 200,
+      "ms": 10.56
+    },
+    {
+      "time": 1790595528.5939023,
+      "host": "www.student.bnbusports.cn",
+      "path": "/student/",
+      "status": 200,
+      "ms": 5.37
+    },
+    {
+      "time": 1790595528.6466522,
+      "host": "www.student.bnbusports.cn",
+      "path": "/api/v1/health/ready",
+      "status": 200,
+      "ms": 52.74
+    },
+    {
+      "time": 1790595529.656248,
+      "host": "www.teacher.bnbusports.cn",
+      "path": "/",
+      "status": 200,
+      "ms": 8.55
+    },
+    {
+      "time": 1790595529.659968,
+      "host": "www.student.bnbusports.cn",
+      "path": "/student/",
+      "status": 200,
+      "ms": 3.71
+    },
+    {
+      "time": 1790595529.6985307,
+      "host": "www.student.bnbusports.cn",
+      "path": "/api/v1/health/ready",
+      "status": 200,
+      "ms": 38.56
+    },
+    {
+      "time": 1790595530.719504,
+      "host": "www.teacher.bnbusports.cn",
+      "path": "/",
+      "status": 200,
+      "ms": 19.91
+    },
+    {
+      "time": 1790595530.7249575,
+      "host": "www.student.bnbusports.cn",
+      "path": "/student/",
+      "status": 200,
+      "ms": 5.44
+    },
+    {
+      "time": 1790595530.7715027,
+      "host": "www.student.bnbusports.cn",
+      "path": "/api/v1/health/ready",
+      "status": 200,
+      "ms": 46.54
+    },
+    {
+      "time": 1790595531.785264,
+      "host": "www.teacher.bnbusports.cn",
+      "path": "/",
+      "status": 200,
+      "ms": 12.71
+    },
+    {
+      "time": 1790595531.7888978,
+      "host": "www.student.bnbusports.cn",
+      "path": "/student/",
+      "status": 200,
+      "ms": 3.62
+    },
+    {
+      "time": 1790595531.8260367,
+      "host": "www.student.bnbusports.cn",
+      "path": "/api/v1/health/ready",
+      "status": 200,
+      "ms": 37.13
+    },
+    {
+      "time": 1790595532.8512492,
+      "host": "www.teacher.bnbusports.cn",
+      "path": "/",
+      "status": 200,
+      "ms": 25.12
+    },
+    {
+      "time": 1790595532.858693,
+      "host": "www.student.bnbusports.cn",
+      "path": "/student/",
+      "status": 200,
+      "ms": 7.43
+    },
+    {
+      "time": 1790595532.921373,
+      "host": "www.student.bnbusports.cn",
+      "path": "/api/v1/health/ready",
+      "status": 200,
+      "ms": 62.67
+    },
+    {
+      "time": 1790595533.936589,
+      "host": "www.teacher.bnbusports.cn",
+      "path": "/",
+      "status": 200,
+      "ms": 14.62
+    },
+    {
+      "time": 1790595533.9410365,
+      "host": "www.student.bnbusports.cn",
+      "path": "/student/",
+      "status": 200,
+      "ms": 4.44
+    },
+    {
+      "time": 1790595533.9965315,
+      "host": "www.student.bnbusports.cn",
+      "path": "/api/v1/health/ready",
+      "status": 200,
+      "ms": 55.49
+    },
+    {
+      "time": 1790595535.008805,
+      "host": "www.teacher.bnbusports.cn",
+      "path": "/",
+      "status": 200,
+      "ms": 11.23
+    },
+    {
+      "time": 1790595535.0125318,
+      "host": "www.student.bnbusports.cn",
+      "path": "/student/",
+      "status": 200,
+      "ms": 3.72
+    },
+    {
+      "time": 1790595535.0742972,
+      "host": "www.student.bnbusports.cn",
+      "path": "/api/v1/health/ready",
+      "status": 200,
+      "ms": 61.76
+    },
+    {
+      "time": 1790595536.0857553,
+      "host": "www.teacher.bnbusports.cn",
+      "path": "/",
+      "status": 200,
+      "ms": 10.41
+    },
+    {
+      "time": 1790595536.0893955,
+      "host": "www.student.bnbusports.cn",
+      "path": "/student/",
+      "status": 200,
+      "ms": 3.62
+    },
+    {
+      "time": 1790595536.1282,
+      "host": "www.student.bnbusports.cn",
+      "path": "/api/v1/health/ready",
+      "status": 200,
+      "ms": 38.8
+    },
+    {
+      "time": 1790595537.142001,
+      "host": "www.teacher.bnbusports.cn",
+      "path": "/",
+      "status": 200,
+      "ms": 12.75
+    },
+    {
+      "time": 1790595537.145696,
+      "host": "www.student.bnbusports.cn",
+      "path": "/student/",
+      "status": 200,
+      "ms": 3.68
+    },
+    {
+      "time": 1790595537.2038531,
+      "host": "www.student.bnbusports.cn",
+      "path": "/api/v1/health/ready",
+      "status": 200,
+      "ms": 58.15
+    },
+    {
+      "time": 1790595538.2164783,
+      "host": "www.teacher.bnbusports.cn",
+      "path": "/",
+      "status": 200,
+      "ms": 11.58
+    },
+    {
+      "time": 1790595538.2204862,
+      "host": "www.student.bnbusports.cn",
+      "path": "/student/",
+      "status": 200,
+      "ms": 3.99
+    },
+    {
+      "time": 1790595538.2614768,
+      "host": "www.student.bnbusports.cn",
+      "path": "/api/v1/health/ready",
+      "status": 200,
+      "ms": 40.99
+    },
+    {
+      "time": 1790595539.2727275,
+      "host": "www.teacher.bnbusports.cn",
+      "path": "/",
+      "status": 200,
+      "ms": 10.76
+    },
+    {
+      "time": 1790595539.2763133,
+      "host": "www.student.bnbusports.cn",
+      "path": "/student/",
+      "status": 200,
+      "ms": 3.57
+    },
+    {
+      "time": 1790595539.3158572,
+      "host": "www.student.bnbusports.cn",
+      "path": "/api/v1/health/ready",
+      "status": 200,
+      "ms": 39.54
+    },
+    {
+      "time": 1790595540.328464,
+      "host": "www.teacher.bnbusports.cn",
+      "path": "/",
+      "status": 200,
+      "ms": 11.56
+    },
+    {
+      "time": 1790595540.3320801,
+      "host": "www.student.bnbusports.cn",
+      "path": "/student/",
+      "status": 200,
+      "ms": 3.61
+    },
+    {
+      "time": 1790595540.3716514,
+      "host": "www.student.bnbusports.cn",
+      "path": "/api/v1/health/ready",
+      "status": 200,
+      "ms": 39.57
+    },
+    {
+      "time": 1790595541.383165,
+      "host": "www.teacher.bnbusports.cn",
+      "path": "/",
+      "status": 200,
+      "ms": 10.47
+    },
+    {
+      "time": 1790595541.3868244,
+      "host": "www.student.bnbusports.cn",
+      "path": "/student/",
+      "status": 200,
+      "ms": 3.65
+    },
+    {
+      "time": 1790595541.4254978,
+      "host": "www.student.bnbusports.cn",
+      "path": "/api/v1/health/ready",
+      "status": 200,
+      "ms": 38.67
+    },
+    {
+      "time": 1790595542.4364011,
+      "host": "www.teacher.bnbusports.cn",
+      "path": "/",
+      "status": 200,
+      "ms": 9.86
+    },
+    {
+      "time": 1790595542.44003,
+      "host": "www.student.bnbusports.cn",
+      "path": "/student/",
+      "status": 200,
+      "ms": 3.62
+    },
+    {
+      "time": 1790595542.4823482,
+      "host": "www.student.bnbusports.cn",
+      "path": "/api/v1/health/ready",
+      "status": 200,
+      "ms": 42.31
+    },
+    {
+      "time": 1790595543.4928317,
+      "host": "www.teacher.bnbusports.cn",
+      "path": "/",
+      "status": 200,
+      "ms": 9.43
+    },
+    {
+      "time": 1790595543.4964123,
+      "host": "www.student.bnbusports.cn",
+      "path": "/student/",
+      "status": 200,
+      "ms": 3.57
+    },
+    {
+      "time": 1790595543.5340917,
+      "host": "www.student.bnbusports.cn",
+      "path": "/api/v1/health/ready",
+      "status": 200,
+      "ms": 37.67
+    },
+    {
+      "time": 1790595544.544532,
+      "host": "www.teacher.bnbusports.cn",
+      "path": "/",
+      "status": 200,
+      "ms": 9.39
+    },
+    {
+      "time": 1790595544.5481336,
+      "host": "www.student.bnbusports.cn",
+      "path": "/student/",
+      "status": 200,
+      "ms": 3.59
+    },
+    {
+      "time": 1790595544.5884619,
+      "host": "www.student.bnbusports.cn",
+      "path": "/api/v1/health/ready",
+      "status": 200,
+      "ms": 40.32
+    },
+    {
+      "time": 1790595545.5989354,
+      "host": "www.teacher.bnbusports.cn",
+      "path": "/",
+      "status": 200,
+      "ms": 9.42
+    },
+    {
+      "time": 1790595545.6026185,
+      "host": "www.student.bnbusports.cn",
+      "path": "/student/",
+      "status": 200,
+      "ms": 3.67
+    },
+    {
+      "time": 1790595545.6417172,
+      "host": "www.student.bnbusports.cn",
+      "path": "/api/v1/health/ready",
+      "status": 200,
+      "ms": 39.09
+    },
+    {
+      "time": 1790595546.6520898,
+      "host": "www.teacher.bnbusports.cn",
+      "path": "/",
+      "status": 200,
+      "ms": 9.33
+    },
+    {
+      "time": 1790595546.6561136,
+      "host": "www.student.bnbusports.cn",
+      "path": "/student/",
+      "status": 200,
+      "ms": 4.01
+    },
+    {
+      "time": 1790595546.697612,
+      "host": "www.student.bnbusports.cn",
+      "path": "/api/v1/health/ready",
+      "status": 200,
+      "ms": 41.49
+    },
+    {
+      "time": 1790595547.7079442,
+      "host": "www.teacher.bnbusports.cn",
+      "path": "/",
+      "status": 200,
+      "ms": 9.28
+    },
+    {
+      "time": 1790595547.7116098,
+      "host": "www.student.bnbusports.cn",
+      "path": "/student/",
+      "status": 200,
+      "ms": 3.66
+    },
+    {
+      "time": 1790595547.751261,
+      "host": "www.student.bnbusports.cn",
+      "path": "/api/v1/health/ready",
+      "status": 200,
+      "ms": 39.65
+    },
+    {
+      "time": 1790595548.7618325,
+      "host": "www.teacher.bnbusports.cn",
+      "path": "/",
+      "status": 200,
+      "ms": 9.53
+    },
+    {
+      "time": 1790595548.7655542,
+      "host": "www.student.bnbusports.cn",
+      "path": "/student/",
+      "status": 200,
+      "ms": 3.71
+    },
+    {
+      "time": 1790595548.8060703,
+      "host": "www.student.bnbusports.cn",
+      "path": "/api/v1/health/ready",
+      "status": 200,
+      "ms": 40.51
+    },
+    {
+      "time": 1790595549.816839,
+      "host": "www.teacher.bnbusports.cn",
+      "path": "/",
+      "status": 200,
+      "ms": 9.73
+    },
+    {
+      "time": 1790595549.8208404,
+      "host": "www.student.bnbusports.cn",
+      "path": "/student/",
+      "status": 200,
+      "ms": 3.99
+    },
+    {
+      "time": 1790595549.8619742,
+      "host": "www.student.bnbusports.cn",
+      "path": "/api/v1/health/ready",
+      "status": 200,
+      "ms": 41.13
+    },
+    {
+      "time": 1790595550.8724654,
+      "host": "www.teacher.bnbusports.cn",
+      "path": "/",
+      "status": 200,
+      "ms": 9.45
+    },
+    {
+      "time": 1790595550.8761804,
+      "host": "www.student.bnbusports.cn",
+      "path": "/student/",
+      "status": 200,
+      "ms": 3.7
+    },
+    {
+      "time": 1790595550.9143515,
+      "host": "www.student.bnbusports.cn",
+      "path": "/api/v1/health/ready",
+      "status": 200,
+      "ms": 38.17
+    },
+    {
+      "time": 1790595551.9240475,
+      "host": "www.teacher.bnbusports.cn",
+      "path": "/",
+      "status": 200,
+      "ms": 9.31
+    },
+    {
+      "time": 1790595551.9278064,
+      "host": "www.student.bnbusports.cn",
+      "path": "/student/",
+      "status": 200,
+      "ms": 3.75
+    },
+    {
+      "time": 1790595551.9654496,
+      "host": "www.student.bnbusports.cn",
+      "path": "/api/v1/health/ready",
+      "status": 200,
+      "ms": 37.64
+    },
+    {
+      "time": 1790595552.9760525,
+      "host": "www.teacher.bnbusports.cn",
+      "path": "/",
+      "status": 200,
+      "ms": 9.56
+    },
+    {
+      "time": 1790595552.979659,
+      "host": "www.student.bnbusports.cn",
+      "path": "/student/",
+      "status": 200,
+      "ms": 3.6
+    },
+    {
+      "time": 1790595553.0233011,
+      "host": "www.student.bnbusports.cn",
+      "path": "/api/v1/health/ready",
+      "status": 200,
+      "ms": 43.64
+    },
+    {
+      "time": 1790595554.033547,
+      "host": "www.teacher.bnbusports.cn",
+      "path": "/",
+      "status": 200,
+      "ms": 9.2
+    },
+    {
+      "time": 1790595554.0371313,
+      "host": "www.student.bnbusports.cn",
+      "path": "/student/",
+      "status": 200,
+      "ms": 3.57
+    },
+    {
+      "time": 1790595554.0752873,
+      "host": "www.student.bnbusports.cn",
+      "path": "/api/v1/health/ready",
+      "status": 200,
+      "ms": 38.15
+    },
+    {
+      "time": 1790595555.0860887,
+      "host": "www.teacher.bnbusports.cn",
+      "path": "/",
+      "status": 200,
+      "ms": 9.76
+    },
+    {
+      "time": 1790595555.089766,
+      "host": "www.student.bnbusports.cn",
+      "path": "/student/",
+      "status": 200,
+      "ms": 3.66
+    },
+    {
+      "time": 1790595555.1501262,
+      "host": "www.student.bnbusports.cn",
+      "path": "/api/v1/health/ready",
+      "status": 200,
+      "ms": 60.35
+    },
+    {
+      "time": 1790595556.1599858,
+      "host": "www.teacher.bnbusports.cn",
+      "path": "/",
+      "status": 200,
+      "ms": 8.81
+    },
+    {
+      "time": 1790595556.1635525,
+      "host": "www.student.bnbusports.cn",
+      "path": "/student/",
+      "status": 200,
+      "ms": 3.56
+    },
+    {
+      "time": 1790595556.204645,
+      "host": "www.student.bnbusports.cn",
+      "path": "/api/v1/health/ready",
+      "status": 200,
+      "ms": 41.09
+    },
+    {
+      "time": 1790595557.2142613,
+      "host": "www.teacher.bnbusports.cn",
+      "path": "/",
+      "status": 200,
+      "ms": 8.74
+    },
+    {
+      "time": 1790595557.2178407,
+      "host": "www.student.bnbusports.cn",
+      "path": "/student/",
+      "status": 200,
+      "ms": 3.57
+    },
+    {
+      "time": 1790595557.2556565,
+      "host": "www.student.bnbusports.cn",
+      "path": "/api/v1/health/ready",
+      "status": 200,
+      "ms": 37.81
+    },
+    {
+      "time": 1790595558.2653272,
+      "host": "www.teacher.bnbusports.cn",
+      "path": "/",
+      "status": 200,
+      "ms": 8.62
+    },
+    {
+      "time": 1790595558.2689822,
+      "host": "www.student.bnbusports.cn",
+      "path": "/student/",
+      "status": 200,
+      "ms": 3.64
+    },
+    {
+      "time": 1790595558.308377,
+      "host": "www.student.bnbusports.cn",
+      "path": "/api/v1/health/ready",
+      "status": 200,
+      "ms": 39.39
+    },
+    {
+      "time": 1790595559.3186817,
+      "host": "www.teacher.bnbusports.cn",
+      "path": "/",
+      "status": 200,
+      "ms": 9.26
+    },
+    {
+      "time": 1790595559.322561,
+      "host": "www.student.bnbusports.cn",
+      "path": "/student/",
+      "status": 200,
+      "ms": 3.87
+    },
+    {
+      "time": 1790595559.3640642,
+      "host": "www.student.bnbusports.cn",
+      "path": "/api/v1/health/ready",
+      "status": 200,
+      "ms": 41.5
+    },
+    {
+      "time": 1790595560.3747685,
+      "host": "www.teacher.bnbusports.cn",
+      "path": "/",
+      "status": 200,
+      "ms": 9.66
+    },
+    {
+      "time": 1790595560.378475,
+      "host": "www.student.bnbusports.cn",
+      "path": "/student/",
+      "status": 200,
+      "ms": 3.69
+    },
+    {
+      "time": 1790595560.4175406,
+      "host": "www.student.bnbusports.cn",
+      "path": "/api/v1/health/ready",
+      "status": 200,
+      "ms": 39.06
+    },
+    {
+      "time": 1790595561.4282465,
+      "host": "www.teacher.bnbusports.cn",
+      "path": "/",
+      "status": 200,
+      "ms": 9.66
+    },
+    {
+      "time": 1790595561.43196,
+      "host": "www.student.bnbusports.cn",
+      "path": "/student/",
+      "status": 200,
+      "ms": 3.7
+    },
+    {
+      "time": 1790595561.4715312,
+      "host": "www.student.bnbusports.cn",
+      "path": "/api/v1/health/ready",
+      "status": 200,
+      "ms": 39.57
+    },
+    {
+      "time": 1790595562.4813054,
+      "host": "www.teacher.bnbusports.cn",
+      "path": "/",
+      "status": 200,
+      "ms": 8.73
+    },
+    {
+      "time": 1790595562.4851205,
+      "host": "www.student.bnbusports.cn",
+      "path": "/student/",
+      "status": 200,
+      "ms": 3.8
+    },
+    {
+      "time": 1790595562.5250826,
+      "host": "www.student.bnbusports.cn",
+      "path": "/api/v1/health/ready",
+      "status": 200,
+      "ms": 39.96
+    },
+    {
+      "time": 1790595563.534904,
+      "host": "www.teacher.bnbusports.cn",
+      "path": "/",
+      "status": 200,
+      "ms": 8.94
+    },
+    {
+      "time": 1790595563.5385482,
+      "host": "www.student.bnbusports.cn",
+      "path": "/student/",
+      "status": 200,
+      "ms": 3.63
+    },
+    {
+      "time": 1790595563.5777915,
+      "host": "www.student.bnbusports.cn",
+      "path": "/api/v1/health/ready",
+      "status": 200,
+      "ms": 39.24
+    },
+    {
+      "time": 1790595564.5876973,
+      "host": "www.teacher.bnbusports.cn",
+      "path": "/",
+      "status": 200,
+      "ms": 8.86
+    },
+    {
+      "time": 1790595564.591591,
+      "host": "www.student.bnbusports.cn",
+      "path": "/student/",
+      "status": 200,
+      "ms": 3.88
+    },
+    {
+      "time": 1790595564.6320424,
+      "host": "www.student.bnbusports.cn",
+      "path": "/api/v1/health/ready",
+      "status": 200,
+      "ms": 40.45
+    },
+    {
+      "time": 1790595565.6428165,
+      "host": "www.teacher.bnbusports.cn",
+      "path": "/",
+      "status": 200,
+      "ms": 9.73
+    },
+    {
+      "time": 1790595565.646423,
+      "host": "www.student.bnbusports.cn",
+      "path": "/student/",
+      "status": 200,
+      "ms": 3.6
+    },
+    {
+      "time": 1790595565.6860003,
+      "host": "www.student.bnbusports.cn",
+      "path": "/api/v1/health/ready",
+      "status": 200,
+      "ms": 39.57
+    },
+    {
+      "time": 1790595566.6964636,
+      "host": "www.teacher.bnbusports.cn",
+      "path": "/",
+      "status": 200,
+      "ms": 9.45
+    },
+    {
+      "time": 1790595566.7002335,
+      "host": "www.student.bnbusports.cn",
+      "path": "/student/",
+      "status": 200,
+      "ms": 3.76
+    },
+    {
+      "time": 1790595566.7391293,
+      "host": "www.student.bnbusports.cn",
+      "path": "/api/v1/health/ready",
+      "status": 200,
+      "ms": 38.89
+    },
+    {
+      "time": 1790595567.749342,
+      "host": "www.teacher.bnbusports.cn",
+      "path": "/",
+      "status": 200,
+      "ms": 9.17
+    },
+    {
+      "time": 1790595567.7529902,
+      "host": "www.student.bnbusports.cn",
+      "path": "/student/",
+      "status": 200,
+      "ms": 3.64
+    },
+    {
+      "time": 1790595567.793263,
+      "host": "www.student.bnbusports.cn",
+      "path": "/api/v1/health/ready",
+      "status": 200,
+      "ms": 40.27
+    },
+    {
+      "time": 1790595568.8026981,
+      "host": "www.teacher.bnbusports.cn",
+      "path": "/",
+      "status": 200,
+      "ms": 9.25
+    },
+    {
+      "time": 1790595568.806652,
+      "host": "www.student.bnbusports.cn",
+      "path": "/student/",
+      "status": 200,
+      "ms": 3.94
+    },
+    {
+      "time": 1790595568.8440504,
+      "host": "www.student.bnbusports.cn",
+      "path": "/api/v1/health/ready",
+      "status": 200,
+      "ms": 37.39
+    },
+    {
+      "time": 1790595569.853004,
+      "host": "www.teacher.bnbusports.cn",
+      "path": "/",
+      "status": 200,
+      "ms": 8.53
+    },
+    {
+      "time": 1790595569.8571405,
+      "host": "www.student.bnbusports.cn",
+      "path": "/student/",
+      "status": 200,
+      "ms": 4.13
+    },
+    {
+      "time": 1790595569.9199693,
+      "host": "www.student.bnbusports.cn",
+      "path": "/api/v1/health/ready",
+      "status": 200,
+      "ms": 62.82
+    },
+    {
+      "time": 1790595570.9299545,
+      "host": "www.teacher.bnbusports.cn",
+      "path": "/",
+      "status": 200,
+      "ms": 8.94
+    },
+    {
+      "time": 1790595570.9335783,
+      "host": "www.student.bnbusports.cn",
+      "path": "/student/",
+      "status": 200,
+      "ms": 3.61
+    },
+    {
+      "time": 1790595570.9748077,
+      "host": "www.student.bnbusports.cn",
+      "path": "/api/v1/health/ready",
+      "status": 200,
+      "ms": 41.22
+    },
+    {
+      "time": 1790595571.985085,
+      "host": "www.teacher.bnbusports.cn",
+      "path": "/",
+      "status": 200,
+      "ms": 9.23
+    },
+    {
+      "time": 1790595571.9888155,
+      "host": "www.student.bnbusports.cn",
+      "path": "/student/",
+      "status": 200,
+      "ms": 3.72
+    },
+    {
+      "time": 1790595572.028102,
+      "host": "www.student.bnbusports.cn",
+      "path": "/api/v1/health/ready",
+      "status": 200,
+      "ms": 39.28
+    },
+    {
+      "time": 1790595573.0386984,
+      "host": "www.teacher.bnbusports.cn",
+      "path": "/",
+      "status": 200,
+      "ms": 9.55
+    },
+    {
+      "time": 1790595573.0424654,
+      "host": "www.student.bnbusports.cn",
+      "path": "/student/",
+      "status": 200,
+      "ms": 3.76
+    },
+    {
+      "time": 1790595573.0819538,
+      "host": "www.student.bnbusports.cn",
+      "path": "/api/v1/health/ready",
+      "status": 200,
+      "ms": 39.48
+    },
+    {
+      "time": 1790595574.0919485,
+      "host": "www.teacher.bnbusports.cn",
+      "path": "/",
+      "status": 200,
+      "ms": 8.94
+    },
+    {
+      "time": 1790595574.0956032,
+      "host": "www.student.bnbusports.cn",
+      "path": "/student/",
+      "status": 200,
+      "ms": 3.64
+    },
+    {
+      "time": 1790595574.1368299,
+      "host": "www.student.bnbusports.cn",
+      "path": "/api/v1/health/ready",
+      "status": 200,
+      "ms": 41.22
+    },
+    {
+      "time": 1790595575.14709,
+      "host": "www.teacher.bnbusports.cn",
+      "path": "/",
+      "status": 200,
+      "ms": 9.21
+    },
+    {
+      "time": 1790595575.1508367,
+      "host": "www.student.bnbusports.cn",
+      "path": "/student/",
+      "status": 200,
+      "ms": 3.74
+    },
+    {
+      "time": 1790595575.1914153,
+      "host": "www.student.bnbusports.cn",
+      "path": "/api/v1/health/ready",
+      "status": 200,
+      "ms": 40.57
+    }
+  ]
+}

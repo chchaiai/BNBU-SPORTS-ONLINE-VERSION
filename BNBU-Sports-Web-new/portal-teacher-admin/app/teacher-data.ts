@@ -1,3 +1,4 @@
+import { parallelMap } from "./parallel-map";
 import { listFinalGradeRevisions } from "./v81-data";
 import {
   ApiError,
@@ -611,6 +612,7 @@ export type TeacherStudentView = {
 };
 
 export type TeacherCheckinView = {
+  detailsLoaded?: boolean;
   aiReview?: ExerciseRecord['aiReview'];
   workflowStage?: ExerciseRecord['workflowStage'];
   recordOrigin?: string;
@@ -813,6 +815,9 @@ export async function loadTeacherStudents(
   const profileCache = new Map<string, StudentProfileApi>();
 
   const authorizedEnrollments=await fetchAllPages<Enrollment>("/enrollments");
+  const visible = new Set(classSectionIds);
+  const ids = [...new Set(authorizedEnrollments.filter(row => visible.has(row.classSectionId) && row.status === "ACTIVE").map(row => row.studentId))];
+  await parallelMap(ids, async id => { profileCache.set(id, await fetchStudentProfile(id)); });
   for (const classSectionId of classSectionIds) {
     const enrollments = authorizedEnrollments.filter(enrollment=>enrollment.classSectionId===classSectionId);
     for (const enrollment of enrollments) {
@@ -823,12 +828,6 @@ export async function loadTeacherStudents(
           gender:"未知",grade:"—",courseId:enrollment.classSectionId,status:mapEnrollmentStatus(enrollment.status),
           joinedAt:enrollment.joinedAt,joinMethod:mapJoinMethod(enrollment.source),courseHours:0,otherHours:0,version:enrollment.version});
         continue;
-      }
-      if (!profileCache.has(enrollment.studentId)) {
-        profileCache.set(
-          enrollment.studentId,
-          await fetchStudentProfile(enrollment.studentId),
-        );
       }
       const profile = profileCache.get(enrollment.studentId);
       if (!profile?.fullName?.trim() || !profile.studentNumber?.trim()) {
@@ -1012,21 +1011,16 @@ export async function loadSubmittedCheckins(classSectionIds: readonly string[]):
     (item) => visibleSections.has(item.classSectionId) &&
       (item.status === "SUBMITTED" || item.status === "REVIEWED"),
   );
-  const detailed = await Promise.all(
-    records.map(async (item) => {
-      const [detail, evidenceContext, latestReview] = await Promise.all([
-        fetchExerciseRecord(item.id),
-        fetchExerciseRecordEvidenceContext(item.id),
-        fetchLatestExerciseReview(item.id),
-      ]);
-      return mapExerciseRecordToCheckin(
-        { ...item, ...detail },
-        evidenceContext,
-        latestReview?.reviewVersion ?? 0,
-      );
-    }),
-  );
-  return detailed;
+  return records.map(item => ({ ...mapExerciseRecordToCheckin(item), detailsLoaded: false }));
+}
+
+/** Resolve evidence only for a record the teacher is inspecting. Writes still
+ * re-read their own authoritative version through the existing mutation flow. */
+export async function loadTeacherCheckinDetail(recordId: string): Promise<TeacherCheckinView> {
+  const [record, context, review] = await Promise.all([
+    fetchExerciseRecord(recordId), fetchExerciseRecordEvidenceContext(recordId), fetchLatestExerciseReview(recordId),
+  ]);
+  return { ...mapExerciseRecordToCheckin(record, context, review?.reviewVersion ?? 0), detailsLoaded: true };
 }
 
 export function mapStudentScoreToGrade(
@@ -1080,18 +1074,21 @@ export function withPhysicalResult(grade: TeacherGradeView, latest: PhysicalResu
     physicalRunType: !exempt ? latest?.runType : undefined,
     physicalScore: undefined };
 }
+export type TeacherProgress = { enrollmentId: string; courseRelated: { effectiveSeconds: number };
+  general: { effectiveSeconds: number }; totalEffectiveSeconds: number; status: string };
+export const loadTeacherProgress = () => fetchAllPages<TeacherProgress>("/teacher-progress");
+
 export async function loadTeacherGrades(
   students: TeacherStudentView[],
   classSectionId?: string,
+  shared?: { exemptions: StructuredExemptionApplication[]; progress: TeacherProgress[] },
 ): Promise<TeacherGradeView[]> {
   const selected = classSectionId ? students.filter(student => student.courseId === classSectionId) : students;
-  const [exemptions, progress] = await Promise.all([
-    fetchExemptionApplications(),
-    fetchAllPages<{ enrollmentId: string; courseRelated: { effectiveSeconds: number };
-      general: { effectiveSeconds: number }; totalEffectiveSeconds: number; status: string }>("/teacher-progress"),
+  const [exemptions, progress] = shared ? [shared.exemptions, shared.progress] : await Promise.all([
+    fetchExemptionApplications(), loadTeacherProgress(),
   ]);
   const progressByEnrollment = new Map(progress.map(item => [item.enrollmentId, item]));
-  return Promise.all(selected.map(async student => {
+  return parallelMap(selected, async student => {
     const [physical, grades] = await Promise.all([
       fetchPhysicalResultHistory(student.enrollmentId),
       listFinalGradeRevisions(student.enrollmentId),
@@ -1116,11 +1113,11 @@ export async function loadTeacherGrades(
     };
     return withPhysicalResult(grade, physical.items[0], exemptions.some(application =>
       application.enrollmentId === grade.enrollmentId && application.applicationType === 'PHYSICAL_TEST' && application.status === 'APPROVED'));
-  }));
+  });
 }
 
-export async function loadTeacherExemptions(): Promise<TeacherExemptionView[]> {
-  const applications = await fetchExemptionApplications();
+export async function loadTeacherExemptions(input?: StructuredExemptionApplication[]): Promise<TeacherExemptionView[]> {
+  const applications = input ?? await fetchExemptionApplications();
   return applications.filter((application) => application.status !== 'DRAFT').map((application) => ({
     id: application.id,
     studentId: application.studentId,

@@ -1,0 +1,28 @@
+{
+  "result": "PASS",
+  "release": "/opt/bnbu-sports-production/releases/outbox-accounts-20260922",
+  "previous": "/opt/bnbu-sports-production/releases/dual-class-20260922",
+  "images": {
+    "backend": "sha256:ce41949b0da96b1e057f59414a778bdabf00a720b871078d1dc2a758d4b66071",
+    "portal": "sha256:93768ded8f0112c103dc72a8fc4f59b17139c3b2762bda4c142cbae0149b8a13"
+  },
+  "backup": {
+    "check": "PRE_RELEASE_DATABASE_BACKUP",
+    "result": "PASS",
+    "path": "/opt/bnbu-sports-production/backups/before-bugfix-20260922T114608Z.dump",
+    "bytes": 75484194
+  },
+  "verification": {
+    "result": "PASS",
+    "window": "2026-09-22 19:14:35–19:14:55 +08:00",
+    "mediaEvents": 6,
+    "userEvents": 4,
+    "systemEvents": 2,
+    "productionBusinessWrites": 0
+  },
+  "publicPortalAssets": 9,
+  "health": "PASS",
+  "databaseMigrations": 0,
+  "studentAssetsUnchanged": true,
+  "rollbackAvailable": true
+}

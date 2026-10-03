@@ -29,7 +29,7 @@ export async function projectV81Records(
     SELECT w.record_id,w.stage,w.material_version,w.public_reason,w.public_comment,w.version,
       coalesce(p.eligible_minutes,0) AS eligible_minutes,coalesce(p.credited_minutes,0) AS credited_minutes,p.reason
     FROM v81_record_workflows w LEFT JOIN v81_credit_projections p ON p.record_id=w.record_id
-    WHERE w.record_id::text IN (${Prisma.join(records.map((record) => record.id))})`;
+    WHERE w.record_id IN (${Prisma.join(records.map((record) => Prisma.sql`${record.id}::uuid`))})`;
   const sources = await tx.$queryRaw<{session_id:string}[]>`SELECT session_id FROM v81_history_session_sources
     WHERE session_id::text IN (${Prisma.join(records.map(record=>record.sessionId))})`;
   const historical = new Set(sources.map(row=>row.session_id));

@@ -260,6 +260,9 @@ export type AdminCourse = {
 };
 
 export type StudentProfileProjection = {
+  maximumActiveEnrollments?: number;
+  activeEnrollmentCount?: number;
+  enrollmentCapacitySemesterId?: string | null;
   profileQualityStatus?: 'NORMAL' | 'REQUIRES_PROFILE_UPDATE' | 'PENDING_REVIEW';
   profileQualityReasons?: string[];
   profileConfirmedAt?: string | null;

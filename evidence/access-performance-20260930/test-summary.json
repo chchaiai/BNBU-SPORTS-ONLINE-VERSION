@@ -1,0 +1,28 @@
+{
+  "result": "PASS",
+  "newTestFailures": [],
+  "baselinePortalFailures": [
+    "keeps teacher overview metrics single-sourced and separate from status filters",
+    "teacher workspace exposes invalid records and direct correction wording",
+    "uses one portal-backed AppSelect instead of native browser selects"
+  ],
+  "baselineStudentSmokeFailures": [
+    "v8 contract-wired student pages keep grace non-refreshable and show server proof todos: The input did not match the regular expression /\u6bcf\u5b66\u671f\u4ec5\u53ef\u9009\u62e9\u4e00\u95e8\u8bfe\u7a0b/u. Input:"
+  ],
+  "checks": {
+    "portal": "153/156; same 3 baseline failures",
+    "student": "113/113",
+    "teacherTargeted": "7/7",
+    "browser": "Synthetic real-loading fixture: initial 18 requests, record details on selection, failure and retry, Grades deferred; student four lazy tabs rendered"
+  },
+  "typecheck": "PASS",
+  "telemetryTests": "2/2",
+  "browserEvidence": {
+    "kind": "manual CUA observations",
+    "studentLocal": "Courses, exercise, grades and profile rendered after lazy loading; no JavaScript errors observed",
+    "teacherFixture": "9 synthetic students, 25 records; initial 18 requests, selected student 3 details uses 9 more requests; 503 error and retry verified; grades histories load on grades tab",
+    "liveStudent": "Login page rendered",
+    "liveTeacherHost": "Existing admin session system overview rendered; not a real teacher workflow acceptance",
+    "networkAcceptance": "Pending campus Wi-Fi and China Mobile; desktop has TUN"
+  }
+}

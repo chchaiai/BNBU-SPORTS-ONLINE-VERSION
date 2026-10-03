@@ -89,5 +89,6 @@ export const migrationIds = [
   '0087_roster_xls',
   '0088_student_self_erasure',
   '0089_teacher_notes',
+  '0090_student_enrollment_capacity',
   '0091_feedback_erasure_cleanup',
 ];

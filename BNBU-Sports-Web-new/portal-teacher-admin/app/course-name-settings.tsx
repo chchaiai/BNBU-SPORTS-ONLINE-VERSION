@@ -5,7 +5,7 @@ import { ApiError, currentApiSessionEpoch, request, toUserFacingError, formatUse
 type Section = { id: string; displayName: string; version: number; status: string };
 type Intent = { key: string; body: { displayName: string; expectedVersion: number } };
 
-export function CourseNameSettings({ classSectionId, onSaved }: { classSectionId: string; onSaved: () => void }) {
+export function CourseNameSettings({ classSectionId, onSaved, localPreview }: { classSectionId: string; onSaved: () => void; localPreview?: { displayName: string; onSave: (name: string) => void } }) {
   const [section, setSection] = useState<Section | null>(null);
   const [name, setName] = useState('');
   const [busy, setBusy] = useState(false);
@@ -18,12 +18,23 @@ export function CourseNameSettings({ classSectionId, onSaved }: { classSectionId
   const path = `/class-sections/${encodeURIComponent(classSectionId)}`;
   useEffect(() => {
     mounted.current = true;
+    if (localPreview) {
+      setSection({ id: classSectionId, displayName: localPreview.displayName, version: 0, status: 'ACTIVE' });
+      setName(localPreview.displayName);
+      return () => { mounted.current = false; };
+    }
     void request<Section>(path).then(value => { if (valid()) { setSection(value); setName(value.displayName); } })
       .catch(error => { if (valid()) setMessage(formatUserFacingError(error)); });
     return () => { mounted.current = false; };
   }, [classSectionId]);
   async function save() {
     if (lock.current || !section || !name.trim()) return;
+    if (localPreview) {
+      setSection({ ...section, displayName: name.trim() });
+      localPreview.onSave(name.trim());
+      setMessage('本地预览：课程名称已更新，刷新页面后恢复示例。');
+      return;
+    }
     lock.current = true; setBusy(true); setMessage('');
     intent.current ??= { key: crypto.randomUUID(), body: { displayName: name.trim(), expectedVersion: section.version } };
     try {

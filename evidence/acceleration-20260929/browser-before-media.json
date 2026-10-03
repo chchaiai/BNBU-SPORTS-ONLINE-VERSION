@@ -1,0 +1,1962 @@
+[
+  {
+    "name": "student",
+    "runs": [
+      {
+        "phase": "cold",
+        "status": 200,
+        "navigation": {
+          "ttfb": 1071.0999999996275,
+          "domReady": 2002.0999999996275,
+          "protocol": "h2"
+        },
+        "resources": [
+          {
+            "path": "/student/_assets/e06c70913df4ba3831b9d499/css/tokens.css",
+            "type": "link",
+            "transfer": 1680,
+            "decoded": 4735,
+            "protocol": "h2"
+          },
+          {
+            "path": "/student/_assets/e06c70913df4ba3831b9d499/css/components.css",
+            "type": "link",
+            "transfer": 3982,
+            "decoded": 17426,
+            "protocol": "h2"
+          },
+          {
+            "path": "/student/_assets/e06c70913df4ba3831b9d499/css/screens.css",
+            "type": "link",
+            "transfer": 7589,
+            "decoded": 40338,
+            "protocol": "h2"
+          },
+          {
+            "path": "/student/_assets/e06c70913df4ba3831b9d499/css/upload-progress.css",
+            "type": "link",
+            "transfer": 976,
+            "decoded": 1514,
+            "protocol": "h2"
+          },
+          {
+            "path": "/student/_assets/e06c70913df4ba3831b9d499/css/ui-refinement.css",
+            "type": "link",
+            "transfer": 1364,
+            "decoded": 2901,
+            "protocol": "h2"
+          },
+          {
+            "path": "/student/_assets/e06c70913df4ba3831b9d499/js/native-album.js",
+            "type": "other",
+            "transfer": 1805,
+            "decoded": 3849,
+            "protocol": "h2"
+          },
+          {
+            "path": "/student/_assets/e06c70913df4ba3831b9d499/js/student-device.js",
+            "type": "other",
+            "transfer": 1765,
+            "decoded": 3144,
+            "protocol": "h2"
+          },
+          {
+            "path": "/student/_assets/e06c70913df4ba3831b9d499/js/checkin-drafts.js",
+            "type": "other",
+            "transfer": 1500,
+            "decoded": 3062,
+            "protocol": "h2"
+          },
+          {
+            "path": "/student/_assets/e06c70913df4ba3831b9d499/js/store.js",
+            "type": "other",
+            "transfer": 1350,
+            "decoded": 3259,
+            "protocol": "h2"
+          },
+          {
+            "path": "/student/_assets/e06c70913df4ba3831b9d499/js/data.js",
+            "type": "other",
+            "transfer": 981,
+            "decoded": 1156,
+            "protocol": "h2"
+          },
+          {
+            "path": "/student/_assets/e06c70913df4ba3831b9d499/js/course-selection.js",
+            "type": "other",
+            "transfer": 1400,
+            "decoded": 2388,
+            "protocol": "h2"
+          },
+          {
+            "path": "/student/_assets/e06c70913df4ba3831b9d499/js/i18n.js",
+            "type": "other",
+            "transfer": 6924,
+            "decoded": 16317,
+            "protocol": "h2"
+          },
+          {
+            "path": "/student/_assets/e06c70913df4ba3831b9d499/js/ui.js",
+            "type": "other",
+            "transfer": 2904,
+            "decoded": 7061,
+            "protocol": "h2"
+          },
+          {
+            "path": "/student/_assets/e06c70913df4ba3831b9d499/js/icons.js",
+            "type": "other",
+            "transfer": 6530,
+            "decoded": 15339,
+            "protocol": "h2"
+          },
+          {
+            "path": "/student/_assets/e06c70913df4ba3831b9d499/js/sport-reference-glyphs.js",
+            "type": "other",
+            "transfer": 1958,
+            "decoded": 3977,
+            "protocol": "h2"
+          },
+          {
+            "path": "/student/_assets/e06c70913df4ba3831b9d499/js/v81-review.js",
+            "type": "other",
+            "transfer": 4623,
+            "decoded": 11632,
+            "protocol": "h2"
+          },
+          {
+            "path": "/student/_assets/e06c70913df4ba3831b9d499/js/local-preview.js",
+            "type": "other",
+            "transfer": 3026,
+            "decoded": 7345,
+            "protocol": "h2"
+          },
+          {
+            "path": "/student/_assets/e06c70913df4ba3831b9d499/js/photo-originals.js",
+            "type": "other",
+            "transfer": 1827,
+            "decoded": 3414,
+            "protocol": "h2"
+          },
+          {
+            "path": "/student/_assets/e06c70913df4ba3831b9d499/js/api.js",
+            "type": "other",
+            "transfer": 30184,
+            "decoded": 104288,
+            "protocol": "h2"
+          },
+          {
+            "path": "/student/_assets/e06c70913df4ba3831b9d499/js/sports-catalog.js",
+            "type": "other",
+            "transfer": 1058,
+            "decoded": 1900,
+            "protocol": "h2"
+          },
+          {
+            "path": "/student/_assets/e06c70913df4ba3831b9d499/js/proofs.js",
+            "type": "other",
+            "transfer": 1226,
+            "decoded": 2657,
+            "protocol": "h2"
+          },
+          {
+            "path": "/student/_assets/e06c70913df4ba3831b9d499/js/upload-progress.js",
+            "type": "other",
+            "transfer": 1845,
+            "decoded": 3045,
+            "protocol": "h2"
+          },
+          {
+            "path": "/student/_assets/e06c70913df4ba3831b9d499/js/vendor/piexif.js",
+            "type": "other",
+            "transfer": 13186,
+            "decoded": 76607,
+            "protocol": "h2"
+          },
+          {
+            "path": "/student/_assets/e06c70913df4ba3831b9d499/js/semester.js",
+            "type": "other",
+            "transfer": 983,
+            "decoded": 683,
+            "protocol": "h2"
+          },
+          {
+            "path": "/student/_assets/e06c70913df4ba3831b9d499/js/screens/startup.js",
+            "type": "other",
+            "transfer": 2409,
+            "decoded": 5197,
+            "protocol": "h2"
+          },
+          {
+            "path": "/student/_assets/e06c70913df4ba3831b9d499/js/local-time.js",
+            "type": "other",
+            "transfer": 755,
+            "decoded": 455,
+            "protocol": "h2"
+          },
+          {
+            "path": "/student/_assets/e06c70913df4ba3831b9d499/js/screens/consent.js",
+            "type": "other",
+            "transfer": 2295,
+            "decoded": 5360,
+            "protocol": "h2"
+          },
+          {
+            "path": "/student/_assets/e06c70913df4ba3831b9d499/js/screens/verification.js",
+            "type": "other",
+            "transfer": 3033,
+            "decoded": 8530,
+            "protocol": "h2"
+          },
+          {
+            "path": "/student/_assets/e06c70913df4ba3831b9d499/js/screens/guide.js",
+            "type": "other",
+            "transfer": 4577,
+            "decoded": 13978,
+            "protocol": "h2"
+          },
+          {
+            "path": "/student/_assets/e06c70913df4ba3831b9d499/js/screens/login.js",
+            "type": "other",
+            "transfer": 2766,
+            "decoded": 6924,
+            "protocol": "h2"
+          },
+          {
+            "path": "/student/_assets/e06c70913df4ba3831b9d499/js/student-school-email.js",
+            "type": "other",
+            "transfer": 641,
+            "decoded": 341,
+            "protocol": "h2"
+          },
+          {
+            "path": "/student/_assets/e06c70913df4ba3831b9d499/js/screens/recovery.js",
+            "type": "other",
+            "transfer": 1407,
+            "decoded": 2081,
+            "protocol": "h2"
+          },
+          {
+            "path": "/student/_assets/e06c70913df4ba3831b9d499/js/student-regions.js",
+            "type": "other",
+            "transfer": 606,
+            "decoded": 306,
+            "protocol": "h2"
+          },
+          {
+            "path": "/student/_assets/e06c70913df4ba3831b9d499/js/student-academics.js",
+            "type": "other",
+            "transfer": 907,
+            "decoded": 1203,
+            "protocol": "h2"
+          },
+          {
+            "path": "/student/_assets/e06c70913df4ba3831b9d499/js/region-catalog.js",
+            "type": "other",
+            "transfer": 901,
+            "decoded": 1067,
+            "protocol": "h2"
+          },
+          {
+            "path": "/student/_assets/e06c70913df4ba3831b9d499/js/screens/binding.js",
+            "type": "other",
+            "transfer": 4883,
+            "decoded": 13812,
+            "protocol": "h2"
+          },
+          {
+            "path": "/student/_assets/e06c70913df4ba3831b9d499/js/screens/join.js",
+            "type": "other",
+            "transfer": 12668,
+            "decoded": 43152,
+            "protocol": "h2"
+          },
+          {
+            "path": "/student/_assets/e06c70913df4ba3831b9d499/js/proof-todo.js",
+            "type": "other",
+            "transfer": 1434,
+            "decoded": 2277,
+            "protocol": "h2"
+          },
+          {
+            "path": "/student/_assets/e06c70913df4ba3831b9d499/js/session.js",
+            "type": "other",
+            "transfer": 2628,
+            "decoded": 6455,
+            "protocol": "h2"
+          },
+          {
+            "path": "/student/_assets/e06c70913df4ba3831b9d499/js/screens/dashboard.js",
+            "type": "other",
+            "transfer": 4719,
+            "decoded": 13780,
+            "protocol": "h2"
+          },
+          {
+            "path": "/student/_assets/e06c70913df4ba3831b9d499/js/notification-text.js",
+            "type": "other",
+            "transfer": 1227,
+            "decoded": 1603,
+            "protocol": "h2"
+          },
+          {
+            "path": "/student/_assets/e06c70913df4ba3831b9d499/js/screens/notifications.js",
+            "type": "other",
+            "transfer": 2908,
+            "decoded": 7923,
+            "protocol": "h2"
+          },
+          {
+            "path": "/student/_assets/e06c70913df4ba3831b9d499/js/screens/courses.js",
+            "type": "other",
+            "transfer": 2991,
+            "decoded": 8366,
+            "protocol": "h2"
+          },
+          {
+            "path": "/student/_assets/e06c70913df4ba3831b9d499/js/local-video-player.js",
+            "type": "other",
+            "transfer": 942,
+            "decoded": 642,
+            "protocol": "h2"
+          },
+          {
+            "path": "/student/_assets/e06c70913df4ba3831b9d499/js/swim-submission.js",
+            "type": "other",
+            "transfer": 1067,
+            "decoded": 1884,
+            "protocol": "h2"
+          },
+          {
+            "path": "/student/_assets/e06c70913df4ba3831b9d499/js/video-source.js",
+            "type": "other",
+            "transfer": 1137,
+            "decoded": 837,
+            "protocol": "h2"
+          },
+          {
+            "path": "/student/_assets/e06c70913df4ba3831b9d499/js/screens/checkin.js",
+            "type": "other",
+            "transfer": 37909,
+            "decoded": 133632,
+            "protocol": "h2"
+          },
+          {
+            "path": "/student/_assets/e06c70913df4ba3831b9d499/js/media-size.js",
+            "type": "other",
+            "transfer": 544,
+            "decoded": 244,
+            "protocol": "h2"
+          },
+          {
+            "path": "/student/_assets/e06c70913df4ba3831b9d499/js/screens/grades.js",
+            "type": "other",
+            "transfer": 2454,
+            "decoded": 5729,
+            "protocol": "h2"
+          },
+          {
+            "path": "/runtime-config.js",
+            "type": "script",
+            "transfer": 456,
+            "decoded": 156,
+            "protocol": "h2"
+          },
+          {
+            "path": "/student/_assets/e06c70913df4ba3831b9d499/js/deferred-screens.js",
+            "type": "other",
+            "transfer": 1249,
+            "decoded": 1897,
+            "protocol": "h2"
+          },
+          {
+            "path": "/student/_assets/e06c70913df4ba3831b9d499/js/emblem.js",
+            "type": "script",
+            "transfer": 3554,
+            "decoded": 12615,
+            "protocol": "h2"
+          },
+          {
+            "path": "/student/_assets/e06c70913df4ba3831b9d499/js/screens/profile.js",
+            "type": "other",
+            "transfer": 9352,
+            "decoded": 32672,
+            "protocol": "h2"
+          },
+          {
+            "path": "/student/_assets/e06c70913df4ba3831b9d499/js/app.js",
+            "type": "script",
+            "transfer": 8913,
+            "decoded": 31414,
+            "protocol": "h2"
+          },
+          {
+            "path": "/api/v1/system-mode/announcement",
+            "type": "fetch",
+            "transfer": 463,
+            "decoded": 163,
+            "protocol": "h2"
+          },
+          {
+            "path": "/student/assets/privacy_policy_zh_cn.md",
+            "type": "fetch",
+            "transfer": 5572,
+            "decoded": 5272,
+            "protocol": "h2"
+          },
+          {
+            "path": "/student/assets/privacy_policy_en.md",
+            "type": "fetch",
+            "transfer": 5418,
+            "decoded": 5118,
+            "protocol": "h2"
+          },
+          {
+            "path": "/student/bnbu-sports-icon.svg",
+            "type": "other",
+            "transfer": 5358,
+            "decoded": 6741,
+            "protocol": "h2"
+          }
+        ],
+        "images": [],
+        "textLength": 21
+      },
+      {
+        "phase": "warm",
+        "status": 200,
+        "navigation": {
+          "ttfb": 160,
+          "domReady": 324.40000000037253,
+          "protocol": "h2"
+        },
+        "resources": [
+          {
+            "path": "/student/_assets/e06c70913df4ba3831b9d499/css/tokens.css",
+            "type": "link",
+            "transfer": 0,
+            "decoded": 4735,
+            "protocol": "h2"
+          },
+          {
+            "path": "/student/_assets/e06c70913df4ba3831b9d499/css/components.css",
+            "type": "link",
+            "transfer": 0,
+            "decoded": 17426,
+            "protocol": "h2"
+          },
+          {
+            "path": "/student/_assets/e06c70913df4ba3831b9d499/css/screens.css",
+            "type": "link",
+            "transfer": 0,
+            "decoded": 40338,
+            "protocol": "h2"
+          },
+          {
+            "path": "/student/_assets/e06c70913df4ba3831b9d499/css/upload-progress.css",
+            "type": "link",
+            "transfer": 0,
+            "decoded": 1514,
+            "protocol": "h2"
+          },
+          {
+            "path": "/student/_assets/e06c70913df4ba3831b9d499/css/ui-refinement.css",
+            "type": "link",
+            "transfer": 0,
+            "decoded": 2901,
+            "protocol": "h2"
+          },
+          {
+            "path": "/student/_assets/e06c70913df4ba3831b9d499/js/native-album.js",
+            "type": "other",
+            "transfer": 0,
+            "decoded": 3849,
+            "protocol": "h2"
+          },
+          {
+            "path": "/student/_assets/e06c70913df4ba3831b9d499/js/student-device.js",
+            "type": "other",
+            "transfer": 0,
+            "decoded": 3144,
+            "protocol": "h2"
+          },
+          {
+            "path": "/student/_assets/e06c70913df4ba3831b9d499/js/checkin-drafts.js",
+            "type": "other",
+            "transfer": 0,
+            "decoded": 3062,
+            "protocol": "h2"
+          },
+          {
+            "path": "/student/_assets/e06c70913df4ba3831b9d499/js/i18n.js",
+            "type": "other",
+            "transfer": 0,
+            "decoded": 16317,
+            "protocol": "h2"
+          },
+          {
+            "path": "/student/_assets/e06c70913df4ba3831b9d499/js/store.js",
+            "type": "other",
+            "transfer": 0,
+            "decoded": 3259,
+            "protocol": "h2"
+          },
+          {
+            "path": "/student/_assets/e06c70913df4ba3831b9d499/js/data.js",
+            "type": "other",
+            "transfer": 0,
+            "decoded": 1156,
+            "protocol": "h2"
+          },
+          {
+            "path": "/student/_assets/e06c70913df4ba3831b9d499/js/course-selection.js",
+            "type": "other",
+            "transfer": 0,
+            "decoded": 2388,
+            "protocol": "h2"
+          },
+          {
+            "path": "/student/_assets/e06c70913df4ba3831b9d499/js/ui.js",
+            "type": "other",
+            "transfer": 0,
+            "decoded": 7061,
+            "protocol": "h2"
+          },
+          {
+            "path": "/student/_assets/e06c70913df4ba3831b9d499/js/icons.js",
+            "type": "other",
+            "transfer": 0,
+            "decoded": 15339,
+            "protocol": "h2"
+          },
+          {
+            "path": "/student/_assets/e06c70913df4ba3831b9d499/js/sport-reference-glyphs.js",
+            "type": "other",
+            "transfer": 0,
+            "decoded": 3977,
+            "protocol": "h2"
+          },
+          {
+            "path": "/student/_assets/e06c70913df4ba3831b9d499/js/v81-review.js",
+            "type": "other",
+            "transfer": 0,
+            "decoded": 11632,
+            "protocol": "h2"
+          },
+          {
+            "path": "/student/_assets/e06c70913df4ba3831b9d499/js/local-preview.js",
+            "type": "other",
+            "transfer": 0,
+            "decoded": 7345,
+            "protocol": "h2"
+          },
+          {
+            "path": "/student/_assets/e06c70913df4ba3831b9d499/js/api.js",
+            "type": "other",
+            "transfer": 0,
+            "decoded": 104288,
+            "protocol": "h2"
+          },
+          {
+            "path": "/student/_assets/e06c70913df4ba3831b9d499/js/photo-originals.js",
+            "type": "other",
+            "transfer": 0,
+            "decoded": 3414,
+            "protocol": "h2"
+          },
+          {
+            "path": "/student/_assets/e06c70913df4ba3831b9d499/js/vendor/piexif.js",
+            "type": "other",
+            "transfer": 0,
+            "decoded": 76607,
+            "protocol": "h2"
+          },
+          {
+            "path": "/student/_assets/e06c70913df4ba3831b9d499/js/sports-catalog.js",
+            "type": "other",
+            "transfer": 0,
+            "decoded": 1900,
+            "protocol": "h2"
+          },
+          {
+            "path": "/student/_assets/e06c70913df4ba3831b9d499/js/upload-progress.js",
+            "type": "other",
+            "transfer": 0,
+            "decoded": 3045,
+            "protocol": "h2"
+          },
+          {
+            "path": "/student/_assets/e06c70913df4ba3831b9d499/js/proofs.js",
+            "type": "other",
+            "transfer": 0,
+            "decoded": 2657,
+            "protocol": "h2"
+          },
+          {
+            "path": "/student/_assets/e06c70913df4ba3831b9d499/js/semester.js",
+            "type": "other",
+            "transfer": 0,
+            "decoded": 683,
+            "protocol": "h2"
+          },
+          {
+            "path": "/student/_assets/e06c70913df4ba3831b9d499/js/screens/startup.js",
+            "type": "other",
+            "transfer": 0,
+            "decoded": 5197,
+            "protocol": "h2"
+          },
+          {
+            "path": "/student/_assets/e06c70913df4ba3831b9d499/js/local-time.js",
+            "type": "other",
+            "transfer": 0,
+            "decoded": 455,
+            "protocol": "h2"
+          },
+          {
+            "path": "/student/_assets/e06c70913df4ba3831b9d499/js/screens/consent.js",
+            "type": "other",
+            "transfer": 0,
+            "decoded": 5360,
+            "protocol": "h2"
+          },
+          {
+            "path": "/student/_assets/e06c70913df4ba3831b9d499/js/screens/guide.js",
+            "type": "other",
+            "transfer": 0,
+            "decoded": 13978,
+            "protocol": "h2"
+          },
+          {
+            "path": "/student/_assets/e06c70913df4ba3831b9d499/js/screens/login.js",
+            "type": "other",
+            "transfer": 0,
+            "decoded": 6924,
+            "protocol": "h2"
+          },
+          {
+            "path": "/student/_assets/e06c70913df4ba3831b9d499/js/screens/verification.js",
+            "type": "other",
+            "transfer": 0,
+            "decoded": 8530,
+            "protocol": "h2"
+          },
+          {
+            "path": "/student/_assets/e06c70913df4ba3831b9d499/js/student-school-email.js",
+            "type": "other",
+            "transfer": 0,
+            "decoded": 341,
+            "protocol": "h2"
+          },
+          {
+            "path": "/student/_assets/e06c70913df4ba3831b9d499/js/screens/recovery.js",
+            "type": "other",
+            "transfer": 0,
+            "decoded": 2081,
+            "protocol": "h2"
+          },
+          {
+            "path": "/student/_assets/e06c70913df4ba3831b9d499/js/screens/binding.js",
+            "type": "other",
+            "transfer": 0,
+            "decoded": 13812,
+            "protocol": "h2"
+          },
+          {
+            "path": "/student/_assets/e06c70913df4ba3831b9d499/js/screens/join.js",
+            "type": "other",
+            "transfer": 0,
+            "decoded": 43152,
+            "protocol": "h2"
+          },
+          {
+            "path": "/student/_assets/e06c70913df4ba3831b9d499/js/student-regions.js",
+            "type": "other",
+            "transfer": 0,
+            "decoded": 306,
+            "protocol": "h2"
+          },
+          {
+            "path": "/student/_assets/e06c70913df4ba3831b9d499/js/region-catalog.js",
+            "type": "other",
+            "transfer": 0,
+            "decoded": 1067,
+            "protocol": "h2"
+          },
+          {
+            "path": "/student/_assets/e06c70913df4ba3831b9d499/js/student-academics.js",
+            "type": "other",
+            "transfer": 0,
+            "decoded": 1203,
+            "protocol": "h2"
+          },
+          {
+            "path": "/student/_assets/e06c70913df4ba3831b9d499/js/screens/dashboard.js",
+            "type": "other",
+            "transfer": 0,
+            "decoded": 13780,
+            "protocol": "h2"
+          },
+          {
+            "path": "/student/_assets/e06c70913df4ba3831b9d499/js/proof-todo.js",
+            "type": "other",
+            "transfer": 0,
+            "decoded": 2277,
+            "protocol": "h2"
+          },
+          {
+            "path": "/student/_assets/e06c70913df4ba3831b9d499/js/session.js",
+            "type": "other",
+            "transfer": 0,
+            "decoded": 6455,
+            "protocol": "h2"
+          },
+          {
+            "path": "/student/_assets/e06c70913df4ba3831b9d499/js/screens/notifications.js",
+            "type": "other",
+            "transfer": 0,
+            "decoded": 7923,
+            "protocol": "h2"
+          },
+          {
+            "path": "/student/_assets/e06c70913df4ba3831b9d499/js/notification-text.js",
+            "type": "other",
+            "transfer": 0,
+            "decoded": 1603,
+            "protocol": "h2"
+          },
+          {
+            "path": "/student/_assets/e06c70913df4ba3831b9d499/js/screens/courses.js",
+            "type": "other",
+            "transfer": 0,
+            "decoded": 8366,
+            "protocol": "h2"
+          },
+          {
+            "path": "/student/_assets/e06c70913df4ba3831b9d499/js/screens/checkin.js",
+            "type": "other",
+            "transfer": 0,
+            "decoded": 133632,
+            "protocol": "h2"
+          },
+          {
+            "path": "/student/_assets/e06c70913df4ba3831b9d499/js/swim-submission.js",
+            "type": "other",
+            "transfer": 0,
+            "decoded": 1884,
+            "protocol": "h2"
+          },
+          {
+            "path": "/student/_assets/e06c70913df4ba3831b9d499/js/local-video-player.js",
+            "type": "other",
+            "transfer": 0,
+            "decoded": 642,
+            "protocol": "h2"
+          },
+          {
+            "path": "/student/_assets/e06c70913df4ba3831b9d499/js/video-source.js",
+            "type": "other",
+            "transfer": 0,
+            "decoded": 837,
+            "protocol": "h2"
+          },
+          {
+            "path": "/student/_assets/e06c70913df4ba3831b9d499/js/media-size.js",
+            "type": "other",
+            "transfer": 0,
+            "decoded": 244,
+            "protocol": "h2"
+          },
+          {
+            "path": "/student/_assets/e06c70913df4ba3831b9d499/js/screens/grades.js",
+            "type": "other",
+            "transfer": 0,
+            "decoded": 5729,
+            "protocol": "h2"
+          },
+          {
+            "path": "/student/_assets/e06c70913df4ba3831b9d499/js/screens/profile.js",
+            "type": "other",
+            "transfer": 0,
+            "decoded": 32672,
+            "protocol": "h2"
+          },
+          {
+            "path": "/student/_assets/e06c70913df4ba3831b9d499/js/deferred-screens.js",
+            "type": "other",
+            "transfer": 0,
+            "decoded": 1897,
+            "protocol": "h2"
+          },
+          {
+            "path": "/runtime-config.js",
+            "type": "script",
+            "transfer": 456,
+            "decoded": 156,
+            "protocol": "h2"
+          },
+          {
+            "path": "/student/_assets/e06c70913df4ba3831b9d499/js/emblem.js",
+            "type": "script",
+            "transfer": 0,
+            "decoded": 12615,
+            "protocol": "h2"
+          },
+          {
+            "path": "/student/_assets/e06c70913df4ba3831b9d499/js/app.js",
+            "type": "script",
+            "transfer": 0,
+            "decoded": 31414,
+            "protocol": "h2"
+          },
+          {
+            "path": "/api/v1/system-mode/announcement",
+            "type": "fetch",
+            "transfer": 463,
+            "decoded": 163,
+            "protocol": "h2"
+          },
+          {
+            "path": "/student/assets/privacy_policy_zh_cn.md",
+            "type": "fetch",
+            "transfer": 5572,
+            "decoded": 5272,
+            "protocol": "h2"
+          },
+          {
+            "path": "/student/assets/privacy_policy_en.md",
+            "type": "fetch",
+            "transfer": 5418,
+            "decoded": 5118,
+            "protocol": "h2"
+          },
+          {
+            "path": "/student/bnbu-sports-icon.svg",
+            "type": "other",
+            "transfer": 300,
+            "decoded": 6741,
+            "protocol": "h2"
+          }
+        ],
+        "images": [],
+        "textLength": 21
+      }
+    ],
+    "errors": [],
+    "bad": []
+  },
+  {
+    "name": "portal",
+    "runs": [
+      {
+        "phase": "cold",
+        "status": 200,
+        "navigation": {
+          "ttfb": 840.6999999992549,
+          "domReady": 1157,
+          "protocol": "h2"
+        },
+        "resources": [
+          {
+            "path": "/assets/worker-entry-4SwTmysy.css",
+            "type": "link",
+            "transfer": 2466,
+            "decoded": 7899,
+            "protocol": "h2"
+          },
+          {
+            "path": "/assets/index-BVLlOWS-.css",
+            "type": "link",
+            "transfer": 62730,
+            "decoded": 371410,
+            "protocol": "h2"
+          },
+          {
+            "path": "/assets/worker-entry-D6_y3l9l.js",
+            "type": "other",
+            "transfer": 150465,
+            "decoded": 456472,
+            "protocol": "h2"
+          },
+          {
+            "path": "/assets/rolldown-runtime-hePW80VL.js",
+            "type": "other",
+            "transfer": 1016,
+            "decoded": 716,
+            "protocol": "h2"
+          },
+          {
+            "path": "/assets/framework-bym5aI3S.js",
+            "type": "other",
+            "transfer": 59849,
+            "decoded": 189757,
+            "protocol": "h2"
+          },
+          {
+            "path": "/assets/index-_aodjyFh.js",
+            "type": "other",
+            "transfer": 16776,
+            "decoded": 51476,
+            "protocol": "h2"
+          },
+          {
+            "path": "/assets/x-Dck0Iuc1.js",
+            "type": "other",
+            "transfer": 1243,
+            "decoded": 1675,
+            "protocol": "h2"
+          },
+          {
+            "path": "/bnbu-sports-icon.svg",
+            "type": "other",
+            "transfer": 5358,
+            "decoded": 6741,
+            "protocol": "h2"
+          },
+          {
+            "path": "/api/v1/system-mode/announcement",
+            "type": "fetch",
+            "transfer": 463,
+            "decoded": 163,
+            "protocol": "h2"
+          },
+          {
+            "path": "/branding/sports-logo.png",
+            "type": "img",
+            "transfer": 4998,
+            "decoded": 4698,
+            "protocol": "h2"
+          },
+          {
+            "path": "/brand/verity-ai-logo.svg",
+            "type": "img",
+            "transfer": 2471,
+            "decoded": 5339,
+            "protocol": "h2"
+          }
+        ],
+        "images": [
+          {
+            "src": "/branding/sports-logo.png",
+            "naturalWidth": 719,
+            "displayWidth": 86,
+            "loading": "eager"
+          },
+          {
+            "src": "/brand/verity-ai-logo.svg",
+            "naturalWidth": 1340,
+            "displayWidth": 146,
+            "loading": "auto"
+          }
+        ],
+        "textLength": 173
+      },
+      {
+        "phase": "warm",
+        "status": 200,
+        "navigation": {
+          "ttfb": 145.5,
+          "domReady": 156.30000000074506,
+          "protocol": "h2"
+        },
+        "resources": [
+          {
+            "path": "/assets/worker-entry-4SwTmysy.css",
+            "type": "link",
+            "transfer": 0,
+            "decoded": 7899,
+            "protocol": "h2"
+          },
+          {
+            "path": "/assets/index-BVLlOWS-.css",
+            "type": "link",
+            "transfer": 0,
+            "decoded": 371410,
+            "protocol": "h2"
+          },
+          {
+            "path": "/assets/worker-entry-D6_y3l9l.js",
+            "type": "other",
+            "transfer": 0,
+            "decoded": 456472,
+            "protocol": "h2"
+          },
+          {
+            "path": "/assets/rolldown-runtime-hePW80VL.js",
+            "type": "other",
+            "transfer": 0,
+            "decoded": 716,
+            "protocol": "h2"
+          },
+          {
+            "path": "/assets/framework-bym5aI3S.js",
+            "type": "other",
+            "transfer": 0,
+            "decoded": 189757,
+            "protocol": "h2"
+          },
+          {
+            "path": "/assets/index-_aodjyFh.js",
+            "type": "other",
+            "transfer": 0,
+            "decoded": 51476,
+            "protocol": "h2"
+          },
+          {
+            "path": "/assets/x-Dck0Iuc1.js",
+            "type": "other",
+            "transfer": 0,
+            "decoded": 1675,
+            "protocol": "h2"
+          },
+          {
+            "path": "/api/v1/system-mode/announcement",
+            "type": "fetch",
+            "transfer": 463,
+            "decoded": 163,
+            "protocol": "h2"
+          },
+          {
+            "path": "/bnbu-sports-icon.svg",
+            "type": "other",
+            "transfer": 5358,
+            "decoded": 6741,
+            "protocol": "h2"
+          },
+          {
+            "path": "/branding/sports-logo.png",
+            "type": "img",
+            "transfer": 4998,
+            "decoded": 4698,
+            "protocol": "h2"
+          },
+          {
+            "path": "/brand/verity-ai-logo.svg",
+            "type": "img",
+            "transfer": 2471,
+            "decoded": 5339,
+            "protocol": "h2"
+          }
+        ],
+        "images": [
+          {
+            "src": "/branding/sports-logo.png",
+            "naturalWidth": 719,
+            "displayWidth": 86,
+            "loading": "eager"
+          },
+          {
+            "src": "/brand/verity-ai-logo.svg",
+            "naturalWidth": 1340,
+            "displayWidth": 146,
+            "loading": "auto"
+          }
+        ],
+        "textLength": 173
+      }
+    ],
+    "errors": [],
+    "bad": []
+  },
+  {
+    "name": "knowledge",
+    "runs": [
+      {
+        "phase": "cold",
+        "status": 200,
+        "navigation": {
+          "ttfb": 930.0999999996275,
+          "domReady": 1422.800000000745,
+          "protocol": "h2"
+        },
+        "resources": [
+          {
+            "path": "/assets/index-BpgtdSL4.js",
+            "type": "script",
+            "transfer": 93171,
+            "decoded": 289794,
+            "protocol": "h2"
+          },
+          {
+            "path": "/assets/index-BLp8JGg2.css",
+            "type": "link",
+            "transfer": 7761,
+            "decoded": 30895,
+            "protocol": "h2"
+          },
+          {
+            "path": "/api/shares",
+            "type": "fetch",
+            "transfer": 55324,
+            "decoded": 75435,
+            "protocol": "h2"
+          },
+          {
+            "path": "/api/members",
+            "type": "fetch",
+            "transfer": 412528,
+            "decoded": 548008,
+            "protocol": "h2"
+          },
+          {
+            "path": "/api/me",
+            "type": "fetch",
+            "transfer": 333,
+            "decoded": 33,
+            "protocol": "h2"
+          },
+          {
+            "path": "/api/categories",
+            "type": "fetch",
+            "transfer": 700,
+            "decoded": 400,
+            "protocol": "h2"
+          },
+          {
+            "path": "/favicon.svg",
+            "type": "other",
+            "transfer": 482,
+            "decoded": 182,
+            "protocol": "h2"
+          }
+        ],
+        "images": [
+          {
+            "src": "[inline image]",
+            "naturalWidth": 940,
+            "displayWidth": 0,
+            "loading": "auto"
+          },
+          {
+            "src": "[inline image]",
+            "naturalWidth": 940,
+            "displayWidth": 25,
+            "loading": "auto"
+          },
+          {
+            "src": "[inline image]",
+            "naturalWidth": 940,
+            "displayWidth": 36,
+            "loading": "auto"
+          }
+        ],
+        "textLength": 312
+      },
+      {
+        "phase": "warm",
+        "status": 200,
+        "navigation": {
+          "ttfb": 153.59999999962747,
+          "domReady": 161.80000000074506,
+          "protocol": "h2"
+        },
+        "resources": [
+          {
+            "path": "/assets/index-BpgtdSL4.js",
+            "type": "script",
+            "transfer": 0,
+            "decoded": 289794,
+            "protocol": "h2"
+          },
+          {
+            "path": "/assets/index-BLp8JGg2.css",
+            "type": "link",
+            "transfer": 0,
+            "decoded": 30895,
+            "protocol": "h2"
+          },
+          {
+            "path": "/api/shares",
+            "type": "fetch",
+            "transfer": 55324,
+            "decoded": 75435,
+            "protocol": "h2"
+          },
+          {
+            "path": "/api/categories",
+            "type": "fetch",
+            "transfer": 700,
+            "decoded": 400,
+            "protocol": "h2"
+          },
+          {
+            "path": "/api/me",
+            "type": "fetch",
+            "transfer": 333,
+            "decoded": 33,
+            "protocol": "h2"
+          },
+          {
+            "path": "/api/members",
+            "type": "fetch",
+            "transfer": 412528,
+            "decoded": 548008,
+            "protocol": "h2"
+          },
+          {
+            "path": "/favicon.svg",
+            "type": "other",
+            "transfer": 300,
+            "decoded": 182,
+            "protocol": "h2"
+          }
+        ],
+        "images": [
+          {
+            "src": "[inline image]",
+            "naturalWidth": 940,
+            "displayWidth": 0,
+            "loading": "auto"
+          },
+          {
+            "src": "[inline image]",
+            "naturalWidth": 940,
+            "displayWidth": 25,
+            "loading": "auto"
+          },
+          {
+            "src": "[inline image]",
+            "naturalWidth": 940,
+            "displayWidth": 36,
+            "loading": "auto"
+          }
+        ],
+        "textLength": 312
+      }
+    ],
+    "errors": [],
+    "bad": []
+  },
+  {
+    "name": "verity",
+    "runs": [
+      {
+        "phase": "cold",
+        "status": 200,
+        "navigation": {
+          "ttfb": 888.0999999996275,
+          "domReady": 1533.0999999996275,
+          "protocol": "h2"
+        },
+        "resources": [
+          {
+            "path": "/brand/verity-ai-symbol-white.svg",
+            "type": "link",
+            "transfer": 2439,
+            "decoded": 4619,
+            "protocol": "h2"
+          },
+          {
+            "path": "/_next/static/css/cf47c1de134cda44.css",
+            "type": "link",
+            "transfer": 11131,
+            "decoded": 46172,
+            "protocol": "h2"
+          },
+          {
+            "path": "/brand/verity-ai-primary-horizontal-full-color.svg",
+            "type": "link",
+            "transfer": 2489,
+            "decoded": 5441,
+            "protocol": "h2"
+          },
+          {
+            "path": "/team/backgrounds/wang-wide.webp",
+            "type": "link",
+            "transfer": 33276,
+            "decoded": 32976,
+            "protocol": "h2"
+          },
+          {
+            "path": "/_next/static/chunks/webpack-7dd728a4e5890775.js",
+            "type": "link",
+            "transfer": 2036,
+            "decoded": 3405,
+            "protocol": "h2"
+          },
+          {
+            "path": "/_next/static/chunks/4f8600b2-86829051ad6fc6d6.js",
+            "type": "script",
+            "transfer": 63794,
+            "decoded": 199864,
+            "protocol": "h2"
+          },
+          {
+            "path": "/_next/static/chunks/main-app-a25653958b77deac.js",
+            "type": "script",
+            "transfer": 813,
+            "decoded": 513,
+            "protocol": "h2"
+          },
+          {
+            "path": "/_next/static/chunks/218-1856de862a5e838b.js",
+            "type": "script",
+            "transfer": 62252,
+            "decoded": 222655,
+            "protocol": "h2"
+          },
+          {
+            "path": "/_next/static/chunks/996-b981b04e2617dbff.js",
+            "type": "script",
+            "transfer": 5989,
+            "decoded": 15441,
+            "protocol": "h2"
+          },
+          {
+            "path": "/_next/static/chunks/703-8ad62bdc3e6c2de2.js",
+            "type": "script",
+            "transfer": 6597,
+            "decoded": 18592,
+            "protocol": "h2"
+          },
+          {
+            "path": "/_next/static/chunks/app/page-ebd52765ad901168.js",
+            "type": "script",
+            "transfer": 427,
+            "decoded": 127,
+            "protocol": "h2"
+          },
+          {
+            "path": "/_next/static/media/22a5144ee8d83bca-s.p.woff2",
+            "type": "css",
+            "transfer": 29588,
+            "decoded": 29288,
+            "protocol": "h2"
+          },
+          {
+            "path": "/_next/static/media/7d4881bb7e1bf84d-s.p.woff2",
+            "type": "css",
+            "transfer": 23408,
+            "decoded": 23108,
+            "protocol": "h2"
+          },
+          {
+            "path": "/team/wang.webp",
+            "type": "img",
+            "transfer": 39834,
+            "decoded": 39534,
+            "protocol": "h2"
+          },
+          {
+            "path": "/team/chen.webp",
+            "type": "img",
+            "transfer": 36926,
+            "decoded": 36626,
+            "protocol": "h2"
+          },
+          {
+            "path": "/team/you.webp",
+            "type": "img",
+            "transfer": 30886,
+            "decoded": 30586,
+            "protocol": "h2"
+          },
+          {
+            "path": "/team/kuan.webp",
+            "type": "img",
+            "transfer": 32274,
+            "decoded": 31974,
+            "protocol": "h2"
+          },
+          {
+            "path": "/favicon.svg",
+            "type": "other",
+            "transfer": 2496,
+            "decoded": 4826,
+            "protocol": "h2"
+          },
+          {
+            "path": "/favicon.svg",
+            "type": "other",
+            "transfer": 2496,
+            "decoded": 4826,
+            "protocol": "h2"
+          }
+        ],
+        "images": [
+          {
+            "src": "/brand/verity-ai-symbol-white.svg",
+            "naturalWidth": 433,
+            "displayWidth": 460,
+            "loading": "auto"
+          },
+          {
+            "src": "/brand/verity-ai-primary-horizontal-full-color.svg",
+            "naturalWidth": 1340,
+            "displayWidth": 142,
+            "loading": "auto"
+          },
+          {
+            "src": "/team/wang.webp",
+            "naturalWidth": 1122,
+            "displayWidth": 174,
+            "loading": "lazy"
+          },
+          {
+            "src": "/team/chen.webp",
+            "naturalWidth": 1120,
+            "displayWidth": 174,
+            "loading": "lazy"
+          },
+          {
+            "src": "/team/you.webp",
+            "naturalWidth": 1120,
+            "displayWidth": 174,
+            "loading": "lazy"
+          },
+          {
+            "src": "/team/kuan.webp",
+            "naturalWidth": 1120,
+            "displayWidth": 174,
+            "loading": "lazy"
+          },
+          {
+            "src": "/brand/verity-ai-symbol-white.svg",
+            "naturalWidth": 433,
+            "displayWidth": 190,
+            "loading": "lazy"
+          },
+          {
+            "src": "/brand/verity-ai-symbol-full-color.svg",
+            "naturalWidth": 0,
+            "displayWidth": 92,
+            "loading": "lazy"
+          },
+          {
+            "src": "/brand/verity-ai-symbol-full-color.svg",
+            "naturalWidth": 0,
+            "displayWidth": 92,
+            "loading": "lazy"
+          },
+          {
+            "src": "/brand/verity-ai-symbol-full-color.svg",
+            "naturalWidth": 0,
+            "displayWidth": 92,
+            "loading": "lazy"
+          },
+          {
+            "src": "/brand/verity-ai-symbol-full-color.svg",
+            "naturalWidth": 0,
+            "displayWidth": 92,
+            "loading": "lazy"
+          },
+          {
+            "src": "/brand/verity-ai-symbol-full-color.svg",
+            "naturalWidth": 0,
+            "displayWidth": 92,
+            "loading": "lazy"
+          },
+          {
+            "src": "/team/backgrounds/wang-wide.webp",
+            "naturalWidth": 1672,
+            "displayWidth": 390,
+            "loading": "auto"
+          },
+          {
+            "src": "/team/backgrounds/chen-wide.webp",
+            "naturalWidth": 0,
+            "displayWidth": 390,
+            "loading": "lazy"
+          },
+          {
+            "src": "/team/backgrounds/you-wide.webp",
+            "naturalWidth": 0,
+            "displayWidth": 390,
+            "loading": "lazy"
+          },
+          {
+            "src": "/team/backgrounds/kuan-wide.webp",
+            "naturalWidth": 0,
+            "displayWidth": 390,
+            "loading": "lazy"
+          },
+          {
+            "src": "/team/backgrounds/xiong-wide.webp",
+            "naturalWidth": 0,
+            "displayWidth": 390,
+            "loading": "lazy"
+          },
+          {
+            "src": "/team/backgrounds/zhou-wide.webp",
+            "naturalWidth": 0,
+            "displayWidth": 390,
+            "loading": "lazy"
+          },
+          {
+            "src": "/team/backgrounds/tong-wide.webp",
+            "naturalWidth": 0,
+            "displayWidth": 390,
+            "loading": "lazy"
+          },
+          {
+            "src": "/team/backgrounds/tianyi-wide.webp",
+            "naturalWidth": 0,
+            "displayWidth": 390,
+            "loading": "lazy"
+          },
+          {
+            "src": "/team/backgrounds/gan-wide.webp",
+            "naturalWidth": 0,
+            "displayWidth": 390,
+            "loading": "lazy"
+          },
+          {
+            "src": "/team/wang.webp",
+            "naturalWidth": 1122,
+            "displayWidth": 38,
+            "loading": "lazy"
+          },
+          {
+            "src": "/team/chen.webp",
+            "naturalWidth": 1120,
+            "displayWidth": 38,
+            "loading": "lazy"
+          },
+          {
+            "src": "/team/you.webp",
+            "naturalWidth": 1120,
+            "displayWidth": 38,
+            "loading": "lazy"
+          },
+          {
+            "src": "/team/kuan.webp",
+            "naturalWidth": 1120,
+            "displayWidth": 38,
+            "loading": "lazy"
+          },
+          {
+            "src": "/team/xiong.webp",
+            "naturalWidth": 0,
+            "displayWidth": 38,
+            "loading": "lazy"
+          },
+          {
+            "src": "/team/zhou.webp",
+            "naturalWidth": 0,
+            "displayWidth": 38,
+            "loading": "lazy"
+          },
+          {
+            "src": "/team/tong.webp",
+            "naturalWidth": 0,
+            "displayWidth": 38,
+            "loading": "lazy"
+          },
+          {
+            "src": "/team/tianyi.webp",
+            "naturalWidth": 0,
+            "displayWidth": 38,
+            "loading": "lazy"
+          },
+          {
+            "src": "/team/gan.webp",
+            "naturalWidth": 0,
+            "displayWidth": 38,
+            "loading": "lazy"
+          },
+          {
+            "src": "/team/shi.webp",
+            "naturalWidth": 0,
+            "displayWidth": 120,
+            "loading": "lazy"
+          },
+          {
+            "src": "/team/zhang.webp",
+            "naturalWidth": 0,
+            "displayWidth": 120,
+            "loading": "lazy"
+          },
+          {
+            "src": "/brand/verity-ai-symbol-full-color.svg",
+            "naturalWidth": 0,
+            "displayWidth": 120,
+            "loading": "lazy"
+          },
+          {
+            "src": "/brand/verity-ai-symbol-full-color.svg",
+            "naturalWidth": 0,
+            "displayWidth": 120,
+            "loading": "lazy"
+          },
+          {
+            "src": "/brand/verity-ai-symbol-full-color.svg",
+            "naturalWidth": 0,
+            "displayWidth": 120,
+            "loading": "lazy"
+          },
+          {
+            "src": "/brand/verity-ai-primary-horizontal-white.svg",
+            "naturalWidth": 0,
+            "displayWidth": 170,
+            "loading": "lazy"
+          }
+        ],
+        "textLength": 8523
+      },
+      {
+        "phase": "warm",
+        "status": 200,
+        "navigation": {
+          "ttfb": 274.40000000037253,
+          "domReady": 290.7999999988824,
+          "protocol": "h2"
+        },
+        "resources": [
+          {
+            "path": "/brand/verity-ai-symbol-white.svg",
+            "type": "link",
+            "transfer": 2439,
+            "decoded": 4619,
+            "protocol": "h2"
+          },
+          {
+            "path": "/brand/verity-ai-primary-horizontal-full-color.svg",
+            "type": "link",
+            "transfer": 2489,
+            "decoded": 5441,
+            "protocol": "h2"
+          },
+          {
+            "path": "/team/backgrounds/wang-wide.webp",
+            "type": "link",
+            "transfer": 33276,
+            "decoded": 32976,
+            "protocol": "h2"
+          },
+          {
+            "path": "/_next/static/css/cf47c1de134cda44.css",
+            "type": "link",
+            "transfer": 0,
+            "decoded": 46172,
+            "protocol": "h2"
+          },
+          {
+            "path": "/_next/static/chunks/webpack-7dd728a4e5890775.js",
+            "type": "link",
+            "transfer": 0,
+            "decoded": 3405,
+            "protocol": "h2"
+          },
+          {
+            "path": "/_next/static/chunks/4f8600b2-86829051ad6fc6d6.js",
+            "type": "script",
+            "transfer": 0,
+            "decoded": 199864,
+            "protocol": "h2"
+          },
+          {
+            "path": "/_next/static/chunks/218-1856de862a5e838b.js",
+            "type": "script",
+            "transfer": 0,
+            "decoded": 222655,
+            "protocol": "h2"
+          },
+          {
+            "path": "/_next/static/chunks/main-app-a25653958b77deac.js",
+            "type": "script",
+            "transfer": 0,
+            "decoded": 513,
+            "protocol": "h2"
+          },
+          {
+            "path": "/_next/static/chunks/996-b981b04e2617dbff.js",
+            "type": "script",
+            "transfer": 0,
+            "decoded": 15441,
+            "protocol": "h2"
+          },
+          {
+            "path": "/_next/static/chunks/703-8ad62bdc3e6c2de2.js",
+            "type": "script",
+            "transfer": 0,
+            "decoded": 18592,
+            "protocol": "h2"
+          },
+          {
+            "path": "/_next/static/chunks/app/page-ebd52765ad901168.js",
+            "type": "script",
+            "transfer": 0,
+            "decoded": 127,
+            "protocol": "h2"
+          },
+          {
+            "path": "/_next/static/media/22a5144ee8d83bca-s.p.woff2",
+            "type": "css",
+            "transfer": 0,
+            "decoded": 29288,
+            "protocol": "h2"
+          },
+          {
+            "path": "/_next/static/media/7d4881bb7e1bf84d-s.p.woff2",
+            "type": "css",
+            "transfer": 0,
+            "decoded": 23108,
+            "protocol": "h2"
+          },
+          {
+            "path": "/team/wang.webp",
+            "type": "img",
+            "transfer": 39834,
+            "decoded": 39534,
+            "protocol": "h2"
+          },
+          {
+            "path": "/team/chen.webp",
+            "type": "img",
+            "transfer": 36926,
+            "decoded": 36626,
+            "protocol": "h2"
+          },
+          {
+            "path": "/team/you.webp",
+            "type": "img",
+            "transfer": 30886,
+            "decoded": 30586,
+            "protocol": "h2"
+          },
+          {
+            "path": "/team/kuan.webp",
+            "type": "img",
+            "transfer": 32274,
+            "decoded": 31974,
+            "protocol": "h2"
+          },
+          {
+            "path": "/favicon.svg",
+            "type": "other",
+            "transfer": 2496,
+            "decoded": 4826,
+            "protocol": "h2"
+          },
+          {
+            "path": "/favicon.svg",
+            "type": "other",
+            "transfer": 2496,
+            "decoded": 4826,
+            "protocol": "h2"
+          }
+        ],
+        "images": [
+          {
+            "src": "/brand/verity-ai-symbol-white.svg",
+            "naturalWidth": 433,
+            "displayWidth": 460,
+            "loading": "auto"
+          },
+          {
+            "src": "/brand/verity-ai-primary-horizontal-full-color.svg",
+            "naturalWidth": 1340,
+            "displayWidth": 142,
+            "loading": "auto"
+          },
+          {
+            "src": "/team/wang.webp",
+            "naturalWidth": 1122,
+            "displayWidth": 174,
+            "loading": "lazy"
+          },
+          {
+            "src": "/team/chen.webp",
+            "naturalWidth": 1120,
+            "displayWidth": 174,
+            "loading": "lazy"
+          },
+          {
+            "src": "/team/you.webp",
+            "naturalWidth": 1120,
+            "displayWidth": 174,
+            "loading": "lazy"
+          },
+          {
+            "src": "/team/kuan.webp",
+            "naturalWidth": 1120,
+            "displayWidth": 174,
+            "loading": "lazy"
+          },
+          {
+            "src": "/brand/verity-ai-symbol-white.svg",
+            "naturalWidth": 433,
+            "displayWidth": 190,
+            "loading": "lazy"
+          },
+          {
+            "src": "/brand/verity-ai-symbol-full-color.svg",
+            "naturalWidth": 0,
+            "displayWidth": 92,
+            "loading": "lazy"
+          },
+          {
+            "src": "/brand/verity-ai-symbol-full-color.svg",
+            "naturalWidth": 0,
+            "displayWidth": 92,
+            "loading": "lazy"
+          },
+          {
+            "src": "/brand/verity-ai-symbol-full-color.svg",
+            "naturalWidth": 0,
+            "displayWidth": 92,
+            "loading": "lazy"
+          },
+          {
+            "src": "/brand/verity-ai-symbol-full-color.svg",
+            "naturalWidth": 0,
+            "displayWidth": 92,
+            "loading": "lazy"
+          },
+          {
+            "src": "/brand/verity-ai-symbol-full-color.svg",
+            "naturalWidth": 0,
+            "displayWidth": 92,
+            "loading": "lazy"
+          },
+          {
+            "src": "/team/backgrounds/wang-wide.webp",
+            "naturalWidth": 1672,
+            "displayWidth": 390,
+            "loading": "auto"
+          },
+          {
+            "src": "/team/backgrounds/chen-wide.webp",
+            "naturalWidth": 0,
+            "displayWidth": 390,
+            "loading": "lazy"
+          },
+          {
+            "src": "/team/backgrounds/you-wide.webp",
+            "naturalWidth": 0,
+            "displayWidth": 390,
+            "loading": "lazy"
+          },
+          {
+            "src": "/team/backgrounds/kuan-wide.webp",
+            "naturalWidth": 0,
+            "displayWidth": 390,
+            "loading": "lazy"
+          },
+          {
+            "src": "/team/backgrounds/xiong-wide.webp",
+            "naturalWidth": 0,
+            "displayWidth": 390,
+            "loading": "lazy"
+          },
+          {
+            "src": "/team/backgrounds/zhou-wide.webp",
+            "naturalWidth": 0,
+            "displayWidth": 390,
+            "loading": "lazy"
+          },
+          {
+            "src": "/team/backgrounds/tong-wide.webp",
+            "naturalWidth": 0,
+            "displayWidth": 390,
+            "loading": "lazy"
+          },
+          {
+            "src": "/team/backgrounds/tianyi-wide.webp",
+            "naturalWidth": 0,
+            "displayWidth": 390,
+            "loading": "lazy"
+          },
+          {
+            "src": "/team/backgrounds/gan-wide.webp",
+            "naturalWidth": 0,
+            "displayWidth": 390,
+            "loading": "lazy"
+          },
+          {
+            "src": "/team/wang.webp",
+            "naturalWidth": 1122,
+            "displayWidth": 38,
+            "loading": "lazy"
+          },
+          {
+            "src": "/team/chen.webp",
+            "naturalWidth": 1120,
+            "displayWidth": 38,
+            "loading": "lazy"
+          },
+          {
+            "src": "/team/you.webp",
+            "naturalWidth": 1120,
+            "displayWidth": 38,
+            "loading": "lazy"
+          },
+          {
+            "src": "/team/kuan.webp",
+            "naturalWidth": 1120,
+            "displayWidth": 38,
+            "loading": "lazy"
+          },
+          {
+            "src": "/team/xiong.webp",
+            "naturalWidth": 0,
+            "displayWidth": 38,
+            "loading": "lazy"
+          },
+          {
+            "src": "/team/zhou.webp",
+            "naturalWidth": 0,
+            "displayWidth": 38,
+            "loading": "lazy"
+          },
+          {
+            "src": "/team/tong.webp",
+            "naturalWidth": 0,
+            "displayWidth": 38,
+            "loading": "lazy"
+          },
+          {
+            "src": "/team/tianyi.webp",
+            "naturalWidth": 0,
+            "displayWidth": 38,
+            "loading": "lazy"
+          },
+          {
+            "src": "/team/gan.webp",
+            "naturalWidth": 0,
+            "displayWidth": 38,
+            "loading": "lazy"
+          },
+          {
+            "src": "/team/shi.webp",
+            "naturalWidth": 0,
+            "displayWidth": 120,
+            "loading": "lazy"
+          },
+          {
+            "src": "/team/zhang.webp",
+            "naturalWidth": 0,
+            "displayWidth": 120,
+            "loading": "lazy"
+          },
+          {
+            "src": "/brand/verity-ai-symbol-full-color.svg",
+            "naturalWidth": 0,
+            "displayWidth": 120,
+            "loading": "lazy"
+          },
+          {
+            "src": "/brand/verity-ai-symbol-full-color.svg",
+            "naturalWidth": 0,
+            "displayWidth": 120,
+            "loading": "lazy"
+          },
+          {
+            "src": "/brand/verity-ai-symbol-full-color.svg",
+            "naturalWidth": 0,
+            "displayWidth": 120,
+            "loading": "lazy"
+          },
+          {
+            "src": "/brand/verity-ai-primary-horizontal-white.svg",
+            "naturalWidth": 0,
+            "displayWidth": 170,
+            "loading": "lazy"
+          }
+        ],
+        "textLength": 8523
+      }
+    ],
+    "errors": [],
+    "bad": []
+  }
+]

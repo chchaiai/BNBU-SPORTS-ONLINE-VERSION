@@ -18,6 +18,10 @@
   <link rel="stylesheet" href="./css/components.css" />
   <link rel="stylesheet" href="./css/screens.css" />
   <link rel="stylesheet" href="./css/upload-progress.css" />
+  <link rel="stylesheet" href="./css/ui-refinement.css" />
+  <link rel="stylesheet" href="./css/checkin-layout.css" />
+  <link rel="stylesheet" href="./css/app-download-promo.css" />
+  <link rel="stylesheet" href="./css/electric-brand.css" />
 </head>
 <body>
   <!-- Official BNBU emblem path (res/drawable/bnbu_emblem.xml), reused via <use>. -->
@@ -26,10 +30,12 @@
       <path id="bnbu-emblem-path" fill-rule="evenodd" d="" />
     </defs>
   </svg>
+  <style>.initial-loading{min-height:100dvh;display:grid;place-content:center;gap:12px;text-align:center;background:#f2f2f7;color:#1c1c1e;font:16px system-ui,sans-serif}.initial-loading strong{font-size:24px}.initial-loading p{margin:0;color:#636366}@media(prefers-color-scheme:dark){.initial-loading{background:#111;color:#f5f5f7}.initial-loading p{color:#aaa}}</style>
   <div id="app">
-    <div class="app-viewport" id="app-viewport"></div>
+    <div class="app-viewport" id="app-viewport"><div class="initial-loading" role="status"><strong>BNBU Sports</strong><p>正在加载 · Loading…</p><noscript>请启用 JavaScript 后访问本系统。</noscript></div></div>
   </div>
   <script src="/runtime-config.js"></script>
+  <script defer src="./js/performance.js"></script>
   <script type="module" src="./js/emblem.js"></script>
   <script type="module" src="./js/app.js"></script>
 </body>

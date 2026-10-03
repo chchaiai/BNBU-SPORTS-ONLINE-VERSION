@@ -3,10 +3,10 @@ import "./course-operations.css";
 import {useEffect,useState} from 'react';
 import {request,toUserFacingError, formatUserFacingError} from './api-client';
 type Settings={maximumMinutes:number;enabled:boolean;earliestDate:string;latestDate:string;version:number;semesterStartDate:string;semesterEndDate:string};
-export function CourseHistorySettings({classSectionId}:{classSectionId:string}) {
+export function CourseHistorySettings({classSectionId,localPreview}:{classSectionId:string;localPreview?:{startDate:string;endDate:string}}) {
  const [value,setValue]=useState<Settings|null>(null),[busy,setBusy]=useState(false),[message,setMessage]=useState('');
- useEffect(()=>{let live=true;void request<Settings>(`/class-sections/${classSectionId}/history-settings`).then(data=>{if(live)setValue(data);}).catch(error=>{if(live)setMessage(formatUserFacingError(error));});return()=>{live=false;};},[classSectionId]);
- async function save(){if(!value||busy)return;setBusy(true);setMessage('');try{
+ useEffect(()=>{let live=true;if(localPreview){setValue({maximumMinutes:60,enabled:true,earliestDate:localPreview.startDate,latestDate:localPreview.endDate,version:0,semesterStartDate:localPreview.startDate,semesterEndDate:localPreview.endDate});return()=>{live=false;};}void request<Settings>(`/class-sections/${classSectionId}/history-settings`).then(data=>{if(live)setValue(data);}).catch(error=>{if(live)setMessage(formatUserFacingError(error));});return()=>{live=false;};},[classSectionId]);
+ async function save(){if(!value||busy)return;if(localPreview){setMessage('本地预览：已展示补卡设置的保存反馈，未提交课程数据。');return;}setBusy(true);setMessage('');try{
   const result=await request<{version:number}>(`/class-sections/${classSectionId}/history-settings`,{method:'POST',headers:{'Idempotency-Key':crypto.randomUUID()},body:{maximumMinutes:value.maximumMinutes,enabled:value.enabled,earliestDate:value.earliestDate,latestDate:value.latestDate,expectedVersion:value.version}});
   setValue({...value,version:result.version});setMessage('历史补卡范围已保存。');
  }catch(error){setMessage(formatUserFacingError(error));}finally{setBusy(false);}}

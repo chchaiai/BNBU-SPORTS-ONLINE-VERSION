@@ -281,17 +281,17 @@ export function AdminSemesters({ locale, onSemestersLoaded }: {
           <>
             <div className="table-wrap admin-semester-table-wrap"><table className="admin-table admin-semester-table"><thead><tr><th>{locale === "zh" ? "学期" : "Semester"}</th><th>{adminCopy(locale, "academic_year")}</th><th>{adminCopy(locale, "date_range")}</th><th>{locale === "zh" ? "课程 / 学生" : "Courses / students"}</th><th>{adminCopy(locale, "status")}</th><th>{locale === "zh" ? "操作" : "Actions"}</th></tr></thead><tbody>{semesters.map((item) => (
               <tr key={item.id}>
-                <td><b>{item.name}</b><small className="table-sub">{item.term.toUpperCase()}</small></td>
+                <td><b>{item.name}</b><small className="table-sub">{locale === 'zh' ? ({first:'第一学期',second:'第二学期',summer:'暑期学期'}[item.term] ?? item.term) : item.term.toUpperCase()}</small></td>
                 <td>{item.academicYear}</td>
                 <td>{formatAdminDate(locale, item.startDate)} – {formatAdminDate(locale, item.endDate)}</td>
                 <td>{item.courseCount} / {item.studentCount}</td>
-                <td><AdminBadge tone={item.status === "current" ? "green" : item.status === "upcoming" ? "orange" : "gray"}>{item.status.toUpperCase()}</AdminBadge></td>
+                <td><AdminBadge tone={item.status === "current" ? "green" : item.status === "upcoming" ? "orange" : "gray"}>{locale === 'zh' ? ({current:'当前',upcoming:'即将开始',archived:'已归档'}[item.status] ?? item.status) : item.status.toUpperCase()}</AdminBadge></td>
                 <td>{item.status === "upcoming" ? <div className="admin-row-actions"><button className="text-button" type="button" onClick={() => beginEdit(item)}>{locale === "zh" ? "编辑配置" : "Edit"}</button><button className="text-button" type="button" onClick={() => void beginSwitch(item)}>{locale === "zh" ? "设为当前学期" : "Make current"}</button></div> : <span className="admin-muted-text">{locale === "zh" ? "只读" : "Read-only"}</span>}</td>
               </tr>
             ))}</tbody></table></div>
             <div className="admin-semester-mobile-list">{semesters.map((item) => (
               <article key={item.id}>
-                <header><div><h3>{item.name}</h3><p>{item.academicYear} · {item.term.toUpperCase()}</p></div><AdminBadge tone={item.status === "current" ? "green" : item.status === "upcoming" ? "orange" : "gray"}>{item.status.toUpperCase()}</AdminBadge></header>
+                <header><div><h3>{item.name}</h3><p>{item.academicYear} · {locale === 'zh' ? ({first:'第一学期',second:'第二学期',summer:'暑期学期'}[item.term] ?? item.term) : item.term.toUpperCase()}</p></div><AdminBadge tone={item.status === "current" ? "green" : item.status === "upcoming" ? "orange" : "gray"}>{locale === 'zh' ? ({current:'当前',upcoming:'即将开始',archived:'已归档'}[item.status] ?? item.status) : item.status.toUpperCase()}</AdminBadge></header>
                 <dl><div><dt>{adminCopy(locale, "date_range")}</dt><dd>{formatAdminDate(locale, item.startDate)} – {formatAdminDate(locale, item.endDate)}</dd></div><div><dt>{locale === "zh" ? "课程 / 学生" : "Courses / students"}</dt><dd>{item.courseCount} / {item.studentCount}</dd></div></dl>
                 <footer>{item.status === "upcoming" ? <div className="admin-row-actions"><button className="text-button" type="button" onClick={() => beginEdit(item)}>{locale === "zh" ? "编辑配置" : "Edit"}</button><button className="text-button" type="button" onClick={() => void beginSwitch(item)}>{locale === "zh" ? "设为当前学期" : "Make current"}</button></div> : <span className="admin-muted-text">{locale === "zh" ? "只读" : "Read-only"}</span>}</footer>
               </article>

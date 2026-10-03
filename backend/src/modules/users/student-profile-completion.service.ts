@@ -61,6 +61,7 @@ export class StudentProfileCompletionService {
   async requireUpdate(principal: AuthenticatedPrincipal, studentId: string, input: UpdateStudentRequestDto,
     facts: {requestId:string;idempotencyKey:string|undefined}) {
     if(principal.role!=='ADMIN') throw new ApplicationError('PERMISSION_RESOURCE_SCOPE_DENIED',403);
+    if (input.secondClassReason !== undefined || input.secondClassSemesterId !== undefined) return this.grantSecondClass(principal,studentId,input,facts);
     if (input.majorCorrectionReason !== undefined) return this.correctMajor(principal,studentId,input,facts);
     if(!input.profileUpdateReason || Object.entries(input).some(([key,value])=>value!==undefined && !['profileUpdateReason','expectedVersion'].includes(key))) throw new ApplicationError('VALIDATION_FAILED',422);
     return this.idempotency.execute({organizationId:principal.organizationId,principalId:principal.userId,authSessionId:principal.sessionId,
@@ -79,6 +80,35 @@ export class StudentProfileCompletionService {
         VALUES(${this.ids.next()}::uuid,${principal.organizationId}::uuid,'STUDENT_PROFILE',${studentId}::uuid,'PROFILE_UPDATE_REQUIRED',
           ${principal.userId}::uuid,${facts.requestId},${input.expectedVersion+1},${JSON.stringify({reason:input.profileUpdateReason})}::jsonb,${now},'SUCCEEDED')`;
       return this.idempotency.success({version:input.expectedVersion+1});
+    });
+  }
+
+  private async grantSecondClass(principal:AuthenticatedPrincipal,studentId:string,input:UpdateStudentRequestDto,
+    facts:{requestId:string;idempotencyKey:string|undefined}) {
+    if (!input.secondClassReason?.trim() || !input.secondClassSemesterId ||
+      Object.entries(input).some(([key,value])=>value!==undefined && !['secondClassReason','secondClassSemesterId','expectedVersion'].includes(key)))
+      throw new ApplicationError('VALIDATION_FAILED',422);
+    const semesterId=input.secondClassSemesterId,reason=input.secondClassReason.trim();
+    return this.idempotency.execute({organizationId:principal.organizationId,principalId:principal.userId,authSessionId:principal.sessionId,
+      operationId:'updateStudent',scope:studentId,key:facts.idempotencyKey,request:input,requestId:facts.requestId},async tx=>{
+      await tx.$queryRaw`SELECT id FROM organizations WHERE id=${principal.organizationId}::uuid FOR NO KEY UPDATE`;
+      await requireAdminAccess(tx,principal,'USER_ACCOUNTS');
+      if ((await tx.systemPolicy.findUnique({where:{organizationId:principal.organizationId}}))?.systemMode!=='NORMAL') throw new ApplicationError('SYSTEM_MAINTENANCE',503);
+      const semester=await tx.semester.findFirst({where:{id:semesterId,organizationId:principal.organizationId,status:'CURRENT'}});
+      if(!semester) throw new ApplicationError('CONFLICT_VERSION_MISMATCH',409);
+      const profile=await tx.studentProfile.findFirst({where:{id:studentId,organizationId:principal.organizationId,deletedAt:null}});
+      if(!profile) throw new ApplicationError('USER_NOT_FOUND',404);
+      if(profile.version!==input.expectedVersion) throw new ApplicationError('CONFLICT_VERSION_MISMATCH',409);
+      const existing=await tx.$queryRaw<{maximum_active:number}[]>`SELECT maximum_active FROM student_enrollment_capacities WHERE organization_id=${principal.organizationId}::uuid AND student_id=${studentId}::uuid AND semester_id=${semester.id}::uuid`;
+      if(existing.length) return this.idempotency.success({version:profile.version});
+      await tx.$executeRaw`INSERT INTO student_enrollment_capacities(organization_id,student_id,semester_id,maximum_active,reason)
+        VALUES(${principal.organizationId}::uuid,${studentId}::uuid,${semester.id}::uuid,2,${reason})`;
+      const now=this.clock.now();
+      await tx.studentProfile.update({where:{id:studentId},data:{version:{increment:1},updatedAt:now}});
+      await tx.$executeRaw`INSERT INTO v81_events(id,organization_id,resource_type,resource_id,event_type,actor_id,request_id,version,facts,occurred_at,event_outcome)
+        VALUES(${this.ids.next()}::uuid,${principal.organizationId}::uuid,'STUDENT_ENROLLMENT_CAPACITY',${studentId}::uuid,'DUAL_CLASS_GRANTED',
+          ${principal.userId}::uuid,${facts.requestId},${profile.version+1},${JSON.stringify({semesterId:semester.id,maximumActive:2,independentCredits:true,reason})}::jsonb,${now},'SUCCEEDED')`;
+      return this.idempotency.success({version:profile.version+1});
     });
   }
 

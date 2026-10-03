@@ -1,0 +1,36 @@
+{
+  "focusedTests": {
+    "passed": 53,
+    "failed": 0
+  },
+  "studentSmoke": {
+    "passed": 86,
+    "knownFailures": [
+      "Existing course wording assertion: 每学期仅可选择一门课程; reproduced in checkin-instrument-20261001 baseline."
+    ]
+  },
+  "browser": {
+    "layoutCases": 120,
+    "layoutFailures": 0,
+    "consoleErrors": 0,
+    "checked": [
+      "standard/reduced motion",
+      "light/dark themes",
+      "rapid pause/resume",
+      "finish confirmation",
+      "description validation and caret",
+      "draft retained after home/re-entry",
+      "proof scroll retained at 284.2857px",
+      "local submit guard",
+      "confetti replay and reduced-motion cleanup"
+    ],
+    "animatedDigitsObserved": true,
+    "selectionSurfaceObserved": true
+  },
+  "boundaries": [
+    "Local preview and browser checks",
+    "Server success/failure tested with mocked API responses",
+    "Physical phone keyboard, actual camera, and real upload not exercised"
+  ],
+  "preview": "http://127.0.0.1:4181/?scene=running&motion=full"
+}

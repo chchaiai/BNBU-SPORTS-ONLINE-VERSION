@@ -1,0 +1,172 @@
+--- before/checkin.js
++++ BNBU-Sports-Web-new/frontend/student/js/screens/checkin.js
+@@ -1625,6 +1625,7 @@
+ 
+ function submitCheckIn(app, session) {
+   const ui = checkinState(app);
++  if (ui.finish.submitting) return;
+   const details = session.details;
+   const retained = [...ui.drafts];
+   if (retained.some(d=>d.normalizationPending)) {
+@@ -1645,8 +1646,7 @@
+   ui.finish.submitting = true;
+   app.render();
+   if (app.isApiMode() && session.serverId) {
+-    submitCheckInApi(app, session, retained);
+-    return;
++    return submitCheckInApi(app, session, retained);
+   }
+   ui.finish.submitting = false;
+   if (app.isLocalPreview()) {
+@@ -1664,6 +1664,15 @@
+ /** Real submission: record draft → media upload/confirm/bind → submit. */
+ async function submitCheckInApi(app, session, retained) {
+   const ui = checkinState(app);
++  const owner = accountId(app), originalOwner = originalOwnerId(app), epoch = currentApiSessionEpoch();
++  const current = () => app.ui.checkin === ui && accountId(app) === owner && isCurrentApiSessionEpoch(epoch);
++  // Every asynchronous stage belongs to the account that started this submission.
++  // A late response must not start another request or persist into a new account.
++  const inScope = async (work) => {
++    const value = await work;
++    if (!current()) throw new Error('CHECKIN_CONTEXT_CHANGED');
++    return value;
++  };
+   const details = session.details;
+   ui.uploadDraftId = null;
+   ui.uploadProgress = {phase:'WAITING'};
+@@ -1673,7 +1682,7 @@
+     persist(app, session);
+     // Reconcile a committed submission whose response was lost, as well as a
+     // retained draft. The server enforces one record per exercise session.
+-    let record = (await listMyRecords()).find(
++    let record = (await inScope(listMyRecords())).find(
+       (r) => ['DRAFT', 'SUBMITTED', 'REVIEWED'].includes(r.status) && r.sessionId === session.serverId
+     ) || null;
+     if (!record) {
+@@ -1686,18 +1695,18 @@
+       };
+       session.recordSubmission.input ||= recordInput;
+       persist(app, session);
+-      record = await createRecordDraft(session.recordSubmission.input, session.recordSubmission.createKey);
++      record = await inScope(createRecordDraft(session.recordSubmission.input, session.recordSubmission.createKey));
+     }
+     if (record.status === 'DRAFT' && (record.description || '') !== details.description.trim()) {
+-      record = await request(`/exercise-records/${record.id}`, {method:'PATCH',idempotent:true,
+-        body:{description:details.description.trim(),expectedVersion:record.version}});
++      record = await inScope(request(`/exercise-records/${record.id}`, {method:'PATCH',idempotent:true,
++        body:{description:details.description.trim(),expectedVersion:record.version}}));
+     }
+     const alreadySubmitted = record.status !== 'DRAFT';
+     if (!alreadySubmitted) {
+-      const recovered = await reconcileRecordDraftMedia(record.id, session.serverId, retained);
++      const recovered = await inScope(reconcileRecordDraftMedia(record.id, session.serverId, retained));
+       retained = recovered.drafts;
+       ui.drafts = retained;
+-      for (const draft of retained) if (!draft.serverOnly) await saveProofDraft(accountId(app), session.serverId, draft);
++      for (const draft of retained) if (!draft.serverOnly) await inScope(saveProofDraft(owner, session.serverId, draft));
+       if (recovered.restored) {
+         ui.finish.submitting = false;
+         ui.uploadProgress = null;
+@@ -1709,25 +1718,38 @@
+     if (!alreadySubmitted && isRealtimeSwim(session)) {
+       ui.mediaNotice = tx('正在预受理游泳材料…', 'Accepting swimming evidence…');
+       app.render();
+-      await ensureSwimIntake({
++      await inScope(ensureSwimIntake({
+         record, drafts: retained, intent: session.recordSubmission, delayReason: session.swimDelayReason,
+         get: getSwimIntake, accept: acceptSwimIntake,
+-        prepare: async draft => uploadMediaDraft(session.serverId, draft, draft.blob || await fetch(draft.url).then(r=>r.blob()), {prepareOnly:true}),
+-        save: async draft => { if(draft) await saveProofDraft(accountId(app), session.serverId, draft); persist(app,session); },
++        prepare: async draft => {
++          const blob = draft.blob || await inScope(fetch(draft.url).then(r=>r.blob()));
++          if (!current()) throw new Error('CHECKIN_CONTEXT_CHANGED');
++          return inScope(uploadMediaDraft(session.serverId, draft, blob, {prepareOnly:true}));
++        },
++        save: async draft => { if (!current()) throw new Error('CHECKIN_CONTEXT_CHANGED'); if(draft) await inScope(saveProofDraft(owner, session.serverId, draft)); persist(app,session); },
+         fail: reason => new ApiError(422,{code:'VALIDATION_FAILED',details:{reason}}),
+-      });
+-    }
+-    const uploaded = alreadySubmitted ? await loadServerRecordProofs(record.id) : [];
++      }));
++    }
++    const uploaded = alreadySubmitted ? await inScope(loadServerRecordProofs(record.id)) : [];
+     for (let index = 0; !alreadySubmitted && index < retained.length; index++) {
+       const draft = retained[index];
+       ui.uploadDraftId = draft.id;
+       ui.uploadProgress = {phase:'WAITING'};
+       ui.mediaNotice = tx(`正在处理凭证 ${index + 1}/${retained.length}…`, `Processing proof ${index + 1}/${retained.length}…`);
+       refreshCheckinTransfer(app);
+-      const blob = draft.mediaId ? null : draft.blob || (await fetch(draft.url).then((r) => r.blob()));
++      const blob = draft.mediaId ? null : draft.blob || (await inScope(fetch(draft.url).then((r) => r.blob())));
+       // Upload checkpoints persist changes. A redundant finally write could
+       // hide the original upload error or block already verified evidence.
+-      const mediaId = draft.mediaId || (await uploadMediaDraft(session.serverId, draft, blob,{onCheckpoint: d=>saveProofDraft(accountId(app), session.serverId, d),onProgress:progress=>{ui.uploadProgress=progress;ui.mediaNotice=uploadProgressLabel(progress);refreshCheckinTransfer(app);}})).mediaId;
++      const mediaId = draft.mediaId || (await inScope(uploadMediaDraft(session.serverId, draft, blob, {
++        onCheckpoint: d => {
++          if (!current()) throw new Error('CHECKIN_CONTEXT_CHANGED');
++          return inScope(saveProofDraft(owner, session.serverId, d));
++        },
++        onProgress: progress => {
++          if (!current()) return;
++          ui.uploadProgress=progress;ui.mediaNotice=uploadProgressLabel(progress);refreshCheckinTransfer(app);
++        },
++      }))).mediaId;
+       uploaded.push({
+         mediaId,
+         type: draft.type,
+@@ -1744,16 +1766,16 @@
+     if (session.recordSubmission.submitFingerprint && session.recordSubmission.submitFingerprint !== submitFingerprint) session.recordSubmission.submitKey = crypto.randomUUID();
+     session.recordSubmission.submitFingerprint = submitFingerprint;
+     persist(app,session);
+-    const submittedRecord = alreadySubmitted ? record : await submitRecord(record.id, uploaded.map((u) => u.mediaId), record.version, session.swimDelayReason, session.recordSubmission.submitKey);
++    const submittedRecord = alreadySubmitted ? record : await inScope(submitRecord(record.id, uploaded.map((u) => u.mediaId), record.version, session.swimDelayReason, session.recordSubmission.submitKey));
+     accepted = true;
+     cacheRecordProofs(record.id, uploaded);
+     // The server has committed submission. Album failure must never turn this
+     // into a failed check-in; persisted native work retries on the next visit.
+     try {
+-      const album = await saveSuccessfulEvidence(originalOwnerId(app), record.id, retained.filter(d=>!d.serverOnly));
++      const album = await saveSuccessfulEvidence(originalOwner, record.id, retained.filter(d=>!d.serverOnly));
+       if (album.pending) ui.mediaNotice = tx('打卡已成功，相册保存待重试。', 'Check-in succeeded. Album saving will retry.');
+     } catch { ui.mediaNotice = tx('打卡已成功，本机凭证暂未存入相册。', 'Check-in succeeded. Evidence has not yet been saved to the album.'); }
+-    ui.finish.submitting = false;
++    if (!current()) return;
+     const credited = authoritativeCreditedHours(submittedRecord);
+     const submitted = {
+       phase: "submitted",
+@@ -1768,14 +1790,25 @@
+         proofCount: uploaded.length,
+       },
+     };
+-    await clearProofDrafts(accountId(app), session.serverId).catch(() => { ui.captureError = tx("提交已成功，本机凭证清理失败，可稍后重试。", "Submitted successfully. Local proof cleanup failed; retry later."); });
++    await inScope(clearProofDrafts(owner, session.serverId).catch(() => { ui.captureError = tx("提交已成功，本机凭证清理失败，可稍后重试。", "Submitted successfully. Local proof cleanup failed; retry later."); }));
+     persist(app, submitted);
++    ui.finish.submitting = false;
+     if (!alreadySubmitted) {queueCheckinSuccess(app, accountId(app), submittedRecord.id || record.id); ui.freshRecordId = submittedRecord.id || record.id;}
+     for (const draft of ui.drafts) if (draft.url?.startsWith("blob:")) URL.revokeObjectURL(draft.url);
+     ui.drafts = [];
+     app.render();
+     app.reloadApiWorkspace();
+   } catch (error) {
++    if (!current()) {
++      // Expired authentication can invalidate the epoch without leaving this form.
++      // Unlock that form for recovery, but never touch a replacement account/UI.
++      if (app.ui.checkin === ui && accountId(app) === owner) {
++        ui.finish.submitting = false;
++        ui.finish.error = toUserFacingError(error);
++        app.render();
++      }
++      return;
++    }
+     ui.finish.submitting = false;
+     // Retain the failed stage without treating file bytes as a record-wide percentage.
+     ui.uploadProgress = ui.uploadProgress?.phase === 'SUBMITTING' ? {phase:'SUBMITTING'} : null;
+@@ -2367,7 +2400,7 @@
+     const session = loadSession(accountId(app));
+     if (!session || session.phase !== "finished") return;
+     if (!app.isWriteAllowed()) return;
+-    submitCheckIn(app, session);
++    return submitCheckIn(app, session);
+   },
+   "checkin.submitProof": async (app) => {
+     if (!app.isWriteAllowed()) return;

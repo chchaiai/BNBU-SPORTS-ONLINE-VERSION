@@ -1,0 +1,25 @@
+{
+  "student": {
+    "beforeInitialModules": 49,
+    "afterInitialModules": 42,
+    "beforeLocalInitialJsBytes": 645487,
+    "afterPublishedInitialJsBytes": 463346,
+    "note": "Vendor bytes preserved from live; counts exclude standalone runtime-config and telemetry script",
+    "beforePublishedInitialJsBytes": 643002,
+    "beforeVersion": "7d9318cac3d130b1db94bdc8",
+    "afterVersion": "e5de30052db40ba271dafe6f",
+    "initialJsBytesReductionPercent": 27.94,
+    "baselineBytesMatchedToLive": true,
+    "liveVendorOverrides": [
+      "js/vendor/piexif.js"
+    ]
+  },
+  "teacher": {
+    "recordListBeforeRequestsFor25": 76,
+    "recordListAfterRequestsFor25": 1,
+    "syntheticInitialWorkspaceRequests": 18,
+    "syntheticSelectedStudentDetailsRequestsFor3Records": 9
+  },
+  "productionRelease": "access-performance-20260930",
+  "networkAcceptance": "Pending campus Wi-Fi and China Mobile tests; desktop has TUN"
+}

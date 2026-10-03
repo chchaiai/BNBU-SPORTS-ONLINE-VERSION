@@ -1,0 +1,679 @@
+{
+  "warnings": {
+    "counts": {
+      "": 107
+    },
+    "examples": [
+      {
+        "keys": [
+          "level",
+          "time",
+          "service",
+          "environment",
+          "version",
+          "context",
+          "payload"
+        ],
+        "time": "2026-09-29T23:13:15.120Z",
+        "message": ""
+      },
+      {
+        "keys": [
+          "level",
+          "time",
+          "service",
+          "environment",
+          "version",
+          "context",
+          "payload"
+        ],
+        "time": "2026-09-29T23:17:21.135Z",
+        "message": ""
+      },
+      {
+        "keys": [
+          "level",
+          "time",
+          "service",
+          "environment",
+          "version",
+          "context",
+          "payload"
+        ],
+        "time": "2026-09-29T23:20:31.032Z",
+        "message": ""
+      },
+      {
+        "keys": [
+          "level",
+          "time",
+          "service",
+          "environment",
+          "version",
+          "context",
+          "payload"
+        ],
+        "time": "2026-09-29T23:28:15.134Z",
+        "message": ""
+      },
+      {
+        "keys": [
+          "level",
+          "time",
+          "service",
+          "environment",
+          "version",
+          "context",
+          "payload"
+        ],
+        "time": "2026-09-29T23:28:16.549Z",
+        "message": ""
+      }
+    ]
+  },
+  "slowOperations": [
+    {
+      "time": "2026-09-29T23:28:41.946Z",
+      "operationId": "confirmMediaUpload",
+      "durationMs": 1135.38,
+      "statusCode": 200
+    },
+    {
+      "time": "2026-09-29T23:28:49.493Z",
+      "operationId": "confirmMediaUpload",
+      "durationMs": 1123.19,
+      "statusCode": 200
+    },
+    {
+      "time": "2026-09-29T23:28:58.888Z",
+      "operationId": "confirmMediaUpload",
+      "durationMs": 1027.19,
+      "statusCode": 200
+    },
+    {
+      "time": "2026-09-30T00:23:37.440Z",
+      "operationId": "confirmMediaUpload",
+      "durationMs": 733.12,
+      "statusCode": 200
+    },
+    {
+      "time": "2026-09-30T00:54:24.606Z",
+      "operationId": "confirmMediaUpload",
+      "durationMs": 838.9,
+      "statusCode": 200
+    },
+    {
+      "time": "2026-09-30T00:54:28.794Z",
+      "operationId": "confirmMediaUpload",
+      "durationMs": 372.18,
+      "statusCode": 200
+    },
+    {
+      "time": "2026-09-30T00:54:35.043Z",
+      "operationId": "confirmMediaUpload",
+      "durationMs": 951.02,
+      "statusCode": 200
+    },
+    {
+      "time": "2026-09-30T00:59:39.259Z",
+      "operationId": "confirmMediaUpload",
+      "durationMs": 1054.21,
+      "statusCode": 200
+    },
+    {
+      "time": "2026-09-30T00:59:42.995Z",
+      "operationId": "confirmMediaUpload",
+      "durationMs": 976.14,
+      "statusCode": 200
+    },
+    {
+      "time": "2026-09-30T01:04:35.952Z",
+      "operationId": "confirmMediaUpload",
+      "durationMs": 373.96,
+      "statusCode": 200
+    },
+    {
+      "time": "2026-09-30T01:34:21.722Z",
+      "operationId": "confirmMediaUpload",
+      "durationMs": 914.74,
+      "statusCode": 200
+    },
+    {
+      "time": "2026-09-30T01:34:24.038Z",
+      "operationId": "confirmMediaUpload",
+      "durationMs": 729.6,
+      "statusCode": 200
+    },
+    {
+      "time": "2026-09-30T01:53:27.064Z",
+      "operationId": "confirmMediaUpload",
+      "durationMs": 923.83,
+      "statusCode": 200
+    },
+    {
+      "time": "2026-09-30T01:53:40.408Z",
+      "operationId": "confirmMediaUpload",
+      "durationMs": 808.38,
+      "statusCode": 200
+    },
+    {
+      "time": "2026-09-30T01:53:51.243Z",
+      "operationId": "confirmMediaUpload",
+      "durationMs": 782.43,
+      "statusCode": 200
+    },
+    {
+      "time": "2026-09-30T01:56:32.498Z",
+      "operationId": "confirmMediaUpload",
+      "durationMs": 919.19,
+      "statusCode": 200
+    },
+    {
+      "time": "2026-09-30T01:56:36.590Z",
+      "operationId": "confirmMediaUpload",
+      "durationMs": 848.8,
+      "statusCode": 200
+    },
+    {
+      "time": "2026-09-30T02:10:15.095Z",
+      "operationId": "confirmMediaUpload",
+      "durationMs": 893.51,
+      "statusCode": 200
+    },
+    {
+      "time": "2026-09-30T02:10:22.980Z",
+      "operationId": "confirmMediaUpload",
+      "durationMs": 943.23,
+      "statusCode": 200
+    },
+    {
+      "time": "2026-09-30T02:47:35.060Z",
+      "operationId": "confirmMediaUpload",
+      "durationMs": 1020.09,
+      "statusCode": 200
+    },
+    {
+      "time": "2026-09-30T02:47:38.460Z",
+      "operationId": "confirmMediaUpload",
+      "durationMs": 858.01,
+      "statusCode": 200
+    },
+    {
+      "time": "2026-09-30T02:47:41.925Z",
+      "operationId": "confirmMediaUpload",
+      "durationMs": 833.34,
+      "statusCode": 200
+    }
+  ],
+  "scheduledJobs": "2026-09-30T07:01:01+0800 VM-0-13-ubuntu systemd[1]: Starting Refresh fwupd metadata and update motd...\n2026-09-30T07:01:01+0800 VM-0-13-ubuntu systemd[1]: fwupd-refresh.service: Deactivated successfully.\n2026-09-30T07:01:01+0800 VM-0-13-ubuntu systemd[1]: Finished Refresh fwupd metadata and update motd.\n2026-09-30T07:45:45+0800 VM-0-13-ubuntu systemd[1]: Starting Daily man-db regeneration...\n2026-09-30T07:45:45+0800 VM-0-13-ubuntu systemd[1]: man-db.service: Deactivated successfully.\n2026-09-30T07:45:45+0800 VM-0-13-ubuntu systemd[1]: Finished Daily man-db regeneration.\n2026-09-30T09:38:01+0800 VM-0-13-ubuntu systemd[1]: Starting Download data for packages that failed at package install time...\n2026-09-30T09:38:01+0800 VM-0-13-ubuntu systemd[1]: update-notifier-download.service: Deactivated successfully.\n2026-09-30T09:38:01+0800 VM-0-13-ubuntu systemd[1]: Finished Download data for packages that failed at package install time.\n2026-09-30T10:11:01+0800 VM-0-13-ubuntu systemd[1]: Starting Daily apt download activities...\n2026-09-30T10:11:12+0800 VM-0-13-ubuntu systemd[1]: apt-daily.service: Deactivated successfully.\n2026-09-30T10:11:12+0800 VM-0-13-ubuntu systemd[1]: Finished Daily apt download activities.\n2026-09-30T10:11:12+0800 VM-0-13-ubuntu systemd[1]: apt-daily.service: Consumed 7.986s CPU time.\n\n",
+  "sshdSummary": "2026-09-30T07:26:53+0800 VM-0-13-ubuntu sshd[365180]: error: kex_exchange_identification: Connection closed by remote host\n2026-09-30T07:26:53+0800 VM-0-13-ubuntu sshd[365180]: Connection closed by [IP] port 49328\n2026-09-30T07:28:27+0800 VM-0-13-ubuntu sshd[366399]: error: kex_exchange_identification: Connection closed by remote host\n2026-09-30T07:28:27+0800 VM-0-13-ubuntu sshd[366399]: Connection closed by [IP] port 35694\n2026-09-30T07:29:22+0800 VM-0-13-ubuntu sshd[367116]: error: kex_exchange_identification: Connection closed by remote host\n2026-09-30T07:29:22+0800 VM-0-13-ubuntu sshd[367116]: Connection closed by [IP] port 57316\n2026-09-30T07:47:02+0800 VM-0-13-ubuntu sshd[380949]: error: kex_exchange_identification: Connection closed by remote host\n2026-09-30T07:47:02+0800 VM-0-13-ubuntu sshd[380949]: Connection closed by [IP] port 63538\n2026-09-30T07:52:48+0800 VM-0-13-ubuntu sshd[385464]: error: kex_exchange_identification: Connection closed by remote host\n2026-09-30T07:52:48+0800 VM-0-13-ubuntu sshd[385464]: Connection closed by [IP] port 49216\n2026-09-30T07:56:12+0800 VM-0-13-ubuntu sshd[388092]: error: kex_exchange_identification: Connection closed by remote host\n2026-09-30T07:56:12+0800 VM-0-13-ubuntu sshd[388092]: Connection closed by [IP] port 43444\n2026-09-30T07:56:16+0800 VM-0-13-ubuntu sshd[388203]: error: kex_exchange_identification: Connection closed by remote host\n2026-09-30T07:56:16+0800 VM-0-13-ubuntu sshd[388203]: Connection closed by [IP] port 48514\n2026-09-30T08:11:45+0800 VM-0-13-ubuntu sshd[400330]: error: kex_exchange_identification: Connection closed by remote host\n2026-09-30T08:11:45+0800 VM-0-13-ubuntu sshd[400330]: Connection closed by [IP] port 56538\n2026-09-30T08:53:52+0800 VM-0-13-ubuntu sshd[433370]: Connection reset by authenticating user root [IP] port 12188 [preauth]\n2026-09-30T08:56:53+0800 VM-0-13-ubuntu sshd[435745]: error: kex_exchange_identification: Connection closed by remote host\n2026-09-30T08:56:53+0800 VM-0-13-ubuntu sshd[435745]: Connection closed by [IP] port 19837\n2026-09-30T09:16:33+0800 VM-0-13-ubuntu sshd[451208]: error: kex_exchange_identification: Connection closed by remote host\n2026-09-30T09:16:33+0800 VM-0-13-ubuntu sshd[451208]: Connection closed by [IP] port 50984\n2026-09-30T09:17:10+0800 VM-0-13-ubuntu sshd[451691]: error: kex_exchange_identification: Connection closed by remote host\n2026-09-30T09:17:10+0800 VM-0-13-ubuntu sshd[451691]: Connection closed by [IP] port 58012\n2026-09-30T09:25:46+0800 VM-0-13-ubuntu sshd[458433]: Connection reset by authenticating user root [IP] port 5822 [preauth]\n2026-09-30T09:35:42+0800 VM-0-13-ubuntu sshd[466251]: Connection reset by authenticating user root [IP] port 22400 [preauth]\n2026-09-30T09:40:41+0800 VM-0-13-ubuntu sshd[470160]: Connection reset by authenticating user root [IP] port 42902 [preauth]\n2026-09-30T09:45:37+0800 VM-0-13-ubuntu sshd[474044]: Connection reset by authenticating user root [IP] port 13870 [preauth]\n2026-09-30T10:05:42+0800 VM-0-13-ubuntu sshd[489815]: Connection reset by authenticating user root [IP] port 22784 [preauth]\n2026-09-30T10:10:41+0800 VM-0-13-ubuntu sshd[493738]: Connection reset by authenticating user root [IP] port 63712 [preauth]\n2026-09-30T10:15:37+0800 VM-0-13-ubuntu sshd[498039]: Connection reset by authenticating user root [IP] port 30124 [preauth]\n2026-09-30T10:34:11+0800 VM-0-13-ubuntu sshd[512625]: error: kex_exchange_identification: Connection closed by remote host\n2026-09-30T10:34:11+0800 VM-0-13-ubuntu sshd[512625]: Connection closed by [IP] port 58032\n2026-09-30T10:34:59+0800 VM-0-13-ubuntu sshd[513185]: error: kex_exchange_identification: Connection closed by remote host\n2026-09-30T10:34:59+0800 VM-0-13-ubuntu sshd[513185]: Connection closed by [IP] port 42852\n2026-09-30T10:36:01+0800 VM-0-13-ubuntu sshd[514025]: error: kex_exchange_identification: Connection closed by remote host\n2026-09-30T10:36:01+0800 VM-0-13-ubuntu sshd[514025]: Connection closed by [IP] port 33232\n\n",
+  "scanSource": {
+    "count": 756,
+    "first": "07:25:55",
+    "last": "07:27:37",
+    "bytes": 262332,
+    "peakSeconds": [
+      [
+        "07:26:17",
+        10
+      ],
+      [
+        "07:26:18",
+        10
+      ],
+      [
+        "07:26:19",
+        10
+      ]
+    ],
+    "paths": [
+      {
+        "time": "07:25:55",
+        "status": "404",
+        "bytes": 548,
+        "path": "/"
+      },
+      {
+        "time": "07:25:56",
+        "status": "404",
+        "bytes": 548,
+        "path": "/ht68xpa94v97gn"
+      },
+      {
+        "time": "07:25:56",
+        "status": "404",
+        "bytes": 548,
+        "path": "/.env"
+      },
+      {
+        "time": "07:25:56",
+        "status": "404",
+        "bytes": 548,
+        "path": "/appsettings/.env"
+      },
+      {
+        "time": "07:25:56",
+        "status": "404",
+        "bytes": 548,
+        "path": "/_API/.env"
+      },
+      {
+        "time": "07:25:56",
+        "status": "404",
+        "bytes": 548,
+        "path": "/_admin/.env"
+      }
+    ]
+  },
+  "slowStaticMatches": [
+    {
+      "source": "e4c3c0df60",
+      "time": "08:50:28",
+      "path": "/student/_assets/7d9318cac3d130b1db94bdc8/js/photo-originals.js",
+      "status": "200",
+      "bytes": "1527"
+    },
+    {
+      "source": "e4c3c0df60",
+      "time": "08:50:28",
+      "path": "/student/_assets/7d9318cac3d130b1db94bdc8/js/vendor/piexif.js",
+      "status": "200",
+      "bytes": "12886"
+    },
+    {
+      "source": "e4c3c0df60",
+      "time": "08:50:28",
+      "path": "/student/_assets/7d9318cac3d130b1db94bdc8/js/sports-catalog.js",
+      "status": "200",
+      "bytes": "758"
+    },
+    {
+      "source": "e4c3c0df60",
+      "time": "08:50:28",
+      "path": "/student/_assets/7d9318cac3d130b1db94bdc8/js/upload-progress.js",
+      "status": "200",
+      "bytes": "1545"
+    },
+    {
+      "source": "f17e4a7470",
+      "time": "10:19:50",
+      "path": "/student/_assets/7d9318cac3d130b1db94bdc8/js/screens/grades.js",
+      "status": "200",
+      "bytes": "2154"
+    },
+    {
+      "source": "f17e4a7470",
+      "time": "10:19:50",
+      "path": "/student/_assets/7d9318cac3d130b1db94bdc8/js/screens/profile.js",
+      "status": "200",
+      "bytes": "9052"
+    },
+    {
+      "source": "f17e4a7470",
+      "time": "10:19:50",
+      "path": "/student/_assets/7d9318cac3d130b1db94bdc8/js/deferred-screens.js",
+      "status": "200",
+      "bytes": "949"
+    },
+    {
+      "source": "f17e4a7470",
+      "time": "10:19:50",
+      "path": "/student/_assets/7d9318cac3d130b1db94bdc8/js/emblem.js",
+      "status": "200",
+      "bytes": "3254"
+    },
+    {
+      "source": "f17e4a7470",
+      "time": "10:19:50",
+      "path": "/student/_assets/7d9318cac3d130b1db94bdc8/js/app.js",
+      "status": "200",
+      "bytes": "8682"
+    }
+  ],
+  "other404": [
+    [
+      "/favicon.ico",
+      43
+    ],
+    [
+      "/apple-touch-icon-precomposed.png",
+      35
+    ],
+    [
+      "/apple-touch-icon.png",
+      35
+    ],
+    [
+      "/",
+      33
+    ],
+    [
+      "/dns-query",
+      6
+    ],
+    [
+      "/query",
+      6
+    ],
+    [
+      "/resolve",
+      6
+    ],
+    [
+      "/index.php",
+      5
+    ],
+    [
+      "/env",
+      5
+    ],
+    [
+      "/developmentserver/metadatauploader",
+      1
+    ],
+    [
+      "/hello.world",
+      1
+    ],
+    [
+      "/test.hello",
+      1
+    ],
+    [
+      "/vendor/phpunit/phpunit/src/Util/PHP/eval-stdin.php",
+      1
+    ],
+    [
+      "/vendor/phpunit/phpunit/Util/PHP/eval-stdin.php",
+      1
+    ],
+    [
+      "/vendor/phpunit/src/Util/PHP/eval-stdin.php",
+      1
+    ]
+  ],
+  "sampleStart": "2026-09-30T11:00:12.366795+08:00",
+  "sampleEnd": "2026-09-30T11:00:32.395969+08:00",
+  "tcpDelta": {
+    "TcpOutSegs": 215,
+    "TcpRetransSegs": 8,
+    "TcpExtTCPTimeouts": 4,
+    "TcpExtTCPSynRetrans": 0,
+    "TcpExtListenOverflows": 0,
+    "TcpExtListenDrops": 0,
+    "TcpExtSyncookiesSent": 0,
+    "TcpExtTCPReqQFullDrop": 0,
+    "TcpExtTCPBacklogDrop": 0,
+    "TcpExtTCPAbortOnMemory": 0
+  },
+  "connections": [
+    {
+      "time": "2026-09-30T11:00:12.370762+08:00",
+      "connections": [
+        {
+          "peer": "77c445b52b",
+          "queues": [
+            "0",
+            "0"
+          ],
+          "info": "cubic wscale:9,7 rto:368 rtt:75.277/72.959 ato:40 mss:1360 pmtu:1500 rcvmss:1360 advmss:1460 cwnd:4 ssthresh:3 bytes_sent:61247 bytes_retrans:7315 bytes_acked:53932 bytes_received:5591 segs_out:68 segs_in:66 data_segs_out:59 data_segs_in:21 send 578131bps lastsnd:92976 lastrcv:92820 lastack:92768 pacing_rate 693752bps delivery_rate 1865936bps delivered:57 busy:3340ms retrans:0/7 dsack_dups:4 rcv_space:14600 rcv_ssthresh:64076 minrtt:31.967 tcp-ulp-tls rxconf: none txconf: none"
+        },
+        {
+          "peer": "822ee1de7f",
+          "queues": [
+            "0",
+            "0"
+          ],
+          "info": "cubic wscale:6,7 rto:236 rtt:33.809/1.143 ato:40 mss:1368 pmtu:1500 rcvmss:1368 advmss:1448 cwnd:79 ssthresh:76 bytes_sent:291507 bytes_acked:291507 bytes_received:27927 segs_out:259 segs_in:148 data_segs_out:244 data_segs_in:49 send 25572362bps lastsnd:1916 lastrcv:1924 lastack:1884 pacing_rate 30686600bps delivery_rate 20380896bps delivered:245 busy:1168ms reordering:18 reord_seen:1 rcv_rtt:41 rcv_space:14480 rcv_ssthresh:64088 minrtt:30.079 tcp-ulp-tls rxconf: none txconf: none"
+        },
+        {
+          "peer": "cbea085ff2",
+          "queues": [
+            "0",
+            "0"
+          ],
+          "info": "cubic wscale:8,7 rto:268 rtt:64.282/3.938 ato:40 mss:1400 pmtu:1500 rcvmss:1400 advmss:1460 cwnd:7 ssthresh:7 bytes_sent:236717 bytes_retrans:951 bytes_acked:235766 bytes_received:23419 segs_out:258 segs_in:495 data_segs_out:250 data_segs_in:248 send 1219626bps lastsnd:5616 lastrcv:5620 lastack:5564 pacing_rate 1463536bps delivery_rate 3276048bps delivered:250 app_limited busy:16076ms retrans:0/1 rcv_space:14600 rcv_ssthresh:64076 minrtt:12.365 tcp-ulp-tls rxconf: none txconf: none"
+        },
+        {
+          "peer": "6d65d4d713",
+          "queues": [
+            "0",
+            "0"
+          ],
+          "info": "cubic wscale:8,7 rto:208 rtt:7.296/0.055 ato:40 mss:1412 pmtu:1500 rcvmss:1412 advmss:1448 cwnd:10 bytes_sent:12699 bytes_acked:12699 bytes_received:2832 segs_out:24 segs_in:31 data_segs_out:20 data_segs_in:10 send 15482456bps lastsnd:166288 lastrcv:166296 lastack:166280 pacing_rate 30964376bps delivery_rate 5891768bps delivered:21 app_limited busy:100ms reord_seen:2 rcv_space:14480 rcv_ssthresh:64088 minrtt:7.221 tcp-ulp-tls rxconf: none txconf: none"
+        },
+        {
+          "peer": "cfdb22f97c",
+          "queues": [
+            "0",
+            "0"
+          ],
+          "info": "cubic wscale:6,7 rto:256 rtt:53.752/18.236 ato:40 mss:1368 pmtu:1500 rcvmss:536 advmss:1448 cwnd:10 bytes_sent:7279 bytes_acked:7279 bytes_received:1055 segs_out:13 segs_in:12 data_segs_out:10 data_segs_in:5 send 2036017bps lastsnd:15312 lastrcv:15320 lastack:15256 pacing_rate 4072032bps delivery_rate 1189624bps delivered:11 app_limited busy:172ms rcv_space:14480 rcv_ssthresh:64088 minrtt:35.4 tcp-ulp-tls rxconf: none txconf: none"
+        },
+        {
+          "peer": "77a9a0045d",
+          "queues": [
+            "0",
+            "0"
+          ],
+          "info": "cubic wscale:6,7 rto:224 rtt:23.644/3.722 ato:40 mss:1412 pmtu:1500 rcvmss:1412 advmss:1448 cwnd:10 bytes_sent:10788 bytes_acked:10788 bytes_received:3874 segs_out:17 segs_in:21 data_segs_out:14 data_segs_in:10 send 4777533bps lastsnd:3692 lastrcv:3700 lastack:3668 pacing_rate 9555064bps delivery_rate 1834536bps delivered:15 app_limited busy:124ms rcv_rtt:27 rcv_space:14480 rcv_ssthresh:64088 minrtt:21.287 tcp-ulp-tls rxconf: none txconf: none"
+        },
+        {
+          "peer": "d553bdc457",
+          "queues": [
+            "0",
+            "0"
+          ],
+          "info": "cubic wscale:8,7 rto:216 rtt:12.967/2.773 ato:40 mss:1400 pmtu:1500 rcvmss:1400 advmss:1460 cwnd:5 ssthresh:3 bytes_sent:1095255 bytes_retrans:7813 bytes_acked:1087442 bytes_received:151801 segs_out:3658 segs_in:3220 data_segs_out:1713 data_segs_in:2069 send 4318655bps lastsnd:57048 lastrcv:57040 lastack:11984 pacing_rate 5182232bps delivery_rate 2684400bps delivered:1702 app_limited busy:10012ms retrans:0/12 dsack_dups:1 reord_seen:191 rcv_rtt:476432 rcv_space:65773 rcv_ssthresh:410396 minrtt:10.59 tcp-ulp-tls rxconf: none txconf: none"
+        },
+        {
+          "peer": "822ee1de7f",
+          "queues": [
+            "0",
+            "0"
+          ],
+          "info": "cubic wscale:6,7 rto:260 rtt:58.578/9.413 ato:48 mss:1368 pmtu:1500 rcvmss:1368 advmss:1448 cwnd:228 ssthresh:228 bytes_sent:2286599 bytes_retrans:555702 bytes_acked:1730897 bytes_received:3573 segs_out:1700 segs_in:339 data_segs_out:1692 data_segs_in:16 send 42596743bps lastsnd:21204 lastrcv:21460 lastack:21152 pacing_rate 51115760bps delivery_rate 9261432bps delivered:1284 busy:2012ms retrans:0/409 rcv_rtt:45 rcv_space:14480 rcv_ssthresh:64088 minrtt:34.775 tcp-ulp-tls rxconf: none txconf: none"
+        }
+      ]
+    },
+    {
+      "time": "2026-09-30T11:00:17.378127+08:00",
+      "connections": [
+        {
+          "peer": "77c445b52b",
+          "queues": [
+            "0",
+            "0"
+          ],
+          "info": "cubic wscale:9,7 rto:368 rtt:75.277/72.959 ato:40 mss:1360 pmtu:1500 rcvmss:1360 advmss:1460 cwnd:4 ssthresh:3 bytes_sent:61247 bytes_retrans:7315 bytes_acked:53932 bytes_received:5591 segs_out:68 segs_in:66 data_segs_out:59 data_segs_in:21 send 578131bps lastsnd:97980 lastrcv:97824 lastack:97772 pacing_rate 693752bps delivery_rate 1865936bps delivered:57 busy:3340ms retrans:0/7 dsack_dups:4 rcv_space:14600 rcv_ssthresh:64076 minrtt:31.967 tcp-ulp-tls rxconf: none txconf: none"
+        },
+        {
+          "peer": "822ee1de7f",
+          "queues": [
+            "0",
+            "0"
+          ],
+          "info": "cubic wscale:6,7 rto:236 rtt:33.971/1.182 ato:40 mss:1368 pmtu:1500 rcvmss:1368 advmss:1448 cwnd:79 ssthresh:76 bytes_sent:292459 bytes_acked:292459 bytes_received:28023 segs_out:260 segs_in:150 data_segs_out:245 data_segs_in:50 send 25450414bps lastsnd:2816 lastrcv:2824 lastack:2784 pacing_rate 30540040bps delivery_rate 20380896bps delivered:246 busy:1200ms reordering:18 reord_seen:1 rcv_rtt:41 rcv_space:14480 rcv_ssthresh:64088 minrtt:30.079 tcp-ulp-tls rxconf: none txconf: none"
+        },
+        {
+          "peer": "cbea085ff2",
+          "queues": [
+            "0",
+            "0"
+          ],
+          "info": "cubic wscale:8,7 rto:268 rtt:64.282/3.938 ato:40 mss:1400 pmtu:1500 rcvmss:1400 advmss:1460 cwnd:7 ssthresh:7 bytes_sent:236717 bytes_retrans:951 bytes_acked:235766 bytes_received:23419 segs_out:258 segs_in:495 data_segs_out:250 data_segs_in:248 send 1219626bps lastsnd:10620 lastrcv:10624 lastack:10568 pacing_rate 1463536bps delivery_rate 3276048bps delivered:250 app_limited busy:16076ms retrans:0/1 rcv_space:14600 rcv_ssthresh:64076 minrtt:12.365 tcp-ulp-tls rxconf: none txconf: none"
+        },
+        {
+          "peer": "6d65d4d713",
+          "queues": [
+            "0",
+            "0"
+          ],
+          "info": "cubic wscale:8,7 rto:208 rtt:7.296/0.055 ato:40 mss:1412 pmtu:1500 rcvmss:1412 advmss:1448 cwnd:10 bytes_sent:12699 bytes_acked:12699 bytes_received:2832 segs_out:24 segs_in:31 data_segs_out:20 data_segs_in:10 send 15482456bps lastsnd:171292 lastrcv:171300 lastack:171284 pacing_rate 30964376bps delivery_rate 5891768bps delivered:21 app_limited busy:100ms reord_seen:2 rcv_space:14480 rcv_ssthresh:64088 minrtt:7.221 tcp-ulp-tls rxconf: none txconf: none"
+        },
+        {
+          "peer": "cfdb22f97c",
+          "queues": [
+            "0",
+            "0"
+          ],
+          "info": "cubic wscale:6,7 rto:260 rtt:56.362/18.898 ato:40 mss:1368 pmtu:1500 rcvmss:536 advmss:1448 cwnd:10 bytes_sent:8232 bytes_acked:8232 bytes_received:1147 segs_out:14 segs_in:14 data_segs_out:11 data_segs_in:6 send 1941734bps lastsnd:4348 lastrcv:4356 lastack:4276 pacing_rate 3883424bps delivery_rate 1189624bps delivered:12 app_limited busy:244ms rcv_space:14480 rcv_ssthresh:64088 minrtt:35.4 tcp-ulp-tls rxconf: none txconf: none"
+        },
+        {
+          "peer": "77a9a0045d",
+          "queues": [
+            "0",
+            "0"
+          ],
+          "info": "cubic wscale:6,7 rto:224 rtt:23.644/3.722 ato:40 mss:1412 pmtu:1500 rcvmss:1412 advmss:1448 cwnd:10 bytes_sent:10788 bytes_acked:10788 bytes_received:3874 segs_out:17 segs_in:21 data_segs_out:14 data_segs_in:10 send 4777533bps lastsnd:8696 lastrcv:8704 lastack:8672 pacing_rate 9555064bps delivery_rate 1834536bps delivered:15 app_limited busy:124ms rcv_rtt:27 rcv_space:14480 rcv_ssthresh:64088 minrtt:21.287 tcp-ulp-tls rxconf: none txconf: none"
+        },
+        {
+          "peer": "d553bdc457",
+          "queues": [
+            "0",
+            "0"
+          ],
+          "info": "cubic wscale:8,7 rto:220 rtt:18.192/12.531 ato:40 mss:1400 pmtu:1500 rcvmss:1400 advmss:1460 cwnd:3 ssthresh:3 bytes_sent:1099359 bytes_retrans:9389 bytes_acked:1089970 bytes_received:152095 segs_out:3669 segs_in:3229 data_segs_out:1720 data_segs_in:2073 send 1846966bps lastsnd:1996 lastrcv:1984 lastack:1980 pacing_rate 2216264bps delivery_rate 2684400bps delivered:1707 app_limited busy:10084ms retrans:0/15 dsack_dups:2 reord_seen:191 rcv_rtt:476432 rcv_space:65773 rcv_ssthresh:410396 minrtt:10.59 tcp-ulp-tls rxconf: none txconf: none"
+        },
+        {
+          "peer": "822ee1de7f",
+          "queues": [
+            "0",
+            "0"
+          ],
+          "info": "cubic wscale:6,7 rto:260 rtt:58.578/9.413 ato:48 mss:1368 pmtu:1500 rcvmss:1368 advmss:1448 cwnd:228 ssthresh:228 bytes_sent:2286599 bytes_retrans:555702 bytes_acked:1730897 bytes_received:3573 segs_out:1700 segs_in:339 data_segs_out:1692 data_segs_in:16 send 42596743bps lastsnd:26208 lastrcv:26464 lastack:26156 pacing_rate 51115760bps delivery_rate 9261432bps delivered:1284 busy:2012ms retrans:0/409 rcv_rtt:45 rcv_space:14480 rcv_ssthresh:64088 minrtt:34.775 tcp-ulp-tls rxconf: none txconf: none"
+        }
+      ]
+    },
+    {
+      "time": "2026-09-30T11:00:22.385542+08:00",
+      "connections": [
+        {
+          "peer": "77c445b52b",
+          "queues": [
+            "0",
+            "0"
+          ],
+          "info": "cubic wscale:9,7 rto:368 rtt:75.277/72.959 ato:40 mss:1360 pmtu:1500 rcvmss:1360 advmss:1460 cwnd:4 ssthresh:3 bytes_sent:61247 bytes_retrans:7315 bytes_acked:53932 bytes_received:5591 segs_out:68 segs_in:66 data_segs_out:59 data_segs_in:21 send 578131bps lastsnd:102988 lastrcv:102832 lastack:102780 pacing_rate 693752bps delivery_rate 1865936bps delivered:57 busy:3340ms retrans:0/7 dsack_dups:4 rcv_space:14600 rcv_ssthresh:64076 minrtt:31.967 tcp-ulp-tls rxconf: none txconf: none"
+        },
+        {
+          "peer": "822ee1de7f",
+          "queues": [
+            "0",
+            "0"
+          ],
+          "info": "cubic wscale:6,7 rto:236 rtt:33.971/1.182 ato:40 mss:1368 pmtu:1500 rcvmss:1368 advmss:1448 cwnd:79 ssthresh:76 bytes_sent:292459 bytes_acked:292459 bytes_received:28023 segs_out:260 segs_in:150 data_segs_out:245 data_segs_in:50 send 25450414bps lastsnd:7824 lastrcv:7832 lastack:7792 pacing_rate 30540040bps delivery_rate 20380896bps delivered:246 busy:1200ms reordering:18 reord_seen:1 rcv_rtt:41 rcv_space:14480 rcv_ssthresh:64088 minrtt:30.079 tcp-ulp-tls rxconf: none txconf: none"
+        },
+        {
+          "peer": "cbea085ff2",
+          "queues": [
+            "0",
+            "0"
+          ],
+          "info": "cubic wscale:8,7 rto:268 rtt:64.441/3.271 ato:40 mss:1400 pmtu:1500 rcvmss:1400 advmss:1460 cwnd:7 ssthresh:7 bytes_sent:237670 bytes_retrans:951 bytes_acked:236719 bytes_received:23506 segs_out:259 segs_in:497 data_segs_out:251 data_segs_in:249 send 1216617bps lastsnd:516 lastrcv:520 lastack:448 pacing_rate 1459928bps delivery_rate 3276048bps delivered:251 app_limited busy:16144ms retrans:0/1 rcv_space:14600 rcv_ssthresh:64076 minrtt:12.365 tcp-ulp-tls rxconf: none txconf: none"
+        },
+        {
+          "peer": "6d65d4d713",
+          "queues": [
+            "0",
+            "0"
+          ],
+          "info": "cubic wscale:8,7 rto:208 rtt:7.296/0.055 ato:40 mss:1412 pmtu:1500 rcvmss:1412 advmss:1448 cwnd:10 bytes_sent:12699 bytes_acked:12699 bytes_received:2832 segs_out:24 segs_in:31 data_segs_out:20 data_segs_in:10 send 15482456bps lastsnd:176300 lastrcv:176308 lastack:176292 pacing_rate 30964376bps delivery_rate 5891768bps delivered:21 app_limited busy:100ms reord_seen:2 rcv_space:14480 rcv_ssthresh:64088 minrtt:7.221 tcp-ulp-tls rxconf: none txconf: none"
+        },
+        {
+          "peer": "cfdb22f97c",
+          "queues": [
+            "0",
+            "0"
+          ],
+          "info": "cubic wscale:6,7 rto:260 rtt:56.362/18.898 ato:40 mss:1368 pmtu:1500 rcvmss:536 advmss:1448 cwnd:10 bytes_sent:8232 bytes_acked:8232 bytes_received:1147 segs_out:14 segs_in:14 data_segs_out:11 data_segs_in:6 send 1941734bps lastsnd:9356 lastrcv:9364 lastack:9284 pacing_rate 3883424bps delivery_rate 1189624bps delivered:12 app_limited busy:244ms rcv_space:14480 rcv_ssthresh:64088 minrtt:35.4 tcp-ulp-tls rxconf: none txconf: none"
+        },
+        {
+          "peer": "77a9a0045d",
+          "queues": [
+            "0",
+            "0"
+          ],
+          "info": "cubic wscale:6,7 rto:224 rtt:23.644/3.722 ato:40 mss:1412 pmtu:1500 rcvmss:1412 advmss:1448 cwnd:10 bytes_sent:10788 bytes_acked:10788 bytes_received:3874 segs_out:17 segs_in:21 data_segs_out:14 data_segs_in:10 send 4777533bps lastsnd:13704 lastrcv:13712 lastack:13680 pacing_rate 9555064bps delivery_rate 1834536bps delivered:15 app_limited busy:124ms rcv_rtt:27 rcv_space:14480 rcv_ssthresh:64088 minrtt:21.287 tcp-ulp-tls rxconf: none txconf: none"
+        },
+        {
+          "peer": "d553bdc457",
+          "queues": [
+            "0",
+            "0"
+          ],
+          "info": "cubic wscale:8,7 rto:220 rtt:18.192/12.531 ato:40 mss:1400 pmtu:1500 rcvmss:1400 advmss:1460 cwnd:3 ssthresh:3 bytes_sent:1099359 bytes_retrans:9389 bytes_acked:1089970 bytes_received:152095 segs_out:3669 segs_in:3229 data_segs_out:1720 data_segs_in:2073 send 1846966bps lastsnd:7004 lastrcv:6992 lastack:6988 pacing_rate 2216264bps delivery_rate 2684400bps delivered:1707 app_limited busy:10084ms retrans:0/15 dsack_dups:2 reord_seen:191 rcv_rtt:476432 rcv_space:65773 rcv_ssthresh:410396 minrtt:10.59 tcp-ulp-tls rxconf: none txconf: none"
+        },
+        {
+          "peer": "822ee1de7f",
+          "queues": [
+            "0",
+            "0"
+          ],
+          "info": "cubic wscale:6,7 rto:260 rtt:58.578/9.413 ato:48 mss:1368 pmtu:1500 rcvmss:1368 advmss:1448 cwnd:228 ssthresh:228 bytes_sent:2286599 bytes_retrans:555702 bytes_acked:1730897 bytes_received:3573 segs_out:1700 segs_in:339 data_segs_out:1692 data_segs_in:16 send 42596743bps lastsnd:31216 lastrcv:31472 lastack:31164 pacing_rate 51115760bps delivery_rate 9261432bps delivered:1284 busy:2012ms retrans:0/409 rcv_rtt:45 rcv_space:14480 rcv_ssthresh:64088 minrtt:34.775 tcp-ulp-tls rxconf: none txconf: none"
+        }
+      ]
+    },
+    {
+      "time": "2026-09-30T11:00:27.388615+08:00",
+      "connections": [
+        {
+          "peer": "77c445b52b",
+          "queues": [
+            "0",
+            "0"
+          ],
+          "info": "cubic wscale:9,7 rto:368 rtt:75.277/72.959 ato:40 mss:1360 pmtu:1500 rcvmss:1360 advmss:1460 cwnd:4 ssthresh:3 bytes_sent:61247 bytes_retrans:7315 bytes_acked:53932 bytes_received:5591 segs_out:68 segs_in:66 data_segs_out:59 data_segs_in:21 send 578131bps lastsnd:107992 lastrcv:107836 lastack:107784 pacing_rate 693752bps delivery_rate 1865936bps delivered:57 busy:3340ms retrans:0/7 dsack_dups:4 rcv_space:14600 rcv_ssthresh:64076 minrtt:31.967 tcp-ulp-tls rxconf: none txconf: none"
+        },
+        {
+          "peer": "822ee1de7f",
+          "queues": [
+            "0",
+            "0"
+          ],
+          "info": "cubic wscale:6,7 rto:236 rtt:34.05/1.044 ato:40 mss:1368 pmtu:1500 rcvmss:1368 advmss:1448 cwnd:79 ssthresh:76 bytes_sent:293412 bytes_acked:293412 bytes_received:28119 segs_out:261 segs_in:152 data_segs_out:246 data_segs_in:51 send 25391366bps lastsnd:1840 lastrcv:1844 lastack:1804 pacing_rate 30469296bps delivery_rate 20380896bps delivered:247 busy:1236ms reordering:18 reord_seen:1 rcv_rtt:41 rcv_space:14480 rcv_ssthresh:64088 minrtt:30.079 tcp-ulp-tls rxconf: none txconf: none"
+        },
+        {
+          "peer": "cbea085ff2",
+          "queues": [
+            "0",
+            "0"
+          ],
+          "info": "cubic wscale:8,7 rto:268 rtt:64.441/3.271 ato:40 mss:1400 pmtu:1500 rcvmss:1400 advmss:1460 cwnd:7 ssthresh:7 bytes_sent:237670 bytes_retrans:951 bytes_acked:236719 bytes_received:23506 segs_out:259 segs_in:497 data_segs_out:251 data_segs_in:249 send 1216617bps lastsnd:5520 lastrcv:5524 lastack:5452 pacing_rate 1459928bps delivery_rate 3276048bps delivered:251 app_limited busy:16144ms retrans:0/1 rcv_space:14600 rcv_ssthresh:64076 minrtt:12.365 tcp-ulp-tls rxconf: none txconf: none"
+        },
+        {
+          "peer": "cfdb22f97c",
+          "queues": [
+            "0",
+            "0"
+          ],
+          "info": "cubic wscale:6,7 rto:260 rtt:56.362/18.898 ato:40 mss:1368 pmtu:1500 rcvmss:536 advmss:1448 cwnd:10 bytes_sent:8232 bytes_acked:8232 bytes_received:1147 segs_out:14 segs_in:14 data_segs_out:11 data_segs_in:6 send 1941734bps lastsnd:14360 lastrcv:14368 lastack:14288 pacing_rate 3883424bps delivery_rate 1189624bps delivered:12 app_limited busy:244ms rcv_space:14480 rcv_ssthresh:64088 minrtt:35.4 tcp-ulp-tls rxconf: none txconf: none"
+        },
+        {
+          "peer": "77a9a0045d",
+          "queues": [
+            "0",
+            "0"
+          ],
+          "info": "cubic wscale:6,7 rto:224 rtt:23.644/3.722 ato:40 mss:1412 pmtu:1500 rcvmss:1412 advmss:1448 cwnd:10 bytes_sent:10788 bytes_acked:10788 bytes_received:3874 segs_out:17 segs_in:21 data_segs_out:14 data_segs_in:10 send 4777533bps lastsnd:18708 lastrcv:18716 lastack:18684 pacing_rate 9555064bps delivery_rate 1834536bps delivered:15 app_limited busy:124ms rcv_rtt:27 rcv_space:14480 rcv_ssthresh:64088 minrtt:21.287 tcp-ulp-tls rxconf: none txconf: none"
+        },
+        {
+          "peer": "d553bdc457",
+          "queues": [
+            "0",
+            "0"
+          ],
+          "info": "cubic wscale:8,7 rto:220 rtt:18.192/12.531 ato:40 mss:1400 pmtu:1500 rcvmss:1400 advmss:1460 cwnd:3 ssthresh:3 bytes_sent:1099359 bytes_retrans:9389 bytes_acked:1089970 bytes_received:152095 segs_out:3669 segs_in:3229 data_segs_out:1720 data_segs_in:2073 send 1846966bps lastsnd:12008 lastrcv:11996 lastack:11992 pacing_rate 2216264bps delivery_rate 2684400bps delivered:1707 app_limited busy:10084ms retrans:0/15 dsack_dups:2 reord_seen:191 rcv_rtt:476432 rcv_space:65773 rcv_ssthresh:410396 minrtt:10.59 tcp-ulp-tls rxconf: none txconf: none"
+        },
+        {
+          "peer": "822ee1de7f",
+          "queues": [
+            "0",
+            "0"
+          ],
+          "info": "cubic wscale:6,7 rto:260 rtt:58.578/9.413 ato:48 mss:1368 pmtu:1500 rcvmss:1368 advmss:1448 cwnd:228 ssthresh:228 bytes_sent:2286599 bytes_retrans:555702 bytes_acked:1730897 bytes_received:3573 segs_out:1700 segs_in:339 data_segs_out:1692 data_segs_in:16 send 42596743bps lastsnd:36220 lastrcv:36476 lastack:36168 pacing_rate 51115760bps delivery_rate 9261432bps delivered:1284 busy:2012ms retrans:0/409 rcv_rtt:45 rcv_space:14480 rcv_ssthresh:64088 minrtt:34.775 tcp-ulp-tls rxconf: none txconf: none"
+        }
+      ]
+    }
+  ]
+}

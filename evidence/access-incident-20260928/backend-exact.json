@@ -1,0 +1,477 @@
+{
+  "27": {
+    "range": [
+      "2026-09-27T16:00:00+08:00",
+      "2026-09-27T18:00:00+08:00"
+    ],
+    "first": "2026-09-27T08:00:00.349Z",
+    "last": "2026-09-27T09:59:59.545Z",
+    "status": {
+      "200": 6027,
+      "202": 20,
+      "201": 161,
+      "409": 3,
+      "401": 5,
+      "429": 3,
+      "422": 3
+    },
+    "durationMs": {
+      "count": 6222,
+      "p50": 3,
+      "p95": 25.83,
+      "p99": 174.93,
+      "max": 10000.11
+    },
+    "slow": [
+      {
+        "time": "2026-09-27T08:14:13.559Z",
+        "operationId": "confirmMediaUpload",
+        "statusCode": 200,
+        "durationMs": 1136.39
+      },
+      {
+        "time": "2026-09-27T08:14:18.078Z",
+        "operationId": "confirmMediaUpload",
+        "statusCode": 200,
+        "durationMs": 1094.05
+      },
+      {
+        "time": "2026-09-27T08:50:39.452Z",
+        "operationId": "confirmMediaUpload",
+        "statusCode": 200,
+        "durationMs": 1017.24
+      },
+      {
+        "time": "2026-09-27T08:57:25.433Z",
+        "operationId": "confirmMediaUpload",
+        "statusCode": 200,
+        "durationMs": 10000.11
+      },
+      {
+        "time": "2026-09-27T08:58:31.896Z",
+        "operationId": "confirmMediaUpload",
+        "statusCode": 200,
+        "durationMs": 1022.17
+      },
+      {
+        "time": "2026-09-27T08:58:36.237Z",
+        "operationId": "confirmMediaUpload",
+        "statusCode": 200,
+        "durationMs": 1023.91
+      },
+      {
+        "time": "2026-09-27T08:58:46.571Z",
+        "operationId": "confirmMediaUpload",
+        "statusCode": 200,
+        "durationMs": 3977.58
+      },
+      {
+        "time": "2026-09-27T08:59:20.458Z",
+        "operationId": "confirmMediaUpload",
+        "statusCode": 200,
+        "durationMs": 1023.77
+      },
+      {
+        "time": "2026-09-27T09:06:06.736Z",
+        "operationId": "confirmMediaUpload",
+        "statusCode": 200,
+        "durationMs": 1064.58
+      },
+      {
+        "time": "2026-09-27T09:09:16.137Z",
+        "operationId": "confirmMediaUpload",
+        "statusCode": 200,
+        "durationMs": 1197.97
+      },
+      {
+        "time": "2026-09-27T09:09:30.425Z",
+        "operationId": "confirmMediaUpload",
+        "statusCode": 200,
+        "durationMs": 1065.37
+      },
+      {
+        "time": "2026-09-27T09:19:12.659Z",
+        "operationId": "confirmMediaUpload",
+        "statusCode": 200,
+        "durationMs": 1153.38
+      },
+      {
+        "time": "2026-09-27T09:21:25.105Z",
+        "operationId": "confirmMediaUpload",
+        "statusCode": 200,
+        "durationMs": 1163.05
+      },
+      {
+        "time": "2026-09-27T09:21:28.696Z",
+        "operationId": "confirmMediaUpload",
+        "statusCode": 200,
+        "durationMs": 1074.39
+      },
+      {
+        "time": "2026-09-27T09:21:31.675Z",
+        "operationId": "confirmMediaUpload",
+        "statusCode": 200,
+        "durationMs": 1004.75
+      },
+      {
+        "time": "2026-09-27T09:24:15.136Z",
+        "operationId": "confirmMediaUpload",
+        "statusCode": 200,
+        "durationMs": 3527.32
+      },
+      {
+        "time": "2026-09-27T09:24:25.323Z",
+        "operationId": "confirmMediaUpload",
+        "statusCode": 200,
+        "durationMs": 3451.67
+      },
+      {
+        "time": "2026-09-27T09:24:36.208Z",
+        "operationId": "confirmMediaUpload",
+        "statusCode": 200,
+        "durationMs": 3459.97
+      },
+      {
+        "time": "2026-09-27T09:24:52.559Z",
+        "operationId": "confirmMediaUpload",
+        "statusCode": 200,
+        "durationMs": 3494.5
+      },
+      {
+        "time": "2026-09-27T09:25:03.770Z",
+        "operationId": "confirmMediaUpload",
+        "statusCode": 200,
+        "durationMs": 3621.86
+      },
+      {
+        "time": "2026-09-27T09:25:14.875Z",
+        "operationId": "confirmMediaUpload",
+        "statusCode": 200,
+        "durationMs": 3282.76
+      },
+      {
+        "time": "2026-09-27T09:34:04.752Z",
+        "operationId": "confirmMediaUpload",
+        "statusCode": 200,
+        "durationMs": 1020.76
+      },
+      {
+        "time": "2026-09-27T09:54:15.039Z",
+        "operationId": "confirmMediaUpload",
+        "statusCode": 200,
+        "durationMs": 1050.48
+      },
+      {
+        "time": "2026-09-27T09:56:25.428Z",
+        "operationId": "confirmMediaUpload",
+        "statusCode": 200,
+        "durationMs": 1000.57
+      },
+      {
+        "time": "2026-09-27T09:56:33.809Z",
+        "operationId": "confirmMediaUpload",
+        "statusCode": 200,
+        "durationMs": 1015.41
+      }
+    ],
+    "topOperations": {
+      "getV81MaintenanceAnnouncement": {
+        "count": 2358,
+        "p50": 2.56,
+        "p95": 3.48,
+        "p99": 5.27,
+        "max": 36.66
+      },
+      "getHealthLive": {
+        "count": 238,
+        "p50": 0.09,
+        "p95": 0.12,
+        "p99": 0.13,
+        "max": 0.16
+      },
+      "listExerciseRecords": {
+        "count": 193,
+        "p50": 12.44,
+        "p95": 31.15,
+        "p99": 80.47,
+        "max": 159.7
+      },
+      "getMediaEvidence": {
+        "count": 191,
+        "p50": 4.04,
+        "p95": 10.07,
+        "p99": 23.8,
+        "max": 40.01
+      },
+      "getExerciseSession": {
+        "count": 184,
+        "p50": 2.45,
+        "p95": 3.46,
+        "p99": 10.71,
+        "max": 14.82
+      },
+      "getCurrentUserPreferences": {
+        "count": 172,
+        "p50": 2.18,
+        "p95": 7.13,
+        "p99": 18.06,
+        "max": 77.63
+      },
+      "getActiveExerciseSession": {
+        "count": 148,
+        "p50": 6.23,
+        "p95": 17.96,
+        "p99": 31.11,
+        "max": 35.11
+      },
+      "getCurrentUser": {
+        "count": 139,
+        "p50": 4.33,
+        "p95": 6.1,
+        "p99": 9.99,
+        "max": 44.81
+      },
+      "getCurrentSemester": {
+        "count": 138,
+        "p50": 1.66,
+        "p95": 3.98,
+        "p99": 7.65,
+        "max": 11.84
+      },
+      "listEnrollments": {
+        "count": 138,
+        "p50": 10.55,
+        "p95": 34.83,
+        "p99": 74.77,
+        "max": 174.93
+      },
+      "listClassSections": {
+        "count": 138,
+        "p50": 5.8,
+        "p95": 11.67,
+        "p99": 15.87,
+        "max": 17.26
+      },
+      "listV81StudentProgress": {
+        "count": 138,
+        "p50": 15.95,
+        "p95": 32.72,
+        "p99": 60.82,
+        "max": 95.86
+      },
+      "listNotifications": {
+        "count": 137,
+        "p50": 2.35,
+        "p95": 5.08,
+        "p99": 19,
+        "max": 29
+      },
+      "listV81Certifications": {
+        "count": 137,
+        "p50": 4.79,
+        "p95": 13.36,
+        "p99": 21.99,
+        "max": 28.13
+      },
+      "listStructuredExemptionApplications": {
+        "count": 137,
+        "p50": 4.74,
+        "p95": 9.42,
+        "p99": 32.59,
+        "max": 32.74
+      }
+    },
+    "peakMinutesUTC": [
+      [
+        "2026-09-27T09:21",
+        127
+      ],
+      [
+        "2026-09-27T09:56",
+        121
+      ],
+      [
+        "2026-09-27T08:02",
+        117
+      ],
+      [
+        "2026-09-27T09:51",
+        115
+      ],
+      [
+        "2026-09-27T08:50",
+        113
+      ]
+    ],
+    "errors": {
+      "unknown": 144
+    }
+  },
+  "28": {
+    "range": [
+      "2026-09-28T15:30:00+08:00",
+      "2026-09-28T16:31:00+08:00"
+    ],
+    "first": "2026-09-28T07:30:07.676Z",
+    "last": "2026-09-28T08:30:56.488Z",
+    "status": {
+      "200": 2110,
+      "202": 7,
+      "201": 16,
+      "409": 1
+    },
+    "durationMs": {
+      "count": 2134,
+      "p50": 3.39,
+      "p95": 77.83,
+      "p99": 166.61,
+      "max": 1083.9
+    },
+    "slow": [
+      {
+        "time": "2026-09-28T07:59:35.091Z",
+        "operationId": "confirmMediaUpload",
+        "statusCode": 200,
+        "durationMs": 1007.42
+      },
+      {
+        "time": "2026-09-28T08:05:00.835Z",
+        "operationId": "confirmMediaUpload",
+        "statusCode": 200,
+        "durationMs": 1083.9
+      }
+    ],
+    "topOperations": {
+      "getV81MaintenanceAnnouncement": {
+        "count": 823,
+        "p50": 2.93,
+        "p95": 4.22,
+        "p99": 8.48,
+        "max": 102.1
+      },
+      "getHealthLive": {
+        "count": 121,
+        "p50": 0.1,
+        "p95": 0.12,
+        "p99": 0.14,
+        "max": 0.18
+      },
+      "listNotifications": {
+        "count": 108,
+        "p50": 1.62,
+        "p95": 3.84,
+        "p99": 12.89,
+        "max": 28.92
+      },
+      "getExerciseRecordEvidenceContext": {
+        "count": 70,
+        "p50": 40.04,
+        "p95": 62.28,
+        "p99": 127.04,
+        "max": 127.04
+      },
+      "getExerciseRecord": {
+        "count": 65,
+        "p50": 132.12,
+        "p95": 208.37,
+        "p99": 221.19,
+        "max": 221.19
+      },
+      "listExerciseRecordReviews": {
+        "count": 65,
+        "p50": 83.27,
+        "p95": 166.61,
+        "p99": 174.22,
+        "max": 174.22
+      },
+      "getStudent": {
+        "count": 47,
+        "p50": 3.14,
+        "p95": 3.57,
+        "p99": 3.69,
+        "max": 3.69
+      },
+      "listV81PhysicalResults": {
+        "count": 47,
+        "p50": 12.54,
+        "p95": 19.59,
+        "p99": 20.21,
+        "max": 20.21
+      },
+      "listV81FinalGrades": {
+        "count": 47,
+        "p50": 25.22,
+        "p95": 33.75,
+        "p99": 38.18,
+        "max": 38.18
+      },
+      "getActiveExerciseSession": {
+        "count": 44,
+        "p50": 5.1,
+        "p95": 11.81,
+        "p99": 35.55,
+        "max": 35.55
+      },
+      "getExerciseSession": {
+        "count": 43,
+        "p50": 2.62,
+        "p95": 3.54,
+        "p99": 5.3,
+        "max": 5.3
+      },
+      "listExerciseRecords": {
+        "count": 41,
+        "p50": 14.84,
+        "p95": 30.12,
+        "p99": 49.46,
+        "max": 49.46
+      },
+      "refreshSession": {
+        "count": 36,
+        "p50": 25.01,
+        "p95": 31.74,
+        "p99": 42.75,
+        "max": 42.75
+      },
+      "getMediaEvidence": {
+        "count": 36,
+        "p50": 4.71,
+        "p95": 9.39,
+        "p99": 18.41,
+        "max": 18.41
+      },
+      "getCurrentUser": {
+        "count": 35,
+        "p50": 4.68,
+        "p95": 7.94,
+        "p99": 8.6,
+        "max": 8.6
+      }
+    },
+    "peakMinutesUTC": [
+      [
+        "2026-09-28T08:17",
+        372
+      ],
+      [
+        "2026-09-28T08:07",
+        84
+      ],
+      [
+        "2026-09-28T07:59",
+        69
+      ],
+      [
+        "2026-09-28T08:04",
+        67
+      ],
+      [
+        "2026-09-28T08:09",
+        64
+      ]
+    ],
+    "errors": {
+      "unknown": 42
+    }
+  }
+}

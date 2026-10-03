@@ -1,0 +1,68 @@
+{
+  "result": "PASS_WITH_KNOWN_BASELINE_ASSERTIONS",
+  "checks": {
+    "student": "202/202",
+    "studentSmoke": "88/88",
+    "localStorage": "5/5",
+    "portal": "184/187; same 3 baseline assertions",
+    "types": "PASS",
+    "build": "PASS"
+  },
+  "baselinePortalFailures": [
+    "keeps teacher overview metrics single-sourced and separate from status filters",
+    "teacher workspace exposes invalid records and direct correction wording",
+    "uses one portal-backed AppSelect instead of native browser selects"
+  ],
+  "newTestFailures": [],
+  "publicStudentHtmlMatches": true,
+  "studentVersion": "f594bce1706141fef2c44006",
+  "changedStudent": [
+    "assets/bnbu-sports-electric.svg",
+    "css/checkin-layout.css",
+    "css/electric-brand.css",
+    "js/app-download-promo.js",
+    "js/app.js",
+    "js/checkin-end-reward.js",
+    "js/checkin-experience.js",
+    "js/checkin-form-motion.js",
+    "js/checkin-gestures.js",
+    "js/checkin-layout.js",
+    "js/checkin-motion-loader.js",
+    "js/checkin-motion.js",
+    "js/checkin-proof-queue.js",
+    "js/checkin-slide-end.js",
+    "js/electric-brand.js",
+    "js/icons.js",
+    "js/local-preview.js",
+    "js/proof-status-mark.js",
+    "js/screens/checkin.js",
+    "js/screens/profile.js",
+    "js/sport-line-motion.js",
+    "js/upload-progress.js",
+    "vendor/animejs-4.5.0/LICENSE.md",
+    "vendor/animejs-4.5.0/anime.esm.min.js",
+    "vendor/canvas-confetti-1.9.4/LICENSE",
+    "vendor/canvas-confetti-1.9.4/confetti.module.js",
+    "vendor/checkin-motion-dependencies.md",
+    "vendor/electric-logo/OGL-LICENSE",
+    "vendor/electric-logo/REACT-BITS-LICENSE",
+    "vendor/electric-logo/README.md",
+    "vendor/electric-logo/electric-logo.js",
+    "vendor/electric-logo/ogl-1.0.11.js",
+    "vendor/electric-logo/package.json",
+    "vendor/electric-logo/placement.js"
+  ],
+  "browser": {
+    "localTeacher": "courses, review list, record detail",
+    "localAdmin": "directory, course detail",
+    "localStudent": "start, pause, return, resume screen, early end, required description, sample submission",
+    "productionStudent": "login, no console errors",
+    "productionAdmin": "overview, 44 courses, no console errors"
+  },
+  "limitations": [
+    "Live camera and real submission/review loop not executed",
+    "Current directory API omits four new requirement fields; UI displays unavailable"
+  ],
+  "finalPublicStudentHtmlMatches": true,
+  "followupFix": "Ended-session homepage wording"
+}

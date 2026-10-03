@@ -1,0 +1,167 @@
+[
+  {
+    "size": {
+      "width": 320,
+      "height": 740
+    },
+    "stage": "preparation",
+    "dockVisible": true,
+    "nav": true,
+    "overflow": 0,
+    "page": "preparation"
+  },
+  {
+    "size": {
+      "width": 320,
+      "height": 740
+    },
+    "stage": "running",
+    "dockVisible": true,
+    "nav": false,
+    "overflow": 0,
+    "page": "running"
+  },
+  {
+    "size": {
+      "width": 320,
+      "height": 740
+    },
+    "stage": "finished",
+    "dockVisible": true,
+    "nav": false,
+    "overflow": 0,
+    "page": "finished"
+  },
+  {
+    "size": {
+      "width": 320,
+      "height": 740
+    },
+    "stage": "records",
+    "dockVisible": true,
+    "nav": true,
+    "overflow": 0,
+    "page": "records"
+  },
+  {
+    "size": {
+      "width": 320,
+      "height": 740
+    },
+    "stage": "submitted",
+    "dockVisible": true,
+    "nav": true,
+    "overflow": 0,
+    "page": "submitted"
+  },
+  {
+    "size": {
+      "width": 390,
+      "height": 844
+    },
+    "stage": "preparation",
+    "dockVisible": true,
+    "nav": true,
+    "overflow": 0,
+    "page": "preparation"
+  },
+  {
+    "size": {
+      "width": 390,
+      "height": 844
+    },
+    "stage": "running",
+    "dockVisible": true,
+    "nav": false,
+    "overflow": 0,
+    "page": "running"
+  },
+  {
+    "size": {
+      "width": 390,
+      "height": 844
+    },
+    "stage": "finished",
+    "dockVisible": true,
+    "nav": false,
+    "overflow": 0,
+    "page": "finished"
+  },
+  {
+    "size": {
+      "width": 390,
+      "height": 844
+    },
+    "stage": "records",
+    "dockVisible": true,
+    "nav": true,
+    "overflow": 0,
+    "page": "records"
+  },
+  {
+    "size": {
+      "width": 390,
+      "height": 844
+    },
+    "stage": "submitted",
+    "dockVisible": true,
+    "nav": true,
+    "overflow": 0,
+    "page": "submitted"
+  },
+  {
+    "size": {
+      "width": 1280,
+      "height": 800
+    },
+    "stage": "preparation",
+    "dockVisible": true,
+    "nav": true,
+    "overflow": 0,
+    "page": "preparation"
+  },
+  {
+    "size": {
+      "width": 1280,
+      "height": 800
+    },
+    "stage": "running",
+    "dockVisible": true,
+    "nav": false,
+    "overflow": 0,
+    "page": "running"
+  },
+  {
+    "size": {
+      "width": 1280,
+      "height": 800
+    },
+    "stage": "finished",
+    "dockVisible": true,
+    "nav": false,
+    "overflow": 0,
+    "page": "finished"
+  },
+  {
+    "size": {
+      "width": 1280,
+      "height": 800
+    },
+    "stage": "records",
+    "dockVisible": true,
+    "nav": true,
+    "overflow": 0,
+    "page": "records"
+  },
+  {
+    "size": {
+      "width": 1280,
+      "height": 800
+    },
+    "stage": "submitted",
+    "dockVisible": true,
+    "nav": true,
+    "overflow": 0,
+    "page": "submitted"
+  }
+]

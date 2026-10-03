@@ -3,15 +3,16 @@ import {useEffect,useRef,useState} from 'react';
 import {ApiError,apiSessionUserId,currentApiSessionEpoch,request,toUserFacingError, formatUserFacingError} from './api-client';
 type Section={id:string;status:string;version:number;displayName:string};
 type Intent={key:string;body:{reason:string;expectedVersion:number;confirmationCourseName:string;confirmCourseRetirement:true}};
-export function CourseClosure({classSectionId,onClosed,}:{classSectionId:string;onClosed:()=>void;archived?:boolean}){
+export function CourseClosure({classSectionId,onClosed,localPreview}:{classSectionId:string;onClosed:()=>void;archived?:boolean;localPreview?:{displayName:string}}){
  const [section,setSection]=useState<Section|null>(null),[reason,setReason]=useState(''),[confirmed,setConfirmed]=useState(false),[pending,setPending]=useState(false),[busy,setBusy]=useState(true),[error,setError]=useState(''),[message,setMessage]=useState(''),[confirmationName,setConfirmationName]=useState(''),[reviewing,setReviewing]=useState(false);
  const mounted=useRef(true),locked=useRef(false),epoch=currentApiSessionEpoch();
  const valid=()=>mounted.current&&epoch===currentApiSessionEpoch();
  const path=`/class-sections/${classSectionId}`,storageKey=`bnbu:course-delete:${apiSessionUserId()}:${classSectionId}`;
- const load=async()=>{setPending(sessionStorage.getItem(storageKey)!==null);const result=await request<Section>(path);if(valid()){setSection(result);setPending(sessionStorage.getItem(storageKey)!==null);}};
+ const load=async()=>{if(localPreview){setSection({id:classSectionId,status:'ACTIVE',version:0,displayName:localPreview.displayName});setPending(false);return;}setPending(sessionStorage.getItem(storageKey)!==null);const result=await request<Section>(path);if(valid()){setSection(result);setPending(sessionStorage.getItem(storageKey)!==null);}};
  const run=async(action:()=>Promise<void>)=>{if(locked.current)return;locked.current=true;setBusy(true);setError('');try{await action();}catch(failure){if(valid())setError(formatUserFacingError(failure));}finally{locked.current=false;if(valid())setBusy(false);}};
- useEffect(()=>{mounted.current=true;void run(load);return()=>{mounted.current=false;};},[classSectionId]);
+ useEffect(()=>{mounted.current=true;void run(load);return()=>{mounted.current=false;};},[classSectionId,localPreview?.displayName]);
  const close=async()=>{
+  if(localPreview){setMessage('本地预览：已展示删除确认流程，课程未删除。');return;}
   let intent:Intent;const stored=sessionStorage.getItem(storageKey);
   if(stored){intent=JSON.parse(stored);if(!intent.key||!Number.isSafeInteger(intent.body?.expectedVersion)||intent.body.confirmCourseRetirement!==true||typeof intent.body.confirmationCourseName!=='string'||typeof intent.body.reason!=='string'||!intent.body.reason.trim()){setError('删除请求恢复记录异常，请联系管理员核查。');return;}}
   else{if(!section||!confirmed||!reason.trim()||confirmationName.trim()!==section.displayName){setError('请填写删除原因并确认业务影响。');return;}intent={key:crypto.randomUUID(),body:{reason:reason.trim(),expectedVersion:section.version,confirmationCourseName:confirmationName.trim(),confirmCourseRetirement:true}};sessionStorage.setItem(storageKey,JSON.stringify(intent));setPending(true);}

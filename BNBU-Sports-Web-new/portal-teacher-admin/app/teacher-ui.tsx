@@ -124,9 +124,14 @@ export function FilterToolbar({
   action?: ReactNode;
   ariaLabel?: string;
 }) {
+  const [expanded, setExpanded] = useState(false);
+  const fieldsId = useId();
   return (
-    <div className="filter-toolbar" aria-label={ariaLabel}>
-      <div className="filter-toolbar-fields">{children}</div>
+    <div className={`filter-toolbar ${expanded ? "is-expanded" : ""}`} aria-label={ariaLabel}>
+      <button className="mobile-filter-toggle" type="button" aria-expanded={expanded} aria-controls={fieldsId} onClick={() => setExpanded(value => !value)}>
+        <span>搜索与筛选</span><ChevronDown size={16} aria-hidden="true" />
+      </button>
+      <div id={fieldsId} className="filter-toolbar-fields">{children}</div>
       {action && <div className="filter-toolbar-action">{action}</div>}
     </div>
   );

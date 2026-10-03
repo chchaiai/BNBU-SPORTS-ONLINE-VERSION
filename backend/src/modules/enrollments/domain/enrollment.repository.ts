@@ -140,6 +140,10 @@ export abstract class EnrollmentRepository {
 
   abstract create(state: EnrollmentState, transaction: object): Promise<EnrollmentState>;
 
+  findCapacityConflict(organizationId: string, semesterId: string, studentId: string, transaction: object): Promise<EnrollmentState | null> {
+    return this.findActiveForSemesterStudent(organizationId, semesterId, studentId, transaction);
+  }
+
   abstract update(
     state: EnrollmentState,
     expectedVersion: number,

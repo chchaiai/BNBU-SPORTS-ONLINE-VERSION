@@ -1,0 +1,255 @@
+{
+  "first": "2026-09-29T09:18:57+08:00",
+  "last": "2026-09-29T16:42:54+08:00",
+  "groups": [
+    {
+      "host": "_",
+      "group": "api",
+      "count": 25,
+      "p95ms": 0.0,
+      "upstreamP95ms": null,
+      "over1s": 0,
+      "status": {
+        "404": 25
+      }
+    },
+    {
+      "host": "_",
+      "group": "asset",
+      "count": 1,
+      "p95ms": 0.0,
+      "upstreamP95ms": null,
+      "over1s": 0,
+      "status": {
+        "404": 1
+      }
+    },
+    {
+      "host": "_",
+      "group": "page",
+      "count": 448,
+      "p95ms": 3.0,
+      "upstreamP95ms": null,
+      "over1s": 8,
+      "status": {
+        "404": 418,
+        "400": 30
+      }
+    },
+    {
+      "host": "bnbusports.cn",
+      "group": "page",
+      "count": 8,
+      "p95ms": 0.0,
+      "upstreamP95ms": null,
+      "over1s": 0,
+      "status": {
+        "301": 8
+      }
+    },
+    {
+      "host": "knowledge.verityai.cn",
+      "group": "api",
+      "count": 46,
+      "p95ms": 578.0,
+      "upstreamP95ms": 48.0,
+      "over1s": 1,
+      "status": {
+        "404": 2,
+        "200": 44
+      }
+    },
+    {
+      "host": "knowledge.verityai.cn",
+      "group": "asset",
+      "count": 9,
+      "p95ms": 178.0,
+      "upstreamP95ms": null,
+      "over1s": 0,
+      "status": {
+        "404": 1,
+        "200": 8
+      }
+    },
+    {
+      "host": "knowledge.verityai.cn",
+      "group": "page",
+      "count": 137,
+      "p95ms": 0.0,
+      "upstreamP95ms": null,
+      "over1s": 0,
+      "status": {
+        "200": 134,
+        "301": 2,
+        "304": 1
+      }
+    },
+    {
+      "host": "verityai.cn",
+      "group": "api",
+      "count": 5,
+      "p95ms": 4.0,
+      "upstreamP95ms": 4.0,
+      "over1s": 0,
+      "status": {
+        "403": 2,
+        "405": 1,
+        "400": 1,
+        "200": 1
+      }
+    },
+    {
+      "host": "verityai.cn",
+      "group": "asset",
+      "count": 101,
+      "p95ms": 2028.0,
+      "upstreamP95ms": null,
+      "over1s": 7,
+      "status": {
+        "200": 101
+      }
+    },
+    {
+      "host": "verityai.cn",
+      "group": "page",
+      "count": 368,
+      "p95ms": 4273.0,
+      "upstreamP95ms": null,
+      "over1s": 32,
+      "status": {
+        "200": 342,
+        "404": 7,
+        "403": 7,
+        "301": 11,
+        "400": 1
+      }
+    },
+    {
+      "host": "www.student.bnbusports.cn",
+      "group": "api",
+      "count": 9789,
+      "p95ms": 56.0,
+      "upstreamP95ms": 52.0,
+      "over1s": 48,
+      "status": {
+        "200": 9272,
+        "201": 212,
+        "401": 196,
+        "202": 21,
+        "499": 55,
+        "404": 4,
+        "429": 3,
+        "409": 25,
+        "422": 1
+      }
+    },
+    {
+      "host": "www.student.bnbusports.cn",
+      "group": "health",
+      "count": 6,
+      "p95ms": 38.0,
+      "upstreamP95ms": 36.0,
+      "over1s": 0,
+      "status": {
+        "200": 6
+      }
+    },
+    {
+      "host": "www.student.bnbusports.cn",
+      "group": "page",
+      "count": 755,
+      "p95ms": 100.0,
+      "upstreamP95ms": null,
+      "over1s": 10,
+      "status": {
+        "200": 244,
+        "404": 409,
+        "302": 93,
+        "308": 8,
+        "499": 1
+      }
+    },
+    {
+      "host": "www.student.bnbusports.cn",
+      "group": "student",
+      "count": 7032,
+      "p95ms": 429.0,
+      "upstreamP95ms": null,
+      "over1s": 227,
+      "status": {
+        "200": 6698,
+        "304": 262,
+        "404": 4,
+        "499": 68
+      }
+    },
+    {
+      "host": "www.teacher.bnbusports.cn",
+      "group": "api",
+      "count": 1182,
+      "p95ms": 110.0,
+      "upstreamP95ms": 112.0,
+      "over1s": 0,
+      "status": {
+        "200": 1144,
+        "401": 38
+      }
+    },
+    {
+      "host": "www.teacher.bnbusports.cn",
+      "group": "asset",
+      "count": 27,
+      "p95ms": 133.0,
+      "upstreamP95ms": null,
+      "over1s": 0,
+      "status": {
+        "200": 27
+      }
+    },
+    {
+      "host": "www.teacher.bnbusports.cn",
+      "group": "health",
+      "count": 2,
+      "p95ms": 76.0,
+      "upstreamP95ms": 72.0,
+      "over1s": 0,
+      "status": {
+        "200": 2
+      }
+    },
+    {
+      "host": "www.teacher.bnbusports.cn",
+      "group": "page",
+      "count": 29,
+      "p95ms": 4.0,
+      "upstreamP95ms": 4.0,
+      "over1s": 0,
+      "status": {
+        "200": 28,
+        "404": 1
+      }
+    },
+    {
+      "host": "www.verityai.cn",
+      "group": "api",
+      "count": 1,
+      "p95ms": 0.0,
+      "upstreamP95ms": null,
+      "over1s": 0,
+      "status": {
+        "404": 1
+      }
+    },
+    {
+      "host": "www.verityai.cn",
+      "group": "page",
+      "count": 29,
+      "p95ms": 0.0,
+      "upstreamP95ms": null,
+      "over1s": 0,
+      "status": {
+        "404": 29
+      }
+    }
+  ]
+}

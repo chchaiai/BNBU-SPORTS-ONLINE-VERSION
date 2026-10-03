@@ -1,0 +1,36 @@
+{
+  "result": "PASS",
+  "release": "/opt/bnbu-sports-production/releases/checkin-ui-20261002",
+  "portalImage": "sha256:b0747c27891913e4a968c176e3d15b8839c72fd7cce115a8714c4e07e0d51a85",
+  "backendUnchanged": true,
+  "legacyStudentPreserved": true,
+  "immutableAssetsVerified": 559,
+  "oldPortalAssetsVerified": 207,
+  "health": [
+    {
+      "host": "www.student.bnbusports.cn",
+      "path": "/student/",
+      "status": 200
+    },
+    {
+      "host": "www.teacher.bnbusports.cn",
+      "path": "/",
+      "status": 200
+    },
+    {
+      "host": "www.student.bnbusports.cn",
+      "path": "/api/v1/health/ready",
+      "status": 200
+    },
+    {
+      "host": "www.teacher.bnbusports.cn",
+      "path": "/api/v1/health/ready",
+      "status": 200
+    }
+  ],
+  "warmSwitch": true,
+  "rollbackAvailable": true,
+  "businessDataWrites": 0,
+  "databaseMigrations": 0,
+  "anonymousPerformanceCollector": true
+}

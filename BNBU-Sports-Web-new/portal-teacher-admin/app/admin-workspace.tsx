@@ -3,19 +3,19 @@
 import { useCallback, useEffect, useRef } from "react";
 import { ADMIN_PERMISSIONS, ADMIN_ROUTE_PERMISSION } from "./admin-domain";
 import { adminCopy } from "./admin-i18n";
-import { AdminInsights } from "./admin-insights";
-import { AdminCheckins } from "./admin-checkins";
-import { AdminAudit } from "./admin-audit";
-import { AdminCourses } from "./admin-courses";
-import { AdminHelp } from "./admin-help";
-import { AdminOverview } from "./admin-overview";
-import { AdminRules } from "./admin-rules";
-import { AdminSemesters } from "./admin-semesters";
+
+
+
+
+
+
+
+
 import { AdminStoreProvider, useAdminStore } from "./admin-store";
-import { AdminSupport } from "./admin-support";
-import { AdminSystem } from "./admin-system";
-import { AdminSubadmins } from "./admin-subadmins";
-import { AdminUsers } from "./admin-users";
+
+
+
+
 import { AdminLoadError, AdminLoading } from "./admin-components";
 import {
   getCurrentSemesterProjection,
@@ -31,6 +31,21 @@ import type { WorkspaceMode } from "./portal-app";
 
 import type { NotificationTarget } from "./portal-notifications";
 import type { SemesterRow } from "./semester-api";
+
+import { deferredComponent } from "./deferred-component";
+
+const AdminInsights = deferredComponent(() => import('./admin-insights').then(module => module.AdminInsights));
+const AdminCheckins = deferredComponent(() => import('./admin-checkins').then(module => module.AdminCheckins));
+const AdminAudit = deferredComponent(() => import('./admin-audit').then(module => module.AdminAudit));
+const AdminCourses = deferredComponent(() => import('./admin-courses').then(module => module.AdminCourses));
+const AdminHelp = deferredComponent(() => import('./admin-help').then(module => module.AdminHelp));
+const AdminOverview = deferredComponent(() => import('./admin-overview').then(module => module.AdminOverview));
+const AdminRules = deferredComponent(() => import('./admin-rules').then(module => module.AdminRules));
+const AdminSemesters = deferredComponent(() => import('./admin-semesters').then(module => module.AdminSemesters));
+const AdminSupport = deferredComponent(() => import('./admin-support').then(module => module.AdminSupport));
+const AdminSystem = deferredComponent(() => import('./admin-system').then(module => module.AdminSystem));
+const AdminSubadmins = deferredComponent(() => import('./admin-subadmins').then(module => module.AdminSubadmins));
+const AdminUsers = deferredComponent(() => import('./admin-users').then(module => module.AdminUsers));
 
 const adminRoutes: AdminRoute[] = [
   "insights",

@@ -168,7 +168,7 @@ export class EnrollmentsService {
               : new ApplicationError('ENROLLMENT_REJOIN_DISABLED', 409),
           );
         }
-        const semesterActive = await this.repository.findActiveForSemesterStudent(
+        const semesterActive = await this.repository.findCapacityConflict(
           principal.organizationId,
           section.semesterId,
           student.id,
@@ -323,7 +323,7 @@ export class EnrollmentsService {
             );
           }
           this.assertWritable(section, now, false, true);
-          const active = await this.repository.findActiveForSemesterStudent(
+          const active = await this.repository.findCapacityConflict(
             principal.organizationId,
             current.enrollment.semesterId,
             current.enrollment.studentId,

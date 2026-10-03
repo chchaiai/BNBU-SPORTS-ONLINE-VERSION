@@ -1,0 +1,2 @@
+{"service":"cdn","action":"DescribeDomains","error":"ResourceNotFound.CdnUserNotExists","accessExpanded":false}
+{"service":"teo","action":"DescribeZones","count":0,"resources":[]}

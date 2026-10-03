@@ -1,0 +1,54 @@
+{
+  "result": "PASS",
+  "checks": [
+    {
+      "path": "/team/wang.webp",
+      "bytes": 39534,
+      "beforeCache": "no-store",
+      "afterCache": "public, no-cache",
+      "conditionalStatus": 304,
+      "bytesEqual": true
+    },
+    {
+      "path": "/team/chen.webp",
+      "bytes": 36626,
+      "beforeCache": "no-store",
+      "afterCache": "public, no-cache",
+      "conditionalStatus": 304,
+      "bytesEqual": true
+    },
+    {
+      "path": "/team/you.webp",
+      "bytes": 30586,
+      "beforeCache": "no-store",
+      "afterCache": "public, no-cache",
+      "conditionalStatus": 304,
+      "bytesEqual": true
+    },
+    {
+      "path": "/team/kuan.webp",
+      "bytes": 31974,
+      "beforeCache": "no-store",
+      "afterCache": "public, no-cache",
+      "conditionalStatus": 304,
+      "bytesEqual": true
+    },
+    {
+      "path": "/team/backgrounds/wang-wide.webp",
+      "bytes": 32976,
+      "beforeCache": "no-store",
+      "afterCache": "public, no-cache",
+      "conditionalStatus": 304,
+      "bytesEqual": true
+    },
+    {
+      "path": "/brand/verity-ai-symbol-white.svg",
+      "bytes": 4619,
+      "beforeCache": "no-store",
+      "afterCache": "public, no-cache",
+      "conditionalStatus": 304,
+      "bytesEqual": true
+    }
+  ],
+  "rollback": "/opt/bnbu-sports-production/backups/media-cache-trial-20260929"
+}

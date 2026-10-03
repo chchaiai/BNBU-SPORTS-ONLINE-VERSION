@@ -1,0 +1,35 @@
+{
+  "result": "PASS",
+  "release": "/opt/bnbu-sports-production/releases/course-list-20260928",
+  "portalImage": "sha256:8c4282219cc7fe0b8abe98d01f4a9a261282f16970eb94de961018e81ada741c",
+  "backendUnchanged": true,
+  "legacyStudentPreserved": true,
+  "immutableAssetsVerified": 148,
+  "oldPortalAssetsVerified": 117,
+  "health": [
+    {
+      "host": "www.student.bnbusports.cn",
+      "path": "/student/",
+      "status": 200
+    },
+    {
+      "host": "www.teacher.bnbusports.cn",
+      "path": "/",
+      "status": 200
+    },
+    {
+      "host": "www.student.bnbusports.cn",
+      "path": "/api/v1/health/ready",
+      "status": 200
+    },
+    {
+      "host": "www.teacher.bnbusports.cn",
+      "path": "/api/v1/health/ready",
+      "status": 200
+    }
+  ],
+  "warmSwitch": true,
+  "rollbackAvailable": true,
+  "businessDataWrites": 0,
+  "databaseMigrations": 0
+}

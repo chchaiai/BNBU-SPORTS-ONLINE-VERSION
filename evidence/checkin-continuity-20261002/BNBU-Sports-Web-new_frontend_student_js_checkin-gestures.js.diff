@@ -1,0 +1,76 @@
+--- BNBU-Sports-Web-new\frontend\student\js\checkin-gestures.js (before)
++++ BNBU-Sports-Web-new\frontend\student\js\checkin-gestures.js
+@@ -1,4 +1,4 @@
+-import {sheetSnap, resizeDescription} from './checkin-experience.js';
++import {sheetSnap, resizeDescription, revealCheckinField} from './checkin-experience.js';
+ 
+ const bound = new WeakSet();
+ const focusable = 'button:not(:disabled), [href], input:not(:disabled), textarea:not(:disabled), [tabindex="0"]';
+@@ -37,13 +37,18 @@
+     const image = photo?.querySelector('img.proof-preview-media');
+     if (image && previous?.preview?.id !== photo.dataset.previewDraft) {
+       const thumbnail = previous?.rects.get(`proof:${photo.dataset.previewDraft}`);
+-      if (thumbnail) fromRect(image, thumbnail.rect, ctx,play);
++      if (thumbnail) fromRect(image, thumbnail.thumbnail || thumbnail.rect, ctx,play);
++      play(photo,{backgroundColor:['rgba(5,5,5,0)','rgb(5,5,5)'],duration:280},ctx);
+       play(photo.querySelector('.proof-preview-topbar'),{opacity:[0,1],duration:200},ctx);
+     } else if (!photo && previous?.preview?.image && previous.preview.rect) {
+-      const target = [...root.querySelectorAll('.proof-card')].find(el=>el.dataset.draftId===previous.preview.id)?.querySelector('.proof-card-media');
++      const target = [...root.querySelectorAll('.proof-card')].find(el=>el.dataset.draftId===previous.preview.id)?.querySelector('.proof-queue-thumbnail, .proof-card-media');
+       if (target) {
+         const a=previous.preview.rect,b=target.getBoundingClientRect();
+-        ghost(previous.preview.image,a,viewport,ctx,play,{translateX:[0,b.left-a.left],translateY:[0,b.top-a.top],scaleX:[1,b.width/a.width],scaleY:[1,b.height/a.height],opacity:[1,.2],duration:280});
++        const confirming=Boolean(viewport.querySelector('.dialog-scrim'));
++        // Fade the backdrop together with the photo; the destination remains live.
++        const backdrop=viewport.ownerDocument.createElement('div');backdrop.className='checkin-photo-exit-backdrop';backdrop.inert=true;backdrop.setAttribute('aria-hidden','true');if(confirming)backdrop.style.zIndex='58';viewport.append(backdrop);
++        play(backdrop,{opacity:[1,0],duration:280},ctx,()=>backdrop.remove());
++        ghost(previous.preview.image,a,viewport,ctx,play,{translateX:[0,b.left-a.left],translateY:[0,b.top-a.top],scaleX:[1,b.width/a.width],scaleY:[1,b.height/a.height],opacity:[1,0],duration:280},confirming ? 59 : 1100);
+       }
+     }
+     if (camera && camera.dataset.cameraState !== previous?.cameraState) {
+@@ -111,10 +116,29 @@
+   };
+   viewport.addEventListener('pointerup',release);viewport.addEventListener('pointercancel',release);
+   viewport.addEventListener('click',event=>{if(suppressClick){event.preventDefault();event.stopImmediatePropagation();}},true);
+-  viewport.addEventListener('focusout',event=>{
+-    if(event.target.id!=='checkin-description')return;
+-    const done=viewport.querySelector('[data-description-done]');
+-    if(done && !done.hidden) play(done,{opacity:[0,1],scale:[.92,1],duration:180},ctx);
++  const win=viewport.ownerDocument.defaultView;
++  let viewportFrame;
++  const syncKeyboard=()=>{
++    win.cancelAnimationFrame(viewportFrame);
++    viewportFrame=win.requestAnimationFrame(()=>{
++      const root=ctx.root, field=viewport.ownerDocument.activeElement;
++      if (!root?.isConnected || root.dataset.checkinPage !== 'finished') return;
++      const vv=win.visualViewport, gap=vv && vv.scale===1 ? Math.max(0,win.innerHeight-vv.height-vv.offsetTop) : 0;
++      const editing=field?.id==='checkin-description';
++      const inset=(editing || root.dataset.keyboardOpen==='true') && gap>80 ? gap : 0;
++      root.dataset.keyboardOpen=String(inset>0);
++      root.style.setProperty('--checkin-keyboard-inset',`${inset}px`);
++      if (editing && inset) revealCheckinField(field,true);
++    });
++  };
++  win.visualViewport?.addEventListener('resize',syncKeyboard);
++  win.visualViewport?.addEventListener('scroll',syncKeyboard);
++  viewport.addEventListener('focusin',event=>{
++    if(event.target.id==='checkin-description') syncKeyboard();
++  });
++  viewport.addEventListener('focusout',syncKeyboard);
++  viewport.addEventListener('checkin-description-status',event=>{
++    play(event.target,{opacity:[.55,1],duration:180},ctx);
+   });
+   let nearLimit=false;
+   viewport.addEventListener('input',event=>{
+@@ -132,9 +156,9 @@
+   el.style.transformOrigin='top left';
+   play(el,{translateX:[before.left-after.left,0],translateY:[before.top-after.top,0],scaleX:[before.width/after.width,1],scaleY:[before.height/after.height,1],duration:320},ctx,()=>el.style.removeProperty('transform-origin'));
+ }
+-function ghost(node,rect,viewport,ctx,play,params) {
++function ghost(node,rect,viewport,ctx,play,params,zIndex=1100) {
+   if(!rect?.width || !rect?.height)return;
+   const clone=node.cloneNode(true);clone.inert=true;clone.setAttribute('aria-hidden','true');
+-  Object.assign(clone.style,{position:'fixed',left:`${rect.left}px`,top:`${rect.top}px`,width:`${rect.width}px`,height:`${rect.height}px`,maxHeight:'none',maxWidth:'none',margin:'0',zIndex:'1100',pointerEvents:'none',transformOrigin:'top left'});
++  Object.assign(clone.style,{position:'fixed',left:`${rect.left}px`,top:`${rect.top}px`,width:`${rect.width}px`,height:`${rect.height}px`,maxHeight:'none',maxWidth:'none',margin:'0',zIndex:String(zIndex),pointerEvents:'none',transformOrigin:'top left'});
+   viewport.append(clone);play(clone,params,ctx,()=>clone.remove());
+ }

@@ -1,0 +1,16 @@
+{
+  "result": "PASS",
+  "release": "/opt/bnbu-sports-production/releases/checkin-discard-20260928",
+  "previous": "/opt/bnbu-sports-production/releases/ui-refinement-20260925",
+  "changedFiles": [
+    "web/student/js/screens/checkin.js"
+  ],
+  "publicSha256": "821d9d4e3557f9e9178c16c744cd87c2672b039722a3abd5666a174c7c821eb1",
+  "containerStatesUnchanged": true,
+  "containerStates": "/bnbu-sports-production-backend-1 a31337092897fe595a58c4ec696866250979d6e0759eed0b83bd9998ba0c9808 sha256:cce87b20353fdce177ef17fb47c612784560ff5ea88ff5ad20577f5e133cbbe2 2026-09-25T06:06:57.548890503Z healthy\n/bnbu-sports-production-portal-1 d2f45470babbfc15e7f065b6b2e33ec3a6027cdace764a034aaeacde9dc58f1c sha256:920e7dee422b60d672243713242a44f3b217c7d4805f6c6ca165a9c4a8e158de 2026-09-25T10:43:15.944799591Z healthy",
+  "rollbackAvailable": true,
+  "tests": {
+    "passed": 13,
+    "failed": 0
+  }
+}

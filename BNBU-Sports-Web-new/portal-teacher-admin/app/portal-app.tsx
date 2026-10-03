@@ -40,7 +40,7 @@ import {
   type CSSProperties,
 } from "react";
 import { flushSync } from "react-dom";
-import { AdminWorkspace } from "./admin-workspace";
+import { deferredComponent } from "./deferred-component";
 import { ADMIN_STORAGE_KEY } from "./admin-domain";
 import { AppSelect } from "./app-select";
 import {
@@ -74,8 +74,6 @@ import {
   type TabTransitionDirection,
 } from "./teacher-tab-page-transition";
 import { PageHeader } from "./teacher-ui";
-import { TeacherFeedback } from './teacher-feedback';
-import { TeacherWorkspace } from "./teacher-workspace";
 import { PortalNotifications, type NotificationTarget } from "./portal-notifications";
 import { clearRosterReconciliationCache } from "./roster-reconciliation-api-service";
 import { clearStudentProfileCache } from "./use-student-profile";
@@ -95,6 +93,10 @@ import {
   useResizableSidebar,
   type SidebarRole,
 } from "./use-resizable-sidebar";
+
+const TeacherWorkspace = deferredComponent(() => import('./teacher-workspace').then(module => module.TeacherWorkspace));
+const AdminWorkspace = deferredComponent(() => import('./admin-workspace').then(module => module.AdminWorkspace));
+const TeacherFeedback = deferredComponent(() => import('./teacher-feedback').then(module => module.TeacherFeedback));
 
 type Role = SidebarRole;
 export type WorkspaceMode = "real" | "demo";
@@ -1746,7 +1748,7 @@ export function PortalApp() {
             ) : (
               <AdminWorkspace
                 notificationTarget={notificationTarget}
-                key={`admin-${mockDataVersion}`}
+                key={`admin-${workspaceMode}-${currentUser.id}-${mockDataVersion}`}
                 active={active}
                 direction={tabDirection}
                 locale={locale}

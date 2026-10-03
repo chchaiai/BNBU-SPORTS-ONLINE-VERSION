@@ -1,4 +1,5 @@
 "use client";
+import { parallelMap } from "./parallel-map";
 import { AiReviewPanel, aiReviewLabels, type AiReview } from './ai-review';
 import { CourseNameSettings } from './course-name-settings';
 
@@ -96,6 +97,9 @@ import {
   createInvalidToValidReviewOperation,
   createCourseInvite,
   loadSubmittedCheckins,
+  loadTeacherCheckinDetail,
+  loadTeacherProgress,
+  fetchExemptionApplications,
   fetchExerciseRecord,
   loadTeacherCourses,
   loadTeacherGrades,
@@ -254,6 +258,7 @@ type CheckinRecord = {
   auditRemark?: string;
   version?: number;
   reviewVersion?: number;
+  detailsLoaded?: boolean;
   workflowStage?: string;
   aiReview?: AiReview | null;
   recordOrigin?: string;
@@ -862,9 +867,7 @@ function AuditStatusSelector({
           退回补证
         </button>
       </div>
-      <p className="record-audit-hint">
-        {record.workflowStage === 'PENDING_AI' ? 'AI 审核功能敬请期待，请联系总管理员为本课程开启人工审核。' : '审核结果由服务器保存。退回补证和判无效必须选择公开原因，可补充说明；每条记录只有一次补证机会。'}
-      </p>
+      {record.workflowStage === 'PENDING_AI' ? <p className="record-audit-hint">AI 审核功能敬请期待，请联系总管理员为本课程开启人工审核。</p> : <details className="record-audit-rules"><summary>审核说明</summary><p>退回补证和判无效必须选择公开原因，可补充说明；每条记录只有一次补证机会。审核结果会自动保存。</p></details>}
       {record.auditStatus !== 'invalid' && record.reviewComment && <p className="record-audit-hint">公开说明：{record.reviewComment}</p>}
       {record.auditStatus === "invalid" && (
         <>
@@ -1428,7 +1431,10 @@ export function TeacherWorkspace({
   const [exemptions, setExemptions] = useState<Exemption[]>(
     mode === "demo" ? initialExemptions : [],
   );
-  const [dialog, setDialog] = useState<DialogState>(null);
+  const [requestedDialog, setDialog] = useState<DialogState>(null);
+  const waitingForRecord = mode === "real" && requestedDialog && "recordId" in requestedDialog
+    && records.some(record => record.id === requestedDialog.recordId && record.detailsLoaded === false);
+  const dialog = waitingForRecord ? null : requestedDialog;
   const [materialPreview, setMaterialPreview] =
     useState<MaterialPreview | null>(null);
   const [activeCheckinProofIndex, setActiveCheckinProofIndex] = useState(0);
@@ -1475,13 +1481,22 @@ export function TeacherWorkspace({
   const [formError, setFormError] = useState<FormErrorState>("");
   const [makeupBusy, setMakeupBusy] = useState(true);
   const [courseRuleSettings,setCourseRuleSettings]=useState<{templates:CourseTemplate[];rules:CourseRules|null;goal:{totalTargetMinutes:number;version:number}}|null>(null);
+  const localCourseRules = useRef<Record<string, { templateId: string; minimumMinutes: string; maximumMinutes: string; weeklyLimit: string; dailyLimit: string }>>({});
   const coursePublicationRef=useRef<ReturnType<typeof createCoursePublicationIntent>|null>(null);
   const courseSettingsLock = useRef(false);
   const [courseSettingsBusy, setCourseSettingsBusy] = useState(false);
   const courseCreationRef=useRef<{name:string;key:string}|null>(null);
   const inviteRevocationRef=useRef<{token:string;key:string}|null>(null);
   useEffect(()=>{
-    if(mode!=='real'||dialog?.type!=='course-manage')return;
+    if(dialog?.type!=='course-manage')return;
+    if(mode==='demo'){
+      const course=courses.find(item=>item.id===dialog.courseId);
+      if(!course)return;
+      const totalTargetMinutes=(course.courseTarget+course.otherTarget)*60;
+      setCourseRuleSettings({templates:[{id:'local-preview-template',version:1,displayName:'运动规则示例',publishedAt:'2026-08-24T00:00:00Z',rules:{totalTargetMinutes,minimumMinutesOptions:[30,45,60],weeklyLimitOptions:[3,4,5],defaultMinimumMinutes:30,defaultWeeklyLimit:3}}],rules:null,goal:{totalTargetMinutes,version:1}});
+      setForm(current=>({...current,...(localCourseRules.current[course.id]??{templateId:'local-preview-template',minimumMinutes:'30',maximumMinutes:'60',weeklyLimit:'3',dailyLimit:'1'})}));
+      return;
+    }
     let cancelled=false;
     setCourseRuleSettings(null);
     void loadCourseRuleSettings(dialog.courseId).then(settings=>{
@@ -1500,6 +1515,7 @@ export function TeacherWorkspace({
   );
   const [courseFilter, setCourseFilter] = useState("all");
   const [courseView, setCourseView] = useState<"all" | "active">("all");
+  const [courseLayout, setCourseLayout] = useState<"list" | "cards">("cards");
   const [reconciliationCourseId, setReconciliationCourseId] = useState<
     string | null
   >(null);
@@ -1540,7 +1556,13 @@ export function TeacherWorkspace({
   const [currentSemester, setCurrentSemester] = useState<Semester | null>(
     mode === "demo" ? demoSemester : null,
   );
-  const [dataLoading, setDataLoading] = useState(false);
+  const [dataLoading, setDataLoading] = useState(mode === "real");
+  const [recordsLoading, setRecordsLoading] = useState(mode === "real");
+  const [gradeLoading, setGradeLoading] = useState(mode === "real");
+  const [exemptionsLoading, setExemptionsLoading] = useState(mode === "real");
+  const refreshGeneration = useRef(0);
+  const [detailError, setDetailError] = useState<UserFacingError | null>(null);
+  const [detailRetry, setDetailRetry] = useState(0);
   const [dataError, setDataError] = useState<UserFacingError | null>(null);
   const invitePresentationRef = useRef<HTMLDivElement>(null);
   const handleInviteQrReady = useCallback(
@@ -1567,74 +1589,73 @@ export function TeacherWorkspace({
 
   const refreshTeacherData = useCallback(async () => {
     if (mode === "demo") {
-      setDataError(null);
-      setDataLoading(false);
-      return;
+      setDataError(null); setDataLoading(false); setRecordsLoading(false);
+      setGradeLoading(false); setExemptionsLoading(false); return;
     }
-    setDataLoading(true);
+    const generation = ++refreshGeneration.current;
+    const epoch = currentApiSessionEpoch();
+    const current = () => generation === refreshGeneration.current && epoch === currentApiSessionEpoch();
+    setDataLoading(true); setRecordsLoading(true); setGradeLoading(true); setExemptionsLoading(true);
     setDataError(null);
     try {
       const { courses: nextCourses, semester } = await loadTeacherCourses();
-      setCourses(nextCourses);
-      setCurrentSemester(semester);
-      const sectionIds = nextCourses.map((course) => course.id);
-      const nextStudents = sectionIds.length
-        ? await loadTeacherStudents(sectionIds)
-        : [];
-      const nextRecords = await loadSubmittedCheckins(sectionIds);
-      const knownIds = new Set(nextStudents.map((student) => `${student.courseId}:${student.id}`));
-      if (nextRecords.some((record) => !knownIds.has(`${record.courseId}:${record.studentId}`)))
-        throw new Error("RECORD_STUDENT_PROJECTION_MISSING");
-      const [nextGrades, nextExemptions] = await Promise.all([
-        loadTeacherGrades(nextStudents),
-        loadTeacherExemptions(),
+      if (!current()) return;
+      setCourses(nextCourses); setCurrentSemester(semester);
+      setGradeCourseId(value => nextCourses.some(course => course.id === value) ? value
+        : nextCourses.find(course => course.status === "ACTIVE")?.id ?? nextCourses[0]?.id ?? "");
+      const sectionIds = nextCourses.map(course => course.id);
+      // Independent panels begin together. allSettled installs failure handlers
+      // immediately, while roster/record work is still in flight.
+      const ancillary = Promise.allSettled([loadTeacherProgress(), fetchExemptionApplications()]);
+      const [nextStudents, nextRecords] = await Promise.all([
+        sectionIds.length ? loadTeacherStudents(sectionIds) : Promise.resolve([]),
+        loadSubmittedCheckins(sectionIds),
       ]);
-      const gradesByEnrollment = new Map(
-        nextGrades.map((grade) => [grade.enrollmentId, grade]),
-      );
-      setRecords(nextRecords);
-      setStudents(
-        nextStudents.map((student) => {
-          const score = gradesByEnrollment.get(student.enrollmentId);
-          return {
-            ...student,
-            progressAvailable: score?.totalValidDurationSeconds !== undefined,
-            courseHours:
-              Math.max(0, score?.validCourseDurationSeconds ?? 0) / 3600,
-            otherHours:
-              Math.max(0, score?.validGeneralDurationSeconds ?? 0) / 3600,
-          };
-        }),
-      );
-      setGrades(nextGrades);
-      setExemptions(nextExemptions);
-      setGradeCourseId((current) => {
-        if (current && nextCourses.some((course) => course.id === current))
-          return current;
-        return (
-          nextCourses.find((course) => course.status === "ACTIVE")?.id ??
-          nextCourses[0]?.id ??
-          ""
-        );
-      });
+      if (!current()) return;
+      const knownIds = new Set(nextStudents.map(student => `${student.courseId}:${student.id}`));
+      if (nextRecords.some(record => !knownIds.has(`${record.courseId}:${record.studentId}`)))
+        throw new Error("RECORD_STUDENT_PROJECTION_MISSING");
+      setStudents(nextStudents.map(student => ({ ...student, progressAvailable: false })));
+      setRecords(nextRecords); setRecordsLoading(false);
+      const [progressResult, exemptionResult] = await ancillary;
+      if (!current()) return;
+      const errors: UserFacingError[] = [];
+      if (progressResult.status === "fulfilled") {
+        const progress = new Map(progressResult.value.map(row => [row.enrollmentId, row]));
+        setStudents(nextStudents.map(student => {
+          const row = progress.get(student.enrollmentId);
+          return { ...student, progressAvailable: !!row, courseHours: Math.max(0, row?.courseRelated.effectiveSeconds ?? 0) / 3600,
+            otherHours: Math.max(0, row?.general.effectiveSeconds ?? 0) / 3600 };
+        }));
+      } else errors.push(toUserFacingError(progressResult.reason));
+      if (exemptionResult.status === "fulfilled") setExemptions(await loadTeacherExemptions(exemptionResult.value));
+      else { setExemptions([]); errors.push(toUserFacingError(exemptionResult.reason)); }
+      setExemptionsLoading(false);
+      // Physical/final-grade revision histories are only needed on Grades.
+      if (active === "grades" && progressResult.status === "fulfilled" && exemptionResult.status === "fulfilled") {
+        try {
+          const nextGrades = await loadTeacherGrades(nextStudents, undefined, { progress: progressResult.value, exemptions: exemptionResult.value });
+          if (!current()) return;
+          setGrades(nextGrades);
+        } catch (error) { if (!current()) return; setGrades([]); errors.push(toUserFacingError(error)); }
+      }
+      if (current()) {
+        setDataError(errors[0] ?? null);
+        performance.mark("bnbu:ready");
+      }
     } catch (error) {
-      const userError =
-        error instanceof Error &&
-        error.message === "RECORD_STUDENT_PROJECTION_MISSING"
-          ? localUserFacingError("后端返回了无法关联学生身份资料的打卡记录，已停止展示不完整数据。")
-          : toUserFacingError(error);
-      setCourses([]);
-      setCurrentSemester(null);
-      setStudents([]);
-      setRecords([]);
-      setGrades([]);
-      setExemptions([]);
-      setDataError(userError);
-      showToast(userErrorToast(userError));
+      if (!current()) return;
+      setStudents([]); setRecords([]); setGrades([]); setExemptions([]);
+      const userError = error instanceof Error && error.message === "RECORD_STUDENT_PROJECTION_MISSING"
+        ? localUserFacingError("后端返回了无法关联学生身份资料的打卡记录，已停止展示不完整数据。")
+        : toUserFacingError(error);
+      setDataError(userError); showToast(userErrorToast(userError));
     } finally {
-      setDataLoading(false);
+      if (current()) { setDataLoading(false); setRecordsLoading(false); setGradeLoading(false); setExemptionsLoading(false); }
     }
-  }, [mode, showToast]);
+  }, [mode, active, showToast]);
+
+  useEffect(() => () => { refreshGeneration.current += 1; }, []);
 
   useEffect(() => {
     const timer = window.setTimeout(() => {
@@ -1832,7 +1853,7 @@ export function TeacherWorkspace({
           (item.status === "pending" || item.status === "supplement_required"),
       ).length;
     const gradeStatus = !studentGrade
-      ? "暂无成绩"
+      ? (mode === "real" && active !== "grades" ? "前往成绩页查看" : "暂无成绩")
       : studentGrade.published
         ? "已发布"
         : statusLabel(studentGrade.enduranceStatus, "grade");
@@ -1939,6 +1960,27 @@ export function TeacherWorkspace({
     });
     return () => window.cancelAnimationFrame(animationFrame);
   }, [checkinAuditFilter, checkinDetailView, pendingRecordFocusId]);
+
+  const detailIds = mode === "real" ? records.filter(record => record.detailsLoaded === false && (
+    (active === "checkins" && record.studentId === checkinStudentId && (checkinClassFilter === "all" || record.courseId === checkinClassFilter)) ||
+    (requestedDialog && "recordId" in requestedDialog && requestedDialog.recordId === record.id)
+  )).map(record => `${record.id}:${record.version}`).join("|") : "";
+  useEffect(() => {
+    if (!detailIds) { setDetailError(null); return; }
+    let cancelled = false;
+    const epoch = currentApiSessionEpoch();
+    const ids = detailIds.split("|").map(value => value.slice(0, value.lastIndexOf(":")));
+    setDetailError(null);
+    void parallelMap(ids, loadTeacherCheckinDetail).then(details => {
+      if (cancelled || epoch !== currentApiSessionEpoch()) return;
+      const byId = new Map(details.map(record => [record.id, record]));
+      setRecords(current => current.map(record => {
+        const detail = byId.get(record.id);
+        return detail && detail.studentId === record.studentId && detail.courseId === record.courseId ? detail : record;
+      }));
+    }).catch(error => { if (!cancelled && epoch === currentApiSessionEpoch()) setDetailError(toUserFacingError(error)); });
+    return () => { cancelled = true; };
+  }, [detailIds, detailRetry]);
 
   const openDialog = (
     nextDialog: Exclude<DialogState, null>,
@@ -2309,9 +2351,9 @@ export function TeacherWorkspace({
     const minimumMinutes=Number(form.minimumMinutes),weeklyLimit=Number(form.weeklyLimit),dailyLimit=Number(form.dailyLimit??1);
     const maximumMinutes=Number(form.maximumMinutes??60),globalTargetVersion=courseRuleSettings?.goal.version??0;
     const targetMinutes=courseRuleSettings?.goal.totalTargetMinutes??1200;
-    if(mode==='real'&&(!Number.isInteger(maximumMinutes)||maximumMinutes<minimumMinutes||maximumMinutes>1440)){setFormError('单次最多运动时间须为整数分钟，不低于最低时长且不超过 1440 分钟。');return;}
+    if(!Number.isInteger(maximumMinutes)||maximumMinutes<minimumMinutes||maximumMinutes>1440){setFormError('单次最多运动时间须为整数分钟，不低于最低时长且不超过 1440 分钟。');return;}
     if(!Number.isSafeInteger(dailyLimit)||dailyLimit<1){setFormError('每天最多次数必须为正整数。');return;}
-    if(mode==='real'&&(!Number.isInteger(minimumMinutes)||minimumMinutes<1||minimumMinutes>1440||!Number.isSafeInteger(weeklyLimit)||weeklyLimit<1||weeklyLimit>2147483647)){setFormError('最低运动时长须为 1–1440 分钟，每周次数须为正整数。');return;}
+    if(!Number.isInteger(minimumMinutes)||minimumMinutes<1||minimumMinutes>1440||!Number.isSafeInteger(weeklyLimit)||weeklyLimit<1||weeklyLimit>2147483647){setFormError('最低运动时长须为 1–1440 分钟，每周次数须为正整数。');return;}
     if (mode === 'real' && courseRuleSettings?.rules?.published_at) {
       const previous = courseRuleSettings.rules;
       const courseTarget=Number(form.courseTarget)*60;
@@ -2462,6 +2504,7 @@ export function TeacherWorkspace({
       }
     }
     if (mode === "demo") {
+      localCourseRules.current[courseId]={templateId:form.templateId??'local-preview-template',minimumMinutes:String(minimumMinutes),maximumMinutes:String(maximumMinutes),weeklyLimit:String(weeklyLimit),dailyLimit:String(dailyLimit)};
       setCourses((current) =>
         current.map((course) =>
           course.id === courseId
@@ -2469,7 +2512,7 @@ export function TeacherWorkspace({
             : course,
         ),
       );
-      showToast("Mock 打卡时间窗与学时目标已保存到本地。");
+      showToast("本地预览：课程设置已更新，刷新页面后恢复示例。");
       closeDialog();
       return;
     }
@@ -3195,6 +3238,63 @@ export function TeacherWorkspace({
       courseView === "all"
         ? courses
         : courses.filter((course) => course.status === "ACTIVE");
+    const renderCourseActions = (course: (typeof courses)[number]) => (
+      <div className="course-card-footer">
+                  <button className="course-roster-reconciliation-button" type="button"
+                    onClick={() => openDialog({ type: 'course-students', courseId: course.id })}>
+                    学生名单 ({students.filter(student => student.courseId === course.id).length})
+                  </button>
+                  <button
+                    className="course-roster-reconciliation-button"
+                    type="button"
+                    onClick={() => setReconciliationCourseId(course.id)}
+                  >
+                    <ListChecks size={15} aria-hidden="true" />
+                    检查学生进班
+                  </button>
+                  <button
+                    className="course-invite-button"
+                    type="button"
+                    onClick={async () => {
+                      try {
+                        if (mode === 'real' && !(await loadCourseRuleSettings(course.id)).rules?.published_at) {
+                          showToast('请点击“进入课程”，设置课程相关信息并保存发布后，再生成邀请二维码。');
+                          return;
+                        }
+                        openDialog({ type: "invite", courseId: course.id });
+                      } catch (error) { showToast(formatUserFacingError(error)); }
+                    }}
+                  >
+                    <QrCode size={15} aria-hidden="true" />
+                    邀请二维码
+                  </button>
+                  <button
+                    className="course-enter-button"
+                    type="button"
+                    onClick={() =>
+                      openDialog(
+                        { type: "course-manage", courseId: course.id },
+                        {
+                          courseTarget: String(course.courseTarget),
+                          otherTarget: String(course.otherTarget),
+                          windowMode: course.checkinWindow.windowMode,
+                          dateRangeStart: course.checkinWindow.dateRangeStart,
+                          dateRangeEnd: course.checkinWindow.dateRangeEnd,
+                          dailyStartTime: course.checkinWindow.dailyStartTime,
+                          dailyEndTime: course.checkinWindow.dailyEndTime,
+                          semesterDeadline:
+                            course.checkinWindow.semesterDeadline,
+                          excludedDates: course.checkinWindow.excludedDates
+                            .map((item) => `${item.date}, ${item.reason}`)
+                            .join("\n"),
+                        },
+                      )
+                    }
+                  >
+                    进入课程 <span>→</span>
+                  </button>
+                </div>
+    );
     const activeStudentCount = students.filter(
       (student) => student.status === "active",
     ).length;
@@ -3242,10 +3342,40 @@ export function TeacherWorkspace({
             >
               ＋ 新建课程
             </button>
+            <StatusTabs
+              ariaLabel="课程展示方式"
+              value={courseLayout}
+              onChange={setCourseLayout}
+              options={[
+                { value: "list", label: "列表视图" },
+                { value: "cards", label: "卡片视图" },
+              ]}
+            />
           </div>
         }
       >
-        <div className="course-grid teacher-course-grid">
+        {courseLayout === "list" ? (
+          <DataTable className="teacher-course-list" minWidth={1060}>
+            <colgroup><col style={{ width: "16%" }} /><col style={{ width: "13%" }} /><col style={{ width: "7%" }} /><col style={{ width: "7%" }} /><col style={{ width: "8%" }} /><col style={{ width: "10%" }} /><col style={{ width: "14%" }} /><col style={{ width: "25%" }} /></colgroup>
+            <thead><tr>
+              <th>课程</th><th>学期</th><th>状态</th><th>在班学生</th>
+              <th>未达标人数</th><th>近 24 小时加入</th><th>学生达标情况</th><th>操作</th>
+            </tr></thead>
+            <tbody>{filteredCourses.map(course => {
+              const summary = getCourseManagementSummary(course);
+              return <tr key={course.id} data-class-section-id={course.id}>
+                <td><strong className="course-list-name">{course.name}</strong></td>
+                <td>{course.semester}</td>
+                <td><Badge tone={course.status === "ACTIVE" ? "green" : "gray"}>{course.status === "ACTIVE" ? "进行中" : course.status === "CLOSED" ? "已关闭" : course.status === "ARCHIVED" ? "已归档" : course.status === "UPCOMING" ? "未开始" : "状态待核对"}</Badge></td>
+                <td>{summary.studentCount}</td>
+                <td><span className={summary.unqualifiedStudentCount > 0 ? "metric-warning" : "metric-complete"}>{summary.unqualifiedStudentCount}</span></td>
+                <td>{summary.newStudentCount}</td>
+                <td><div className="course-list-achievement"><span>{`${summary.qualifiedStudentCount} / ${summary.studentCount} 人已达标`}</span><strong>{`达标率 ${summary.completionRate}%`}</strong></div></td>
+                <td>{renderCourseActions(course)}</td>
+              </tr>;
+            })}</tbody>
+          </DataTable>
+        ) : <div className="course-grid teacher-course-grid">
           {filteredCourses.map((course) => {
             const summary = getCourseManagementSummary(course);
             const qualificationTone =
@@ -3317,65 +3447,11 @@ export function TeacherWorkspace({
                     <i style={{ width: `${summary.completionRate}%` }} />
                   </div>
                 </div>
-                <div className="course-card-footer">
-                  <button className="course-roster-reconciliation-button" type="button"
-                    onClick={() => openDialog({ type: 'course-students', courseId: course.id })}>
-                    学生名单 ({students.filter(student => student.courseId === course.id).length})
-                  </button>
-                  <button
-                    className="course-roster-reconciliation-button"
-                    type="button"
-                    onClick={() => setReconciliationCourseId(course.id)}
-                  >
-                    <ListChecks size={15} aria-hidden="true" />
-                    检查学生进班
-                  </button>
-                  <button
-                    className="course-invite-button"
-                    type="button"
-                    onClick={async () => {
-                      try {
-                        if (mode === 'real' && !(await loadCourseRuleSettings(course.id)).rules?.published_at) {
-                          showToast('请点击“进入课程”，设置课程相关信息并保存发布后，再生成邀请二维码。');
-                          return;
-                        }
-                        openDialog({ type: "invite", courseId: course.id });
-                      } catch (error) { showToast(formatUserFacingError(error)); }
-                    }}
-                  >
-                    <QrCode size={15} aria-hidden="true" />
-                    邀请二维码
-                  </button>
-                  <button
-                    className="course-enter-button"
-                    type="button"
-                    onClick={() =>
-                      openDialog(
-                        { type: "course-manage", courseId: course.id },
-                        {
-                          courseTarget: String(course.courseTarget),
-                          otherTarget: String(course.otherTarget),
-                          windowMode: course.checkinWindow.windowMode,
-                          dateRangeStart: course.checkinWindow.dateRangeStart,
-                          dateRangeEnd: course.checkinWindow.dateRangeEnd,
-                          dailyStartTime: course.checkinWindow.dailyStartTime,
-                          dailyEndTime: course.checkinWindow.dailyEndTime,
-                          semesterDeadline:
-                            course.checkinWindow.semesterDeadline,
-                          excludedDates: course.checkinWindow.excludedDates
-                            .map((item) => `${item.date}, ${item.reason}`)
-                            .join("\n"),
-                        },
-                      )
-                    }
-                  >
-                    进入课程 <span>→</span>
-                  </button>
-                </div>
+                {renderCourseActions(course)}
               </article>
             );
           })}
-        </div>
+        </div>}
         {dataLoading && (
           <EmptyState
             title="没有符合条件的课程"
@@ -3720,7 +3796,7 @@ export function TeacherWorkspace({
   };
 
   const renderCheckins = () => {
-    if (dataLoading) {
+    if (recordsLoading) {
       return <EmptyState title="正在加载打卡记录" description="正在读取学生资料和审核结果，请稍候。" />;
     }
     if (!selectedCheckinStudent || !selectedCheckinSummary) {
@@ -3949,6 +4025,13 @@ export function TeacherWorkspace({
         count: selectedCheckinAuditSummary.invalidCount,
       },
     ];
+    if (selectedStudentCheckins.some(record => record.detailsLoaded === false)) {
+      return <section className="panel" aria-busy={!detailError}>
+        <button className="text-button" onClick={() => setCheckinStudentId(null)}>返回学生名单</button>
+        {detailError ? <><ErrorPanel error={detailError} /><button className="secondary-button" onClick={() => setDetailRetry(value => value + 1)}>重试加载凭证</button></>
+          : <EmptyState title="正在加载该学生的记录详情" description="正在读取运动时间和凭证，请稍候。" />}
+      </section>;
+    }
     return (
       <>
         <div className="checkin-detail-top">
@@ -3981,11 +4064,11 @@ export function TeacherWorkspace({
         <div className="panel checkin-detail-panel">
           <div className="panel-head teacher-panel-head checkin-record-panel-head">
             <div>
-              <h2>{selectedCheckinStudent.name}的全部打卡记录</h2><button type="button" className="secondary-button" disabled={checkinStudents.findIndex(student=>student.id===checkinStudentId)>=checkinStudents.length-1} onClick={()=>{const next=checkinStudents[checkinStudents.findIndex(student=>student.id===checkinStudentId)+1];if(next)openCheckinStudentRecords(next.id);}}>审核下一个同学 →</button>
+              <h2>运动记录</h2><button type="button" className="secondary-button" disabled={checkinStudents.findIndex(student=>student.id===checkinStudentId)>=checkinStudents.length-1} onClick={()=>{const next=checkinStudents[checkinStudents.findIndex(student=>student.id===checkinStudentId)+1];if(next)openCheckinStudentRecords(next.id);}}>审核下一个同学 →</button>
               {/* Single text node so the whole-sentence English rule (with
                   its singular/plural handling) can match. */}
               <p>
-                {`共 ${selectedStudentCheckins.length} 条记录；审核结果已保存到后端，页面切换或刷新后会重新读取最新状态。`}
+                {`共 ${selectedStudentCheckins.length} 条记录；审核结果会自动保存。`}
               </p>
             </div>
             <div className="checkin-detail-toolbar">
@@ -4240,6 +4323,7 @@ export function TeacherWorkspace({
   };
 
   const renderGrades = () => {
+    if (gradeLoading) return <EmptyState title="正在加载成绩" description="正在读取成绩与体测记录，请稍候。" />;
     const courseGrades = grades.filter(
       (grade) => grade.courseId === gradeCourseId,
     );
@@ -4564,6 +4648,7 @@ export function TeacherWorkspace({
   };
 
   const renderExemptions = () => {
+    if (exemptionsLoading) return <EmptyState title="正在加载申请" description="请稍候。" />;
     const searchTerm = exemptionSearch.trim().toLocaleLowerCase();
     const statusCount = (status: ExemptionStatus) =>
       exemptions.filter((item) => item.status === status).length;
@@ -4686,13 +4771,8 @@ export function TeacherWorkspace({
             <span>共 {exemptions.length} 条申请</span>
           </div>
           <aside className="grade-publication-notice">
-            内部自定义分与抵扣上限仍跟现有接口；换算分不向学生披露。
+            审核通过后确认抵扣时长；内部换算分仅供教师管理。
           </aside>
-          <p>
-            <button className="secondary-button" type="button" disabled title="当前接口不能向学生披露内部自定义分。">
-              向学生披露内部自定义分
-            </button>
-          </p>
           <DataTable className="exemption-table" minWidth={980}>
             <thead>
               <tr>
@@ -4786,7 +4866,7 @@ export function TeacherWorkspace({
                       </div>
                     </td>
                     <td>
-                      <b className="tabular-number">{item.submittedAt}</b>
+                      <b className="tabular-number">{businessDateTime(item.submittedAt) || "—"}</b>
                     </td>
                     <td className="action-column">
                       {item.status === "approved" &&
@@ -4866,6 +4946,10 @@ export function TeacherWorkspace({
 
   return (
     <>
+      {waitingForRecord && <Dialog title="加载运动记录" description="运动时间与凭证按需读取" close={closeDialog}>
+        {detailError ? <><ErrorPanel error={detailError} /><button className="secondary-button" onClick={() => setDetailRetry(value => value + 1)}>重试</button></>
+          : <p role="status">正在读取记录详情和凭证…</p>}
+      </Dialog>}
       {dataError && (
         <section className="teacher-api-error">
           <CircleAlert size={22} aria-hidden="true" />
@@ -5019,10 +5103,11 @@ export function TeacherWorkspace({
 
           <div className="course-target-divider" role="separator" />
 
-          {mode === "real" && <CourseNameSettings key={`name-${selectedCourse.id}`} classSectionId={selectedCourse.id} onSaved={() => { void refreshTeacherData(); }} />}
-          {mode === "real" && <CourseHistorySettings key={`history-${selectedCourse.id}`} classSectionId={selectedCourse.id} />}
-          {mode !== "demo" && <CourseSettlement key={`settlement-${selectedCourse.id}`} classSectionId={selectedCourse.id} />}
-          {mode === "real" && <CourseClosure key={`closure-${selectedCourse.id}`} classSectionId={selectedCourse.id} archived={selectedCourse.status==='ARCHIVED'} onClosed={()=>{setDialog(null);void refreshTeacherData();}} />}
+          {mode === "demo" && <p className="grade-publication-notice" role="note">本地预览：以下为示例数据，操作仅用于查看界面。</p>}
+          <CourseNameSettings key={`name-${selectedCourse.id}`} classSectionId={selectedCourse.id} localPreview={mode==='demo'?{displayName:selectedCourse.name,onSave:name=>setCourses(current=>current.map(course=>course.id===selectedCourse.id?{...course,name}:course))}:undefined} onSaved={() => { void refreshTeacherData(); }} />
+          <CourseHistorySettings key={`history-${selectedCourse.id}`} classSectionId={selectedCourse.id} localPreview={mode==='demo'?{startDate:selectedCourse.checkinWindow.dateRangeStart,endDate:selectedCourse.checkinWindow.dateRangeEnd}:undefined} />
+          <CourseSettlement key={`settlement-${selectedCourse.id}`} classSectionId={selectedCourse.id} localPreview={mode==='demo'?{students:students.filter(student=>student.courseId===selectedCourse.id&&student.status==='active')}:undefined} />
+          <CourseClosure key={`closure-${selectedCourse.id}`} classSectionId={selectedCourse.id} localPreview={mode==='demo'?{displayName:selectedCourse.name}:undefined} archived={selectedCourse.status==='ARCHIVED'} onClosed={()=>{setDialog(null);void refreshTeacherData();}} />
 
           <section
             className="course-target-section course-target-config"
@@ -5033,7 +5118,7 @@ export function TeacherWorkspace({
                 <h3 id="course-target-config-title">成绩规则</h3>
                 <p>
                   {mode === "demo"
-                    ? "演示模式可调整两类展示目标。"
+                    ? "预览课程目标、运动时长和次数限制。"
                     : "课程使用已发布的 V8.1 规则模板。"}
                 </p>
               </div>
@@ -5049,7 +5134,7 @@ export function TeacherWorkspace({
                   <option value="">请选择已发布模板</option>
                   {courseRuleSettings?.templates.map(template=><option key={template.id} value={template.id}>{template.displayName} · v{template.version}</option>)}
                 </select>
-                <p id="course-published-template-help">{courseRuleSettings?.rules?.published_at?`已发布：门槛 ${courseRuleSettings.rules.minimum_minutes} 分钟，每周最多 ${courseRuleSettings.rules.weekly_limit} 次。`:'请选择总管理员已发布的模板。'}</p>
+                <p id="course-published-template-help">{mode==='demo'?'本地预览使用示例模板，可调整下方运动规则。':courseRuleSettings?.rules?.published_at?`已发布：门槛 ${courseRuleSettings.rules.minimum_minutes} 分钟，每周最多 ${courseRuleSettings.rules.weekly_limit} 次。`:'请选择总管理员已发布的模板。'}</p>
               </div>
               <div className="course-target-setting">
                 <label htmlFor="course-v8-total-minutes">总目标</label>
@@ -5104,7 +5189,7 @@ export function TeacherWorkspace({
               </div>
               </div>
             )}
-            {mode==='real'&&<div className="course-target-setting-list">
+            <div className="course-target-setting-list">
               <div className="course-target-setting">
                 <label htmlFor="course-maximum-minutes">单次最多运动时间（分钟）</label>
                 <input id="course-maximum-minutes" type="number" min={form.minimumMinutes??'1'} max="1440" step="1" value={form.maximumMinutes??'60'} disabled={courseSettingsReadOnly||!form.templateId} onChange={event=>updateForm('maximumMinutes',event.target.value)}/>
@@ -5122,7 +5207,7 @@ export function TeacherWorkspace({
                 <label htmlFor="course-daily-limit">每天最多计入次数</label>
                 <input id="course-daily-limit" type="number" min="1" step="1" value={form.dailyLimit??'1'} disabled={courseSettingsReadOnly||!form.templateId} onChange={event=>updateForm('dailyLimit',event.target.value)}/>
               </div>
-            </div>}
+            </div>
             <FormError message={formError} />
           </section>
 
@@ -6019,7 +6104,7 @@ export function TeacherWorkspace({
                     disabled={gradeWritePending || (mode==='real' && gradeSettlement?.gradeId!==selectedGrade.id)}
                     onClick={() => saveGrade(selectedGrade.id)}
                   >
-                    {gradeWritePending?'正在保存…':gradeSettlement?.settled?'保存成绩更正':'保存最终成绩'}
+                    {gradeWritePending?'正在保存…':mode==='demo'?'保存体测记录':gradeSettlement?.settled?'保存成绩更正':'保存最终成绩'}
                   </button>
                 </>
               }

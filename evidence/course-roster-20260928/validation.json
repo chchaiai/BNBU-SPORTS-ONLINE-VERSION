@@ -1,0 +1,56 @@
+{
+  "result": "PASS",
+  "newTestFailures": [],
+  "existingTestFailures": [
+    "keeps teacher overview metrics single-sourced and separate from status filters",
+    "teacher workspace exposes invalid records and direct correction wording",
+    "uses one portal-backed AppSelect instead of native browser selects"
+  ],
+  "sourceDelta": [
+    "app/language.tsx",
+    "app/missing-enrollment.ts",
+    "app/roster-reconciliation.tsx",
+    "app/teacher-workspace.tsx",
+    "app/ui-refinement.css",
+    "package.json"
+  ],
+  "checks": {
+    "types": "PASS",
+    "build": "PASS",
+    "portal": "141/144; 3 baseline failures",
+    "roster": "16/16",
+    "targeted": "4/4",
+    "backendRoster": "6/6",
+    "download": "2 expected rows verified"
+  },
+  "files": {
+    "deploy.py": "54a2cfdff280a58c222500358247a2582cca71b06ecb6f6195d0b5d68d74fdc7",
+    "Dockerfile": "b37ea8c6f8cc10636f99d87bf2cfba6a394594ad79d080900d5a031ae081551f",
+    "dist/server/image-config.json": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+    "dist/server/index.js": "a4d5a6d07b4a8c38a586eed483527d623e1f99372a8a2118d0e95a47033bfd69",
+    "dist/server/vinext-externals.json": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+    "dist/server/vinext-server.json": "79fe7156a4eed5d582149228c7820cf2db07539adcc3602b8a872c7c9703ae98",
+    "dist/server/wrangler.json": "eaf4062368300b5dc8fdb355e39c10c391f1c7a0d74ee96cd6c10ebbd833bc75",
+    "dist/server/__vite_rsc_assets_manifest.js": "fca62aa325cce31e5e5ae3670cb669636614e30d65147261e7fa3b8ccc50a988",
+    "dist/server/.vite/manifest.json": "bb24497e4155b453a852bc641ac0acee5bd12c3015dda04015615d265262598b",
+    "dist/server/assets/index-DK4hMqys.css": "73852275db215b772dd65b713b43ba13a8a736d39d968753d82e0ffa008f970f",
+    "dist/server/ssr/index.js": "2605c6b62ea5af996052aaebefe4837abbf64d919c34da51a798aff66980aa98",
+    "dist/server/ssr/vinext-server.json": "79fe7156a4eed5d582149228c7820cf2db07539adcc3602b8a872c7c9703ae98",
+    "dist/server/ssr/__vite_rsc_assets_manifest.js": "fca62aa325cce31e5e5ae3670cb669636614e30d65147261e7fa3b8ccc50a988",
+    "dist/server/ssr/assets/cpexcel.full-DCOxMb2E.js": "8d87acc51c1c86ffe5b9742eb286edb3f129881d45e3037ea419f0c5ae5d74fc",
+    "dist/server/ssr/assets/endurance-api-BrIGosih.js": "5919623dc1858f5f4c4258a07270b17e717c8b3ffaef1966615d7df184990069",
+    "dist/server/ssr/assets/worker-entry-CiwVjTpz.js": "f2fafdda4d762e4b1ad351717575ae502c449cfd1e5cf212ca8867a1e1bbe9e5",
+    "dist/server/ssr/assets/worker-entry-KuIQxfqK.css": "b1efde2a66ce300629bce5fb279fb8837e3ba0b3bc561a22e12ae7f25d2da4a0",
+    "dist/server/ssr/assets/xlsx-DG-38UiC.js": "7146bedad044a4a3b12fed2dbc0019b72979ddb7f1ecd72baf334725855e3e17",
+    "dist/client/.vite/manifest.json": "45682e3e7a8048fb48b67dfdc38dd70c8182a77191af89bc185af07c9976ef3a",
+    "dist/client/assets/cpexcel.full-CAlsa5X_.js": "e3a61ce01017d596b5d6a513ee4162bf69f91eb0c84e01175e58501c74edb141",
+    "dist/client/assets/endurance-api-Wgb4882N.js": "7bc50771914b217d099d128f3a4710f673ee66c8db4d1d9aa9c76d071ccbbeb2",
+    "dist/client/assets/framework-bym5aI3S.js": "a9b4ce28eb1fd24f44bd6afc700324f83feec30c0419725ce29a8c61bfa8996a",
+    "dist/client/assets/index-BhrJNXfY.js": "6ce0c6104cd065900e9de9ac6e195b41527cee2b72eb6042d89958d83d909b8a",
+    "dist/client/assets/index-DK4hMqys.css": "73852275db215b772dd65b713b43ba13a8a736d39d968753d82e0ffa008f970f",
+    "dist/client/assets/rolldown-runtime-hePW80VL.js": "580ad8c58061a4dde99bde0a56905e382f0568516ee2f5b84dbfb52085709021",
+    "dist/client/assets/worker-entry-DtciKbCT.js": "b18f87c870fb1af23b80a446697d63b2b56b6b5ff29182e657d6abb8d8495230",
+    "dist/client/assets/worker-entry-KuIQxfqK.css": "b1efde2a66ce300629bce5fb279fb8837e3ba0b3bc561a22e12ae7f25d2da4a0",
+    "dist/client/assets/xlsx-DwRHmDrW.js": "7af040a5ba632e8b806def4e97a07b2fa28cfe7af2f5fa952759d47af9ab5105"
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "counts": {
+    "HttpExceptionFilter HTTP_REQUEST_REJECTED": 107
+  },
+  "samples": {
+    "HttpExceptionFilter HTTP_REQUEST_REJECTED": {
+      "time": "2026-09-29T23:13:15.120Z",
+      "context": "HttpExceptionFilter",
+      "payloadKeys": [
+        "event",
+        "requestId",
+        "operationId",
+        "method",
+        "route",
+        "statusCode",
+        "errorCode",
+        "reason"
+      ],
+      "safePayload": {
+        "event": "HTTP_REQUEST_REJECTED",
+        "operationId": "listNotifications",
+        "errorCode": "AUTH_TOKEN_EXPIRED",
+        "reason": null
+      }
+    }
+  }
+}
