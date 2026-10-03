@@ -16,6 +16,7 @@ import { OcrImportPanel } from "./ocr-import-panel";
 import { AppSelect } from "./app-select";
 import { currentApiRequestMode } from "./api-client";
 import { FormField } from "./form-field";
+import { missingEnrollmentRows } from "./missing-enrollment";
 import {
   rosterReconciliationService,
   parseOfficialRosterFile,
@@ -167,6 +168,26 @@ export function RosterReconciliationPage({
   }, [load]);
 
   const results = bundle?.results ?? EMPTY_RESULTS;
+  const missingStudents = useMemo(() => missingEnrollmentRows(results), [results]);
+  const [exporting, setExporting] = useState(false);
+  const exportMissingStudents = async () => {
+    setExporting(true);
+    try {
+      const XLSX = await import("xlsx");
+      const sheet = XLSX.utils.aoa_to_sheet([
+        ["学号", "姓名"],
+        ...missingStudents.map(student => [student.studentNumber, student.name]),
+      ]);
+      sheet["!cols"] = [{ wch: 24 }, { wch: 24 }];
+      const book = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(book, sheet, "未入班学生");
+      XLSX.writeFile(book, `${course.name.replace(/[<>:"/\\|?*]/g, "_")}-未入班名单.xlsx`);
+    } catch {
+      showToast("导出失败，请稍后重试。");
+    } finally {
+      setExporting(false);
+    }
+  };
   const filtered = useMemo(() => {
     const query = search.trim().toLocaleLowerCase();
     return results
@@ -268,7 +289,7 @@ export function RosterReconciliationPage({
         <div className="roster-empty-import">
           <span><FileSpreadsheet aria-hidden="true" /></span>
           <h2>尚未导入官方名单</h2>
-          <p>{isDemo ? "导入学校提供的 Excel 或 CSV 名单后，系统会按学号自动比对当前课程成员。" : "导入名单，选好学号和姓名所在的列，即可查看哪些学生还没进本班。"}</p>
+          <p>导入学校或教师提供的应入班名单，系统按学号与本班实际入班名单匹配，列出尚未入班的学生。</p>
           <button className="primary-button" type="button" disabled={!canManage || reconciling} onClick={() => setImportOpen(true)}><Upload size={17} aria-hidden="true" />导入官方名单</button>
           <small>{isDemo ? "当前为演示数据，仅用于体验操作。" : "检查后可提醒未进班的学生扫码或输入邀请码加入。"}</small>
         </div>
@@ -284,6 +305,7 @@ export function RosterReconciliationPage({
   return (
     <section className="roster-reconciliation-page">
       <RosterHeader course={course} onBack={onBack}>
+        <button className="secondary-button" type="button" disabled={reconciling || loading || exporting || missingStudents.length === 0} onClick={() => void exportMissingStudents()}>{exporting ? "正在导出" : "导出未入班名单"}</button>
         <button className="secondary-button" type="button" disabled={reconciling || !canManage} onClick={() => void runReconciliation()}>
           <RefreshCw size={16} className={reconciling ? "is-spinning" : ""} aria-hidden="true" />{reconciling ? "正在检查" : "刷新进班情况"}
         </button>
@@ -293,9 +315,10 @@ export function RosterReconciliationPage({
       {isDemo && <aside className="roster-mock-notice"><AlertTriangle size={18} aria-hidden="true" /><p>当前为演示数据，仅用于体验操作。</p></aside>}
 
       <section className="roster-version-strip roster-check-meta" aria-label="名单与检查时间">
-        <div><span>导入名单</span><b>{bundle.currentRoster.version.totalRows} 行</b></div>
+        <div><span>应入班名单</span><b>{bundle.currentRoster.version.totalRows} 行</b></div>
         <div><span>最近检查</span><time>{stats.lastReconciledAt ? new Date(stats.lastReconciledAt).toLocaleString("zh-CN") : "尚未检查，请点击刷新进班情况"}</time></div>
       </section>
+      <p className="roster-reconciliation-description">按学号匹配应入班名单与本班实际入班名单。未进本班的学生列在下方，可导出名单并提醒加入。</p>
 
       {error && <div className="roster-inline-error" role="alert"><AlertTriangle size={17} aria-hidden="true" /><span>{error}</span><button type="button" onClick={() => setError("")}>关闭</button></div>}
 

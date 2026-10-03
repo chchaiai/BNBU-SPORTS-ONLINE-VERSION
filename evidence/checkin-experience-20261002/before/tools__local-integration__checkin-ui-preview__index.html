@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <title>精密仪表 · 学生打卡预览</title>
+  <link rel="stylesheet" href="/student/css/tokens.css">
+  <link rel="stylesheet" href="/student/css/components.css">
+  <link rel="stylesheet" href="/student/css/screens.css">
+  <link rel="stylesheet" href="/student/css/upload-progress.css">
+  <link rel="stylesheet" href="/student/css/ui-refinement.css">
+  <link rel="stylesheet" href="/student/css/checkin-layout.css">
+  <link rel="stylesheet" href="/student/css/app-download-promo.css">
+  <style>
+    body { overflow: hidden; }
+    .preview-tools { height: 52px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; gap: 12px; padding: 5px 16px; background: var(--color-surface); color: var(--color-on-surface); }
+    .preview-tools label { font-size: 12px; flex: none; }
+    .preview-tools select { font: inherit; font-size: 13px; min-width: 0; max-width: 230px; min-height: 42px; padding: 8px; border: 1px solid var(--color-outline-variant); border-radius: 10px; background: var(--color-background); color: var(--color-on-surface); }
+    .preview-tools button { flex: none; min-width: 44px; min-height: 42px; padding: 6px 10px; font-size: 12px; border: 1px solid var(--color-outline-variant); border-radius: 10px; }
+    .preview-notice { height: 32px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; margin: 0; font-size: 11px; background: var(--color-surface); color: var(--color-on-surface-variant); border-bottom: 1px solid var(--color-outline-variant); }
+    #review-viewport .banner.local-preview { display: none; }
+    #app { height: calc(100dvh - 134px); }
+    .preview-motion-tools { height: 50px; display: flex; align-items: center; gap: 6px; padding: 0 12px; overflow-x: auto; overflow-y: hidden; scrollbar-width: none; box-sizing: border-box; background: var(--color-surface); border-bottom: 1px solid var(--color-outline-variant); }
+    .preview-motion-tools::-webkit-scrollbar { display: none; }
+    .preview-motion-tools button, .preview-motion-tools select { flex: none; font: inherit; font-size: 11px; min-height: 38px; padding: 7px 10px; border-radius: 9px; border: 1px solid var(--color-outline-variant); background: var(--color-surface); color: var(--color-on-surface); }
+    .preview-motion-tools button:disabled { opacity: .4; }
+    .preview-motion-tools button[aria-pressed="true"] { background: var(--color-primary-container); color: var(--color-primary); }
+    @media(max-width:360px) { .preview-tools { padding: 8px; gap: 6px; } .preview-tools label { font-size: 11px; } }
+  </style>
+</head>
+<body>
+  <header class="preview-tools">
+    <label for="scenario">预览场景</label>
+    <select id="scenario">
+      <optgroup label="打卡流程">
+        <option value="preparation">开始运动</option>
+        <option value="running">运动中</option>
+        <option value="paused">已暂停</option>
+        <option value="finished" selected>完成记录 · 待填写</option>
+        <option value="filled">完成记录 · 已填写</option>
+        <option value="submitted">提交完成（示例）</option>
+        <option value="records">打卡记录</option>
+      </optgroup>
+      <optgroup label="其他状态">
+        <option value="empty-proof">缺少凭证</option>
+        <option value="short">未达最低时长</option>
+        <option value="unknown">规则未获取</option>
+        <option value="uploading">上传中（示例）</option>
+        <option value="failed">上传失败（示例）</option>
+        <option value="record-error">记录加载失败（示例）</option>
+      </optgroup>
+    </select>
+    <button id="theme" type="button">切换明暗</button>
+  </header>
+  <p class="preview-notice">本地示例 · 可填写体验，不会提交正式记录</p>
+  <nav class="preview-motion-tools" aria-label="示例动效操作">
+    <select id="motion-mode" aria-label="预览动效模式"><option value="system">动效：跟随系统</option><option value="full">动效：标准</option><option value="reduced">动效：减少</option></select>
+    <button id="add-proof" type="button">加示例照片</button>
+    <button id="remove-proof" type="button">减示例照片</button>
+    <button id="advance-minute" type="button">示例加 1 分钟</button>
+    <button id="celebrate" type="button">重播庆祝</button>
+    <button id="rerender" type="button">重绘当前场景</button>
+  </nav>
+  <main id="app"><div id="review-viewport" class="app-viewport"></div></main>
+  <script>globalThis.__BNBU_PUBLIC_CONFIG__ = {appEnv:'local'};</script>
+  <script type="module" src="/preview.js"></script>
+</body>
+</html>

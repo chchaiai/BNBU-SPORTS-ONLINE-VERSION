@@ -1,0 +1,275 @@
+[
+  {
+    "scene": "preparation",
+    "size": {
+      "width": 320,
+      "height": 740
+    },
+    "description": null,
+    "dockVisible": true,
+    "horizontalOverflow": false,
+    "nav": true,
+    "page": "preparation",
+    "width": 320
+  },
+  {
+    "scene": "running",
+    "size": {
+      "width": 320,
+      "height": 740
+    },
+    "description": null,
+    "dockVisible": true,
+    "horizontalOverflow": false,
+    "nav": false,
+    "page": "running",
+    "width": 320
+  },
+  {
+    "scene": "paused",
+    "size": {
+      "width": 320,
+      "height": 740
+    },
+    "description": null,
+    "dockVisible": true,
+    "horizontalOverflow": false,
+    "nav": false,
+    "page": "running",
+    "width": 320
+  },
+  {
+    "scene": "finished",
+    "size": {
+      "width": 320,
+      "height": 740
+    },
+    "description": "",
+    "dockVisible": true,
+    "horizontalOverflow": false,
+    "nav": false,
+    "page": "finished",
+    "width": 320
+  },
+  {
+    "scene": "filled",
+    "size": {
+      "width": 320,
+      "height": 740
+    },
+    "description": "完成肩背、髋部与腿部伸展，配合呼吸进行柔韧练习。",
+    "dockVisible": true,
+    "horizontalOverflow": false,
+    "nav": false,
+    "page": "finished",
+    "width": 320
+  },
+  {
+    "scene": "records",
+    "size": {
+      "width": 320,
+      "height": 740
+    },
+    "description": null,
+    "dockVisible": null,
+    "horizontalOverflow": false,
+    "nav": true,
+    "page": "records",
+    "width": 320
+  },
+  {
+    "scene": "submitted",
+    "size": {
+      "width": 320,
+      "height": 740
+    },
+    "description": null,
+    "dockVisible": true,
+    "horizontalOverflow": false,
+    "nav": true,
+    "page": "submitted",
+    "width": 320
+  },
+  {
+    "scene": "preparation",
+    "size": {
+      "width": 390,
+      "height": 844
+    },
+    "description": null,
+    "dockVisible": true,
+    "horizontalOverflow": false,
+    "nav": true,
+    "page": "preparation",
+    "width": 390
+  },
+  {
+    "scene": "running",
+    "size": {
+      "width": 390,
+      "height": 844
+    },
+    "description": null,
+    "dockVisible": true,
+    "horizontalOverflow": false,
+    "nav": false,
+    "page": "running",
+    "width": 390
+  },
+  {
+    "scene": "paused",
+    "size": {
+      "width": 390,
+      "height": 844
+    },
+    "description": null,
+    "dockVisible": true,
+    "horizontalOverflow": false,
+    "nav": false,
+    "page": "running",
+    "width": 390
+  },
+  {
+    "scene": "finished",
+    "size": {
+      "width": 390,
+      "height": 844
+    },
+    "description": "",
+    "dockVisible": true,
+    "horizontalOverflow": false,
+    "nav": false,
+    "page": "finished",
+    "width": 390
+  },
+  {
+    "scene": "filled",
+    "size": {
+      "width": 390,
+      "height": 844
+    },
+    "description": "完成肩背、髋部与腿部伸展，配合呼吸进行柔韧练习。",
+    "dockVisible": true,
+    "horizontalOverflow": false,
+    "nav": false,
+    "page": "finished",
+    "width": 390
+  },
+  {
+    "scene": "records",
+    "size": {
+      "width": 390,
+      "height": 844
+    },
+    "description": null,
+    "dockVisible": null,
+    "horizontalOverflow": false,
+    "nav": true,
+    "page": "records",
+    "width": 390
+  },
+  {
+    "scene": "submitted",
+    "size": {
+      "width": 390,
+      "height": 844
+    },
+    "description": null,
+    "dockVisible": true,
+    "horizontalOverflow": false,
+    "nav": true,
+    "page": "submitted",
+    "width": 390
+  },
+  {
+    "scene": "preparation",
+    "size": {
+      "width": 1280,
+      "height": 900
+    },
+    "description": null,
+    "dockVisible": true,
+    "horizontalOverflow": false,
+    "nav": true,
+    "page": "preparation",
+    "width": 1280
+  },
+  {
+    "scene": "running",
+    "size": {
+      "width": 1280,
+      "height": 900
+    },
+    "description": null,
+    "dockVisible": true,
+    "horizontalOverflow": false,
+    "nav": false,
+    "page": "running",
+    "width": 1280
+  },
+  {
+    "scene": "paused",
+    "size": {
+      "width": 1280,
+      "height": 900
+    },
+    "description": null,
+    "dockVisible": true,
+    "horizontalOverflow": false,
+    "nav": false,
+    "page": "running",
+    "width": 1280
+  },
+  {
+    "scene": "finished",
+    "size": {
+      "width": 1280,
+      "height": 900
+    },
+    "description": "",
+    "dockVisible": true,
+    "horizontalOverflow": false,
+    "nav": false,
+    "page": "finished",
+    "width": 1280
+  },
+  {
+    "scene": "filled",
+    "size": {
+      "width": 1280,
+      "height": 900
+    },
+    "description": "完成肩背、髋部与腿部伸展，配合呼吸进行柔韧练习。",
+    "dockVisible": true,
+    "horizontalOverflow": false,
+    "nav": false,
+    "page": "finished",
+    "width": 1280
+  },
+  {
+    "scene": "records",
+    "size": {
+      "width": 1280,
+      "height": 900
+    },
+    "description": null,
+    "dockVisible": null,
+    "horizontalOverflow": false,
+    "nav": true,
+    "page": "records",
+    "width": 1280
+  },
+  {
+    "scene": "submitted",
+    "size": {
+      "width": 1280,
+      "height": 900
+    },
+    "description": null,
+    "dockVisible": true,
+    "horizontalOverflow": false,
+    "nav": true,
+    "page": "submitted",
+    "width": 1280
+  }
+]

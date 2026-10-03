@@ -1,0 +1,10 @@
+{
+  "result": "PASS",
+  "portal": "https://www.teacher.bnbusports.cn/",
+  "student": "https://www.student.bnbusports.cn/student/",
+  "productionPreviewParameters": "Both still show normal login; no skip-sign-in preview",
+  "portalConsoleErrors": 0,
+  "studentConsoleErrors": 0,
+  "realAccountBusinessFlows": "NOT_EXECUTED",
+  "studentFocusedTests": 9
+}

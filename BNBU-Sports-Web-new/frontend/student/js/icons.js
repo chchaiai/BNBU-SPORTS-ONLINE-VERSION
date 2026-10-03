@@ -87,9 +87,14 @@ const PATHS = {
 };
 
 export function icon(name, size = 24, cls = "") {
-  const glyph = REFERENCE_SPORT_GLYPHS[name] || SPORT_GLYPHS[name];
+  let glyph = REFERENCE_SPORT_GLYPHS[name] || SPORT_GLYPHS[name];
   if (glyph) {
-    return `<svg class="icon ${cls}" width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${glyph}</svg>`;
+    const headIndex = name === 'sport-cycling' ? 2 : name === 'sport-dragon_lion_dance' ? 1 : 0;
+    if (!['sport-basketball','sport-football','sport-table-tennis'].includes(name)) {
+      let circleIndex=0;
+      glyph=glyph.replace(/<circle\b/g, tag=>circleIndex++===headIndex ? tag+' data-line-head' : tag);
+    }
+    return `<svg class="icon ${cls}" width="${size}" height="${size}" viewBox="0 0 24 24" data-line-sport="${name}" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${glyph}</svg>`;
   }
   const d = PATHS[name];
   if (!d) return "";

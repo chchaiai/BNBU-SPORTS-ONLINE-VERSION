@@ -232,6 +232,7 @@ function knownApiErrorMessage(error: unknown, locale: "zh" | "en" = "zh"): strin
       AUTH_SESSION_REVOKED: "This session is no longer valid. Sign in again.",
       AUTH_RATE_LIMITED: "Too many requests. Try again later.",
       AUTH_ACCOUNT_DISABLED: "This account has been disabled.",
+      AUTH_VERIFICATION_CODE_INVALID: "The verification code is incorrect or has expired.",
       PERMISSION_DENIED: "You do not have permission to perform this action.",
       PERMISSION_RESOURCE_NOT_FOUND: "The resource does not exist or is not accessible.",
       CONFLICT_VERSION_MISMATCH: "The data changed elsewhere. Refresh and try again.",
@@ -408,6 +409,7 @@ function isTimeoutError(error: unknown): boolean {
 function userErrorCategory(error: unknown): UserErrorCategory {
   if (isTimeoutError(error)) return "TIMEOUT";
   if (!(error instanceof ApiError)) return "NETWORK";
+  if (error.code === "AUTH_VERIFICATION_CODE_INVALID") return "VALIDATION";
   if (error.status === 401) return "AUTHENTICATION";
   if (error.status === 403) return "AUTHORIZATION";
   if (error.status === 409) return "CONFLICT";
@@ -595,7 +597,10 @@ export function toUserFacingError(
     SERVER: zh ? "服务暂时不可用" : "Service unavailable",
     UNKNOWN: zh ? "操作未完成" : "Action not completed",
   }[category];
-  const title = categoryTitle;
+  const invalidVerificationCode = code === "AUTH_VERIFICATION_CODE_INVALID";
+  const title = invalidVerificationCode
+    ? zh ? "请检查邮箱验证码" : "Check the email verification code"
+    : categoryTitle;
   const defaultAction = {
     NETWORK: zh ? "检查网络连接后重试。" : "Check your connection and try again.",
     TIMEOUT: zh ? "稍后重试；请勿连续重复提交。" : "Try again later and avoid repeated submissions.",
@@ -613,7 +618,10 @@ export function toUserFacingError(
     message: isTimeoutError(error)
       ? zh ? "服务器未在预期时间内响应。" : "The server did not respond in time."
       : category === 'VALIDATION' && safeFieldErrors(error,locale).length ? safeFieldErrors(error,locale)[0].message : knownApiErrorMessage(error, locale),
-    action: defaultAction,
+    action: invalidVerificationCode
+      ? zh ? "请输入本次请求邮件中的验证码；若已过期或多次失败，请重新获取验证码。"
+        : "Enter the code emailed for this request. Request a new code if it has expired or failed repeatedly."
+      : defaultAction,
     requestId,
     retryable,
     category,

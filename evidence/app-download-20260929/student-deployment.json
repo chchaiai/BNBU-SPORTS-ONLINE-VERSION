@@ -1,0 +1,15 @@
+{
+  "result": "PASS",
+  "release": "/opt/bnbu-sports-production/releases/app-beta-20260929",
+  "previous": "/opt/bnbu-sports-production/releases/course-list-20260928",
+  "version": "baa4ab26fa8ba2cd26e81e3f",
+  "assetsVerified": 294,
+  "containersUnchanged": true,
+  "rollbackAvailable": true,
+  "newTestFailures": [],
+  "testsPassed": 26,
+  "smokePassed": 86,
+  "baselineSmokeFailures": [
+    "FAIL - v8 contract-wired student pages keep grace non-refreshable and show server proof todos: The input did not match the regular expression /\u6bcf\u5b66\u671f\u4ec5\u53ef\u9009\u62e9\u4e00\u95e8\u8bfe\u7a0b/u. Input:"
+  ]
+}

@@ -10,6 +10,8 @@ import {
   useState,
   type ReactNode,
 } from "react";
+import { createAccountsCache } from "./admin-accounts-cache";
+import { listStudentProfiles, listAssociatedTeacherProfiles } from "./admin-service";
 import { ADMIN_STORAGE_EVENT } from "./admin-domain";
 import { loadRealEnduranceRules } from './endurance-api';
 import { adminErrorCopy } from "./admin-i18n";
@@ -35,7 +37,15 @@ type AdminStoreError = {
   userFacingError: UserFacingError | null;
 };
 
+function createWorkspaceAccountsCache() {
+  return createAccountsCache(async () => {
+    const [students, teachers] = await Promise.all([listStudentProfiles(), listAssociatedTeacherProfiles()]);
+    return { students: [...students].sort((a, b) => a.studentNumber.localeCompare(b.studentNumber)), teachers };
+  });
+}
+
 type AdminStoreValue = {
+  accountsCache: ReturnType<typeof createWorkspaceAccountsCache>;
   mode: "real" | "demo";
   state: AdminState | null;
   loading: boolean;
@@ -112,6 +122,12 @@ export function AdminStoreProvider({
   onStateChange?: (state: AdminState) => void;
   children: ReactNode;
 }) {
+  const accountsCache = useMemo(() => createWorkspaceAccountsCache(), [mode]);
+  useEffect(() => {
+    if (mode === "real") void accountsCache.load().catch(() => {
+      // Opening the accounts page retries and displays any continuing error.
+    });
+  }, [accountsCache, mode]);
   const [state, setState] = useState<AdminState | null>(null);
   const [loading, setLoading] = useState(true);
   const [loadError, setLoadError] = useState("");
@@ -252,6 +268,7 @@ export function AdminStoreProvider({
   const clearError = useCallback(() => setError(null), []);
   const value = useMemo<AdminStoreValue>(
     () => ({
+      accountsCache,
       mode,
       state,
       loading,
@@ -262,7 +279,7 @@ export function AdminStoreProvider({
       refresh,
       run,
     }),
-    [busyKey, clearError, error, loadError, loading, mode, refresh, run, state],
+    [accountsCache, busyKey, clearError, error, loadError, loading, mode, refresh, run, state],
   );
 
   return (

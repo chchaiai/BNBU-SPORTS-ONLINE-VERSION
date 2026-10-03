@@ -1,0 +1,14 @@
+{
+  "baseline-initial-assets.json": "63953eafb43f42df73e289c6a43e9d115bbc7e10314c559cb22d56d2e7ae32df",
+  "comparison.json": "086f37f261f644de2a3eff3a1f12018f000f4616c680160bd75cb9c610141d3f",
+  "edgeone-proposal.png": "edd2bb0b764cb55d31162ce458de9a7cac456896e85576d16fc2dd016b83cc93",
+  "full-typecheck.log": "974ef3cc57f9b743e2bc1aa8bd2335861f8d760bf7f235b4d9602f627a2178b1",
+  "performance-global.conf": "7401ccb3fa0a283997a8a181f106bc6fc02b2340a2b6b7b36bb69688dbfe1cb1",
+  "performance-locations.conf": "dc641430a51864951250bc6ca34ba097d75a889878b5af20ce4025f086f7b6c4",
+  "production-verification.json": "a48cb263d04292c630f79e035732643976cc7efb1fbdd534e0d57ca8c6b8cd59",
+  "student-asset-manifest.json": "831c0635c65d3e2c1df30292563997a43d9687cdda319c390de44c828e61c820",
+  "student-candidate-tests.log": "ed4e186d81d94f234d4694d1db9bd5d550bca76f1e36b89933b82d9072fb0f39",
+  "teacher-targeted.log": "452751e2d9e972253eaf56b1f3740f162ea69f99de9ad93637ee88e95bd736db",
+  "test-summary.json": "e49f5a4a219208071005b5d10a62e79f15d6c49be793e3651d558fd9e71b2acc",
+  "validation.json": "ad3186464070ff2f05c256a47fdc674d47c8f877457aa156ff23eec8f63abac4"
+}

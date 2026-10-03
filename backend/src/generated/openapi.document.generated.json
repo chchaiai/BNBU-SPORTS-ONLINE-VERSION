@@ -18921,6 +18921,10 @@
                               "dailyEndTime",
                               "courseTargetSeconds",
                               "generalTargetSeconds",
+                              "minimumMinutes",
+                              "maximumMinutes",
+                              "weeklyLimit",
+                              "dailyLimit",
                               "currentMembers",
                               "removedMembers",
                               "completedStudents",
@@ -18994,6 +18998,34 @@
                                   "null"
                                 ],
                                 "minimum": 0
+                              },
+                              "minimumMinutes": {
+                                "type": [
+                                  "integer",
+                                  "null"
+                                ],
+                                "minimum": 1
+                              },
+                              "maximumMinutes": {
+                                "type": [
+                                  "integer",
+                                  "null"
+                                ],
+                                "minimum": 1
+                              },
+                              "weeklyLimit": {
+                                "type": [
+                                  "integer",
+                                  "null"
+                                ],
+                                "minimum": 1
+                              },
+                              "dailyLimit": {
+                                "type": [
+                                  "integer",
+                                  "null"
+                                ],
+                                "minimum": 1
                               },
                               "currentMembers": {
                                 "type": "object",
@@ -32572,6 +32604,25 @@
             ],
             "format": "date-time"
           },
+          "activeEnrollmentCount": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Active class count in the current semester for administrator account management."
+          },
+          "enrollmentCapacitySemesterId": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "uuid",
+            "description": "Current semester for a scoped second-class grant."
+          },
+          "maximumActiveEnrollments": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 2,
+            "description": "Maximum concurrent active classes allowed for this student in the current semester."
+          },
           "majorConfirmationLocked": {
             "type": "boolean",
             "description": "True once a formal major is confirmed. Administrator corrections never restore a consumed student confirmation opportunity."
@@ -35569,6 +35620,17 @@
           "expectedVersion"
         ],
         "properties": {
+          "secondClassReason": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200,
+            "description": "Reason for granting a second class in the specified current semester."
+          },
+          "secondClassSemesterId": {
+            "type": "string",
+            "format": "uuid",
+            "description": "Must match the current semester."
+          },
           "profileUpdateReason": {
             "type": "string",
             "minLength": 1,

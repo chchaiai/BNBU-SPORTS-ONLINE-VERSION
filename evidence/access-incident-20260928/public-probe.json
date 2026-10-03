@@ -1,0 +1,154 @@
+{
+  "www.student.bnbusports.cn": [
+    {
+      "http_code": 200,
+      "time_namelookup": 0.011884,
+      "time_connect": 0.012649,
+      "time_appconnect": 0.382146,
+      "time_starttransfer": 0.524064,
+      "time_total": 0.524118,
+      "remote_ip": "198.18.0.112",
+      "http_version": "1.1",
+      "exitcode": 0,
+      "errormsg": null
+    },
+    {
+      "http_code": 200,
+      "time_namelookup": 0.017654,
+      "time_connect": 0.018421,
+      "time_appconnect": 0.386953,
+      "time_starttransfer": 0.530927,
+      "time_total": 0.530971,
+      "remote_ip": "198.18.0.112",
+      "http_version": "1.1",
+      "exitcode": 0,
+      "errormsg": null
+    },
+    {
+      "http_code": 200,
+      "time_namelookup": 0.006265,
+      "time_connect": 0.006863,
+      "time_appconnect": 0.72771,
+      "time_starttransfer": 0.996267,
+      "time_total": 0.996299,
+      "remote_ip": "198.18.0.112",
+      "http_version": "1.1",
+      "exitcode": 0,
+      "errormsg": null
+    }
+  ],
+  "www.teacher.bnbusports.cn": [
+    {
+      "http_code": 200,
+      "time_namelookup": 0.012392,
+      "time_connect": 0.013201,
+      "time_appconnect": 0.814579,
+      "time_starttransfer": 0.967963,
+      "time_total": 0.968031,
+      "remote_ip": "198.18.0.113",
+      "http_version": "1.1",
+      "exitcode": 0,
+      "errormsg": null
+    },
+    {
+      "http_code": 200,
+      "time_namelookup": 0.013624,
+      "time_connect": 0.014403,
+      "time_appconnect": 1.066367,
+      "time_starttransfer": 1.23947,
+      "time_total": 1.239532,
+      "remote_ip": "198.18.0.113",
+      "http_version": "1.1",
+      "exitcode": 0,
+      "errormsg": null
+    },
+    {
+      "http_code": 200,
+      "time_namelookup": 0.018598,
+      "time_connect": 0.019245,
+      "time_appconnect": 0.701818,
+      "time_starttransfer": 0.97085,
+      "time_total": 0.970907,
+      "remote_ip": "198.18.0.113",
+      "http_version": "1.1",
+      "exitcode": 0,
+      "errormsg": null
+    }
+  ],
+  "verityai.cn": [
+    {
+      "http_code": 200,
+      "time_namelookup": 0.011819,
+      "time_connect": 0.012559,
+      "time_appconnect": 1.077711,
+      "time_starttransfer": 1.299761,
+      "time_total": 1.412531,
+      "remote_ip": "198.18.0.115",
+      "http_version": "1.1",
+      "exitcode": 0,
+      "errormsg": null
+    },
+    {
+      "http_code": 200,
+      "time_namelookup": 0.018755,
+      "time_connect": 0.034513,
+      "time_appconnect": 0.421547,
+      "time_starttransfer": 0.650496,
+      "time_total": 0.766613,
+      "remote_ip": "198.18.0.115",
+      "http_version": "1.1",
+      "exitcode": 0,
+      "errormsg": null
+    },
+    {
+      "http_code": 200,
+      "time_namelookup": 0.016904,
+      "time_connect": 0.017646,
+      "time_appconnect": 0.374309,
+      "time_starttransfer": 0.587453,
+      "time_total": 0.688089,
+      "remote_ip": "198.18.0.115",
+      "http_version": "1.1",
+      "exitcode": 0,
+      "errormsg": null
+    }
+  ],
+  "knowledge.verityai.cn": [
+    {
+      "http_code": 200,
+      "time_namelookup": 0.011751,
+      "time_connect": 0.012545,
+      "time_appconnect": 0.855906,
+      "time_starttransfer": 1.000256,
+      "time_total": 1.000302,
+      "remote_ip": "198.18.0.114",
+      "http_version": "1.1",
+      "exitcode": 0,
+      "errormsg": null
+    },
+    {
+      "http_code": 200,
+      "time_namelookup": 0.011912,
+      "time_connect": 0.012634,
+      "time_appconnect": 0.764295,
+      "time_starttransfer": 1.037123,
+      "time_total": 1.037168,
+      "remote_ip": "198.18.0.114",
+      "http_version": "1.1",
+      "exitcode": 0,
+      "errormsg": null
+    },
+    {
+      "http_code": 200,
+      "time_namelookup": 0.019448,
+      "time_connect": 0.02009,
+      "time_appconnect": 0.42999,
+      "time_starttransfer": 0.589856,
+      "time_total": 0.589909,
+      "remote_ip": "198.18.0.114",
+      "http_version": "1.1",
+      "exitcode": 0,
+      "errormsg": null
+    }
+  ]
+}

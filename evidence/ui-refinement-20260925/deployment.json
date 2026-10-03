@@ -1,0 +1,14 @@
+{
+  "result": "PASS",
+  "image": "sha256:920e7dee422b60d672243713242a44f3b217c7d4805f6c6ca165a9c4a8e158de",
+  "previous": "/opt/bnbu-sports-production/releases/teacher-recovery-20260925",
+  "release": "/opt/bnbu-sports-production/releases/ui-refinement-20260925",
+  "studentFiles": 6,
+  "backendUnchanged": true,
+  "portalAssetsVerified": 9,
+  "studentHashes": "PASS",
+  "health": "PASS",
+  "databaseMigrations": 0,
+  "businessDataWrites": 0,
+  "rollbackAvailable": true
+}

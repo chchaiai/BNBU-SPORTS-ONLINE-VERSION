@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useId, useState, type ReactNode } from "react";
+import { useEffect, useId, useRef, useState, type ReactNode } from "react";
+import { createPortal } from "react-dom";
 import { adminCopy, adminErrorCopy } from "./admin-i18n";
 import type { AdminLocale } from "./admin-types";
 import { BUSINESS_TIME_ZONE } from "./business-time";
@@ -99,6 +100,46 @@ export function AdminField({
   );
 }
 
+function AdminOverlay({ children }: { children: ReactNode }) {
+  const [mounted, setMounted] = useState(false);
+  const rootRef = useRef<HTMLDivElement>(null);
+  useEffect(() => { setMounted(true); }, []);
+  useEffect(() => {
+    if (!mounted) return;
+    const previousFocus = document.activeElement instanceof HTMLElement ? document.activeElement : null;
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    const focusables = (scope: Element) => Array.from(scope.querySelectorAll<HTMLElement>(
+      'button:not(:disabled), a[href], input:not(:disabled), select:not(:disabled), textarea:not(:disabled), [tabindex]:not([tabindex="-1"])',
+    )).filter(element => element.getClientRects().length > 0);
+    const frame = requestAnimationFrame(() => {
+      if (rootRef.current) focusables(rootRef.current)[0]?.focus();
+    });
+    const trapFocus = (event: KeyboardEvent) => {
+      const root = rootRef.current;
+      if (event.key !== "Tab" || !root || Array.from(document.querySelectorAll('.admin-overlay-root')).at(-1) !== root) return;
+      const scope = root.querySelector('[role="alertdialog"]') ?? root;
+      const items = focusables(scope);
+      const first = items[0];
+      const last = items.at(-1);
+      if (!first || !last) { event.preventDefault(); return; }
+      if (!scope.contains(document.activeElement) || (event.shiftKey ? document.activeElement === first : document.activeElement === last)) {
+        event.preventDefault();
+        (event.shiftKey ? last : first).focus();
+      }
+    };
+    document.addEventListener("keydown", trapFocus);
+    return () => {
+      cancelAnimationFrame(frame);
+      document.removeEventListener("keydown", trapFocus);
+      document.body.style.overflow = previousOverflow;
+      if (previousFocus?.isConnected) previousFocus.focus();
+    };
+  }, [mounted]);
+  const content = <div ref={rootRef} className="app-shell-admin admin-overlay-root">{children}</div>;
+  return mounted ? createPortal(content, document.body) : content;
+}
+
 export function AdminDialog({
   locale,
   title,
@@ -134,7 +175,7 @@ export function AdminDialog({
   });
 
   return (
-    <div className="modal-backdrop admin-modal-backdrop" role="presentation" onMouseDown={(event) => event.target === event.currentTarget && requestClose()}>
+    <AdminOverlay><div className="modal-backdrop admin-modal-backdrop" role="presentation" onMouseDown={(event) => event.target === event.currentTarget && requestClose()}>
       <section className={`modal admin-dialog ${wide ? "is-wide" : ""}`} role="dialog" aria-modal="true" aria-labelledby={titleId}>
         <header className="modal-head">
           <div><h2 id={titleId}>{title}</h2>{description && <p>{description}</p>}</div>
@@ -153,7 +194,7 @@ export function AdminDialog({
           </div>
         </section>
       )}
-    </div>
+    </div></AdminOverlay>
   );
 }
 
@@ -179,7 +220,7 @@ export function AdminDrawer({
     return () => window.removeEventListener("keydown", onKeyDown);
   }, [close]);
   return (
-    <div className="admin-drawer-backdrop" role="presentation" onMouseDown={(event) => event.target === event.currentTarget && close()}>
+    <AdminOverlay><div className="admin-drawer-backdrop" role="presentation" onMouseDown={(event) => event.target === event.currentTarget && close()}>
       <aside className="admin-drawer" role="dialog" aria-modal="true" aria-labelledby={titleId}>
         <header>
           <div><h2 id={titleId}>{title}</h2>{description && <p>{description}</p>}</div>
@@ -188,7 +229,7 @@ export function AdminDrawer({
         <div className="admin-drawer-body">{children}</div>
         {footer && <footer>{footer}</footer>}
       </aside>
-    </div>
+    </div></AdminOverlay>
   );
 }
 

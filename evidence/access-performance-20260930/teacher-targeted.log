@@ -1,0 +1,15 @@
+✔ retired history is excluded before fetching detail; empty workspace does not fetch records (15.3525ms)
+✔ visible submitted record still loads while retired record for the same student is excluded (1.1366ms)
+✔ 25 review records require one list request; detail preserves evidence and optimistic review version (31.1974ms)
+✔ bounded reads keep order and never swallow failures (38.3651ms)
+✔ manual review lifecycle stays visible and only awarded valid minutes contribute (0.9054ms)
+✔ technical processing and valid but uncredited records are distinct from invalid results (0.1883ms)
+✔ public category and supplemental explanation both survive invalid projection (0.1498ms)
+ℹ tests 7
+ℹ suites 0
+ℹ pass 7
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 266.9762

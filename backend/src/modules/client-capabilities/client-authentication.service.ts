@@ -894,9 +894,12 @@ export class ClientAuthenticationService {
             : { in: ['ACTIVE', 'DISABLED'] },
         deletedAt: null,
         primaryEmailNormalized: account,
+        // Imported teachers prove mailbox ownership with the recovery code itself.
         ...(role === 'ADMIN'
           ? { OR: [{ emailVerifiedAt: { not: null } }, { emailIdentityScope: 'SUBADMIN' }] }
-          : { emailVerifiedAt: { not: null } }),
+          : role === 'STUDENT'
+            ? { emailVerifiedAt: { not: null } }
+            : {}),
       },
     });
   }

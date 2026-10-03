@@ -1,0 +1,178 @@
+/* Shared reading and spacing refinements for the local UI revision. */
+:root, :root[data-theme] {
+  --font-size-page-title: clamp(24px, 2.4vw, 28px);
+  --font-size-micro: 12px;
+  --ui-action-blue: #0865d1;
+}
+:root[data-theme="dark"] { --ui-action-blue: #246dd8; }
+@media (prefers-color-scheme: dark) {
+  :root[data-theme="system"] { --ui-action-blue: #246dd8; }
+}
+.primary-button { background: var(--ui-action-blue); color: #fff; }
+.app-shell .primary-button, .admin-overlay-root .primary-button { background: var(--ui-action-blue); color: #fff; }
+:is(.primary-button, .secondary-button, .danger-button) {
+  min-height: 42px; border-radius: 10px; font-size: 14px; line-height: 1.4;
+}
+.text-button { font-size: 13px; min-height: 36px; }
+.app-shell :is(.primary-button, .secondary-button, .danger-button),
+.admin-overlay-root :is(.primary-button, .secondary-button, .danger-button) { font-size: 14px; min-height: 42px; }
+.app-shell .text-button { font-size: 13px; }
+.app-shell .sidebar nav button { font-size: 14px; }
+.app-shell :is(.summary-metric span, .admin-semester-summary span, .admin-semester-summary small,
+.admin-course-identity p, .admin-article-list small, .admin-article-list p,
+.admin-health-list b, .admin-support-requester > small, .admin-support-issue > small) { font-size: 12px; line-height: 1.6; }
+.app-shell .admin-support-requester > b, .app-shell .admin-support-issue > b { font-size: 14px; line-height: 1.6; }
+.app-shell .admin-support-table td:nth-child(4) { font-size: 12px; color: var(--text-secondary); }
+.mobile-filter-toggle { display: none; }
+.sidebar nav .sidebar-nav-icon { color: var(--text-secondary); }
+.sidebar nav button { min-height: 44px; }
+.app-shell .page-content { padding: 24px 28px 40px; }
+.app-shell .workspace-header h1 { font-size: var(--font-size-page-title); }
+.app-shell .workspace-header p { font-size: 13px; }
+.badge, .table-sub, .roster-status small, .progress-cell small,
+.course-card-identity span, .course-card-metrics small,
+.course-achievement span, .course-achievement b,
+.admin-section-heading p, .admin-summary-grid span, .admin-summary-grid small,
+.admin-rule-snapshot small, .admin-health-list small, .admin-current-semester p,
+.admin-pagination, .admin-table th, .admin-view-tabs button {
+  font-size: 12px; line-height: 1.55;
+}
+.app-shell :is(.admin-table td, .table-primary-text, .progress-cell-copy b, .progress-cell-copy span) {
+  font-size: 14px; line-height: 1.6;
+}
+.admin-table td { padding: 15px 18px; }
+.admin-table th { padding: 12px 18px; background: var(--color-surface-low); }
+.admin-table tbody tr:hover { background: var(--color-surface-low); }
+.admin-table code { font-family: inherit; font-variant-numeric: tabular-nums; }
+.admin-section-heading { padding: 18px 22px; align-items: center; }
+.admin-heading-actions { flex-wrap: wrap; justify-content: flex-end; }
+.admin-summary-grid > button { min-height: 114px; gap: 6px; }
+.admin-summary-grid > button::before { width: 0; }
+.admin-surface, .panel, .table-surface { border-radius: 16px; box-shadow: none; }
+.admin-page-stack { gap: 20px; }
+.admin-management-hero { padding: 20px 22px; }
+.admin-management-hero h2 { font-size: 23px; }
+.admin-management-hero p { font-size: 13px; line-height: 1.6; }
+.app-shell-admin, .admin-overlay-root {
+  --app-select-label-size: 12px; --app-select-value-size: 14px;
+  --admin-input-border: var(--card-border);
+  --admin-input-background: var(--color-surface);
+}
+.admin-field input, .admin-field textarea { font-size: 14px; }
+.admin-users-page > .admin-audit-filters { grid-template-columns: minmax(240px, 2fr) minmax(160px, 1fr) minmax(200px, 1.4fr); align-items: end; }
+.admin-users-page > .admin-audit-filters > .admin-filter-actions { grid-column: 1 / -1; }
+.admin-filter-actions { display: flex; align-items: center; gap: 12px; }
+.admin-advanced-filters { border: 1px solid var(--card-border); border-radius: 12px; background: var(--color-surface); }
+.admin-advanced-filters > summary { padding: 13px 18px; cursor: pointer; font-size: 14px; color: var(--text-secondary); }
+.admin-advanced-filters[open] > summary { border-bottom: 1px solid var(--card-border); }
+.admin-advanced-filters .admin-audit-filters { margin: 0; border: 0; background: transparent; }
+.admin-filter-count { margin-left: 8px; color: var(--color-primary); font-size: 12px; }
+.admin-table-scroll-hint { padding: 10px 22px; font-size: 12px; color: var(--text-secondary); background: var(--color-surface-low); }
+.admin-student-accounts-table { min-width: 1000px; }
+.admin-student-accounts-table .account-secondary { display: none; }
+.admin-student-accounts-table.is-expanded .account-secondary { display: table-cell; }
+.admin-student-accounts-table th:last-child,
+.admin-student-accounts-table td:last-child { position: sticky; right: 0; background: var(--color-surface); box-shadow: -1px 0 var(--card-border); z-index: 1; }
+.admin-student-accounts-table .account-identity { position: sticky; left: 0; background: var(--color-surface); z-index: 1; min-width: 130px; }
+.app-shell-teacher .teacher-course-grid { gap: 20px; }
+/* Each class occupies one table row; narrow screens scroll within the table. */
+.teacher-course-list th { white-space: nowrap; }
+.teacher-course-list td { vertical-align: middle; }
+.teacher-course-list .course-list-name { display: block; min-width: 140px; max-width: 240px; overflow-wrap: anywhere; }
+.teacher-course-list .course-list-achievement { display: grid; gap: 6px; min-width: 140px; }
+.teacher-course-list .course-list-achievement strong { color: var(--text-secondary); font-size: 12px; font-weight: 500; }
+.teacher-course-list .course-card-footer { min-width: 230px; padding-top: 0; margin-top: 0; gap: 6px; }
+.teacher-course-list .course-card-footer > button { min-height: 34px; padding: 6px 8px; font-size: 12px; }
+.app-shell-teacher .teacher-course-grid .teacher-course-card { padding: 22px; min-height: 0; border-radius: 16px; }
+.course-card-identity h3 { font-size: 20px; white-space: normal; line-height: 1.4; }
+.teacher-course-card .course-card-metrics { margin-top: 20px; border: 0; gap: 16px; background: transparent; }
+.course-card-metrics > span { background: transparent; padding: 0; gap: 4px; }
+.course-card-metrics b { font-size: 23px; font-weight: 600; color: var(--text-primary); }
+.teacher-course-card .course-achievement { margin-top: 20px; }
+.course-card-footer { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; padding-top: 20px; margin-top: 0; }
+.course-card-footer > button { min-width: 0; width: 100%; min-height: 42px; font-size: 13px; white-space: normal; line-height: 1.4; padding: 9px 10px; }
+.course-card-footer > .course-enter-button { background: var(--ui-action-blue); color: #fff; border-color: transparent; }
+.course-invite-button { font-size: 13px; }
+.progress-cell { gap: 8px; }
+.progress-cell small { white-space: normal; }
+.checkin-detail-top { display: flex; align-items: center; flex-wrap: wrap; gap: 12px; margin-bottom: 16px; }
+.checkin-student-summary { flex: 1; min-width: 260px; padding: 14px 18px; margin: 0; border-radius: 12px; }
+.checkin-record-panel-head { padding: 18px 22px; }
+.checkin-record-panel-head > div:first-child { display: flex; flex-wrap: wrap; gap: 10px 16px; align-items: center; }
+.checkin-record-panel-head h2 { font-size: 18px; }
+.checkin-record-panel-head p { flex-basis: 100%; font-size: 13px; margin: 0; }
+.checkin-record-row { padding-top: 22px; padding-bottom: 22px; }
+.record-audit-hint { font-size: 12px; line-height: 1.6; }
+.record-audit-rules { margin-top: 10px; font-size: 12px; color: var(--text-secondary); }
+.record-audit-rules summary { cursor: pointer; }
+.feedback-heading h2 { font-size: 20px; margin: 0; }
+.teacher-feedback { width: 100%; max-width: 1000px; gap: 18px; }
+.feedback-heading p { margin: 6px 0 0; }
+.feedback-compose, .feedback-history article { background: var(--color-surface); border-color: var(--card-border); padding: 24px; border-radius: 16px; }
+.feedback-heading p, .feedback-compose small, .feedback-upload p, .feedback-count,
+.feedback-uploader header p, .feedback-upload-note, .feedback-drop-hint, .feedback-file-info small {
+  color: var(--text-secondary); font-size: 13px; line-height: 1.6;
+}
+.feedback-compose select, .feedback-compose textarea { border-color: var(--card-border); background: var(--color-surface-low); }
+.feedback-upload, .feedback-dropzone { background: var(--color-surface-low); border-color: var(--color-outline-variant); }
+.feedback-file-list li, .feedback-uploaded li, .feedback-pickers button, .feedback-preview img, .feedback-preview video { background: var(--color-surface); border-color: var(--card-border); }
+.feedback-file-info strong, .feedback-pickers button span, .feedback-dropzone > strong { color: var(--text-primary); }
+.feedback-pickers button small { font-size: 12px; color: var(--text-secondary); }
+.feedback-history blockquote { background: var(--color-success-container); color: var(--text-primary); }
+.feedback-tabs { width: fit-content; border-radius: 12px; background: var(--color-surface-high); padding: 4px; gap: 4px; }
+.feedback-tabs button { box-shadow: none; min-height: 40px; border: 0; background: transparent; color: var(--text-secondary); }
+.app-shell .feedback-tabs button.primary-button { background: var(--color-surface); color: var(--color-primary); }
+.user-facing-error details { margin-top: 12px; font-size: 12px; }
+.user-facing-error summary { cursor: pointer; }
+.admin-overlay-root { display: contents; }
+.course-target-dialog .teacher-dialog-body { grid-template-columns: minmax(0, 1fr); }
+.course-target-dialog .teacher-dialog-body > * { min-width: 0; }
+.course-target-dialog .table-scroll { max-width: 100%; overflow-x: auto; }
+.course-target-dialog .course-target-section > input,
+.course-target-dialog .course-target-section > label { max-width: 100%; min-width: 0; }
+.admin-overlay-root :is(.admin-modal-backdrop, .admin-drawer-backdrop) { z-index: 200; }
+.admin-overlay-root :is(.admin-dialog, .admin-drawer) { color: var(--text-primary); }
+.admin-overlay-root .admin-field input { background: var(--color-surface-low); }
+.admin-overlay-root :is(.admin-ticket-requester dt, .admin-ticket-requester > header small,
+.admin-ticket-editor > header p, .admin-ticket-message > header > span) { font-size: 12px; line-height: 1.6; }
+.admin-overlay-root :is(.admin-ticket-requester dd, .admin-ticket-message > p,
+.admin-ticket-thread p, .admin-ticket-thread b) { font-size: 14px; line-height: 1.7; }
+.admin-overlay-root .admin-ticket-requester dl { grid-template-columns: 1fr; }
+.admin-overlay-root .admin-ticket-requester dl > div { display: grid; grid-template-columns: 80px minmax(0, 1fr); align-items: baseline; gap: 10px; padding: 9px 14px; }
+.admin-overlay-root .admin-ticket-requester dd { margin: 0; font-weight: 500; }
+@media (max-width: 1100px) {
+  .admin-users-page > .admin-audit-filters { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .admin-users-page > .admin-audit-filters > .admin-field:first-child { grid-column: 1 / -1; }
+}
+@media (max-width: 860px) {
+  .filter-toolbar .mobile-filter-toggle { display: flex; width: 100%; min-height: 44px; align-items: center; justify-content: space-between; gap: 12px; background: transparent; border: 0; font-size: 14px; color: var(--text-primary); }
+  .filter-toolbar:not(.is-expanded) .filter-toolbar-fields { display: none; }
+  .filter-toolbar.is-expanded .mobile-filter-toggle svg { transform: rotate(180deg); }
+  .filter-toolbar { padding: 8px 12px; }
+  .app-shell .page-content { padding: 18px 16px calc(28px + env(safe-area-inset-bottom)); }
+  .app-shell.app-shell-tabbed-workspace .workspace-header.workspace-header-tabbed { padding: 14px 16px; gap: 10px; }
+  .app-shell .workspace-header h1 { font-size: 24px; }
+  .app-shell .semester-pill { flex-basis: auto; }
+  .app-shell-teacher .teacher-course-grid { grid-template-columns: minmax(0, 1fr); }
+  .app-shell .roster-table { min-width: 0 !important; width: 100%; }
+  .roster-table thead { display: none; }
+  .roster-table tbody { display: grid; }
+  .roster-table tbody tr { display: grid; grid-template-columns: minmax(0, 1fr) auto; padding: 18px; gap: 10px 12px; border-bottom: 1px solid var(--card-border); }
+  .roster-table tbody td { display: block; padding: 0; border: 0; min-width: 0; width: auto; max-width: none; }
+  .app-shell-teacher .roster-table tbody td { height: auto; padding: 0; border: 0; }
+  .app-shell-teacher .roster-table tbody tr { height: auto; }
+  .roster-table tbody td:nth-child(1) { grid-column: 1; grid-row: 1; }
+  .roster-table tbody td:nth-child(5) { grid-column: 2; grid-row: 1; text-align: right; }
+  .roster-table tbody td:nth-child(2), .roster-table tbody td:nth-child(3),
+  .roster-table tbody td:nth-child(4), .roster-table tbody td:nth-child(6) { grid-column: 1 / -1; }
+  .roster-table .progress-cell { width: 100%; }
+  .roster-table .horizontal-actions { justify-content: flex-end; }
+  .roster-table .roster-course-name { max-width: none; white-space: normal; }
+  .admin-section-heading { padding: 16px; flex-wrap: wrap; }
+  .admin-heading-actions { justify-content: flex-start; }
+  .admin-users-page > .admin-audit-filters { grid-template-columns: minmax(0, 1fr); padding: 16px; }
+  .admin-summary-grid.three { grid-template-columns: 1fr; }
+  .feedback-compose, .feedback-history article { padding: 18px; }
+  .checkin-student-summary { min-width: 0; flex-basis: 100%; }
+  .admin-table-scroll-hint { padding: 10px 16px; }
+}

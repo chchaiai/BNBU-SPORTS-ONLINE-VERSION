@@ -230,7 +230,7 @@ export class QrJoinService {
               : new ApplicationError('ENROLLMENT_REJOIN_DISABLED', 409),
           );
         }
-        const semesterActive = await this.enrollments.findActiveForSemesterStudent(
+        const semesterActive = await this.enrollments.findCapacityConflict(
           capability.organizationId,
           section.semesterId,
           resolved.profile.id,

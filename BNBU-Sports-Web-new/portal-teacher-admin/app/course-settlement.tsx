@@ -35,7 +35,7 @@ const checkGuidance: Record<string,string> = {
   PHYSICAL_IMPORT_PENDING:'请确认已导入的体测结果。', ROSTER_PENDING_DIFFERENCE:'到“名单对齐”处理未确认的差异。',
   OCR_DRAFTS:'请核对并确认表格识别草稿。', PUBLISHED_COURSE_RULE:'请先保存并发布课程规则。',
 };
-export function CourseSettlement({ classSectionId }: { classSectionId: string }) {
+export function CourseSettlement({ classSectionId, localPreview }: { classSectionId: string; localPreview?: { students: { id: string; name: string; number: string }[] } }) {
   const [preview, setPreview] = useState<Preview | null>(null);
   const [checks, setChecks] = useState<Check[]>([]);
   const [reports, setReports] = useState<Report[]>([]);
@@ -52,6 +52,13 @@ export function CourseSettlement({ classSectionId }: { classSectionId: string })
   const valid = () => live.current && currentApiSessionEpoch() === epoch;
   const showError = (failure: unknown) => { if (valid()) setError(formatUserFacingError(failure)); };
   const load = async () => {
+    if (localPreview) {
+      const demoChecks: Check[] = ['CURRENT_ROSTER', 'PUBLISHED_COURSE_RULE', 'PENDING_REVIEW', 'ROSTER_REGISTRATION_INCOMPLETE'].map(code => ({ code, status: 'CLEAR', count: 0 }));
+      setPreview({ previewFingerprint: '', expectedVersion: 0, canConfirm: true, checkedAt: new Date().toISOString(), checks: demoChecks,
+        preview: { denominator: localPreview.students.length, registrationComplete: true, rows: localPreview.students.map(student => ({ id: student.id, studentNumber: student.number, fullName: student.name, status: 'MATCHED', pendingCount: 0 })), extras: [] } });
+      setChecks(demoChecks); setConfirmed(false); setPending(false); setBeforeVersion(null);
+      return;
+    }
     const results = await Promise.allSettled([
       request<Preview>(`${scope}/settlement-preview`),
       request<{checks: Check[]}>(`${scope}/settlement-check`),
@@ -75,6 +82,12 @@ export function CourseSettlement({ classSectionId }: { classSectionId: string })
   };
   useEffect(() => { live.current = true; void run(load); return () => { live.current = false; }; }, [classSectionId]); // Each course mounts its own state.
   const save = async () => {
+    if (localPreview) {
+      if (!preview?.canConfirm || !confirmed) return;
+      setReports([{ id: 'local-preview-report', version: 1, kind: 'INITIAL', createdAt: new Date().toISOString(), correctionReason: '本地预览示例' }]);
+      setMessage('本地预览：已展示结算报告，未提交课程数据。');
+      return;
+    }
     const saved = sessionStorage.getItem(storageKey);
     let intent: Intent;
     if (saved) {
@@ -99,6 +112,7 @@ export function CourseSettlement({ classSectionId }: { classSectionId: string })
     }
   };
   const download = async (version?:number) => {
+    if (localPreview) { setMessage('本地预览：正式名单和结算文件需登录后导出。'); return; }
     const file = await request<{fileName:string;contentType:string;fileBase64:string}>(version
       ? `${scope}/settlement-reports/${version}/export` : `${scope}/composite-roster/export`);
     if (!valid()) return;
@@ -129,6 +143,7 @@ export function CourseSettlement({ classSectionId }: { classSectionId: string })
     {!reports.length && <p>暂无已保存报告。</p>}
     {reports.map(report=><p key={report.id}>v{report.version} · {new Date(report.createdAt).toLocaleString()} · {report.correctionReason??"初版"} <button type="button" className="text-button" disabled={busy} onClick={()=>void run(()=>download(report.version))}>下载结算报告 v{report.version}</button></p>)}
     {beforeVersion!==null && <button type="button" className="text-button" disabled={busy} onClick={()=>void run(async()=>{
+      if (localPreview) return;
       const page=await request<{items:Report[];nextBeforeVersion:number|null}>(`${scope}/settlement-reports?limit=20&beforeVersion=${beforeVersion}`);
       if(valid()){setReports(current=>[...current,...page.items]);setBeforeVersion(page.nextBeforeVersion);}
     })}>加载更早报告</button>}

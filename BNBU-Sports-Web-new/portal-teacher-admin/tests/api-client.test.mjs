@@ -19,6 +19,20 @@ globalThis.window = {
 const api = await import("../app/api-client.ts");
 const adminService = await import("../app/admin-service.ts");
 
+test('invalid recovery codes explain how to retry without directing users to sign in', () => {
+  for (const locale of ['zh', 'en']) {
+    const model = api.toUserFacingError(new api.ApiError(401, {
+      code: 'AUTH_VERIFICATION_CODE_INVALID', requestId: 'recovery-code-test',
+    }), locale, { log: false });
+    assert.equal(model.category, 'VALIDATION');
+    assert.match(model.title, locale === 'zh' ? /验证码/ : /verification code/);
+    assert.match(model.action, locale === 'zh' ? /重新获取验证码/ : /Request a new code/);
+    assert.doesNotMatch(model.title + model.action, /重新登录|Sign in again|Return to sign-in/);
+    assert.equal(model.code, 'AUTH_VERIFICATION_CODE_INVALID');
+    assert.equal(model.requestId, 'recovery-code-test');
+  }
+});
+
 test('request diagnostics survive a network failure and legacy text retains code and recovery action',async()=>{
   let sent;
   await withFetch(async(_url,options)=>{sent=options.headers['X-Request-ID'];throw new TypeError('secret connection string');},async()=>{

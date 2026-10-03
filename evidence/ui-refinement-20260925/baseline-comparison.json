@@ -1,0 +1,13 @@
+{
+  "result": "PASS",
+  "filesChecked": 33,
+  "normalizations": [
+    "line endings",
+    "dependency path comments",
+    "asset hashes",
+    "three path-derived framework client-reference IDs and quoted property spelling",
+    "export and lazy-chunk order",
+    "build nonce"
+  ],
+  "liveBundleVerified": true
+}

@@ -104,7 +104,7 @@ test("keeps formal authentication and gates skip-sign-in preview access to local
   assert.match(workspace, /课程名称为必填项。/);
   assert.match(workspace, /Mock 课程/);
   assert.doesNotMatch(workspace, /createClassSection|demoCourseCatalog/);
-  assert.match(workspace, /Mock 打卡时间窗与学时目标已保存到本地/);
+  assert.match(workspace, /本地预览：课程设置已更新，刷新页面后恢复示例/);
   assert.match(workspace, /Mock 邀请码/);
   assert.match(workspace, /Mock 记录已标记为无效/);
   assert.match(workspace, /student\.a@bnbu\.invalid/);

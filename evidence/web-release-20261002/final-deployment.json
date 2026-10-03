@@ -1,0 +1,16 @@
+{
+  "result": "PASS",
+  "release": "/opt/bnbu-sports-production/releases/checkin-ui-final-20261002",
+  "previous": "/opt/bnbu-sports-production/releases/checkin-ui-20261002",
+  "studentVersion": "f594bce1706141fef2c44006",
+  "immutableAssetsVerified": 321,
+  "containersUnchanged": true,
+  "rollbackAvailable": true,
+  "businessDataWrites": 0,
+  "databaseMigrations": 0,
+  "tests": {
+    "passed": 202,
+    "failed": 0,
+    "smoke": 88
+  }
+}

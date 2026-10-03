@@ -1,0 +1,17 @@
+{
+  "result": "PASS",
+  "browser": "Edge",
+  "authenticated": false,
+  "results": [
+    {
+      "url": "https://www.teacher.bnbusports.cn/",
+      "status": 200,
+      "pageErrors": []
+    },
+    {
+      "url": "https://www.student.bnbusports.cn/student/",
+      "status": 200,
+      "pageErrors": []
+    }
+  ]
+}

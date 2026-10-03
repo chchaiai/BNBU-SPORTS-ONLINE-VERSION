@@ -1,0 +1,143 @@
+{
+  "createdAt": "2026-10-02T04:00:01.290Z",
+  "files": [
+    {
+      "file": "BNBU-Sports-Web-new/frontend/student/js/app.js",
+      "archivedSha256": "32a5371b940eea280e3f715a177e9e9eacad0e88f0e7428239f230d52fd0852a",
+      "action": "restored",
+      "backup": "BNBU-Sports-Web-new/frontend/student/js/app.js",
+      "restoredSha256": "6a26b8504478f411377a7ce6b717a9515525dab4d2a543d5417d4264d9b7df86"
+    },
+    {
+      "file": "BNBU-Sports-Web-new/frontend/student/js/lazy-student-screens.js",
+      "archivedSha256": "ea725270d6f8bdd75968591831b27eb3b924eef7f48fa9c0cb4b6500b15fb36f",
+      "action": "restored",
+      "backup": "BNBU-Sports-Web-new/frontend/student/js/lazy-student-screens.js",
+      "restoredSha256": "547125bb1f5af14ffb254efd919d363c703368e62635a492ae46e2227b7b6c4a"
+    },
+    {
+      "file": "BNBU-Sports-Web-new/frontend/student/js/app-download-promo.js",
+      "archivedSha256": "fddbd1f67a3bd2e74dec1a0ac62cc84a38ac540a4a25d1522628457d0478c13b",
+      "action": "restored",
+      "backup": "BNBU-Sports-Web-new/frontend/student/js/app-download-promo.js",
+      "restoredSha256": "fb5a28138603d4f4bb547650a3f33a6e9a51f9c2acaafa70c86d7ee2e60f7ed5"
+    },
+    {
+      "file": "BNBU-Sports-Web-new/frontend/student/js/screens/dashboard.js",
+      "archivedSha256": "4fba92afe3d2036880eb32b139f57a2e2349389d0ab711db6ba4751f0aa005a8",
+      "action": "restored",
+      "backup": "BNBU-Sports-Web-new/frontend/student/js/screens/dashboard.js",
+      "restoredSha256": "f2c68de88f740db68773edb4a2b55242c5cd795b02365003083e8b49f3e40ae1"
+    },
+    {
+      "file": "BNBU-Sports-Web-new/frontend/student/js/screens/courses.js",
+      "archivedSha256": "0d4a3143bfd020d3f6f43e415477d5f60aa8b9f8d6a38f1dd0f5328fa5ff1269",
+      "action": "restored",
+      "backup": "BNBU-Sports-Web-new/frontend/student/js/screens/courses.js",
+      "restoredSha256": "c1da7acd0b6aee04e987ca15fd06a4540152099363ac56dfa9265aa24f160b69"
+    },
+    {
+      "file": "BNBU-Sports-Web-new/frontend/student/js/screens/grades.js",
+      "archivedSha256": "c24bb29569e06ec4e4d9101772e85ca8cbb3077280ef0bec2fdfb3a69321c0af",
+      "action": "restored",
+      "backup": "BNBU-Sports-Web-new/frontend/student/js/screens/grades.js",
+      "restoredSha256": "92e4969b86276c5dd580fde804233af1eeecfbbed1afb46d89847d5ad54dcb28"
+    },
+    {
+      "file": "BNBU-Sports-Web-new/frontend/student/js/screens/profile.js",
+      "archivedSha256": "0052824e36ffb9544a7fa43f1d3da593d98ce7fa947a1414a8680343c7c7601e",
+      "action": "restored",
+      "backup": "BNBU-Sports-Web-new/frontend/student/js/screens/profile.js",
+      "restoredSha256": "e607a7804ddd76395714b17dab2da7594722f3744c6c4f7549d28fdd04a6a370"
+    },
+    {
+      "file": "BNBU-Sports-Web-new/frontend/student/js/screens/notifications.js",
+      "archivedSha256": "37afafee102cb700e2bbfdcfb6edb9c10fe1232784f68e33287ce5b9843d433d",
+      "action": "restored",
+      "backup": "BNBU-Sports-Web-new/frontend/student/js/screens/notifications.js",
+      "restoredSha256": "af0633b3928ec649a6b84ef1b49b45fd77cdf7ec297de1545b2b80936e42dafb"
+    },
+    {
+      "file": "BNBU-Sports-Web-new/frontend/student/js/screens/services.js",
+      "archivedSha256": "646172ba4795d4f9ea767d01b5ec8cecead205ad691240c5ecc2338f21c7e40c",
+      "action": "restored",
+      "backup": "BNBU-Sports-Web-new/frontend/student/js/screens/services.js",
+      "restoredSha256": "696fa56b239903344cc65373d97dd9c4a9f2b6f83cf03244d62ba2479b3f7865"
+    },
+    {
+      "file": "BNBU-Sports-Web-new/frontend/student/js/screens/checkin.js",
+      "archivedSha256": "0b378257a3ef63110b62e73ba4e97fe493fc75dc0a56e6876aece460d109f5ce",
+      "action": "restored",
+      "backup": "BNBU-Sports-Web-new/frontend/student/js/screens/checkin.js",
+      "restoredSha256": "12fce8f95a8cea5ba075748c10b714afc34882bbe4de44da17f0f24eea39e90c"
+    },
+    {
+      "file": "BNBU-Sports-Web-new/frontend/student/index.html",
+      "archivedSha256": "c79030c416ab484ef4f827f54e4909a21e7e70645abee8790ee7df51dea2c146",
+      "action": "restored",
+      "backup": "BNBU-Sports-Web-new/frontend/student/index.html",
+      "restoredSha256": "11ad3d4b4ec1a25fac7a28bef73b6d95aab1692997c8f94a67423db6e7ac6fa3"
+    },
+    {
+      "file": "tools/local-integration/checkin-ui-preview/index.html",
+      "archivedSha256": "7af3e40d5c1b99b9db8266ad171160e2d5cb0592dd1604bab93e2414277736bc",
+      "action": "restored",
+      "backup": "tools/local-integration/checkin-ui-preview/index.html",
+      "restoredSha256": "8129d1c891a52bc89bd9807cceb4a4a87982c58e3652bcc0306f6f22b5090a69"
+    },
+    {
+      "file": "tools/local-integration/checkin-ui-preview/scenes.html",
+      "archivedSha256": "266ea993a43c8e7f5033cebe70114dae2e00e4612c0292fa99fdde5298e6876b",
+      "action": "restored",
+      "backup": "tools/local-integration/checkin-ui-preview/scenes.html",
+      "restoredSha256": "a5bf493392bcccca2ce949ff67c200069d509efec6b0084fa8c5371cc383a067"
+    },
+    {
+      "file": "BNBU-Sports-Web-new/frontend/student/js/course-selection.js",
+      "archivedSha256": "a7237d6910ec252f7801f8fd4c8d858e7725d94d96e0a8f87051cca1104dc9e3",
+      "action": "restored",
+      "backup": "course-selection.js",
+      "restoredSha256": "9ed71ede5c2d490ccd34287205bce3c5e65769bcb7998b17bd7493b0fb271961"
+    },
+    {
+      "file": "BNBU-Sports-Web-new/frontend/student/student-smoke.mjs",
+      "archivedSha256": "34942808086054e707c6ffd6006537351305d94182c1eb5ff30bc304d0fb11b3",
+      "action": "restored",
+      "backup": "student-smoke.mjs",
+      "restoredSha256": "7368593684d0f640f758f2cb064c427acfa7a5c2eb0abed4fbf022abf2071149"
+    },
+    {
+      "file": "tools/local-integration/checkin-ui-preview/experience.js",
+      "archivedSha256": "1fb47fadb9c3fd4b6b0c3afe4e5d5b48fd585b2bd522079b7082e03e28f0b712",
+      "action": "restored",
+      "backup": "experience.js",
+      "restoredSha256": "8dde365db7d820b664c40c6bb3f0da5200f953b244078ce51a33ec5c7298f652"
+    },
+    {
+      "file": "BNBU-Sports-Web-new/frontend/student/js/student-experience.js",
+      "archivedSha256": "77854e7ecbdc66a0b46ce7c4f8a61bbbd9d0a3662ba8ff94f182c63c73a6aaf9",
+      "action": "removed-new-file"
+    },
+    {
+      "file": "BNBU-Sports-Web-new/frontend/student/js/application-proof-queue.js",
+      "archivedSha256": "19fb02154efe70e936015781aedad7df1259e1dc5335d8f689abfea3c982659a",
+      "action": "removed-new-file"
+    },
+    {
+      "file": "BNBU-Sports-Web-new/frontend/student/css/student-experience.css",
+      "archivedSha256": "a26c02c92311af764346650fc851183ec40bc5d452b027d6b53d039368f9edf9",
+      "action": "removed-new-file"
+    },
+    {
+      "file": "BNBU-Sports-Web-new/frontend/student/student-experience.test.mjs",
+      "archivedSha256": "9eee63e54567bbb1ca2f8da7ddabf7e40408da02b4990fc3bfcb4d76d28fd7e8",
+      "action": "removed-new-file"
+    },
+    {
+      "file": "tools/local-integration/checkin-ui-preview/README.md",
+      "archivedSha256": "ca58ed93d8cf08aa012d08649a44cd20253a5848daf2b2cc645051490c9d6db0",
+      "action": "removed-appended-section",
+      "restoredSha256": "435611c92b9f688638033b3753715a97080e077a529ada13805a4ffb96d5aa5a"
+    }
+  ]
+}

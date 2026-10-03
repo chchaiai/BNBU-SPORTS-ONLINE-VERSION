@@ -380,7 +380,7 @@ check("local UI preview workspace is labeled and does not invent student scores"
     hasActiveEnrollment: () => true,
     isApiMode: () => false,
   });
-  assert.match(html, /630 分钟/u);
+  assert.match(html.replace(/<[^>]+>/g, " ").replace(/\s+/g, " "), /630 分钟/u);
   assert.match(html, /1200 分钟/u);
   assert.doesNotMatch(html, />10\.5h</u);
 });
@@ -507,8 +507,8 @@ check("dashboard keeps the full backend total and never invents a missing target
     hasActiveEnrollment: () => true,
     isApiMode: () => true,
   });
-  assert.match(html, />1560 分钟</u);
-  assert.match(html, /待后端同步/u);
+  assert.match(html.replace(/<[^>]+>/g, " ").replace(/\s+/g, " "), /1560 分钟/u);
+  assert.match(html, /同步中/u);
   assert.match(html, /选择运动，开始今日打卡/u);
   assert.match(html, /进行中/u);
   assert.doesNotMatch(html, /1200 分钟/u);
@@ -575,6 +575,27 @@ check("course detail omits related exercise records", () => {
   assert.doesNotMatch(html, /2025-2026\s*·\s*第二学期/u);
   assert.doesNotMatch(html, /不应显示的运动记录|相关记录|暂无相关记录/u);
   assert.doesNotMatch(coursesScreenSource, /courseRecordCard|workspace\.records\.filter/u);
+});
+
+check("course list reflects the student's enrollment allowance and join availability", () => {
+  setLanguage("zh");
+  for (const maximumActiveEnrollments of [1, 2]) {
+    for (const canJoin of [false, true]) {
+      const workspace = studentWorkspaceFixture();
+      workspace.student.maximumActiveEnrollments = maximumActiveEnrollments;
+      const html = renderCourses({
+        ui: { courses: { selectedCourseId: null } },
+        state: { workspace },
+        canStartNewCourseJoin: () => canJoin,
+      });
+      assert.match(html, maximumActiveEnrollments === 2
+        ? /本学期可同时加入两个班级/u : /同一时间可加入一个班级/u);
+      assert.doesNotMatch(html, maximumActiveEnrollments === 2
+        ? /同一时间可加入一个班级/u : /本学期可同时加入两个班级/u);
+      assert.equal(html.includes('data-action="courses.scan"'), canJoin);
+      assert.equal(html.includes('data-action="courses.enterCode"'), canJoin);
+    }
+  }
 });
 
 check("session timing preserves elapsed exercise and applies published thresholds only to estimated credit", () => {
@@ -817,15 +838,15 @@ check("check-in proof UI follows the Android preview-then-delete flow", () => {
   assert.doesNotMatch(checkinScreenSource, /checkin\.retakeDraft|pendingRetakeId|拍照并保留|结束并保留/u);
 });
 
-check("check-in stages follow the Android information hierarchy", () => {
+check("check-in stages expose required information in the focused mobile flow", () => {
   for (const copy of [
     "本次运动",
     "已拍摄素材",
     "拍摄完成后，照片和视频会立即显示在这里",
     "本次打卡凭证",
-    "至少拍摄 1 项，当前保留素材会全部提交",
+    "至少 1 张照片或 1 个视频",
     "当前保留的照片和视频会全部作为本次打卡凭证提交",
-    "提交确认",
+    "时间详情",
   ]) {
     assert.match(checkinScreenSource, new RegExp(copy, "u"));
   }
@@ -842,13 +863,13 @@ check("check-in stages follow the Android information hierarchy", () => {
     /creditPolicy\?\.minCreditThresholdMinutes/u,
   );
   assert.doesNotMatch(checkinScreenSource, /提交仍走现有会话接口|本页不把 30\/45\/60/u);
-  assert.match(checkinScreenSource, /最低运动时长：/u);
+  assert.match(checkinScreenSource, /最低运动时长/u);
   assert.doesNotMatch(checkinScreenSource, /30 分钟门槛|45 分钟门槛/u);
-  assert.match(checkinScreenSource, /creditPolicyChips\(workspace.creditPolicy\)/u);
+  assert.match(checkinScreenSource, /creditPolicyChips\(policy\)/u);
   assert.match(checkinScreenSource, /data-action="checkin.submitProof"/u);
   assert.match(checkinScreenSource, /提交补证/u);
-  assert.match(checkinScreenSource, /data-timer-hours>\$\{estimatedCreditedHours\(app,duration\)\}h/u);
-  assert.match(checkinScreenSource, /hoursEl\.textContent = `\$\{estimatedCreditedHours\(app,duration\)\}h`/u);
+  assert.match(checkinScreenSource, /data-timer-hours>\$\{estimatedCreditText\(app,duration\)\}/u);
+  assert.match(checkinScreenSource, /updateCheckinNumber\(hoursEl, estimatedCreditText\(app,duration\)\)/u);
 });
 
 check("local proof deletion preserves bytes when durable storage is unavailable", async () => {
@@ -2186,7 +2207,6 @@ check("v8 contract-wired student pages keep grace non-refreshable and show serve
   assert.match(dashboardScreenSource, /data-action="dashboard.openProofTodo"/u);
   assert.doesNotMatch(dashboardScreenSource, /打开补证待办（当前接口没有）/u);
   assert.doesNotMatch(gradesScreenSource, /<button[^>]*>[^\n]*(?:换算分|converted scores)/u);
-  assert.match(coursesScreenSource, /每学期仅可选择一门课程/u);
   assert.match(notificationsScreenSource, /最近补证截止还剩约/u);
   assert.doesNotMatch(notificationsScreenSource, /补证倒计时（当前接口没有）/u);
   assert.match(profileScreenSource, /具体以教师审核结果为准/u);

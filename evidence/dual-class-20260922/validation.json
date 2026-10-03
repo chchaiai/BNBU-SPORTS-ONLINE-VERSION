@@ -1,0 +1,29 @@
+{
+  "result": "PASS",
+  "checks": [
+    "ordinary account capacity one",
+    "grant is student scoped",
+    "current identity projects capacity",
+    "HTTP me capacity",
+    "HTTP invite second class admitted",
+    "database rejects third class",
+    "database protects ordinary account",
+    "concurrent joins cannot exceed capacity",
+    "HTTP remove and restore second class",
+    "real credit projection remains independent",
+    "new exercise is bound to selected class",
+    "HTTP records segregated by enrollment",
+    "admin grant rejects student, teacher, stale version, wrong semester and invalid input",
+    "real browser selection, refresh, records, active-session lock",
+    "administrator without account permission denied",
+    "admin grant retry is idempotent",
+    "admin real browser grant persists and list updates with audit"
+  ],
+  "database": "bnbu_dual_class_1790063902473",
+  "realBrowser": "Edge",
+  "browserResult": {
+    "a": 1,
+    "b": 0,
+    "selected": "01a0c81f-97cb-724a-b45e-a81bde234927"
+  }
+}

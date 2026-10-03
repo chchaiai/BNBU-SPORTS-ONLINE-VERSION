@@ -1,0 +1,8 @@
+plugins { id 'com.android.application' }
+android {
+    namespace 'cn.verityai.locationlab'
+    compileSdk 36
+    defaultConfig { applicationId 'cn.verityai.locationlab'; minSdk 26; targetSdk 36; versionCode 1; versionName '1.0' }
+    sourceSets { main { assets.srcDirs = ['../../web']; assets.exclude '**/*.apk' } }
+    compileOptions { sourceCompatibility JavaVersion.VERSION_17; targetCompatibility JavaVersion.VERSION_17 }
+}

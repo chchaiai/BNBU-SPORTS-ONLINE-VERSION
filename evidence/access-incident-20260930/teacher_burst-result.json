@@ -1,0 +1,107 @@
+{
+  "getV81MaintenanceAnnouncement": {
+    "count": 2,
+    "maxMs": 3.16,
+    "meanMs": 3.005
+  },
+  "refreshSession": {
+    "count": 1,
+    "maxMs": 29.34,
+    "meanMs": 29.34
+  },
+  "getV81AccountSecurity": {
+    "count": 1,
+    "maxMs": 1.67,
+    "meanMs": 1.67
+  },
+  "getCurrentUser": {
+    "count": 1,
+    "maxMs": 2.13,
+    "meanMs": 2.13
+  },
+  "listNotifications": {
+    "count": 1,
+    "maxMs": 1.54,
+    "meanMs": 1.54
+  },
+  "getCurrentSemester": {
+    "count": 1,
+    "maxMs": 2.18,
+    "meanMs": 2.18
+  },
+  "listClassSections": {
+    "count": 1,
+    "maxMs": 5.45,
+    "meanMs": 5.45
+  },
+  "listCourses": {
+    "count": 1,
+    "maxMs": 2.52,
+    "meanMs": 2.52
+  },
+  "listV81TeacherSemesters": {
+    "count": 1,
+    "maxMs": 2.46,
+    "meanMs": 2.46
+  },
+  "getV81ProgressTarget": {
+    "count": 2,
+    "maxMs": 4.13,
+    "meanMs": 3.91
+  },
+  "listEnrollments": {
+    "count": 1,
+    "maxMs": 6.45,
+    "meanMs": 6.45
+  },
+  "getStudent": {
+    "count": 9,
+    "maxMs": 4.32,
+    "meanMs": 3.2088888888888887
+  },
+  "listExerciseRecords": {
+    "count": 1,
+    "maxMs": 19.77,
+    "meanMs": 19.77
+  },
+  "getExerciseRecord": {
+    "count": 25,
+    "maxMs": 89.04,
+    "meanMs": 58.69919999999999
+  },
+  "getExerciseRecordEvidenceContext": {
+    "count": 25,
+    "maxMs": 33.42,
+    "meanMs": 23.1184
+  },
+  "listExerciseRecordReviews": {
+    "count": 25,
+    "maxMs": 67.45,
+    "meanMs": 42.8228
+  },
+  "listStructuredExemptionApplications": {
+    "count": 2,
+    "maxMs": 3.99,
+    "meanMs": 3.5300000000000002
+  },
+  "listV81TeacherProgress": {
+    "count": 1,
+    "maxMs": 20.45,
+    "meanMs": 20.45
+  },
+  "listV81PhysicalResults": {
+    "count": 9,
+    "maxMs": 9.76,
+    "meanMs": 6.708888888888889
+  },
+  "listV81FinalGrades": {
+    "count": 9,
+    "maxMs": 28.91,
+    "meanMs": 18.422222222222224
+  },
+  "getHealthLive": {
+    "count": 1,
+    "maxMs": 0.1,
+    "meanMs": 0.1
+  }
+}

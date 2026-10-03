@@ -1,0 +1,12 @@
+{
+  "result": "PASS",
+  "image": "sha256:18ee5bf4b31004e66e694ea3fdbf133bf70fccf9362788ccb10dab87a82e8dcf",
+  "beforeMembersJsonBytes": 548008,
+  "afterMembersJsonBytes": 1787,
+  "originalImagesVerified": 3,
+  "memberFieldsEqual": true,
+  "oldServiceRetained": true,
+  "release": "/opt/team-knowledge-base/releases/images-20260929",
+  "schemaMigrations": 0,
+  "productionBusinessWrites": 0
+}

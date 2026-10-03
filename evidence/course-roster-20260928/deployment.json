@@ -1,0 +1,11 @@
+{
+  "result": "PASS",
+  "release": "/opt/bnbu-sports-production/releases/course-roster-20260928",
+  "previous": "/opt/bnbu-sports-production/releases/query-index-20260928",
+  "portalImage": "sha256:460ff17a96888dee5009db7aeb030d97ee0b23bc4646a0b2d70f50b763a374cb",
+  "publicAssetsVerified": 9,
+  "backendUnchanged": true,
+  "databaseChanges": false,
+  "releaseFilesPreserved": true,
+  "rollbackAvailable": true
+}

@@ -1,0 +1,35 @@
+{
+  "result": "PASS",
+  "release": "/opt/bnbu-sports-production/releases/student-bulk-actions-20260929",
+  "portalImage": "sha256:3ac5d8e94603c5ed21bcd5c001324225ff7c10e189ad143a81f571e429292cb9",
+  "backendUnchanged": true,
+  "legacyStudentPreserved": true,
+  "immutableAssetsVerified": 193,
+  "oldPortalAssetsVerified": 162,
+  "health": [
+    {
+      "host": "www.student.bnbusports.cn",
+      "path": "/student/",
+      "status": 200
+    },
+    {
+      "host": "www.teacher.bnbusports.cn",
+      "path": "/",
+      "status": 200
+    },
+    {
+      "host": "www.student.bnbusports.cn",
+      "path": "/api/v1/health/ready",
+      "status": 200
+    },
+    {
+      "host": "www.teacher.bnbusports.cn",
+      "path": "/api/v1/health/ready",
+      "status": 200
+    }
+  ],
+  "warmSwitch": true,
+  "rollbackAvailable": true,
+  "businessDataWrites": 0,
+  "databaseMigrations": 0
+}

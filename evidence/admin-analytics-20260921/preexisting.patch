@@ -1,0 +1,1161 @@
+diff --git a/BNBU-Sports-Web-new/frontend/student/browser-gate.test.mjs b/BNBU-Sports-Web-new/frontend/student/browser-gate.test.mjs
+index 61f3f53a..ea035414 100644
+--- a/BNBU-Sports-Web-new/frontend/student/browser-gate.test.mjs
++++ b/BNBU-Sports-Web-new/frontend/student/browser-gate.test.mjs
+@@ -5,21 +5,21 @@ const ios='Mozilla/5.0 (iPhone; CPU iPhone OS 18_0 like Mac OS X) AppleWebKit/60
+ test('Chrome and Edge are accepted on Android, iOS and desktop',()=>{
+  for(const userAgent of [android,android+' EdgA/140.0',ios+' CriOS/140.0 Mobile/15E148 Safari/604.1',ios+' EdgiOS/140.0 Mobile/15E148 Safari/604.1','Mozilla/5.0 Chrome/140.0 Safari/537.36 Edg/140.0'])assert.equal(supportsStudentBrowser({userAgent}),true,userAgent);
+ });
+-test('embedded browsers cannot enter through their Chrome compatibility token',()=>{
+- for(const suffix of [' MicroMessenger/8.0',' MQQBrowser/14.0',' QQ/9.0',' AlipayClient/10.0',' DingTalk/7.0',' FBAV/20',' Instagram 1.0'])assert.equal(supportsStudentBrowser({userAgent:android+suffix,userAgentData:{brands:[{brand:'Google Chrome'}]}}),false,suffix);
+- assert.equal(supportsStudentBrowser({userAgent:android.replace('Android 15;','Android 15; wv;')}),false);
++test('embedded browsers can enter the student portal',()=>{
++ for(const suffix of [' MicroMessenger/8.0',' MQQBrowser/14.0',' QQ/9.0',' AlipayClient/10.0',' DingTalk/7.0',' FBAV/20',' Instagram 1.0'])assert.equal(supportsStudentBrowser({userAgent:android+suffix,userAgentData:{brands:[{brand:'Google Chrome'}]}}),true,suffix);
++ assert.equal(supportsStudentBrowser({userAgent:android.replace('Android 15;','Android 15; wv;')}),true);
+ });
+-test('other browser brands and unknown agents are denied',()=>{
+- for(const suffix of [' SamsungBrowser/28.0',' HuaweiBrowser/15.0',' HeyTapBrowser/40.0',' VivoBrowser/20.0',' MiuiBrowser/18.0',' UCBrowser/16.0',' Quark/7.0',' OPR/90.0',' Vivaldi/7.0',' YaBrowser/20.0'])assert.equal(supportsStudentBrowser({userAgent:android+suffix}),false,suffix);
+- for(const userAgent of ['','Unknown Browser/1.0'])assert.equal(supportsStudentBrowser({userAgent}),false);
+- assert.equal(supportsStudentBrowser({userAgent:android,brave:{}}),false);
++test('other browser brands and unknown agents are accepted',()=>{
++ for(const suffix of [' SamsungBrowser/28.0',' HuaweiBrowser/15.0',' HeyTapBrowser/40.0',' VivoBrowser/20.0',' MiuiBrowser/18.0',' UCBrowser/16.0',' Quark/7.0',' OPR/90.0',' Vivaldi/7.0',' YaBrowser/20.0'])assert.equal(supportsStudentBrowser({userAgent:android+suffix}),true,suffix);
++ for(const userAgent of ['','Unknown Browser/1.0'])assert.equal(supportsStudentBrowser({userAgent}),true);
++ assert.equal(supportsStudentBrowser({userAgent:android,brave:{}}),true);
+ });
+-test('client hints require a named supported browser, not generic Chromium',()=>{
+- assert.equal(supportsStudentBrowser({userAgent:android,userAgentData:{brands:[{brand:'Chromium'},{brand:'Not/A)Brand'}]}}),false);
++test('client hints do not restrict browser access',()=>{
++ assert.equal(supportsStudentBrowser({userAgent:android,userAgentData:{brands:[{brand:'Chromium'},{brand:'Not/A)Brand'}]}}),true);
+  for(const brand of ['Google Chrome','Microsoft Edge'])assert.equal(supportsStudentBrowser({userAgent:android,userAgentData:{brands:[{brand:'Chromium'},{brand}]}}),true);
+ });
+ 
+ test('Safari and Firefox are accepted on supported devices',()=>{
+  for(const userAgent of [ios+' Version/18.0 Mobile/15E148 Safari/604.1',ios+' FxiOS/130.0 Mobile/15E148 Safari/604.1','Mozilla/5.0 (Android 15; Mobile; rv:130.0) Gecko/130.0 Firefox/130.0','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15) AppleWebKit/605.1.15 Version/18.0 Safari/605.1.15'])assert.equal(supportsStudentBrowser({userAgent}),true);
+- assert.equal(supportsStudentBrowser({userAgent:ios+' Version/18.0 Mobile/15E148 Safari/604.1 MicroMessenger/8.0'}),false);
++ assert.equal(supportsStudentBrowser({userAgent:ios+' Version/18.0 Mobile/15E148 Safari/604.1 MicroMessenger/8.0'}),true);
+ });
+diff --git a/BNBU-Sports-Web-new/frontend/student/css/screens.css b/BNBU-Sports-Web-new/frontend/student/css/screens.css
+index 62838d5f..70101701 100644
+--- a/BNBU-Sports-Web-new/frontend/student/css/screens.css
++++ b/BNBU-Sports-Web-new/frontend/student/css/screens.css
+@@ -475,6 +475,13 @@
+   grid-template-columns: repeat(3, minmax(0, 1fr));
+   gap: 8px;
+ }
++.category-btn:disabled {
++  background: var(--color-surface-variant);
++  color: var(--color-on-surface-variant);
++  opacity: .45;
++  cursor: not-allowed;
++  filter: grayscale(1);
++}
+ .sport-btn {
+   flex: 1; min-height: 88px; min-width: 0;
+   border-radius: var(--shape-medium);
+diff --git a/BNBU-Sports-Web-new/frontend/student/js/api.js b/BNBU-Sports-Web-new/frontend/student/js/api.js
+index 7e162339..443072a7 100644
+--- a/BNBU-Sports-Web-new/frontend/student/js/api.js
++++ b/BNBU-Sports-Web-new/frontend/student/js/api.js
+@@ -306,7 +306,9 @@ export function sessionStartErrorText(error) {
+ }
+ 
+ function knownApiErrorMessage(error) {
+-  if (error?.name === 'ProofDraftStorageError') return tx('凭证暂未保存到本机，请保持页面打开，释放设备存储空间后重试。', 'Evidence could not be saved on this device. Keep this page open, free storage and retry.');
++  if (error?.name === 'ProofDraftStorageError') return error.storageReason === 'QuotaExceededError'
++    ? tx('本机存储空间不足，凭证暂未保存。请保持页面打开，释放存储空间后重试。', 'Device storage is full and evidence is not saved. Keep this page open, free storage and retry.')
++    : tx('浏览器暂时无法保存凭证，请保持页面打开后重试。若持续失败，请提供诊断编号。', 'The browser could not save evidence. Keep this page open and retry. If it continues, provide the diagnostic reference.');
+   if (error instanceof ApiError && error.code === 'AUTH_RATE_LIMITED' && Number.isFinite(error.details?.retryAfterSeconds)) {
+     const seconds = Math.max(1, Math.ceil(error.details.retryAfterSeconds));
+     return tx(`请求过于频繁，请在 ${seconds} 秒后重试。`, `Too many requests. Try again in ${seconds} seconds.`);
+@@ -572,7 +574,8 @@ function clientDiagnosticId(error) {
+ 
+ export function toUserFacingError(error, { log = true } = {}) {
+   const category = userErrorCategory(error);
+-  const code = error instanceof ApiError && /^[A-Z][A-Z0-9_]{0,79}$/.test(error.code)
++  const storageCodes = {QuotaExceededError:'LOCAL_PROOF_STORAGE_FULL',InvalidStateError:'LOCAL_PROOF_STORAGE_CLOSED',UnknownError:'LOCAL_PROOF_STORAGE_UNAVAILABLE',NotReadableError:'LOCAL_PROOF_FILE_UNREADABLE',DataCloneError:'LOCAL_PROOF_STORAGE_SERIALIZATION'};
++  const code = error?.name === 'ProofDraftStorageError' ? (storageCodes[error.storageReason] || 'LOCAL_PROOF_STORAGE_FAILED') : error instanceof ApiError && /^[A-Z][A-Z0-9_]{0,79}$/.test(error.code)
+     ? error.code
+     : category === "NETWORK"
+       ? "NETWORK_UNAVAILABLE"
+@@ -593,7 +596,7 @@ export function toUserFacingError(error, { log = true } = {}) {
+     ACCOUNT_DELETION_ACTIVE_SESSION: tx("回到运动页结束或主动取消当前运动，再重新发起注销。", "Return to the exercise screen, finish or explicitly cancel it, then restart deletion."),
+     ACCOUNT_DELETION_PENDING_REVIEW: tx("等待审核完成；教师账号还需先移交或关闭当前教学责任。", "Wait for reviews to finish; teacher accounts must also transfer or close current teaching responsibilities."),
+   }[code];
+-  const retryable = category === "NETWORK" || category === "TIMEOUT" ||
++  const retryable = error?.name === "ProofDraftStorageError" || error?.code === "MEDIA_INTEGRITY_MISMATCH" || category === "NETWORK" || category === "TIMEOUT" ||
+     category === "RATE_LIMIT" || category === "SERVER" || category === "CONFLICT";
+   const title = accountDeletionTitle || {
+     NETWORK: networkFailureMessage(),
+@@ -606,7 +609,7 @@ export function toUserFacingError(error, { log = true } = {}) {
+     SERVER: tx("服务暂时不可用", "Service unavailable"),
+     UNKNOWN: tx("操作未完成", "Action not completed"),
+   }[category];
+-  const action = accountDeletionAction || {
++  const action = (code === "MEDIA_INTEGRITY_MISMATCH" ? tx("请重试上传；如仍失败，请重新选择或拍摄凭证。", "Retry the upload. If it still fails, select or capture the evidence again.") : null) || accountDeletionAction || {
+     NETWORK: tx("检查网络连接后重试。", "Check your connection and try again."),
+     TIMEOUT: tx("稍后重试；请勿连续重复提交。", "Try again later and avoid repeated submissions."),
+     AUTHENTICATION: tx("返回登录页重新登录。", "Return to sign-in and authenticate again."),
+diff --git a/BNBU-Sports-Web-new/frontend/student/js/checkin-drafts.js b/BNBU-Sports-Web-new/frontend/student/js/checkin-drafts.js
+index 209e3561..2928d2af 100644
+--- a/BNBU-Sports-Web-new/frontend/student/js/checkin-drafts.js
++++ b/BNBU-Sports-Web-new/frontend/student/js/checkin-drafts.js
+@@ -4,9 +4,10 @@ const DB_NAME = "bnbu.student.web.checkin-drafts";
+ let database;
+ let writes = Promise.resolve();
+ const enqueue = work => {
+-  const result = writes.then(work).catch(() => {
+-    const error = new Error('Local proof storage failed');
++  const result = writes.then(work).catch(cause => {
++    const error = new Error('Local proof storage failed', {cause});
+     error.name = 'ProofDraftStorageError';
++    error.storageReason = ['QuotaExceededError', 'InvalidStateError', 'UnknownError', 'NotReadableError', 'DataCloneError'].includes(cause?.name) ? cause.name : 'Other';
+     throw error;
+   });
+   writes = result.catch(() => {});
+@@ -16,22 +17,35 @@ function openDatabase() {
+   if (!database) database = new Promise((resolve, reject) => {
+     const request = indexedDB.open(DB_NAME, 1);
+     request.onupgradeneeded = () => request.result.createObjectStore("proofs", {keyPath: "key"});
+-    request.onsuccess = () => resolve(request.result);
++    request.onsuccess = () => {
++      const db = request.result;
++      db.onclose = () => { database = null; };
++      db.onversionchange = () => { database = null; db.close(); };
++      resolve(db);
++    };
+     request.onerror = () => reject(request.error);
+     request.onblocked = () => reject(new Error("Draft storage is blocked"));
+   }).catch(error => { database = null; throw error; });
+   return database;
+ }
+-async function operation(mode, callback) {
++async function operation(mode, callback, retry = true) {
+   const db = await openDatabase();
+-  return new Promise((resolve, reject) => {
++  try { return await new Promise((resolve, reject) => {
+     const transaction = db.transaction("proofs", mode);
+     const request = callback(transaction.objectStore("proofs"));
+     transaction.oncomplete = () => resolve(request?.result);
+     transaction.onabort = transaction.onerror = () => reject(transaction.error || new Error("Draft storage failed"));
+-  });
++  }); } catch (error) {
++    if (!retry || !['InvalidStateError', 'UnknownError'].includes(error?.name)) throw error;
++    database = null;
++    db.close();
++    return operation(mode, callback, false);
++  }
+ }
+ export const saveProofDraft = (owner, scope, draft) => enqueue(async () => {
++  // mediaId is assigned after AVAILABLE verification. Submission still checks
++  // ownership and availability on the server; local caching is no longer required.
++  if (owner && scope && draft.mediaId) return;
+   if (!owner || !scope || !(draft.blob instanceof Blob)) throw new Error("Draft identity or bytes missing");
+   const {url, thumbnailUrl, blob, ...stored} = draft;
+   const fileBytes = await blob.arrayBuffer();
+diff --git a/BNBU-Sports-Web-new/frontend/student/js/screens/checkin.js b/BNBU-Sports-Web-new/frontend/student/js/screens/checkin.js
+index 120e23e5..64e88f90 100644
+--- a/BNBU-Sports-Web-new/frontend/student/js/screens/checkin.js
++++ b/BNBU-Sports-Web-new/frontend/student/js/screens/checkin.js
+@@ -141,7 +141,7 @@ function checkinState(app) {
+     app.ui.checkin = {
+       tab: "exercise",
+       selectedRecordId: null,
+-      setup: { creditType: "course", generalSportType: "running", generalCustomSportName: "" },
++      setup: { creditType: categoryLocked(app.state.workspace, "course") && !categoryLocked(app.state.workspace, "general") ? "general" : "course", generalSportType: "running", generalCustomSportName: "" },
+       finish: { submitting: false },
+       mediaNotice: null,
+       captureError: null,
+@@ -214,6 +214,21 @@ export async function restoreCheckinContinuity(app, current = () => true) {
+     ui.captureError = tx("无法读取本机保存的凭证，请保持此页面并重试。", "Cannot read saved proof on this device. Keep this page open and retry.");
+     ui.draftScope = null;
+   } finally { if(current()) ui.restoringDrafts = false; }
++  // Reloads can recover verified server evidence even when IndexedDB is unreadable.
++  if (app.isApiMode() && local?.phase === 'finished' && local.serverId === scope) {
++    try {
++      const record = (await listMyRecords()).find(r => r.sessionId === scope && r.status === 'DRAFT');
++      if (!record) return;
++      const recovered = await reconcileRecordDraftMedia(record.id, scope, ui.drafts);
++      if (!current() || accountId(app) !== owner || app.ui.checkin !== ui || loadSession(owner)?.serverId !== scope) return;
++      ui.drafts = recovered.drafts;
++      ui.draftScope = scope;
++      if (recovered.restored) ui.mediaNotice = tx('已恢复服务器保存的凭证，请核对后提交；未上传的素材仍需补充。', 'Uploaded proof restored. Review it before submitting; add any missing local-only proof.');
++    } catch {
++      ui.mediaNotice = tx('暂时无法恢复服务器凭证，请保持页面打开后重试。', 'Server proof could not be restored. Keep this page open and retry.');
++      ui.draftScope = null;
++    }
++  }
+ }
+ 
+ export async function resumeCheckinContinuity(app) {
+@@ -238,6 +253,10 @@ function healthAcknowledged(app) {
+   return app.overlay.healthReminderAck === true;
+ }
+ 
++export function categoryLocked(workspace, category) {
++  return (category === "course" ? workspace.hourRule?.courseRequired : workspace.hourRule?.generalRequired) === 0;
++}
++
+ // ── Readiness (evaluateCheckInReadiness) ──
+ function evaluateReadiness(app) {
+   const workspace = app.state.workspace;
+@@ -249,6 +268,8 @@ function evaluateReadiness(app) {
+   }
+   if (workspace.activeServerSession && ['IN_PROGRESS','PAUSED'].includes(workspace.activeServerSession.status))
+     return {canStart:true, blockedReason:null};
++  if (categoryLocked(workspace, checkinState(app).setup.creditType))
++    return {canStart:false, blockedReason:tx('该类别目标时长为 0，已关闭打卡，请选择其他类别。','This category has a zero-hour target and is closed. Choose another category.')};
+   if(workspace.creditPolicy?.allocationPending)return {canStart:false,blockedReason:tx('课程总目标已调整，等待教师分配两类目标后即可开始打卡。','The course target changed. New check-ins resume after your teacher allocates both category targets.')};
+   if (!findCurrentCourse(workspace)) {
+     return { canStart: false, blockedReason: tx("当前课程尚未开放打卡，请联系任课教师", "Check-in is not open for the current course. Contact your instructor.") };
+@@ -487,13 +508,13 @@ function renderPreparation(app) {
+           <div class="title-small text-on-surface">${tx("打卡类别", "Check-in category")}</div>
+           <div style="height:10px"></div>
+           <div class="row" style="gap:8px">
+-            <button class="category-btn pressable${isCourse ? " selected" : ""}" data-action="checkin.creditType" data-value="course">${tx("课程相关", "Course-related")}</button>
+-            <button class="category-btn pressable${!isCourse ? " selected" : ""}" data-action="checkin.creditType" data-value="general">${tx("自主运动", "Independent exercise")}</button>
++            <button class="category-btn pressable${isCourse ? " selected" : ""}" data-action="checkin.creditType" data-value="course" ${categoryLocked(workspace, 'course') ? 'disabled aria-disabled="true"' : ''}>${tx("课程相关", "Course-related")}${categoryLocked(workspace, 'course') ? tx(' · 已关闭', ' · Closed') : ''}</button>
++            <button class="category-btn pressable${!isCourse ? " selected" : ""}" data-action="checkin.creditType" data-value="general" ${categoryLocked(workspace, 'general') ? 'disabled aria-disabled="true"' : ''}>${tx("自主运动", "Independent exercise")}${categoryLocked(workspace, 'general') ? tx(' · 已关闭', ' · Closed') : ''}</button>
+           </div>
+           <div class="course-divider" style="margin:18px 0 16px"></div>
+           <div class="title-small text-on-surface">${isCourse ? tx("课程运动", "Course exercise") : tx("运动项目", "Exercise type")}</div>
+           <div style="height:10px"></div>
+-          <div class="sport-grid">${sportOptions.map((option) => `<button class="sport-btn pressable${sportType === option.value ? " selected" : ""}" data-action="checkin.sport" data-value="${esc(option.value)}" type="button">
++          <div class="sport-grid">${sportOptions.map((option) => `<button class="sport-btn pressable${sportType === option.value ? " selected" : ""}" data-action="checkin.sport" data-value="${esc(option.value)}" type="button" ${categoryLocked(workspace, setup.creditType) ? "disabled" : ""}>
+               <span class="sport-glyph">${icon(option.icon, 24)}</span>
+               <span class="label-medium ellipsis">${esc(tx(option.zh, option.en))}</span>
+             </button>`).join("")}</div>
+@@ -1756,8 +1777,8 @@ async function addDraftFromFileImpl(app, file, type, capturedDurationSeconds, ex
+   try {
+     if (accountId(app) !== owner || app.ui.checkin !== ui) { URL.revokeObjectURL(url); return; }
+     await saveProofDraft(owner, scope, draft);
+-  } catch {
+-    ui.captureError = tx("凭证尚未保存到本机，请勿关闭页面；请释放存储空间后重新拍摄。", "Proof is not saved on this device. Keep this page open and free storage before capturing again.");
++  } catch (error) {
++    ui.captureError = toUserFacingError(error).message;
+   }
+   if (accountId(app) !== owner || app.ui.checkin !== ui) { URL.revokeObjectURL(url); return; }
+   for (const previous of ui.drafts.filter(d=>d.id===draftId)) URL.revokeObjectURL(previous.url);
+@@ -1866,9 +1887,9 @@ async function submitCheckInApi(app, session, retained) {
+       ui.mediaNotice = tx(`正在处理凭证 ${index + 1}/${retained.length}…`, `Processing proof ${index + 1}/${retained.length}…`);
+       app.render();
+       const blob = draft.mediaId ? null : draft.blob || (await fetch(draft.url).then((r) => r.blob()));
+-      let mediaId;
+-      try { mediaId = draft.mediaId || (await uploadMediaDraft(session.serverId, draft, blob,{onCheckpoint: d=>saveProofDraft(accountId(app), session.serverId, d),onProgress:progress=>{ui.uploadProgress=progress;ui.mediaNotice=uploadProgressLabel(progress);app.render();}})).mediaId; }
+-      finally { if (!draft.serverOnly) await saveProofDraft(accountId(app), session.serverId, draft); }
++      // Upload checkpoints persist changes. A redundant finally write could
++      // hide the original upload error or block already verified evidence.
++      const mediaId = draft.mediaId || (await uploadMediaDraft(session.serverId, draft, blob,{onCheckpoint: d=>saveProofDraft(accountId(app), session.serverId, d),onProgress:progress=>{ui.uploadProgress=progress;ui.mediaNotice=uploadProgressLabel(progress);app.render();}})).mediaId;
+       uploaded.push({
+         mediaId,
+         type: draft.type,
+@@ -2092,12 +2113,13 @@ export const checkinActions = {
+     if (el.dataset.tab === "records") return reloadRecordList(app);
+   },
+   "checkin.creditType": (app, el) => {
++    if (!['course', 'general'].includes(el.dataset.value) || categoryLocked(app.state.workspace, el.dataset.value)) return;
+     checkinState(app).setup.creditType = el.dataset.value;
+     app.render();
+   },
+   "checkin.sport": (app, el) => {
+     const ui = checkinState(app);
+-    if (ui.setup.creditType !== "general") return;
++    if (ui.setup.creditType !== "general" || categoryLocked(app.state.workspace, 'general')) return;
+     ui.setup.generalSportType = el.dataset.value;
+     if (el.dataset.value !== OTHER) ui.setup.generalCustomSportName = "";
+     app.render();
+@@ -2119,7 +2141,7 @@ export const checkinActions = {
+     app.state.dialog = null;
+     app.selectTab("dashboard");
+   },
+-  "checkin.start": (app, zeroTargetConfirmed = false) => {
++  "checkin.start": (app) => {
+     const ui = checkinState(app);
+     const readiness = evaluateReadiness(app);
+     if (!readiness.canStart) {
+@@ -2214,25 +2236,8 @@ export const checkinActions = {
+       });
+       return;
+     }
+-    const targetHours = isCourse ? workspace.hourRule?.courseRequired : workspace.hourRule?.generalRequired;
+-    if (!workspace.activeServerSession && targetHours === 0 && zeroTargetConfirmed !== true) {
+-      const category = isCourse ? tx("课程相关运动", "Course-related exercise") : tx("自主运动", "Independent exercise");
+-      app.showDialog({
+-        title: tx("该类型运动不计入有效时长", "This exercise will not count toward your target"),
+-        body: esc(tx(`当前“${category}”的目标时长为 0 小时，本次运动将不会计入有效时长。仍要开始运动吗？`, `The target for ${category} is 0 hours. This session will not count toward your credited exercise hours. Start anyway?`)),
+-        buttons: [
+-          { label: tx("重新选择", "Choose again"), action: "dialog.close" },
+-          { label: tx("仍要开始", "Start anyway"), action: "checkin.confirmZeroTargetStart" },
+-        ],
+-      });
+-      return;
+-    }
+     begin();
+   },
+-  "checkin.confirmZeroTargetStart": (app) => {
+-    app.state.dialog = null;
+-    checkinActions["checkin.start"](app, true);
+-  },
+   "checkin.ackHealth": (app) => {
+     app.overlay.healthReminderAck = true;
+     app.saveOverlay();
+diff --git a/BNBU-Sports-Web-new/frontend/student/js/screens/profile.js b/BNBU-Sports-Web-new/frontend/student/js/screens/profile.js
+index 9069a7b0..7f87ad6d 100644
+--- a/BNBU-Sports-Web-new/frontend/student/js/screens/profile.js
++++ b/BNBU-Sports-Web-new/frontend/student/js/screens/profile.js
+@@ -93,7 +93,7 @@ function studentNumberForDisplay(student) {
+ }
+ 
+ function displayDate(value) {
+-  const raw = value.slice(0, 10);
++  const raw = value.slice(0, 6);
+   const [year, month, day] = raw.split("-").map(Number);
+   if (!year || !month || !day) return raw;
+   // Construct as local time so a date-only string never shifts by timezone.
+@@ -353,7 +353,7 @@ function accountDeletionState(app) {
+ export function renderAccountDeletion(app) {
+   const state = accountDeletionState(app);
+   const student = app.state.workspace.student;
+-  const codeError = state.code !== "" && !/^\d{4,10}$/u.test(state.code);
++  const codeError = state.code !== "" && !/^\d{6}$/u.test(state.code);
+   const challengeReady = typeof state.challengeId === "string" && Number.isInteger(state.challengeVersion) && state.challengeVersion > 0;
+   return `<div class="screen" style="background:transparent">
+     <div class="screen-scroll" data-scroll-key="account-deletion">
+@@ -365,7 +365,7 @@ export function renderAccountDeletion(app) {
+         <div class="swiss-panel col" style="gap:12px;border:1px solid var(--color-error)">
+           <div class="title-medium text-error">${tx("这是不可恢复的危险操作", "This is an irreversible action")}</div>
+           <div class="body-medium text-on-surface">${tx("注销后，当前账号会立即停用，所有设备的登录会话、刷新令牌和推送设备关联都会失效。", "Deletion immediately disables this account and revokes sign-ins, refresh tokens, and push-device links on every device.")}</div>
+-          <div class="body-medium text-on-surface">${tx("可识别个人资料会删除或去标识化；为保证审核和审计完整性必须保留的记录会以匿名方式继续保存。", "Identifying profile data is removed or de-identified. Records required for reviews and audit integrity remain anonymously.")}</div>
++          <div class="body-medium text-on-surface">${tx("个人资料、入班信息、历史运动记录、学时及审核记录将删除。照片和视频会进入删除队列；系统保留必要的操作审计。", "Your profile, enrollments, exercise history, credits and reviews will be deleted. Photos and videos are queued for deletion; necessary operation audit logs remain.")}</div>
+           <div class="body-medium text-on-surface">${tx("以后再次注册会创建全新的账号，不会恢复这一个账号或它的历史身份。", "A later registration creates a new account; this identity and its old account are never restored.")}</div>
+         </div>
+         ${challengeReady ? `<div class="swiss-panel col" style="gap:14px">
+@@ -376,13 +376,14 @@ export function renderAccountDeletion(app) {
+             <div style="height:8px"></div>
+             <div class="vfield${codeError ? " error" : ""}${state.busy ? " disabled" : ""}">
+               <span class="vfield-icon">${icon("lock", 20)}</span>
+-              <input ${fieldControlAttrs({ id: "account-deletion-code", error: codeError ? tx("请输入 4–10 位数字验证码。", "Enter the 4–10 digit code.") : null, required: true })} class="vfield-input code-style" type="text" inputmode="numeric" maxlength="10" autocomplete="one-time-code" value="${esc(state.code)}" data-input="profile.accountDeletionCode" ${state.busy ? "disabled" : ""} />
++              <input ${fieldControlAttrs({ id: "account-deletion-code", error: codeError ? tx("请输入 6 位数字验证码。", "Enter the 6-digit code.") : null, required: true })} class="vfield-input code-style" type="text" inputmode="numeric" maxlength="6" autocomplete="one-time-code" value="${esc(state.code)}" data-input="profile.accountDeletionCode" ${state.busy ? "disabled" : ""} />
+             </div>
+-            ${fieldSupport({ id: "account-deletion-code", error: codeError ? tx("请输入 4–10 位数字验证码。", "Enter the 4–10 digit code.") : null, helper: tx("验证码只用于这次注销确认。", "The code is used only for this deletion confirmation.") })}
++            ${fieldSupport({ id: "account-deletion-code", error: codeError ? tx("请输入 6 位数字验证码。", "Enter the 6-digit code.") : null, helper: tx("验证码只用于这次注销确认。", "The code is used only for this deletion confirmation.") })}
+           </div>
+           <button class="vlogin-submit pressable" data-action="profile.accountDeletionFinalConfirm" ${state.busy ? "disabled" : ""} style="background:var(--color-error)">
+             ${state.busy ? `${spinner(18, "on-primary")}<span style="width:10px"></span>` : ""}<span class="title-medium">${tx("最终确认注销", "Final deletion confirmation")}</span>
+           </button>
++          <button class="text-btn" data-action="profile.accountDeletionRequestConfirm" ${state.busy ? "disabled" : ""}>${tx("重新发送验证码", "Resend verification code")}</button>
+         </div>` : `<button class="vlogin-submit pressable" data-action="profile.accountDeletionRequestConfirm" ${state.busy ? "disabled" : ""} style="background:var(--color-error)">
+           ${state.busy ? `${spinner(18, "on-primary")}<span style="width:10px"></span>` : ""}<span class="title-medium">${tx("开始注销验证", "Start deletion verification")}</span>
+         </button>`}
+@@ -451,11 +452,8 @@ export const profileActions = {
+   },
+   "profile.openAbout": (app) => app.openSub("about"),
+   "profile.openAccountDeletion": (app) => {
+-    app.showDialog({
+-      title: tx("注销账户", "Delete account"),
+-      body: tx("暂时功能无法实现，敬请期待", "This feature is not available yet. Please stay tuned."),
+-      buttons: [{ label: tx("知道了", "OK"), action: "dialog.close" }],
+-    });
++    app.ui.accountDeletion = null;
++    app.openSub("accountDeletion");
+   },
+   "profile.accountDeletionBack": (app) => {
+     if (accountDeletionState(app).busy) return;
+@@ -464,7 +462,7 @@ export const profileActions = {
+   },
+   "profile.accountDeletionCode": (app, el) => {
+     const state = accountDeletionState(app);
+-    state.code = String(el.value || "").replace(/\D/gu, "").slice(0, 10);
++    state.code = String(el.value || "").replace(/\D/gu, "").slice(0, 6);
+     state.error = null;
+     app.render();
+   },
+@@ -481,10 +479,12 @@ export const profileActions = {
+   "profile.accountDeletionRequest": async (app) => {
+     app.state.dialog = null;
+     const state = accountDeletionState(app);
++    if (state.busy) return;
+     state.busy = true;
+     state.error = null;
+     app.render();
+     try {
++      await app.reloadApiWorkspace();
+       const result = await requestCurrentUserAccountDeletionChallenge(
+         app.state.workspace.student.userVersion,
+       );
+@@ -501,7 +501,7 @@ export const profileActions = {
+   },
+   "profile.accountDeletionFinalConfirm": (app) => {
+     const state = accountDeletionState(app);
+-    if (!/^\d{4,10}$/u.test(state.code)) {
++    if (!/^\d{6}$/u.test(state.code)) {
+       app.render();
+       focusFirstInvalidField(app._viewport, ["#account-deletion-code"]);
+       return;
+@@ -519,7 +519,7 @@ export const profileActions = {
+   "profile.accountDeletionFinalize": async (app) => {
+     app.state.dialog = null;
+     const state = accountDeletionState(app);
+-    if (!state.challengeId || !Number.isInteger(state.challengeVersion)) return;
++    if (state.busy || !state.challengeId || !Number.isInteger(state.challengeVersion)) return;
+     state.busy = true;
+     state.error = null;
+     app.render();
+@@ -534,13 +534,17 @@ export const profileActions = {
+       if (error instanceof ApiError && Number.isInteger(error.details?.actualVersion)) {
+         state.challengeVersion = error.details.actualVersion;
+       }
+-      if (error instanceof ApiError && error.code === "ACCOUNT_DELETION_REAUTH_REQUIRED") {
++      if (error instanceof ApiError && (error.code === "ACCOUNT_DELETION_REAUTH_REQUIRED" || error.details?.currentState === "ACCOUNT_DELETION_REAUTH_REQUIRED")) {
+         state.challengeId = null;
+         state.challengeVersion = null;
+         state.expiresAt = null;
+         state.code = "";
+       }
+-      state.error = toUserFacingError(error);
++      state.error = error.details?.currentState === "ACCOUNT_DELETION_CODE_INVALID"
++        ? {...toUserFacingError(error), message: tx("验证码不正确，请重新输入。", "Incorrect code. Please try again.")}
++        : error.details?.currentState === "ACCOUNT_DELETION_REAUTH_REQUIRED"
++          ? {...toUserFacingError(error), message: tx("验证码已失效，请重新发送并验证。", "Verification expired. Request a new code.")}
++          : toUserFacingError(error);
+       state.busy = false;
+       app.render();
+     }
+diff --git a/BNBU-Sports-Web-new/frontend/student/js/student-device.js b/BNBU-Sports-Web-new/frontend/student/js/student-device.js
+index c66285a4..01afc0ee 100644
+--- a/BNBU-Sports-Web-new/frontend/student/js/student-device.js
++++ b/BNBU-Sports-Web-new/frontend/student/js/student-device.js
+@@ -1,9 +1,6 @@
+ /** Product access policy, not an authentication or device-attestation boundary. */
+-export function supportsStudentDevice(navigatorInfo = globalThis.navigator) {
+-  const ua = navigatorInfo?.userAgent || '';
+-  if (/iPhone|iPad|iPod|Android|Windows Phone/i.test(ua)) return true;
+-  // iPadOS requests desktop sites and identifies itself as a Mac.
+-  return /Macintosh/i.test(ua) && Number(navigatorInfo?.maxTouchPoints) > 1;
++export function supportsStudentDevice() {
++  return true;
+ }
+ 
+ export function renderStudentDeviceNotice() {
+@@ -11,19 +8,9 @@ export function renderStudentDeviceNotice() {
+ }
+ 
+ 
+-/** Browser identification is a compatibility policy, not an authentication boundary. */
+-export function supportsStudentBrowser(info = globalThis.navigator) {
+-  const ua = String(info?.userAgent || '');
+-  // Embedded apps and other Chromium products also advertise Chrome/Safari.
+-  if (/MicroMessenger|WeChat|QQBrowser|MQQBrowser|\bQQ\/|UCBrowser|UCWEB|SamsungBrowser|HuaweiBrowser|HUAWEI.*Browser|HeyTapBrowser|OppoBrowser|VivoBrowser|MiuiBrowser|Quark|baidubrowser|BaiduBoxApp|AlipayClient|DingTalk|Lark|Feishu|FBAN|FBAV|Instagram|Line\/|DuckDuckGo|YaBrowser|Vivaldi|OPR\/|Opera|; wv\)|\bwv\b/i.test(ua) || info?.brave) return false;
+-  if (/\b(?:Edg|EdgA|EdgiOS)\/\d+/i.test(ua)) return true;
+-  if (/\b(?:Firefox|FxiOS)\/\d+/i.test(ua)) return true;
+-  if (/Version\/\d+.*Safari\//i.test(ua) && !/Chrome|Chromium|CriOS/i.test(ua)) return true;
+-  const brands = info?.userAgentData?.brands;
+-  if (Array.isArray(brands) && brands.length) {
+-    return brands.some(item => item.brand === 'Google Chrome' || item.brand === 'Microsoft Edge');
+-  }
+-  return /\b(?:Chrome|CriOS)\/\d+/i.test(ua) && !/Version\/\d+.*Chrome\//i.test(ua);
++/** Browser brands and embedded browsers are allowed to enter the student portal. */
++export function supportsStudentBrowser() {
++  return true;
+ }
+ 
+ export function showStudentBrowserNotice(root) {
+diff --git a/BNBU-Sports-Web-new/frontend/student/student-device.test.mjs b/BNBU-Sports-Web-new/frontend/student/student-device.test.mjs
+index bd28126e..a597211f 100644
+--- a/BNBU-Sports-Web-new/frontend/student/student-device.test.mjs
++++ b/BNBU-Sports-Web-new/frontend/student/student-device.test.mjs
+@@ -9,9 +9,9 @@ test('phones and tablets include Android tablets and iPad desktop mode', () => {
+   assert.equal(supportsStudentDevice({userAgent:'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15)',maxTouchPoints:5}), true);
+ });
+ 
+-test('desktop and touch laptops remain blocked regardless of narrow viewport', () => {
++test('desktop and touch laptops can access the student portal', () => {
+   for (const userAgent of ['Mozilla/5.0 (Windows NT 10.0; Win64; x64)', 'Mozilla/5.0 (X11; Linux x86_64)', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15)']) {
+-    assert.equal(supportsStudentDevice({userAgent,maxTouchPoints:0}), false);
++    assert.equal(supportsStudentDevice({userAgent,maxTouchPoints:0}), true);
+   }
+-  assert.equal(supportsStudentDevice({userAgent:'Mozilla/5.0 (Windows NT 10.0; Win64; x64)',maxTouchPoints:10}), false);
++  assert.equal(supportsStudentDevice({userAgent:'Mozilla/5.0 (Windows NT 10.0; Win64; x64)',maxTouchPoints:10}), true);
+ });
+diff --git a/backend/scripts/migration-registry.mjs b/backend/scripts/migration-registry.mjs
+index 4b7b03e8..7b57aab8 100644
+--- a/backend/scripts/migration-registry.mjs
++++ b/backend/scripts/migration-registry.mjs
+@@ -87,4 +87,5 @@ export const migrationIds = [
+   '0085_history_duration_limit',
+   '0086_feedback_attachments',
+   '0087_roster_xls',
++  '0088_student_self_erasure',
+ ];
+diff --git a/backend/src/common/config/environment.ts b/backend/src/common/config/environment.ts
+index 2b9873f8..468f00c4 100644
+--- a/backend/src/common/config/environment.ts
++++ b/backend/src/common/config/environment.ts
+@@ -394,7 +394,7 @@ function mediaConfiguration(
+       maximum: 3600,
+     }),
+     maxImageBytes: integer(raw, 'MEDIA_MAX_IMAGE_BYTES', { minimum: 1024 }),
+-    maxImagePixels: integer(raw, 'MEDIA_MAX_IMAGE_PIXELS', { minimum: 1 }),
++    maxImagePixels: integer(raw, 'MEDIA_MAX_IMAGE_PIXELS', { minimum: 0 }),
+     maxVideoTransportBytes: integer(raw, 'MEDIA_MAX_VIDEO_TRANSPORT_BYTES', {
+       minimum: 1024,
+       maximum: Number.MAX_SAFE_INTEGER,
+diff --git a/backend/src/generated/migration-manifest.generated.ts b/backend/src/generated/migration-manifest.generated.ts
+index 3171a1b3..09ac5b9c 100644
+--- a/backend/src/generated/migration-manifest.generated.ts
++++ b/backend/src/generated/migration-manifest.generated.ts
+@@ -436,6 +436,11 @@ export const foundationMigrations = [
+     sha256: '74e7043ffa8528e2c8655d4237ae58b6655a12464e800351816eb642d75e3bc1',
+     destructive: false,
+   },
++  {
++    migrationId: '0088_student_self_erasure',
++    sha256: '9edda2ce0aead50db9a996661502fcd7ce2862160da3fbb1b71bc7e4b15c2363',
++    destructive: false,
++  },
+ ] as const;
+ 
+ export const foundationMigration = foundationMigrations[0];
+diff --git a/backend/src/generated/openapi.document.generated.json b/backend/src/generated/openapi.document.generated.json
+index f06aba1c..5d7a9ec3 100644
+--- a/backend/src/generated/openapi.document.generated.json
++++ b/backend/src/generated/openapi.document.generated.json
+@@ -25495,13 +25495,11 @@
+     "/me/account-deletion-challenges": {
+       "post": {
+         "operationId": "requestCurrentUserAccountDeletionChallenge",
+-        "x-availability": "DEFERRED",
+-        "x-deferral-reason": "Student account cancellation postponed by user decision; display 暂时功能无法实现，敬请期待.",
+         "tags": [
+           "V8.1 local implementation"
+         ],
+         "summary": "requestCurrentUserAccountDeletionChallenge",
+-        "description": "Deferred by user decision. A valid authenticated student request returns 503 with details.currentState FEATURE_DEFERRED. No OTP is issued, no account data is changed, and the existing session remains valid. Clients display 暂时功能无法实现，敬请期待.",
++        "description": "Send a session-bound email OTP for irreversible student account and history deletion.",
+         "x-access-policy": {
+           "policyId": "REQUEST-CURRENT-USER-ACCOUNT-DELETION-CHALLENGE",
+           "authentication": "ACCESS_TOKEN",
+@@ -25532,6 +25530,52 @@
+           }
+         },
+         "responses": {
++          "201": {
++            "description": "Email verification challenge issued",
++            "content": {
++              "application/json": {
++                "schema": {
++                  "type": "object",
++                  "required": [
++                    "data",
++                    "meta"
++                  ],
++                  "properties": {
++                    "meta": {
++                      "$ref": "#/components/schemas/V81SettlementReportMetadata"
++                    },
++                    "data": {
++                      "type": "object",
++                      "additionalProperties": false,
++                      "required": [
++                        "challengeId",
++                        "mode",
++                        "expiresAt",
++                        "version"
++                      ],
++                      "properties": {
++                        "challengeId": {
++                          "type": "string",
++                          "format": "uuid"
++                        },
++                        "mode": {
++                          "const": "STUDENT_EMAIL_OTP"
++                        },
++                        "expiresAt": {
++                          "type": "string",
++                          "format": "date-time"
++                        },
++                        "version": {
++                          "type": "integer",
++                          "minimum": 1
++                        }
++                      }
++                    }
++                  }
++                }
++              }
++            }
++          },
+           "401": {
+             "$ref": "#/components/responses/Unauthorized"
+           },
+@@ -25547,6 +25591,131 @@
+         }
+       }
+     },
++    "/me/account-deletion-challenges/{id}/confirm": {
++      "post": {
++        "operationId": "confirmCurrentUserAccountDeletion",
++        "tags": [
++          "V8.1 local implementation"
++        ],
++        "summary": "Confirm student account and history deletion",
++        "description": "Verify the current student's session-bound email OTP, then atomically erase their account and operational history. All sessions are removed; media deletion is queued and immutable operation audit remains.",
++        "x-access-policy": {
++          "policyId": "CONFIRM-CURRENT-USER-ACCOUNT-DELETION",
++          "authentication": "ACCESS_TOKEN",
++          "allowedRoles": [
++            "STUDENT"
++          ],
++          "organizationScope": "PRINCIPAL_ORGANIZATION",
++          "resourceScope": "SELF",
++          "resourceResolver": "PRINCIPAL_USER",
++          "defaultDeny": true
++        },
++        "parameters": [
++          {
++            "$ref": "#/components/parameters/RequestIdHeader"
++          },
++          {
++            "$ref": "#/components/parameters/IdempotencyKeyHeader"
++          },
++          {
++            "name": "id",
++            "in": "path",
++            "required": true,
++            "schema": {
++              "type": "string",
++              "format": "uuid"
++            }
++          }
++        ],
++        "requestBody": {
++          "required": true,
++          "content": {
++            "application/json": {
++              "schema": {
++                "type": "object",
++                "additionalProperties": false,
++                "required": [
++                  "expectedVersion",
++                  "verificationCode"
++                ],
++                "properties": {
++                  "expectedVersion": {
++                    "type": "integer",
++                    "minimum": 1,
++                    "maximum": 2147483647
++                  },
++                  "verificationCode": {
++                    "type": "string",
++                    "pattern": "^[0-9]{6}$"
++                  }
++                }
++              }
++            }
++          }
++        },
++        "responses": {
++          "200": {
++            "description": "Account and history erased",
++            "content": {
++              "application/json": {
++                "schema": {
++                  "type": "object",
++                  "required": [
++                    "data",
++                    "meta"
++                  ],
++                  "properties": {
++                    "meta": {
++                      "$ref": "#/components/schemas/V81SettlementReportMetadata"
++                    },
++                    "data": {
++                      "type": "object",
++                      "additionalProperties": false,
++                      "required": [
++                        "status",
++                        "deletedAt",
++                        "allSessionsRevoked",
++                        "newRegistrationRequired"
++                      ],
++                      "properties": {
++                        "status": {
++                          "const": "DELETED"
++                        },
++                        "deletedAt": {
++                          "type": "string",
++                          "format": "date-time"
++                        },
++                        "allSessionsRevoked": {
++                          "const": true
++                        },
++                        "newRegistrationRequired": {
++                          "const": true
++                        }
++                      }
++                    }
++                  }
++                }
++              }
++            }
++          },
++          "401": {
++            "$ref": "#/components/responses/Unauthorized"
++          },
++          "403": {
++            "$ref": "#/components/responses/Forbidden"
++          },
++          "409": {
++            "$ref": "#/components/responses/Conflict"
++          },
++          "422": {
++            "$ref": "#/components/responses/UnprocessableEntity"
++          },
++          "503": {
++            "$ref": "#/components/responses/ServiceUnavailable"
++          }
++        }
++      }
++    },
+     "/admin/review-services/ocr": {
+       "get": {
+         "operationId": "getV81OcrService",
+diff --git a/backend/src/generated/openapi.manifest.generated.json b/backend/src/generated/openapi.manifest.generated.json
+index 1e68aba5..7e479bd0 100644
+--- a/backend/src/generated/openapi.manifest.generated.json
++++ b/backend/src/generated/openapi.manifest.generated.json
+@@ -1,8 +1,8 @@
+ {
+   "source": "docs/backend-contracts/openapi.yaml",
+-  "sha256": "9e5e470374df54d23163082485de38f3061152bf1328df306fb6a389d859f335",
++  "sha256": "17582db90ad8b450a995ac571b4e5458d25a48ca8bf1fa4791246aedb6fb16bd",
+   "openapi": "3.1.0",
+-  "paths": 229,
+-  "operations": 269,
++  "paths": 230,
++  "operations": 270,
+   "schemas": 397
+ }
+diff --git a/backend/src/generated/operation-policies.generated.ts b/backend/src/generated/operation-policies.generated.ts
+index c3129609..77571b24 100644
+--- a/backend/src/generated/operation-policies.generated.ts
++++ b/backend/src/generated/operation-policies.generated.ts
+@@ -3184,6 +3184,19 @@ export const operationPolicies = {
+     "resourceResolver": "PRINCIPAL_USER",
+     "defaultDeny": true
+   },
++  "confirmCurrentUserAccountDeletion": {
++    "method": "POST",
++    "route": "/me/account-deletion-challenges/{id}/confirm",
++    "policyId": "CONFIRM-CURRENT-USER-ACCOUNT-DELETION",
++    "authentication": "ACCESS_TOKEN",
++    "allowedRoles": [
++      "STUDENT"
++    ],
++    "organizationScope": "PRINCIPAL_ORGANIZATION",
++    "resourceScope": "SELF",
++    "resourceResolver": "PRINCIPAL_USER",
++    "defaultDeny": true
++  },
+   "getV81OcrService": {
+     "method": "GET",
+     "route": "/admin/review-services/ocr",
+diff --git a/backend/src/modules/media/application/media-validator.ts b/backend/src/modules/media/application/media-validator.ts
+index 71f65765..9269b2d8 100644
+--- a/backend/src/modules/media/application/media-validator.ts
++++ b/backend/src/modules/media/application/media-validator.ts
+@@ -149,7 +149,7 @@ export class MediaValidator {
+     try {
+       const decoder = sharp(body, {
+         failOn: 'warning',
+-        limitInputPixels: config.maxImagePixels,
++        limitInputPixels: config.maxImagePixels === 0 ? false : config.maxImagePixels,
+         pages: -1,
+       });
+       const metadata = await decoder.metadata();
+@@ -325,7 +325,7 @@ export class MediaValidator {
+     } else {
+       return this.integrityFailure();
+     }
+-    if (width < 1 || height < 1 || width * height > maximumPixels) this.integrityFailure();
++    if (width < 1 || height < 1 || (maximumPixels > 0 && width * height > maximumPixels)) this.integrityFailure();
+     return { mimeType, durationSeconds: null, safeMetadata: { width, height } };
+   }
+ 
+diff --git a/backend/src/modules/v8/domain/crediting.ts b/backend/src/modules/v8/domain/crediting.ts
+index fcd49fb4..797508a9 100644
+--- a/backend/src/modules/v8/domain/crediting.ts
++++ b/backend/src/modules/v8/domain/crediting.ts
+@@ -80,6 +80,9 @@ export function selectCredits(
+   reserved: { days: ReadonlyMap<string, number>; weeks: ReadonlyMap<string, number> } = { days: new Map(), weeks: new Map() },
+ ) {
+   validateCreditRules(rules);
++  // Preserve the recorded sport category; allocate its credit to the open target.
++  if (rules.courseTarget === 0) candidates = candidates.map(record =>
++    record.category === 'COURSE_RELATED' ? { ...record, category: 'GENERAL' } : record);
+   if (
+     ![recognized.course, recognized.general].every(
+       (value) => Number.isInteger(value) && value >= 0,
+diff --git a/backend/src/modules/v8/v81-account-deletion.ts b/backend/src/modules/v8/v81-account-deletion.ts
+index bac1dbb7..4bafff58 100644
+--- a/backend/src/modules/v8/v81-account-deletion.ts
++++ b/backend/src/modules/v8/v81-account-deletion.ts
+@@ -1,5 +1,5 @@
+-import { Body, Controller, Headers, Injectable, Post, Req } from '@nestjs/common';
+-import { IsIn, IsInt, Max, Min } from 'class-validator';
++import { Body, Controller, Headers, HttpCode, Injectable, Param, ParseUUIDPipe, Post, Req } from '@nestjs/common';
++import { IsIn, IsInt, Matches, Max, Min } from 'class-validator';
+ import { randomInt, randomUUID } from 'node:crypto';
+ import { PrismaService } from '../../common/database/prisma.service.js';
+ import { IdempotencyService } from '../../common/idempotency/idempotency.service.js';
+@@ -15,6 +15,10 @@ class DeletionChallengeInput {
+   @IsInt() @Min(1) @Max(2147483647) expectedVersion!: number;
+   @IsIn(['zh-CN', 'en']) locale!: 'zh-CN' | 'en';
+ }
++class DeletionConfirmInput {
++  @IsInt() @Min(1) @Max(2147483647) expectedVersion!: number;
++  @Matches(/^\d{6}$/) verificationCode!: string;
++}
+ type DeletionStage = { id: string; code: string; recipient: string; emailDigest: string; expiresAt: Date; userVersion: number };
+ type DeletionChallengeResponse = { challengeId: string; mode: 'STUDENT_EMAIL_OTP'; expiresAt: string; version: number };
+ 
+@@ -22,6 +26,48 @@ type DeletionChallengeResponse = { challengeId: string; mode: 'STUDENT_EMAIL_OTP
+ export class V81AccountDeletionService {
+   constructor(private readonly prisma: PrismaService, private readonly idempotency: IdempotencyService,
+     private readonly digest: SecureDigestService, private readonly clock: Clock, private readonly delivery: AuthCodeDeliveryPort) {}
++  async confirm(p: AuthenticatedPrincipal, id: string, input: DeletionConfirmInput, requestId: string) {
++    if (p.role !== 'STUDENT') throw new ApplicationError('PERMISSION_RESOURCE_SCOPE_DENIED', 403);
++    // The deletion removes this subject's idempotency records and sessions too.
++    // Serialize on the organization and commit failed attempts before returning an error.
++    const outcome = await this.prisma.$transaction(async tx => {
++      await tx.$queryRaw`SELECT id FROM organizations WHERE id=${p.organizationId}::uuid FOR UPDATE`;
++      if ((await tx.systemPolicy.findUnique({ where: { organizationId: p.organizationId } }))?.systemMode !== 'NORMAL')
++        throw new ApplicationError('SYSTEM_MAINTENANCE', 503);
++      const [challenge] = await tx.$queryRaw<{ id: string; version: number; status: string; expires_at: Date;
++        expected_user_version: number; email_digest: string; code_digest: string; failed_attempts: number }[]>`
++        SELECT * FROM v81_account_deletion_challenges WHERE id=${id}::uuid AND organization_id=${p.organizationId}::uuid
++          AND user_id=${p.userId}::uuid AND auth_session_id=${p.sessionId}::uuid FOR UPDATE`;
++      const now = this.clock.now();
++      const user = await tx.user.findFirst({ where: { id: p.userId, organizationId: p.organizationId, role: 'STUDENT', status: 'ACTIVE', deletedAt: null } });
++      const session = await tx.authSession.findUnique({ where: { id: p.sessionId } });
++      if (!challenge || challenge.status !== 'ACTIVE' || challenge.expires_at <= now || !user?.emailVerifiedAt ||
++          session?.status !== 'ACTIVE' || user.version !== challenge.expected_user_version ||
++          this.digest.digest('account-deletion-email', user.primaryEmailNormalized ?? '') !== challenge.email_digest)
++        return { error: new ApplicationError('PERMISSION_RESOURCE_SCOPE_DENIED', 403, { currentState: 'ACCOUNT_DELETION_REAUTH_REQUIRED' }) };
++      if (challenge.version !== input.expectedVersion)
++        return { error: new ApplicationError('CONFLICT_VERSION_MISMATCH', 409, { actualVersion: challenge.version }) };
++      if (this.digest.digest('account-deletion-code:' + id, input.verificationCode) !== challenge.code_digest) {
++        const locked = challenge.failed_attempts + 1 >= 5;
++        await tx.$executeRaw`UPDATE v81_account_deletion_challenges SET failed_attempts=failed_attempts+1,version=version+1,
++          status=${locked ? 'LOCKED' : 'ACTIVE'} WHERE id=${id}::uuid`;
++        return { error: new ApplicationError('VALIDATION_FAILED', 422,
++          { currentState: locked ? 'ACCOUNT_DELETION_REAUTH_REQUIRED' : 'ACCOUNT_DELETION_CODE_INVALID', actualVersion: challenge.version + 1 }) };
++      }
++      const student = await tx.studentProfile.findFirst({ where: { userId: p.userId, organizationId: p.organizationId } });
++      if (!student) throw new ApplicationError('PERMISSION_RESOURCE_NOT_FOUND', 404);
++      await tx.$executeRaw`UPDATE v81_account_deletion_challenges SET status='CONSUMED',version=version+1 WHERE id=${id}::uuid`;
++      await tx.$queryRaw`SELECT set_config('bnbu.self_erasure_challenge',${id},true)`;
++      const [result] = await tx.$queryRaw<{ counts: Record<string, number> }[]>`
++        SELECT erase_v81_student(${p.organizationId}::uuid,${student.id}::uuid,${p.userId}::uuid) AS counts`;
++      await tx.$executeRaw`INSERT INTO v81_events(id,organization_id,resource_type,resource_id,event_type,actor_id,request_id,version,facts,occurred_at,event_outcome)
++        VALUES(${randomUUID()}::uuid,${p.organizationId}::uuid,'STUDENT',${student.id}::uuid,'ACCOUNT_AND_HISTORY_DELETED',${p.userId}::uuid,${requestId},${student.version + 1},
++        ${JSON.stringify({ source: 'STUDENT_SELF_SERVICE', deletedCounts: result?.counts ?? {}, mediaCleanup: 'QUEUED' })}::jsonb,${now},'SUCCEEDED')`;
++      return { data: { status: 'DELETED' as const, deletedAt: now.toISOString(), allSessionsRevoked: true, newRegistrationRequired: true } };
++    }, { timeout: 60000 });
++    if (outcome.error) throw outcome.error;
++    return outcome.data;
++  }
+   async challenge(p: AuthenticatedPrincipal, input: DeletionChallengeInput, requestId: string, key?: string): Promise<DeletionChallengeResponse> {
+     if (p.role !== 'STUDENT') throw new ApplicationError('PERMISSION_RESOURCE_SCOPE_DENIED', 403);
+     const owner = await this.idempotency.reserveStage<DeletionStage, DeletionChallengeResponse>({ organizationId: p.organizationId,
+@@ -74,8 +120,12 @@ export class V81AccountDeletionController {
+   @Post() @OperationPolicy('requestCurrentUserAccountDeletionChallenge')
+   challenge(@CurrentPrincipal() p: AuthenticatedPrincipal, @Body() input: DeletionChallengeInput,
+     @Headers('idempotency-key') key: string | undefined, @Req() request: FoundationRequest) {
+-    throw new ApplicationError('SYSTEM_SERVICE_UNAVAILABLE', 503, {
+-      reason: 'FEATURE_DEFERRED', currentState: 'FEATURE_DEFERRED',
+-    });
++    return this.service.challenge(p, input, request.requestId, key);
++  }
++  @Post(':id/confirm') @HttpCode(200) @OperationPolicy('confirmCurrentUserAccountDeletion')
++  confirm(@CurrentPrincipal() p: AuthenticatedPrincipal,
++    @Param('id', new ParseUUIDPipe({ exceptionFactory: () => new ApplicationError('VALIDATION_FAILED', 422) })) id: string,
++    @Body() input: DeletionConfirmInput, @Req() request: FoundationRequest) {
++    return this.service.confirm(p, id, input, request.requestId);
+   }
+ }
+diff --git a/backend/src/modules/v8/v81-admin-course-directory.ts b/backend/src/modules/v8/v81-admin-course-directory.ts
+index 0451a820..e1ea5e50 100644
+--- a/backend/src/modules/v8/v81-admin-course-directory.ts
++++ b/backend/src/modules/v8/v81-admin-course-directory.ts
+@@ -61,8 +61,8 @@ export class V81AdminCourseDirectoryService {
+           coalesce(c.general,0)::bigint AS "recognizedGeneral"
+         FROM enrollments e JOIN class_sections s ON s.id=e.class_section_id
+         LEFT JOIN LATERAL (SELECT
+-          sum(p.credited_minutes) FILTER(WHERE r.credit_type='COURSE_RELATED') AS course,
+-          sum(p.credited_minutes) FILTER(WHERE r.credit_type='GENERAL') AS general
++          sum(p.credited_minutes) FILTER(WHERE (CASE WHEN r.credit_type='COURSE_RELATED' AND EXISTS(SELECT 1 FROM enrollments ce JOIN v81_course_rules cr ON cr.class_section_id=ce.class_section_id WHERE ce.id=r.enrollment_id AND cr.course_target=0) THEN 'GENERAL' ELSE r.credit_type END)='COURSE_RELATED') AS course,
++          sum(p.credited_minutes) FILTER(WHERE (CASE WHEN r.credit_type='COURSE_RELATED' AND EXISTS(SELECT 1 FROM enrollments ce JOIN v81_course_rules cr ON cr.class_section_id=ce.class_section_id WHERE ce.id=r.enrollment_id AND cr.course_target=0) THEN 'GENERAL' ELSE r.credit_type END)='GENERAL') AS general
+           FROM exercise_records r JOIN v81_record_workflows w ON w.record_id=r.id AND w.stage='VALID'
+           JOIN v81_credit_projections p ON p.record_id=r.id
+           WHERE r.enrollment_id=e.id AND r.organization_id=e.organization_id) x ON true
+diff --git a/backend/src/modules/v8/v81-composite-roster.ts b/backend/src/modules/v8/v81-composite-roster.ts
+index ea7f5045..12ca0821 100644
+--- a/backend/src/modules/v8/v81-composite-roster.ts
++++ b/backend/src/modules/v8/v81-composite-roster.ts
+@@ -91,7 +91,7 @@ export class V81CompositeRosterService {
+         studentNumber: row.student.studentNumber, fullName: row.student.fullName, emailVerified: row.student.user.emailVerifiedAt !== null,
+         enrolledInSection: row.status === 'ACTIVE' || isCourseClosureHistoricalMember(row, section) })));
+       const records = await tx.$queryRaw<RecordFact[]>`SELECT r.enrollment_id AS "enrollmentId",r.actual_duration_seconds AS "actualSeconds",
+-        coalesce(p.credited_minutes,0) AS "creditedMinutes",w.stage,r.credit_type AS "creditType"
++        coalesce(p.credited_minutes,0) AS "creditedMinutes",w.stage,(CASE WHEN r.credit_type='COURSE_RELATED' AND EXISTS(SELECT 1 FROM v81_course_rules cr WHERE cr.class_section_id=r.class_section_id AND cr.course_target=0) THEN 'GENERAL' ELSE r.credit_type END) AS "creditType"
+         FROM exercise_records r LEFT JOIN v81_record_workflows w ON w.record_id=r.id
+         LEFT JOIN v81_credit_projections p ON p.record_id=r.id
+         WHERE r.class_section_id=${classSectionId}::uuid AND r.organization_id=${principal.organizationId}::uuid`;
+diff --git a/backend/src/modules/v8/v81-course-reminders.ts b/backend/src/modules/v8/v81-course-reminders.ts
+index dea3c713..95a0f12a 100644
+--- a/backend/src/modules/v8/v81-course-reminders.ts
++++ b/backend/src/modules/v8/v81-course-reminders.ts
+@@ -60,8 +60,8 @@ export class V81CourseRemindersService {
+       include: { student: true }, orderBy: { id: 'asc' }, take: 101 });
+     for (const member of members.slice(0, 100)) {
+       const totals = (await tx.$queryRaw<{ course: bigint; general: bigint; course_cert: bigint; general_cert: bigint; pending: bigint }[]>`
+-        SELECT coalesce(sum(p.credited_minutes) FILTER(WHERE w.stage='VALID' AND r.credit_type='COURSE_RELATED'),0)::bigint AS course,
+-          coalesce(sum(p.credited_minutes) FILTER(WHERE w.stage='VALID' AND r.credit_type='GENERAL'),0)::bigint AS general,
++        SELECT coalesce(sum(p.credited_minutes) FILTER(WHERE w.stage='VALID' AND (CASE WHEN r.credit_type='COURSE_RELATED' AND EXISTS(SELECT 1 FROM enrollments ce JOIN v81_course_rules cr ON cr.class_section_id=ce.class_section_id WHERE ce.id=r.enrollment_id AND cr.course_target=0) THEN 'GENERAL' ELSE r.credit_type END)='COURSE_RELATED'),0)::bigint AS course,
++          coalesce(sum(p.credited_minutes) FILTER(WHERE w.stage='VALID' AND (CASE WHEN r.credit_type='COURSE_RELATED' AND EXISTS(SELECT 1 FROM enrollments ce JOIN v81_course_rules cr ON cr.class_section_id=ce.class_section_id WHERE ce.id=r.enrollment_id AND cr.course_target=0) THEN 'GENERAL' ELSE r.credit_type END)='GENERAL'),0)::bigint AS general,
+           (SELECT coalesce(sum(course_minutes),0)::bigint FROM v81_certification_credits WHERE enrollment_id=${member.id}::uuid AND active=true) AS course_cert,
+           (SELECT coalesce(sum(general_minutes),0)::bigint FROM v81_certification_credits WHERE enrollment_id=${member.id}::uuid AND active=true) AS general_cert,
+           count(*) FILTER(WHERE r.id IS NOT NULL AND (w.stage IS NULL OR w.stage NOT IN ('VALID','INVALID'))) +
+diff --git a/backend/src/modules/v8/v81-progress.ts b/backend/src/modules/v8/v81-progress.ts
+index c069f72f..cdb03eeb 100644
+--- a/backend/src/modules/v8/v81-progress.ts
++++ b/backend/src/modules/v8/v81-progress.ts
+@@ -83,8 +83,8 @@ export class V81ProgressService {
+           return pagedResult([], { hasMore: false, nextCursor: null, limit: input.limit });
+         const ids = Prisma.join(page.map((row) => row.enrollmentId));
+         const exercise = await tx.$queryRaw<Totals[]>`SELECT r.enrollment_id AS "enrollmentId",
+-        coalesce(sum(p.credited_minutes) FILTER(WHERE r.credit_type='COURSE_RELATED'),0)::bigint AS course,
+-        coalesce(sum(p.credited_minutes) FILTER(WHERE r.credit_type='GENERAL'),0)::bigint AS general
++        coalesce(sum(p.credited_minutes) FILTER(WHERE (CASE WHEN r.credit_type='COURSE_RELATED' AND EXISTS(SELECT 1 FROM enrollments ce JOIN v81_course_rules cr ON cr.class_section_id=ce.class_section_id WHERE ce.id=r.enrollment_id AND cr.course_target=0) THEN 'GENERAL' ELSE r.credit_type END)='COURSE_RELATED'),0)::bigint AS course,
++        coalesce(sum(p.credited_minutes) FILTER(WHERE (CASE WHEN r.credit_type='COURSE_RELATED' AND EXISTS(SELECT 1 FROM enrollments ce JOIN v81_course_rules cr ON cr.class_section_id=ce.class_section_id WHERE ce.id=r.enrollment_id AND cr.course_target=0) THEN 'GENERAL' ELSE r.credit_type END)='GENERAL'),0)::bigint AS general
+         FROM exercise_records r JOIN v81_record_workflows w ON w.record_id=r.id AND w.stage='VALID'
+         JOIN v81_credit_projections p ON p.record_id=r.id
+         WHERE r.enrollment_id::text IN (${ids}) AND r.organization_id=${principal.organizationId}::uuid GROUP BY r.enrollment_id`;
+diff --git a/backend/test/e2e/client-capabilities.e2e.test.ts b/backend/test/e2e/client-capabilities.e2e.test.ts
+index b7d9de13..65519729 100644
+--- a/backend/test/e2e/client-capabilities.e2e.test.ts
++++ b/backend/test/e2e/client-capabilities.e2e.test.ts
+@@ -416,7 +416,7 @@ describe('Stage 21 client capabilities with real PostgreSQL', () => {
+     assert.equal((await request('/api/v1/students?email=PROFILE', { headers: authorization(teacher.data.accessToken) })).status, 403);
+   });
+ 
+-  it('keeps student account deletion deferred with no challenge or account mutation', async () => {
++  it('fails account deletion closed when email delivery is unavailable', async () => {
+     const student = await seedExerciseSessionStudent(prisma, fixture, 'DEFERRED');
+     const token = await studentAccessToken(student.userId, student.authSessionId);
+     const before = await prisma.user.findUniqueOrThrow({ where: { id: student.userId } });
+@@ -428,7 +428,7 @@ describe('Stage 21 client capabilities with real PostgreSQL', () => {
+       const result = await request('/api/v1/me/account-deletion-challenges', init);
+       assert.equal(result.status, 503, JSON.stringify(result.body));
+       assert.equal(result.body.code, 'SYSTEM_SERVICE_UNAVAILABLE');
+-      assert.equal(object(result.body.details).currentState, 'FEATURE_DEFERRED');
++      assert.notEqual(object(result.body.details).currentState, 'FEATURE_DEFERRED');
+     }
+     const teacher = await login();
+     const denied = await request('/api/v1/me/account-deletion-challenges',
+@@ -437,7 +437,7 @@ describe('Stage 21 client capabilities with real PostgreSQL', () => {
+     assert.deepEqual(await prisma.user.findUniqueOrThrow({ where: { id: student.userId } }), before);
+     const rows = await prisma.$queryRaw<{ count: number }[]>`SELECT count(*)::int AS count
+       FROM v81_account_deletion_challenges WHERE user_id=${student.userId}::uuid`;
+-    assert.equal(rows[0]!.count, 0);
++    assert.equal(rows[0]!.count, 1);
+     assert.equal((await request('/api/v1/me', { headers: authorization(token) })).status, 200);
+   });
+ 
+diff --git a/backend/test/unit/media.test.ts b/backend/test/unit/media.test.ts
+index 0845b8e9..2c5de883 100644
+--- a/backend/test/unit/media.test.ts
++++ b/backend/test/unit/media.test.ts
+@@ -32,6 +32,19 @@ const config: MediaConfig = {
+   workerPollMs: 500,
+ };
+ 
++it('accepts a full-resolution 50 MP phone JPEG when the pixel cap is disabled while preserving integrity checks', async () => {
++  const body = await sharp({create:{width:6144,height:8192,channels:3,background:'#aaccee'}}).jpeg().toBuffer();
++  const facts = {businessPurpose:'EXERCISE_RECORD',mediaType:'IMAGE',mimeType:'image/jpeg',fileSizeBytes:body.length,
++    contentSha256:createHash('sha256').update(body).digest('hex'),durationSeconds:null};
++  const validator = new MediaValidator(), unlimited = {...config,maxImageBytes:10*1024*1024,maxImagePixels:0};
++  await assert.rejects(validator.readAndVerify(Readable.from([body]),facts,{...unlimited,maxImagePixels:40000000}));
++  const result = await validator.readAndVerify(Readable.from([body]),facts,unlimited);
++  assert.equal(result.safeMetadata.width,6144);assert.equal(result.safeMetadata.height,8192);
++  assert.equal(result.contentSha256,facts.contentSha256);
++  await assert.rejects(validator.readAndVerify(Readable.from([body]),{...facts,contentSha256:'0'.repeat(64)},unlimited));
++  await assert.rejects(validator.readAndVerify(Readable.from([body]),facts,{...unlimited,maxImageBytes:10}));
++});
++
+ it('accepts WebP declarations for certification images but not exercise evidence', () => {
+   const validator = new MediaValidator();
+   const facts = {
+diff --git a/docs/backend-contracts/openapi.yaml b/docs/backend-contracts/openapi.yaml
+index 01af56b1..fa56d27e 100644
+--- a/docs/backend-contracts/openapi.yaml
++++ b/docs/backend-contracts/openapi.yaml
+@@ -14812,14 +14812,10 @@ paths:
+   /me/account-deletion-challenges:
+     post:
+       operationId: requestCurrentUserAccountDeletionChallenge
+-      x-availability: DEFERRED
+-      x-deferral-reason: Student account cancellation postponed by user decision; display 暂时功能无法实现，敬请期待.
+       tags:
+         - V8.1 local implementation
+       summary: requestCurrentUserAccountDeletionChallenge
+-      description: Deferred by user decision. A valid authenticated student request returns 503 with
+-        details.currentState FEATURE_DEFERRED. No OTP is issued, no account data is changed, and the
+-        existing session remains valid. Clients display 暂时功能无法实现，敬请期待.
++      description: Send a session-bound email OTP for irreversible student account and history deletion.
+       x-access-policy:
+         policyId: REQUEST-CURRENT-USER-ACCOUNT-DELETION-CHALLENGE
+         authentication: ACCESS_TOKEN
+@@ -14839,6 +14835,25 @@ paths:
+             schema:
+               $ref: "#/components/schemas/V81DeletionChallengeInput"
+       responses:
++        "201":
++          description: Email verification challenge issued
++          content:
++            application/json:
++              schema:
++                type: object
++                required: [data, meta]
++                properties:
++                  meta:
++                    $ref: "#/components/schemas/V81SettlementReportMetadata"
++                  data:
++                    type: object
++                    additionalProperties: false
++                    required: [challengeId, mode, expiresAt, version]
++                    properties:
++                      challengeId: {type: string, format: uuid}
++                      mode: {const: STUDENT_EMAIL_OTP}
++                      expiresAt: {type: string, format: date-time}
++                      version: {type: integer, minimum: 1}
+         "401":
+           $ref: "#/components/responses/Unauthorized"
+         "403":
+@@ -14847,6 +14862,68 @@ paths:
+           $ref: "#/components/responses/UnprocessableEntity"
+         "503":
+           $ref: "#/components/responses/ServiceUnavailable"
++  /me/account-deletion-challenges/{id}/confirm:
++    post:
++      operationId: confirmCurrentUserAccountDeletion
++      tags: [V8.1 local implementation]
++      summary: Confirm student account and history deletion
++      description: Verify the current student's session-bound email OTP, then atomically erase their account and operational history. All sessions are removed; media deletion is queued and immutable operation audit remains.
++      x-access-policy:
++        policyId: CONFIRM-CURRENT-USER-ACCOUNT-DELETION
++        authentication: ACCESS_TOKEN
++        allowedRoles: [STUDENT]
++        organizationScope: PRINCIPAL_ORGANIZATION
++        resourceScope: SELF
++        resourceResolver: PRINCIPAL_USER
++        defaultDeny: true
++      parameters:
++        - $ref: "#/components/parameters/RequestIdHeader"
++        - $ref: "#/components/parameters/IdempotencyKeyHeader"
++        - name: id
++          in: path
++          required: true
++          schema: {type: string, format: uuid}
++      requestBody:
++        required: true
++        content:
++          application/json:
++            schema:
++              type: object
++              additionalProperties: false
++              required: [expectedVersion, verificationCode]
++              properties:
++                expectedVersion: {type: integer, minimum: 1, maximum: 2147483647}
++                verificationCode: {type: string, pattern: '^[0-9]{6}$'}
++      responses:
++        "200":
++          description: Account and history erased
++          content:
++            application/json:
++              schema:
++                type: object
++                required: [data, meta]
++                properties:
++                  meta:
++                    $ref: "#/components/schemas/V81SettlementReportMetadata"
++                  data:
++                    type: object
++                    additionalProperties: false
++                    required: [status, deletedAt, allSessionsRevoked, newRegistrationRequired]
++                    properties:
++                      status: {const: DELETED}
++                      deletedAt: {type: string, format: date-time}
++                      allSessionsRevoked: {const: true}
++                      newRegistrationRequired: {const: true}
++        "401":
++          $ref: "#/components/responses/Unauthorized"
++        "403":
++          $ref: "#/components/responses/Forbidden"
++        "409":
++          $ref: "#/components/responses/Conflict"
++        "422":
++          $ref: "#/components/responses/UnprocessableEntity"
++        "503":
++          $ref: "#/components/responses/ServiceUnavailable"
+   /admin/review-services/ocr:
+     get:
+       operationId: getV81OcrService
+diff --git a/tools/local-integration/v81-deletion-challenge-probe.mjs b/tools/local-integration/v81-deletion-challenge-probe.mjs
+index dc5aa847..f4121c45 100644
+--- a/tools/local-integration/v81-deletion-challenge-probe.mjs
++++ b/tools/local-integration/v81-deletion-challenge-probe.mjs
+@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
+ import { randomUUID } from 'node:crypto';
+ import { loginSyntheticStudent } from './v81-help-student-isolation-probe.mjs';
+ 
+-// Keep the existing entry point for local runners; deletion is deferred by user decision.
++// Synthetic student self-service deletion using the local SMTP capture.
+ export async function probeDeletionChallenge({ prisma, fixture, request, baseUrl, teacherToken, adminToken }) {
+   const member = await loginSyntheticStudent({ prisma, scope: fixture, request });
+   const before = await prisma.user.findUniqueOrThrow({ where: { id: member.student.userId } });
+@@ -11,17 +11,22 @@ export async function probeDeletionChallenge({ prisma, fixture, request, baseUrl
+   const post = token => fetch(baseUrl + '/me/account-deletion-challenges', { method: 'POST',
+     headers: { authorization: `Bearer ${token}`, 'content-type': 'application/json', 'idempotency-key': key },
+     body: JSON.stringify(input) });
+-  for (let attempt = 0; attempt < 2; attempt++) {
+-    const response = await post(member.token);
+-    assert.equal(response.status, 503);
+-    const result = await response.json();
+-    assert.equal(result.code, 'SYSTEM_SERVICE_UNAVAILABLE');
+-    assert.equal(result.details?.currentState, 'FEATURE_DEFERRED');
+-  }
++  const response = await post(member.token);
++  assert.equal(response.status, 201);
++  const challenge = (await response.json()).data;
++  assert.deepEqual((await (await post(member.token)).json()).data, challenge);
+   for (const token of [teacherToken, adminToken]) assert.equal((await post(token)).status, 403);
+-  assert.deepEqual(await prisma.user.findUniqueOrThrow({ where: { id: member.student.userId } }), before);
+-  const [count] = await prisma.$queryRaw`SELECT count(*)::int AS n FROM v81_account_deletion_challenges WHERE user_id=${member.student.userId}::uuid`;
+-  assert.equal(count.n, 0);
+-  assert.ok(await request('/me', member.token));
+-  console.log(JSON.stringify({ check: 'DELETION_DEFERRED_NO_CHALLENGE_NO_ACCOUNT_CHANGE_SESSION_REMAINS_VALID', result: 'PASS' }));
++  const messages = await (await fetch('http://mailpit:8025/api/v1/messages?limit=100')).json();
++  const message = messages.messages.find(item => JSON.stringify(item.To).includes(member.student.email));
++  assert.ok(message);
++  const detail = await (await fetch(`http://mailpit:8025/api/v1/message/${message.ID}`)).json();
++  const verificationCode = String(detail.Text).match(/(?:code is|验证码是)\s*(\d{6})/u)?.[1];
++  assert.ok(verificationCode);
++  const result = await request(`/me/account-deletion-challenges/${challenge.challengeId}/confirm`, member.token,
++    {expectedVersion:challenge.version,verificationCode});
++  assert.equal(result.status, 'DELETED');
++  assert.equal(await prisma.user.count({where:{id:member.student.userId}}),0);
++  const expired = await fetch(baseUrl+'/me',{headers:{authorization:`Bearer ${member.token}`}});
++  assert.equal(expired.status,401);
++  console.log(JSON.stringify({check:'STUDENT_SELF_DELETION_SMTP_ACCOUNT_ERASED_SESSION_REVOKED',result:'PASS'}));
+ }

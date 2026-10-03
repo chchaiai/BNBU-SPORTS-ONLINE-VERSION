@@ -1,0 +1,32 @@
+--- tools\local-integration\checkin-ui-preview\preview.js (before)
++++ tools\local-integration\checkin-ui-preview\preview.js
+@@ -1,3 +1,4 @@
++import {refreshCheckinTransfer} from '/student/js/checkin-experience.js';
+ // Isolated loopback UI review. Renders the real student screens with labelled fixtures.
+ // The preview server has no API routes; the real submit action rejects local previews.
+ import {app} from '/student/js/app.js';
+@@ -95,7 +96,7 @@
+     ui.uploadDraftId=draft.id;
+     for(const percent of [0,18,42,70,100]) {
+       if(revision!==previewRevision)return;
+-      ui.uploadProgress={phase:'UPLOADING',percent};ui.mediaNotice=`正在上传凭证 ${percent}%（示例）`;a.render();
++      ui.uploadProgress={phase:'UPLOADING',percent};ui.mediaNotice=`正在上传凭证 ${percent}%（示例）`;refreshCheckinTransfer(a);
+       await new Promise(resolve=>setTimeout(resolve,230));
+       if(revision!==previewRevision)return;
+       if(document.querySelector('#submit-outcome').value==='failure' && percent===42) {
+@@ -104,12 +105,12 @@
+       }
+     }
+     if(revision!==previewRevision)return;
+-    ui.uploadProgress={phase:'CONFIRMING'};ui.mediaNotice='正在确认凭证（示例）';a.render();
++    ui.uploadProgress={phase:'CONFIRMING'};ui.mediaNotice='正在确认凭证（示例）';refreshCheckinTransfer(a);
+     await new Promise(resolve=>setTimeout(resolve,400));
+-    ui.previewProofStates[draft.id]='saved';a.render();
++    ui.previewProofStates[draft.id]='saved';refreshCheckinTransfer(a);
+   }
+   if(revision!==previewRevision)return;
+-  ui.uploadDraftId=null;ui.uploadProgress={phase:'SUBMITTING'};ui.mediaNotice='正在提交记录（示例）';a.render();
++  ui.uploadDraftId=null;ui.uploadProgress={phase:'SUBMITTING'};ui.mediaNotice='正在提交记录（示例）';refreshCheckinTransfer(a);
+   await new Promise(resolve=>setTimeout(resolve,650));
+   if(revision!==previewRevision)return;
+   ui.finish.submitting=false;

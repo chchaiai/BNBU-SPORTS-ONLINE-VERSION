@@ -1,0 +1,26 @@
+{
+  "date": "2026-09-30",
+  "timezone": "Asia/Shanghai",
+  "method": "Read-only observations from authenticated Tencent Cloud console UI; manually transcribed, not a downloaded raw metric export",
+  "cvm": { "instanceId": "ins-kfitq8i6", "region": "ap-hongkong", "cpuCores": 2, "memoryGiB": 4 },
+  "ddosAttackAnalysis": {
+    "displayedDateRange": "2026-09-23 to 2026-09-30",
+    "attackCount": 0,
+    "blockingCount": 0,
+    "eventListCount": 0,
+    "limitation": "Only events detected and recorded by this product"
+  },
+  "ddosResourceList": { "region": "ap-hongkong", "instanceId": "ins-kfitq8i6", "ip": "43.129.193.7", "basicProtectionListed": true },
+  "postgres": {
+    "instanceId": "postgres-entm7byh",
+    "slowQueryWindow": "2026-09-30 00:00:00 to 2026-09-30 11:00:34",
+    "slowQueryRows": 0,
+    "slowQueryThresholdMsVerifiedBySQL": 1000,
+    "monitorWindow": "24 hours ending around 11:01 on 2026-09-30",
+    "cpuAveragePercent": 4.801,
+    "cpuMaxPercent": 70.515,
+    "averageSqlLatencyMetricMaxMs": 1.212,
+    "cacheHitRatioDisplayedPercent": 100,
+    "limitation": "Monitor window is wider than the incident window; chart maxima cannot be attributed to 10:52"
+  }
+}

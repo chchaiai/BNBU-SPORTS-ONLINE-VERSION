@@ -1,0 +1,103 @@
+--- BNBU-Sports-Web-new\frontend\student\js\screens\checkin.js (before)
++++ BNBU-Sports-Web-new\frontend\student\js\screens\checkin.js
+@@ -1,4 +1,4 @@
+-import {exerciseProgressHtml, refreshExerciseProgress, submitButtonContent, proofUploadHtml, descriptionSaveState, resizeDescription, recordFilterMatches, recordsSkeletonHtml} from '../checkin-experience.js';
++import {exerciseProgressHtml, refreshExerciseProgress, submitButtonContent, proofUploadHtml, descriptionSaveState, resizeDescription, refreshCheckinTransfer, revealCheckinField, recordFilterMatches, recordsSkeletonHtml} from '../checkin-experience.js';
+ import {proofQueueRowHtml, proofQueueFooterHtml} from '../checkin-proof-queue.js';
+ import {slideEndHtml} from '../checkin-slide-end.js';
+ import { currentCourse } from '../course-selection.js';
+@@ -362,6 +362,7 @@
+     : tx("至少 1 张照片或 1 个视频", "At least one photo or video");
+   return `<section class="checkin-evidence swiss-panel" data-checkin-enter data-checkin-motion="evidence">
+     ${draftListHtml(app, {submissionRequired: finished, compact: true})}
++    ${finished ? `<div class="checkin-collapse ${checkinState(app).finish.submitting ? 'is-collapsed' : ''}" data-checkin-collapse="capture" ${checkinState(app).finish.submitting ? 'inert aria-hidden="true"' : ''}><div class="checkin-capture-content">` : ''}
+     <p class="checkin-note">${required}${finished ? tx("，保留的凭证将全部提交。", ". All retained proof will be submitted.") : ""}</p>
+     ${checkinState(app).finish.validation === 'proof' && !checkinState(app).drafts.length ? `<p class="checkin-field-error" role="alert" data-checkin-error="proof" data-checkin-motion="error-proof">${tx('请至少保留 1 项现场凭证','Keep at least one on-site proof item.')}</p>` : ''}
+     ${captureButtonsHtml(app, {allowVideo: true, compact: true})}
+@@ -369,6 +370,7 @@
+       <p>${historical ? tx("请选择能证明所填日期运动的照片或视频，等待教师审核。", "Choose evidence of exercise on the declared date for teacher review.") : tx("现场拍摄的凭证保存在本机，确认提交后才上传。结束运动后仍可补拍。", "Captured proof stays on this device until submission. You can also capture after ending exercise.")}</p>
+       <p>${tx("点击凭证可预览；尚未开始上传的本机素材可以删除，已上传凭证会保留。", "Open proof to preview. Local items can be deleted before uploading; uploaded proof is retained.")}</p>
+     </div></details>
++    ${finished ? '</div></div>' : ''}
+   </section>`;
+ }
+ 
+@@ -695,23 +697,26 @@
+   return `<div class="checkin-flow checkin-finished${ui.finish.submitting ? ' is-submitting' : ''}">
+     <header class="checkin-finish-heading">${checkinBackHtml(app)}<h1>${session.recordOrigin === 'HISTORICAL' ? tx('历史补录','Past exercise entry') : tx('完成记录','Complete record')}</h1></header>
+     <div class="checkin-body">
+-      <section class="checkin-summary swiss-panel" aria-label="${tx('本次运动','This exercise')}">
++      <section class="checkin-summary swiss-panel" data-checkin-motion="summary" aria-label="${tx('本次运动','This exercise')}">
+         <div class="checkin-summary-main"><div><p class="checkin-note">${creditTypeLabel(details.creditType)}</p><h2 data-checkin-motion="sport">${esc(sportLabel(details))}</h2></div><span class="sport-glyph" aria-hidden="true" data-checkin-glyph data-checkin-sport-key="${esc(details.sportType)}">${icon(sportIconName(details.sportType),28)}</span></div>
+         <div class="checkin-summary-values">
+           <div><p class="checkin-note">${tx('有效运动时长','Active exercise time')}</p><span class="checkin-summary-time" data-checkin-motion="timer">${formatTimer(session.activeDurationMillis)}</span></div>
+           <div><p class="checkin-note">${tx('预计计入','Estimated credit')}</p><strong class="checkin-summary-credit" data-checkin-number="credit">${estimatedCreditText(app,session.activeDurationMillis)}</strong></div>
+         </div>
+-        <details class="checkin-disclosure" data-checkin-disclosure="session-details"><summary><span>${tx('时间详情','Time details')}</span>${icon('expand-more',18)}</summary><div>${summaryRow(tx('开始时间','Started'),formatDateTime(session.startedAt))}${summaryRow(tx('结束时间','Ended'),formatDateTime(session.endedAt))}${summaryRow(tx('打卡日期','Exercise date'),formatDateOnly(session.startedAt))}<p>${tx('计入时长以审核结果为准','Credited time is subject to review')}</p></div></details>
++        <div class="checkin-collapse ${ui.finish.submitting ? 'is-collapsed' : ''}" data-checkin-collapse="time" ${ui.finish.submitting ? 'inert aria-hidden="true"' : ''}><div>
++        <details class="checkin-disclosure" data-checkin-disclosure="session-details"><summary><span>${tx('时间详情','Time details')}</span>${icon('expand-more',18)}</summary><div>${summaryRow(tx('开始时间','Started'),formatDateTime(session.startedAt))}${summaryRow(tx('结束时间','Ended'),formatDateTime(session.endedAt))}${summaryRow(tx('打卡日期','Exercise date'),formatDateOnly(session.startedAt))}<p>${tx('计入时长以审核结果为准','Credited time is subject to review')}</p></div></details></div></div>
+       </section>
+       ${evidenceSectionHtml(app,{finished:true})}
+       <section class="swiss-panel checkin-description" data-checkin-enter data-checkin-motion="description">
+-        <div class="checkin-description-heading">${fieldLabel({id:'checkin-description',label:tx('运动说明','Exercise description'),required:true})}<span class="checkin-description-done" data-description-done ${details.description?.trim() ? '' : 'hidden'}>${icon('check',14)}${tx('已填写','Completed')}</span></div>
++        <div class="checkin-description-heading">${fieldLabel({id:'checkin-description',label:tx('运动说明','Exercise description'),required:true})}<span class="checkin-description-done" data-description-done data-complete="${Boolean(details.description?.trim())}" aria-hidden="${!details.description?.trim()}">${icon('check',14)}${tx('已填写','Completed')}</span></div>
++        <div class="checkin-collapse ${ui.finish.submitting ? 'is-collapsed' : ''}" data-checkin-collapse="description" ${ui.finish.submitting ? 'inert aria-hidden="true"' : ''}><div class="checkin-description-content">
+         <textarea ${fieldControlAttrs({ id: "checkin-description", error: ui.finish.validation === 'description' && !details.description?.trim() ? tx('请填写运动说明','Enter exercise details.') : null, helper: tx('请填写本次运动内容，最多 200 字','Describe this exercise in up to 200 characters.'), required: true })} class="text-field" rows="3" maxlength="${MAX_DESCRIPTION}" placeholder="${tx('请简要描述本次运动内容','Briefly describe this exercise')}" data-input="checkin.description" required ${ui.finish.submitting ? 'disabled' : ''}>${esc(details.description || '')}</textarea>
+         <div class="checkin-description-footer">${fieldSupport({id:'checkin-description',helper:tx('请填写本次运动内容，最多 200 字','Describe this exercise in up to 200 characters.')})}<span class="checkin-description-count checkin-note" data-description-counter>${(details.description || '').length}/${MAX_DESCRIPTION}</span></div>
+         <p class="checkin-save-status checkin-note" data-description-save role="status">${ui.descriptionSave === 'error' ? tx('本机保存失败，请保持页面打开','Local save failed. Keep this page open.') : details.description?.trim() ? tx('草稿已保存到本机','Draft saved on this device') : tx('填写后自动保存到本机','Automatically saved on this device')}</p>
+         ${ui.finish.validation === 'description' && !details.description?.trim() ? `<p id="checkin-description-error" class="checkin-field-error" role="alert" data-checkin-error="description" data-checkin-motion="error-description">${tx('请填写运动说明','Enter exercise details.')}</p>` : ''}
++        </div></div>
+       </section>
+-      <button class="text-btn pressable checkin-discard" data-action="checkin.abandon" ${ui.finish.submitting ? 'disabled' : ''}>${tx('放弃本次记录','Discard this record')}</button>
++      <div class="checkin-collapse checkin-discard-wrap ${ui.finish.submitting ? 'is-collapsed' : ''}" data-checkin-collapse="discard" ${ui.finish.submitting ? 'inert aria-hidden="true"' : ''}><div><button class="text-btn pressable checkin-discard" data-action="checkin.abandon" ${ui.finish.submitting ? 'disabled' : ''}>${tx('放弃本次记录','Discard this record')}</button></div></div>
+     </div>
+     <footer class="checkin-dock">
+       ${checkinMediaStatus(app)}
+@@ -1614,7 +1619,7 @@
+   el?.focus({preventScroll: true});
+   const mode = app._viewport?.ownerDocument?.documentElement?.dataset.previewReducedMotion;
+   const reduced = mode === 'true' || mode !== 'false' && globalThis.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+-  el?.scrollIntoView({block: 'center', behavior: reduced ? 'instant' : 'smooth'});
++  revealCheckinField(el, reduced);
+   el?.closest?.('.swiss-panel')?.classList.add('checkin-validation-attention');
+ }
+ 
+@@ -1718,11 +1723,11 @@
+       ui.uploadDraftId = draft.id;
+       ui.uploadProgress = {phase:'WAITING'};
+       ui.mediaNotice = tx(`正在处理凭证 ${index + 1}/${retained.length}…`, `Processing proof ${index + 1}/${retained.length}…`);
+-      app.render();
++      refreshCheckinTransfer(app);
+       const blob = draft.mediaId ? null : draft.blob || (await fetch(draft.url).then((r) => r.blob()));
+       // Upload checkpoints persist changes. A redundant finally write could
+       // hide the original upload error or block already verified evidence.
+-      const mediaId = draft.mediaId || (await uploadMediaDraft(session.serverId, draft, blob,{onCheckpoint: d=>saveProofDraft(accountId(app), session.serverId, d),onProgress:progress=>{ui.uploadProgress=progress;ui.mediaNotice=uploadProgressLabel(progress);app.render();}})).mediaId;
++      const mediaId = draft.mediaId || (await uploadMediaDraft(session.serverId, draft, blob,{onCheckpoint: d=>saveProofDraft(accountId(app), session.serverId, d),onProgress:progress=>{ui.uploadProgress=progress;ui.mediaNotice=uploadProgressLabel(progress);refreshCheckinTransfer(app);}})).mediaId;
+       uploaded.push({
+         mediaId,
+         type: draft.type,
+@@ -1734,7 +1739,7 @@
+     ui.uploadDraftId = null;
+     ui.uploadProgress = {phase:'SUBMITTING'};
+     ui.mediaNotice = tx("全部凭证已验证，正在提交打卡…", "All proof is verified. Submitting the check-in…");
+-    app.render();
++    refreshCheckinTransfer(app);
+     const submitFingerprint = JSON.stringify({mediaIds:uploaded.map(u=>u.mediaId).sort(), version:record.version, delay:session.swimDelayReason?.trim()||''});
+     if (session.recordSubmission.submitFingerprint && session.recordSubmission.submitFingerprint !== submitFingerprint) session.recordSubmission.submitKey = crypto.randomUUID();
+     session.recordSubmission.submitFingerprint = submitFingerprint;
+@@ -2338,9 +2343,13 @@
+     const saved = descriptionSaveState(session,loadSession(accountId(app)));
+     checkinState(app).descriptionSave = saved ? 'saved' : 'error';
+     const saveStatus = app._viewport?.querySelector('[data-description-save]');
+-    if (saveStatus) {saveStatus.textContent = saved ? tx('草稿已保存到本机','Draft saved on this device') : tx('本机保存失败，请保持页面打开','Local save failed. Keep this page open.'); saveStatus.dataset.state = saved ? 'saved' : 'error';}
++    if (saveStatus) {
++      const message = saved ? tx('草稿已保存到本机','Draft saved on this device') : tx('本机保存失败，请保持页面打开','Local save failed. Keep this page open.');
++      if (saveStatus.textContent !== message) {saveStatus.textContent = message; saveStatus.dispatchEvent?.(new CustomEvent('checkin-description-status',{bubbles:true}));}
++      saveStatus.dataset.state = saved ? 'saved' : 'error';
++    }
+     const completed = app._viewport?.querySelector('[data-description-done]');
+-    if (completed) completed.hidden = !session.details.description.trim();
++    if (completed) { completed.dataset.complete = String(Boolean(session.details.description.trim())); completed.setAttribute('aria-hidden', String(!session.details.description.trim())); }
+     resizeDescription(el);
+     const counter = app._viewport?.querySelector("[data-description-counter]");
+     if (counter) {counter.textContent = `${session.details.description.length}/${MAX_DESCRIPTION}`; counter.dataset.nearLimit = String(session.details.description.length >= MAX_DESCRIPTION - 20);}

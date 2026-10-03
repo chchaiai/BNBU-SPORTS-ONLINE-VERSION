@@ -1,0 +1,67 @@
+--- BNBU-Sports-Web-new\frontend\student\js\checkin-proof-queue.js (before)
++++ BNBU-Sports-Web-new\frontend\student\js\checkin-proof-queue.js
+@@ -27,12 +27,60 @@
+ 
+ export function proofQueueRowHtml(draft, ui, {media, title, metadata}) {
+   const status = proofQueueState(draft,ui);
+-  const busy = ['uploading','preparing','verifying'].includes(status.state);
+-  const bar = status.state === 'uploading' ? `<span class="proof-queue-track${status.percent === null ? ' is-indeterminate' : ''}" role="progressbar" aria-label="${esc(title)}${tx('上传进度',' upload progress')}" aria-valuemin="0" aria-valuemax="100" ${status.percent === null ? '' : `aria-valuenow="${status.percent}"`}><span data-checkin-motion="upload-fill-${esc(draft.id)}" style="width:${status.percent ?? 30}%"></span></span>` : '';
+-  return `<li class="proof-queue-item" data-queue-state="${status.state}"><button class="proof-card proof-queue-row pressable" type="button" data-action="checkin.previewDraft" data-draft-id="${esc(draft.id)}" data-proof-type="${esc(draft.type)}" aria-label="${esc(`${tx('预览','Preview')} ${title}，${status.label}`)}">
++  const uploading = status.state === 'uploading';
++  const bar = `<span class="proof-queue-track${uploading && status.percent === null ? ' is-indeterminate' : ''}" ${uploading ? 'role="progressbar"' : 'aria-hidden="true"'} aria-label="${esc(title)}${tx('上传进度',' upload progress')}" aria-valuemin="0" aria-valuemax="100" ${uploading && status.percent !== null ? `aria-valuenow="${status.percent}"` : ''}><span style="width:${uploading ? status.percent ?? 30 : status.transferred ? 100 : 0}%"></span></span>`;
++  return `<li class="proof-queue-item" data-queue-id="${esc(draft.id)}" data-queue-state="${status.state}"><button class="proof-card proof-queue-row pressable" type="button" data-action="checkin.previewDraft" data-draft-id="${esc(draft.id)}" data-proof-type="${esc(draft.type)}" data-proof-title="${esc(title)}" aria-label="${esc(`${tx('预览','Preview')} ${title}，${status.label}`)}">
+     <span class="proof-queue-thumbnail">${media}</span><span class="proof-queue-copy"><strong>${esc(title)}</strong><small>${esc(metadata)}</small></span>
+-    <span class="proof-queue-status">${status.state === 'verified' ? icon('check',15) : busy && status.state !== 'uploading' ? '<i class="proof-queue-dot" aria-hidden="true"></i>' : ''}${esc(status.label)}</span>
++    <span class="proof-queue-status">${queueStatusHtml(status)}</span>
+   </button>${bar}${status.message ? `<p class="proof-queue-error" role="alert">${esc(status.message)}</p>` : ''}</li>`;
++}
++
++function queueStatusHtml(status) {
++  return `${status.state === 'verified' ? icon('check',15) : ['preparing','verifying'].includes(status.state) ? '<i class="proof-queue-dot" aria-hidden="true"></i>' : ''}<span>${esc(status.label)}</span>`;
++}
++
++// Preserve the row, image, progress track, focused control and active animation.
++// Only an existing submitting queue is eligible; structural changes use render().
++export function updateProofQueue(root, ui) {
++  if (!root || !ui?.finish.submitting || ui.finish.error || !root.querySelector('.checkin-finished.is-submitting')) return false;
++  const rows = [...root.querySelectorAll('.proof-queue-item[data-queue-id]')].filter(row => !row.hasAttribute('data-motion-ghost'));
++  const footer = root.querySelector('.proof-queue-footer');
++  if (!footer || rows.length !== ui.drafts.length || rows.some((row, i) => row.dataset.queueId !== ui.drafts[i].id)) return false;
++  // Validate before patching, so a fallback cannot leave a half-updated queue.
++  const updates = rows.map((row, i) => ({row, status:proofQueueState(ui.drafts[i], ui)}));
++  if (updates.some(({status}) => status.state === 'failed')) return false;
++  for (const {row, status} of updates) {
++    const changed = row.dataset.queueState !== status.state;
++    const button = row.querySelector('.proof-queue-row'), label = row.querySelector('.proof-queue-status');
++    if (changed) {
++      label.innerHTML = queueStatusHtml(status);
++      row.dataset.queueState = status.state;
++    } else if (label.lastElementChild.textContent !== status.label) label.lastElementChild.textContent = status.label;
++    button.setAttribute('aria-label', `${tx('预览','Preview')} ${button.dataset.proofTitle}，${status.label}`);
++    const track = row.querySelector('.proof-queue-track'), fill = track.firstElementChild;
++    const uploading = status.state === 'uploading';
++    track.classList.toggle('is-indeterminate', uploading && status.percent === null);
++    if (uploading) {
++      track.setAttribute('role','progressbar'); track.removeAttribute('aria-hidden');
++      if (status.percent === null) track.removeAttribute('aria-valuenow');
++      else track.setAttribute('aria-valuenow', String(status.percent));
++      fill.style.width = `${status.percent ?? 30}%`;
++    } else {
++      track.removeAttribute('role'); track.removeAttribute('aria-valuenow'); track.setAttribute('aria-hidden','true');
++      if (status.transferred) fill.style.width = '100%';
++    }
++  }
++  const stage = proofQueueStage(ui);
++  for (const [index, step] of [...footer.querySelectorAll('.proof-queue-steps li')].entries()) {
++    const state = index === stage ? 'is-current' : index < stage ? 'is-done' : '';
++    if (step.className !== state) {
++      step.className = state;
++      step.firstElementChild.innerHTML = index < stage ? icon('check',12) : String(index + 1);
++    }
++    if (index === stage) step.setAttribute('aria-current','step'); else step.removeAttribute('aria-current');
++  }
++  footer.dataset.uploadPhase = ui.uploadProgress?.phase || 'WAITING';
++  return true;
+ }
+ 
+ export function proofQueueStage(ui) {

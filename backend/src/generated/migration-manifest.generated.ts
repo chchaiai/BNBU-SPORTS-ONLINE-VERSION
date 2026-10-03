@@ -447,6 +447,11 @@ export const foundationMigrations = [
     destructive: false,
   },
   {
+    migrationId: '0090_student_enrollment_capacity',
+    sha256: '9472940cd6346b0abaae75e94baa0f0c90c92916d704566cdbe2d6e4339860b5',
+    destructive: false,
+  },
+  {
     migrationId: '0091_feedback_erasure_cleanup',
     sha256: 'a8ef189667050669f2e37bfd71da7303c559e86a55a687289675a9036623db7e',
     destructive: false,

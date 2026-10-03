@@ -1,0 +1,47 @@
+{
+  "result": "PASS",
+  "release": "/opt/bnbu-sports-production/releases/dual-class-20260922",
+  "previous": "/opt/bnbu-sports-production/releases/pending-query-removed-20260922",
+  "images": {
+    "backend": "sha256:bb126da4f13c8de7e5377f16b3b05672bb09c1baf50c550959a5cba621f8efc2",
+    "portal": "sha256:fe2cde7ad1ab1c6715cc3be0127d42309aec61e1fc35720e0db252aa8578b500",
+    "migrator": "sha256:7516ba6d720b96152f63b7fed322be930ca1497a5cf0c3b7998abf841302a2a2"
+  },
+  "backup": {
+    "check": "PRE_RELEASE_DATABASE_BACKUP",
+    "result": "PASS",
+    "path": "/opt/bnbu-sports-production/backups/before-bugfix-20260922T080014Z.dump",
+    "bytes": 73526492
+  },
+  "migration": "0090_student_enrollment_capacity",
+  "grant": {
+    "result": "PASS",
+    "studentId": "01a0a385-8409-7546-829a-84d121b8da4c",
+    "semesterId": "01a08920-1f5f-712f-99ae-63724ddca0a5",
+    "maximumActive": 2,
+    "newGrant": true,
+    "activeClasses": 1
+  },
+  "verification": {
+    "result": "PASS",
+    "studentId": "01a0a385-8409-7546-829a-84d121b8da4c",
+    "maximumActive": 2,
+    "classes": [
+      {
+        "id": "01a0a385-8415-726b-8da9-b224488edc76",
+        "classSectionId": "01a09af5-7964-712f-8472-16116e76f095",
+        "semesterId": "01a08920-1f5f-712f-99ae-63724ddca0a5"
+      }
+    ],
+    "ordinaryStudentMaximum": 1,
+    "scopedGrantCount": 1,
+    "databaseGuard": true,
+    "records": 1,
+    "productionBusinessWrites": 0
+  },
+  "runtimeHashes": 10,
+  "studentFiles": 9,
+  "portalAssets": 9,
+  "health": "PASS",
+  "rollbackAvailable": true
+}

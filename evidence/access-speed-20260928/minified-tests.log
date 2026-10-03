@@ -1,0 +1,121 @@
+[BNBU_WEB_CLIENT_ERROR] {
+  timestamp: '2026-09-28T11:32:32.101Z',
+  level: 'ERROR',
+  requestId: 'test-failure',
+  errorCode: 'CONFLICT_VERSION_MISMATCH',
+  category: 'CONFLICT',
+  httpStatus: 409,
+  method: 'GET',
+  route: '/exercise-records',
+  retryable: true,
+  client: 'WEB_STUDENT'
+}
+✔ discard completed general exercise with empty description never creates a draft (22.5862ms)
+✔ existing draft is discarded with its current version (1.1143ms)
+✔ discard stale local form preserves SUBMITTED server record (0.5592ms)
+✔ discard stale local form preserves REVIEWED server record (0.4303ms)
+✔ discard stale local form preserves CANCELLED server record (0.6407ms)
+✔ failed server read retains local session for retry (3.5416ms)
+✔ unfinished exercise still uses session cancellation (0.5661ms)
+✔ lost local upload metadata recovers identical video by digest without allocating another slot (19.3024ms)
+✔ deleted local video is restored for review while existing photos remain (1.1397ms)
+✔ different bytes remain distinct and cross-session recovery is rejected (2.9051ms)
+✔ upload progress is checkpointed before each irreversible remote stage and reservation locks deletion (5.9248ms)
+✔ deferred page shares its download, registers actions once, and preserves back protection (15.2633ms)
+✔ leaving a loading page or logging out prevents late render (60.3092ms)
+✔ failed download preserves state and never refreshes automatically (1.3736ms)
+✔ a persisted quota rejection is retried once with a fresh key and completes the same proof (27.002ms)
+✔ a real quota limit remains enforced with bounded retries and a fresh key for the next user attempt (1.5839ms)
+✔ expired unconfirmed authorization is replaced before attempting an object PUT (1.1361ms)
+✔ an uncertain initiation response retains its key so the committed reservation can be recovered (0.9662ms)
+[BNBU_WEB_CLIENT_ERROR] {
+  timestamp: '2026-09-28T11:32:32.121Z',
+  level: 'ERROR',
+  requestId: '92d81fa8-394c-43c0-b21a-41e7e516c857',
+  errorCode: 'SYSTEM_SERVICE_UNAVAILABLE',
+  category: 'SERVER',
+  httpStatus: 503,
+  method: 'GET',
+  route: '/exercise-records',
+  retryable: true,
+  client: 'WEB_STUDENT'
+}
+✔ empty browser loads history directly even when workspace loading failed (20.457ms)
+✔ draft-only pages advance to submitted history (0.9155ms)
+✔ failed read shows retry instead of no records and retry restores history (5.0697ms)
+✔ logout while reading cannot attach previous account history (0.5615ms)
+✔ pagination deduplicates records and rejects repeated cursors (1.7873ms)
+[BNBU_WEB_CLIENT_ERROR] {
+  timestamp: '2026-09-28T11:32:32.142Z',
+  level: 'ERROR',
+  requestId: '26e98c13-1565-41b9-9062-fc00b19d1ff9',
+  errorCode: 'NETWORK_UNAVAILABLE',
+  category: 'NETWORK',
+  httpStatus: null,
+  method: 'GET',
+  route: '/me',
+  retryable: true,
+  client: 'WEB_STUDENT'
+}
+[BNBU_WEB_CLIENT_ERROR] {
+  timestamp: '2026-09-28T11:32:32.158Z',
+  level: 'ERROR',
+  requestId: 'da452f92-79d4-4ca7-b59d-b6791f4370ab',
+  errorCode: 'AUTH_VERIFICATION_CODE_INVALID',
+  category: 'AUTHENTICATION',
+  httpStatus: 401,
+  method: 'GET',
+  route: '/me',
+  retryable: false,
+  client: 'WEB_STUDENT'
+}
+[BNBU_WEB_CLIENT_ERROR] {
+  timestamp: '2026-09-28T11:32:32.159Z',
+  level: 'ERROR',
+  requestId: 'a623c6e1-0550-40d0-9ef0-23de423e6190',
+  errorCode: 'AUTH_SESSION_REVOKED',
+  category: 'AUTHENTICATION',
+  httpStatus: 401,
+  method: 'GET',
+  route: '/me',
+  retryable: false,
+  client: 'WEB_STUDENT'
+}
+[BNBU_WEB_CLIENT_ERROR] {
+  timestamp: '2026-09-28T11:32:32.160Z',
+  level: 'ERROR',
+  requestId: '8929ca53-0f2f-45d4-b926-755eb370ec94',
+  errorCode: 'AUTH_ACCOUNT_DISABLED',
+  category: 'AUTHORIZATION',
+  httpStatus: 403,
+  method: 'GET',
+  route: '/me',
+  retryable: false,
+  client: 'WEB_STUDENT'
+}
+✔ a fresh module recovers persistent credentials after closing the page (3.0981ms)
+✔ missing or damaged presentation marker is rebuilt without another sign-in (0.3365ms)
+✔ verified identity repairs the display marker using the server student number (0.4203ms)
+✔ offline startup retains login and finishes loading so retry remains available (3.801ms)
+✔ a non-terminal 401 does not destroy the remembered session (14.8169ms)
+✔ revoked and disabled sessions return to sign-in without a stuck loading shell (0.9285ms)
+✔ expired access credentials rotate automatically without user sign-in (1.3861ms)
+✔ a delayed rejection from an old request cannot sign out a new login (0.9053ms)
+✔ explicit logout, removed site data and expired refresh credentials require sign-in (0.1121ms)
+✔ a login in another page also protects the new session from an older rejection (2.9863ms)
+✔ prepares all IDs before intake, labels video OTHER and locks the accepted batch (2.2615ms)
+✔ lost acceptance response keeps files locked and reconciles on retry (0.4139ms)
+✔ delay correction renews only rejected intake identity (0.4203ms)
+✔ missing truthful stages and replacement of locked files are rejected (0.5475ms)
+✔ all sports use the shared submission rules (0.1149ms)
+✔ safe swimming reasons replace misleading field-format guidance (1.7908ms)
+✔ finished swimming uses shared material controls (13.8642ms)
+✔ media preparation sends only metadata and uploads the same locked ID after intake (20.371ms)
+ℹ tests 41
+ℹ suites 0
+ℹ pass 41
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 182.9042

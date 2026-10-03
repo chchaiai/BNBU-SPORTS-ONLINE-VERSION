@@ -1,0 +1,22 @@
+{
+  "result": "PREPARED",
+  "images": {
+    "backend": "sha256:cce87b20353fdce177ef17fb47c612784560ff5ea88ff5ad20577f5e133cbbe2",
+    "portal": "sha256:ad502c901e4bb7880e6ef27578c7ea8d5997c954384e1e76fe8886d42364cc7b"
+  },
+  "before": {
+    "result": "PASS",
+    "activeTeacher": true,
+    "emailVerified": false,
+    "teacherRecoveryResolved": false,
+    "productionBusinessWrites": 0
+  },
+  "candidateVerification": {
+    "result": "PASS",
+    "activeTeacher": true,
+    "emailVerified": false,
+    "teacherRecoveryResolved": true,
+    "productionBusinessWrites": 0
+  },
+  "candidateTests": 4
+}

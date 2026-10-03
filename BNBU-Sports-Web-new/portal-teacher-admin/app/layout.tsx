@@ -8,6 +8,7 @@ import "./typography.css";
 import { ScrollbarManager } from "./scrollbar-manager";
 import "./app-select.css";
 import "./mobile-workspace.css";
+import "./ui-refinement.css";
 
 export async function generateMetadata(): Promise<Metadata> {
   const requestHeaders = await headers();
@@ -41,12 +42,14 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
+  const host = (await headers()).get("host") ?? "";
+  const live = ["www.student.bnbusports.cn", "www.teacher.bnbusports.cn"].includes(host);
   return (
     <html lang="zh-CN" suppressHydrationWarning>
-      <head><link rel="icon" type="image/svg+xml" href="/bnbu-sports-icon.svg" /></head>
+      <head><link rel="icon" type="image/svg+xml" href="/bnbu-sports-icon.svg" />{live && <script defer src="/__performance.js" />}</head>
       <body>
         <ScrollbarManager />
         {children}

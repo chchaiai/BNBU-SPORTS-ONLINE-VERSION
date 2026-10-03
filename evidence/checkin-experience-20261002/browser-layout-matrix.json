@@ -1,0 +1,830 @@
+[
+  {
+    "cta": [
+      {
+        "enabled": true,
+        "height": 55.99330520629883,
+        "text": "开始运动",
+        "width": 280,
+        "x": 20,
+        "y": 672.2879638671875
+      }
+    ],
+    "motion": "true",
+    "overflow": false,
+    "rootOverflow": false,
+    "scene": "preparation",
+    "width": 320
+  },
+  {
+    "cta": [
+      {
+        "enabled": true,
+        "height": 55.99330520629883,
+        "text": "暂停运动",
+        "width": 239.57589721679688,
+        "x": 32.71205520629883,
+        "y": 730.3794555664062
+      }
+    ],
+    "motion": "true",
+    "overflow": false,
+    "rootOverflow": false,
+    "scene": "running",
+    "width": 320
+  },
+  {
+    "cta": [
+      {
+        "enabled": true,
+        "height": 63.99553680419922,
+        "text": "继续运动",
+        "width": 115.79241180419922,
+        "x": 32.71205520629883,
+        "y": 722.3772583007812
+      },
+      {
+        "enabled": true,
+        "height": 63.99553680419922,
+        "text": "结束运动",
+        "width": 115.79241180419922,
+        "x": 156.49554443359375,
+        "y": 722.3772583007812
+      }
+    ],
+    "motion": "true",
+    "overflow": false,
+    "rootOverflow": false,
+    "scene": "paused",
+    "width": 320
+  },
+  {
+    "cta": [
+      {
+        "enabled": true,
+        "height": 55.99330520629883,
+        "text": "提交打卡",
+        "width": 265,
+        "x": 20,
+        "y": 772.2879638671875
+      }
+    ],
+    "motion": "true",
+    "overflow": false,
+    "rootOverflow": false,
+    "scene": "finished",
+    "width": 320
+  },
+  {
+    "cta": [
+      {
+        "enabled": true,
+        "height": 55.99330520629883,
+        "text": "提交打卡",
+        "width": 265,
+        "x": 20,
+        "y": 772.2879638671875
+      }
+    ],
+    "motion": "true",
+    "overflow": false,
+    "rootOverflow": false,
+    "scene": "filled",
+    "width": 320
+  },
+  {
+    "cta": [
+      {
+        "enabled": true,
+        "height": 55.99330520629883,
+        "text": "查看打卡记录",
+        "width": 280,
+        "x": 20,
+        "y": 620.3013305664062
+      },
+      {
+        "enabled": true,
+        "height": 47.99107360839844,
+        "text": "返回运动首页",
+        "width": 280,
+        "x": 20,
+        "y": 680.2902221679688
+      }
+    ],
+    "motion": "true",
+    "overflow": false,
+    "rootOverflow": false,
+    "scene": "submitted",
+    "width": 320
+  },
+  {
+    "cta": [],
+    "motion": "true",
+    "overflow": false,
+    "rootOverflow": false,
+    "scene": "records",
+    "width": 320
+  },
+  {
+    "cta": [
+      {
+        "enabled": true,
+        "height": 55.99330520629883,
+        "text": "重试提交",
+        "width": 265,
+        "x": 20,
+        "y": 772.2879638671875
+      }
+    ],
+    "motion": "true",
+    "overflow": false,
+    "rootOverflow": false,
+    "scene": "failed",
+    "width": 320
+  },
+  {
+    "cta": [
+      {
+        "enabled": true,
+        "height": 55.99330520629883,
+        "text": "开始运动",
+        "width": 335,
+        "x": 20,
+        "y": 680.2902221679688
+      }
+    ],
+    "motion": "true",
+    "overflow": false,
+    "rootOverflow": false,
+    "scene": "preparation",
+    "width": 390
+  },
+  {
+    "cta": [
+      {
+        "enabled": true,
+        "height": 55.99330520629883,
+        "text": "暂停运动",
+        "width": 309.5758972167969,
+        "x": 32.71205520629883,
+        "y": 730.3794555664062
+      }
+    ],
+    "motion": "true",
+    "overflow": false,
+    "rootOverflow": false,
+    "scene": "running",
+    "width": 390
+  },
+  {
+    "cta": [
+      {
+        "enabled": true,
+        "height": 55.99330520629883,
+        "text": "继续运动",
+        "width": 148.7834930419922,
+        "x": 32.71205520629883,
+        "y": 730.3794555664062
+      },
+      {
+        "enabled": true,
+        "height": 55.99330520629883,
+        "text": "结束运动",
+        "width": 148.79464721679688,
+        "x": 193.49330139160156,
+        "y": 730.3794555664062
+      }
+    ],
+    "motion": "true",
+    "overflow": false,
+    "rootOverflow": false,
+    "scene": "paused",
+    "width": 390
+  },
+  {
+    "cta": [
+      {
+        "enabled": true,
+        "height": 55.99330520629883,
+        "text": "提交打卡",
+        "width": 335,
+        "x": 20,
+        "y": 772.2879638671875
+      }
+    ],
+    "motion": "true",
+    "overflow": false,
+    "rootOverflow": false,
+    "scene": "finished",
+    "width": 390
+  },
+  {
+    "cta": [
+      {
+        "enabled": true,
+        "height": 55.99330520629883,
+        "text": "提交打卡",
+        "width": 335,
+        "x": 20,
+        "y": 772.2879638671875
+      }
+    ],
+    "motion": "true",
+    "overflow": false,
+    "rootOverflow": false,
+    "scene": "filled",
+    "width": 390
+  },
+  {
+    "cta": [
+      {
+        "enabled": true,
+        "height": 55.99330520629883,
+        "text": "查看打卡记录",
+        "width": 350,
+        "x": 20,
+        "y": 620.3013305664062
+      },
+      {
+        "enabled": true,
+        "height": 47.99107360839844,
+        "text": "返回运动首页",
+        "width": 350,
+        "x": 20,
+        "y": 680.2902221679688
+      }
+    ],
+    "motion": "true",
+    "overflow": false,
+    "rootOverflow": false,
+    "scene": "submitted",
+    "width": 390
+  },
+  {
+    "cta": [],
+    "motion": "true",
+    "overflow": false,
+    "rootOverflow": false,
+    "scene": "records",
+    "width": 390
+  },
+  {
+    "cta": [
+      {
+        "enabled": true,
+        "height": 55.99330520629883,
+        "text": "重试提交",
+        "width": 335,
+        "x": 20,
+        "y": 772.2879638671875
+      }
+    ],
+    "motion": "true",
+    "overflow": false,
+    "rootOverflow": false,
+    "scene": "failed",
+    "width": 390
+  },
+  {
+    "cta": [
+      {
+        "enabled": true,
+        "height": 55.99330520629883,
+        "text": "开始运动",
+        "width": 390,
+        "x": 20,
+        "y": 672.2879638671875
+      }
+    ],
+    "motion": "true",
+    "overflow": false,
+    "rootOverflow": false,
+    "scene": "preparation",
+    "width": 430
+  },
+  {
+    "cta": [
+      {
+        "enabled": true,
+        "height": 55.99330520629883,
+        "text": "暂停运动",
+        "width": 349.5758972167969,
+        "x": 32.71205520629883,
+        "y": 730.3794555664062
+      }
+    ],
+    "motion": "true",
+    "overflow": false,
+    "rootOverflow": false,
+    "scene": "running",
+    "width": 430
+  },
+  {
+    "cta": [
+      {
+        "enabled": true,
+        "height": 55.99330520629883,
+        "text": "继续运动",
+        "width": 168.7834930419922,
+        "x": 32.71205520629883,
+        "y": 730.3794555664062
+      },
+      {
+        "enabled": true,
+        "height": 55.99330520629883,
+        "text": "结束运动",
+        "width": 168.79464721679688,
+        "x": 213.49330139160156,
+        "y": 730.3794555664062
+      }
+    ],
+    "motion": "true",
+    "overflow": false,
+    "rootOverflow": false,
+    "scene": "paused",
+    "width": 430
+  },
+  {
+    "cta": [
+      {
+        "enabled": true,
+        "height": 55.99330520629883,
+        "text": "提交打卡",
+        "width": 375,
+        "x": 20,
+        "y": 772.2879638671875
+      }
+    ],
+    "motion": "true",
+    "overflow": false,
+    "rootOverflow": false,
+    "scene": "finished",
+    "width": 430
+  },
+  {
+    "cta": [
+      {
+        "enabled": true,
+        "height": 55.99330520629883,
+        "text": "提交打卡",
+        "width": 375,
+        "x": 20,
+        "y": 772.2879638671875
+      }
+    ],
+    "motion": "true",
+    "overflow": false,
+    "rootOverflow": false,
+    "scene": "filled",
+    "width": 430
+  },
+  {
+    "cta": [
+      {
+        "enabled": true,
+        "height": 55.99330520629883,
+        "text": "查看打卡记录",
+        "width": 390,
+        "x": 20,
+        "y": 620.3013305664062
+      },
+      {
+        "enabled": true,
+        "height": 47.99107360839844,
+        "text": "返回运动首页",
+        "width": 390,
+        "x": 20,
+        "y": 680.2902221679688
+      }
+    ],
+    "motion": "true",
+    "overflow": false,
+    "rootOverflow": false,
+    "scene": "submitted",
+    "width": 430
+  },
+  {
+    "cta": [],
+    "motion": "true",
+    "overflow": false,
+    "rootOverflow": false,
+    "scene": "records",
+    "width": 430
+  },
+  {
+    "cta": [
+      {
+        "enabled": true,
+        "height": 55.99330520629883,
+        "text": "重试提交",
+        "width": 375,
+        "x": 20,
+        "y": 772.2879638671875
+      }
+    ],
+    "motion": "true",
+    "overflow": false,
+    "rootOverflow": false,
+    "scene": "failed",
+    "width": 430
+  },
+  {
+    "cta": [
+      {
+        "enabled": true,
+        "height": 55.99330520629883,
+        "text": "开始运动",
+        "width": 640,
+        "x": 312.5,
+        "y": 680.2902221679688
+      }
+    ],
+    "motion": "true",
+    "overflow": false,
+    "rootOverflow": false,
+    "scene": "preparation",
+    "width": 1280
+  },
+  {
+    "cta": [
+      {
+        "enabled": true,
+        "height": 55.99330520629883,
+        "text": "暂停运动",
+        "width": 614.575927734375,
+        "x": 325.2120666503906,
+        "y": 730.3794555664062
+      }
+    ],
+    "motion": "true",
+    "overflow": false,
+    "rootOverflow": false,
+    "scene": "running",
+    "width": 1280
+  },
+  {
+    "cta": [
+      {
+        "enabled": true,
+        "height": 55.99330520629883,
+        "text": "继续运动",
+        "width": 301.2834777832031,
+        "x": 325.2120666503906,
+        "y": 730.3794555664062
+      },
+      {
+        "enabled": true,
+        "height": 55.99330520629883,
+        "text": "结束运动",
+        "width": 301.2946472167969,
+        "x": 638.4933471679688,
+        "y": 730.3794555664062
+      }
+    ],
+    "motion": "true",
+    "overflow": false,
+    "rootOverflow": false,
+    "scene": "paused",
+    "width": 1280
+  },
+  {
+    "cta": [
+      {
+        "enabled": true,
+        "height": 55.99330520629883,
+        "text": "提交打卡",
+        "width": 640,
+        "x": 312.5,
+        "y": 772.2879638671875
+      }
+    ],
+    "motion": "true",
+    "overflow": false,
+    "rootOverflow": false,
+    "scene": "finished",
+    "width": 1280
+  },
+  {
+    "cta": [
+      {
+        "enabled": true,
+        "height": 55.99330520629883,
+        "text": "提交打卡",
+        "width": 640,
+        "x": 312.5,
+        "y": 772.2879638671875
+      }
+    ],
+    "motion": "true",
+    "overflow": false,
+    "rootOverflow": false,
+    "scene": "filled",
+    "width": 1280
+  },
+  {
+    "cta": [
+      {
+        "enabled": true,
+        "height": 55.99330520629883,
+        "text": "查看打卡记录",
+        "width": 640,
+        "x": 320,
+        "y": 620.3013305664062
+      },
+      {
+        "enabled": true,
+        "height": 47.99107360839844,
+        "text": "返回运动首页",
+        "width": 640,
+        "x": 320,
+        "y": 680.2902221679688
+      }
+    ],
+    "motion": "true",
+    "overflow": false,
+    "rootOverflow": false,
+    "scene": "submitted",
+    "width": 1280
+  },
+  {
+    "cta": [],
+    "motion": "true",
+    "overflow": false,
+    "rootOverflow": false,
+    "scene": "records",
+    "width": 1280
+  },
+  {
+    "cta": [
+      {
+        "enabled": true,
+        "height": 55.99330520629883,
+        "text": "重试提交",
+        "width": 640,
+        "x": 312.5,
+        "y": 772.2879638671875
+      }
+    ],
+    "motion": "true",
+    "overflow": false,
+    "rootOverflow": false,
+    "scene": "failed",
+    "width": 1280
+  },
+  {
+    "motion": "true",
+    "overflow": false,
+    "rootOverflow": false,
+    "scene": "preparation",
+    "theme": "dark",
+    "width": 320
+  },
+  {
+    "motion": "true",
+    "overflow": false,
+    "rootOverflow": false,
+    "scene": "running",
+    "theme": "dark",
+    "width": 320
+  },
+  {
+    "motion": "true",
+    "overflow": false,
+    "rootOverflow": false,
+    "scene": "paused",
+    "theme": "dark",
+    "width": 320
+  },
+  {
+    "motion": "true",
+    "overflow": false,
+    "rootOverflow": false,
+    "scene": "finished",
+    "theme": "dark",
+    "width": 320
+  },
+  {
+    "motion": "true",
+    "overflow": false,
+    "rootOverflow": false,
+    "scene": "filled",
+    "theme": "dark",
+    "width": 320
+  },
+  {
+    "motion": "true",
+    "overflow": false,
+    "rootOverflow": false,
+    "scene": "submitted",
+    "theme": "dark",
+    "width": 320
+  },
+  {
+    "motion": "true",
+    "overflow": false,
+    "rootOverflow": false,
+    "scene": "records",
+    "theme": "dark",
+    "width": 320
+  },
+  {
+    "motion": "true",
+    "overflow": false,
+    "rootOverflow": false,
+    "scene": "failed",
+    "theme": "dark",
+    "width": 320
+  },
+  {
+    "motion": "true",
+    "overflow": false,
+    "rootOverflow": false,
+    "scene": "preparation",
+    "theme": "dark",
+    "width": 390
+  },
+  {
+    "motion": "true",
+    "overflow": false,
+    "rootOverflow": false,
+    "scene": "running",
+    "theme": "dark",
+    "width": 390
+  },
+  {
+    "motion": "true",
+    "overflow": false,
+    "rootOverflow": false,
+    "scene": "paused",
+    "theme": "dark",
+    "width": 390
+  },
+  {
+    "motion": "true",
+    "overflow": false,
+    "rootOverflow": false,
+    "scene": "finished",
+    "theme": "dark",
+    "width": 390
+  },
+  {
+    "motion": "true",
+    "overflow": false,
+    "rootOverflow": false,
+    "scene": "filled",
+    "theme": "dark",
+    "width": 390
+  },
+  {
+    "motion": "true",
+    "overflow": false,
+    "rootOverflow": false,
+    "scene": "submitted",
+    "theme": "dark",
+    "width": 390
+  },
+  {
+    "motion": "true",
+    "overflow": false,
+    "rootOverflow": false,
+    "scene": "records",
+    "theme": "dark",
+    "width": 390
+  },
+  {
+    "motion": "true",
+    "overflow": false,
+    "rootOverflow": false,
+    "scene": "failed",
+    "theme": "dark",
+    "width": 390
+  },
+  {
+    "motion": "true",
+    "overflow": false,
+    "rootOverflow": false,
+    "scene": "preparation",
+    "theme": "dark",
+    "width": 430
+  },
+  {
+    "motion": "true",
+    "overflow": false,
+    "rootOverflow": false,
+    "scene": "running",
+    "theme": "dark",
+    "width": 430
+  },
+  {
+    "motion": "true",
+    "overflow": false,
+    "rootOverflow": false,
+    "scene": "paused",
+    "theme": "dark",
+    "width": 430
+  },
+  {
+    "motion": "true",
+    "overflow": false,
+    "rootOverflow": false,
+    "scene": "finished",
+    "theme": "dark",
+    "width": 430
+  },
+  {
+    "motion": "true",
+    "overflow": false,
+    "rootOverflow": false,
+    "scene": "filled",
+    "theme": "dark",
+    "width": 430
+  },
+  {
+    "motion": "true",
+    "overflow": false,
+    "rootOverflow": false,
+    "scene": "submitted",
+    "theme": "dark",
+    "width": 430
+  },
+  {
+    "motion": "true",
+    "overflow": false,
+    "rootOverflow": false,
+    "scene": "records",
+    "theme": "dark",
+    "width": 430
+  },
+  {
+    "motion": "true",
+    "overflow": false,
+    "rootOverflow": false,
+    "scene": "failed",
+    "theme": "dark",
+    "width": 430
+  },
+  {
+    "motion": "true",
+    "overflow": false,
+    "rootOverflow": false,
+    "scene": "preparation",
+    "theme": "dark",
+    "width": 1280
+  },
+  {
+    "motion": "true",
+    "overflow": false,
+    "rootOverflow": false,
+    "scene": "running",
+    "theme": "dark",
+    "width": 1280
+  },
+  {
+    "motion": "true",
+    "overflow": false,
+    "rootOverflow": false,
+    "scene": "paused",
+    "theme": "dark",
+    "width": 1280
+  },
+  {
+    "motion": "true",
+    "overflow": false,
+    "rootOverflow": false,
+    "scene": "finished",
+    "theme": "dark",
+    "width": 1280
+  },
+  {
+    "motion": "true",
+    "overflow": false,
+    "rootOverflow": false,
+    "scene": "filled",
+    "theme": "dark",
+    "width": 1280
+  },
+  {
+    "motion": "true",
+    "overflow": false,
+    "rootOverflow": false,
+    "scene": "submitted",
+    "theme": "dark",
+    "width": 1280
+  },
+  {
+    "motion": "true",
+    "overflow": false,
+    "rootOverflow": false,
+    "scene": "records",
+    "theme": "dark",
+    "width": 1280
+  },
+  {
+    "motion": "true",
+    "overflow": false,
+    "rootOverflow": false,
+    "scene": "failed",
+    "theme": "dark",
+    "width": 1280
+  }
+]

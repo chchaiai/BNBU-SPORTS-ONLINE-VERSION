@@ -1,0 +1,9 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; connect-src 'none'; img-src 'self' data:; frame-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'"><title>手机定位</title><link rel="stylesheet" href="style.css"></head>
+<body><main><header><span class="tag">LOCATION LAB</span><h1>手机定位</h1><p>GPS · BSSID · Wi-Fi 指纹</p></header>
+<p id="mode" class="notice"></p><a id="download" href="location-lab.apk">下载 Android 采集端（测试版）</a>
+<button id="scan">获取定位与 Wi-Fi</button><p id="status" role="status" aria-live="polite">点击按钮开始，按提示允许精确位置权限。</p>
+<section><h2>GPS / 系统定位</h2><dl><dt>纬度</dt><dd id="lat">—</dd><dt>经度</dt><dd id="lon">—</dd><dt>精度</dt><dd id="accuracy">—</dd><dt>来源</dt><dd id="provider">—</dd><dt>定位时间</dt><dd id="time">—</dd></dl><p id="gpsStatus">尚未获取</p></section>
+<section><h2>Wi-Fi</h2><p>当前连接 BSSID</p><strong id="bssid">—</strong><p id="wifiStatus">尚未扫描</p><div class="scroll"><table><thead><tr><th>AP / BSSID</th><th>信号强度</th></tr></thead><tbody id="aps"></tbody></table></div></section>
+<section><h2>Wi-Fi 指纹定位</h2><p class="muted">在每个位置采集至少 3 次，保存至少 2 个位置，再扫描匹配。每次需至少 3 个 AP。建议每隔 30 秒采集一次。</p><label for="place">当前位置名称</label><input id="place" maxlength="60" placeholder="例如：教学楼 201 门口"><button id="save" class="secondary">保存本次指纹</button><button id="match" class="secondary">识别当前位置</button><p id="result" role="status">尚无匹配结果</p><ul id="places"></ul><button id="clear" class="text-button">清空本机指纹库</button></section>
+<footer>定位与指纹仅保存在本机，不上传服务器。室内匹配为实验结果，尚未经过现场精度标定。浏览器定位可能融合 GPS、Wi-Fi 与基站，不能保证来自 GPS。</footer></main><script src="fingerprint.js"></script><script src="app.js"></script></body></html>

@@ -1,5 +1,6 @@
 import { readProfileQualities, type ProfileQuality } from './application/student-profile-quality.js';
 import { Injectable } from '@nestjs/common';
+import { readEnrollmentCapacity, readEnrollmentCapacities } from '../enrollments/application/enrollment-capacity.js';
 
 import { PrismaService } from '../../common/database/prisma.service.js';
 import { ApplicationError } from '../../common/errors/application-error.js';
@@ -12,6 +13,9 @@ import type { StudentListQueryDto } from './users.dto.js';
 import { requireAdminAccess } from '../v8/v81-admin-access.js';
 
 export interface StudentProfileProjection extends Partial<ProfileQuality> {
+  maximumActiveEnrollments?: number;
+  activeEnrollmentCount?: number;
+  enrollmentCapacitySemesterId?: string | null;
   email?: string | null;
   emailVerified?: boolean;
   courseAssociations?: { classSectionId: string; classCode: string; className: string; courseName: string; semesterName: string; status: string }[];
@@ -107,7 +111,8 @@ export class UsersService {
       studentProfile:
         user.studentProfile === null
           ? null
-          : {...this.projectStudent(user.studentProfile),...(await readProfileQualities(this.prisma,[user.studentProfile])).get(user.studentProfile.id)},
+          : {...this.projectStudent(user.studentProfile),...(await readProfileQualities(this.prisma,[user.studentProfile])).get(user.studentProfile.id),
+              maximumActiveEnrollments: await readEnrollmentCapacity(this.prisma, principal.organizationId, user.studentProfile.id)},
       teacherProfile:
         user.teacherProfile === null
           ? null
@@ -213,6 +218,7 @@ export class UsersService {
       take: input.limit + 1,
     });
     const qualities=await readProfileQualities(this.prisma,rows);
+    const capacities=principal.role==='ADMIN' ? await readEnrollmentCapacities(this.prisma,principal.organizationId,rows.map(row=>row.id)) : new Map();
     const hasMore = rows.length > input.limit;
     const page = hasMore ? rows.slice(0, input.limit) : rows;
     const last = page.at(-1);
@@ -220,6 +226,7 @@ export class UsersService {
       page.map(({ user, enrollments, ...row }) => ({
         ...this.projectStudent(row),
         ...qualities.get(row.id),
+        ...capacities.get(row.id),
         status: enrollments.some(enrollment => enrollment.status === 'ACTIVE') ? 'ACTIVE' : 'PENDING',
         ...(principal.role === 'ADMIN' ? { email: user.primaryEmail, emailVerified: user.emailVerifiedAt !== null } : {}),
         courseAssociations: enrollments.map(enrollment => ({
@@ -252,9 +259,10 @@ export class UsersService {
     if (principal.role !== 'ADMIN') return {...this.projectStudent(student),...quality};
     await requireAdminAccess(this.prisma, principal, 'USER_ACCOUNTS');
     const user = await this.prisma.user.findUniqueOrThrow({ where: { id: student.userId }, select: { primaryEmail: true, emailVerifiedAt: true } });
+    const capacity=(await readEnrollmentCapacities(this.prisma,principal.organizationId,[studentId])).get(studentId);
     const enrollments = await this.prisma.enrollment.findMany({ where: { studentId, organizationId: principal.organizationId },
       include: { classSection: { include: { course: true } }, semester: true }, orderBy: [{ joinedAt: 'desc' }, { id: 'asc' }] });
-    return { ...this.projectStudent(student), ...quality, status: enrollments.some(enrollment => enrollment.status === 'ACTIVE') ? 'ACTIVE' : 'PENDING', email: user.primaryEmail, emailVerified: user.emailVerifiedAt !== null,
+    return { ...this.projectStudent(student), ...quality, ...capacity, status: enrollments.some(enrollment => enrollment.status === 'ACTIVE') ? 'ACTIVE' : 'PENDING', email: user.primaryEmail, emailVerified: user.emailVerifiedAt !== null,
       courseAssociations: enrollments.map(enrollment => ({ classSectionId: enrollment.classSectionId,
         classCode: enrollment.classSection.classCode, className: enrollment.classSection.displayName,
         courseName: enrollment.classSection.displayName, semesterName: enrollment.semester.displayName, status: enrollment.status })) };

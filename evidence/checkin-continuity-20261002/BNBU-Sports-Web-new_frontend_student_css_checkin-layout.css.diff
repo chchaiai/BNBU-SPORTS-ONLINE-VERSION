@@ -1,0 +1,52 @@
+--- BNBU-Sports-Web-new\frontend\student\css\checkin-layout.css (before)
++++ BNBU-Sports-Web-new\frontend\student\css\checkin-layout.css
+@@ -165,7 +165,7 @@
+ .checkin-description .field-supporting { margin: 0; font-size: 12px; }
+ .checkin-description-footer { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
+ .checkin-description-count { flex: none; font-size: 12px; font-variant-numeric: tabular-nums; }
+-.checkin-focused:has(textarea:focus) .checkin-dock { position: static; }
++.checkin-focused .checkin-dock { bottom: var(--checkin-keyboard-inset, 0px); }
+ .checkin-discard { color: var(--color-error); align-self: center; font-size: 13px; }
+ .checkin-transfer { margin-bottom: 12px; }
+ .checkin-inline-progress { padding: 12px 14px; border-radius: var(--shape-medium); background: var(--color-surface); }
+@@ -343,16 +343,30 @@
+ .proof-queue-steps .is-done > span { color:var(--color-primary); border-color:transparent; background:var(--color-primary-container); }
+ .proof-queue-feedback { text-align:center; color:var(--color-on-surface-variant); font-size:11px; line-height:1.6; margin:10px 0 0; }
+ .proof-queue-feedback.is-error { color:var(--color-error); }
+-.checkin-finished.is-submitting .checkin-summary .checkin-disclosure,
+-.checkin-finished.is-submitting .checkin-evidence > :not(.proof-list-header):not(.proof-queue),
+-.checkin-finished.is-submitting .checkin-description > :not(.checkin-description-heading),
+-.checkin-finished.is-submitting .checkin-discard { display:none; }
+-.checkin-finished.is-submitting .checkin-summary-values { margin-top:10px; }
+-.checkin-finished.is-submitting .checkin-summary-time { font-size:24px; margin-bottom:0; }
+-.checkin-finished.is-submitting .checkin-summary-credit { font-size:19px; margin-bottom:0; }
+-.checkin-finished.is-submitting .checkin-finish-heading { padding-bottom:12px; }
+-.checkin-finished.is-submitting .checkin-body { gap:16px; }
+-.checkin-finished.is-submitting .checkin-description { padding-block:15px; }
++/* The same sections stay in document flow while their contents fold away. */
++.checkin-collapse { min-width:0; display:flow-root; overflow:clip; }
++.checkin-collapse.is-collapsed { height:0; opacity:0; visibility:hidden; pointer-events:none; }
++.checkin-collapse > div { display:flow-root; }
++.checkin-description { gap:0; }
++.checkin-collapse > .checkin-description-content { display:grid; gap:12px; padding-top:12px; }
++.checkin-collapse > .checkin-capture-content { display:grid; gap:12px; padding-top:12px; }
++.checkin-evidence:has(> [data-checkin-collapse]) { gap:0; }
++.checkin-capture-content .checkin-disclosure { margin:0; }
++.checkin-summary [data-checkin-collapse] .checkin-disclosure { margin-top:12px; margin-bottom:0; }
++.checkin-discard-wrap { text-align:center; }
++.checkin-description-done { transition:opacity 180ms ease,transform 180ms ease; }
++.checkin-description-done[data-complete="false"] { opacity:0; transform:translateY(3px); pointer-events:none; }
++.checkin-description-done[data-complete="true"] { opacity:1; transform:translateY(0); }
++.checkin-save-status { min-height:1.6em; }
++.proof-queue-item { overflow:clip; }
++.proof-queue-status { min-width:4.5em; transition:color 180ms ease; }
++.proof-queue-status > * { animation:checkin-queue-state-in 180ms ease-out; }
++@keyframes checkin-queue-state-in { from {opacity:.35;transform:translateY(2px)} to {opacity:1;transform:translateY(0)} }
++.proof-queue-track { opacity:0; transition:opacity 180ms ease; }
++[data-queue-state="uploading"] .proof-queue-track { opacity:1; }
++.proof-queue-steps li, .proof-queue-steps li > span { transition:color 180ms ease,background-color 180ms ease,border-color 180ms ease; }
++.checkin-disclosure[data-disclosure-target="closed"] > summary > svg { transform:rotate(0); }
++.checkin-photo-exit-backdrop { position:fixed; inset:0; z-index:1099; background:rgb(5,5,5); pointer-events:none; }
+ .checkin-finished.is-submitting .checkin-dock .checkin-cta:disabled { opacity:1; background:var(--color-primary-container); color:var(--color-primary); }
+ .checkin-finished.is-submitting .checkin-submit-label .spinner { color:var(--color-primary); }
+ @keyframes proof-queue-working { from {transform:translateX(0)} to {transform:translateX(230%)} }

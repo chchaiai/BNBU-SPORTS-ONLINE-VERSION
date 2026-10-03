@@ -1,0 +1,43 @@
+{
+  "result": "PASS",
+  "release": "/opt/bnbu-sports-production/releases/course-requirements-20261002",
+  "previous": "/opt/bnbu-sports-production/releases/checkin-ui-final-20261002",
+  "checks": [
+    {
+      "host": "www.student.bnbusports.cn",
+      "path": "/student/",
+      "status": 200
+    },
+    {
+      "host": "www.teacher.bnbusports.cn",
+      "path": "/",
+      "status": 200
+    },
+    {
+      "host": "www.student.bnbusports.cn",
+      "path": "/api/v1/health/ready",
+      "status": 200
+    },
+    {
+      "host": "www.teacher.bnbusports.cn",
+      "path": "/api/v1/health/ready",
+      "status": 200
+    }
+  ],
+  "verification": {
+    "result": "PASS",
+    "actualRuntimeQueryVerified": true,
+    "courses": 44,
+    "published": 42,
+    "unpublished": 2,
+    "allFourFieldsMatchStoredRules": true,
+    "existingDirectoryUnchanged": true,
+    "readOnly": true,
+    "nonAdminRejected": true
+  },
+  "rollbackAvailable": true,
+  "databaseMigrations": 0,
+  "businessDataWrites": 0,
+  "runtimeFilesChanged": 1,
+  "portalUnchanged": true
+}

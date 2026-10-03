@@ -1,0 +1,48 @@
+--- BNBU-Sports-Web-new\frontend\student\js\checkin-experience.js (before)
++++ BNBU-Sports-Web-new\frontend\student\js\checkin-experience.js
+@@ -3,7 +3,7 @@
+ import {icon} from './icons.js';
+ import {sessionDurationMs, formatTimer} from './session.js';
+ import {SPORT_OPTIONS} from './sports-catalog.js';
+-import {proofQueueState} from './checkin-proof-queue.js';
++import {proofQueueState, updateProofQueue} from './checkin-proof-queue.js';
+ 
+ // Presentation only: these values never authorize a start or submission.
+ export function durationProgress(durationMs, minimumMinutes, maximumSeconds) {
+@@ -64,6 +64,36 @@
+ export function descriptionSaveState(session, saved) {
+   return Boolean(saved && saved.phase === 'finished' && saved.startedAt === session.startedAt && saved.serverId === session.serverId && saved.details?.description === session.details.description);
+ }
++
++export function refreshCheckinTransfer(app) {
++  const ui = app.ui.checkin, root = app._viewport?.querySelector('[data-checkin-page="finished"]');
++  if (root?.dataset.checkinOwner !== app.state.workspace.student.id || !updateProofQueue(root, ui)) { app.render(); return; }
++  const button = root.querySelector('[data-action="checkin.submit"]');
++  const phase = ui.uploadProgress?.phase === 'SUBMITTING' ? 'submitting' : 'evidence';
++  if (button && button.dataset.transferPhase !== phase) {
++    button.innerHTML = submitButtonContent(ui);
++    button.dataset.transferPhase = phase;
++  }
++}
++
++// Move only enough to uncover the field. Repeated validation of a visible field
++// must not start another centered scroll while the error is expanding.
++export function fieldScrollDelta(field, visible, inset = 20) {
++  if (field.top < visible.top + inset) return field.top - visible.top - inset;
++  if (field.bottom > visible.bottom - inset) return Math.min(field.bottom - visible.bottom + inset, field.top - visible.top - inset);
++  return 0;
++}
++
++export function revealCheckinField(field, reduced = false) {
++  const scroll = field?.closest?.('[data-scroll-key]');
++  if (!scroll?.getBoundingClientRect) return;
++  const win = field.ownerDocument.defaultView, viewport = win.visualViewport;
++  const rect = scroll.getBoundingClientRect(), dock = scroll.querySelector('.checkin-dock');
++  const visible = {top:Math.max(rect.top, viewport?.offsetTop || 0),
++    bottom:Math.min(rect.bottom, (viewport?.offsetTop || 0) + (viewport?.height || win.innerHeight), dock?.getBoundingClientRect().top ?? Infinity)};
++  const delta = fieldScrollDelta(field.getBoundingClientRect(), visible);
++  if (Math.abs(delta) > 1) scroll.scrollBy({top:delta, behavior:reduced ? 'instant' : 'smooth'});
++}
+ export function resizeDescription(field) {
+   if (!field?.style) return;
+   const scroll = field.closest('[data-scroll-key]'), top = scroll?.scrollTop;

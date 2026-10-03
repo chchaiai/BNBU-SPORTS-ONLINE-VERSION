@@ -1,0 +1,102 @@
+--- BNBU-Sports-Web-new\frontend\student\js\checkin-motion.js (before)
++++ BNBU-Sports-Web-new\frontend\student\js\checkin-motion.js
+@@ -2,6 +2,7 @@
+ import {motionKey, sameCheckinSession} from './checkin-layout.js';
+ import {createMotionLoader, controlGlyphPaths} from './checkin-motion-loader.js';
+ import {connectGestures} from './checkin-gestures.js';
++import {animateFormReflow, animateFieldError} from './checkin-form-motion.js';
+ 
+ const loadConfetti = createMotionLoader(() => import('../vendor/canvas-confetti-1.9.4/confetti.module.js'));
+ const contexts = new WeakMap();
+@@ -79,7 +80,7 @@
+   viewport.addEventListener('keyup', release);
+   viewport.addEventListener('checkin-clear-error', event => {
+     const error = event.target.closest('[data-checkin-error]');
+-    if (error) play(error, {height: [error.getBoundingClientRect().height, 0], opacity: [1, 0], duration: 220}, ctx, () => error.remove());
++    if (error) animateFieldError(error, ctx, play, true);
+   });
+   viewport.addEventListener('checkin-milestone', event => {
+     const goal=event.target.closest('[data-checkin-goal]');
+@@ -91,12 +92,10 @@
+     event.preventDefault();
+     const details = summary.parentElement;
+     const height = details.getBoundingClientRect().height;
+-    targets.get(details)?.cancel();
+-    details.open = !details.open;
+-    const next = details.getBoundingClientRect().height;
+-    details.style.overflow = 'clip';
+-    play(details, {height: [height, next], duration: 280}, ctx, () => details.style.removeProperty('overflow'));
+-    if(details.open) enter(details.querySelector(':scope > div'),ctx,220);
++    const opening = details.dataset.disclosureTarget ? details.dataset.disclosureTarget !== 'open' : !details.open;
++    const content = details.querySelector(':scope > div');
++    const opacity = details.open && content ? Number(content.ownerDocument.defaultView.getComputedStyle(content).opacity) : 0;
++    animateDisclosure(details,{height,opacity,opening},ctx);
+   });
+   viewport.ownerDocument.addEventListener('visibilitychange', () => {
+     if (viewport.ownerDocument.hidden) settle(ctx);
+@@ -105,6 +104,23 @@
+   viewport.ownerDocument.defaultView?.addEventListener('blur', () => settle(ctx));
+   preference?.addEventListener('change', () => { if (!canAnimate(ctx.root)) settle(ctx); });
+   return ctx;
++}
++
++function animateDisclosure(details, {height,opacity,opening}, ctx) {
++  const content=details.querySelector(':scope > div'), summary=details.querySelector('summary');
++  targets.get(details)?.cancel(); targets.get(content)?.cancel();
++  details.open=opening;
++  const next=details.getBoundingClientRect().height;
++  details.open=true; details.dataset.disclosureTarget=opening ? 'open' : 'closed';
++  if(content)content.inert=!opening;
++  summary?.setAttribute('aria-expanded',String(opening));
++  details.style.overflow='clip';
++  play(content,{opacity:[opacity,opening ? 1 : 0],duration:280},ctx);
++  play(details,{height:[height,next],duration:280},ctx,()=>{
++    details.open=opening; delete details.dataset.disclosureTarget;
++    details.style.removeProperty('overflow'); summary?.removeAttribute('aria-expanded');
++    if(content)content.inert=false;
++  });
+ }
+ 
+ function flip(el, old, ctx, duration = 280, scale = false) {
+@@ -274,6 +290,12 @@
+   if (sameCheckinSession(previous, root)) {
+     const samePage = previous.page === root.dataset.checkinPage;
+     const phaseChanged = previous.phase !== root.dataset.checkinPhase;
++    const formReflow = samePage && animateFormReflow(ctx, previous, play);
++    if (samePage) for (const details of root.querySelectorAll('[data-checkin-disclosure]')) {
++      const frame=previous.disclosureFrames?.get(details.dataset.checkinDisclosure);
++      if(frame)animateDisclosure(details,frame,ctx);
++    }
++    const validationReflow = samePage && [...root.querySelectorAll('[data-checkin-error]')].some(el=>!previous.rects.has(motionKey(el)));
+     const nodes = [...root.querySelectorAll(movable)];
+     if (samePage) animateSessionControls(ctx, previous);
+     for (const el of nodes) {
+@@ -281,22 +303,25 @@
+       if (samePage && ['control-primary','control-end'].includes(key)) continue;
+       if(key.startsWith('upload-fill') && old) {play(el,{width:[old.rect.width,el.getBoundingClientRect().width],duration:180,ease:'linear'},ctx);continue;}
+       if(key==='timer-status' && old?.text!==el.textContent) {enter(el,ctx,220);continue;}
+-      if ((el.matches('[data-checkin-error]') || key.includes('error')) && !old) {enter(el, ctx); continue;}
++      if (el.matches('[data-checkin-error]') && !old) {animateFieldError(el, ctx, play); continue;}
++      if (key.includes('error') && !old) {enter(el, ctx); continue;}
+       if (key === 'sport' && old?.text !== el.textContent) {enter(el, ctx); continue;}
+       if (el.matches('.proof-card') && !previous.proofs.has(el.dataset.draftId)) {
+-        enter(el, ctx); play(el.querySelector('.proof-card-media'), {scale: [.96, 1],boxShadow:['inset 0 0 0 2px var(--color-primary)','inset 0 0 0 0 transparent'], duration: 480}, ctx); continue;
++        if (!el.closest('.proof-queue')) enter(el, ctx);
++        play(el.querySelector('.proof-queue-thumbnail, .proof-card-media'), {scale: [.96, 1], duration: 240}, ctx); continue;
+       }
+       if (el.matches('[data-checkin-record]') && !old) {enter(el, ctx); continue;}
+       // Moving a parent already moves its descendants. Shared timer/name are
+       // animated separately only when the stage changes.
+       if (!samePage && el.closest('[data-checkin-enter]')) continue;
+       if (samePage && ['timer', 'sport'].includes(key) && !phaseChanged) continue;
++      if ((formReflow || validationReflow || previous.disclosureFrames?.size) && (el.closest('.checkin-body') || key === 'submit-button')) continue;
+       flip(el, old, ctx, samePage ? 280 : 320, ['timer', 'sport'].includes(key));
+     }
+     if (!samePage) {
+       [...root.querySelectorAll('[data-checkin-enter]')].forEach((el, index) => enter(el, ctx, 320, Math.min(index, 2) * 40));
+     } else {
+-      for (const [key, old] of previous.rects) if ((key.startsWith('proof:') || key.startsWith('record:')) && !nodes.some(el => motionKey(el) === key)) removeProof(old, ctx);
++      for (const [key, old] of previous.rects) if ((key.startsWith('proof:') || key.startsWith('record:')) && !old.node.closest('.proof-queue-item') && !nodes.some(el => motionKey(el) === key)) removeProof(old, ctx);
+     }
+     for (const el of root.querySelectorAll('[data-checkin-number]')) {
+       const old = previous.numbers?.get(el.dataset.checkinNumber);

@@ -1,0 +1,12 @@
+{
+  "scope": "Student check-in UI, local preview only",
+  "date": "2026-10-01",
+  "focusedTests": {"passed": 31, "failed": 0},
+  "studentSmoke": {"passed": 86, "failed": 1, "baselineHasSameFailure": true, "failure": "Existing course copy assertion: 每学期仅可选择一门课程"},
+  "viewportChecks": {"sizes": ["320x740", "390x844", "1280x800"], "stages": 5, "combinations": 15, "horizontalOverflow": 0, "actionDocksVisible": true},
+  "browserFlows": ["Pause, resume and finish", "Return home and recover description and proof", "Custom exercise name and start eligibility", "Dark theme", "Unknown rules", "Below minimum duration", "Upload failure notice", "Record read failure", "Missing evidence", "Closed category"],
+  "fixtures": "Success, upload progress and failure UI use explicitly labelled synthetic fixtures; no live submission was sent.",
+  "limits": ["Physical phone camera and keyboard not tested", "Production backend and real uploads not tested"],
+  "reviewUrl": "http://127.0.0.1:4176/",
+  "restartReview": "Start the existing student preview server on port 4174, then run node server.cjs from this directory."
+}

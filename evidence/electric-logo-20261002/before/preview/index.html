@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <title>精密仪表 · 学生打卡预览</title>
+  <link rel="stylesheet" href="/student/css/tokens.css">
+  <link rel="stylesheet" href="/student/css/components.css">
+  <link rel="stylesheet" href="/student/css/screens.css">
+  <link rel="stylesheet" href="/student/css/upload-progress.css">
+  <link rel="stylesheet" href="/student/css/ui-refinement.css">
+  <link rel="stylesheet" href="/student/css/checkin-layout.css">
+  <link rel="stylesheet" href="/student/css/app-download-promo.css">
+  <style>
+    body {overflow:hidden}
+    .experience-notice {height:32px;display:flex;align-items:center;justify-content:center;gap:12px;background:var(--color-surface);color:var(--color-on-surface-variant);font-size:11px;border-bottom:1px solid var(--color-outline-variant);box-sizing:border-box}
+    .experience-notice button {font:inherit;color:var(--color-primary);min-height:30px;padding:0 8px}
+    #app {height:calc(100dvh - 32px)}
+    #experience-viewport .banner.local-preview {display:none}
+  </style>
+</head>
+<body>
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs><path id="bnbu-emblem-path" fill-rule="evenodd" d="" /></defs>
+  </svg>
+  <aside class="experience-notice"><span id="experience-notice">本地体验 · 记录仅存本机</span><button id="experience-info" type="button">体验说明</button></aside>
+  <main id="app"><div id="experience-viewport" class="app-viewport"></div></main>
+  <script>globalThis.__BNBU_PUBLIC_CONFIG__ = {appEnv:'local'};</script>
+  <script type="module" src="/student/js/emblem.js"></script>
+  <script type="module" src="/experience.js"></script>
+</body>
+</html>

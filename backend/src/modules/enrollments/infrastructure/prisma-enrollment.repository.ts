@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { readEnrollmentCapacity } from '../application/enrollment-capacity.js';
 
 import { PrismaService } from '../../../common/database/prisma.service.js';
 import { ApplicationError } from '../../../common/errors/application-error.js';
@@ -110,6 +111,14 @@ export class PrismaEnrollmentRepository extends EnrollmentRepository {
       where: { organizationId, semesterId, studentId, status: 'ACTIVE' },
     });
     return row === null ? null : this.state(row);
+  }
+
+  override async findCapacityConflict(organizationId: string, semesterId: string, studentId: string, transaction: object): Promise<EnrollmentState | null> {
+    const client = this.client(transaction);
+    await client.$queryRaw`SELECT id FROM student_profiles WHERE id=${studentId}::uuid AND organization_id=${organizationId}::uuid FOR UPDATE`;
+    const capacity = await readEnrollmentCapacity(client, organizationId, studentId, semesterId);
+    const rows = await client.enrollment.findMany({where:{organizationId,semesterId,studentId,status:'ACTIVE'},take:capacity});
+    return rows.length >= capacity ? this.state(rows[0]!) : null;
   }
 
   async create(state: EnrollmentState, transaction: object): Promise<EnrollmentState> {
@@ -259,7 +268,7 @@ export class PrismaEnrollmentRepository extends EnrollmentRepository {
   private mapWriteError(error: unknown): never {
     if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === 'P2002') {
       const target = JSON.stringify(error.meta?.target ?? '');
-      if (target.includes('semester')) {
+      if (target.includes('semester') || target.includes('capacity')) {
         throw new ApplicationError('ENROLLMENT_SEMESTER_CONFLICT', 409);
       }
       throw new ApplicationError('ENROLLMENT_ALREADY_ACTIVE', 409);

@@ -1,4 +1,7 @@
+import { renderCourses, coursesActions, coursesBackInterceptor, attachDraftVideoPreview, renderCheckIn, checkinActions, checkinTick, checkinBackInterceptor, restoreCheckinContinuity, resumeCheckinContinuity, renderGrades, renderRequiredProfile, renderProfile, renderAccountDetails, renderSettings, renderAccountDeletion, profileActions } from "./lazy-student-screens.js";
 import { flushNativeAlbum } from "./native-album.js";
+import { captureCheckinLayout, restoreCheckinLayout, isFocusedCheckin } from "./checkin-layout.js";
+import {renderExerciseReturn} from './checkin-experience.js';
 import { supportsStudentDevice, renderStudentDeviceNotice, supportsStudentBrowser, showStudentBrowserNotice } from "./student-device.js";
 import { clearProofDrafts } from "./checkin-drafts.js";
 // Root application shell replicated from feature/shell/AppRootScreen.kt.
@@ -8,8 +11,11 @@ import { clearProofDrafts } from "./checkin-drafts.js";
 //   AppTab five-tab scaffold + SubScreen overlay + NotificationSheet.
 
 import { t, tx, setLanguage, getLanguage } from "./i18n.js";
+import { showAppBetaAnnouncement } from "./app-download-promo.js";
+import { electricBrand, captureElectricBrands, restoreElectricBrands, syncElectricBrands } from './electric-brand.js';
 import { localStore, BUILD } from "./store.js";
 import { emptyWorkspace } from "./data.js";
+import { renderCourseSwitcher, switchCourse } from './course-selection.js';
 import { toVisibleStudentNotices } from "./v81-review.js";
 import {
   LOCAL_PREVIEW_ACCOUNT_ID,
@@ -37,6 +43,7 @@ import {
   subscribeProfileCorrection,
 } from "./api.js";
 import { icon } from "./icons.js";
+import { esc } from './ui.js';
 import { renderStartupSplash, renderConnectionNotice, renderMaintenancePage, renderPlannedMaintenanceBanner, renderSyncStatusBanner, renderLocalPreviewBanner } from "./screens/startup.js";
 import { renderPrivacyConsent, renderPrivacyPolicy, consentActions, loadPolicyMarkdown } from "./screens/consent.js";
 import { renderPreLoginGuide, renderPostEnrollmentGuide, guideActions, guideBackInterceptor, attachGuideSwipe } from "./screens/guide.js";
@@ -47,12 +54,7 @@ import { renderContactBinding, renderActivationHelp, bindingActions } from "./sc
 import { renderScanJoin, renderEnterInviteCode, renderCourseJoinConfirm, renderJoinRequestStatus, joinActions, joinBackInterceptor, attachScanCamera, openInviteLink } from "./screens/join.js";
 import { renderDashboard, dashboardActions } from "./screens/dashboard.js";
 import { renderNotificationSheet, notificationActions } from "./screens/notifications.js";
-import { renderCourses, coursesActions, coursesBackInterceptor } from "./screens/courses.js";
-import { attachDraftVideoPreview, renderCheckIn, checkinActions, checkinTick, checkinBackInterceptor, restoreCheckinContinuity, resumeCheckinContinuity } from "./screens/checkin.js";
-import { renderGrades } from "./screens/grades.js";
-import { renderRequiredProfile, renderProfile, renderAccountDetails, renderSettings, renderAccountDeletion, profileActions } from "./screens/profile.js";
-import { renderHelpCenter, renderFeedback, renderAbout, renderChangelog, supportActions } from "./screens/support.js";
-import { renderEnduranceScoring, renderExemption, servicesActions, servicesBackInterceptor } from "./screens/services.js";
+import { supportScreens, serviceScreens } from "./deferred-screens.js";
 
 const params = new URLSearchParams(globalThis.location?.search || "");
 const requestedSystemModeOverride = params.get("sysmode")?.trim().toLowerCase() ?? null;
@@ -154,7 +156,7 @@ export const app = {
   lastScreenKey: "",
 
   // ── Derived helpers ─────────────────────────────────────────
-  isWriteAllowed() { return this.state.systemMode === "NORMAL"; },
+  isWriteAllowed() { return this.state.systemMode === "NORMAL" && !this.state.courseSwitchInProgress; },
   _systemModeRefresh: null,
   applySystemModeStatus(status) {
     const previousMode = this.state.systemMode;
@@ -224,9 +226,9 @@ export const app = {
   },
   canStartNewCourseJoin() {
     const w = this.state.workspace;
-    const activeEnrollment = w.courses.some((c) => c.isCurrent && c.enrollmentStatus === "enrolled");
+    const activeCount = w.courses.filter((c) => c.isCurrent && c.enrollmentStatus === "enrolled").length;
     const req = w.courseJoinRequest;
-    return !activeEnrollment && !(req && (req.status === "PENDING"));
+    return activeCount < (w.student.maximumActiveEnrollments === 2 ? 2 : 1) && !(req && (req.status === "PENDING"));
   },
   visibleNotices() {
     return toVisibleStudentNotices(this.state.workspace.notices);
@@ -330,7 +332,7 @@ export const app = {
     return true;
   },
   /** Loads/refreshes the live workspace; keeps the shell usable on failure. */
-  async reloadApiWorkspace(preloadedIdentity = null) {
+  async reloadApiWorkspace(preloadedIdentity = null, selectedEnrollmentId = null) {
     if (this.isLocalPreview()) {
       this.state.isLoading = false;
       this.state.lastError = null;
@@ -366,12 +368,18 @@ export const app = {
         return true;
       }
       const [{ workspace, activeServerSession }, preferences] = await Promise.all([
-        loadApiWorkspace(identity), getMyPreferences(),
+        loadApiWorkspace(identity, selectedEnrollmentId), getMyPreferences(),
       ]);
       if (!current()) return false;
       this.state.preferences = preferences;
       this.applyAppLanguage(preferences.locale === "en" ? "en" : "zh");
       this.state.workspace = workspace;
+      localStore.setSelectedEnrollment(workspace.student.localOwnerId, workspace.selectedEnrollmentId);
+      if (selectedEnrollmentId) {
+        this.ui.checkin = null;
+        this.ui.exemption = null;
+        this.ui.courses = null;
+      }
       this.state.workspace.activeServerSession = activeServerSession;
       const restoringExercise = !this.ui.checkin;
       await restoreCheckinContinuity(this,current);
@@ -639,17 +647,17 @@ export const app = {
   renderSubScreen() {
     const p = this.state.subParams;
     switch (this.state.subScreen) {
-      case "endurance": return renderEnduranceScoring(this);
-      case "exemption": return renderExemption(this, p);
+      case "endurance":
+      case "exemption": return serviceScreens.render(this);
       case "account": return renderAccountDetails(this);
       case "settings": return renderSettings(this);
       case "accountDeletion": return renderAccountDeletion(this);
       case "binding": return renderContactBinding(this, { mode: "manageContacts" });
       case "privacy": return renderPrivacyPolicy(this, { context: "settings" });
-      case "help": return renderHelpCenter(this);
-      case "feedback": return renderFeedback(this);
-      case "about": return renderAbout(this);
-      case "changelog": return renderChangelog(this);
+      case "help":
+      case "feedback":
+      case "about":
+      case "changelog": return supportScreens.render(this);
       case "scan": return renderScanJoin(this, {});
       case "enterCode": return renderEnterInviteCode(this);
       case "joinStatus": return renderJoinRequestStatus(this, p);
@@ -660,6 +668,8 @@ export const app = {
 
   bottomNavHtml() {
     if (this.ui.checkin?.liveCamera?.mode) return '';
+    const session = localStore.getExerciseSession(this.state.workspace.student.id);
+    if (isFocusedCheckin(this.state, session)) return '';
     const tabs = [
       { id: "dashboard", label: t("navigation_dashboard"), icon: null },
       { id: "courses", label: t("navigation_courses"), icon: "menu-book" },
@@ -670,7 +680,7 @@ export const app = {
     return `<div class="bottom-nav-wrap"><nav class="bottom-nav" role="tablist">${tabs
       .map(
         (tab) => `<button class="nav-item" role="tab" aria-selected="${this.state.tab === tab.id}" data-action="root.tab" data-tab="${tab.id}">
-          <span class="pill">${tab.icon ? icon(tab.icon, 24) : `<svg class="icon" width="24" height="24" viewBox="0 0 83 83" fill="currentColor" aria-hidden="true"><use href="#bnbu-emblem-path"/></svg>`}</span>
+          <span class="pill">${tab.icon ? icon(tab.icon, 24) : electricBrand('navigation-home', 'nav')}</span>
           <span class="nav-label">${tab.label}</span>
         </button>`
       )
@@ -680,6 +690,7 @@ export const app = {
   renderAuthenticatedShell() {
     const s = this.state;
     const previewBanner = this.isLocalPreview() ? renderLocalPreviewBanner() : "";
+    const focusedCheckin = isFocusedCheckin(s, localStore.getExerciseSession(s.workspace.student.id));
     const banner = (s.lastError !== null || s.isShowingCachedData ? renderSyncStatusBanner(this) : "") + (s.workspace.moduleErrors?.length ? `<div role="status" class="swiss-panel">${tx("部分数据暂时无法加载：", "Temporarily unavailable: ")}${s.workspace.moduleErrors.join("、")}</div>` : "");
     const sub = s.subScreen
       ? `<div class="screen sub-screen-overlay ${this.navDirection === "forward" ? "anim-enter-forward" : ""}">${this.renderSubScreen()}</div>`
@@ -689,7 +700,8 @@ export const app = {
       <div class="screen main-shell">
         ${previewBanner}
         ${banner}
-        <div class="tab-host screen-scroll" data-scroll-key="tab-${s.tab}">${this.renderTabContent()}</div>
+        <div class="tab-host screen-scroll${focusedCheckin ? ' checkin-focus-host' : ''}" data-scroll-key="tab-${s.tab}">${focusedCheckin ? '' : renderCourseSwitcher(this)}${this.renderTabContent()}</div>
+        ${s.tab === 'dashboard' ? renderExerciseReturn(localStore.getExerciseSession(s.workspace.student.id),s.workspace.student.id) : ''}
         ${this.bottomNavHtml()}
       </div>
       ${sub}
@@ -712,6 +724,8 @@ export const app = {
       viewport.innerHTML = renderStudentDeviceNotice();
       return;
     }
+    const checkinLayout = captureCheckinLayout(viewport);
+    const electricBrands = captureElectricBrands(viewport);
     // Preserve scroll positions of the outgoing tree.
     for (const el of viewport.querySelectorAll("[data-scroll-key]")) {
       this.scrollPositions.set(el.dataset.scrollKey, el.scrollTop);
@@ -742,6 +756,10 @@ export const app = {
     const proofWasPlaying = proofVideo && !proofVideo.paused;
     const activeStream = this.ui.checkin?.liveCamera?.stream;
     viewport.innerHTML = `<div class="root-layer ${animClass}">${content}</div>${s.dialog ? this.renderDialog() : ""}`;
+    restoreElectricBrands(viewport, electricBrands);
+    syncElectricBrands();
+    if (!s.isRestoringSession && s.systemModeChecked && !s.isLoading && !globalThis.performance?.getEntriesByName?.("bnbu:ready").length) globalThis.performance?.mark?.("bnbu:ready");
+    requestAnimationFrame(() => showAppBetaAnnouncement(this.screenKey(), Boolean(this.state.dialog || this.state.notificationSheetOpen)));
     const cameraReplacement = viewport.querySelector('[data-live-camera-video]');
     const proofReplacement = viewport.querySelector('[data-proof-preview-video]');
     if (proofVideo && proofReplacement && proofVideo.dataset.previewId === proofReplacement.dataset.previewId && proofVideo.dataset.previewSource === proofReplacement.dataset.previewSource) {
@@ -760,6 +778,8 @@ export const app = {
       if (saved) el.scrollTop = saved;
     }
     for (const hook of this._afterRenderHooks) hook(this);
+    this.checkinDisclosures ||= new Map();
+    restoreCheckinLayout(viewport, checkinLayout, this.checkinDisclosures, this);
   },
   _afterRenderHooks: [],
   registerAfterRender(fn) { this._afterRenderHooks.push(fn); },
@@ -768,7 +788,7 @@ export const app = {
     const d = this.state.dialog;
     if (!d) return "";
     const dismissible = d.dismissible !== false;
-    return `<div class="dialog-scrim" ${dismissible ? 'data-action="dialog.scrim"' : ""}>
+    return `<div class="dialog-scrim" ${d.motion === 'checkin-end' ? `data-checkin-end-dialog="${esc(d.motionId)}"` : ''} ${dismissible ? 'data-action="dialog.scrim"' : ""}>
       <div class="dialog" role="alertdialog" aria-modal="true">
         ${d.title ? `<div class="dialog-title">${d.title}</div>` : ""}
         ${d.body ? `<div class="dialog-body">${d.body}</div>` : ""}
@@ -812,6 +832,7 @@ export const app = {
     Object.assign(this.actions, {
       "root.retryConnection": (a) => a.retryConnection(),
       "root.tab": (a, el) => a.selectTab(el.dataset.tab),
+      "courses.switch": (a, el) => switchCourse(a, el.dataset.enrollmentId),
       "root.back": (a) => a.handleBack(),
       "dialog.scrim": (a, el, event) => {
         if (event.target === el) a.closeDialog();
@@ -820,13 +841,12 @@ export const app = {
     });
     Object.assign(this.actions, consentActions, guideActions, loginActions, verificationActions,
       recoveryActions, bindingActions, joinActions, dashboardActions, notificationActions,
-      coursesActions, checkinActions, profileActions, supportActions, servicesActions);
+      coursesActions, checkinActions, profileActions);
 
     this.registerBackInterceptor(guideBackInterceptor);
     this.registerBackInterceptor(joinBackInterceptor);
     this.registerBackInterceptor(coursesBackInterceptor);
     this.registerBackInterceptor(checkinBackInterceptor);
-    this.registerBackInterceptor(servicesBackInterceptor);
     this.registerAfterRender(attachGuideSwipe);
     this.registerAfterRender(attachDraftVideoPreview);
     this.registerAfterRender(attachScanCamera);
@@ -906,7 +926,7 @@ export const app = {
       this.render();
     };
     if (localPreviewBootRequested) restoreSession();
-    else setTimeout(restoreSession, 900);
+    else queueMicrotask(restoreSession);
 
     // 1 Hz heartbeat for the exercise session timer.
     setInterval(() => checkinTick(this), 1000);

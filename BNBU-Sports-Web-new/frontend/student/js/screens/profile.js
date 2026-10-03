@@ -1,3 +1,5 @@
+import { currentCourse as selectedCourse } from '../course-selection.js';
+import { electricBrand } from '../electric-brand.js';
 // Profile tab (#26), account details (#27) and settings (#28)
 // — feature/profile/ProfileScreen.kt, AccountDetailsScreen.kt.
 
@@ -126,7 +128,7 @@ export function renderProfile(app) {
     <button class="swiss-panel pressable" data-action="profile.openAccount" style="text-align:left" aria-label="${t("profile_account_details")}">
       <div class="col" style="gap:18px">
         <div class="row" style="gap:14px">
-          ${brandMark(true)}
+          ${electricBrand('profile-identity', 'profile')}
           <span class="headline-small text-on-surface grow ellipsis">${esc(student.name)}</span>
           ${statusBadge(localizedStudentStatusLabel(student.status), true)}
           <span class="text-muted" style="display:inline-flex">${icon("chevron-right", 20)}</span>
@@ -149,9 +151,7 @@ export function renderProfile(app) {
     </div>
   </div>`;
 
-  const currentCourse = workspace.courses.find(
-    (course) => course.isCurrent && course.enrollmentStatus === "enrolled",
-  );
+  const currentCourse = selectedCourse(workspace);
   const teachers = currentCourse?.teacher
     ? [{ teacherId: currentCourse.teacherId, teacherName: currentCourse.teacher }]
     : workspace.teachers.filter((teacher) => teacher.teacherId === currentCourse?.teacherId);

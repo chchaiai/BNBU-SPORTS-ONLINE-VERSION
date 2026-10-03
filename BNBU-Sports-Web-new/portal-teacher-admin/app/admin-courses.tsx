@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { AdminClassRecords } from "./admin-class-records";
 import { AppSelect } from "./app-select";
-import { loadCourseDirectory, type DirectorySummary } from "./admin-course-directory-api";
+import { courseRequirementLabel, loadCourseDirectory, type DirectorySummary } from "./admin-course-directory-api";
 import { toUserFacingError, type UserFacingError } from "./api-client";
 import { ErrorPanel, localUserFacingError } from "./error-panel";
 import type { AdminLocale } from "./admin-types";
@@ -36,6 +36,10 @@ type CourseDashboardRow = {
   creditedSeconds: number;
   courseTargetSeconds: number | null;
   generalTargetSeconds: number | null;
+  minimumMinutes?: number | null;
+  maximumMinutes?: number | null;
+  weeklyLimit?: number | null;
+  dailyLimit?: number | null;
   checkInWindow: string;
   completedStudents?: number | null;
   completionRate?: number | null;
@@ -60,6 +64,8 @@ const demoRows: CourseDashboardRow[] = [
     creditedSeconds: 1_842_600,
     courseTargetSeconds: 36_000,
     generalTargetSeconds: 36_000,
+    minimumMinutes: 30, maximumMinutes: 120, weeklyLimit: 5, dailyLimit: 1,
+    completedStudents: 12, completionRate: 12 / 42 * 100,
     checkInWindow: "2026年2月23日 – 2026年7月31日 · 06:00–22:00",
   },
   {
@@ -80,6 +86,8 @@ const demoRows: CourseDashboardRow[] = [
     creditedSeconds: 1_386_000,
     courseTargetSeconds: 28_800,
     generalTargetSeconds: 43_200,
+    minimumMinutes: 45, maximumMinutes: 90, weeklyLimit: 3, dailyLimit: 1,
+    completedStudents: 9, completionRate: 25,
     checkInWindow: "2026年2月23日 – 2026年7月31日 · 06:30–21:30",
   },
   {
@@ -98,8 +106,9 @@ const demoRows: CourseDashboardRow[] = [
     validRecords: 0,
     invalidRecords: 0,
     creditedSeconds: 0,
-    courseTargetSeconds: 36_000,
-    generalTargetSeconds: 36_000,
+    courseTargetSeconds: null,
+    generalTargetSeconds: null,
+    minimumMinutes: null, maximumMinutes: null, weeklyLimit: null, dailyLimit: null,
     checkInWindow: "尚未开放",
   },
 ];
@@ -109,6 +118,24 @@ function durationLabel(locale: AdminLocale, seconds: number) {
   return locale === "zh"
     ? `${hours.toLocaleString("zh-CN", { maximumFractionDigits: 1 })} 小时`
     : `${hours.toLocaleString("en", { maximumFractionDigits: 1 })} hours`;
+}
+
+function CourseRequirements({ row, locale }: { row: CourseDashboardRow; locale: AdminLocale }) {
+  const zh = locale === "zh";
+  const value = (amount: number | null | undefined, unit: string) => courseRequirementLabel(amount, unit, locale);
+  const items = [
+    [zh ? "单次最低运动时间" : "Minimum per session", value(row.minimumMinutes, zh ? "分钟" : "min")],
+    [zh ? "单次最长运动时间" : "Maximum per session", value(row.maximumMinutes, zh ? "分钟" : "min")],
+    [zh ? "每周最多运动次数" : "Weekly session limit", value(row.weeklyLimit, zh ? "次" : "sessions")],
+    [zh ? "每日最多运动次数" : "Daily session limit", value(row.dailyLimit, zh ? "次" : "sessions")],
+    [zh ? "课程相关目标" : "Course target", row.courseTargetSeconds == null ? value(row.courseTargetSeconds, "") : durationLabel(locale, row.courseTargetSeconds)],
+    [zh ? "其他运动目标" : "General target", row.generalTargetSeconds == null ? value(row.generalTargetSeconds, "") : durationLabel(locale, row.generalTargetSeconds)],
+  ];
+  return <section className="admin-course-requirements" aria-label={zh ? "课程运动要求" : "Course requirements"}>
+    <h4>{zh ? "课程运动要求" : "Course requirements"}</h4>
+    <dl>{items.map(([label, content]) => <div key={label}><dt>{label}</dt><dd>{content}</dd></div>)}</dl>
+    <p><span>{zh ? "允许打卡时间" : "Check-in window"}</span>{row.checkInWindow}</p>
+  </section>;
 }
 
 function dateLabel(locale: AdminLocale, value: string | null | undefined) {
@@ -203,7 +230,7 @@ export function AdminCourses({
     <nav className="course-breadcrumb" aria-label="当前位置"><button onClick={() => setExpandedId(null)}>课程目录</button><span>/</span><span aria-current="page">{selectedCourse.courseName}</span></nav>
     <header className="course-focus-header"><div><span className="course-eyebrow">班级详情</span><h2>{selectedCourse.courseName}</h2><p>{selectedCourse.teacherName} · {selectedCourse.semesterName}</p></div><button className="secondary-button" onClick={() => setExpandedId(null)}>← 返回课程列表</button></header>
     <div className="course-focus-summary"><span>在班学生 <b>{selectedCourse.activeStudents}</b></span><span>已提交学生 <b>{selectedCourse.submittedStudents}</b></span><span>打卡记录 <b>{selectedCourse.totalRecords}</b></span><span>计入时长 <b>{durationLabel(locale, selectedCourse.creditedSeconds)}</b></span></div>
-    <details className="course-settings"><summary>课程目标与打卡时间</summary><p>允许打卡：{selectedCourse.checkInWindow}</p><p>课程相关目标：{selectedCourse.courseTargetSeconds === null ? '—' : durationLabel(locale, selectedCourse.courseTargetSeconds)} · 其他运动目标：{selectedCourse.generalTargetSeconds === null ? '—' : durationLabel(locale, selectedCourse.generalTargetSeconds)}</p></details>
+    <CourseRequirements row={selectedCourse} locale={locale} />
     {mode === 'real' ? <AdminClassRecords classSectionId={selectedCourse.id} locale={locale}/> : <p>演示课程暂无真实学生记录。</p>}
   </div>;
 
@@ -271,6 +298,7 @@ export function AdminCourses({
                     <span><small>{locale === "zh" ? "有效 / 无效" : "Valid / invalid"}</small><b>{row.validRecords} / {row.invalidRecords}</b></span>
                     <span><small>{locale === "zh" ? "计入时长" : "Credited"}</small><b>{durationLabel(locale, row.creditedSeconds)}</b></span>
                   </div>
+                  <CourseRequirements row={row} locale={locale} />
                   <div className="admin-course-hours admin-course-completion" aria-label={locale === "zh" ? `${row.courseName}完成全部打卡学生占比` : `${row.courseName} full check-in completion rate`}>
                     <div>
                       <span>{locale === "zh" ? "完成全部打卡学生占比" : "Students completing all check-ins"}</span>

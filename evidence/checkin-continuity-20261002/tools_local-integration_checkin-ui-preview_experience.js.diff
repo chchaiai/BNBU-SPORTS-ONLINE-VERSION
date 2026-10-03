@@ -1,0 +1,16 @@
+--- tools\local-integration\checkin-ui-preview\experience.js (before)
++++ tools\local-integration\checkin-ui-preview\experience.js
+@@ -1,3 +1,4 @@
++import {refreshCheckinTransfer} from '/student/js/checkin-experience.js';
+ import {localStore} from '/student/js/store.js';
+ import {buildLocalPreviewWorkspace,LOCAL_PREVIEW_SESSION_KIND} from '/student/js/local-preview.js';
+ import {loadSession,saveSession,formatTimer,businessToday,businessDateTime} from '/student/js/session.js';
+@@ -85,7 +86,7 @@
+     const result=await saveExperienceRecord({record,drafts:[...ui.drafts],storage,onProgress:progress=>{
+       ui.uploadDraftId=progress.draftId;
+       if(progress.phase==='SAVED')ui.previewProofStates[progress.draftId]='saved';
+-      ui.uploadProgress={phase:progress.phase};a.render();
++      ui.uploadProgress={phase:progress.phase};refreshCheckinTransfer(a);
+     }});
+     // Success follows read-back of the durable record, never a timer or animation callback.
+     savedRecords=await hydrateRecords();

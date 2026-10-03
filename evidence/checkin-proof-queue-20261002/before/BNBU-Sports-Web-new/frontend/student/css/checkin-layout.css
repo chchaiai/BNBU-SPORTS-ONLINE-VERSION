@@ -1,0 +1,286 @@
+/* Instrument layout. Uses the student theme with clear metric and action regions. */
+.tab-host > .checkin-root {
+  min-height: 100%; display: flex; flex-direction: column;
+  padding-top: 8px; padding-bottom: 104px;
+  width: 100%; max-width: 640px; margin-inline: auto; box-sizing: border-box;
+}
+.tab-host > .checkin-root.checkin-focused { padding-bottom: 0; }
+.checkin-root h1 { font-size: 26px; line-height: 1.25; font-weight: 600; letter-spacing: -.4px; }
+.checkin-page-heading { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 16px; }
+.checkin-header-link { flex: none; gap: 2px; min-width: 64px; }
+.checkin-flow { display: flex; flex: 1; flex-direction: column; min-width: 0; }
+.checkin-body { display: flex; flex-direction: column; gap: 20px; padding-bottom: 24px; }
+.checkin-note { font-size: 13px; line-height: 1.6; color: var(--color-on-surface-variant); overflow-wrap: anywhere; }
+.checkin-category-row { display: flex; gap: 8px; }
+.checkin-category-row .category-btn { flex: 1; }
+.checkin-sport-hero { display: flex; flex-direction: column; padding: 16px 0 0; gap: 12px; text-align: left; }
+.checkin-sport-identity { display: flex; align-items: center; justify-content: space-between; gap: 16px; width: 100%; }
+.checkin-sport-identity > div { min-width: 0; }
+.checkin-sport-hero h2 { font-size: 28px; line-height: 1.3; font-weight: 600; letter-spacing: -.6px; overflow-wrap: anywhere; margin: 6px 0; }
+.checkin-sport-hero .checkin-hero-glyph { width: 56px; height: 56px; border-radius: 16px; flex: none; }
+.checkin-root .swiss-panel { border-radius: 16px; padding: 20px; }
+.checkin-root .category-btn { min-height: 44px; border-radius: 12px; font-size: 14px; }
+.checkin-root :is(.checkin-cta, .checkin-end-btn, .capture-btn) { border-radius: 12px; transition: transform 160ms ease, background-color 160ms ease; }
+.checkin-root :is(.checkin-cta, .checkin-end-btn, .capture-btn):active:not(:disabled) { transform: scale(.98); }
+.checkin-root[data-motion-ready] :is(button, .pressable) { transition-property: background-color, color, border-color; }
+.checkin-root[data-motion-ready] :is(button, .pressable):active:not(:disabled) { transform: none; }
+.checkin-control-slot { min-width: 0; }
+.checkin-control-slot > button { width: 100%; height: 100%; }
+[data-checkin-control-icon] { display: inline-flex; align-items: center; }
+.checkin-number-visual { white-space: pre; }
+.checkin-number-cell { display: inline-block; position: relative; vertical-align: bottom; overflow: clip; line-height: inherit; }
+.checkin-number-cell > span { display: inline-block; }
+.checkin-number-old { position: absolute; inset: 0; }
+.checkin-motion-sr { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+.checkin-celebration { position: fixed; z-index: 100; pointer-events: none; }
+.checkin-root > .proof-card[aria-hidden="true"] { overflow: hidden; }
+.checkin-root > .proof-card[aria-hidden="true"] .proof-card-copy { display: none; }
+.checkin-root > .proof-card[aria-hidden="true"] .proof-card-media { height: 100%; }
+.checkin-root :is(.category-btn, .sport-btn) { position: relative; isolation: isolate; }
+.checkin-selection-surface { position: absolute; inset: 0; z-index: -1; border-radius: inherit; pointer-events: none; transform-origin: top left; }
+.checkin-field-error { color: var(--color-error); font-size: 13px; line-height: 1.6; overflow: hidden; }
+.checkin-description .text-field { transition: border-color 180ms ease, box-shadow 180ms ease; }
+.checkin-description .text-field:focus { border-color: var(--color-primary); box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-primary) 10%, transparent); }
+.checkin-description .text-field[aria-invalid="true"] { border-color: var(--color-error); }
+.checkin-root :is(.checkin-cta, .checkin-end-btn) { min-height: 56px; }
+.checkin-sport-picker { width: 100%; text-align: left; }
+.checkin-sport-picker > summary { justify-content: center; color: var(--color-primary); }
+.checkin-sport-picker .sport-grid { padding-top: 12px; grid-template-columns: repeat(3, minmax(0, 1fr)); max-height: 340px; overflow-y: auto; overscroll-behavior: contain; }
+.checkin-sport-picker .sport-btn { min-width: 0; }
+.checkin-sport-picker .sport-btn .label-medium { overflow-wrap: anywhere; }
+.checkin-custom-sport { width: 100%; text-align: left; display: grid; gap: 8px; }
+.checkin-policy-summary { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.checkin-policy-summary > div { display: flex; flex-direction: column; gap: 6px; }
+.checkin-policy-summary > div + div { padding-left: 20px; border-left: 1px solid var(--color-outline-variant); }
+.checkin-policy-summary strong { font-size: 20px; font-weight: 600; font-variant-numeric: tabular-nums; }
+.checkin-requirements > .checkin-disclosure { margin-top: 16px; border-top: 1px solid color-mix(in srgb, var(--color-outline-variant) 50%, transparent); }
+.checkin-prep-proof { display: flex; align-items: flex-start; gap: 8px; padding-inline: 2px; }
+.checkin-prep-proof > svg { flex: none; margin-top: 2px; }
+.checkin-disclosure > summary { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 44px; cursor: pointer; font-size: 13px; color: var(--color-on-surface-variant); list-style: none; }
+.checkin-disclosure > summary::-webkit-details-marker { display: none; }
+.checkin-disclosure > summary > svg { flex: none; transition: transform 180ms ease; }
+.checkin-disclosure[open] > summary > svg { transform: rotate(180deg); }
+.checkin-disclosure > div { padding-block: 4px 8px; font-size: 13px; line-height: 1.65; color: var(--color-on-surface-variant); }
+.checkin-disclosure > div > p + p { margin-top: 8px; }
+.checkin-disclosure .row { gap: 12px; align-items: flex-start; }
+.checkin-disclosure .row .grow { display: none; }
+.checkin-disclosure .row > :first-child { flex: 1; }
+.checkin-disclosure .row > :last-child { flex: 1.6; overflow-wrap: anywhere; }
+.checkin-disclosure .body-medium { font-size: 13px; }
+.checkin-dock { position: sticky; bottom: 96px; z-index: 5; margin-top: auto; padding: 12px 0; background: var(--color-background); border-top: 1px solid color-mix(in srgb, var(--color-outline-variant) 45%, transparent); }
+.checkin-focused .checkin-dock { bottom: 0; padding-bottom: max(16px, env(safe-area-inset-bottom)); }
+.checkin-dock .checkin-cta { padding: 12px 16px; }
+.checkin-dock:has(.checkin-inline-progress) .checkin-cta:disabled { background: var(--color-primary-container); color: var(--color-on-primary-container); opacity: 1; }
+.checkin-blocked, .checkin-sync { text-align: center; margin-bottom: 8px; }
+.checkin-sync { margin-top: 8px; margin-bottom: 0; }
+.checkin-back { display: inline-flex; align-items: center; gap: 2px; padding-inline: 0 12px; min-height: 44px; font-size: 14px; }
+.checkin-session-heading { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.checkin-session-heading { margin-bottom: 14px; }
+.checkin-running-title { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+.checkin-root .checkin-running-sport { font-size: 24px; overflow-wrap: anywhere; }
+.checkin-running-title > .sport-glyph { flex: none; width: 44px; height: 44px; border-radius: 12px; }
+.checkin-timer-stage { display: flex; flex-direction: column; align-items: stretch; text-align: left; }
+.checkin-timer-face { display: flex; align-items: center; position: relative; width: 100%; padding: 16px 0 24px; }
+.checkin-timer-face .timer-value { display: inline-block; font-family: ui-monospace, SFMono-Regular, Consolas, monospace; font-size: clamp(40px, 11.5vw, 64px); line-height: 1.15; letter-spacing: -2.8px; font-weight: 500; white-space: nowrap; }
+.checkin-timer-label { display: flex; align-items: center; gap: 7px; font-size: 13px; color: var(--color-on-surface-variant); }
+.checkin-state-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--color-primary); flex: none; }
+.is-paused .checkin-state-dot { background: var(--color-on-surface-variant); }
+.checkin-instrument-metrics { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; border-top: 1px solid var(--color-outline-variant); padding-top: 16px; }
+.checkin-instrument-metrics > div { display: grid; align-content: start; gap: 6px; min-width: 0; }
+.checkin-instrument-metrics > div + div { border-left: 1px solid var(--color-outline-variant); padding-left: 16px; }
+.checkin-instrument-metrics strong { font-size: 20px; line-height: 1.4; font-weight: 600; font-variant-numeric: tabular-nums; }
+.checkin-instrument-metrics .checkin-note { font-size: 12px; }
+.checkin-estimate-note { margin-top: 12px; font-size: 11px; }
+.checkin-estimate { font-variant-numeric: tabular-nums; }
+.checkin-estimate [data-timer-hours] { color: var(--color-on-surface); }
+.checkin-control-panel { background: var(--color-surface); border: 1px solid color-mix(in srgb, var(--color-outline-variant) 60%, transparent); border-radius: 16px; padding: 12px; }
+.checkin-running .checkin-dock { border-top: 0; padding-top: 8px; }
+.checkin-session-controls { display: grid; grid-template-columns: 1fr; gap: 12px; }
+.checkin-session-controls.is-paused { grid-template-columns: 1fr 1fr; }
+.checkin-controls-hint { text-align: center; font-size: 12px; margin-top: 10px; }
+.checkin-session-controls .checkin-end-btn { min-height: 54px; font-size: 15px; padding: 10px; }
+.checkin-evidence { display: flex; flex-direction: column; gap: 10px; }
+.checkin-evidence > .checkin-note { margin-top: -4px; }
+.checkin-evidence .proof-count-pill { font-size: 11px; padding: 4px 6px; }
+.checkin-evidence .proof-counts { gap: 4px; }
+.checkin-evidence .proof-list-header { gap: 6px; }
+.checkin-evidence .proof-card-strip { margin: 0; padding: 0 0 4px; }
+.checkin-evidence .proof-card { width: 88px; flex-basis: 88px; box-shadow: none; border-radius: 12px; }
+.checkin-evidence .proof-card-media { height: 68px; }
+.checkin-evidence .proof-card-copy { display: none; }
+.checkin-evidence .proof-card-copy .label-medium { font-size: 12px; }
+.checkin-evidence .proof-card-copy .body-small { display: none; }
+.checkin-evidence .capture-btn { min-height: 44px; font-size: 14px; }
+.checkin-evidence > .checkin-note { font-size: 12px; }
+.checkin-evidence > .body-small { font-size: 12px; }
+.checkin-evidence > .body-small { margin: -4px 0 0 !important; }
+.checkin-evidence .checkin-disclosure { margin: -8px 0 -12px; }
+.checkin-finish-heading { padding-bottom: 20px; }
+.checkin-finish-heading h1 { margin-top: 8px; }
+.checkin-summary-main { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+.checkin-summary-main > div { min-width: 0; }
+.checkin-summary-main > .sport-glyph { flex: none; }
+.checkin-summary-main h2 { font-size: 21px; line-height: 1.4; font-weight: 600; margin-top: 4px; overflow-wrap: anywhere; }
+.checkin-summary-values { display: grid; grid-template-columns: minmax(0, 1.65fr) minmax(0, 1fr); gap: 14px; margin-top: 16px; }
+.checkin-summary-values > div { min-width: 0; }
+.checkin-summary-values > div + div { padding-left: 14px; border-left: 1px solid var(--color-outline-variant); }
+.checkin-summary-values .checkin-note { font-size: 12px; }
+.checkin-summary-time { display: inline-block; font-family: ui-monospace, SFMono-Regular, Consolas, monospace; font-size: clamp(25px, 7.5vw, 36px); line-height: 1.25; letter-spacing: -1.6px; font-weight: 500; font-variant-numeric: tabular-nums; margin: 8px 0; white-space: nowrap; }
+.checkin-summary-credit { display: block; font-size: 20px; line-height: 1.4; font-weight: 600; font-variant-numeric: tabular-nums; margin: 8px 0; }
+.checkin-summary > .checkin-estimate { margin-top: 14px; }
+.checkin-summary .checkin-disclosure { border-top: 1px solid color-mix(in srgb, var(--color-outline-variant) 50%, transparent); margin-top: 12px; margin-bottom: -8px; }
+.checkin-time-details { display: inline-flex; align-items: center; gap: 2px; flex: none; }
+.checkin-time-details svg { transition: transform 180ms ease; }
+.checkin-disclosure[open] .checkin-time-details svg { transform: rotate(180deg); }
+.checkin-description { position: relative; display: grid; gap: 12px; }
+.checkin-description .text-field { min-height: 128px; resize: vertical; scroll-margin: 24px 0 180px; font-size: 16px; border-radius: 12px; }
+.checkin-description .field-supporting { margin: 0; font-size: 12px; }
+.checkin-description-footer { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
+.checkin-description-count { flex: none; font-size: 12px; font-variant-numeric: tabular-nums; }
+.checkin-focused:has(textarea:focus) .checkin-dock { position: static; }
+.checkin-discard { color: var(--color-error); align-self: center; font-size: 13px; }
+.checkin-transfer { margin-bottom: 12px; }
+.checkin-inline-progress { padding: 12px 14px; border-radius: var(--shape-medium); background: var(--color-surface); }
+.checkin-inline-progress strong { font-size: 13px; font-weight: 500; }
+.checkin-inline-progress .evidence-upload-loader { height: 28px; margin: 10px 0; }
+.checkin-inline-progress > div > span { font-size: 12px; line-height: 1.5; color: var(--color-on-surface-variant); }
+.checkin-media-notice { padding-block: 8px; }
+.checkin-ended { align-items: center; text-align: center; padding-top: 50px; line-height: 1.65; }
+.checkin-empty { display: flex; flex-direction: column; gap: 18px; }
+.checkin-submitted .checkin-success-content { flex: 1; align-items: center; justify-content: center; gap: 12px; text-align: center; padding-block: 56px; }
+.checkin-success-content .submit-success-circle { margin-bottom: 8px; }
+.checkin-success-duration { font-size: 36px; font-weight: 500; font-variant-numeric: tabular-nums; margin-top: 16px; }
+.checkin-success-caption { max-width: 280px; margin-top: 14px; }
+.checkin-success-home { width: 100%; margin-top: 4px; }
+.checkin-records { display: flex; flex-direction: column; gap: 24px; }
+.checkin-record-group h2 { font-size: 13px; line-height: 20px; font-weight: 500; color: var(--color-on-surface-variant); margin: 0 2px 10px; }
+.checkin-record-list { padding: 0 16px; }
+.checkin-record-item + .checkin-record-item { border-top: 1px solid color-mix(in srgb, var(--color-outline-variant) 50%, transparent); }
+.checkin-record-row { display: flex; align-items: center; gap: 12px; text-align: left; width: 100%; padding: 18px 0; }
+.checkin-record-row > .sport-glyph { flex: none; }
+.checkin-record-title { display: flex; flex-direction: column; flex: 1; min-width: 0; gap: 5px; }
+.checkin-record-title strong { font-size: 16px; font-weight: 600; overflow-wrap: anywhere; }
+.checkin-record-result { display: flex; flex-direction: column; align-items: flex-end; gap: 4px; max-width: 40%; }
+.checkin-record-result > strong { font-size: 17px; line-height: 1.3; font-weight: 600; font-variant-numeric: tabular-nums; }
+.checkin-record-result > .checkin-note { font-size: 11px; }
+.checkin-record-result .status-badge { font-size: 11px; }
+.checkin-record-chevron { display: flex; color: var(--color-on-surface-variant); }
+.checkin-record-proof { width: 100%; font-size: 13px; justify-content: flex-end; border-top: 1px solid var(--color-surface-variant); }
+.checkin-record-refresh { align-self: flex-end; margin-block: -18px -12px; font-size: 13px; }
+.checkin-root :is(button, summary):focus-visible { outline: 2px solid var(--color-primary); outline-offset: 3px; }
+.checkin-focus-host { scroll-padding-block: 16px 160px; }
+@media (max-width: 360px) {
+  .checkin-root .swiss-panel { padding: 16px; }
+  .checkin-record-row { gap: 8px; }
+  .checkin-record-chevron { display: none; }
+  .checkin-policy-summary { gap: 12px; }
+  .checkin-policy-summary > div + div { padding-left: 12px; }
+  .checkin-policy-summary strong { font-size: 18px; }
+  .checkin-evidence .proof-list-header { flex-wrap: wrap; }
+  .checkin-session-controls { gap: 8px; }
+}
+@media (min-width: 768px) {
+  .checkin-sport-hero { padding-block: 20px 4px; }
+  .checkin-sport-picker .sport-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .checkin-body { gap: 24px; }
+}
+@media (max-height: 740px) {
+  .checkin-sport-hero { padding-block: 8px 0; gap: 8px; }
+  .checkin-timer-face { padding-block: 12px 20px; }
+  .checkin-body { gap: 16px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html:not([data-preview-reduced-motion="false"]) .checkin-root *, html:not([data-preview-reduced-motion="false"]) .checkin-root *::before, html:not([data-preview-reduced-motion="false"]) .checkin-root *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+}
+html[data-preview-reduced-motion="true"] .checkin-root *, html[data-preview-reduced-motion="true"] .checkin-root *::before, html[data-preview-reduced-motion="true"] .checkin-root *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+
+/* Connected exercise interactions: controls keep their physical position. */
+.checkin-picker-trigger { width:100%; justify-content:space-between; min-height:44px; }
+.checkin-sheet-overlay { position:fixed; inset:0; z-index:1000; display:flex; align-items:flex-end; justify-content:center; }
+.checkin-sheet-backdrop { position:absolute; inset:0; background:rgba(15,24,40,.32); width:100%; height:100%; cursor:default; }
+.checkin-sport-sheet { position:relative; width:min(100%,640px); height:min(64dvh,520px); max-height:calc(100dvh - 20px); background:var(--color-surface); border-radius:26px 26px 0 0; padding:0 20px max(20px,env(safe-area-inset-bottom)); box-sizing:border-box; display:flex; flex-direction:column; gap:12px; box-shadow:0 -12px 60px #0002; }
+.checkin-sport-sheet.is-expanded { height:min(88dvh,740px); }
+.checkin-sheet-handle { width:100%; min-height:30px; display:grid; place-items:center; touch-action:none; flex:none; }
+.checkin-sheet-handle > span { width:36px; height:4px; border-radius:3px; background:var(--color-outline); opacity:.5; }
+.checkin-sport-sheet header { display:flex; align-items:center; justify-content:space-between; gap:12px; }
+.checkin-sport-sheet h2 { font-size:22px; margin:4px 0 0; }
+.checkin-sport-sheet .sport-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:8px; flex:1; min-height:0; overflow-y:auto; overscroll-behavior:contain; padding:4px 2px; }
+.checkin-sport-sheet .sport-btn { position:relative; min-width:0; min-height:92px; border-radius:14px; }
+.checkin-sport-sheet .sport-btn .label-medium { font-size:12px; overflow-wrap:anywhere; }
+.checkin-sport-sheet .checkin-cta { flex:none; width:100%; }
+.sport-selection-check { position:absolute; right:7px; top:7px; display:grid; place-items:center; width:19px; height:19px; border-radius:50%; background:var(--color-primary); color:var(--color-on-primary); opacity:0; transform:scale(.7); transition:opacity 160ms,transform 180ms; }
+.selected .sport-selection-check { opacity:1; transform:scale(1); }
+.checkin-goal { padding:0 0 16px; text-align:center; border-radius:12px; color:var(--color-primary); }
+.checkin-goal-arc { width:100%; height:38px; overflow:visible; display:block; }
+.checkin-goal-arc path { fill:none; stroke:currentColor; stroke-width:2.8; stroke-linecap:round; }
+.checkin-goal-arc .goal-track { opacity:.1; }
+[data-goal-line] { transition:stroke-dashoffset 600ms linear; }
+.checkin-goal .checkin-note { font-size:11px; margin-top:3px; }
+.checkin-goal[data-reached="true"] { color:var(--color-primary); }
+.checkin-goal[data-reached="true"] [data-goal-caption] { color:var(--color-primary); }
+.checkin-end-warning { color:var(--color-error); font-size:12px; margin-top:10px; }
+.checkin-end-warning:not([hidden]) { animation:checkin-soft-appear 220ms ease-out; }
+.checkin-timer-stage { transition:background-color 220ms,border-color 220ms; }
+.checkin-timer-stage.is-paused .checkin-goal { color:var(--color-on-surface-variant); }
+.checkin-timer-stage.is-paused [data-goal-caption] { color:var(--color-on-surface-variant); }
+.checkin-timer-label { transition:color 220ms; }
+.checkin-timer-face { padding-bottom:4px; }
+.checkin-return-host { position:absolute; bottom:96px; left:16px; right:16px; z-index:8; pointer-events:none; display:flex; justify-content:center; }
+.checkin-return-capsule { pointer-events:auto; display:flex; align-items:center; gap:10px; width:min(100%,470px); padding:12px 14px; border-radius:18px; border:1px solid var(--color-outline-variant); background:var(--color-surface); box-shadow:0 5px 24px #0001; color:var(--color-on-surface); text-align:left; }
+.checkin-return-capsule > span:nth-child(2) { flex:1; min-width:0; display:grid; gap:4px; }
+.checkin-return-capsule strong { font-size:13px; }
+.checkin-return-capsule small { font-size:11px; color:var(--color-on-surface-variant); }
+.checkin-return-capsule b { font-size:15px; font-variant-numeric:tabular-nums; font-family:ui-monospace,monospace; }
+.main-shell:has(.checkin-return-host) [data-scroll-key="tab-dashboard"] .swiss-panel:has([data-action="dashboard.openCheckIn"]) { display:none; }
+.main-shell:has(.checkin-return-host) [data-scroll-key="tab-dashboard"] { padding-bottom:180px; }
+body.app-beta-docked:not(.app-beta-entry-hidden) .checkin-return-host { bottom:calc(174px + env(safe-area-inset-bottom,0px)); }
+body.app-beta-docked:not(.app-beta-entry-hidden) .main-shell:has(.checkin-return-host) [data-scroll-key="tab-dashboard"] { padding-bottom:260px; }
+.checkin-root .proof-card-strip { scroll-snap-type:x proximity; overscroll-behavior-x:contain; scroll-padding-inline:2px; }
+.checkin-root .proof-card { scroll-snap-align:start; }
+.proof-card-media { position:relative; }
+.proof-upload-state { position:absolute; inset:auto 0 0; padding:5px 4px; font-size:10px; line-height:14px; color:#fff; background:rgba(14,25,40,.8); display:flex; justify-content:center; align-items:center; gap:2px; }
+.proof-upload-state.is-error { background:var(--color-error); }
+.proof-upload-line { position:absolute; height:2px; background:#70c6ff; left:0; bottom:0; transition:width 180ms linear; }
+.proof-preview-stage img { touch-action:pan-x pinch-zoom; user-select:none; -webkit-user-drag:none; }
+.live-video-record-meter { display:flex; align-items:center; justify-content:center; gap:10px; color:white; font-size:12px; margin-bottom:12px; }
+.live-video-record-meter svg { width:44px; height:44px; transform:rotate(-90deg); }
+.live-video-record-meter circle { fill:none; stroke:#ffffff30; stroke-width:3; }
+.live-video-record-meter [data-camera-progress] { stroke:#fff; stroke-linecap:round; transition:stroke-dashoffset 200ms linear; }
+[data-camera-state="paused"] .live-video-record-meter { opacity:.55; }
+[data-camera-state="requesting"] video { opacity:0; }
+.checkin-description-heading { display:flex; align-items:center; justify-content:space-between; gap:8px; }
+.checkin-description-done { display:inline-flex; align-items:center; gap:4px; color:var(--color-primary); font-size:11px; flex:none; }
+.checkin-description-done[hidden] { display:none; }
+.checkin-description .text-field { resize:none; overflow-y:auto; max-height:400px; transition:height 160ms ease,border-color 150ms,box-shadow 150ms; }
+.checkin-save-status { min-height:18px; font-size:11px; margin:0; }
+.checkin-save-status[data-state="saved"] { color:var(--color-primary); }
+.checkin-save-status[data-state="error"], [data-description-counter][data-near-limit="true"] { color:var(--color-error); }
+[data-description-counter] { transition:color 180ms; }
+.checkin-root [data-action="checkin.submit"] { position:relative; isolation:isolate; overflow:hidden; }
+.checkin-submit-label { position:relative; display:inline-flex; align-items:center; gap:8px; }
+.checkin-button-progress { position:absolute; inset:0 auto 0 0; background:color-mix(in srgb,var(--color-primary) 20%,transparent); z-index:-1; transition:width 180ms linear; }
+.checkin-upload-error { border:1px solid color-mix(in srgb,var(--color-error) 25%,transparent); border-radius:12px; padding:12px; color:var(--color-error); margin-bottom:12px; font-size:12px; line-height:1.6; }
+.checkin-upload-error strong { font-size:13px; }
+.checkin-upload-error span { color:var(--color-on-surface-variant); }
+.checkin-record-filters { display:flex; padding:4px; gap:4px; border-radius:12px; background:var(--color-surface); }
+.checkin-record-filters button { flex:1; font-size:12px; padding:8px; min-width:0; border-radius:9px; }
+.checkin-record-filters .selected { background:var(--color-primary-container); color:var(--color-primary); }
+.checkin-record-detail { gap:14px; }
+.checkin-detail-summary { transform-origin:top left; }
+.checkin-record-skeleton { display:grid; gap:1px; border-radius:16px; overflow:hidden; }
+.checkin-record-skeleton > div { display:flex; align-items:center; gap:12px; background:var(--color-surface); padding:22px 16px; }
+.checkin-record-skeleton i,.checkin-record-skeleton b,.checkin-record-skeleton em { display:block; border-radius:6px; background:linear-gradient(100deg,var(--color-surface-variant) 25%,var(--color-surface) 50%,var(--color-surface-variant) 75%); background-size:240% 100%; animation:checkin-skeleton 1500ms ease-in-out infinite; }
+.checkin-record-skeleton i { width:36px; height:36px; border-radius:10px; }
+.checkin-record-skeleton span { flex:1; display:grid; gap:9px; }
+.checkin-record-skeleton b { width:65%; height:12px; }
+.checkin-record-skeleton b + b { width:40%; height:9px; }
+.checkin-record-skeleton em { width:50px; height:18px; }
+@keyframes checkin-skeleton { from {background-position:140% 0} to {background-position:-100% 0} }
+@keyframes checkin-soft-appear { from {opacity:0;transform:translateY(4px)} to {opacity:1;transform:translateY(0)} }
+.checkin-validation-attention { animation:checkin-validation-glow 650ms ease-out; }
+@keyframes checkin-validation-glow { from {box-shadow:0 0 0 3px color-mix(in srgb,var(--color-error) 20%,transparent)} to {box-shadow:0 0 0 0 transparent} }
+@media (max-width:360px) { .checkin-sport-sheet {padding-inline:12px} .checkin-return-host {left:8px;right:8px} .checkin-goal-arc {height:28px} }
+@media (prefers-reduced-motion:reduce) {
+  html:not([data-preview-reduced-motion="false"]) :is(.checkin-root,.checkin-return-host,.proof-preview-overlay,.live-video-overlay) *,html:not([data-preview-reduced-motion="false"]) .checkin-end-warning {animation:none!important;transition:none!important;scroll-behavior:auto!important;}
+}
+html[data-preview-reduced-motion="true"] :is(.checkin-root,.checkin-return-host,.proof-preview-overlay,.live-video-overlay) * {animation:none!important;transition:none!important;scroll-behavior:auto!important;}

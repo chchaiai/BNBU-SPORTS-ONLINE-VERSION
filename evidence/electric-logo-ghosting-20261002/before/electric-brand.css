@@ -1,0 +1,46 @@
+.electric-brand {
+  position: relative;
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  isolation: isolate;
+  width: 44px;
+  height: 46px;
+  overflow: visible;
+  background: transparent;
+  vertical-align: middle;
+}
+.electric-brand .electric-brand-image {
+  display: block;
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  padding: 3px;
+  object-fit: contain;
+  border-radius: 0;
+  background: transparent;
+  pointer-events: none;
+}
+.electric-brand .electric-logo-canvas {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 1;
+  transition: opacity 160ms ease-out;
+}
+.electric-brand--nav { width: 40px; height: 36px; }
+.bottom-nav .nav-item[data-tab="dashboard"] .pill { height: 36px; }
+.electric-brand--nav .electric-brand-image { padding: 1px; }
+.electric-brand--profile { width: 46px; height: 48px; }
+.electric-brand--dialog { width: 48px; height: 50px; }
+.electric-brand[data-electric-state="ready"] .electric-brand-image { opacity: .75; }
+.nav-item[aria-selected="false"] .electric-logo-canvas { opacity: .65; }
+button:hover .electric-brand .electric-logo-canvas,
+a:hover .electric-brand .electric-logo-canvas,
+button:focus-visible .electric-brand .electric-logo-canvas,
+a:focus-visible .electric-brand .electric-logo-canvas { opacity: 1; }
+.electric-brand[data-electric-state="fallback"] .electric-logo-canvas { display: none; }
+@media (prefers-reduced-motion: reduce) {
+  html:not([data-electric-motion="full"]) .electric-brand .electric-logo-canvas { display: none; transition: none; }
+}

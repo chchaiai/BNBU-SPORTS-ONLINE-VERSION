@@ -1,0 +1,119 @@
+[
+  {
+    "width": 320,
+    "page": "首页",
+    "logos": [
+      {
+        "canvases": 1,
+        "key": "navigation-home",
+        "state": "ready"
+      },
+      {
+        "canvases": 1,
+        "key": "promo-docked",
+        "state": "ready"
+      }
+    ],
+    "overflow": false
+  },
+  {
+    "width": 320,
+    "page": "我的",
+    "logos": [
+      {
+        "canvases": 1,
+        "key": "profile-identity",
+        "state": "ready"
+      },
+      {
+        "canvases": 1,
+        "key": "navigation-home",
+        "state": "ready"
+      },
+      {
+        "canvases": 1,
+        "key": "promo-docked",
+        "state": "ready"
+      }
+    ],
+    "overflow": false
+  },
+  {
+    "width": 390,
+    "page": "首页",
+    "logos": [
+      {
+        "canvases": 1,
+        "key": "navigation-home",
+        "state": "ready"
+      },
+      {
+        "canvases": 1,
+        "key": "promo-docked",
+        "state": "ready"
+      }
+    ],
+    "overflow": false
+  },
+  {
+    "width": 390,
+    "page": "我的",
+    "logos": [
+      {
+        "canvases": 1,
+        "key": "profile-identity",
+        "state": "ready"
+      },
+      {
+        "canvases": 1,
+        "key": "navigation-home",
+        "state": "ready"
+      },
+      {
+        "canvases": 1,
+        "key": "promo-docked",
+        "state": "ready"
+      }
+    ],
+    "overflow": false
+  },
+  {
+    "width": 430,
+    "page": "首页",
+    "logos": [
+      {
+        "canvases": 1,
+        "key": "navigation-home",
+        "state": "ready"
+      },
+      {
+        "canvases": 1,
+        "key": "promo-docked",
+        "state": "ready"
+      }
+    ],
+    "overflow": false
+  },
+  {
+    "width": 430,
+    "page": "我的",
+    "logos": [
+      {
+        "canvases": 1,
+        "key": "profile-identity",
+        "state": "ready"
+      },
+      {
+        "canvases": 1,
+        "key": "navigation-home",
+        "state": "ready"
+      },
+      {
+        "canvases": 1,
+        "key": "promo-docked",
+        "state": "ready"
+      }
+    ],
+    "overflow": false
+  }
+]

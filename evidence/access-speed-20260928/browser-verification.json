@@ -1,0 +1,30 @@
+[
+  {
+    "student": "PASS",
+    "deferredScreens": 6,
+    "tabs": 5,
+    "cachedModules": 48,
+    "errors": []
+  },
+  {
+    "studentNetworkRetry": "PASS"
+  },
+  {
+    "role": "teacher",
+    "initialIsolation": "PASS",
+    "pages": 6,
+    "errors": []
+  },
+  {
+    "role": "admin",
+    "initialIsolation": "PASS",
+    "pages": 12,
+    "errors": []
+  },
+  {
+    "productionBuild": "PASS",
+    "previewBypassDisabled": true,
+    "roleChunksAbsentBeforeLogin": true,
+    "errors": []
+  }
+]

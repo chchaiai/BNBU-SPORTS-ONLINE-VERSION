@@ -1,0 +1,12 @@
+{
+  "previous": "ui-refinement-20260925",
+  "beforeSha256": "18aa5414ba0996b9b98f3036cd33e10f7abb06266f65081bbfa7c0448bdad578",
+  "afterSha256": "821d9d4e3557f9e9178c16c744cd87c2672b039722a3abd5666a174c7c821eb1",
+  "tests": {
+    "passed": 13,
+    "failed": 0
+  },
+  "changedFiles": [
+    "web/student/js/screens/checkin.js"
+  ]
+}

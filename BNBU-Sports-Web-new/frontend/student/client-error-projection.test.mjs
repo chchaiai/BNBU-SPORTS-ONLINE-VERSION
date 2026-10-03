@@ -21,7 +21,7 @@ test('transport diagnostics match the sent request and stay stable across repeat
 test('local proof storage errors do not tell the student to check the network',()=>{
  const error=new Error('private storage detail');error.name='ProofDraftStorageError';
  const result=toUserFacingError(error,{log:false});
- assert.equal(result.category,'UNKNOWN');assert.match(result.message,/存储|storage/);
+ assert.equal(result.category,'UNKNOWN');assert.match(result.message,/保存|存储|save|storage/);
  assert.doesNotMatch(result.message,/网络连接失败|Network connection failed|private/);
 });
 

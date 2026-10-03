@@ -38,7 +38,6 @@ export function ErrorPanel({
       <h2>{error.title}</h2>
       <p>{error.message}</p>
       <p className="user-facing-error-action">{error.action}</p>
-      <p>{locale === 'en' ? 'Error code: ' : '错误码：'}<code>{error.code}</code></p>
       {error.fieldErrors.length > 0 && (
         <ul>
           {error.fieldErrors.map((fieldError, index) => (
@@ -48,12 +47,15 @@ export function ErrorPanel({
           ))}
         </ul>
       )}
+      <details><summary>{locale === "en" ? "Diagnostic details" : "查看诊断信息"}</summary>
+      <p>{locale === 'en' ? 'Error code: ' : '错误码：'}<code>{error.code}</code></p>
       {error.requestId && (
         <p className="user-facing-error-request-id">
           {locale === "en" ? "Diagnostic reference: " : "诊断编号："}
           <code>{error.requestId}</code>
         </p>
       )}
+      </details>
     </section>
   );
 }
